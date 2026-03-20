@@ -1,6 +1,6 @@
-# Atruss Code Atlas: Repository Analyzer
+# Atruss Code Atlas: Portable Analyzer
 
-A fast, heuristic-based CLI tool to discover repositories, analyze CI/CD pipelines, extract code coverage, and generate Arc42 architecture Markdown + Mermaid diagrams automatically.
+A fast, lightweight CLI tool generating portable Docs-as-Code bounds without databases. Performs code coverage mapping, JSON pipeline topological sweeps, and natively generates Arc42 architecture Markdown + Mermaid diagrams automatically.
 
 ## Quickstart
 
@@ -15,17 +15,17 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .
 
-# Discover an organization
-repo-analyzer discover --org your-github-org
+# Discover an organization and export as JSON manifest
+repo-analyzer discover --org your-github-org --output org-repos.json
 
-# Analyze pipelines in a local directory matching anti-patterns
-repo-analyzer analyze-pipeline --repo ./my-local-project
+# Analyze pipelines mapping explicitly to local JSON / Markdown targets natively
+repo-analyzer analyze-pipeline --from-discovery org-repos.json --output-dir ./reports/
 
-# Extract test coverage percentages from CI logs
-repo-analyzer analyze-coverage --report path/to/pytest-cov.xml
+# Alternatively, pass flat text array lists sequentially 
+repo-analyzer analyze-pipeline --repos-file targets.txt --output-dir ./reports/
 
-# Deep Code Scan (Python AST) Architecture Extraction
-repo-analyzer analyze-code --path ./my-python-api --output-dir ./reports/
+# Deep Code Scan generating architectural AST bindings explicitly 
+repo-analyzer analyze-code --repos-file targets.txt --output-dir ./architecture-reports/
 ```
 
 ## Features

@@ -10,7 +10,8 @@ app = typer.Typer()
 def discover(
     org: str = typer.Option(..., "--org", help="GitHub organization name"),
     token: str | None = typer.Option(None, "--token", help="GitHub Personal Access Token"),
-    format: str = typer.Option("table", "--format", help="Output format: table or json")
+    format: str = typer.Option("table", "--format", help="Output format: table or json"),
+    output: str | None = typer.Option(None, "--output", help="File path to save the JSON manifest")
 ):
     """Discover and classify repositories across a GitHub organization."""
     client = GitHubClient(token=token)
@@ -48,8 +49,12 @@ def discover(
                 "clone_url": clone_url
             })
 
-    if format == "json":
-        import json
+    import json
+    if output is not None:
+        with open(output, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2)
+        typer.echo(f"\nManifest saved to {output}")
+    elif format == "json":
         typer.echo(json.dumps(results, indent=2))
     else:
         typer.echo("\n--- Results ---")

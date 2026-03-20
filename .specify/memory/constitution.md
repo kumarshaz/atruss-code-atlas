@@ -1,6 +1,6 @@
 <!--
 Sync Impact Report:
-- Version change: 0.0.0 -> 1.0.0
+- Version change: 1.1.0 -> 2.0.0
 - Modified principles: 
   - [PROJECT_NAME] -> Atruss Code Atlas
   - [PRINCIPLE_1_NAME] -> I. Policy-as-Code & Extensibility
@@ -9,12 +9,13 @@ Sync Impact Report:
   - [PRINCIPLE_4_NAME] -> IV. Performance & Scalability
   - [PRINCIPLE_5_NAME] -> V. Auditability
   - Added VI. Pipeline Visualization as a First-Class Feature
+  - Added VII. Strict Test and Specification Driven Development
 - Added sections: Technology & Architecture Constraints
-- Removed sections: None
+- Removed sections: Orchestration & Storage (FastAPI, Postgres, Redis dependencies explicitly banned)
 - Templates requiring updates: 
   - ✅ plan-template.md (general updates not needed as it defers to constitution)
   - ✅ spec-template.md (general updates not needed as it handles custom constraints well)
-  - ✅ tasks-template.md (added MVP/checkpoint emphasis matching performance goals)
+  - ✅ tasks-template.md (updated to make TDD testing mandatory rather than optional)
 - Follow-up TODOs: None
 -->
 # Atruss Code Atlas Constitution
@@ -39,14 +40,17 @@ Every report event must be logged, including actor, timestamp, and repo identity
 ### VI. Pipeline Visualization as a First-Class Feature
 Pipeline visualization is a core feature, not an addon. The DAG must be accurate, interactive, exportable, and fully represent the `.github/workflows/*.yml` definitions including triggers and anti-patterns.
 
+### VII. Strict Test and Specification Driven Development
+All features must be specified strictly via SDD methodologies before implementation. Subsequent coding MUST follow Test-Driven Development (TDD) where failing tests are designed first. Test harnesses must explicitly validate complex structures using baseline targets (e.g., `github-samples/pets-workshop` to ensure client, server, and content mono-repo submodule discovery operates seamlessly).
+
 ## Technology & Architecture Constraints
 
 - **Ingestion**: Use GitHub REST v3 + GraphQL v4.
 - **Analysis**: Use ecosystem-appropriate AST and dependency scanners (e.g., Radon, Bandit for Python; Roslyn for .NET; ESLint for JS/TS; PMD, SpotBugs for Java).
-- **Orchestration & Storage**: FastAPI, Celery, Redis for async queues. PostgreSQL (metadata) and S3/MinIO (reports).
+- **Orchestration & Storage**: The core engine MUST run strictly as an offline-capable CLI without a database or async broker (No FastAPI, Celery, Redis, PostgreSQL, or S3/MinIO). The strictly typed JSON schema acts as the immutable contract, outputting native self-contained Arc42 Markdown/Mermaid files specifically designed for seamless ingestion by static SSGs like Astro.
 
 ## Governance
 
 Constitution supersedes all other practices. Amendments require documentation, approval, and migration plans. All PRs/reviews must verify compliance with the "Policy-as-Code" and "Single Source of Truth" principles.
 
-**Version**: 1.0.0 | **Ratified**: 2026-03-20 | **Last Amended**: 2026-03-20
+**Version**: 2.0.0 | **Ratified**: 2026-03-20 | **Last Amended**: 2026-03-20
