@@ -1,0 +1,54 @@
+name: CI Suite
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: pytest tests/unit
+
+  integration-matrix:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test_type: [python, dotnet, js, java]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: pytest tests/integration -m "integration" -k "tr_cls or tr_ana"
+
+  golden-report:
+    needs: integration-matrix
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: pytest tests/integration/test_golden_snapshots.py
+
+  performance-smoke:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: pytest tests/integration/test_performance.py
