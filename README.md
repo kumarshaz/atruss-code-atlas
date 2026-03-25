@@ -27,18 +27,22 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .
 
-# Discover an organization and export as JSON manifest
-repo-analyzer discover --org your-github-org --output org-repos.json
+PS C:\learnCoding\localrepo\atruss-code-atlas> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+PS C:\learnCoding\localrepo\atruss-code-atlas> .\.venv\Scripts\Activate.ps1  
 
-# Optionally format the discovery manifest natively as CSV or YAML
-repo-analyzer discover --org your-github-org --format csv --output org-repos.csv
-repo-analyzer discover --org your-github-org --format yaml --output org-repos.yaml
+### 1. Perform Multi-Phase Structural Extraction (CSV, JSON, YAML)
 
-# Analyze pipelines mapping explicitly to local JSON / Markdown targets natively
-repo-analyzer analyze-pipeline --from-discovery org-repos.json --output-dir ./reports/
+The newest version aggressively replaces legacy table extractions with massive off-line structural dumps securely targeting `exports/{timestamp}` bindings mapping explicitly to ADO parity schemas allowing Astro to ingest the data natively.
 
-# Extract structural Pipeline DAGs directly via output formats
-repo-analyzer analyze-pipeline --from-discovery org-repos.json --output-dir ./reports/ --format csv
+```bash
+export GH_TOKEN="ghp_xxx"
+
+# Discover repositories natively building dynamic structural columns
+repo-analyzer discover --org your-org
+
+# Crawl the output building Pipeline Relationship Graphs (Mermaid + Arrays)
+repo-analyzer analyze-pipeline --from-discovery ./exports/latest/repos/repositories.json
+```
 
 # Alternatively, pass flat text array lists sequentially 
 repo-analyzer analyze-pipeline --repos-file targets.txt --output-dir ./reports/

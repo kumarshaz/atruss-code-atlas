@@ -9,9 +9,9 @@
 
 **Purpose**: Project initialization and basic structure accommodating the massive async transition.
 
-- [ ] T001 Strip legacy Git cloner dependencies to strictly enforce online-only `GET /git/trees` payload extractions.
-- [ ] T002 Implement `GitHubClient` HTTP async client accommodating Link-Header `rel="next"` pagination and proactive `X-RateLimit-Remaining` threshold checks in `src/core/http_client.py`.
-- [ ] T003 [P] Implement `validate_token` logic enforcing Bearer token authentication alongside strict dual-logger token masking preventing ephemeral leakages in `src/core/auth.py`.
+- [x] T001 Strip legacy Git cloner dependencies to strictly enforce online-only `GET /git/trees` payload extractions.
+- [x] T002 Implement `GitHubClient` HTTP async client accommodating Link-Header `rel="next"` pagination and proactive `X-RateLimit-Remaining` threshold checks in `src/core/http_client.py`.
+- [x] T003 [P] Implement `validate_token` logic enforcing Bearer token authentication alongside strict dual-logger token masking preventing ephemeral leakages in `src/core/auth.py`.
 
 ---
 
@@ -21,9 +21,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create deterministic archival filesystem manager to handle `exports/{timestamp}/` folder bounds in `src/core/utils/export_manager.py`.
-- [ ] T005 [P] Create `DiscoveryManifestItem` and `TopologyNode` explicit domain models mirroring the 27-column relaxed CSV payload structure in `src/models/discovery.py`.
-- [ ] T006 [P] Create cross-referenced DAG entity models for environments, workflows, and runner associations in `src/models/topology.py`.
+- [x] T004 Create deterministic archival filesystem manager to handle `exports/{timestamp}/` folder bounds in `src/core/utils/export_manager.py`.
+- [x] T005 [P] Create `DiscoveryManifestItem` and `TopologyNode` explicit domain models mirroring the 27-column relaxed CSV payload structure in `src/models/discovery.py`.
+- [x] T006 [P] Create cross-referenced DAG entity models for environments, workflows, and runner associations in `src/models/topology.py`.
 
 ---
 
@@ -35,14 +35,14 @@
 
 ### Tests for User Story 1 (MANDATORY per TDD) ⚠️
 
-- [ ] T007 [P] [US1] Write unit tests mapping exact GitHub REST payloads down to dynamic CSV and JSON columns in `tests/unit/exporters/test_discovery_exporter.py`.
-- [ ] T007b [US1] Write unit tests enforcing graceful structural empty `{}` or `[]` dumps for zero-repository organizations matching edge case constraints.
+- [x] T007 [P] [US1] Write unit tests mapping exact GitHub REST payloads down to dynamic CSV and JSON columns in `tests/unit/exporters/test_discovery_exporter.py`.
+- [x] T007b [US1] Write unit tests enforcing graceful structural empty `{}` or `[]` dumps for zero-repository organizations matching edge case constraints.
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Implement `DiscoveryArchiver` extracting CSV/JSON representations in `src/core/exporters/discovery_exporter.py`.
-- [ ] T009 [US1] Refactor `discover.py` CLI command bypassing prior flat tables and substituting the new comprehensive `github-repo-discovery.py` reference 8-phase logic.
-- [ ] T010 [US1] Wire exclusion patterns and dynamic column mappers natively to stdout logs.
+- [x] T008 [P] [US1] Implement `DiscoveryArchiver` extracting CSV/JSON representations in `src/core/exporters/discovery_exporter.py`.
+- [x] T009 [US1] Refactor `discover.py` CLI command bypassing prior flat tables and substituting the new comprehensive `github-repo-discovery.py` reference 8-phase logic.
+- [x] T010 [US1] Wire exclusion patterns and dynamic column mappers natively to stdout logs.
 
 ---
 
@@ -54,13 +54,13 @@
 
 ### Tests for User Story 2 (MANDATORY per TDD) ⚠️
 
-- [ ] T011 [P] [US2] Write unit tests ensuring DAG edges natively map to the exact JSON envelope in `tests/unit/exporters/test_pipeline_exporter.py`.
+- [x] T011 [P] [US2] Write unit tests ensuring DAG edges natively map to the exact JSON envelope in `tests/unit/exporters/test_pipeline_exporter.py`.
 
 ### Implementation for User Story 2
 
-- [ ] T012 [P] [US2] Implement `TopologyArchiver` extracting CSV/JSON pipeline hierarchy and relationships mapping in `src/core/exporters/pipeline_exporter.py`.
-- [ ] T013 [P] [US2] Update Mermaid rendering templates enforcing the strict 3-subgraph model (Workflows, Targets, Resources) in `src/core/exporters/markdown_exporter.py`.
-- [ ] T014 [US2] Overhaul `analyze_pipeline.py` CLI traversing the outputs from discovery and executing the full run context bindings mapped to the explicit topological models.
+- [x] T012 [P] [US2] Implement `TopologyArchiver` extracting CSV/JSON pipeline hierarchy and relationships mapping in `src/core/exporters/pipeline_exporter.py`.
+- [x] T013 [P] [US2] Update Mermaid rendering templates enforcing the strict 3-subgraph model (Workflows, Targets, Resources) in `src/core/exporters/markdown_exporter.py`.
+- [x] T014 [US2] Overhaul `analyze_pipeline.py` CLI traversing the outputs from discovery and executing the full run context bindings mapped to the explicit topological models.
 
 ---
 
@@ -68,8 +68,8 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T015 [P] Documentation updates in `quickstart.md` and `README.md`.
-- [ ] T016 Code cleanup and `ruff` / `mypy` linting compliance checks across the async transition.
+- [x] T015 [P] Documentation updates in `quickstart.md` and `README.md`.
+- [x] T016 Code cleanup and `ruff` / `mypy` linting compliance checks across the async transition.
 - [ ] T017 Execute integration end-to-end tests validating full structural mappings by pointing extraction explicitly against the `github-samples/pets-workshop` baseline to uphold Constitution VII compliance (`tests/integration/test_full_architecture.py`).
 
 ---
