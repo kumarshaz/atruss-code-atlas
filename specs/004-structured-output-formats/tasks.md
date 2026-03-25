@@ -1,75 +1,66 @@
-# Tasks: Structured Output Formats
+# Tasks: Structured Output Formats (GitHub Parity Edition)
 
 **Input**: Design documents from `/specs/004-structured-output-formats/`
-**Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
-**Tests**: Required per Constitution VII (Strict Test DD). Failing tests must be written first.
+**Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/cli.md
+
+**Tests**: Tests are MANDATORY per Constitution VII (TDD). Write failing tests before implementation tasks.
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-**Purpose**: Project initialization and base classes for exporters.
+**Purpose**: Project initialization and basic structure accommodating the massive async transition.
 
-- [ ] T001 Create `BaseExporter` interface/abstract class in `src/atruss/core/exporters/base_exporter.py`
-- [ ] T002 Initialize empty structural implementations for `json_exporter.py`, `csv_exporter.py`, and `yaml_exporter.py` in `src/atruss/core/exporters/`
+- [ ] T001 Strip legacy Git cloner dependencies to strictly enforce online-only `GET /git/trees` payload extractions.
+- [ ] T002 Implement `GitHubClient` HTTP async client accommodating Link-Header `rel="next"` pagination and proactive `X-RateLimit-Remaining` threshold checks in `src/core/http_client.py`.
+- [ ] T003 [P] Implement `validate_token` logic enforcing Bearer token authentication alongside strict dual-logger token masking preventing ephemeral leakages in `src/core/auth.py`.
 
 ---
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Foundational schemas must be confirmed decoupleable before implementing concrete exporters.
+**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented.
 
-- [ ] T003 Confirm `DiscoveryManifestItem` and `PipelineDAG` (Nodes/Edges) Pydantic models in `src/atruss/core/models/` map neatly to dictionaries (ensuring no circular references or unhandled complex types block generic JSON/YAML serialization)
+**⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-**Checkpoint**: Models are ready for seamless structural serialization. Exporters can now be built.
+- [ ] T004 Create deterministic archival filesystem manager to handle `exports/{timestamp}/` folder bounds in `src/core/utils/export_manager.py`.
+- [ ] T005 [P] Create `DiscoveryManifestItem` and `TopologyNode` explicit domain models mirroring the 27-column relaxed CSV payload structure in `src/models/discovery.py`.
+- [ ] T006 [P] Create cross-referenced DAG entity models for environments, workflows, and runner associations in `src/models/topology.py`.
 
 ---
 
-## Phase 3: User Story 1 - Structured Repo Discovery Output (Priority: P1)
+## Phase 3: User Story 1 - Structured Repo Discovery Output (Priority: P1) 🎯 MVP
 
-**Goal**: Enable repository discovery to output its results in structural formats (CSV, JSON, and YAML) via `--format` flag.
+**Goal**: Achieve the primary automated repository discovery generating `repositories.json`, `repositories.csv`, and `yaml-contents.json`.
 
-**Independent Test**: Running the discover CLI with `--format csv`, `--format json`, and `--format yaml` independently produces strictly formatted data matching the discovery schemas.
+**Independent Test**: Running `repo-analyzer discover --org X` generates exactly 3 archival datasets retaining valid CSV/JSON headers.
 
 ### Tests for User Story 1 (MANDATORY per TDD) ⚠️
 
-- [ ] T004 [P] [US1] Write failing unit test for `CSVExporter` processing discovery models in `tests/unit/exporters/test_csv_exporter.py`
-- [ ] T005 [P] [US1] Write failing unit test for `YAMLExporter` processing discovery models in `tests/unit/exporters/test_yaml_exporter.py`
-- [ ] T006 [P] [US1] Write failing unit test for `JSONExporter` processing discovery models in `tests/unit/exporters/test_json_exporter.py`
-- [ ] T007 [P] [US1] Write failing integration test for `python -m atruss.cli discover` output formatting in `tests/integration/test_structured_exports.py`
+- [ ] T007 [P] [US1] Write unit tests mapping exact GitHub REST payloads down to dynamic CSV and JSON columns in `tests/unit/exporters/test_discovery_exporter.py`.
+- [ ] T007b [US1] Write unit tests enforcing graceful structural empty `{}` or `[]` dumps for zero-repository organizations matching edge case constraints.
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Implement `CSVExporter.export_discovery()` mapping the manifest items to CSV rows in `src/atruss/core/exporters/csv_exporter.py` 
-- [ ] T009 [P] [US1] Implement `YAMLExporter` converting the model dict to YAML via `pyyaml` in `src/atruss/core/exporters/yaml_exporter.py`
-- [ ] T010 [P] [US1] Implement `JSONExporter` natively converting the model dict to JSON in `src/atruss/core/exporters/json_exporter.py`
-- [ ] T011 [US1] Update `discover.py` CLI parser to accept `--format` flag
-- [ ] T012 [US1] Integrate exporters into the `discover` command execution flow in `src/atruss/cli/discover.py`
-
-**Checkpoint**: At this point, the repository discovery command correctly dumps CSV, JSON, and YAML structured data.
+- [ ] T008 [P] [US1] Implement `DiscoveryArchiver` extracting CSV/JSON representations in `src/core/exporters/discovery_exporter.py`.
+- [ ] T009 [US1] Refactor `discover.py` CLI command bypassing prior flat tables and substituting the new comprehensive `github-repo-discovery.py` reference 8-phase logic.
+- [ ] T010 [US1] Wire exclusion patterns and dynamic column mappers natively to stdout logs.
 
 ---
 
 ## Phase 4: User Story 2 - Structured Pipeline Visualization Output (Priority: P1)
 
-**Goal**: Enable pipeline visualization DAGs to be exported as structured formats (CSV, JSON, YAML) so DevOps can programmatically analyze dependencies instead of purely rendering visual diagrams.
+**Goal**: Transform internal pipeline analysis engines to collapse the classic Pipeline topology into the 3-layer Mermaid/CSV GitHub actions workflows outputs.
 
-**Independent Test**: Running the `analyze-pipeline` CLI with `--format csv`, `--format json`, and `--format yaml` independently produces DAG node/edge structures serialized to the respective format.
+**Independent Test**: Run `analyze-pipeline` generating the strict relationships JSON and visual Mermaid models without missing associations.
 
 ### Tests for User Story 2 (MANDATORY per TDD) ⚠️
 
-- [ ] T013 [P] [US2] Write failing unit test for flattening the PipelineDAG into CSV nodes/edges in `tests/unit/exporters/test_csv_exporter.py`
-- [ ] T014 [P] [US2] Write failing unit tests for PipelineDAG YAML export in `tests/unit/exporters/test_yaml_exporter.py`
-- [ ] T015 [P] [US2] Write failing unit tests for PipelineDAG JSON serialization in `tests/unit/exporters/test_json_exporter.py`
-- [ ] T016 [P] [US2] Write failing integration test for `python -m atruss.cli analyze-pipeline` CLI formatting in `tests/integration/test_structured_exports.py`
+- [ ] T011 [P] [US2] Write unit tests ensuring DAG edges natively map to the exact JSON envelope in `tests/unit/exporters/test_pipeline_exporter.py`.
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Implement `CSVExporter.export_pipeline()` flattening the DAG into node lists in `src/atruss/core/exporters/csv_exporter.py`
-- [ ] T018 [P] [US2] Integrate the `PipelineDAG` model dumping into the generic `YAMLExporter` in `src/atruss/core/exporters/yaml_exporter.py`
-- [ ] T019 [P] [US2] Ensure standard `JSONExporter` correctly handles the PipelineDAG in `src/atruss/core/exporters/json_exporter.py`
-- [ ] T020 [US2] Update `analyze_pipeline.py` CLI parser to accept the `--format` flag
-- [ ] T021 [US2] Connect `analyze_pipeline` command flow to the exporters in `src/atruss/cli/analyze_pipeline.py`
-
-**Checkpoint**: Both Discovery and Pipeline commands now output strictly structured CSV/JSON/YAML data fully independently.
+- [ ] T012 [P] [US2] Implement `TopologyArchiver` extracting CSV/JSON pipeline hierarchy and relationships mapping in `src/core/exporters/pipeline_exporter.py`.
+- [ ] T013 [P] [US2] Update Mermaid rendering templates enforcing the strict 3-subgraph model (Workflows, Targets, Resources) in `src/core/exporters/markdown_exporter.py`.
+- [ ] T014 [US2] Overhaul `analyze_pipeline.py` CLI traversing the outputs from discovery and executing the full run context bindings mapped to the explicit topological models.
 
 ---
 
@@ -77,30 +68,22 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T022 [P] Update `docs/` or `README.md` to reflect the new `[json, yaml, csv]` structural output features and quickstart examples
-- [ ] T023 Run `flake8` / `ruff` formatting and code cleanup across exporter changes
-- [ ] T024 Validate CI pipeline executes the integration tests in `test_structured_exports.py` successfully
+- [ ] T015 [P] Documentation updates in `quickstart.md` and `README.md`.
+- [ ] T016 Code cleanup and `ruff` / `mypy` linting compliance checks across the async transition.
+- [ ] T017 Execute integration end-to-end tests validating full structural mappings by pointing extraction explicitly against the `github-samples/pets-workshop` baseline to uphold Constitution VII compliance (`tests/integration/test_full_architecture.py`).
 
 ---
 
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
-- **Setup (Phase 1)**: Start immediately.
-- **Foundational (Phase 2)**: Depends on Phase 1.
-- **User Stories (Phase 3 & 4)**: Depend on Phase 2 completion. Can be parallelized.
-- **Polish (Final Phase)**: Depends on User Stories completion.
-
-### Parallel Opportunities
-- Exporter tests (T004-T007 and T013-T016) can run entirely in parallel.
-- Concrete Exporter logic (T008-T010 and T017-T019) can be developed independently in parallel.
-- US1 (`discover` CLI updates) and US2 (`analyze-pipeline` CLI updates) can be worked on concurrently by two engineers without stepping on each other.
-
----
+- **Setup & Foundational**: Must be strictly accomplished first. Async architecture will block sync methods cleanly.
+- **User Story 1 & 2**: Can be worked concurrently once exporters architectures are stubbed out. US2 relies on US1 inputs inherently when invoked via CLI, so US1 is prioritized.
 
 ## Implementation Strategy
 
-### MVP First
-- Deliver Phase 1, Phase 2, and Phase 3 (US1: Discovery Export). 
-- Validate that the single `discover` command can output perfectly formatted CSV.
-- Add Phase 4 (Pipeline Export) leveraging the patterns defined in US1.
+1. Transition the HTTP clients strictly relying on async requests.
+2. Formulate explicit file managers ensuring the `exports/` folder targets are deterministic.
+3. Test exporter formats against GitHub mocked payloads.
+4. Execute `discover`.
+5. Execute `analyze-pipeline`. 

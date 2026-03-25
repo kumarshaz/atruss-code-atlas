@@ -1,41 +1,21 @@
-# Phase 1: Quickstart & Examples
+# Quickstart: Structured Output Generation (Parity Edition)
 
-This document details how the developer interacts with the new CLI flags and structural format outputs.
+## Running the Complete Export Pipeline
 
-## Generating structural repository discovery
+Atruss Code Atlas has been migrated from generating singular outputs to performing comprehensive, 8-phase architectural extractions across your GitHub organizations spanning CSV, hierarchical JSON, and Mermaid files automatically.
 
-**CLI Usage**:
 ```bash
-python -m atruss.cli discover <org> --output-format json
-python -m atruss.cli discover <org> --output-format yaml
-python -m atruss.cli discover <org> --output-format csv
-```
+# Set your token
+export GITHUB_TOKEN="ghp_xxx"
 
-**Expected JSON Output**:
-```json
-[
-  {
-    "name": "atruss-api",
-    "clone_url": "https://github.com/org/atruss-api.git",
-    "ecosystem": "Python"
-  }
-]
-```
+# 1. Run Complete Discovery (Phase 1)
+# This will automatically create an `exports/YYYY-MM-DD_HH-MM-SS/repos/` directory 
+# filled with repositories.csv, repositories.json, and summary.txt.
+repo-analyzer discover --org "your-org"
 
-## Generating structural pipeline visualization
-
-**CLI Usage**:
-```bash
-python -m atruss.cli analyze-pipeline --from-discovery out.json --format yaml
-```
-
-**Expected YAML Output**:
-```yaml
-nodes:
-  - node_id: "job_build"
-    name: "Build Application"
-edges:
-  - source: "job_lint"
-    target: "job_build"
-    relationship: "needs"
+# 2. Run Pipeline Extraction (Phases 2-8)
+# Automatically analyzes the outputs from the discovery phase to pull YAML, Runners, Environments 
+# and compiles the relationships into the same exports tree under `/reports` 
+# outputting pipeline topology in JSON, .md Arc42 docs, and CSV tables natively.
+repo-analyzer analyze-pipeline --from-discovery ./exports/latest/repos/repositories.json
 ```

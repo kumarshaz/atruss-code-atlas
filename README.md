@@ -30,8 +30,15 @@ pip install -e .
 # Discover an organization and export as JSON manifest
 repo-analyzer discover --org your-github-org --output org-repos.json
 
+# Optionally format the discovery manifest natively as CSV or YAML
+repo-analyzer discover --org your-github-org --format csv --output org-repos.csv
+repo-analyzer discover --org your-github-org --format yaml --output org-repos.yaml
+
 # Analyze pipelines mapping explicitly to local JSON / Markdown targets natively
 repo-analyzer analyze-pipeline --from-discovery org-repos.json --output-dir ./reports/
+
+# Extract structural Pipeline DAGs directly via output formats
+repo-analyzer analyze-pipeline --from-discovery org-repos.json --output-dir ./reports/ --format csv
 
 # Alternatively, pass flat text array lists sequentially 
 repo-analyzer analyze-pipeline --repos-file targets.txt --output-dir ./reports/

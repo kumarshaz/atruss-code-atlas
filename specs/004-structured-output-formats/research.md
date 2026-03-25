@@ -1,18 +1,17 @@
-# Phase 0: Outline & Research
+# Research & Technical Decisions: GitHub Edition Orchestration
 
-## Needs Clarification Resolutions
+## Decision 1: Async HTTP vs Sync HTTP
+**Decision**: `httpx.AsyncClient` + `asyncio.Semaphore(10)`
+**Rationale**: ADO PowerShell implementation handled implicit job parallelization. To hit the < 2 minute performance requirement for 800+ repos while staying within secondary rate limits, a strongly controlled async barrier limits concurrent spikes preventing 403 blocks while vastly outperforming sequential `requests`.
 
-**Unknown**: Best practices for serializing nested Pipeline DAGs to CSV.
-- **Decision**: For CSV pipeline visualization output, we will flatten the DAG into an Edge List format `(source_node, target_node, dependency_type)` alongside a Node List `(node_id, job_name, status)`. If a single CSV is forced, we default to the Node List.
-- **Rationale**: CSV cannot natively represent deeply nested trees/DAGs. An adjacency or edge list is the standard structural representation of graphs in flat files.
-- **Alternatives considered**: JSON-encoding the nested dependencies within a single CSV column (rejected as it defeats the purpose of choosing CSV for plain structural readability).
+## Decision 2: Pagination Model
+**Decision**: RFC 5988 `Link` header tracking via `rel="next"`.
+**Rationale**: GitHub does not use the `continuationToken` query concept native to ADO. Native Link header parsing represents the robust canonical standard for GH tree iterations.
 
-**Unknown**: YAML and JSON Generation Libraries.
-- **Decision**: Utilize standard library `json` for JSON generation. Utilize `pyyaml` (already present in `requirements.txt`) for YAML export.
-- **Rationale**: Keeps dependencies minimal while ensuring robust and deterministic serialization. `pyyaml`'s `SafeDumper` ensures no arbitrary object execution vulnerabilities.
-- **Alternatives considered**: Relying strictly on Pydantic's internal serializers. We will use Pydantic `model_dump()` combined with standard json/yaml to ensure separation of concerns.
+## Decision 3: Export Hierarchy vs Flat Files
+**Decision**: Directory based generation per run (`exports/{timestamp}/{resource}/...`) vs a single output file.
+**Rationale**: The user explicit requirement specifies 8 granular export phases isolating repos, contents, workflows, runners, relationships, and reports into separate sub-domains retaining both CSVs for humans and hierarchical JSONs for visualizers like Astro automatically.
 
-**Unknown**: Validation Strategy.
-- **Decision**: Unit and integration tests will strictly validate the JSON and YAML structures against expected structural schemas. No strict schema validation will occur at runtime to maintain the < 3 minutes execution constraint.
-- **Rationale**: Aligns with the user's clarification to "Validate only in CI/testing, not at runtime."
-- **Alternatives considered**: Runtime JSONSchema validation using `jsonschema` (rejected due to user preference for performance).
+## Decision 4: Pipeline Layer Compression
+**Decision**: Compress `Build -> Release` into a single `Workflow` entity.
+**Rationale**: ADO utilized separated build systems and release (Classic) pipelines. GitHub Actions inherently merges these into unified YAML definitions, natively dropping a Mermaid subgraph layer and simplifying the data models into `Repo -> Workflow -> Environment -> Runner`.

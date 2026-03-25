@@ -1,40 +1,41 @@
-# Phase 1: Data Models
+# Data Models: GitHub Orchestration Parity
 
-## Discovery Manifest
+## Core Concept
+The system bridges exactly 4 core entities mirroring the physical topology. Data is exported deterministically via 8 phases into timestamped `exports/{timestamp}` directories.
 
-The structure represents the discovered repositories.
+### 1. Repository Discovery Output (CSV & JSON/YAML properties)
+*Dynamically maps to available GitHub payload endpoints without strictly adhering to an ADO parity translation. Columns will auto-flatten based dict keys discovered at runtime.*
 
-```python
-class DiscoveryManifestItem(BaseModel):
-    name: str # The repository name
-    clone_url: str # The clone URI
-    ecosystem: str # Detected ecosystem (e.g. Python, Node.js)
+### 2. Pipeline Visualization Output (CSV)
+To feed analytical queries natively, the deployment chains are flattened:
+- `RepoName` (string)
+- `WorkflowName` (string)
+- `DeploymentTarget` (string)
+- `DeploymentResource` (string)
+
+### 3. Pipeline JSON Envelope
+Contains metadata wrapper for pipeline JSON dumps:
+```json
+{
+  "count": 123,
+  "items": [
+    {
+      "repoId": "string",
+      "repoName": "string",
+      "workflowId": 1245,
+      "workflowName": "string",
+      "environmentNames": ["array"],
+      "deploymentTargetId": 123,
+      "deploymentTargetType": "environment | runnerGroup",
+      "deploymentTargetName": "string",
+      "linkageMethod": "workflow-environment | workflow-runner-group | reusable-workflow",
+      "iisConfig": null,
+      "k8sContext": null,
+      "resourceNames": ["array"]
+    }
+  ]
+}
 ```
-- **Serialization**: 
-  - **CSV**: Columns -> `name`, `clone_url`, `ecosystem`. Each item is a row.
-  - **JSON**: Array of objects.
-  - **YAML**: Sequence of mappings.
 
-## Pipeline DAG
-
-The structure represents the workflow graph.
-
-```python
-class Node(BaseModel):
-    node_id: str
-    name: str
-    ecosystem_type: str = "pipeline"
-
-class Edge(BaseModel):
-    source: str # node_id
-    target: str # node_id
-    relationship: str = "needs"
-
-class PipelineDAG(BaseModel):
-    nodes: List[Node]
-    edges: List[Edge]
-```
-- **Serialization**:
-  - **CSV**: Output requires two files logically, or exporting the list of Nodes. Best approach is a Node List export, or an Edge List export if dependency mapping is requested.
-  - **JSON**: Nested object `{"nodes": [...], "edges": [...]}`.
-  - **YAML**: Document with `nodes:` and `edges:` sequences.
+### 4. Mermaid Graphs
+Arc42 Markdown visually compresses the YAML deployments into exactly 3 subgraphs for `Actions Workflows`, `Deployment Targets`, and `Deployment Resources`.

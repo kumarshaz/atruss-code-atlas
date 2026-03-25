@@ -1,83 +1,65 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Structured Output Formats (GitHub Edition Migration)
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
-
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
+**Branch**: `004-structured-output-formats` 
+**Input**: Feature specification from `/specs/004-structured-output-formats/spec.md` + Reference ADO Python scripts
 
 ## Summary
 
-Implement structural output formats (CSV, JSON, YAML) for repository discovery and pipeline visualization, allowing developers to retrieve programmatically parsable data via a simple `--format` flag, fully bypassing visual/markdown defaults where necessary.
+This iteration vastly expands the structured output requirements to enforce a hierarchical, multi-format archival export mapping directly from ADO parity models. Instead of simply generating flat single-file outputs, the `discover` and `analyze-pipeline` CLI commands will now execute as comprehensive exporters running a strict 8-phase pipeline that dumps timestamped folder trees containing deterministic JSON, CSV, and YAML artifacts.
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
-
 **Language/Version**: Python 3.11+
-**Primary Dependencies**: `json` (stdlib), `csv` (stdlib), `pyyaml` (existing), `pydantic` (for models/schemas)
-**Storage**: Local Filesystem (`--output-dir`)
-**Testing**: `pytest` fixture-based tests checking output file validity
-**Target Platform**: Any (Offline CLI)
-**Project Type**: CLI Tool
-**Performance Goals**: Generate output schemas for <500k LoC in under 3 minutes
-**Constraints**: Pure offline file writing. No remote DB, no background brokers.
-**Scale/Scope**: ~100 repositories per discovery payload
+**Primary Dependencies**: `httpx`, `asyncio`, `pyyaml`, `pydantic`
+**Storage**: Local Filesystem (`exports/{timestamp}/...`)
+**Testing**: `pytest`, `pytest-asyncio`, `pytest-httpx`
+**Target Platform**: CLI / GitHub Actions Runners
+**Project Type**: CLI
+**Performance Goals**: Full run under 2 minutes for ~800 entities
+**Constraints**: Zero database dependencies, offline-capable docs-as-code extraction, strict GitHub REST API rate limit awareness.
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- **I. Policy-as-Code & Extensibility**: PASS. New formats simply serialize the existing declarative Pydantic schemas.
-- **II. Single Source of Truth**: PASS. The JSON format remains the canonical truth and native representation.
-- **IV. Performance & Scalability**: PASS. Validation happens explicitly outside the runtime loop, yielding maximum output speed.
-- **VII. Strict Test DD**: PASS. Validation output formats align nicely to fixture testing against `github-samples/pets-workshop`.
-- **Orchestration constraints**: PASS. No FastAPI/Redis/Postgres added. Offline file dumping logic natively.
+- **Single Source of Truth**: PASS (Extracts purely from GitHub API and YAML contents).
+- **Performance**: PASS (Target <2m using async HTTP).
+- **Tests**: PASS (Will rely on robust mocked httpx harnesses).
+- **Architecture**: PASS (No databases, standard filesystem exports).
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
-├── plan.md              # This file (/speckit.plan command output)
-├── research.md          # Phase 0 output (/speckit.plan command)
-├── data-model.md        # Phase 1 output (/speckit.plan command)
-├── quickstart.md        # Phase 1 output (/speckit.plan command)
-├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+specs/004-structured-output-formats/
+├── plan.md              # This file
+├── research.md          # Technical decisions for GitHub vs ADO parity
+├── data-model.md        # Explicit CSV and JSON models defined by reference
+├── quickstart.md        # CLI execution examples
+├── contracts/cli.md     # Updated CLI arguments
+└── tasks.md             # To be generated
 ```
+
+### Source Code (repository root)
 
 ```text
-# Source Code (repository root)
-src/atruss/
+src/
 ├── core/
-│   ├── exporters/
-│   │   ├── json_exporter.py
-│   │   ├── csv_exporter.py
-│   │   └── yaml_exporter.py
-│   └── models/
-│       ├── discovery.py
-│       └── pipeline.py
+│   ├── auth.py          # Token validation and Bearer management
+│   ├── http_client.py   # Async HTTP with Link pagination and rate limits
+│   └── exporters/       # JSON, CSV, YAML output generators
+├── models/
+│   ├── discovery.py     # Repository, Ecosystem discovery models
+│   └── topology.py      # Workflow, Run, Environment, RunnerGroup models
+├── analyzers/
+│   ├── classifiers/     # Activity, orphan, pattern extraction logic
+│   └── pipeline/        # YAML parsing, DAG building
 └── cli/
-    ├── discover.py
-    └── analyze_pipeline.py
-
-tests/
-├── integration/
-│   └── test_structured_exports.py
+    ├── commands/
+    │   ├── discover.py
+    │   └── analyze_pipeline.py
+    └── main.py
 ```
 
-**Structure Decision**: Utilizing the primary single project layout native to Atruss Code Atlas, implementing dedicated exporter classes per format to adhere to the Single Responsibility Principle, invoked dynamically via the CLI's `--format` flag.
-
-## Complexity Tracking
-
-> **Fill ONLY if Constitution Check has violations that must be justified**
-
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+**Structure Decision**: A single project modular architecture cleanly segregating the generic GitHub async HTTP extraction logic from the core analytical classification rules and the deterministic filesystem exporters based on the 8-phase ADO parity models.

@@ -3,6 +3,10 @@ import typer
 
 from src.analyzers.classification import classify_repository
 from src.core.services.github_api import GitHubClient
+from src.core.exporters.csv_exporter import CSVExporter
+from src.core.exporters.json_exporter import JSONExporter
+from src.core.exporters.yaml_exporter import YAMLExporter
+from src.models.artifacts import DiscoveryManifestItem
 
 app = typer.Typer()
 
@@ -10,8 +14,8 @@ app = typer.Typer()
 def discover(
     org: str = typer.Option(..., "--org", help="GitHub organization name"),
     token: str | None = typer.Option(None, "--token", help="GitHub Personal Access Token"),
-    format: str = typer.Option("table", "--format", help="Output format: table or json"),
-    output: str | None = typer.Option(None, "--output", help="File path to save the JSON manifest")
+    format: str = typer.Option("table", "--format", help="Output format: table, json, yaml, csv"),
+    output: str | None = typer.Option(None, "--output", help="File path to save the manifest")
 ):
     """Discover and classify repositories across a GitHub organization."""
     client = GitHubClient(token=token)
@@ -50,12 +54,29 @@ def discover(
             })
 
     import json
+    
+    # Map results to domain models
+    manifest_items = [
+        DiscoveryManifestItem(name=r["name"], clone_url=r["clone_url"], ecosystem=r["ecosystem"])
+        for r in results
+    ]
+    
     if output is not None:
-        with open(output, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
+        if format.lower() == "csv":
+            CSVExporter().export_discovery(manifest_items, output)
+        elif format.lower() == "yaml":
+            YAMLExporter().export_discovery(manifest_items, output)
+        else:
+            JSONExporter().export_discovery(manifest_items, output)
         typer.echo(f"\nManifest saved to {output}")
     elif format == "json":
         typer.echo(json.dumps(results, indent=2))
+    elif format == "yaml":
+        import yaml
+        typer.echo(yaml.safe_dump(results, default_flow_style=False))
+    elif format == "csv":
+        # Usually stdout CSV isn't as easily printable with DictWriter without StringIO, skipping explicit print logic
+        typer.echo("CSV format requires --output file path.")
     else:
         typer.echo("\n--- Results ---")
         for res in results:

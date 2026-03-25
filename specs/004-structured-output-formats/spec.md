@@ -5,6 +5,11 @@
 **Status**: Draft  
 **Input**: User description: "I have included additiona details on how my output should look like for repo discovery and pipeline visualization, added some output samples. Lets focus on achieving a structural output in CSV, JSON and YAML and then I will decide if I want to convert to a markdown or render JSON/YAML directly."
 
+## Clarifications
+### Session 2026-03-24
+- Q: The current specification states the output should be generated based on a "structural output flag", but your recent requirements dictate a strict, multi-phase archival folder structure (`exports/{timestamp}/...`). Should we update the specification to mandate this archival folder generation instead of just simple file flags? → A: Option A - Update the spec to mandate the strict 8-phase archival folder structure (`exports/{timestamp}/...`) instead of simple `--format` flags.
+- Q: The original specification states the CSV will contain "all discovered repository metadata." Should we mandate the exact 27-column ADO parity schema provided for Discovery output? → A: Option B - Remain loosely defined and allow the CSV fields to dynamically mirror whatever attributes GitHub returns in its baseline tree.
+
 ## User Scenarios & Testing
 
 ### User Story 1 - Structured Repo Discovery Output (Priority: P1)
@@ -57,8 +62,8 @@ As a DevOps engineer or DevSecOps engineer, I want the pipeline visualization da
 - **FR-004**: The system MUST support generating pipeline visualization data in valid JSON format.
 - **FR-005**: The system MUST support generating pipeline visualization data in valid YAML format.
 - **FR-006**: The system MUST support generating pipeline visualization data in valid CSV format.
-- **FR-007**: The system MUST allow the user to specify the desired output format via CLI arguments or configuration. 
-- **FR-008**: The output schemas for JSON and YAML MUST be clearly defined and deterministic. Validation against strict JSON Schema will occur only in CI/testing to balance runtime performance with schema consistency guarantees.
+- **FR-007**: The system MUST natively generate the strict 8-phase archival folder structure (`exports/{timestamp}/...`) containing JSON, CSV, and YAML extracts for both discovery and pipelines simultaneously, bypassing single-file `--format` flags.
+- **FR-008**: The output schemas for JSON and YAML MUST be clearly defined and deterministic. Validation against strict JSON Schema will occur only in CI/testing to balance runtime performance with schema consistency guarantees. CSV schemas should remain loose and dynamically match GitHub's returned structural payload per column rather than forcing strict parity to legacy ADO shapes.
 
 ### Key Entities
 

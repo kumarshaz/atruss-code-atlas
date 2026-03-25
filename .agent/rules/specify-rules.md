@@ -9,6 +9,8 @@ Auto-generated from all feature plans. Last updated: 2026-03-24
 - Native Local Filesystem (Static `.json` and `.md`) (003-portable-test-harness)
 - Python 3.11+ + `json` (stdlib), `csv` (stdlib), `pyyaml` (existing), `pydantic` (for models/schemas) (004-structured-output-formats)
 - Local Filesystem (`--output-dir`) (004-structured-output-formats)
+- Python 3.11+ + `httpx`, `asyncio`, `pyyaml`, `pydantic` (004-structured-output-formats)
+- Local Filesystem (`exports/{timestamp}/...`) (004-structured-output-formats)
 
 - Python 3.12 + FastAPI, Celery, Redis, PyYAML, NetworkX, SQLAlchemy, external analyzers (Radon, Bandit) (001-repo-analyzer)
 
@@ -28,9 +30,9 @@ cd src; pytest; ruff check .
 Python 3.12: Follow standard conventions
 
 ## Recent Changes
+- 004-structured-output-formats: Added Python 3.11+ + `httpx`, `asyncio`, `pyyaml`, `pydantic`
 - 004-structured-output-formats: Added Python 3.11+ + `json` (stdlib), `csv` (stdlib), `pyyaml` (existing), `pydantic` (for models/schemas)
 - 003-portable-test-harness: Added Python 3.12+ + Typer (CLI), NetworkX (DAGs), Pytest (Harness) *(Explicitly excluding Celery, Redis, FastAPI, PostgreSQL)*
-- 002-chain-analysis: Added Python 3.10+ + `subprocess` (built-in), `tempfile` (built-in), `json` (built-in)
 
 
 <!-- MANUAL ADDITIONS START -->

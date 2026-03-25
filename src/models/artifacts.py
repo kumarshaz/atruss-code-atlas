@@ -19,3 +19,22 @@ class HarnessFixture(BaseModel):
     repo_url: str
     pinned_sha: str
     expected_modules: List[str]
+
+class DiscoveryManifestItem(BaseModel):
+    name: str # The repository name
+    clone_url: str # The clone URI
+    ecosystem: str # Detected ecosystem (e.g. Python, Node.js)
+
+class Node(BaseModel):
+    node_id: str
+    name: str
+    ecosystem_type: str = "pipeline"
+
+class Edge(BaseModel):
+    source: str # node_id
+    target: str # node_id
+    relationship: str = "needs"
+
+class PipelineDAG(BaseModel):
+    nodes: List[Node]
+    edges: List[Edge]
