@@ -1,0 +1,133 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import OrgHealthStrip from './OrgHealthStrip.astro';
+import LanguageChart from './LanguageChart.astro';
+import RiskFlags from './RiskFlags.astro';
+import RepoGrid from './RepoGrid.astro';
+
+const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (p: string) => `${baseUrl}${p.startsWith('/') ? p : '/' + p}`;
+
+let repos = [];
+try {
+    const candidates = [
+        path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
+        path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+    ];
+    for (const jsonPath of candidates) {
+        if (fs.existsSync(jsonPath)) {
+            const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+            repos = data.items || data;
+            break;
+        }
+    }
+} catch (e) {
+    console.error('Error loading repositories.json:', e);
+}
+---
+
+<div class="m3-atlas-dashboard">
+    <section class="m3-card-filled m3-hero-banner">
+        <div class="m3-hero-eyebrow m3-chip m3-chip-tonal-primary">
+            <span class="material-symbols-outlined" aria-hidden="true">hub</span>
+            <span>Multi-Ecosystem Code &amp; Pipeline Atlas</span>
+        </div>
+        <h1>Atruss Code Atlas</h1>
+        <p class="m3-hero-subtitle">
+            Deterministic discovery, CI/CD pipeline DAG analysis, and Arc42 architectural insights
+            across multi-ecosystem repositories.
+        </p>
+        <div class="m3-hero-actions">
+            <a href="#repo-directory" class="m3-btn-filled">
+                <span class="material-symbols-outlined" aria-hidden="true">apps</span>
+                Browse Repositories
+            </a>
+            <a href={withBase('/orgs/')} class="m3-btn-tonal">
+                <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
+                Organization Benchmarks
+            </a>
+        </div>
+    </section>
+
+    {repos.length === 0 ? (
+        <div class="m3-card-outlined m3-empty-dashboard">
+            <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+            <p>
+                No repository scan data ingested yet. Run <code>atruss discover --org &lt;org&gt;</code>
+                and rebuild.
+            </p>
+        </div>
+    ) : (
+        <>
+            <OrgHealthStrip repos={repos} />
+
+            <div class="m3-charts-row">
+                <LanguageChart repos={repos} />
+                <RiskFlags repos={repos} />
+            </div>
+
+            <RepoGrid repos={repos} />
+        </>
+    )}
+</div>
+
+<style>
+    .m3-atlas-dashboard {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 1rem 0 2.5rem;
+    }
+
+    .m3-hero-banner {
+        padding: 2.25rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-extra-large);
+    }
+
+    .m3-hero-eyebrow {
+        margin-bottom: 1rem;
+    }
+
+    .m3-hero-banner h1 {
+        margin: 0 !important;
+        font-size: clamp(2rem, 4vw, 3rem) !important;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-hero-subtitle {
+        margin: 0.75rem 0 1.5rem !important;
+        font-size: 1.0625rem;
+        max-width: 65ch;
+        color: var(--md-sys-color-on-surface-variant);
+        line-height: 1.55;
+    }
+
+    .m3-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .m3-empty-dashboard {
+        padding: 3rem;
+        text-align: center;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-charts-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        align-items: stretch;
+    }
+
+    @media (min-width: 820px) {
+        .m3-charts-row {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>

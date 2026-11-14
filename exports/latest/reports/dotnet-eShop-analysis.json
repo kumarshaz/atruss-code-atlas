@@ -1,0 +1,1107 @@
+{
+  "repository": "dotnet/eShop",
+  "sha": "913acea66708a59595351174cee9b29f37179d29",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 1092,
+    "loc": 52597,
+    "sloc": 41333,
+    "component_count": 124,
+    "avg_cyclomatic_complexity": 2.51,
+    "max_cyclomatic_complexity": 137,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Basket.API",
+      "type": "MODULE",
+      "file": "src/Basket.API/Basket.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "Catalog.API",
+      "type": "MODULE",
+      "file": "src/Catalog.API/Catalog.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "IntegrationEventLogEF",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "ClientApp",
+      "type": "MODULE",
+      "file": "src/ClientApp/ClientApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventBus",
+      "type": "MODULE",
+      "file": "src/EventBus/EventBus.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventBusRabbitMQ",
+      "type": "MODULE",
+      "file": "src/EventBusRabbitMQ/EventBusRabbitMQ.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBus"
+      ]
+    },
+    {
+      "name": "HybridApp",
+      "type": "MODULE",
+      "file": "src/HybridApp/HybridApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAppComponents"
+      ]
+    },
+    {
+      "name": "Identity.API",
+      "type": "MODULE",
+      "file": "src/Identity.API/Identity.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "IntegrationEventLogEF",
+      "type": "MODULE",
+      "file": "src/IntegrationEventLogEF/IntegrationEventLogEF.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBus"
+      ]
+    },
+    {
+      "name": "OrderProcessor",
+      "type": "MODULE",
+      "file": "src/OrderProcessor/OrderProcessor.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "Ordering.API",
+      "type": "MODULE",
+      "file": "src/Ordering.API/Ordering.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "IntegrationEventLogEF",
+        "Ordering.Domain",
+        "Ordering.Infrastructure",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "Ordering.Domain",
+      "type": "MODULE",
+      "file": "src/Ordering.Domain/Ordering.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Ordering.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Ordering.Infrastructure/Ordering.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IntegrationEventLogEF",
+        "Ordering.Domain"
+      ]
+    },
+    {
+      "name": "PaymentProcessor",
+      "type": "MODULE",
+      "file": "src/PaymentProcessor/PaymentProcessor.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "WebApp",
+      "type": "MODULE",
+      "file": "src/WebApp/WebApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "WebAppComponents",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "WebAppComponents",
+      "type": "MODULE",
+      "file": "src/WebAppComponents/WebAppComponents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WebhookClient",
+      "type": "MODULE",
+      "file": "src/WebhookClient/WebhookClient.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "Webhooks.API",
+      "type": "MODULE",
+      "file": "src/Webhooks.API/Webhooks.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventBusRabbitMQ",
+        "IntegrationEventLogEF",
+        "eShop.ServiceDefaults"
+      ]
+    },
+    {
+      "name": "eShop.AppHost",
+      "type": "MODULE",
+      "file": "src/eShop.AppHost/eShop.AppHost.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "eShop.ServiceDefaults",
+      "type": "MODULE",
+      "file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Application.UnitTests",
+      "type": "MODULE",
+      "file": "tests/Application.UnitTests/Application.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Catalog.API",
+        "Identity.API",
+        "OrderProcessor",
+        "PaymentProcessor",
+        "WebhookClient",
+        "Webhooks.API"
+      ]
+    },
+    {
+      "name": "Basket.FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Basket.API"
+      ]
+    },
+    {
+      "name": "Basket.UnitTests",
+      "type": "MODULE",
+      "file": "tests/Basket.UnitTests/Basket.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Basket.API"
+      ]
+    },
+    {
+      "name": "Catalog.FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Catalog.API"
+      ]
+    },
+    {
+      "name": "ClientApp.UnitTests",
+      "type": "MODULE",
+      "file": "tests/ClientApp.UnitTests/ClientApp.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ClientApp"
+      ]
+    },
+    {
+      "name": "Ordering.FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Identity.API",
+        "Ordering.API",
+        "Ordering.Domain",
+        "Ordering.Infrastructure"
+      ]
+    },
+    {
+      "name": "Ordering.UnitTests",
+      "type": "MODULE",
+      "file": "tests/Ordering.UnitTests/Ordering.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Ordering.API",
+        "Ordering.Domain",
+        "Ordering.Infrastructure"
+      ]
+    },
+    {
+      "name": "Webhooks.FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Webhooks.API"
+      ]
+    },
+    {
+      "name": "eShop.AppHost.UnitTests",
+      "type": "MODULE",
+      "file": "tests/eShop.AppHost.UnitTests/eShop.AppHost.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "eShop.AppHost"
+      ]
+    },
+    {
+      "name": "BasketService",
+      "type": "SERVICE",
+      "file": "src/Basket.API/Grpc/BasketService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderStartedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Basket.API/IntegrationEvents/EventHandling/OrderStartedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RedisBasketRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Basket.API/Repositories/RedisBasketRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Catalog.API/Infrastructure/CatalogContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogIntegrationEventService",
+      "type": "SERVICE",
+      "file": "src/Catalog.API/IntegrationEvents/CatalogIntegrationEventService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogContext",
+        "IntegrationEventLogService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToAwaitingValidationIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Catalog.API/IntegrationEvents/EventHandling/OrderStatusChangedToAwaitingValidationIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogContext",
+        "CatalogIntegrationEventService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToPaidIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Catalog.API/IntegrationEvents/EventHandling/OrderStatusChangedToPaidIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogContext"
+      ]
+    },
+    {
+      "name": "AppEnvironmentService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/AppEnvironment/AppEnvironmentService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BasketService",
+        "CatalogService",
+        "IdentityService",
+        "OrderService"
+      ]
+    },
+    {
+      "name": "BasketMockService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Basket/BasketMockService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BasketService"
+      ]
+    },
+    {
+      "name": "BasketService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Basket/BasketService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FixUriService",
+        "IdentityService",
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "CatalogMockService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Catalog/CatalogMockService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogService"
+      ]
+    },
+    {
+      "name": "CatalogService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Catalog/CatalogService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FixUriService",
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "DialogService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Dialog/DialogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FixUriService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/FixUri/FixUriService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "IdentityMockService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Identity/IdentityMockService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentityService"
+      ]
+    },
+    {
+      "name": "IdentityService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Identity/IdentityService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "LocationService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Location/LocationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentityService"
+      ]
+    },
+    {
+      "name": "MauiNavigationService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Navigation/MauiNavigationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppEnvironmentService",
+        "IdentityService"
+      ]
+    },
+    {
+      "name": "OpenUrlService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/OpenUrl/OpenUrlService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderMockService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Order/OrderMockService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderService"
+      ]
+    },
+    {
+      "name": "OrderService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Order/OrderService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentityService",
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "SettingsService",
+      "type": "SERVICE",
+      "file": "src/ClientApp/Services/Settings/SettingsService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogService",
+      "type": "SERVICE",
+      "file": "src/HybridApp/Services/CatalogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ApplicationDbContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Identity.API/Data/ApplicationDbContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AccountController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Account/AccountController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExternalController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Account/ExternalController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConsentController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Consent/ConsentController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeviceController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Device/DeviceController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DiagnosticsController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Diagnostics/DiagnosticsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GrantsController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Grants/GrantsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HomeController",
+      "type": "API_ROUTE",
+      "file": "src/Identity.API/Quickstart/Home/HomeController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EFLoginService",
+      "type": "SERVICE",
+      "file": "src/Identity.API/Services/EFLoginService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProfileService",
+      "type": "SERVICE",
+      "file": "src/Identity.API/Services/ProfileService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RedirectService",
+      "type": "SERVICE",
+      "file": "src/Identity.API/Services/RedirectService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventLogService",
+      "type": "SERVICE",
+      "file": "src/IntegrationEventLogEF/Services/IntegrationEventLogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GracePeriodManagerService",
+      "type": "SERVICE",
+      "file": "src/OrderProcessor/Services/GracePeriodManagerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GracePeriodOrdersRepository"
+      ]
+    },
+    {
+      "name": "GracePeriodOrdersRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/OrderProcessor/Services/GracePeriodOrdersRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CancelOrderCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/CancelOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CancelOrderIdentifiedCommandHandler",
+        "IdentifiedCommandHandler",
+        "OrderRepository"
+      ]
+    },
+    {
+      "name": "CancelOrderIdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/CancelOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CancelOrderCommandHandler",
+        "IdentifiedCommandHandler",
+        "OrderRepository"
+      ]
+    },
+    {
+      "name": "CreateOrderCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/CreateOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CreateOrderIdentifiedCommandHandler",
+        "IdentifiedCommandHandler",
+        "IdentityService",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "CreateOrderIdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/CreateOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CreateOrderCommandHandler",
+        "IdentifiedCommandHandler",
+        "IdentityService",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "CreateOrderDraftCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/CreateOrderDraftCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/IdentifiedCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SetAwaitingValidationOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetAwaitingValidationOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetAwaitingValidationIdentifiedOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "SetAwaitingValidationIdentifiedOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetAwaitingValidationOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetAwaitingValidationOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "SetPaidOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetPaidOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetPaidIdentifiedOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "SetPaidIdentifiedOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetPaidOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetPaidOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "SetStockConfirmedOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetStockConfirmedOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetStockConfirmedOrderStatusIdentifiedCommandHandler"
+      ]
+    },
+    {
+      "name": "SetStockConfirmedOrderStatusIdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetStockConfirmedOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetStockConfirmedOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "SetStockRejectedOrderStatusCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetStockRejectedOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetStockRejectedOrderStatusIdentifiedCommandHandler"
+      ]
+    },
+    {
+      "name": "SetStockRejectedOrderStatusIdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/SetStockRejectedOrderStatusCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "SetStockRejectedOrderStatusCommandHandler"
+      ]
+    },
+    {
+      "name": "ShipOrderCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/ShipOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "ShipOrderIdentifiedCommandHandler"
+      ]
+    },
+    {
+      "name": "ShipOrderIdentifiedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/Commands/ShipOrderCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IdentifiedCommandHandler",
+        "OrderRepository",
+        "ShipOrderCommandHandler"
+      ]
+    },
+    {
+      "name": "OrderCancelledDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/OrderCancelledDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "OrderShippedDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/OrderShippedDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToAwaitingValidationDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToAwaitingValidationDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToPaidDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToPaidDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToStockConfirmedDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToStockConfirmedDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderRepository"
+      ]
+    },
+    {
+      "name": "ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/DomainEventHandlers/ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BuyerRepository",
+        "OrderingIntegrationEventService"
+      ]
+    },
+    {
+      "name": "GracePeriodConfirmedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/EventHandling/GracePeriodConfirmedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderPaymentFailedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/EventHandling/OrderPaymentFailedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderPaymentSucceededIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/EventHandling/OrderPaymentSucceededIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderStockConfirmedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/EventHandling/OrderStockConfirmedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderStockRejectedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/EventHandling/OrderStockRejectedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderingIntegrationEventService",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Application/IntegrationEvents/OrderingIntegrationEventService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IntegrationEventLogService",
+        "OrderingContext"
+      ]
+    },
+    {
+      "name": "IdentityService",
+      "type": "SERVICE",
+      "file": "src/Ordering.API/Infrastructure/Services/IdentityService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderingContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Ordering.Infrastructure/OrderingContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BuyerRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Ordering.Infrastructure/Repositories/BuyerRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderingContext"
+      ]
+    },
+    {
+      "name": "OrderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Ordering.Infrastructure/Repositories/OrderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderingContext"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToStockConfirmedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/PaymentProcessor/IntegrationEvents/EventHandling/OrderStatusChangedToStockConfirmedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MigrationHostedService",
+      "type": "SERVICE",
+      "file": "src/Shared/MigrateDbContextExtensions.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BasketService",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/BasketService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LogOutService",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/LogOutService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderStatusChangedToAwaitingValidationIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToAwaitingValidationIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToCancelledIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToCancelledIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToPaidIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToPaidIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToShippedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToShippedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToStockConfirmedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToStockConfirmedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToSubmittedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToSubmittedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusNotificationService"
+      ]
+    },
+    {
+      "name": "OrderStatusNotificationService",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderStatus/OrderStatusNotificationService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderingService",
+      "type": "SERVICE",
+      "file": "src/WebApp/Services/OrderingService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogService",
+      "type": "SERVICE",
+      "file": "src/WebAppComponents/Services/CatalogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "POST_logout",
+      "type": "API_ROUTE",
+      "file": "src/WebhookClient/Endpoints/AuthenticationEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "POST_webhook-received",
+      "type": "API_ROUTE",
+      "file": "src/WebhookClient/Endpoints/WebhookEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "HooksRepository"
+      ]
+    },
+    {
+      "name": "HooksRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/WebhookClient/Services/HooksRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderStatusChangedToPaidIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Webhooks.API/IntegrationEvents/OrderStatusChangedToPaidIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrderStatusChangedToShippedIntegrationEventHandler"
+      ]
+    },
+    {
+      "name": "OrderStatusChangedToShippedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Webhooks.API/IntegrationEvents/OrderStatusChangedToShippedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProductPriceChangedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Webhooks.API/IntegrationEvents/ProductPriceChangedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GrantUrlTesterService",
+      "type": "SERVICE",
+      "file": "src/Webhooks.API/Services/GrantUrlTesterService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HttpClientAuthorizationDelegatingHandler",
+      "type": "SERVICE",
+      "file": "src/eShop.ServiceDefaults/HttpClientExtensions.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_root",
+      "type": "API_ROUTE",
+      "file": "src/eShop.ServiceDefaults/OpenApi.Extensions.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RecordingHandler",
+      "type": "SERVICE",
+      "file": "tests/Application.UnitTests/WebhookTests.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MockDialogService",
+      "type": "SERVICE",
+      "file": "tests/ClientApp.UnitTests/Mocks/MockDialogService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DialogService"
+      ]
+    },
+    {
+      "name": "MockNavigationService",
+      "type": "SERVICE",
+      "file": "tests/ClientApp.UnitTests/Mocks/MockNavigationService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MockSettingsService",
+      "type": "SERVICE",
+      "file": "tests/ClientApp.UnitTests/Mocks/MockSettingsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SettingsService"
+      ]
+    }
+  ]
+}

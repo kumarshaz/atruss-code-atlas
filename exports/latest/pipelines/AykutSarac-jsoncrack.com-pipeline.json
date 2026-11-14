@@ -1,0 +1,58 @@
+{
+  "org": "AykutSarac",
+  "repository": "jsoncrack.com",
+  "sha": "a46d0d0adb098e12e577a083e87ead7f61f90098",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "deploy.yml",
+      "name": "Deploy Next.js site to Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "pull-request.yml",
+      "name": "Verify Pull Request",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "cache-and-install",
+          "name": "cache-and-install",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

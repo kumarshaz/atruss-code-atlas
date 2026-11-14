@@ -1,0 +1,63 @@
+{
+  "repository": "sansan0/TrendRadar",
+  "sha": "8a316628215c53ad34b7200ecb0fba76de3ef6c7",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 79,
+    "loc": 35308,
+    "sloc": 28000,
+    "component_count": 6,
+    "avg_cyclomatic_complexity": 6.08,
+    "max_cyclomatic_complexity": 107,
+    "framework": "Django"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "CacheService",
+      "type": "SERVICE",
+      "file": "mcp_server/services/cache_service.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "DataService",
+      "type": "SERVICE",
+      "file": "mcp_server/services/data_service.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "ParserService"
+      ]
+    },
+    {
+      "name": "ParserService",
+      "type": "SERVICE",
+      "file": "mcp_server/services/parser_service.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "NewsAnalyzer",
+      "type": "SERVICE",
+      "file": "trendradar/__main__.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "AIAnalyzer"
+      ]
+    },
+    {
+      "name": "AIAnalyzer",
+      "type": "SERVICE",
+      "file": "trendradar/ai/analyzer.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "StorageManager",
+      "type": "SERVICE",
+      "file": "trendradar/storage/manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    }
+  ]
+}

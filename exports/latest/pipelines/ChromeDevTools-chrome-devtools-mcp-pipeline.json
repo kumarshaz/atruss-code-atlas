@@ -1,0 +1,44 @@
+{
+  "org": "ChromeDevTools",
+  "repository": "chrome-devtools-mcp",
+  "sha": "4b1e5511088b8a5fb333fc61a8b4a51ab022ca7b",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "check-format.yml",
+      "name": "Check Code Format",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-format",
+          "name": "check-format",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "run-tests.yml",
+      "name": "Compile and run unit tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

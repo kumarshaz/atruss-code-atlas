@@ -1,0 +1,893 @@
+{
+  "repository": "zfile-dev/zfile",
+  "sha": "775b0172f3b1d3f68aabca727ef7e083e6bd5aa5",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 417,
+    "loc": 33110,
+    "sloc": 20553,
+    "component_count": 103,
+    "avg_cyclomatic_complexity": 3.84,
+    "max_cyclomatic_complexity": 46,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "zfile",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ZfileApplication",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/ZfileApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CommonResultControllerAdvice",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/core/aspect/CommonResultControllerAdvice.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ZFileProperties",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/ZFileProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Knife4jConfiguration",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/docs/Knife4jConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MyBatisPlusConfig",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/mybatis/MyBatisPlusConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SaTokenConfigure",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/security/SaTokenConfigure.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SpringCacheConfig",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/spring/SpringCacheConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebMvcConfig",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/spring/WebMvcConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TotpAutoConfiguration",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/totp/TotpAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "TotpProperties"
+      ]
+    },
+    {
+      "name": "TotpProperties",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/config/totp/TotpProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ZFileConstant",
+      "type": "CONFIG",
+      "file": "src/main/java/im/zhaojun/zfile/core/constant/ZFileConstant.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FrontIndexController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/core/controller/FrontIndexController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "LogController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/core/controller/LogController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/core/exception/GlobalExceptionHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FrontIndexController",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "IpHelperController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/admin/controller/IpHelperController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RuleMatcherTestController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/admin/controller/RuleMatcherTestController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SettingController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/config/controller/SettingController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService",
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "SiteController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/config/controller/SiteController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StorageSourceService",
+        "SystemConfigService",
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "SystemConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/config/service/SystemConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourceFilterController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/filter/controller/StorageSourceFilterController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FilterConfigService"
+      ]
+    },
+    {
+      "name": "FilterConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/filter/service/FilterConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "InstallController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/install/controller/InstallController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "InstallService"
+      ]
+    },
+    {
+      "name": "InstallService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/install/service/InstallService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "LinkRateLimiterCache",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/cache/LinkRateLimiterCache.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DirectLinkController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/controller/DirectLinkController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DynamicDirectLinkPrefixService",
+        "LinkDownloadService",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "ShortLinkController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/controller/ShortLinkController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LinkDownloadService",
+        "ShortLinkService",
+        "StorageSourceService",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "ShortLinkManagerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/controller/ShortLinkManagerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LinkRateLimiterCache",
+        "ShortLinkService",
+        "StorageSourceService",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "DynamicDirectLinkPrefixService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/service/DynamicDirectLinkPrefixService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LinkDownloadService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/service/LinkDownloadService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DownloadLogService",
+        "FilterConfigService",
+        "ShortLinkService",
+        "StorageSourceService",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "ShortLinkService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/link/service/ShortLinkService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "DownloadLogManagerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/log/controller/DownloadLogManagerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DownloadLogService",
+        "StorageSourceService",
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "LoginLogController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/log/controller/LoginLogController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LoginLogService"
+      ]
+    },
+    {
+      "name": "DownloadLogService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/log/service/DownloadLogService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LoginLogService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/log/service/LoginLogService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "OnlyOfficeController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/onlyoffice/controller/OnlyOfficeController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "OnlyOfficeConfigService",
+        "StorageSourceService",
+        "SystemConfigService",
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "OnlyOfficeConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/onlyoffice/service/OnlyOfficeConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "StorageSourcePasswordController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/password/controller/StorageSourcePasswordController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PasswordConfigService"
+      ]
+    },
+    {
+      "name": "PasswordConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/password/service/PasswordConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "PermissionController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/permission/controller/PermissionController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourcePermissionController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/permission/controller/StorageSourcePermissionController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PermissionConfigService"
+      ]
+    },
+    {
+      "name": "PermissionConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/permission/service/PermissionConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourceReadmeController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/readme/controller/StorageSourceReadmeController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReadmeConfigService"
+      ]
+    },
+    {
+      "name": "ReadmeConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/readme/service/ReadmeConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ShareFileManagerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/share/controller/ShareFileManagerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ShareLinkService"
+      ]
+    },
+    {
+      "name": "ShareLinkController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/share/controller/ShareLinkController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "OnlyOfficeConfigService",
+        "ShareLinkFileService",
+        "ShareLinkService"
+      ]
+    },
+    {
+      "name": "ShareLinkFileService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/share/service/ShareLinkFileService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileChain",
+        "ShareLinkService",
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "ShareLinkService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/share/service/ShareLinkService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StorageSourceService",
+        "SystemConfigService",
+        "UserService",
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "SsoAPIController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/sso/controller/SsoAPIController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SsoService"
+      ]
+    },
+    {
+      "name": "SsoController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/sso/controller/SsoController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SsoService"
+      ]
+    },
+    {
+      "name": "SsoManagerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/sso/controller/SsoManagerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SsoService"
+      ]
+    },
+    {
+      "name": "SsoService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/sso/service/SsoService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "FileChain",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/FileChain.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileAccessPermissionVerifyCommand",
+        "FileDownloadPermissionCommand",
+        "FileHiddenCommand",
+        "FileSortCommand",
+        "FolderPasswordVerifyCommand"
+      ]
+    },
+    {
+      "name": "FileAccessPermissionVerifyCommand",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/command/FileAccessPermissionVerifyCommand.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FilterConfigService"
+      ]
+    },
+    {
+      "name": "FileDownloadPermissionCommand",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/command/FileDownloadPermissionCommand.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "FileHiddenCommand",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/command/FileHiddenCommand.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FilterConfigService"
+      ]
+    },
+    {
+      "name": "FileSortCommand",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/command/FileSortCommand.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FolderPasswordVerifyCommand",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/chain/command/FolderPasswordVerifyCommand.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PasswordConfigService",
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "StorageMetaDataController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/base/StorageMetaDataController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourceController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/base/StorageSourceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StorageSourceService"
+      ]
+    },
+    {
+      "name": "GoogleDriveCallbackController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/callback/GoogleDriveCallbackController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "OneDriveCallbackController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/callback/OneDriveCallbackController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FileController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/file/FileController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileChain",
+        "StorageSourceService"
+      ]
+    },
+    {
+      "name": "FileOperatorController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/file/FileOperatorController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PasswordConfigService"
+      ]
+    },
+    {
+      "name": "GoogleDriveHelperController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/helper/GoogleDriveHelperController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Open115HelperController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/helper/Open115HelperController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "S3HelperController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/helper/S3HelperController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SharePointHelperController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/helper/SharePointHelperController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Open115UrlController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/proxy/Open115UrlController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Open115ServiceImpl"
+      ]
+    },
+    {
+      "name": "ProxyDownloadController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/proxy/ProxyDownloadController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ProxyUploadController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/controller/proxy/ProxyUploadController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourceConfigService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/StorageSourceConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageSourceService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/StorageSourceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PasswordConfigService",
+        "ReadmeConfigService",
+        "StorageSourceConfigService",
+        "UserStorageSourceService"
+      ]
+    },
+    {
+      "name": "AliyunServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/AliyunServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DogeCloudServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/DogeCloudServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FtpServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/FtpServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GoogleDriveServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/GoogleDriveServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StorageSourceConfigService"
+      ]
+    },
+    {
+      "name": "HuaweiServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/HuaweiServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LocalServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/LocalServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MinIOServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/MinIOServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "OneDriveChinaServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/OneDriveChinaServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "OneDriveServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/OneDriveServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "Open115ServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/Open115ServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Open115UrlController",
+        "StorageSourceConfigService"
+      ]
+    },
+    {
+      "name": "QiniuServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/QiniuServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "S3ServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/S3ServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SftpServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/SftpServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SharePointChinaServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/SharePointChinaServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "SharePointServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/SharePointServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "TencentServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/TencentServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UpYunServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/UpYunServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebdavServiceImpl",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/storage/service/impl/WebdavServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminTwoFAController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/controller/AdminTwoFAController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "TwoFactorAuthenticatorVerifyService"
+      ]
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/controller/UserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DynamicLoginEntryService",
+        "ImgVerifyCodeService",
+        "LoginService",
+        "SystemConfigService",
+        "UserService",
+        "ZFileProperties"
+      ]
+    },
+    {
+      "name": "UserManagerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/controller/UserManagerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "DynamicLoginEntryService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/DynamicLoginEntryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/UserService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserStorageSourceService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/UserStorageSourceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ImgVerifyCodeService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/ImgVerifyCodeService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LoginService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/LoginService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TwoFactorAuthenticatorVerifyService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/TwoFactorAuthenticatorVerifyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService"
+      ]
+    },
+    {
+      "name": "ImgCodeLoginVerifyService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/verify/impl/ImgCodeLoginVerifyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ImgVerifyCodeService",
+        "SystemConfigService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "PasswordVerifyService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/verify/impl/PasswordVerifyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "TwoFactorAuthLoginVerifyService",
+      "type": "SERVICE",
+      "file": "src/main/java/im/zhaojun/zfile/module/user/service/login/verify/impl/TwoFactorAuthLoginVerifyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemConfigService",
+        "TwoFactorAuthenticatorVerifyService",
+        "UserService"
+      ]
+    }
+  ]
+}

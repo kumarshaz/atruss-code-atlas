@@ -1,0 +1,54 @@
+{
+  "org": "jeffrafter",
+  "repository": "example-github-action-typescript",
+  "sha": "38ce4b9ac773d08c7a0254864b0b500b32c7c534",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "debug-workflow.yml",
+      "name": "Debug workflow",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Debug",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "thanks-workflow.yml",
+      "name": "Thanks workflow",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Thanks",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

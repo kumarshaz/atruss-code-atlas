@@ -1,0 +1,602 @@
+/*
+ * Material Design 3 (Material You) Design System & Astro Starlight Token Bridge
+ * Atruss Code Atlas — Track 007
+ */
+
+:root,
+:root[data-theme='dark'] {
+  /* M3 Dark Tonal Surfaces */
+  --md-sys-color-background: #0f141a;
+  --md-sys-color-on-background: #dfe3eb;
+  --md-sys-color-surface: #0f141a;
+  --md-sys-color-surface-dim: #0f141a;
+  --md-sys-color-surface-bright: #353a41;
+  --md-sys-color-surface-container-lowest: #0a0e14;
+  --md-sys-color-surface-container-low: #171c22;
+  --md-sys-color-surface-container: #1b2026;
+  --md-sys-color-surface-container-high: #252a31;
+  --md-sys-color-surface-container-highest: #30353c;
+  --md-sys-color-surface-variant: #43474e;
+  --md-sys-color-on-surface: #dfe3eb;
+  --md-sys-color-on-surface-variant: #c3c6cf;
+
+  /* M3 Dark Accents */
+  --md-sys-color-primary: #a3c9ff;
+  --md-sys-color-on-primary: #00315c;
+  --md-sys-color-primary-container: #004882;
+  --md-sys-color-on-primary-container: #d3e4ff;
+
+  --md-sys-color-secondary: #bbc7db;
+  --md-sys-color-on-secondary: #253140;
+  --md-sys-color-secondary-container: #3c4858;
+  --md-sys-color-on-secondary-container: #d7e3f7;
+
+  --md-sys-color-tertiary: #f0b3ff;
+  --md-sys-color-on-tertiary: #4e1762;
+  --md-sys-color-tertiary-container: #672f7b;
+  --md-sys-color-on-tertiary-container: #fbd7ff;
+
+  /* M3 Semantic Status Tokens */
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffdad6;
+
+  --md-sys-color-warning: #ffcf7d;
+  --md-sys-color-on-warning: #452b00;
+  --md-sys-color-warning-container: #623f00;
+  --md-sys-color-on-warning-container: #ffddb0;
+
+  --md-sys-color-success: #8bd99b;
+  --md-sys-color-on-success: #003919;
+  --md-sys-color-success-container: #005227;
+  --md-sys-color-on-success-container: #a7f6b6;
+
+  --md-sys-color-outline: #8d9199;
+  --md-sys-color-outline-variant: #43474e;
+  --md-sys-color-inverse-surface: #dfe3eb;
+  --md-sys-color-inverse-on-surface: #2c3138;
+
+  /* Elevation & Shape */
+  --md-sys-elevation-level1: 0 1px 3px 1px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.45);
+  --md-sys-elevation-level2: 0 2px 6px 2px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --md-sys-elevation-level3: 0 4px 12px 3px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.55);
+
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-extra-large: 24px;
+  --md-sys-shape-corner-full: 9999px;
+
+  /* Typography */
+  --md-ref-typeface-brand: 'Roboto Flex', 'Inter', system-ui, -apple-system, sans-serif;
+  --md-ref-typeface-plain: 'Roboto Flex', 'Inter', system-ui, -apple-system, sans-serif;
+  --md-ref-typeface-mono: 'Roboto Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* State Layer Opacity */
+  --md-sys-state-hover-opacity: 0.08;
+  --md-sys-state-focus-opacity: 0.12;
+  --md-sys-state-pressed-opacity: 0.16;
+
+  /* Bridge to @astrojs/starlight variables */
+  --sl-font: var(--md-ref-typeface-plain);
+  --sl-font-mono: var(--md-ref-typeface-mono);
+  --sl-color-bg: var(--md-sys-color-background);
+  --sl-color-bg-nav: var(--md-sys-color-surface-container-low);
+  --sl-color-bg-sidebar: var(--md-sys-color-surface-container-low);
+  --sl-color-bg-inline-code: var(--md-sys-color-surface-container-high);
+  --sl-color-hairline: var(--md-sys-color-outline-variant);
+  --sl-color-hairline-shade: var(--md-sys-color-surface-container);
+  --sl-color-hairline-light: var(--md-sys-color-outline-variant);
+  --sl-color-white: var(--md-sys-color-on-surface);
+  --sl-color-black: var(--md-sys-color-surface-container-lowest);
+  --sl-color-text: var(--md-sys-color-on-surface);
+  --sl-color-text-accent: var(--md-sys-color-primary);
+  --sl-color-accent-low: var(--md-sys-color-primary-container);
+  --sl-color-accent: var(--md-sys-color-primary);
+  --sl-color-accent-high: var(--md-sys-color-on-primary-container);
+  --sl-color-gray-1: #dfe3eb;
+  --sl-color-gray-2: #c3c6cf;
+  --sl-color-gray-3: #8d9199;
+  --sl-color-gray-4: #43474e;
+  --sl-color-gray-5: #252a31;
+  --sl-color-gray-6: #171c22;
+
+  /* @material/web token synchronization */
+  --md-sys-typescale-body-medium-font: var(--md-ref-typeface-plain);
+  --sl-content-width: 68rem;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  /* M3 Light Tonal Surfaces */
+  --md-sys-color-background: #f8f9ff;
+  --md-sys-color-on-background: #181c22;
+  --md-sys-color-surface: #f8f9ff;
+  --md-sys-color-surface-dim: #d8dae2;
+  --md-sys-color-surface-bright: #f8f9ff;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f2f3fc;
+  --md-sys-color-surface-container: #eceef6;
+  --md-sys-color-surface-container-high: #e6e8f0;
+  --md-sys-color-surface-container-highest: #e0e2eb;
+  --md-sys-color-surface-variant: #dfe2ec;
+  --md-sys-color-on-surface: #181c22;
+  --md-sys-color-on-surface-variant: #43474e;
+
+  /* M3 Light Accents */
+  --md-sys-color-primary: #0b57d0;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d3e3fd;
+  --md-sys-color-on-primary-container: #041e49;
+
+  --md-sys-color-secondary: #535f70;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d7e3f7;
+  --md-sys-color-on-secondary-container: #101c2b;
+
+  --md-sys-color-tertiary: #794990;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #f7d8ff;
+  --md-sys-color-on-tertiary-container: #2e0046;
+
+  /* M3 Semantic Status Tokens (Light) */
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+
+  --md-sys-color-warning: #825500;
+  --md-sys-color-on-warning: #ffffff;
+  --md-sys-color-warning-container: #ffddb0;
+  --md-sys-color-on-warning-container: #291800;
+
+  --md-sys-color-success: #146c2e;
+  --md-sys-color-on-success: #ffffff;
+  --md-sys-color-success-container: #c4eed0;
+  --md-sys-color-on-success-container: #072711;
+
+  --md-sys-color-outline: #73777f;
+  --md-sys-color-outline-variant: #c3c6cf;
+  --md-sys-color-inverse-surface: #2d3138;
+  --md-sys-color-inverse-on-surface: #eff0f7;
+
+  /* Elevation */
+  --md-sys-elevation-level1: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
+  --md-sys-elevation-level2: 0 2px 6px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.14);
+  --md-sys-elevation-level3: 0 4px 12px 3px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.16);
+
+  /* Bridge to @astrojs/starlight variables */
+  --sl-color-bg: var(--md-sys-color-background);
+  --sl-color-bg-nav: var(--md-sys-color-surface-container-low);
+  --sl-color-bg-sidebar: var(--md-sys-color-surface-container-low);
+  --sl-color-bg-inline-code: var(--md-sys-color-surface-container-high);
+  --sl-color-hairline: var(--md-sys-color-outline-variant);
+  --sl-color-hairline-shade: var(--md-sys-color-surface-container);
+  --sl-color-hairline-light: var(--md-sys-color-outline-variant);
+  --sl-color-white: var(--md-sys-color-on-surface);
+  --sl-color-black: var(--md-sys-color-surface-container-lowest);
+  --sl-color-text: var(--md-sys-color-on-surface);
+  --sl-color-text-accent: var(--md-sys-color-primary);
+  --sl-color-accent-low: var(--md-sys-color-primary-container);
+  --sl-color-accent: var(--md-sys-color-primary);
+  --sl-color-accent-high: var(--md-sys-color-on-primary-container);
+  --sl-color-gray-1: #181c22;
+  --sl-color-gray-2: #43474e;
+  --sl-color-gray-3: #73777f;
+  --sl-color-gray-4: #c3c6cf;
+  --sl-color-gray-5: #dfe2ec;
+  --sl-color-gray-6: #eceef6;
+
+  color-scheme: light;
+}
+
+/* Material Symbols helper */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', system-ui, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Global Starlight Shell Refinements aligned to M3 */
+body {
+  font-family: var(--md-ref-typeface-plain);
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
+
+header.header {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.sidebar-pane {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.sidebar-content a[aria-current='page'] {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  border-radius: var(--md-sys-shape-corner-full);
+  font-weight: 600;
+}
+
+/* Shared M3 Primitives */
+.m3-card-elevated {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-large);
+  box-shadow: var(--md-sys-elevation-level1);
+  transition: transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 180ms cubic-bezier(0.2, 0, 0, 1),
+    border-color 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-card-elevated:hover {
+  background-color: var(--md-sys-color-surface-container);
+  box-shadow: var(--md-sys-elevation-level2);
+}
+
+.m3-card-filled {
+  background-color: var(--md-sys-color-surface-container);
+  border-radius: var(--md-sys-shape-corner-large);
+  border: 1px solid transparent;
+}
+
+.m3-card-outlined {
+  background-color: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-large);
+}
+
+.m3-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border-radius: var(--md-sys-shape-corner-small);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface-variant);
+  white-space: nowrap;
+}
+
+.m3-chip-tonal-primary {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: transparent;
+}
+
+.m3-chip-tonal-secondary {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  border-color: transparent;
+}
+
+.m3-chip-tonal-tertiary {
+  background-color: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+  border-color: transparent;
+}
+
+.m3-chip-tonal-error {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  border-color: transparent;
+}
+
+.m3-chip-tonal-warning {
+  background-color: var(--md-sys-color-warning-container);
+  color: var(--md-sys-color-on-warning-container);
+  border-color: transparent;
+}
+
+.m3-chip-tonal-success {
+  background-color: var(--md-sys-color-success-container);
+  color: var(--md-sys-color-on-success-container);
+  border-color: transparent;
+}
+
+.m3-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 150ms ease, filter 150ms ease;
+}
+
+.m3-btn-filled:hover {
+  box-shadow: var(--md-sys-elevation-level1);
+  filter: brightness(1.06);
+}
+
+.m3-btn-tonal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 150ms ease, filter 150ms ease;
+}
+
+.m3-btn-tonal:hover {
+  box-shadow: var(--md-sys-elevation-level1);
+  filter: brightness(1.06);
+}
+
+/* Data Table Container */
+.m3-table-surface {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-large);
+  overflow-x: auto;
+  box-shadow: var(--md-sys-elevation-level1);
+  max-width: 100%;
+}
+
+.m3-table-surface table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 !important;
+  display: table !important;
+}
+
+.m3-table-surface th,
+.m3-table-surface td {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  text-align: left;
+  vertical-align: middle;
+}
+
+@media (min-width: 72rem) {
+  .main-pane {
+    width: 100%;
+  }
+
+  .sl-container {
+    max-width: min(100%, var(--sl-content-width, 68rem));
+  }
+}
+
+.m3-table-surface th {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.m3-table-surface tbody tr:last-child th,
+.m3-table-surface tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.m3-table-surface tbody tr:hover {
+  background-color: var(--md-sys-color-surface-container);
+}
+
+/* Shared Interactive DAG & Top-Level Tree Explorer Controls */
+.m3-diagram-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.m3-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.m3-section-header .material-symbols-outlined {
+  color: var(--md-sys-color-primary);
+}
+
+.m3-section-header h4 {
+  margin: 0 !important;
+  font-size: 1.0625rem !important;
+  font-weight: 600;
+}
+
+.m3-tree-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+
+.m3-tree-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem;
+}
+
+.m3-tree-trail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.m3-tree-sep {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.8125rem;
+}
+
+.m3-tree-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.m3-tree-pill,
+.m3-tree-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.m3-tree-pill:hover,
+.m3-tree-chip:hover {
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
+}
+
+.m3-tree-pill.is-active,
+.m3-tree-chip.is-active {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: var(--md-sys-color-primary);
+  font-weight: 600;
+}
+
+.m3-tree-count {
+  font-family: var(--md-ref-typeface-mono);
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+.m3-wf-select-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.m3-wf-select {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--md-sys-shape-corner-small);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  font-size: 0.8125rem;
+  max-width: 280px;
+}
+
+.m3-diagram-hint {
+  font-size: 0.8125rem;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 0.75rem;
+}
+
+.m3-diagram-loading {
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.875rem;
+  padding: 2rem 0;
+}
+
+.m3-diagram-viewport {
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+  padding: 1rem;
+  overflow: auto;
+  min-height: 240px;
+  max-height: 680px;
+}
+
+.m3-diagram-canvas {
+  transition: transform 150ms ease;
+}
+
+.m3-diagram-canvas svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.m3-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.m3-zoom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+}
+
+.m3-zoom-btn:hover {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.m3-zoom-pct {
+  font-family: var(--md-ref-typeface-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 3rem;
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+}

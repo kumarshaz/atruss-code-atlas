@@ -1,0 +1,32 @@
+{
+  "org": "NickeManarin",
+  "repository": "ScreenToGif",
+  "sha": "a4d0a67c2131cd048ceec86cd40afc2f1a06f2fd",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "discord-releases.yml",
+      "name": "Discord \u2022 Releases",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "released",
+          "name": "Sends release details to Discord/News channel",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'released' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

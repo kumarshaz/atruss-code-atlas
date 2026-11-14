@@ -1,0 +1,137 @@
+{
+  "org": "tqdm",
+  "repository": "tqdm",
+  "sha": "9cf5a12b1f955468a17f0ba3c59092b23e4258ac",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "check.yml",
+      "name": "Check",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "${{ matrix.TOXENV }}",
+          "runner": "ubuntu-slim",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "asvfull",
+          "name": "Benchmark (Full)",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "testasv",
+          "name": "Benchmark (Branch)",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "comment-bot.yml",
+      "name": "Comment Bot",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "tag",
+          "runner": "ubuntu-slim",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "post-release.yml",
+      "name": "Post Release",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "docs",
+          "name": "docs",
+          "runner": "ubuntu-slim",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "py${{ matrix.python }}-${{ matrix.os }}",
+          "runner": "${{ matrix.os }}-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "finish",
+          "name": "pytest cov",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        },
+        {
+          "type": "UNFILTERED_MAIN_PUSH",
+          "severity": "HIGH",
+          "message": "Deployment workflow triggers on 'push' without branch or tag filters."
+        }
+      ]
+    }
+  ]
+}

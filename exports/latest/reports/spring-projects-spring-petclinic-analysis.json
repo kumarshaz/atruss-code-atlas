@@ -1,0 +1,160 @@
+{
+  "repository": "spring-projects/spring-petclinic",
+  "sha": "500158f732419217507c7656904b8e6aa1bcc0d6",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 50,
+    "loc": 4297,
+    "sloc": 2542,
+    "component_count": 17,
+    "avg_cyclomatic_complexity": 4.6,
+    "max_cyclomatic_complexity": 24,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "spring-petclinic",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PetClinicApplication",
+      "type": "CONFIG",
+      "file": "src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Owner",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Pet",
+        "Visit"
+      ]
+    },
+    {
+      "name": "OwnerController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Owner"
+      ]
+    },
+    {
+      "name": "Pet",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PetType",
+        "Visit"
+      ]
+    },
+    {
+      "name": "PetController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Owner",
+        "Pet",
+        "PetType"
+      ]
+    },
+    {
+      "name": "PetType",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetType.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Visit",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "VisitController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Owner",
+        "Pet",
+        "Visit"
+      ]
+    },
+    {
+      "name": "CacheConfiguration",
+      "type": "CONFIG",
+      "file": "src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CrashController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/system/CrashController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebConfiguration",
+      "type": "CONFIG",
+      "file": "src/main/java/org/springframework/samples/petclinic/system/WebConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WelcomeController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/system/WelcomeController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Specialty",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/vet/Specialty.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Vet"
+      ]
+    },
+    {
+      "name": "Vet",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/main/java/org/springframework/samples/petclinic/vet/Vet.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Specialty"
+      ]
+    },
+    {
+      "name": "VetController",
+      "type": "API_ROUTE",
+      "file": "src/main/java/org/springframework/samples/petclinic/vet/VetController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Vet"
+      ]
+    },
+    {
+      "name": "MysqlTestApplication",
+      "type": "CONFIG",
+      "file": "src/test/java/org/springframework/samples/petclinic/MysqlTestApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PetClinicApplication"
+      ]
+    }
+  ]
+}

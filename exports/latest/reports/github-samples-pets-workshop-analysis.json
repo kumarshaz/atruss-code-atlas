@@ -1,0 +1,90 @@
+{
+  "repository": "github-samples/pets-workshop",
+  "sha": "d2437a6f3dbb1fe4bd5e97790ccc12c42cbfc03a",
+  "ecosystem": "JavaScript/TypeScript",
+  "metrics": {
+    "files_analyzed": 15,
+    "loc": 880,
+    "sloc": 653,
+    "component_count": 9,
+    "avg_cyclomatic_complexity": 2.0,
+    "max_cyclomatic_complexity": 9,
+    "framework": "Astro"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "dog-shelter",
+      "type": "MODULE",
+      "file": "app/client/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "get_dogs",
+      "type": "API_ROUTE",
+      "file": "app/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "Breed",
+        "Dog"
+      ]
+    },
+    {
+      "name": "get_dog",
+      "type": "API_ROUTE",
+      "file": "app/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "Breed",
+        "Dog"
+      ]
+    },
+    {
+      "name": "BaseModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "app/server/models/base.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Breed",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "app/server/models/breed.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseModel"
+      ]
+    },
+    {
+      "name": "Dog",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "app/server/models/dog.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseModel"
+      ]
+    },
+    {
+      "name": "test_get_dogs_success",
+      "type": "API_ROUTE",
+      "file": "app/server/test_app.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_get_dogs_empty",
+      "type": "API_ROUTE",
+      "file": "app/server/test_app.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_get_dogs_structure",
+      "type": "API_ROUTE",
+      "file": "app/server/test_app.py",
+      "ecosystem": "python",
+      "dependencies": []
+    }
+  ]
+}

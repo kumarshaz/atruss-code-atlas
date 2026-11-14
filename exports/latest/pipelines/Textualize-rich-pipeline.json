@@ -1,0 +1,131 @@
+{
+  "org": "Textualize",
+  "repository": "rich",
+  "sha": "3a109ccdffe5b2d0e30684a304fbd388e99ce57b",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codespell.yml",
+      "name": "codespell",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "codespell",
+          "name": "codespell",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "comment.yml",
+      "name": "issues",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "add-comment",
+          "name": "add-comment",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "newissue.yml",
+      "name": "issues",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "add-comment",
+          "name": "add-comment",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "pythonpackage.yml",
+      "name": "Test Rich module",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "readmechanged.yml",
+      "name": "README.md Changed",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "send_notification",
+          "name": "send_notification",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

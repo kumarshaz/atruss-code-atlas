@@ -1,0 +1,325 @@
+{
+  "repository": "sqshq/piggymetrics",
+  "sha": "6bb2cf9ddbca980b664d3edbb6ff775d75369278",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 194,
+    "loc": 8966,
+    "sloc": 6584,
+    "component_count": 42,
+    "avg_cyclomatic_complexity": 1.16,
+    "max_cyclomatic_complexity": 7,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "account-service",
+      "type": "MODULE",
+      "file": "account-service/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "auth-service",
+      "type": "MODULE",
+      "file": "auth-service/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "config",
+      "type": "MODULE",
+      "file": "config/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "gateway",
+      "type": "MODULE",
+      "file": "gateway/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "monitoring",
+      "type": "MODULE",
+      "file": "monitoring/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "notification-service",
+      "type": "MODULE",
+      "file": "notification-service/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "piggymetrics",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "registry",
+      "type": "MODULE",
+      "file": "registry/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "statistics-service",
+      "type": "MODULE",
+      "file": "statistics-service/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "turbine-stream-service",
+      "type": "MODULE",
+      "file": "turbine-stream-service/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccountApplication",
+      "type": "CONFIG",
+      "file": "account-service/src/main/java/com/piggymetrics/account/AccountApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ResourceServerConfig",
+      "type": "CONFIG",
+      "file": "account-service/src/main/java/com/piggymetrics/account/config/ResourceServerConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccountController",
+      "type": "API_ROUTE",
+      "file": "account-service/src/main/java/com/piggymetrics/account/controller/AccountController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ErrorHandler",
+      "type": "API_ROUTE",
+      "file": "account-service/src/main/java/com/piggymetrics/account/controller/ErrorHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccountRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "account-service/src/main/java/com/piggymetrics/account/repository/AccountRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccountServiceImpl",
+      "type": "SERVICE",
+      "file": "account-service/src/main/java/com/piggymetrics/account/service/AccountServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AccountRepository"
+      ]
+    },
+    {
+      "name": "AuthApplication",
+      "type": "CONFIG",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/AuthApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "OAuth2AuthorizationConfig",
+      "type": "CONFIG",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/config/OAuth2AuthorizationConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "MongoUserDetailsService"
+      ]
+    },
+    {
+      "name": "WebSecurityConfig",
+      "type": "CONFIG",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/config/WebSecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "MongoUserDetailsService"
+      ]
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/controller/UserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/repository/UserRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserServiceImpl",
+      "type": "SERVICE",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/service/UserServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "MongoUserDetailsService",
+      "type": "SERVICE",
+      "file": "auth-service/src/main/java/com/piggymetrics/auth/service/security/MongoUserDetailsService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "ConfigApplication",
+      "type": "CONFIG",
+      "file": "config/src/main/java/com/piggymetrics/config/ConfigApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SecurityConfig",
+      "type": "CONFIG",
+      "file": "config/src/main/java/com/piggymetrics/config/SecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayApplication",
+      "type": "CONFIG",
+      "file": "gateway/src/main/java/com/piggymetrics/gateway/GatewayApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MonitoringApplication",
+      "type": "CONFIG",
+      "file": "monitoring/src/main/java/com/piggymetrics/monitoring/MonitoringApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NotificationServiceApplication",
+      "type": "CONFIG",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/NotificationServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ResourceServerConfig",
+      "type": "CONFIG",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/config/ResourceServerConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RecipientController",
+      "type": "API_ROUTE",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/controller/RecipientController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RecipientRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/repository/RecipientRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EmailServiceImpl",
+      "type": "SERVICE",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/service/EmailServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NotificationServiceImpl",
+      "type": "SERVICE",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/service/NotificationServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RecipientServiceImpl",
+      "type": "SERVICE",
+      "file": "notification-service/src/main/java/com/piggymetrics/notification/service/RecipientServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "RecipientRepository"
+      ]
+    },
+    {
+      "name": "RegistryApplication",
+      "type": "CONFIG",
+      "file": "registry/src/main/java/com/piggymetrics/registry/RegistryApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StatisticsApplication",
+      "type": "CONFIG",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/StatisticsApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ResourceServerConfig",
+      "type": "CONFIG",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/config/ResourceServerConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StatisticsController",
+      "type": "API_ROUTE",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/controller/StatisticsController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DataPointRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/repository/DataPointRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ExchangeRatesServiceImpl",
+      "type": "SERVICE",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/service/ExchangeRatesServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StatisticsServiceImpl",
+      "type": "SERVICE",
+      "file": "statistics-service/src/main/java/com/piggymetrics/statistics/service/StatisticsServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DataPointRepository"
+      ]
+    },
+    {
+      "name": "TurbineStreamServiceApplication",
+      "type": "CONFIG",
+      "file": "turbine-stream-service/src/main/java/com/piggymetrics/turbine/TurbineStreamServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    }
+  ]
+}

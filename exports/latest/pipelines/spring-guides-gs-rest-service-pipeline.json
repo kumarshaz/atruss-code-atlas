@@ -1,0 +1,43 @@
+{
+  "org": "spring-guides",
+  "repository": "gs-rest-service",
+  "sha": "e15fec6773dc1eb6028055630e3e68cbd8653240",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "continuous-integration-build.yml",
+      "name": "CI Build",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build Main Branch",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependabot-automerge.yml",
+      "name": "Merge Dependabot PR",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "merge-dependabot-pr",
+          "name": "merge-dependabot-pr",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

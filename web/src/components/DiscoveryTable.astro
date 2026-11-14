@@ -1,0 +1,193 @@
+---
+interface Props {
+    language?: string;
+    framework?: string;
+    all_frameworks?: string;
+    deployable_types?: string;
+    tech_stack?: string;
+    default_branch?: string;
+    has_api?: boolean | string;
+    has_service?: boolean | string;
+    has_frontend?: boolean | string;
+    has_database?: boolean | string;
+    has_pipeline?: boolean | string;
+    has_docker?: boolean | string;
+    has_kubernetes?: boolean | string;
+    doc_priority?: string;
+    last_updated?: string | Date;
+    github_url?: string;
+}
+
+const {
+    language,
+    framework,
+    all_frameworks,
+    deployable_types,
+    tech_stack,
+    default_branch,
+    has_api,
+    has_service,
+    has_frontend,
+    has_database,
+    has_pipeline,
+    has_docker,
+    has_kubernetes,
+    doc_priority,
+    last_updated,
+    github_url,
+} = Astro.props;
+
+const toBool = (val: boolean | string | undefined): boolean | null => {
+    if (val === undefined || val === null) return null;
+    if (typeof val === 'string') return val.toLowerCase() === 'true';
+    return Boolean(val);
+};
+
+const capabilityItems = [
+    { label: 'CI/CD Pipeline', value: toBool(has_pipeline), icon: 'account_tree' },
+    { label: 'Docker Container', value: toBool(has_docker), icon: 'deployed_code' },
+    { label: 'Kubernetes', value: toBool(has_kubernetes), icon: 'lan' },
+    { label: 'API Surface', value: toBool(has_api), icon: 'api' },
+    { label: 'Service Layer', value: toBool(has_service), icon: 'dns' },
+    { label: 'Frontend UI', value: toBool(has_frontend), icon: 'web' },
+    { label: 'Database', value: toBool(has_database), icon: 'database' },
+];
+---
+
+<div class="m3-discovery-wrap">
+    <div class="m3-signal-strip" aria-label="Capability signals">
+        {capabilityItems.map((item) => {
+            const stateClass =
+                item.value === true
+                    ? 'm3-chip-tonal-success'
+                    : item.value === false
+                      ? ''
+                      : 'm3-chip-tonal-secondary';
+            const statusIcon =
+                item.value === true ? 'check_circle' : item.value === false ? 'cancel' : 'help';
+
+            return (
+                <span class={`m3-chip ${stateClass}`}>
+                    <span class="material-symbols-outlined" aria-hidden="true">
+                        {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                    <span class="material-symbols-outlined m3-status-icon" aria-hidden="true">
+                        {statusIcon}
+                    </span>
+                </span>
+            );
+        })}
+    </div>
+
+    <div class="m3-table-surface">
+        <table class="m3-discovery-table">
+            <tbody>
+                <tr>
+                    <th>Primary Language</th>
+                    <td>
+                        <span class="m3-chip m3-chip-tonal-primary">{language || 'Unknown'}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Primary Framework</th>
+                    <td>{framework || 'Unknown'}</td>
+                </tr>
+                {all_frameworks && (
+                    <tr>
+                        <th>Detected Frameworks</th>
+                        <td>{all_frameworks}</td>
+                    </tr>
+                )}
+                {deployable_types && (
+                    <tr>
+                        <th>Deployable Types</th>
+                        <td>{deployable_types}</td>
+                    </tr>
+                )}
+                {tech_stack && (
+                    <tr>
+                        <th>Technology Stack</th>
+                        <td>{tech_stack}</td>
+                    </tr>
+                )}
+                {default_branch && (
+                    <tr>
+                        <th>Default Branch</th>
+                        <td><code>{default_branch}</code></td>
+                    </tr>
+                )}
+                <tr>
+                    <th>Documentation Priority</th>
+                    <td>
+                        <span
+                            class={`m3-chip ${
+                                doc_priority === 'P1'
+                                    ? 'm3-chip-tonal-error'
+                                    : doc_priority === 'P2'
+                                      ? 'm3-chip-tonal-warning'
+                                      : 'm3-chip-tonal-secondary'
+                            }`}
+                        >
+                            {doc_priority || 'Unassigned'}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last Repository Update</th>
+                    <td>{last_updated ? new Date(last_updated).toLocaleString() : 'Unknown'}</td>
+                </tr>
+                {github_url && (
+                    <tr>
+                        <th>Source Repository</th>
+                        <td>
+                            <a
+                                href={github_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="m3-btn-tonal m3-inline-cta"
+                            >
+                                <span>Open on GitHub</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">
+                                    open_in_new
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .m3-discovery-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .m3-signal-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .m3-status-icon {
+        font-size: 16px;
+    }
+
+    .m3-discovery-table th {
+        width: 34%;
+    }
+
+    .m3-inline-cta {
+        height: 2rem;
+        padding: 0 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .m3-inline-cta .material-symbols-outlined {
+        font-size: 16px;
+    }
+</style>

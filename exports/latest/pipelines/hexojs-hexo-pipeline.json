@@ -1,0 +1,173 @@
+{
+  "org": "hexojs",
+  "repository": "hexo",
+  "sha": "36e6a73058cef7502291a69171f052b83eae42dd",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "benchmark.yml",
+      "name": "Benchmark",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "benchmark",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "profiling",
+          "name": "profiling",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "number",
+          "name": "number",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "commenter.yml",
+      "name": "Commenter",
+      "triggers": [
+        "pull_request_target",
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "comment-test",
+          "name": "How to test",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "comment-flamegraph",
+          "name": "Flamegraph",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependencies-review.yml",
+      "name": "Dependencies Review",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "dependency-review",
+          "name": "dependency-review",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "linter.yml",
+      "name": "Linter",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "linter",
+          "name": "linter",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish Package",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "tester.yml",
+      "name": "Tester",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tester",
+          "name": "tester",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "coverage",
+          "name": "coverage",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

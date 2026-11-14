@@ -1,0 +1,132 @@
+{
+  "org": "pallets",
+  "repository": "flask",
+  "sha": "49943b5a94413a530761350f04e896f76e8d620e",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "lock.yaml",
+      "name": "Lock inactive closed issues",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "lock",
+          "name": "lock",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pre-commit.yaml",
+      "name": "pre-commit",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "main",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yaml",
+      "name": "Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "create-release",
+          "name": "create-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "publish-pypi",
+          "name": "publish-pypi",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'create-release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-pypi' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "tests.yaml",
+      "name": "Tests",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "${{ matrix.name || matrix.python }}",
+          "runner": "${{ matrix.os || 'ubuntu-latest' }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "typing",
+          "name": "typing",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "zizmor.yaml",
+      "name": "GitHub Actions security analysis with zizmor",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

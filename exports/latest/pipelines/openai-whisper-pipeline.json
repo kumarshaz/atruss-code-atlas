@@ -1,0 +1,63 @@
+{
+  "org": "openai",
+  "repository": "whisper",
+  "sha": "86098128c0b4f24f0e2aa2994de830614b474227",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "python-publish.yml",
+      "name": "Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "pre-commit",
+          "name": "pre-commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "whisper-test",
+          "name": "whisper-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "pre-commit"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

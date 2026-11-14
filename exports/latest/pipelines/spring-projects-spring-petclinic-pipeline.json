@@ -1,0 +1,68 @@
+{
+  "org": "spring-projects",
+  "repository": "spring-petclinic",
+  "sha": "500158f732419217507c7656904b8e6aa1bcc0d6",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "deploy-and-test-cluster.yml",
+      "name": "Deploy and Test Cluster",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "deploy-and-test-cluster",
+          "name": "deploy-and-test-cluster",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy-and-test-cluster' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "gradle-build.yml",
+      "name": "Java CI with Gradle",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "maven-build.yml",
+      "name": "Java CI with Maven",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

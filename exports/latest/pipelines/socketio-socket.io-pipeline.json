@@ -1,0 +1,264 @@
+{
+  "org": "socketio",
+  "repository": "socket.io",
+  "sha": "545e9848500d6133c9a1cdb6fee87009d0150f9c",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "build-examples.yml",
+      "name": "Build examples",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "build-examples",
+          "name": "build-examples",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-engine.io-client.yml",
+      "name": "CI (engine.io-client)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-engine.io-parser.yml",
+      "name": "CI (engine.io-parser)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-engine.io.yml",
+      "name": "CI (engine.io)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-adapter.yml",
+      "name": "CI (socket.io-adapter)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-client.yml",
+      "name": "CI (socket.io-client))",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-cluster-adapter.yml",
+      "name": "CI (@socket.io/cluster-adapter)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-cluster-engine.yml",
+      "name": "CI (@socket.io/cluster-engine)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-component-emitter.yml",
+      "name": "CI (@socket.io/component-emitter)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-parser.yml",
+      "name": "CI (socket.io-parser)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-postgres-emitter.yml",
+      "name": "CI (@socket.io/postgres-emitter)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io-redis-streams-emitter.yml",
+      "name": "CI (@socket.io/redis-streams-emitter)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-socket.io.yml",
+      "name": "CI (socket.io)",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

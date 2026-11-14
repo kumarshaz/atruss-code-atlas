@@ -1,0 +1,193 @@
+{
+  "org": "icsharpcode",
+  "repository": "ILSpy",
+  "sha": "caff1a9549afc1a97b5319454fe602bfbde5ccde",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "build-frontends.yml",
+      "name": "Build XPlat Frontends",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "gate",
+          "name": "gate",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "gate"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "build-ilspy.yml",
+      "name": "Build ILSpy",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "Gate",
+          "name": "Gate",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "Build",
+          "name": "Desktop (Windows)",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 37,
+          "needs": [
+            "Gate"
+          ]
+        },
+        {
+          "id": "Desktop",
+          "name": "Desktop",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 20,
+          "needs": [
+            "Gate"
+          ]
+        },
+        {
+          "id": "IlspyCmdRidPackages",
+          "name": "ilspycmd RID packages (${{ matrix.rid }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": [
+            "Gate"
+          ]
+        },
+        {
+          "id": "DecompilerAotGate",
+          "name": "Decompiler Native AOT gate",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "Gate"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "generate-bom.yml",
+      "name": "Generate BOM",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "windows-2022",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lock.yml",
+      "name": "Lock threads",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "lock",
+          "name": "lock",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pr-build-gate.yml",
+      "name": "PR build gate",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "gate",
+          "name": "gate",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "scorecard.yml",
+      "name": "Scorecard supply-chain security",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "Scorecard analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "verify-lockfile.yml",
+      "name": "verify-lockfile",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "verify",
+          "name": "verify",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

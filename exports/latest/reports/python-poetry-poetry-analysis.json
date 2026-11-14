@@ -1,0 +1,54 @@
+{
+  "repository": "python-poetry/poetry",
+  "sha": "4acc75e19f128c8340c6f977a35e53b5f7f39071",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 523,
+    "loc": 82685,
+    "sloc": 64507,
+    "component_count": 5,
+    "avg_cyclomatic_complexity": 1.98,
+    "max_cyclomatic_complexity": 72,
+    "framework": "Unknown"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "PluginManager",
+      "type": "SERVICE",
+      "file": "src/poetry/plugins/plugin_manager.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "EnvManager"
+      ]
+    },
+    {
+      "name": "HashManager",
+      "type": "SERVICE",
+      "file": "src/poetry/publishing/hash_manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "EnvManager",
+      "type": "SERVICE",
+      "file": "src/poetry/utils/env/env_manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "PasswordManager",
+      "type": "SERVICE",
+      "file": "src/poetry/utils/password_manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "FileManager",
+      "type": "SERVICE",
+      "file": "tests/repositories/fixtures/pypi.org/generate.py",
+      "ecosystem": "python",
+      "dependencies": []
+    }
+  ]
+}

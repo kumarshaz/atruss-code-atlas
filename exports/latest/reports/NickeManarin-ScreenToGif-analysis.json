@@ -1,0 +1,80 @@
+{
+  "repository": "NickeManarin/ScreenToGif",
+  "sha": "a4d0a67c2131cd048ceec86cd40afc2f1a06f2fd",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 1296,
+    "loc": 187126,
+    "sloc": 128082,
+    "component_count": 7,
+    "avg_cyclomatic_complexity": 8.5,
+    "max_cyclomatic_complexity": 608,
+    "framework": "Unknown"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Translator",
+      "type": "MODULE",
+      "file": "Other/Translator/Translator.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ScreenToGif",
+      "type": "MODULE",
+      "file": "ScreenToGif/ScreenToGif.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ScreenToGif.Native",
+        "ScreenToGif.ViewModel"
+      ]
+    },
+    {
+      "name": "ScreenToGif.Domain",
+      "type": "MODULE",
+      "file": "ScreenToGif.Model/ScreenToGif.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ScreenToGif.Native",
+      "type": "MODULE",
+      "file": "ScreenToGif.Native/ScreenToGif.Native.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ScreenToGif.Domain"
+      ]
+    },
+    {
+      "name": "ScreenToGif.Test",
+      "type": "MODULE",
+      "file": "ScreenToGif.Test/ScreenToGif.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ScreenToGif",
+        "ScreenToGif.ViewModel"
+      ]
+    },
+    {
+      "name": "ScreenToGif.Util",
+      "type": "MODULE",
+      "file": "ScreenToGif.Util/ScreenToGif.Util.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ScreenToGif.Domain",
+        "ScreenToGif.Native"
+      ]
+    },
+    {
+      "name": "ScreenToGif.ViewModel",
+      "type": "MODULE",
+      "file": "ScreenToGif.ViewModel/ScreenToGif.ViewModel.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ScreenToGif.Domain",
+        "ScreenToGif.Util"
+      ]
+    }
+  ]
+}

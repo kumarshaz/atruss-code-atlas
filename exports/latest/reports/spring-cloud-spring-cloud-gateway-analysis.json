@@ -1,0 +1,554 @@
+{
+  "repository": "spring-cloud/spring-cloud-gateway",
+  "sha": "1bea0a27858780ff62032901b686a1f0e5e19988",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 1400,
+    "loc": 182648,
+    "sloc": 119148,
+    "component_count": 65,
+    "avg_cyclomatic_complexity": 5.02,
+    "max_cyclomatic_complexity": 62,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "spring-cloud-gateway-docs",
+      "type": "MODULE",
+      "file": "docs/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-dependencies",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-dependencies/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "grpc",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-integration-tests/grpc/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "http2",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-integration-tests/http2/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "httpclient",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-integration-tests/httpclient/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "mvc-failure-analyzer",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-integration-tests/mvc-failure-analyzer/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-integration-tests",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-integration-tests/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-proxyexchange-webflux",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-proxyexchange-webflux/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-proxyexchange-webmvc",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-proxyexchange-webmvc/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-sample",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-sample/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-server-webflux",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-server-webflux/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-gateway-server-webmvc",
+      "type": "MODULE",
+      "file": "spring-cloud-gateway-server-webmvc/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-starter-gateway-server-webflux",
+      "type": "MODULE",
+      "file": "spring-cloud-starter-gateway-server-webflux/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-starter-gateway-server-webmvc",
+      "type": "MODULE",
+      "file": "spring-cloud-starter-gateway-server-webmvc/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NosslConfiguration",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-integration-tests/http2/src/test/java/org/springframework/cloud/gateway/tests/http2/nossl/NosslConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MvcFailureAnalyzerApplication",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-integration-tests/mvc-failure-analyzer/src/main/java/org/springframework/cloud/gateway/sample/MvcFailureAnalyzerApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ProxyExchangeWebfluxProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-proxyexchange-webflux/src/main/java/org/springframework/cloud/gateway/webflux/config/ProxyExchangeWebfluxProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ProxyResponseAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-proxyexchange-webflux/src/main/java/org/springframework/cloud/gateway/webflux/config/ProxyResponseAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ProxyExchangeWebfluxProperties"
+      ]
+    },
+    {
+      "name": "ProxyExchangeWebMvcProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-proxyexchange-webmvc/src/main/java/org/springframework/cloud/gateway/mvc/config/ProxyExchangeWebMvcProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ProxyResponseAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-proxyexchange-webmvc/src/main/java/org/springframework/cloud/gateway/mvc/config/ProxyResponseAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ProxyExchangeWebMvcProperties"
+      ]
+    },
+    {
+      "name": "GatewayControllerEndpoint",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/actuate/GatewayControllerEndpoint.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayLegacyControllerEndpoint",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/actuate/GatewayLegacyControllerEndpoint.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayClassPathWarningAutoConfiguration",
+        "GatewayControllerEndpoint",
+        "GatewayLegacyControllerEndpoint",
+        "GatewayProperties",
+        "GatewayReactiveLoadBalancerClientAutoConfiguration",
+        "GlobalCorsProperties",
+        "HttpClientProperties",
+        "HttpServerProperties",
+        "RemoveHopByHopHeadersFilter",
+        "RequestRateLimiterGatewayFilterFactory",
+        "SecureHeadersProperties",
+        "SetStatusGatewayFilterFactory",
+        "VersionProperties",
+        "XForwardedHeadersFilter"
+      ]
+    },
+    {
+      "name": "GatewayClassPathWarningAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayClassPathWarningAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayAutoConfiguration",
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayFunctionAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayFunctionAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayAutoConfiguration",
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayLoadBalancerProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayLoadBalancerProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayMetricsAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayMetricsAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMetricsProperties",
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayMetricsProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayMetricsProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayNoLoadBalancerClientAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayNoLoadBalancerClientAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayLoadBalancerProperties",
+        "GatewayReactiveLoadBalancerClientAutoConfiguration"
+      ]
+    },
+    {
+      "name": "GatewayProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayReactiveLoadBalancerClientAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayReactiveLoadBalancerClientAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayLoadBalancerProperties"
+      ]
+    },
+    {
+      "name": "GatewayRedisAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayRedisAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayAutoConfiguration",
+        "GatewayProperties",
+        "RedisRateLimiter",
+        "RedisRouteDefinitionRepository"
+      ]
+    },
+    {
+      "name": "GatewayResilience4JCircuitBreakerAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayResilience4JCircuitBreakerAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayStreamAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayStreamAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayAutoConfiguration",
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GatewayTracingAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GatewayTracingAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMetricsAutoConfiguration",
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "GlobalCorsProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/GlobalCorsProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "HttpClientProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/HttpClientProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "HttpServerProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/HttpServerProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "LocalResponseCacheAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/LocalResponseCacheAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties",
+        "LocalResponseCacheProperties"
+      ]
+    },
+    {
+      "name": "SimpleUrlHandlerMappingGlobalCorsAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/SimpleUrlHandlerMappingGlobalCorsAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties",
+        "GlobalCorsProperties"
+      ]
+    },
+    {
+      "name": "VersionProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/config/VersionProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "DiscoveryLocatorProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/discovery/DiscoveryLocatorProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayDiscoveryClientAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/discovery/GatewayDiscoveryClientAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DiscoveryLocatorProperties",
+        "GatewayAutoConfiguration"
+      ]
+    },
+    {
+      "name": "RequestRateLimiterGatewayFilterFactory",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/factory/RequestRateLimiterGatewayFilterFactory.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SecureHeadersProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/factory/SecureHeadersProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SetStatusGatewayFilterFactory",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/factory/SetStatusGatewayFilterFactory.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LocalResponseCacheProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/factory/cache/LocalResponseCacheProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RemoveHopByHopHeadersFilter",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/headers/RemoveHopByHopHeadersFilter.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "XForwardedHeadersFilter",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/headers/XForwardedHeadersFilter.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "RedisRateLimiter",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/filter/ratelimit/RedisRateLimiter.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayProperties"
+      ]
+    },
+    {
+      "name": "RedisRouteDefinitionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "spring-cloud-gateway-server-webflux/src/main/java/org/springframework/cloud/gateway/route/RedisRouteDefinitionRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webflux/src/test/java/org/springframework/cloud/gateway/filter/factory/RemoveJsonAttributesResponseBodyGatewayFilterFactoryTests.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SpringCloudCircuitBreakerTestConfig",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webflux/src/test/java/org/springframework/cloud/gateway/filter/factory/SpringCloudCircuitBreakerTestConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "HttpBinCompatibleController",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webflux/src/test/java/org/springframework/cloud/gateway/test/HttpBinCompatibleController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PermitAllSecurityConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/test/java/org/springframework/cloud/gateway/test/PermitAllSecurityConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TestCodecCustomizerConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webflux/src/test/java/org/springframework/cloud/gateway/test/TestCodecCustomizerConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GatewayMvcClassPathWarningAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/main/java/org/springframework/cloud/gateway/server/mvc/GatewayMvcClassPathWarningAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMvcProperties"
+      ]
+    },
+    {
+      "name": "DefaultFunctionConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/main/java/org/springframework/cloud/gateway/server/mvc/config/DefaultFunctionConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMvcProperties"
+      ]
+    },
+    {
+      "name": "GatewayMvcProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/main/java/org/springframework/cloud/gateway/server/mvc/config/GatewayMvcProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "XForwardedRequestHeadersFilterProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/main/java/org/springframework/cloud/gateway/server/mvc/filter/XForwardedRequestHeadersFilterProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMvcProperties",
+        "XForwardedHeadersFilter"
+      ]
+    },
+    {
+      "name": "WebSocketProxyProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/main/java/org/springframework/cloud/gateway/server/mvc/websocket/WebSocketProxyProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GatewayMvcProperties"
+      ]
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webmvc/src/test/java/org/springframework/cloud/gateway/server/mvc/filter/AfterFilterFunctionsTests.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PermitAllSecurityConfiguration"
+      ]
+    },
+    {
+      "name": "PermitAllSecurityConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-gateway-server-webmvc/src/test/java/org/springframework/cloud/gateway/server/mvc/test/PermitAllSecurityConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TestController",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-gateway-server-webmvc/src/test/java/org/springframework/cloud/gateway/server/mvc/test/TestController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    }
+  ]
+}

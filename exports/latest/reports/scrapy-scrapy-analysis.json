@@ -1,0 +1,546 @@
+{
+  "repository": "scrapy/scrapy",
+  "sha": "f1e29c3822468f03f090d22714020f86b3d6e9a2",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 546,
+    "loc": 113274,
+    "sloc": 91810,
+    "component_count": 57,
+    "avg_cyclomatic_complexity": 2.65,
+    "max_cyclomatic_complexity": 36,
+    "framework": "Django"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "AddonManager",
+      "type": "SERVICE",
+      "file": "scrapy/addons.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "ContractsManager",
+      "type": "SERVICE",
+      "file": "scrapy/contracts/__init__.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "DownloaderMiddlewareManager",
+      "type": "SERVICE",
+      "file": "scrapy/core/downloader/middleware.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "MiddlewareManager"
+      ]
+    },
+    {
+      "name": "SpiderMiddlewareManager",
+      "type": "SERVICE",
+      "file": "scrapy/core/spidermw.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "MiddlewareManager"
+      ]
+    },
+    {
+      "name": "BaseItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "JsonLinesItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "JsonItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "XmlItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "CsvItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "PickleItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "MarshalItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "PprintItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "PythonItemExporter",
+      "type": "SERVICE",
+      "file": "scrapy/exporters.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "ExtensionManager",
+      "type": "SERVICE",
+      "file": "scrapy/extension.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "MiddlewareManager"
+      ]
+    },
+    {
+      "name": "FeedExporter",
+      "type": "SERVICE",
+      "file": "scrapy/extensions/feedexport.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "PostProcessingManager"
+      ]
+    },
+    {
+      "name": "PostProcessingManager",
+      "type": "SERVICE",
+      "file": "scrapy/extensions/postprocessing.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "MiddlewareManager",
+      "type": "SERVICE",
+      "file": "scrapy/middleware.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "ItemPipelineManager",
+      "type": "SERVICE",
+      "file": "scrapy/pipelines/__init__.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "MiddlewareManager"
+      ]
+    },
+    {
+      "name": "SignalManager",
+      "type": "SERVICE",
+      "file": "scrapy/signalmanager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "TestAddonManager",
+      "type": "SERVICE",
+      "file": "tests/test_addons.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_run_with_opts_list_prints_spider",
+      "type": "API_ROUTE",
+      "file": "tests/test_command_check.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_run_without_opts_list_does_not_crawl_spider_with_no_tested_methods",
+      "type": "API_ROUTE",
+      "file": "tests/test_command_check.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_inspect_response",
+      "type": "API_ROUTE",
+      "file": "tests/test_command_shell.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_inspect_response_no_reactor",
+      "type": "API_ROUTE",
+      "file": "tests/test_command_shell.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "TestContractsManager",
+      "type": "SERVICE",
+      "file": "tests/test_contracts.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "ContractsManager"
+      ]
+    },
+    {
+      "name": "TestBaseItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestPythonItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestPprintItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestPickleItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestMarshalItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestCsvItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestXmlItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestJsonLinesItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "TestJsonItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "CustomItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_exporters.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "BaseItemExporter",
+        "CsvItemExporter",
+        "JsonItemExporter",
+        "JsonLinesItemExporter",
+        "MarshalItemExporter",
+        "PickleItemExporter",
+        "PprintItemExporter",
+        "PythonItemExporter",
+        "XmlItemExporter"
+      ]
+    },
+    {
+      "name": "FromCrawlerCsvItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_feedexport.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "CsvItemExporter",
+        "FeedExporter"
+      ]
+    },
+    {
+      "name": "AsyncJsonLinesItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_feedexport_async.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "JsonLinesItemExporter"
+      ]
+    },
+    {
+      "name": "DeferredJsonLinesItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_feedexport_async.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "JsonLinesItemExporter"
+      ]
+    },
+    {
+      "name": "ExceptionJsonItemExporter",
+      "type": "SERVICE",
+      "file": "tests/test_feedexport_lifecycle.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "JsonItemExporter"
+      ]
+    },
+    {
+      "name": "MyMiddlewareManager",
+      "type": "SERVICE",
+      "file": "tests/test_middleware.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "MiddlewareManager"
+      ]
+    },
+    {
+      "name": "TestCustomPipelineManager",
+      "type": "SERVICE",
+      "file": "tests/test_pipelines.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "ItemPipelineManager"
+      ]
+    },
+    {
+      "name": "CustomPipelineManager",
+      "type": "SERVICE",
+      "file": "tests/test_pipelines.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "ItemPipelineManager"
+      ]
+    },
+    {
+      "name": "test_initial_defaults",
+      "type": "API_ROUTE",
+      "file": "tests/test_settings/__init__.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_initial_values",
+      "type": "API_ROUTE",
+      "file": "tests/test_settings/__init__.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_autopromote_dicts",
+      "type": "API_ROUTE",
+      "file": "tests/test_settings/__init__.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_getdict_autodegrade_basesettings",
+      "type": "API_ROUTE",
+      "file": "tests/test_settings/__init__.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "TestUniversalMiddlewareManager",
+      "type": "SERVICE",
+      "file": "tests/test_spidermiddleware.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "SpiderMiddlewareManager"
+      ]
+    },
+    {
+      "name": "test_core_stats_default_stats_collector",
+      "type": "API_ROUTE",
+      "file": "tests/test_stats.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat_dont_colorize",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat_old_windows",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat_windows_no_terminal_processing",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat_windows",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_pformat_no_pygments",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_display.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_indentation_error",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_misc/test_return_with_argument_inside_generator.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_print_live_refs_empty",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_trackref.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_print_live_refs_with_objects",
+      "type": "API_ROUTE",
+      "file": "tests/test_utils_trackref.py",
+      "ecosystem": "python",
+      "dependencies": []
+    }
+  ]
+}

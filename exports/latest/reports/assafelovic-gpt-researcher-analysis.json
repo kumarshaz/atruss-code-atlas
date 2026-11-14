@@ -1,0 +1,1117 @@
+{
+  "repository": "assafelovic/gpt-researcher",
+  "sha": "ddd4db36208d9c8e49f3b2436efda97baecb5433",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 618,
+    "loc": 67874,
+    "sloc": 54121,
+    "component_count": 121,
+    "avg_cyclomatic_complexity": 5.67,
+    "max_cyclomatic_complexity": 114,
+    "framework": "FastAPI"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "ResearchRequest",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "ChatRequest",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "serve_frontend",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "agent_discovery",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "chat"
+      ]
+    },
+    {
+      "name": "read_report",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "get_all_reports",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "get_report_by_id",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "create_or_update_report",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "update_report",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "delete_report",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "get_report_chat",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "research_report_chat",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "generate_report",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "list_files",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "run_multi_agents",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "upload_file",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "delete_file",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery",
+        "chat"
+      ]
+    },
+    {
+      "name": "chat",
+      "type": "API_ROUTE",
+      "file": "backend/server/app.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "WebSocketManager",
+        "agent_discovery"
+      ]
+    },
+    {
+      "name": "WebSocketManager",
+      "type": "SERVICE",
+      "file": "backend/server/websocket_manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "MCPClientManager",
+      "type": "SERVICE",
+      "file": "gpt_researcher/mcp/client.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "BrowserManager",
+      "type": "SERVICE",
+      "file": "gpt_researcher/skills/browser.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "ContextManager",
+      "type": "SERVICE",
+      "file": "gpt_researcher/skills/context_manager.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Subtopic",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "gpt_researcher/utils/validators.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Subtopics",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "gpt_researcher/utils/validators.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "UserSchema",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "json_schema_generator.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_search_normalizes_results",
+      "type": "API_ROUTE",
+      "file": "tests/test_brave_retriever.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_transient_status_retry_behavior_is_unchanged",
+      "type": "API_ROUTE",
+      "file": "tests/test_bs_http_fallback.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_request_exception_retry_behavior_is_unchanged",
+      "type": "API_ROUTE",
+      "file": "tests/test_bs_http_fallback.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_two_request_exceptions_stop_after_existing_retry_limit",
+      "type": "API_ROUTE",
+      "file": "tests/test_bs_http_fallback.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_transient_retry_followed_by_403_does_not_add_a_third_request",
+      "type": "API_ROUTE",
+      "file": "tests/test_bs_http_fallback.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_search_returns_href_body_shape",
+      "type": "API_ROUTE",
+      "file": "tests/test_crw_retriever.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_markdown_preferred_over_description",
+      "type": "API_ROUTE",
+      "file": "tests/test_crw_retriever.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_empty_data_returns_empty_list",
+      "type": "API_ROUTE",
+      "file": "tests/test_crw_retriever.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_envelope_failure_returns_empty_list",
+      "type": "API_ROUTE",
+      "file": "tests/test_crw_retriever.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_quick_search_no_summary",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_quick_search_with_summary",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_quick_search_all_retrievers_merges_and_dedups",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_quick_search_all_retrievers_skips_failing_retriever",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_quick_search_single_retriever_ignores_all_flag",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_summary_prompt_contains_real_retriever_fields",
+      "type": "API_ROUTE",
+      "file": "tests/test_quick_search_summary_context.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_query_domains_become_site_clauses",
+      "type": "API_ROUTE",
+      "file": "tests/test_searchapi_query_domains.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_query_is_unchanged_without_domains",
+      "type": "API_ROUTE",
+      "file": "tests/test_searchapi_query_domains.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "test_failed_request_is_logged_and_returns_empty",
+      "type": "API_ROUTE",
+      "file": "tests/test_searchapi_query_domains.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Discord-Bot-JS",
+      "type": "MODULE",
+      "file": "docs/discord-bot/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "gpt-researcher",
+      "type": "MODULE",
+      "file": "docs/npm/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "website",
+      "type": "MODULE",
+      "file": "docs/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Home",
+      "type": "UI_COMPONENT",
+      "file": "docs/src/pages/index.js",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "gpt-researcher-ui",
+      "type": "MODULE",
+      "file": "frontend/nextjs/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ArchiveScreen",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/ArchiveScreen.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "MockMode",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "REPORT_TYPES",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "SOURCES",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "TONES",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "MCP_STRATEGIES",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "SitesEditor",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Brief",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Brief.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ChatThread",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Chat.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Sheet"
+      ]
+    },
+    {
+      "name": "ChatComposer",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Chat.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Sheet"
+      ]
+    },
+    {
+      "name": "Favicon",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Favicon.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "FaviconStack",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Favicon.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Thumb",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Favicon.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "HomeScreen",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/HomeScreen.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Brief",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "MCP_STRATEGIES",
+        "MockMode",
+        "REPORT_TYPES",
+        "SOURCES",
+        "SitesEditor",
+        "TONES",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "Lightbox",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Lightbox.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "RunScreen",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/RunScreen.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "ChatComposer",
+        "ChatThread",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "Lightbox",
+        "QuestionMarks",
+        "Sheet",
+        "Sources",
+        "StageList",
+        "StageStrip",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "SettingsButton",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Settings.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Brief",
+        "MCP_STRATEGIES",
+        "REPORT_TYPES",
+        "SOURCES",
+        "SitesEditor",
+        "TONES"
+      ]
+    },
+    {
+      "name": "SettingsDialog",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Settings.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Brief",
+        "MCP_STRATEGIES",
+        "REPORT_TYPES",
+        "SOURCES",
+        "SitesEditor",
+        "TONES"
+      ]
+    },
+    {
+      "name": "Sheet",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Sheet.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "MockMode",
+        "QuestionMarks",
+        "StageList",
+        "StageStrip",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "Sources",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Sources.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Favicon",
+        "FaviconStack",
+        "Thumb"
+      ]
+    },
+    {
+      "name": "QuestionMarks",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Stages.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "StageList",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Stages.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "StageStrip",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/Stages.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "Favicon",
+        "FaviconStack",
+        "Thumb",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "MockMode",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/mode.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Eye",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/ui.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockMode",
+        "SettingsButton",
+        "SettingsDialog"
+      ]
+    },
+    {
+      "name": "Arrow",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/ui.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockMode",
+        "SettingsButton",
+        "SettingsDialog"
+      ]
+    },
+    {
+      "name": "Connection",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/ui.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockMode",
+        "SettingsButton",
+        "SettingsDialog"
+      ]
+    },
+    {
+      "name": "TopBar",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/_components/ui.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockMode",
+        "SettingsButton",
+        "SettingsDialog"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/archive/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ArchiveScreen"
+      ]
+    },
+    {
+      "name": "AppLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/layout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "SettingsButton",
+        "SettingsDialog",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "MockBar",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/_components/MockBar.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "MockRun",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/_components/MockRun.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "Connection",
+        "Eye",
+        "RunScreen",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/archive/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ArchiveScreen"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/failed/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockRun"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/home/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Brief",
+        "HomeScreen",
+        "MCP_STRATEGIES",
+        "MobileHomeScreen",
+        "REPORT_TYPES",
+        "SOURCES",
+        "SitesEditor",
+        "TONES"
+      ]
+    },
+    {
+      "name": "MocksLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/layout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockBar",
+        "MockMode"
+      ]
+    },
+    {
+      "name": "MocksIndex",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/report/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockRun"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/review/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockRun"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/mocks/run/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "MockRun"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "HomeScreen",
+        "MobileHomeScreen"
+      ]
+    },
+    {
+      "name": "ResearchScreen",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/research/[id]/ResearchScreen.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Arrow",
+        "ChatComposer",
+        "ChatThread",
+        "Connection",
+        "Eye",
+        "RunScreen",
+        "TopBar"
+      ]
+    },
+    {
+      "name": "Page",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/(gr)/research/[id]/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ResearchScreen"
+      ]
+    },
+    {
+      "name": "API_chat_route",
+      "type": "API_ROUTE",
+      "file": "frontend/nextjs/app/api/chat/route.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "API_chat_route",
+      "type": "API_ROUTE",
+      "file": "frontend/nextjs/app/api/reports/[id]/chat/route.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "API_[id]_route",
+      "type": "API_ROUTE",
+      "file": "frontend/nextjs/app/api/reports/[id]/route.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "API_reports_route",
+      "type": "API_ROUTE",
+      "file": "frontend/nextjs/app/api/reports/route.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Home",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/classic/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchPage",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/classic/research/[id]/page.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "RootLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/app/layout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ImageModal",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Images/ImageModal.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ImagesAlbum",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Images/ImagesAlbum.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ImageModal"
+      ]
+    },
+    {
+      "name": "ChatResponse",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/ResearchBlocks/ChatResponse.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Sources"
+      ]
+    },
+    {
+      "name": "Report",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/ResearchBlocks/Report.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ResearchHistoryProvider"
+      ]
+    },
+    {
+      "name": "Sources",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/ResearchBlocks/Sources.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchResults",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/ResearchResults.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "Report",
+        "Sources"
+      ]
+    },
+    {
+      "name": "ChatBox",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Settings/ChatBox.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "AgentLogs",
+        "Report",
+        "ResearchForm"
+      ]
+    },
+    {
+      "name": "LayoutSelector",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Settings/LayoutSelector.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ToneSelector",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Settings/ToneSelector.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "AgentLogs",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Task/AgentLogs.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "DomainFilter",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Task/DomainFilter.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Report",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Task/Report.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchForm",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/Task/ResearchForm.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "DomainFilter",
+        "LayoutSelector",
+        "ToneSelector"
+      ]
+    },
+    {
+      "name": "CopilotLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/layouts/CopilotLayout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "MobileLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/layouts/MobileLayout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchPageLayout",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/layouts/ResearchPageLayout.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "MobileHomeScreen",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/mobile/MobileHomeScreen.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "MobileResearchContent",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/mobile/MobileResearchContent.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "CopilotResearchContent",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/research/CopilotResearchContent.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "NotFoundContent",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/research/NotFoundContent.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchContent",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/components/research/ResearchContent.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ResearchHistoryProvider",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/hooks/ResearchHistoryContext.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "GPTResearcher",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/src/GPTResearcher.tsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ResearchResults"
+      ]
+    },
+    {
+      "name": "GPTResearcher",
+      "type": "UI_COMPONENT",
+      "file": "frontend/nextjs/src/index.d.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}

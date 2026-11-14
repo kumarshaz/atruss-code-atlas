@@ -1,0 +1,162 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import OrgComparisonTable from './OrgComparisonTable.astro';
+
+interface Repo {
+    Organization: string;
+    RepositoryName: string;
+    HasPipeline?: boolean;
+    HasDockerfile?: boolean;
+}
+
+interface OrgMaturityScore {
+    org: string;
+    total_repos: number;
+    repos_with_pipeline: number;
+    repos_with_docker: number;
+    pipeline_coverage_pct: number;
+    maturity_score: number;
+}
+
+let repos: Repo[] = [];
+try {
+    const candidates = [
+        path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
+        path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+    ];
+    for (const jsonPath of candidates) {
+        if (fs.existsSync(jsonPath)) {
+            const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+            repos = data.items || data;
+            break;
+        }
+    }
+} catch (e) {
+    console.error('Error loading repositories.json:', e);
+}
+
+const orgMap: Record<string, Repo[]> = {};
+repos.forEach((r) => {
+    if (!r.Organization) return;
+    if (!orgMap[r.Organization]) orgMap[r.Organization] = [];
+    orgMap[r.Organization].push(r);
+});
+
+const pipelineDirs = [
+    path.resolve(process.cwd(), '../exports/latest/pipelines'),
+    path.resolve(process.cwd(), 'src/data/latest/pipelines'),
+];
+
+const getAntiPatternCount = (org: string, repo: string) => {
+    try {
+        let pData: any = null;
+        for (const basePath of pipelineDirs) {
+            const orgRepoPath = path.join(basePath, `${org}-${repo}-pipeline.json`);
+            const plainRepoPath = path.join(basePath, `${repo}-pipeline.json`);
+            if (fs.existsSync(orgRepoPath)) {
+                pData = JSON.parse(fs.readFileSync(orgRepoPath, 'utf8'));
+                break;
+            }
+            if (fs.existsSync(plainRepoPath)) {
+                pData = JSON.parse(fs.readFileSync(plainRepoPath, 'utf8'));
+                break;
+            }
+        }
+        if (!pData || !Array.isArray(pData.workflows)) return -1;
+
+        let count = 0;
+        pData.workflows.forEach((wf: any) => {
+            if (Array.isArray(wf.anti_patterns)) {
+                count += wf.anti_patterns.length;
+            }
+        });
+        return count;
+    } catch {
+        return -1;
+    }
+};
+
+const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) => {
+    const total_repos = orgRepos.length;
+    const repos_with_pipeline = orgRepos.filter((r) => r.HasPipeline).length;
+    const repos_with_docker = orgRepos.filter((r) => r.HasDockerfile).length;
+    const pipeline_coverage_pct = total_repos > 0 ? (repos_with_pipeline / total_repos) * 100 : 0;
+
+    let score = pipeline_coverage_pct * 0.6;
+    if (repos_with_pipeline > 0) {
+        let pipelinedWithNoAntiPatterns = 0;
+        let evaluatedPipelines = 0;
+
+        orgRepos
+            .filter((r) => r.HasPipeline)
+            .forEach((r) => {
+                const apCount = getAntiPatternCount(org, r.RepositoryName);
+                if (apCount !== -1) {
+                    evaluatedPipelines++;
+                    if (apCount === 0) pipelinedWithNoAntiPatterns++;
+                }
+            });
+
+        if (evaluatedPipelines > 0) {
+            score += (pipelinedWithNoAntiPatterns / evaluatedPipelines) * 40;
+        }
+    } else {
+        score = 0;
+    }
+
+    return {
+        org,
+        total_repos,
+        repos_with_pipeline,
+        repos_with_docker,
+        pipeline_coverage_pct,
+        maturity_score: Math.min(100, Math.max(0, score)),
+    };
+});
+
+const avgMaturity =
+    scores.length > 0
+        ? Math.round(scores.reduce((acc, s) => acc + s.maturity_score, 0) / scores.length)
+        : 0;
+---
+
+<div class="m3-leaderboard-shell">
+    <section class="m3-card-filled m3-leaderboard-hero">
+        <div class="m3-chip m3-chip-tonal-primary">
+            <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
+            <span>Organization Benchmarks</span>
+        </div>
+        <h2>Engineering Maturity Leaderboard</h2>
+        <p>
+            Weighted index combining CI/CD pipeline adoption (60%) and clean anti-pattern
+            compliance (40%) across {scores.length} organization(s). Average score:{' '}
+            <strong>{avgMaturity} / 100</strong>.
+        </p>
+    </section>
+
+    <OrgComparisonTable orgs={scores} />
+</div>
+
+<style>
+    .m3-leaderboard-hero {
+        padding: 1.5rem;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-extra-large);
+    }
+
+    .m3-leaderboard-hero .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-leaderboard-hero h2 {
+        margin: 0.75rem 0 0.5rem !important;
+        font-size: 1.75rem !important;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-leaderboard-hero p {
+        margin: 0 !important;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+</style>

@@ -1,0 +1,393 @@
+{
+  "org": "jellyfin",
+  "repository": "jellyfin",
+  "sha": "f03253bae0383eaa4a250da59b3b959e424483e5",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci-codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-compat.yml",
+      "name": "ABI Compatibility",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "abi-head",
+          "name": "ABI - HEAD",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "abi-base",
+          "name": "ABI - BASE",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "abi-diff",
+          "name": "ABI - Difference",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "abi-head",
+            "abi-base"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "ci-format.yml",
+      "name": "Format",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "format-check",
+          "name": "format-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "run-tests",
+          "name": "run-tests",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "commands.yml",
+      "name": "Commands",
+      "triggers": [
+        "issue_comment",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "rebase",
+          "name": "Rebase",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "rename",
+          "name": "Rename",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-stale.yml",
+      "name": "Stale Issue Labeler",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "issues",
+          "name": "Check for stale issues",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-template-check.yml",
+      "name": "Check Issue Template",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "check_issue",
+          "name": "check_issue",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "openapi-generate.yml",
+      "name": "OpenAPI Generate",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "Main",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "openapi-merge.yml",
+      "name": "OpenAPI Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "publish-openapi",
+          "name": "OpenAPI - Publish Artifact",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "publish-unstable",
+          "name": "OpenAPI - Publish Unstable Spec",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "publish-openapi"
+          ]
+        },
+        {
+          "id": "publish-stable",
+          "name": "OpenAPI - Publish Stable Spec",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "publish-openapi"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish-openapi' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "openapi-pull-request.yml",
+      "name": "OpenAPI Check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "ancestor",
+          "name": "Common Ancestor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "head",
+          "name": "Head Artifact",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "base",
+          "name": "Base Artifact",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "ancestor"
+          ]
+        },
+        {
+          "id": "diff",
+          "name": "Generate Report",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "head",
+            "base"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "openapi-workflow-run.yml",
+      "name": "OpenAPI Report",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "metadata",
+          "name": "Generate Metadata",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "comment",
+          "name": "Pull Request Comment",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "metadata"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "project-automation.yml",
+      "name": "Project Automation",
+      "triggers": [
+        "pull_request",
+        "pull_request_review",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "project-board",
+          "name": "Release project board",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'project-board' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "pull-request-conflict.yml",
+      "name": "Merge Conflict Labeler",
+      "triggers": [
+        "push",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "main",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pull-request-stale.yaml",
+      "name": "Stale PR Check",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prs-stale-conflicts",
+          "name": "Check PRs with merge conflicts",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release-bump-version.yaml",
+      "name": "\ud83c\udd99 Auto bump_version",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "auto_bump_version",
+          "name": "auto_bump_version",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "manual_bump_version",
+          "name": "manual_bump_version",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

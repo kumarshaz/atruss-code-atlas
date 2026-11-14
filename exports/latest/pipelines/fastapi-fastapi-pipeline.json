@@ -1,0 +1,509 @@
+{
+  "org": "fastapi",
+  "repository": "fastapi",
+  "sha": "5add7a458d629b07311d48261f696b5ac2bb9a5f",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "add-to-project.yml",
+      "name": "Add to Project",
+      "triggers": [
+        "pull_request_target",
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "add-to-project",
+          "name": "Add to project",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "build-docs.yml",
+      "name": "Build Docs",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "langs",
+          "name": "langs",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "build-docs",
+          "name": "build-docs",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "changes",
+            "langs"
+          ]
+        },
+        {
+          "id": "docs-all-green",
+          "name": "docs-all-green",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "langs",
+            "build-docs"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "bump-pre-commit-hooks.yml",
+      "name": "Bump pre-commit hooks",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "bump-pre-commit-hooks",
+          "name": "bump-pre-commit-hooks",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "create-draft-release.yml",
+      "name": "Create Draft Release",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "create-draft-release",
+          "name": "create-draft-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'create-draft-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "deploy-docs.yml",
+      "name": "Deploy Docs",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "deploy-docs",
+          "name": "deploy-docs",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy-docs' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "detect-conflicts.yml",
+      "name": "Conflict detector",
+      "triggers": [
+        "push",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "main",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "guard-dependencies.yml",
+      "name": "Guard Dependencies",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "check-author",
+          "name": "check-author",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-manager.yml",
+      "name": "Issue Manager",
+      "triggers": [
+        "schedule",
+        "issue_comment",
+        "issues",
+        "pull_request_target",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "issue-manager",
+          "name": "issue-manager",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pre-commit.yml",
+      "name": "pre-commit",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "pre-commit",
+          "name": "pre-commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "pre-commit-alls-green",
+          "name": "pre-commit-alls-green",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "pre-commit"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "prepare-release.yml",
+      "name": "Prepare Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare-release",
+          "name": "prepare-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'prepare-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "smokeshow.yml",
+      "name": "Smokeshow",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "smokeshow",
+          "name": "smokeshow",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "sponsors.yml",
+      "name": "FastAPI People Sponsors",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "job",
+          "name": "job",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "test-redistribute.yml",
+      "name": "Test Redistribute",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-redistribute",
+          "name": "test-redistribute",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "test-redistribute-alls-green",
+          "name": "test-redistribute-alls-green",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "test-redistribute"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 13,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "benchmark",
+          "name": "benchmark",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "regression-test",
+          "name": "regression-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "coverage-combine",
+          "name": "coverage-combine",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "test-alls-green",
+          "name": "test-alls-green",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "test",
+            "coverage-combine",
+            "benchmark",
+            "regression-test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "topic-repos.yml",
+      "name": "Update Topic Repos",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "topic-repos",
+          "name": "topic-repos",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "translate.yml",
+      "name": "Translate",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "langs",
+          "name": "langs",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "translate",
+          "name": "translate",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "langs"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "zizmor.yml",
+      "name": "Zizmor",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "Run zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

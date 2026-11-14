@@ -1,0 +1,100 @@
+{
+  "repository": "srwi/EverythingToolbar",
+  "sha": "1260a08231602ece727ee265ad584b6610b15737",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 260,
+    "loc": 42832,
+    "sloc": 33118,
+    "component_count": 9,
+    "avg_cyclomatic_complexity": 14.87,
+    "max_cyclomatic_complexity": 129,
+    "framework": "Unknown"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "EverythingToolbar",
+      "type": "MODULE",
+      "file": "EverythingToolbar/EverythingToolbar.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EverythingSDK",
+        "EverythingToolbar.App",
+        "EverythingToolbar.Core",
+        "EverythingToolbar.Platform"
+      ]
+    },
+    {
+      "name": "EverythingToolbar.App",
+      "type": "MODULE",
+      "file": "EverythingToolbar.App/EverythingToolbar.App.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EverythingToolbar.Core"
+      ]
+    },
+    {
+      "name": "EverythingToolbar.Core",
+      "type": "MODULE",
+      "file": "EverythingToolbar.Core/EverythingToolbar.Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EverythingToolbar.Deskband",
+      "type": "MODULE",
+      "file": "EverythingToolbar.Deskband/EverythingToolbar.Deskband.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EverythingToolbar",
+        "EverythingToolbar.Core",
+        "EverythingToolbar.Platform"
+      ]
+    },
+    {
+      "name": "EverythingToolbar.Launcher",
+      "type": "MODULE",
+      "file": "EverythingToolbar.Launcher/EverythingToolbar.Launcher.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EverythingToolbar",
+        "EverythingToolbar.Core",
+        "EverythingToolbar.Deskband",
+        "EverythingToolbar.Platform"
+      ]
+    },
+    {
+      "name": "EverythingToolbar.Platform",
+      "type": "MODULE",
+      "file": "EverythingToolbar.Platform/EverythingToolbar.Platform.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EverythingSDK",
+        "EverythingSDK3",
+        "EverythingToolbar.Core"
+      ]
+    },
+    {
+      "name": "CustomActionService",
+      "type": "SERVICE",
+      "file": "EverythingToolbar.App/Services/CustomActionService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SearchWindowController",
+      "type": "API_ROUTE",
+      "file": "EverythingToolbar/Services/SearchWindowController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ThemeService",
+      "type": "SERVICE",
+      "file": "EverythingToolbar/Services/ThemeService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    }
+  ]
+}

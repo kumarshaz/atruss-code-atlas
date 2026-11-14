@@ -1,0 +1,277 @@
+{
+  "org": "baomidou",
+  "repository": "dynamic-datasource",
+  "sha": "23904d5585e4279e484db8a872eca633c298792d",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test-graalvm-ce-ci",
+          "name": "NativeTest CI - ${{ matrix.starter }} on ${{ matrix.os }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test-jdk-ci",
+          "name": "Test CI - JDK ${{ matrix.java-version }} on ${{ matrix.os }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "dependency-review",
+          "name": "Dependency review",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze java",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependency-scan.yml",
+      "name": "Dependency Scan",
+      "triggers": [
+        "schedule",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sbom",
+          "name": "Generate aggregate SBOM",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "osv-scan",
+          "name": "Scan SBOM against OSV",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "sbom"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "first-interaction.yml",
+      "name": "First interaction",
+      "triggers": [
+        "issues",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "welcome",
+          "name": "welcome",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "javadoc.yml",
+      "name": "Javadoc",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "labeler.yml",
+      "name": "Labeler",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "label",
+          "name": "label",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lychee.yml",
+      "name": "Link Check",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lychee",
+          "name": "lychee",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pr-target-check.yml",
+      "name": "PR target check",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "remind",
+          "name": "remind",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "Publish package to the Maven Central Repository",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "scorecard.yml",
+      "name": "Scorecard",
+      "triggers": [
+        "branch_protection_rule",
+        "schedule",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "Scorecard analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "stale.yml",
+      "name": "Stale",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "zizmor.yml",
+      "name": "zizmor",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "Analyze workflows",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

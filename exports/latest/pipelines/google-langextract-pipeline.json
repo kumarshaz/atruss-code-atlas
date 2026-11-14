@@ -1,0 +1,95 @@
+{
+  "org": "google",
+  "repository": "langextract",
+  "sha": "ed3a6bd26f38eaf271a71019cc2da9bd02807b05",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yaml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "live-api-tests",
+          "name": "live-api-tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "ollama-integration-test",
+          "name": "ollama-integration-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish to PyPI",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "pypi-publish",
+          "name": "Publish to PyPI",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'pypi-publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "validate_pr_template.yaml",
+      "name": "Validate PR template",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

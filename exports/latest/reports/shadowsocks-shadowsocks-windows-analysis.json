@@ -1,0 +1,102 @@
+{
+  "repository": "shadowsocks/shadowsocks-windows",
+  "sha": "891d971682eefcaa2e640258d3b352a3ad3b2233",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 178,
+    "loc": 35464,
+    "sloc": 28422,
+    "component_count": 10,
+    "avg_cyclomatic_complexity": 13.64,
+    "max_cyclomatic_complexity": 95,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "shadowsocks-csharp",
+      "type": "MODULE",
+      "file": "shadowsocks-csharp/shadowsocks-csharp.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ShadowsocksTest",
+      "type": "MODULE",
+      "file": "test/ShadowsocksTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "shadowsocks-csharp"
+      ]
+    },
+    {
+      "name": "IPCService",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/Service/IPCService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Service",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/Service/Listener.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Handler",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/Service/PortForwarder.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Service"
+      ]
+    },
+    {
+      "name": "TCPHandler",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/Service/TCPRelay.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Service",
+        "ShadowsocksController"
+      ]
+    },
+    {
+      "name": "UDPHandler",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/Service/UDPRelay.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Service",
+        "ShadowsocksController"
+      ]
+    },
+    {
+      "name": "ShadowsocksController",
+      "type": "API_ROUTE",
+      "file": "shadowsocks-csharp/Controller/ShadowsocksController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Service"
+      ]
+    },
+    {
+      "name": "ProtocolHandler",
+      "type": "SERVICE",
+      "file": "shadowsocks-csharp/Controller/System/ProtocolHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MenuViewController",
+      "type": "API_ROUTE",
+      "file": "shadowsocks-csharp/View/MenuViewController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProtocolHandler",
+        "ShadowsocksController"
+      ]
+    }
+  ]
+}

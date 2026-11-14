@@ -1,0 +1,32 @@
+{
+  "org": "Azure-Samples",
+  "repository": "todo-nodejs-mongo-terraform",
+  "sha": "8a0fc6ba6d225476afacd29ad74262e2abd7588a",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "azure-dev.yml",
+      "name": "azure-dev.yml",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

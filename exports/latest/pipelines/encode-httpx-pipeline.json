@@ -1,0 +1,49 @@
+{
+  "org": "encode",
+  "repository": "httpx",
+  "sha": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "Publish release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "test-suite.yml",
+      "name": "Test Suite",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "Python ${{ matrix.python-version }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

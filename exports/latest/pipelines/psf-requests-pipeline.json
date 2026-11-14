@@ -1,0 +1,213 @@
+{
+  "org": "psf",
+  "repository": "requests",
+  "sha": "3c7baaa05ab4aa49cc819ce3a819d260de19c157",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "close-issues.yml",
+      "name": "Autoclose Issues",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "close_qa",
+          "name": "close_qa",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "close_feature_request",
+          "name": "close_feature_request",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lint.yml",
+      "name": "Lint code",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "lock-issues.yml",
+      "name": "Lock Threads",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "action",
+          "name": "action",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish to PyPI",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build dists",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "Publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "publish-test-pypi",
+          "name": "Publish to Test PyPI",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "run-tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "no_chardet",
+          "name": "No Character Detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "urllib3",
+          "name": "urllib3 1.x",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "typecheck.yml",
+      "name": "Type Check",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "typecheck",
+          "name": "typecheck",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "zizmor.yml",
+      "name": "GitHub Actions Security Analysis with zizmor \ud83c\udf08",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

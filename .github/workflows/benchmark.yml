@@ -1,0 +1,66 @@
+name: Scheduled Public GitHub Benchmark
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Number of corpus repositories (default 100 for full benchmark)"
+        required: false
+        default: "100"
+      random_sample:
+        description: "Optional live random GitHub sample size instead of corpus"
+        required: false
+        default: ""
+      seed:
+        description: "Deterministic RNG seed"
+        required: false
+        default: "42"
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Atruss Code Atlas
+        run: pip install -e .[dev]
+
+      - name: Run stratified benchmark
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LIMIT="${{ github.event.inputs.limit || '100' }}"
+          SEED="${{ github.event.inputs.seed || '42' }}"
+          if [ -n "${{ github.event.inputs.random_sample }}" ]; then
+            python scripts/run_benchmark_loop.py \
+              --random-sample "${{ github.event.inputs.random_sample }}" \
+              --seed "$SEED" \
+              --validate
+          else
+            python scripts/run_benchmark_loop.py \
+              --corpus popular-100 \
+              --limit "$LIMIT" \
+              --seed "$SEED" \
+              --validate
+          fi
+
+      - name: Commit updated exports/latest artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add exports/latest/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(benchmark): update exports/latest telemetry"
+            git push
+          fi

@@ -1,0 +1,68 @@
+{
+  "org": "microsoft",
+  "repository": "markitdown",
+  "sha": "ed178952a6672abdfd35b5f9e76a80b6cefc086e",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "pre-commit.yml",
+      "name": "pre-commit",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "pre-commit",
+          "name": "pre-commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "tests.yml",
+      "name": "tests",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "tests",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "ocr-tests",
+          "name": "ocr-tests",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "mcp-tests",
+          "name": "mcp-tests",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

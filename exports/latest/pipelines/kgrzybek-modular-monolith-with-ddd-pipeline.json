@@ -1,0 +1,35 @@
+{
+  "org": "kgrzybek",
+  "repository": "modular-monolith-with-ddd",
+  "sha": "91c8ef24b4cb6ef558c95d8267fa07d68c7059f8",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "buildPipeline.yml",
+      "name": "CI Pipeline",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build and run Unit and Architecture Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "integration",
+          "name": "Build and run Integration Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

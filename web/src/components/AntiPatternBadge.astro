@@ -1,0 +1,55 @@
+---
+interface Props {
+    type: string;
+    severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | string;
+    message: string;
+}
+
+const { type, severity, message } = Astro.props;
+
+const sevUpper = (severity || 'LOW').toUpperCase();
+
+const severityMeta =
+    sevUpper === 'CRITICAL' || sevUpper === 'HIGH'
+        ? { chipClass: 'm3-chip-tonal-error', icon: 'error' }
+        : sevUpper === 'MEDIUM'
+          ? { chipClass: 'm3-chip-tonal-warning', icon: 'warning' }
+          : { chipClass: 'm3-chip-tonal-secondary', icon: 'info' };
+---
+
+<div class="m3-ap-item">
+    <span class={`m3-chip m3-ap-chip ${severityMeta.chipClass}`} title={message}>
+        <span class="material-symbols-outlined" aria-hidden="true">{severityMeta.icon}</span>
+        <strong>{sevUpper}</strong>
+        <span>{type}</span>
+    </span>
+    <span class="m3-ap-message">{message}</span>
+</div>
+
+<style>
+    .m3-ap-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.625rem 0.875rem;
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-medium);
+    }
+
+    .m3-ap-chip {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.75rem;
+    }
+
+    .m3-ap-chip .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-ap-message {
+        font-size: 0.875rem;
+        color: var(--md-sys-color-on-surface-variant);
+        flex: 1 1 240px;
+    }
+</style>

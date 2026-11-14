@@ -1,0 +1,388 @@
+{
+  "org": "apolloconfig",
+  "repository": "apollo",
+  "sha": "e31c48097be6b679fc91ea3a2c67640afc512d31",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "build.yml",
+      "name": "build",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "cla.yml",
+      "name": "CLA Assistant",
+      "triggers": [
+        "issue_comment",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "CLAssistant",
+          "name": "CLAssistant",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "code-style-check.yml",
+      "name": "code style check",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "code-style-check",
+          "name": "code-style-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "commit_lint.yml",
+      "name": "commit lint",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "commitlint",
+          "name": "commitlint",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docker-publish.yml",
+      "name": "Publish Docker Image",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "check"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docker-validation.yml",
+      "name": "Docker Validation",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "docker-smoke",
+          "name": "docker-smoke",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "external-discovery-smoke.yml",
+      "name": "external-discovery-smoke",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "resolve-provider-matrix",
+          "name": "resolve-provider-matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "build-services",
+          "name": "build-services",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "resolve-provider-matrix"
+          ]
+        },
+        {
+          "id": "external-discovery-smoke",
+          "name": "external-discovery-smoke (${{ matrix.provider }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "resolve-provider-matrix",
+            "build-services"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-triage.lock.yml",
+      "name": "Apollo Issue Triage",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 35,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 9,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "agent"
+          ]
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 4,
+          "needs": [
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "javascript-test.yml",
+      "name": "JavaScript tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "js-test",
+          "name": "js-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "license.yml",
+      "name": "license",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "license",
+          "name": "license",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "openapi-compatibility.yml",
+      "name": "OpenAPI compatibility",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "openapi-compatibility",
+          "name": "openapi-compatibility",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "portal-login-e2e.yml",
+      "name": "portal-login-e2e",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "portal-login-e2e",
+          "name": "portal-login-e2e (${{ matrix.mode }})",
+          "runner": "ubuntu-24.04",
+          "steps_count": 13,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'portal-login-e2e' step env 'OIDC_CLIENT_SECRET'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'portal-login-e2e' step env 'OIDC_CLIENT_SECRET'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'portal-login-e2e' step env 'OIDC_CLIENT_SECRET'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "portal-ui-e2e.yml",
+      "name": "portal-ui-e2e",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "portal-ui-e2e",
+          "name": "portal-ui-e2e",
+          "runner": "ubuntu-24.04",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release-packages.yml",
+      "name": "Release Packages",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "package",
+          "name": "package",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "stale.yml",
+      "name": "Mark stale issues and pull requests",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

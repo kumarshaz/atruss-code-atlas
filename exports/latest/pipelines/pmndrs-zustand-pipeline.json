@@ -1,0 +1,187 @@
+{
+  "org": "pmndrs",
+  "repository": "zustand",
+  "sha": "9fed2eb2f3af672da9f7bf694b996df3831fc207",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "compressed-size.yml",
+      "name": "Compressed Size",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "compressed_size",
+          "name": "compressed_size",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docs.yml",
+      "name": "Build documentation and deploy to GitHub Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "preview-release.yml",
+      "name": "Preview Release",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "preview_release",
+          "name": "preview_release",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'preview_release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "test-multiple-builds.yml",
+      "name": "Test Multiple Builds",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test_multiple_builds",
+          "name": "test_multiple_builds",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test-multiple-versions.yml",
+      "name": "Test Multiple Versions",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test_multiple_versions",
+          "name": "test_multiple_versions",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test-old-typescript.yml",
+      "name": "Test Old TypeScript",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test_old_typescript",
+          "name": "test_old_typescript",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

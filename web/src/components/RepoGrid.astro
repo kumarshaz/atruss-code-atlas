@@ -1,0 +1,325 @@
+---
+import RepoCard from './RepoCard.astro';
+
+interface Repo {
+    Organization: string;
+    RepositoryName: string;
+    DocumentationPriority?: string;
+    [key: string]: any;
+}
+
+interface Props {
+    repos: Repo[];
+}
+
+const { repos = [] } = Astro.props;
+
+const sortedRepos = [...repos].sort((a, b) => {
+    const pA = a.DocumentationPriority || 'P4';
+    const pB = b.DocumentationPriority || 'P4';
+    if (pA < pB) return -1;
+    if (pA > pB) return 1;
+    const nameA = `${a.Organization}/${a.RepositoryName}`.toLowerCase();
+    const nameB = `${b.Organization}/${b.RepositoryName}`.toLowerCase();
+    return nameA.localeCompare(nameB);
+});
+
+const filterChips = [
+    { id: 'all', label: 'All', icon: 'apps', group: 'reset' },
+    { id: 'python', label: 'Python', icon: 'code', group: 'ecosystem' },
+    { id: '.net', label: '.NET', icon: 'terminal', group: 'ecosystem' },
+    { id: 'js_ts', label: 'JavaScript/TypeScript', icon: 'javascript', group: 'ecosystem' },
+    { id: 'java', label: 'Java', icon: 'coffee', group: 'ecosystem' },
+    { id: 'tier_1', label: 'Tier 1', icon: 'star', group: 'signal' },
+    { id: 'has_pipeline', label: 'Has Pipeline', icon: 'account_tree', group: 'signal' },
+    { id: 'has_docker', label: 'Has Docker', icon: 'deployed_code', group: 'signal' },
+    { id: 'high_risk', label: 'High Risk', icon: 'warning', group: 'signal' },
+];
+---
+
+<section id="repo-directory" class="m3-directory-section">
+    <div class="m3-directory-toolbar">
+        <div class="m3-directory-heading">
+            <h2>Repository Directory</h2>
+            <span id="repo-count-badge" class="m3-chip m3-chip-tonal-secondary">
+                {sortedRepos.length} repositories
+            </span>
+        </div>
+
+        <label class="m3-search-field">
+            <span class="material-symbols-outlined" aria-hidden="true">search</span>
+            <input
+                id="repo-search-input"
+                type="search"
+                placeholder="Search repositories, stacks, frameworks..."
+                aria-label="Search repositories"
+                autocomplete="off"
+            />
+        </label>
+    </div>
+
+    <div class="m3-chip-bar" role="group" aria-label="Filter repositories by ecosystem or signal">
+        {filterChips.map((chip, idx) => (
+            <button
+                type="button"
+                class={`m3-filter-chip ${idx === 0 ? 'is-selected' : ''}`}
+                data-filter-chip={chip.id}
+                data-filter-group={chip.group}
+                aria-pressed={idx === 0 ? 'true' : 'false'}
+            >
+                <span class="material-symbols-outlined m3-chip-check" aria-hidden="true">
+                    {idx === 0 ? 'check' : chip.icon}
+                </span>
+                <span>{chip.label}</span>
+            </button>
+        ))}
+    </div>
+
+    {sortedRepos.length === 0 ? (
+        <p class="m3-empty-state">No repositories available to display.</p>
+    ) : (
+        <div id="repo-grid-list" class="m3-repo-grid">
+            {sortedRepos.map((repo) => (
+                <RepoCard repo={repo} />
+            ))}
+        </div>
+    )}
+
+    <div id="repo-filter-empty" class="m3-card-outlined m3-empty-filter" hidden>
+        <span class="material-symbols-outlined" aria-hidden="true">filter_alt_off</span>
+        <p>No repositories match the current search or filter chips.</p>
+        <button id="repo-reset-filters" type="button" class="m3-btn-tonal">
+            Reset Filters
+        </button>
+    </div>
+</section>
+
+<script>
+    function initRepoFilters() {
+        const grid = document.getElementById('repo-grid-list');
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-repo-card="true"]'));
+        const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-chip]'));
+        const searchInput = document.getElementById('repo-search-input') as HTMLInputElement | null;
+        const countBadge = document.getElementById('repo-count-badge');
+        const emptyBanner = document.getElementById('repo-filter-empty');
+        const resetBtn = document.getElementById('repo-reset-filters');
+
+        const selectedFilters = new Set<string>();
+
+        const matchesEcosystem = (card: HTMLElement, filter: string): boolean => {
+            const lang = card.dataset.lang || '';
+            if (filter === 'python') return lang.includes('python');
+            if (filter === '.net') return lang.includes('.net') || lang.includes('c#');
+            if (filter === 'js_ts') {
+                return lang.includes('javascript') || lang.includes('typescript') || lang.includes('react');
+            }
+            if (filter === 'java') return lang === 'java' || lang.includes('spring');
+            return true;
+        };
+
+        const matchesSignal = (card: HTMLElement, filter: string): boolean => {
+            if (filter === 'tier_1') return card.dataset.priority === 'P1';
+            if (filter === 'has_pipeline') return card.dataset.pipeline === 'true';
+            if (filter === 'has_docker') return card.dataset.docker === 'true';
+            if (filter === 'high_risk') return card.dataset.risk === 'true';
+            return true;
+        };
+
+        const syncChipUI = () => {
+            const isAll = selectedFilters.size === 0;
+            chips.forEach((c) => {
+                const id = c.dataset.filterChip || '';
+                const selected = id === 'all' ? isAll : selectedFilters.has(id);
+                c.classList.toggle('is-selected', selected);
+                c.setAttribute('aria-pressed', String(selected));
+            });
+        };
+
+        const applyFilters = () => {
+            const query = (searchInput?.value || '').trim().toLowerCase();
+            const activeEcosystems = chips
+                .filter(
+                    (c) =>
+                        c.dataset.filterGroup === 'ecosystem' &&
+                        selectedFilters.has(c.dataset.filterChip || '')
+                )
+                .map((c) => c.dataset.filterChip || '');
+            const activeSignals = chips
+                .filter(
+                    (c) =>
+                        c.dataset.filterGroup === 'signal' &&
+                        selectedFilters.has(c.dataset.filterChip || '')
+                )
+                .map((c) => c.dataset.filterChip || '');
+
+            let visibleCount = 0;
+
+            cards.forEach((card) => {
+                const haystack = card.dataset.name || '';
+                const queryOk = !query || haystack.includes(query);
+                const ecoOk =
+                    activeEcosystems.length === 0 ||
+                    activeEcosystems.some((eco) => matchesEcosystem(card, eco));
+                const sigOk =
+                    activeSignals.length === 0 ||
+                    activeSignals.every((sig) => matchesSignal(card, sig));
+                const show = queryOk && ecoOk && sigOk;
+                card.hidden = !show;
+                if (show) visibleCount++;
+            });
+
+            if (countBadge) {
+                countBadge.textContent = `${visibleCount} of ${cards.length} repositories`;
+            }
+            if (emptyBanner) {
+                emptyBanner.hidden = visibleCount > 0;
+            }
+        };
+
+        chips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                const id = chip.dataset.filterChip || 'all';
+                if (id === 'all') {
+                    selectedFilters.clear();
+                } else if (selectedFilters.has(id)) {
+                    selectedFilters.delete(id);
+                } else {
+                    selectedFilters.add(id);
+                }
+                syncChipUI();
+                applyFilters();
+            });
+        });
+
+        searchInput?.addEventListener('input', applyFilters);
+
+        resetBtn?.addEventListener('click', () => {
+            selectedFilters.clear();
+            if (searchInput) searchInput.value = '';
+            syncChipUI();
+            applyFilters();
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initRepoFilters);
+    document.addEventListener('astro:page-load', initRepoFilters);
+</script>
+
+<style>
+    .m3-directory-section {
+        margin-top: 2rem;
+    }
+
+    .m3-directory-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .m3-directory-heading {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .m3-directory-heading h2 {
+        margin: 0 !important;
+        font-size: 1.5rem !important;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-search-field {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0 1rem;
+        height: 2.75rem;
+        min-width: min(100%, 320px);
+        background-color: var(--md-sys-color-surface-container-high);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-full);
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-search-field:focus-within {
+        border-color: var(--md-sys-color-primary);
+    }
+
+    .m3-search-field input {
+        border: none;
+        background: transparent;
+        color: var(--md-sys-color-on-surface);
+        font-size: 0.9375rem;
+        width: 100%;
+        outline: none;
+    }
+
+    .m3-chip-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .m3-filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        height: 2.125rem;
+        padding: 0 0.875rem;
+        border-radius: var(--md-sys-shape-corner-small);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        background-color: var(--md-sys-color-surface-container-low);
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+
+    .m3-filter-chip:hover {
+        background-color: var(--md-sys-color-surface-container-high);
+    }
+
+    .m3-filter-chip.is-selected {
+        background-color: var(--md-sys-color-secondary-container);
+        color: var(--md-sys-color-on-secondary-container);
+        border-color: transparent;
+        font-weight: 600;
+    }
+
+    .m3-filter-chip .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-repo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 1rem;
+    }
+
+    .m3-empty-filter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 2.5rem;
+        margin-top: 1rem;
+        text-align: center;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-empty-filter[hidden] {
+        display: none;
+    }
+
+    .m3-empty-state {
+        color: var(--md-sys-color-on-surface-variant);
+        font-style: italic;
+    }
+</style>

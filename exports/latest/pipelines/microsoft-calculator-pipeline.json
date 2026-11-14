@@ -1,0 +1,72 @@
+{
+  "org": "microsoft",
+  "repository": "calculator",
+  "sha": "79e1ac53bba690cdf930e5dcd6ed9dbc4cbfb128",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "action-ci.yml",
+      "name": "Windows Calculator Continuous Integration Pipeline",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "verifyCodeStyle",
+          "name": "Verify code style (IDE0003)",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "defineBuilds",
+          "name": "Define builds",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 7,
+          "needs": [
+            "defineBuilds"
+          ]
+        },
+        {
+          "id": "unitTests",
+          "name": "Run unit tests",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 5,
+          "needs": [
+            "defineBuilds",
+            "build"
+          ]
+        },
+        {
+          "id": "managedUnitTests",
+          "name": "Run managed unit tests",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 5,
+          "needs": [
+            "defineBuilds",
+            "build"
+          ]
+        },
+        {
+          "id": "uiTests",
+          "name": "Run UI tests (x64)",
+          "runner": "windows-2025-vs2026",
+          "steps_count": 7,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

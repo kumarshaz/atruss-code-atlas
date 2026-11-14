@@ -1,0 +1,209 @@
+{
+  "org": "ant-design",
+  "repository": "ant-design-pro",
+  "sha": "42f2cb1d303380909ea04c73b5e60679d09c321a",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "antd-cli.yml",
+      "name": "Ant Design CLI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "antd-cli",
+          "name": "antd-cli",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "tsc",
+          "name": "tsc",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "coverage.yml",
+      "name": "coverage CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "deploy.yml",
+      "name": "Deploy to GitHub Pages",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build-and-deploy",
+          "name": "build-and-deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build-and-deploy' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "e2e.yml",
+      "name": "e2e CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "e2e",
+          "name": "e2e",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "emoji-helper.yml",
+      "name": "Emoji Helper",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "emoji",
+          "name": "emoji",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-labeled.yml",
+      "name": "Issue labeled",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "reply-helper",
+          "name": "reply-helper",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "preview-build.yml",
+      "name": "Preview Build",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build-preview",
+          "name": "build-preview",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "preview-deploy.yml",
+      "name": "Preview Deploy",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "react-doctor.yml",
+      "name": "React Doctor",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "react-doctor",
+          "name": "react-doctor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

@@ -1,0 +1,1667 @@
+{
+  "repository": "jellyfin/jellyfin",
+  "sha": "f03253bae0383eaa4a250da59b3b959e424483e5",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 4505,
+    "loc": 733678,
+    "sloc": 508059,
+    "component_count": 179,
+    "avg_cyclomatic_complexity": 7.89,
+    "max_cyclomatic_complexity": 952,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Emby.Naming",
+      "type": "MODULE",
+      "file": "Emby.Naming/Emby.Naming.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Emby.Photos",
+      "type": "MODULE",
+      "file": "Emby.Photos/Emby.Photos.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Emby.Server.Implementations",
+      "type": "MODULE",
+      "file": "Emby.Server.Implementations/Emby.Server.Implementations.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Emby.Naming",
+        "Emby.Photos",
+        "Jellyfin.Api",
+        "Jellyfin.Database.Implementations",
+        "Jellyfin.Drawing",
+        "Jellyfin.Server.Implementations",
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.LocalMetadata",
+        "MediaBrowser.MediaEncoding",
+        "MediaBrowser.Model",
+        "MediaBrowser.Providers",
+        "MediaBrowser.XbmcMetadata"
+      ]
+    },
+    {
+      "name": "Jellyfin.Api",
+      "type": "MODULE",
+      "file": "Jellyfin.Api/Jellyfin.Api.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.MediaEncoding.Hls",
+        "Jellyfin.Networking",
+        "MediaBrowser.Controller",
+        "MediaBrowser.MediaEncoding"
+      ]
+    },
+    {
+      "name": "Jellyfin.Data",
+      "type": "MODULE",
+      "file": "Jellyfin.Data/Jellyfin.Data.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Database.Implementations"
+      ]
+    },
+    {
+      "name": "Jellyfin.Server",
+      "type": "MODULE",
+      "file": "Jellyfin.Server/Jellyfin.Server.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Emby.Server.Implementations",
+        "Jellyfin.Database.Implementations",
+        "Jellyfin.Drawing",
+        "Jellyfin.Drawing.Skia",
+        "Jellyfin.LiveTv",
+        "Jellyfin.MediaEncoding.Hls",
+        "Jellyfin.Server.Implementations"
+      ]
+    },
+    {
+      "name": "Jellyfin.Server.Implementations",
+      "type": "MODULE",
+      "file": "Jellyfin.Server.Implementations/Jellyfin.Server.Implementations.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Data",
+        "Jellyfin.Database.Implementations",
+        "Jellyfin.Database.Providers.Sqlite",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.Common",
+      "type": "MODULE",
+      "file": "MediaBrowser.Common/MediaBrowser.Common.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.Controller",
+      "type": "MODULE",
+      "file": "MediaBrowser.Controller/MediaBrowser.Controller.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Emby.Naming",
+        "Jellyfin.MediaEncoding.Keyframes",
+        "MediaBrowser.Common",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.LocalMetadata",
+      "type": "MODULE",
+      "file": "MediaBrowser.LocalMetadata/MediaBrowser.LocalMetadata.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.MediaEncoding",
+      "type": "MODULE",
+      "file": "MediaBrowser.MediaEncoding/MediaBrowser.MediaEncoding.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.Model",
+      "type": "MODULE",
+      "file": "MediaBrowser.Model/MediaBrowser.Model.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Data",
+        "Jellyfin.Extensions"
+      ]
+    },
+    {
+      "name": "MediaBrowser.Providers",
+      "type": "MODULE",
+      "file": "MediaBrowser.Providers/MediaBrowser.Providers.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "MediaBrowser.XbmcMetadata",
+      "type": "MODULE",
+      "file": "MediaBrowser.XbmcMetadata/MediaBrowser.XbmcMetadata.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Emby.Server.Implementations.Fuzz",
+      "type": "MODULE",
+      "file": "fuzz/Emby.Server.Implementations.Fuzz/Emby.Server.Implementations.Fuzz.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller"
+      ]
+    },
+    {
+      "name": "Jellyfin.Api.Fuzz",
+      "type": "MODULE",
+      "file": "fuzz/Jellyfin.Api.Fuzz/Jellyfin.Api.Fuzz.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common"
+      ]
+    },
+    {
+      "name": "Jellyfin.CodeAnalysis",
+      "type": "MODULE",
+      "file": "src/Jellyfin.CodeAnalysis/Jellyfin.CodeAnalysis.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jellyfin.Database.Implementations",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Database/Jellyfin.Database.Implementations/Jellyfin.Database.Implementations.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jellyfin.Database.Providers.Sqlite",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Database/Jellyfin.Database.Providers.Sqlite/Jellyfin.Database.Providers.Sqlite.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Database.Implementations",
+        "MediaBrowser.Common"
+      ]
+    },
+    {
+      "name": "Jellyfin.Drawing",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Drawing/Jellyfin.Drawing.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.Drawing.Skia",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Drawing.Skia/Jellyfin.Drawing.Skia.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.Extensions",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Extensions/Jellyfin.Extensions.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jellyfin.LiveTv",
+      "type": "MODULE",
+      "file": "src/Jellyfin.LiveTv/Jellyfin.LiveTv.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.MediaEncoding.Hls",
+      "type": "MODULE",
+      "file": "src/Jellyfin.MediaEncoding.Hls/Jellyfin.MediaEncoding.Hls.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.MediaEncoding.Keyframes",
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.MediaEncoding.Keyframes",
+      "type": "MODULE",
+      "file": "src/Jellyfin.MediaEncoding.Keyframes/Jellyfin.MediaEncoding.Keyframes.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jellyfin.Networking",
+      "type": "MODULE",
+      "file": "src/Jellyfin.Networking/Jellyfin.Networking.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Controller"
+      ]
+    },
+    {
+      "name": "Jellyfin.Api.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Api.Tests/Jellyfin.Api.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Api",
+        "Jellyfin.Server.Implementations"
+      ]
+    },
+    {
+      "name": "Jellyfin.Common.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Common.Tests/Jellyfin.Common.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Common",
+        "MediaBrowser.Providers"
+      ]
+    },
+    {
+      "name": "Jellyfin.Controller.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Controller.Tests/Jellyfin.Controller.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Controller"
+      ]
+    },
+    {
+      "name": "Jellyfin.Drawing.Skia.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Drawing.Skia.Tests/Jellyfin.Drawing.Skia.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Drawing.Skia"
+      ]
+    },
+    {
+      "name": "Jellyfin.Extensions.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Extensions.Tests/Jellyfin.Extensions.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Extensions",
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.LiveTv.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.LiveTv.Tests/Jellyfin.LiveTv.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.LiveTv"
+      ]
+    },
+    {
+      "name": "Jellyfin.MediaEncoding.Hls.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.MediaEncoding.Hls.Tests/Jellyfin.MediaEncoding.Hls.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.MediaEncoding.Hls",
+        "Jellyfin.MediaEncoding.Keyframes"
+      ]
+    },
+    {
+      "name": "Jellyfin.MediaEncoding.Keyframes.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.MediaEncoding.Keyframes.Tests/Jellyfin.MediaEncoding.Keyframes.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.MediaEncoding.Keyframes"
+      ]
+    },
+    {
+      "name": "Jellyfin.MediaEncoding.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.MediaEncoding.Tests/Jellyfin.MediaEncoding.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.MediaEncoding"
+      ]
+    },
+    {
+      "name": "Jellyfin.Model.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Model.Tests/Jellyfin.Model.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Model"
+      ]
+    },
+    {
+      "name": "Jellyfin.Naming.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Naming.Tests/Jellyfin.Naming.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Emby.Naming"
+      ]
+    },
+    {
+      "name": "Jellyfin.Networking.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Networking.Tests/Jellyfin.Networking.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Networking"
+      ]
+    },
+    {
+      "name": "Jellyfin.Providers.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Providers.Tests/Jellyfin.Providers.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Providers"
+      ]
+    },
+    {
+      "name": "Jellyfin.Server.Implementations.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Server.Implementations.Tests/Jellyfin.Server.Implementations.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Emby.Server.Implementations",
+        "Jellyfin.Database.Implementations",
+        "Jellyfin.Server.Implementations",
+        "Jellyfin.Server.Integration.Tests"
+      ]
+    },
+    {
+      "name": "Jellyfin.Server.Integration.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Server.Integration.Tests/Jellyfin.Server.Integration.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Server"
+      ]
+    },
+    {
+      "name": "Jellyfin.Server.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.Server.Tests/Jellyfin.Server.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jellyfin.Server"
+      ]
+    },
+    {
+      "name": "Jellyfin.XbmcMetadata.Tests",
+      "type": "MODULE",
+      "file": "tests/Jellyfin.XbmcMetadata.Tests/Jellyfin.XbmcMetadata.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MediaBrowser.Providers",
+        "MediaBrowser.XbmcMetadata"
+      ]
+    },
+    {
+      "name": "DtoService",
+      "type": "SERVICE",
+      "file": "Emby.Server.Implementations/Dto/DtoService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LibraryChangedNotifier",
+      "type": "SERVICE",
+      "file": "Emby.Server.Implementations/EntryPoints/LibraryChangedNotifier.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserDataChangeNotifier",
+      "type": "SERVICE",
+      "file": "Emby.Server.Implementations/EntryPoints/UserDataChangeNotifier.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AuthService",
+      "type": "SERVICE",
+      "file": "Emby.Server.Implementations/HttpServer/Security/AuthService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MbLinkShortcutHandler",
+      "type": "SERVICE",
+      "file": "Emby.Server.Implementations/IO/MbLinkShortcutHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WebSocketController",
+      "type": "API_ROUTE",
+      "file": "Emby.Server.Implementations/Session/WebSocketController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SessionController"
+      ]
+    },
+    {
+      "name": "AnonymousLanAccessHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/AnonymousLanAccessPolicy/AnonymousLanAccessHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CustomAuthenticationHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/CustomAuthenticationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AuthService"
+      ]
+    },
+    {
+      "name": "DefaultAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/DefaultAuthorizationPolicy/DefaultAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FirstTimeSetupHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/FirstTimeSetupPolicy/FirstTimeSetupHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DefaultAuthorizationHandler"
+      ]
+    },
+    {
+      "name": "LocalAccessOrRequiresElevationHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/LocalAccessOrRequiresElevationPolicy/LocalAccessOrRequiresElevationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SyncPlayAccessHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/SyncPlayAccessPolicy/SyncPlayAccessHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserPermissionHandler",
+      "type": "SERVICE",
+      "file": "Jellyfin.Api/Auth/UserPermissionPolicy/UserPermissionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseJellyfinApiController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/BaseJellyfinApiController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ActivityLogController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ActivityLogController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ApiKeyController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ApiKeyController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ArtistsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ArtistsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "AudioController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/AudioController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "BackupController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/BackupController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BackupService",
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "BrandingController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/BrandingController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ChannelsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ChannelsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ClientLogController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ClientLogController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "CollectionController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/CollectionController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "ConfigurationController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ConfigurationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "DashboardController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/DashboardController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "DevicesController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/DevicesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "DisplayPreferencesController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/DisplayPreferencesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "DynamicHlsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/DynamicHlsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "EnvironmentController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/EnvironmentController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "FilterController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/FilterController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "GenresController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/GenresController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "HlsSegmentController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/HlsSegmentController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ImageController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ImageController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "InstantMixController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/InstantMixController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "ItemLookupController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ItemLookupController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "ItemRefreshController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ItemRefreshController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "ItemUpdateController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ItemUpdateController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "ItemsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ItemsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "LibraryController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/LibraryController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "LibraryStructureController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/LibraryStructureController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "LiveTvController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/LiveTvController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "LocalizationController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/LocalizationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "LyricsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/LyricsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "MediaInfoController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/MediaInfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "MediaSegmentsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/MediaSegmentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "MoviesController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/MoviesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "MusicGenresController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/MusicGenresController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "PackageController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/PackageController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "PersonsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/PersonsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "PlaylistsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/PlaylistsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "PlaystateController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/PlaystateController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "PluginsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/PluginsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "QuickConnectController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/QuickConnectController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "RemoteImageController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/RemoteImageController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "ScheduledTasksController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/ScheduledTasksController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "SearchController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SearchController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "SessionController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SessionController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "StartupController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/StartupController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "StudiosController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/StudiosController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "SubtitleController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SubtitleController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "SuggestionsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SuggestionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "SyncPlayController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SyncPlayController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "SystemController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/SystemController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "TimeSyncController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/TimeSyncController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "TrailersController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/TrailersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "ItemsController"
+      ]
+    },
+    {
+      "name": "TrickplayController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/TrickplayController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "TvShowsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/TvShowsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "UniversalAudioController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/UniversalAudioController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/UserController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "UserLibraryController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/UserLibraryController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DirectoryService",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "UserViewsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/UserViewsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "VideoAttachmentsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/VideoAttachmentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "VideosController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/VideosController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "YearsController",
+      "type": "API_ROUTE",
+      "file": "Jellyfin.Api/Controllers/YearsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController",
+        "DtoService"
+      ]
+    },
+    {
+      "name": "BackupService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/FullSystemBackup/BackupService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "BaseItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/BaseItemRepository.ByName.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "BaseItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/BaseItemRepository.QueryBuilding.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "BaseItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/BaseItemRepository.Querying.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "BaseItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/BaseItemRepository.TranslateQuery.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "BaseItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/BaseItemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "ChapterRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/ChapterRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "ItemCountService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/Item/ItemCountService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "ItemPersistenceService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/Item/ItemPersistenceService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseItemRepository",
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "KeyframeRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/KeyframeRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "LinkedChildrenService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/Item/LinkedChildrenService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "MediaAttachmentRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/MediaAttachmentRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "MediaStreamRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/MediaStreamRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "NextUpService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/Item/NextUpService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseItemRepository",
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "PeopleRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server.Implementations/Item/PeopleRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "DeviceAccessHost",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server.Implementations/Users/DeviceAccessHost.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JellyfinMigrationService",
+      "type": "SERVICE",
+      "file": "Jellyfin.Server/Migrations/JellyfinMigrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BackupService",
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "AddDefaultPluginRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server/Migrations/Routines/20250420090000_AddDefaultPluginRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ReaddDefaultPluginRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server/Migrations/Routines/20250420110000_ReaddDefaultPluginRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UpdateDefaultPluginRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "Jellyfin.Server/Migrations/Routines/20250420170000_UpdateDefaultPluginRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DirectoryService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Controller/Providers/DirectoryService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AudioBookMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Books/AudioBookMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "BookMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Books/BookMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "BoxSetMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/BoxSets/BoxSetMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "ChannelMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Channels/ChannelMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "CollectionFolderMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Folders/CollectionFolderMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "FolderMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Folders/FolderMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "UserViewMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Folders/UserViewMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "GenreMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Genres/GenreMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "LiveTvMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/LiveTv/LiveTvMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "MetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Manager/MetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DirectoryService"
+      ]
+    },
+    {
+      "name": "MovieMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Movies/MovieMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "TrailerMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Movies/TrailerMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "AlbumMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Music/AlbumMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "ArtistMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Music/ArtistMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "AudioMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Music/AudioMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "MusicVideoMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Music/MusicVideoMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "MusicGenreMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/MusicGenres/MusicGenreMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "PersonMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/People/PersonMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "PhotoAlbumMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Photos/PhotoAlbumMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "PhotoMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Photos/PhotoMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "PlaylistMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Playlists/PlaylistMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "TmdbController",
+      "type": "API_ROUTE",
+      "file": "MediaBrowser.Providers/Plugins/Tmdb/Api/TmdbController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StudioMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Studios/StudioMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "EpisodeMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/TV/EpisodeMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "SeasonMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/TV/SeasonMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "SeriesMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/TV/SeriesMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DirectoryService",
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "VideoMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Videos/VideoMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "YearMetadataService",
+      "type": "SERVICE",
+      "file": "MediaBrowser.Providers/Years/YearMetadataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MetadataService"
+      ]
+    },
+    {
+      "name": "NfoUserDataSaver",
+      "type": "SERVICE",
+      "file": "MediaBrowser.XbmcMetadata/NfoUserDataSaver.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JellyfinDbContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Jellyfin.Database/Jellyfin.Database.Implementations/JellyfinDbContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SqliteDesignTimeJellyfinDbFactory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Jellyfin.Database/Jellyfin.Database.Providers.Sqlite/Migrations/SqliteDesignTimeJellyfinDbFactory.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JellyfinDbContext"
+      ]
+    },
+    {
+      "name": "DefaultLiveTvService",
+      "type": "SERVICE",
+      "file": "src/Jellyfin.LiveTv/DefaultLiveTvService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LiveTvDtoService"
+      ]
+    },
+    {
+      "name": "LiveTvDtoService",
+      "type": "SERVICE",
+      "file": "src/Jellyfin.LiveTv/LiveTvDtoService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DtoService"
+      ]
+    },
+    {
+      "name": "RecordingNotifier",
+      "type": "SERVICE",
+      "file": "src/Jellyfin.LiveTv/Recordings/RecordingNotifier.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RecordingsHost",
+      "type": "SERVICE",
+      "file": "src/Jellyfin.LiveTv/Recordings/RecordingsHost.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AutoDiscoveryHost",
+      "type": "SERVICE",
+      "file": "src/Jellyfin.Networking/AutoDiscoveryHost.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestMetadataService",
+      "type": "SERVICE",
+      "file": "tests/Jellyfin.Providers.Tests/Manager/MetadataServiceRefreshTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DirectoryService",
+        "MetadataService",
+        "TestItemMetadataService"
+      ]
+    },
+    {
+      "name": "TestItemMetadataService",
+      "type": "SERVICE",
+      "file": "tests/Jellyfin.Providers.Tests/Manager/MetadataServiceRefreshTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DirectoryService",
+        "MetadataService",
+        "TestMetadataService"
+      ]
+    },
+    {
+      "name": "TestEpisodeMetadataService",
+      "type": "SERVICE",
+      "file": "tests/Jellyfin.Providers.Tests/TV/EpisodeMetadataServiceTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EpisodeMetadataService"
+      ]
+    },
+    {
+      "name": "BaseJellyfinTestController",
+      "type": "API_ROUTE",
+      "file": "tests/Jellyfin.Server.Integration.Tests/Controllers/BaseJellyfinTestController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinApiController"
+      ]
+    },
+    {
+      "name": "EncoderController",
+      "type": "API_ROUTE",
+      "file": "tests/Jellyfin.Server.Integration.Tests/Controllers/EncoderController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJellyfinTestController"
+      ]
+    }
+  ]
+}

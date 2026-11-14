@@ -1,0 +1,286 @@
+{
+  "org": "browser-use",
+  "repository": "browser-use",
+  "sha": "dfb6a73d520809341c975c6a01c228327991e88b",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "claude.yml",
+      "name": "Claude Code",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "claude",
+          "name": "claude",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "docker.yml",
+      "name": "docker",
+      "triggers": [
+        "push",
+        "release",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "smoke",
+          "name": "smoke (${{ matrix.platform }})",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "build_publish_image",
+          "name": "build_publish_image",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "smoke"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'smoke' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'build_publish_image' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "install-script.yml",
+      "name": "Test Browser Use CLI Install",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check-browser-use-skill",
+          "name": "browser-use skill sync",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test-pip-install",
+          "name": "uv pip install (${{ matrix.os }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "test-uvx-local-wheel",
+          "name": "uvx browser-use from local wheel",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test-uvx-pypi",
+          "name": "uvx browser-use[cli] from PyPI",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "lint.yml",
+      "name": "lint",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint-syntax",
+          "name": "syntax-errors",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "lint-style",
+          "name": "code-style",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "lint-typecheck",
+          "name": "type-checker",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "package.yaml",
+      "name": "package",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "pip-build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build_test",
+          "name": "pip-install-on-${{ matrix.os }}-py-${{ matrix.python-version }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "publish",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "tag_pre_release",
+          "name": "tag_pre_release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "publish_to_pypi",
+          "name": "publish_to_pypi",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "tag_pre_release"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tag_pre_release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "stale-bot.yml",
+      "name": "Manage stale issues and PRs",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yaml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "unit",
+          "name": "unit (${{ matrix.os }}, py${{ matrix.python }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "chrome",
+          "name": "chrome (ubuntu)",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "repository": "DapperLib/Dapper",
+  "sha": "eb47546a408bbf6c178bda4f04dc205bc51ffbfe",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 314,
+    "loc": 53580,
+    "sloc": 40740,
+    "component_count": 32,
+    "avg_cyclomatic_complexity": 10.18,
+    "max_cyclomatic_complexity": 668,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Build",
+      "type": "MODULE",
+      "file": "Build.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "*"
+      ]
+    },
+    {
+      "name": "Dapper",
+      "type": "MODULE",
+      "file": "Dapper/Dapper.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Dapper.EntityFramework",
+      "type": "MODULE",
+      "file": "Dapper.EntityFramework/Dapper.EntityFramework.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper"
+      ]
+    },
+    {
+      "name": "Dapper.EntityFramework.StrongName",
+      "type": "MODULE",
+      "file": "Dapper.EntityFramework.StrongName/Dapper.EntityFramework.StrongName.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper.StrongName"
+      ]
+    },
+    {
+      "name": "Dapper.ProviderTools",
+      "type": "MODULE",
+      "file": "Dapper.ProviderTools/Dapper.ProviderTools.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Dapper.Rainbow",
+      "type": "MODULE",
+      "file": "Dapper.Rainbow/Dapper.Rainbow.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper"
+      ]
+    },
+    {
+      "name": "Dapper.SqlBuilder",
+      "type": "MODULE",
+      "file": "Dapper.SqlBuilder/Dapper.SqlBuilder.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper"
+      ]
+    },
+    {
+      "name": "Dapper.StrongName",
+      "type": "MODULE",
+      "file": "Dapper.StrongName/Dapper.StrongName.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Dapper.Tests.Performance",
+      "type": "MODULE",
+      "file": "benchmarks/Dapper.Tests.Performance/Dapper.Tests.Performance.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper.EntityFramework"
+      ]
+    },
+    {
+      "name": "docs",
+      "type": "MODULE",
+      "file": "docs/docs.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Dapper.Tests",
+      "type": "MODULE",
+      "file": "tests/Dapper.Tests/Dapper.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Dapper.EntityFramework",
+        "Dapper.ProviderTools",
+        "Dapper.SqlBuilder"
+      ]
+    },
+    {
+      "name": "DbGeographyHandler",
+      "type": "SERVICE",
+      "file": "Dapper.EntityFramework/DbGeographyHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "DbGeometryHandler",
+      "type": "SERVICE",
+      "file": "Dapper.EntityFramework/DbGeometryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "DataTableHandler",
+      "type": "SERVICE",
+      "file": "Dapper/DataTableHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "SqlDataRecordHandler",
+      "type": "SERVICE",
+      "file": "Dapper/SqlDataRecordHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "TypeHandler",
+      "type": "SERVICE",
+      "file": "Dapper/SqlMapper.TypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StringTypeHandler"
+      ]
+    },
+    {
+      "name": "StringTypeHandler",
+      "type": "SERVICE",
+      "file": "Dapper/SqlMapper.TypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "UdtTypeHandler",
+      "type": "SERVICE",
+      "file": "Dapper/UdtTypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "XmlTypeHandler",
+      "type": "SERVICE",
+      "file": "Dapper/XmlHandlers.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StringTypeHandler",
+        "XDocumentHandler",
+        "XElementHandler",
+        "XmlDocumentHandler"
+      ]
+    },
+    {
+      "name": "XmlDocumentHandler",
+      "type": "SERVICE",
+      "file": "Dapper/XmlHandlers.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StringTypeHandler",
+        "XDocumentHandler",
+        "XElementHandler",
+        "XmlTypeHandler"
+      ]
+    },
+    {
+      "name": "XDocumentHandler",
+      "type": "SERVICE",
+      "file": "Dapper/XmlHandlers.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StringTypeHandler",
+        "XElementHandler",
+        "XmlDocumentHandler",
+        "XmlTypeHandler"
+      ]
+    },
+    {
+      "name": "XElementHandler",
+      "type": "SERVICE",
+      "file": "Dapper/XmlHandlers.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StringTypeHandler",
+        "XDocumentHandler",
+        "XmlDocumentHandler",
+        "XmlTypeHandler"
+      ]
+    },
+    {
+      "name": "EFContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "benchmarks/Dapper.Tests.Performance/EntityFramework/EFContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EFCoreContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "benchmarks/Dapper.Tests.Performance/EntityFrameworkCore/EFCoreContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StringEnumHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/PreferTypeHandlersForEnumsTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "LocalDateHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue1959_Subclass_Handler",
+        "Issue461_BlargHandler",
+        "RatingValueHandler",
+        "RecordingTypeHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "RatingValueHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue1959_Subclass_Handler",
+        "Issue461_BlargHandler",
+        "LocalDateHandler",
+        "RecordingTypeHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "StringListTypeHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue1959_Subclass_Handler",
+        "Issue461_BlargHandler",
+        "LocalDateHandler",
+        "RatingValueHandler",
+        "RecordingTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "RecordingTypeHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue1959_Subclass_Handler",
+        "Issue461_BlargHandler",
+        "LocalDateHandler",
+        "RatingValueHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "Issue461_BlargHandler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue1959_Subclass_Handler",
+        "LocalDateHandler",
+        "RatingValueHandler",
+        "RecordingTypeHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "Issue1959_Subclass_Handler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Raw_Handler",
+        "Issue461_BlargHandler",
+        "LocalDateHandler",
+        "RatingValueHandler",
+        "RecordingTypeHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    },
+    {
+      "name": "Issue1959_Raw_Handler",
+      "type": "SERVICE",
+      "file": "tests/Dapper.Tests/TypeHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Issue1959_Subclass_Handler",
+        "Issue461_BlargHandler",
+        "LocalDateHandler",
+        "RatingValueHandler",
+        "RecordingTypeHandler",
+        "StringListTypeHandler",
+        "TypeHandler"
+      ]
+    }
+  ]
+}

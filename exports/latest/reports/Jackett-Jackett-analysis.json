@@ -1,0 +1,345 @@
+{
+  "repository": "Jackett/Jackett",
+  "sha": "5a41a62a106823a9994cdb127a075d32ec8604a1",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 606,
+    "loc": 95768,
+    "sloc": 80030,
+    "component_count": 36,
+    "avg_cyclomatic_complexity": 23.72,
+    "max_cyclomatic_complexity": 468,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "DateTimeRoutines",
+      "type": "MODULE",
+      "file": "src/DateTimeRoutines/DateTimeRoutines.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jackett.Common",
+      "type": "MODULE",
+      "file": "src/Jackett.Common/Jackett.Common.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DateTimeRoutines"
+      ]
+    },
+    {
+      "name": "Jackett.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Jackett.IntegrationTests/Jackett.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Jackett.Server",
+      "type": "MODULE",
+      "file": "src/Jackett.Server/Jackett.Server.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jackett.Common"
+      ]
+    },
+    {
+      "name": "Jackett.Service",
+      "type": "MODULE",
+      "file": "src/Jackett.Service/Jackett.Service.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jackett.Common"
+      ]
+    },
+    {
+      "name": "Jackett.Test",
+      "type": "MODULE",
+      "file": "src/Jackett.Test/Jackett.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jackett.Common",
+        "Jackett.Server"
+      ]
+    },
+    {
+      "name": "Jackett.Tray",
+      "type": "MODULE",
+      "file": "src/Jackett.Tray/Jackett.Tray.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jackett.Common"
+      ]
+    },
+    {
+      "name": "Jackett.Updater",
+      "type": "MODULE",
+      "file": "src/Jackett.Updater/Jackett.Updater.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Jackett.Common"
+      ]
+    },
+    {
+      "name": "CacheService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/CacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigurationService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/ConfigurationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProcessService",
+        "SerializeService"
+      ]
+    },
+    {
+      "name": "IndexerConfigurationService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/IndexerConfigurationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigurationService"
+      ]
+    },
+    {
+      "name": "IndexerManagerService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/IndexerManagerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CacheService",
+        "ConfigurationService",
+        "IndexerConfigurationService",
+        "ProcessService",
+        "ProtectionService"
+      ]
+    },
+    {
+      "name": "LogCacheService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/LogCacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/ProcessService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SerializeService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/SerializeService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RunTimeService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/SpinService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TrayLockService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/TrayLockService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UpdateService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FilePermissionService",
+        "ServiceConfigService",
+        "TrayLockService"
+      ]
+    },
+    {
+      "name": "WindowsServiceConfigService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Common/Services/WindowsServiceConfigService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProcessService",
+        "Service",
+        "ServiceConfigService"
+      ]
+    },
+    {
+      "name": "BlackholeController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/BlackholeController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IndexerManagerService",
+        "ProtectionService"
+      ]
+    },
+    {
+      "name": "DownloadController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/DownloadController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IndexerManagerService",
+        "ProtectionService"
+      ]
+    },
+    {
+      "name": "HealthcheckController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/HealthcheckController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ImageController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/ImageController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IndexerManagerService",
+        "ProtectionService"
+      ]
+    },
+    {
+      "name": "IndexerApiController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/IndexerApiController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CacheService",
+        "IndexerManagerService",
+        "ServerConfigurationController",
+        "ServerService"
+      ]
+    },
+    {
+      "name": "ResultsController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/ResultsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CacheService",
+        "IndexerManagerService",
+        "ServerService"
+      ]
+    },
+    {
+      "name": "ServerConfigurationController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/ServerConfigurationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CacheService",
+        "ConfigurationService",
+        "IndexerManagerService",
+        "LogCacheService",
+        "ProcessService",
+        "SecurityService",
+        "ServerService",
+        "UpdateService"
+      ]
+    },
+    {
+      "name": "WebUIController",
+      "type": "API_ROUTE",
+      "file": "src/Jackett.Server/Controllers/UIController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigurationService",
+        "SecurityService"
+      ]
+    },
+    {
+      "name": "CustomExceptionHandler",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Middleware/CustomExceptionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FilePermissionService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Services/FilePermissionService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProtectionService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Services/ProtectionService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SecurityService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Services/SecurityService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ServerService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Services/ServerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigurationService",
+        "IndexerManagerService",
+        "ProcessService",
+        "ProtectionService",
+        "SerializeService",
+        "UpdateService"
+      ]
+    },
+    {
+      "name": "ServiceConfigService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Server/Services/ServiceConfigService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProcessService",
+        "Service"
+      ]
+    },
+    {
+      "name": "Service",
+      "type": "SERVICE",
+      "file": "src/Jackett.Service/Service.Designer.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Service",
+      "type": "SERVICE",
+      "file": "src/Jackett.Service/Service.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProcessService"
+      ]
+    },
+    {
+      "name": "TestCacheService",
+      "type": "SERVICE",
+      "file": "src/Jackett.Test/TestHelpers/TestCacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CacheService"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "org": "jasontaylordev",
+  "repository": "CleanArchitecture",
+  "sha": "e1ab4cc4d5d7b4e25e57bd8b0514b766573b8c04",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "build.yml",
+      "name": "Build",
+      "triggers": [
+        "pull_request",
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "Release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "Publish to NuGet.org",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "test-templates.yml",
+      "name": "Test Templates",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test-template",
+          "name": "${{ matrix.client-framework }}-${{ matrix.database }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "org": "reduxjs",
+  "repository": "redux",
+  "sha": "0139377fc8eef33e28afc6e3e939df3f41f939a6",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "publish.yml",
+      "name": "Publish Package to npmjs",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-commit.yml",
+      "name": "Release Commit",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "Release Commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "UNFILTERED_MAIN_PUSH",
+          "severity": "HIGH",
+          "message": "Deployment workflow triggers on 'push' without branch or tag filters."
+        }
+      ]
+    },
+    {
+      "id": "size.yaml",
+      "name": "Bundle Size",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Check compressed size",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yaml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "Check for changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "Lint, Test, Build & Pack on Node ${{ matrix.node }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "test-dist",
+          "name": "Test against dist",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "test-types",
+          "name": "Test Types with TypeScript ${{ matrix.ts }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "are-the-types-wrong",
+          "name": "Check package config with are-the-types-wrong",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "test-published-artifact",
+          "name": "Test Published Artifact ${{ matrix.example }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "UNFILTERED_MAIN_PUSH",
+          "severity": "HIGH",
+          "message": "Deployment workflow triggers on unfiltered 'push' event."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "org": "ManimCommunity",
+  "repository": "manim",
+  "sha": "6ed9b12ba8cf1a4341cf103afde23774887aee36",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "cffconvert.yml",
+      "name": "cffconvert",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "validate",
+          "name": "validate",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 21,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependent-issues.yml",
+      "name": "Dependent Issues",
+      "triggers": [
+        "issues",
+        "pull_request_target",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish-docker.yml",
+      "name": "Publish Docker Image",
+      "triggers": [
+        "push",
+        "release",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build (${{ matrix.arch }})",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "Publish multi-platform image",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "python-publish.yml",
+      "name": "Publish Release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "Publish release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-publish-documentation.yml",
+      "name": "Publish downloadable documentation",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-and-publish-htmldocs",
+          "name": "build-and-publish-htmldocs",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build-and-publish-htmldocs' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

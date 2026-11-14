@@ -1,0 +1,274 @@
+{
+  "org": "openai",
+  "repository": "openai-python",
+  "sha": "59738a289ee82c7b86bf1e10230cceb6daa9716d",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group",
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "dependency-locks",
+          "name": "dependency lock freshness",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "browser-demo-types",
+          "name": "browser demo types",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "optional-provider-types",
+          "name": "optional provider types (${{ matrix.provider }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "test",
+          "name": "test (Python ${{ matrix.python-version }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "examples",
+          "name": "examples",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "dependency-locks"
+          ]
+        },
+        {
+          "id": "python-policy",
+          "name": "Python support policy",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "compatibility",
+          "name": "compatibility (Python ${{ matrix.python-version }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "dependency-locks"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'examples' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze Python",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "create-releases.yml",
+      "name": "Create releases",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "release"
+          ]
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches."
+        }
+      ]
+    },
+    {
+      "id": "detect-breaking-changes.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "detect_breaking_changes",
+          "name": "detect-breaking-changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "publish-pypi.yml",
+      "name": "Publish PyPI",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "python-version-review.yml",
+      "name": "Monthly Python version review",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "assess",
+          "name": "Assess Python version support",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "open_issue",
+          "name": "Open or refresh Python version review",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "assess"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'assess' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "org": "httpie",
+  "repository": "cli",
+  "sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "benchmark.yml",
+      "name": "Benchmark",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "code-style.yml",
+      "name": "Code Style Check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "code-style",
+          "name": "code-style",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "content.yml",
+      "name": "Update Generated Content",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "update-content",
+          "name": "update-content",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "coverage.yml",
+      "name": "Coverage",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "coverage",
+          "name": "coverage",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docs-check-markdown.yml",
+      "name": "Check Markdown Style",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "doc",
+          "name": "doc",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docs-deploy.yml",
+      "name": "Deploy Documentation",
+      "triggers": [
+        "push",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "trigger-doc-build",
+          "name": "trigger-doc-build",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "release-brew.yml",
+      "name": "Release on Homebrew",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "brew-release",
+          "name": "Release the Homebrew Package",
+          "runner": "macos-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'brew-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-choco.yml",
+      "name": "Release on Chocolatey",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "brew-release",
+          "name": "Release the Chocolatey",
+          "runner": "windows-2019",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'brew-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-linux-standalone.yml",
+      "name": "Release as Standalone Linux Package",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "binary-build-and-release",
+          "name": "Build and Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'binary-build-and-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "release-pypi.yml",
+      "name": "Release on PyPI",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "pypi-build-and-release",
+          "name": "Build and Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'pypi-build-and-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-snap.yml",
+      "name": "Release on Snap",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "snap-build-and-release",
+          "name": "Build & Release the Snap Package",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'snap-build-and-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "name": "Mark stale pull requests",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test-package-linux-snap.yml",
+      "name": "Test Snap Package (Linux)",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "snap",
+          "name": "snap",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test-package-mac-brew.yml",
+      "name": "Test Brew Package (MacOS)",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "brew",
+          "name": "brew",
+          "runner": "macos-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

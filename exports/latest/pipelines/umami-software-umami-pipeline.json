@@ -1,0 +1,115 @@
+{
+  "org": "umami-software",
+  "repository": "umami",
+  "sha": "b18d5144dfe7342edeeca6f61d13ba3baabed9ad",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "cd-cloud.yml",
+      "name": "Create docker images (cloud)",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build, push, and deploy",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "cd.yml",
+      "name": "Create docker images",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build, push, and deploy",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "ci.yml",
+      "name": "Node.js CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 12,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in workflow env 'APP_SECRET'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "gitleaks.yml",
+      "name": "Gitleaks",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "scan",
+          "name": "Scan for secrets",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "stale-issues.yml",
+      "name": "Close stale issues",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

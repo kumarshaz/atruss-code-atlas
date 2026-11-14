@@ -1,0 +1,243 @@
+{
+  "org": "scrapy",
+  "repository": "scrapy",
+  "sha": "f1e29c3822468f03f090d22714020f86b3d6e9a2",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "pre-commit",
+          "name": "pre-commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "checks",
+          "name": "checks",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "ubuntu",
+          "name": "tests (ubuntu, ${{ matrix.python-version }}, ${{ matrix.env.TOXENV }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "pre-commit",
+            "checks"
+          ]
+        },
+        {
+          "id": "windows",
+          "name": "tests (windows, ${{ matrix.python-version }}, ${{ matrix.env.TOXENV }})",
+          "runner": "windows-latest",
+          "steps_count": 8,
+          "needs": [
+            "pre-commit",
+            "checks"
+          ]
+        },
+        {
+          "id": "macos",
+          "name": "tests (macos, ${{ matrix.python-version }}, ${{ matrix.env.TOXENV }})",
+          "runner": "macos-latest",
+          "steps_count": 8,
+          "needs": [
+            "pre-commit",
+            "checks"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "close-spam-prs.yml",
+      "name": "Close spam PRs",
+      "triggers": [
+        "pull_request_target",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "unattended-pr-guard",
+          "name": "unattended-pr-guard",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codspeed-walltime.yml",
+      "name": "codspeed-walltime",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark-walltime",
+          "name": "benchmark-walltime",
+          "runner": "codspeed-macro",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codspeed.yml",
+      "name": "codspeed",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "benchmark",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build distribution",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "Upload release to PyPI",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build",
+            "release-notes"
+          ]
+        },
+        {
+          "id": "release-notes",
+          "name": "Build GitHub release notes",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "github-release",
+          "name": "Create GitHub release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "publish"
+          ]
+        },
+        {
+          "id": "read-the-docs",
+          "name": "Create the new branch and make it the Read the Docs default",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "publish"
+          ]
+        },
+        {
+          "id": "upgrade-ci-pins",
+          "name": "upgrade-ci-pins",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "publish"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-notes' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'github-release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'read-the-docs' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "tests-vcs-deps.yml",
+      "name": "VCS dependencies",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "upgrade-ci-pins.yml",
+      "name": "Upgrade CI pins",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "upgrade",
+          "name": "upgrade",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

@@ -1,0 +1,1147 @@
+{
+  "repository": "linlinjava/litemall",
+  "sha": "a1ef964a718b7277925b19ea26afe78ea3a1d325",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 752,
+    "loc": 240094,
+    "sloc": 127807,
+    "component_count": 130,
+    "avg_cyclomatic_complexity": 12.63,
+    "max_cyclomatic_complexity": 4255,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "litemall-admin-api",
+      "type": "MODULE",
+      "file": "litemall-admin-api/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-all",
+      "type": "MODULE",
+      "file": "litemall-all/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-all-war",
+      "type": "MODULE",
+      "file": "litemall-all-war/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-core",
+      "type": "MODULE",
+      "file": "litemall-core/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-db",
+      "type": "MODULE",
+      "file": "litemall-db/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-wx-api",
+      "type": "MODULE",
+      "file": "litemall-wx-api/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "litemall",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminSwagger2Configuration",
+      "type": "CONFIG",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/config/AdminSwagger2Configuration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "KaptchaConfig",
+      "type": "CONFIG",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/config/KaptchaConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ShiroConfig",
+      "type": "CONFIG",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/config/ShiroConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ShiroExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/config/ShiroExceptionHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminGoodsService",
+      "type": "SERVICE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/service/AdminGoodsService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallBrandService",
+        "LitemallCartService",
+        "LitemallCategoryService",
+        "LitemallGoodsAttributeService",
+        "LitemallGoodsProductService",
+        "LitemallGoodsService",
+        "LitemallGoodsSpecificationService",
+        "QCodeService"
+      ]
+    },
+    {
+      "name": "AdminOrderService",
+      "type": "SERVICE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/service/AdminOrderService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCommentService",
+        "LitemallCouponUserService",
+        "LitemallGoodsProductService",
+        "LitemallOrderGoodsService",
+        "LitemallOrderService",
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "AdminAdController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminAdController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdService"
+      ]
+    },
+    {
+      "name": "AdminAddressController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminAddressController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAddressService",
+        "LitemallRegionService"
+      ]
+    },
+    {
+      "name": "AdminAdminController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminAdminController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdminService"
+      ]
+    },
+    {
+      "name": "AdminAftersaleController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminAftersaleController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAftersaleService",
+        "LitemallGoodsProductService",
+        "LitemallOrderGoodsService",
+        "LitemallOrderService"
+      ]
+    },
+    {
+      "name": "AdminAuthController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminAuthController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdminService",
+        "LitemallPermissionService",
+        "LitemallRoleService"
+      ]
+    },
+    {
+      "name": "AdminBrandController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminBrandController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallBrandService"
+      ]
+    },
+    {
+      "name": "AdminCategoryController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminCategoryController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCategoryService"
+      ]
+    },
+    {
+      "name": "AdminCollectController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminCollectController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCollectService"
+      ]
+    },
+    {
+      "name": "AdminCommentController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminCommentController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCommentService"
+      ]
+    },
+    {
+      "name": "AdminConfigController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallSystemConfigService"
+      ]
+    },
+    {
+      "name": "AdminCouponController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminCouponController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCouponService",
+        "LitemallCouponUserService"
+      ]
+    },
+    {
+      "name": "AdminDashbordController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminDashbordController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallGoodsProductService",
+        "LitemallGoodsService",
+        "LitemallOrderService",
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "AdminFeedbackController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminFeedbackController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallFeedbackService"
+      ]
+    },
+    {
+      "name": "AdminFootprintController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminFootprintController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallFootprintService"
+      ]
+    },
+    {
+      "name": "AdminGoodsController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminGoodsController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminGoodsService"
+      ]
+    },
+    {
+      "name": "AdminGrouponController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminGrouponController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallGoodsService",
+        "LitemallGrouponRulesService",
+        "LitemallGrouponService"
+      ]
+    },
+    {
+      "name": "AdminHistoryController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminHistoryController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallSearchHistoryService"
+      ]
+    },
+    {
+      "name": "AdminIndexController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminIndexController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminIssueController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminIssueController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallIssueService"
+      ]
+    },
+    {
+      "name": "AdminKeywordController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminKeywordController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallKeywordService"
+      ]
+    },
+    {
+      "name": "AdminLogController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminLogController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallLogService"
+      ]
+    },
+    {
+      "name": "AdminNoticeController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminNoticeController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdminService",
+        "LitemallNoticeAdminService",
+        "LitemallNoticeService"
+      ]
+    },
+    {
+      "name": "AdminOrderController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminOrderController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminOrderService"
+      ]
+    },
+    {
+      "name": "AdminProfileController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminProfileController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdminService",
+        "LitemallNoticeAdminService",
+        "LitemallNoticeService"
+      ]
+    },
+    {
+      "name": "AdminRegionController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminRegionController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallRegionService"
+      ]
+    },
+    {
+      "name": "AdminRoleController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminRoleController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdminService",
+        "LitemallPermissionService",
+        "LitemallRoleService"
+      ]
+    },
+    {
+      "name": "AdminStatController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminStatController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StatService"
+      ]
+    },
+    {
+      "name": "AdminStorageController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminStorageController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallStorageService"
+      ]
+    },
+    {
+      "name": "AdminTopicController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminTopicController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallGoodsService",
+        "LitemallTopicService"
+      ]
+    },
+    {
+      "name": "AdminUserController",
+      "type": "API_ROUTE",
+      "file": "litemall-admin-api/src/main/java/org/linlinjava/litemall/admin/web/AdminUserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-all-war/src/main/java/org/linlinjava/litemall/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-all/src/main/java/org/linlinjava/litemall/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AsyncConfig",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/AsyncConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CorsConfig",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/CorsConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/GlobalExceptionHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "JacksonConfig",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/JacksonConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ValidatorConfiguration",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/ValidatorConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WxConfig",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/WxConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "WxProperties"
+      ]
+    },
+    {
+      "name": "WxProperties",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/config/WxProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ExpressAutoConfiguration",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/express/config/ExpressAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ExpressProperties"
+      ]
+    },
+    {
+      "name": "ExpressProperties",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/express/config/ExpressProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NotifyAutoConfiguration",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/notify/config/NotifyAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NotifyProperties"
+      ]
+    },
+    {
+      "name": "NotifyProperties",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/notify/config/NotifyProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "QCodeService",
+      "type": "SERVICE",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/qcode/QCodeService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StorageAutoConfiguration",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/storage/config/StorageAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "StorageProperties"
+      ]
+    },
+    {
+      "name": "StorageProperties",
+      "type": "CONFIG",
+      "file": "litemall-core/src/main/java/org/linlinjava/litemall/core/storage/config/StorageProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-core/src/test/java/org/linlinjava/litemall/core/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AsyncTask",
+      "type": "SERVICE",
+      "file": "litemall-core/src/test/java/org/linlinjava/litemall/core/AsyncTask.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CouponAssignService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/CouponAssignService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCouponService",
+        "LitemallCouponUserService"
+      ]
+    },
+    {
+      "name": "CouponVerifyService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/CouponVerifyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCouponService",
+        "LitemallCouponUserService",
+        "LitemallGoodsService"
+      ]
+    },
+    {
+      "name": "LitemallAdService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallAdService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallAddressService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallAddressService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallAdminService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallAdminService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallAftersaleService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallAftersaleService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallBrandService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallBrandService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCartService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCartService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCategoryService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCategoryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCollectService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCollectService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCommentService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCommentService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCouponService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCouponService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallCouponUserService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallCouponUserService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallFeedbackService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallFeedbackService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallFootprintService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallFootprintService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGoodsAttributeService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGoodsAttributeService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGoodsProductService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGoodsProductService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGoodsService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGoodsService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGoodsSpecificationService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGoodsSpecificationService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGrouponRulesService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGrouponRulesService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallGrouponService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallGrouponService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallIssueService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallIssueService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallKeywordService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallKeywordService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallLogService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallLogService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallNoticeAdminService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallNoticeAdminService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallNoticeService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallNoticeService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallOrderGoodsService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallOrderGoodsService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallOrderService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallOrderService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallPermissionService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallPermissionService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallRegionService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallRegionService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallRoleService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallRoleService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallSearchHistoryService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallSearchHistoryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallStorageService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallStorageService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallSystemConfigService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallSystemConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallTopicService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallTopicService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LitemallUserService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/LitemallUserService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "StatService",
+      "type": "SERVICE",
+      "file": "litemall-db/src/main/java/org/linlinjava/litemall/db/service/StatService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-db/src/test/java/org/linlinjava/litemall/db/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Application",
+      "type": "CONFIG",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/Application.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WxSwagger2Configuration",
+      "type": "CONFIG",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/config/WxSwagger2Configuration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WxWebMvcConfiguration",
+      "type": "CONFIG",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/config/WxWebMvcConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserInfoService",
+      "type": "SERVICE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/service/UserInfoService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "WxGrouponRuleService",
+      "type": "SERVICE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/service/WxGrouponRuleService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallGoodsService",
+        "LitemallGrouponRulesService",
+        "LitemallGrouponService"
+      ]
+    },
+    {
+      "name": "WxOrderService",
+      "type": "SERVICE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/service/WxOrderService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CouponVerifyService",
+        "LitemallAddressService",
+        "LitemallAftersaleService",
+        "LitemallCartService",
+        "LitemallCommentService",
+        "LitemallCouponService",
+        "LitemallCouponUserService",
+        "LitemallGoodsProductService",
+        "LitemallGrouponRulesService",
+        "LitemallGrouponService",
+        "LitemallOrderGoodsService",
+        "LitemallOrderService",
+        "LitemallRegionService",
+        "LitemallUserService",
+        "QCodeService"
+      ]
+    },
+    {
+      "name": "WxAddressController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxAddressController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAddressService",
+        "LitemallRegionService"
+      ]
+    },
+    {
+      "name": "WxAftersaleController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxAftersaleController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAftersaleService",
+        "LitemallOrderGoodsService",
+        "LitemallOrderService"
+      ]
+    },
+    {
+      "name": "WxAuthController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxAuthController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CouponAssignService",
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "WxBrandController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxBrandController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallBrandService"
+      ]
+    },
+    {
+      "name": "WxCartController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxCartController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CouponVerifyService",
+        "LitemallAddressService",
+        "LitemallCartService",
+        "LitemallCouponService",
+        "LitemallCouponUserService",
+        "LitemallGoodsProductService",
+        "LitemallGoodsService",
+        "LitemallGrouponRulesService"
+      ]
+    },
+    {
+      "name": "WxCatalogController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxCatalogController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCategoryService"
+      ]
+    },
+    {
+      "name": "WxCollectController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxCollectController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCollectService",
+        "LitemallGoodsService",
+        "LitemallTopicService"
+      ]
+    },
+    {
+      "name": "WxCommentController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxCommentController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCommentService",
+        "LitemallGoodsService",
+        "LitemallTopicService",
+        "LitemallUserService",
+        "UserInfoService"
+      ]
+    },
+    {
+      "name": "WxCouponController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxCouponController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CouponVerifyService",
+        "LitemallCartService",
+        "LitemallCouponService",
+        "LitemallCouponUserService",
+        "LitemallGrouponRulesService"
+      ]
+    },
+    {
+      "name": "WxFeedbackController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxFeedbackController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallFeedbackService",
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "WxFootprintController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxFootprintController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallFootprintService",
+        "LitemallGoodsService"
+      ]
+    },
+    {
+      "name": "WxGoodsController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxGoodsController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallBrandService",
+        "LitemallCategoryService",
+        "LitemallCollectService",
+        "LitemallCommentService",
+        "LitemallFootprintService",
+        "LitemallGoodsAttributeService",
+        "LitemallGoodsProductService",
+        "LitemallGoodsService",
+        "LitemallGoodsSpecificationService",
+        "LitemallGrouponRulesService",
+        "LitemallIssueService",
+        "LitemallSearchHistoryService",
+        "LitemallUserService"
+      ]
+    },
+    {
+      "name": "WxGrouponController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxGrouponController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallGoodsService",
+        "LitemallGrouponRulesService",
+        "LitemallGrouponService",
+        "LitemallOrderGoodsService",
+        "LitemallOrderService",
+        "LitemallUserService",
+        "WxGrouponRuleService"
+      ]
+    },
+    {
+      "name": "WxHomeController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxHomeController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallAdService",
+        "LitemallBrandService",
+        "LitemallCategoryService",
+        "LitemallCouponService",
+        "LitemallGoodsService",
+        "LitemallTopicService",
+        "WxGrouponRuleService"
+      ]
+    },
+    {
+      "name": "WxIndexController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxIndexController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WxIssueController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxIssueController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallIssueService"
+      ]
+    },
+    {
+      "name": "WxMsgController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxMsgController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WxOrderController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxOrderController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "WxOrderService"
+      ]
+    },
+    {
+      "name": "WxSearchController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxSearchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallKeywordService",
+        "LitemallSearchHistoryService"
+      ]
+    },
+    {
+      "name": "WxStorageController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxStorageController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallStorageService"
+      ]
+    },
+    {
+      "name": "WxTopicController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxTopicController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallCollectService",
+        "LitemallGoodsService",
+        "LitemallTopicService"
+      ]
+    },
+    {
+      "name": "WxUserController",
+      "type": "API_ROUTE",
+      "file": "litemall-wx-api/src/main/java/org/linlinjava/litemall/wx/web/WxUserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LitemallOrderService"
+      ]
+    },
+    {
+      "name": "litemall-admin",
+      "type": "MODULE",
+      "file": "litemall-admin/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "litemall-vue",
+      "type": "MODULE",
+      "file": "litemall-vue/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}

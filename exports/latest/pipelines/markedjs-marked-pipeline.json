@@ -1,0 +1,54 @@
+{
+  "org": "markedjs",
+  "repository": "marked",
+  "sha": "738ebebc835ebc97fe82e3321bc7f91f638c531f",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "UnitTests",
+          "name": "UnitTests",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "OtherTests",
+          "name": "OtherTests",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "Release",
+          "name": "Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "UnitTests",
+            "OtherTests"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+{
+  "repository": "jasontaylordev/CleanArchitecture",
+  "sha": "e1ab4cc4d5d7b4e25e57bd8b0514b766573b8c04",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 282,
+    "loc": 10375,
+    "sloc": 8273,
+    "component_count": 43,
+    "avg_cyclomatic_complexity": 2.73,
+    "max_cyclomatic_complexity": 38,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "AppHost",
+      "type": "MODULE",
+      "file": "src/AppHost/AppHost.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Shared",
+        "Web"
+      ]
+    },
+    {
+      "name": "Application",
+      "type": "MODULE",
+      "file": "src/Application/Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Domain"
+      ]
+    },
+    {
+      "name": "Domain",
+      "type": "MODULE",
+      "file": "src/Domain/Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Infrastructure",
+      "type": "MODULE",
+      "file": "src/Infrastructure/Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Application",
+        "Shared"
+      ]
+    },
+    {
+      "name": "ServiceDefaults",
+      "type": "MODULE",
+      "file": "src/ServiceDefaults/ServiceDefaults.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Shared",
+      "type": "MODULE",
+      "file": "src/Shared/Shared.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Web",
+      "type": "MODULE",
+      "file": "src/Web/Web.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Application",
+        "Infrastructure",
+        "ServiceDefaults"
+      ]
+    },
+    {
+      "name": "Application.FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Shared",
+        "TestAppHost",
+        "Web"
+      ]
+    },
+    {
+      "name": "Application.UnitTests",
+      "type": "MODULE",
+      "file": "tests/Application.UnitTests/Application.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Application",
+        "Infrastructure"
+      ]
+    },
+    {
+      "name": "Domain.UnitTests",
+      "type": "MODULE",
+      "file": "tests/Domain.UnitTests/Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Domain"
+      ]
+    },
+    {
+      "name": "Infrastructure.IntegrationTests",
+      "type": "MODULE",
+      "file": "tests/Infrastructure.IntegrationTests/Infrastructure.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestAppHost",
+      "type": "MODULE",
+      "file": "tests/TestAppHost/TestAppHost.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Shared"
+      ]
+    },
+    {
+      "name": "Web.AcceptanceTests",
+      "type": "MODULE",
+      "file": "tests/Web.AcceptanceTests/Web.AcceptanceTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppHost",
+        "Shared"
+      ]
+    },
+    {
+      "name": "CreateTodoItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoItems/Commands/CreateTodoItem/CreateTodoItem.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "DeleteTodoItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoItems/Commands/DeleteTodoItem/DeleteTodoItem.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "UpdateTodoItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoItems/Commands/UpdateTodoItem/UpdateTodoItem.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "UpdateTodoItemDetailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoItems/Commands/UpdateTodoItemDetail/UpdateTodoItemDetail.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "CreateTodoListCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoLists/Commands/CreateTodoList/CreateTodoList.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "DeleteTodoListCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoLists/Commands/DeleteTodoList/DeleteTodoList.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "UpdateTodoListCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoLists/Commands/UpdateTodoList/UpdateTodoList.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "GetTodosQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Application/TodoLists/Queries/GetTodos/GetTodos.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "GetWeatherForecastsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Application/WeatherForecasts/Queries/GetWeatherForecasts/GetWeatherForecastsQuery.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ApplicationDbContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure/Data/ApplicationDbContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IdentityService",
+      "type": "SERVICE",
+      "file": "src/Infrastructure/Identity/IdentityService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProblemDetailsExceptionHandler",
+      "type": "SERVICE",
+      "file": "src/Web/Infrastructure/ProblemDetailsExceptionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CleanArchitectureUseCaseCommandHandler",
+      "type": "SERVICE",
+      "file": "templates/ca-use-case/FeatureName/Commands/CleanArchitectureUseCase/CleanArchitectureUseCase.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "CleanArchitectureUseCaseQueryHandler",
+      "type": "SERVICE",
+      "file": "templates/ca-use-case/FeatureName/Queries/CleanArchitectureUseCase/CleanArchitectureUseCase.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationDbContext"
+      ]
+    },
+    {
+      "name": "cleanarchitecture.web",
+      "type": "MODULE",
+      "file": "src/Web/ClientApp/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "cleanarchitecture.web",
+      "type": "MODULE",
+      "file": "src/Web/ClientApp-React/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Counter",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/Counter.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Home",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/Home.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Layout",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/Layout.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "NavMenu"
+      ]
+    },
+    {
+      "name": "NavMenu",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/NavMenu.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "AuthProvider",
+        "ThemeToggle"
+      ]
+    },
+    {
+      "name": "ThemeProvider",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/ThemeContext.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ThemeToggle",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/ThemeToggle.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "ThemeProvider"
+      ]
+    },
+    {
+      "name": "Tasks",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/Todo.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "Weather",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/Weather.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "AuthProvider",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/api-authorization/AuthContext.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "LoginPage",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/api-authorization/LoginPage.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "AuthProvider"
+      ]
+    },
+    {
+      "name": "ProtectedRoute",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/api-authorization/ProtectedRoute.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "AuthProvider"
+      ]
+    },
+    {
+      "name": "RegisterPage",
+      "type": "UI_COMPONENT",
+      "file": "src/Web/ClientApp-React/src/components/api-authorization/RegisterPage.jsx",
+      "ecosystem": "react_ts_js",
+      "dependencies": [
+        "AuthProvider"
+      ]
+    },
+    {
+      "name": "AuthService",
+      "type": "SERVICE",
+      "file": "src/Web/ClientApp/src/api-authorization/auth.service.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "ThemeService",
+      "type": "SERVICE",
+      "file": "src/Web/ClientApp/src/app/theme.service.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}

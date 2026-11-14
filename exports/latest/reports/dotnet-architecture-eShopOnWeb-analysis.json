@@ -1,0 +1,323 @@
+{
+  "repository": "dotnet-architecture/eShopOnWeb",
+  "sha": "4da8212117e87d808d4bbc7da6286fd2147ce606",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 508,
+    "loc": 21466,
+    "sloc": 17326,
+    "component_count": 38,
+    "avg_cyclomatic_complexity": 1.61,
+    "max_cyclomatic_complexity": 57,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "ApplicationCore",
+      "type": "MODULE",
+      "file": "src/ApplicationCore/ApplicationCore.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BlazorShared"
+      ]
+    },
+    {
+      "name": "BlazorAdmin",
+      "type": "MODULE",
+      "file": "src/BlazorAdmin/BlazorAdmin.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BlazorShared"
+      ]
+    },
+    {
+      "name": "BlazorShared",
+      "type": "MODULE",
+      "file": "src/BlazorShared/BlazorShared.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Infrastructure",
+      "type": "MODULE",
+      "file": "src/Infrastructure/Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationCore"
+      ]
+    },
+    {
+      "name": "PublicApi",
+      "type": "MODULE",
+      "file": "src/PublicApi/PublicApi.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationCore",
+        "Infrastructure"
+      ]
+    },
+    {
+      "name": "Web",
+      "type": "MODULE",
+      "file": "src/Web/Web.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationCore",
+        "BlazorAdmin",
+        "BlazorShared",
+        "Infrastructure"
+      ]
+    },
+    {
+      "name": "FunctionalTests",
+      "type": "MODULE",
+      "file": "tests/FunctionalTests/FunctionalTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationCore",
+        "PublicApi",
+        "Web"
+      ]
+    },
+    {
+      "name": "IntegrationTests",
+      "type": "MODULE",
+      "file": "tests/IntegrationTests/IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Infrastructure",
+        "UnitTests"
+      ]
+    },
+    {
+      "name": "PublicApiIntegrationTests",
+      "type": "MODULE",
+      "file": "tests/PublicApiIntegrationTests/PublicApiIntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PublicApi",
+        "Web"
+      ]
+    },
+    {
+      "name": "UnitTests",
+      "type": "MODULE",
+      "file": "tests/UnitTests/UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApplicationCore",
+        "Web"
+      ]
+    },
+    {
+      "name": "BasketService",
+      "type": "SERVICE",
+      "file": "src/ApplicationCore/Services/BasketService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderService",
+      "type": "SERVICE",
+      "file": "src/ApplicationCore/Services/OrderService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogItemService",
+      "type": "SERVICE",
+      "file": "src/BlazorAdmin/Services/CatalogItemService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogLookupDataService",
+        "HttpService"
+      ]
+    },
+    {
+      "name": "CatalogLookupDataService",
+      "type": "SERVICE",
+      "file": "src/BlazorAdmin/Services/CatalogLookupDataService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HttpService",
+      "type": "SERVICE",
+      "file": "src/BlazorAdmin/Services/HttpService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ToastService"
+      ]
+    },
+    {
+      "name": "ToastService",
+      "type": "SERVICE",
+      "file": "src/BlazorAdmin/Services/ToastService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure/Data/CatalogContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EfRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure/Data/EfRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogContext"
+      ]
+    },
+    {
+      "name": "BasketQueryService",
+      "type": "SERVICE",
+      "file": "src/Infrastructure/Data/Queries/BasketQueryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogContext"
+      ]
+    },
+    {
+      "name": "AppIdentityDbContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure/Identity/AppIdentityDbContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IdentityTokenClaimService",
+      "type": "SERVICE",
+      "file": "src/Infrastructure/Identity/IdentityTokenClaimService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_api_catalog-brands",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_api_catalog-items_{catalogItemId}",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogItemEndpoints/CatalogItemGetByIdEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_api_catalog-items",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "POST_api_catalog-items",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DELETE_api_catalog-items_{catalogItemId}",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogItemEndpoints/DeleteCatalogItemEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PUT_api_catalog-items",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogItemEndpoints/UpdateCatalogItemEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_api_catalog-types",
+      "type": "API_ROUTE",
+      "file": "src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseApiController",
+      "type": "API_ROUTE",
+      "file": "src/Web/Controllers/Api/BaseApiController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ManageController",
+      "type": "API_ROUTE",
+      "file": "src/Web/Controllers/ManageController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrderController",
+      "type": "API_ROUTE",
+      "file": "src/Web/Controllers/OrderController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "src/Web/Controllers/UserController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMyOrdersHandler",
+      "type": "SERVICE",
+      "file": "src/Web/Features/MyOrders/GetMyOrdersHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetOrderDetailsHandler",
+      "type": "SERVICE",
+      "file": "src/Web/Features/OrderDetails/GetOrderDetailsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BasketViewModelService",
+      "type": "SERVICE",
+      "file": "src/Web/Services/BasketViewModelService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BasketQueryService"
+      ]
+    },
+    {
+      "name": "CachedCatalogViewModelService",
+      "type": "SERVICE",
+      "file": "src/Web/Services/CachedCatalogViewModelService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CatalogViewModelService"
+      ]
+    },
+    {
+      "name": "CatalogItemViewModelService",
+      "type": "SERVICE",
+      "file": "src/Web/Services/CatalogItemViewModelService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CatalogViewModelService",
+      "type": "SERVICE",
+      "file": "src/Web/Services/CatalogViewModelService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    }
+  ]
+}

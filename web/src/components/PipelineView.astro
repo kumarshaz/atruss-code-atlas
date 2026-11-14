@@ -1,0 +1,738 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import EmptyStatePrompt from './EmptyStatePrompt.astro';
+import AntiPatternBadge from './AntiPatternBadge.astro';
+
+interface Props {
+    repo_name: string;
+    org: string;
+}
+
+const { repo_name, org } = Astro.props;
+
+let pipelineData: any = null;
+let error = false;
+
+try {
+    const baseDirs = [
+        path.resolve(process.cwd(), '../exports/latest/pipelines'),
+        path.resolve(process.cwd(), 'src/data/latest/pipelines'),
+    ];
+    for (const basePath of baseDirs) {
+        const orgRepoPath = path.join(basePath, `${org}-${repo_name}-pipeline.json`);
+        const plainRepoPath = path.join(basePath, `${repo_name}-pipeline.json`);
+        if (fs.existsSync(orgRepoPath)) {
+            pipelineData = JSON.parse(fs.readFileSync(orgRepoPath, 'utf8'));
+            break;
+        }
+        if (fs.existsSync(plainRepoPath)) {
+            pipelineData = JSON.parse(fs.readFileSync(plainRepoPath, 'utf8'));
+            break;
+        }
+    }
+} catch (e) {
+    console.error('Failed to load pipeline data:', e);
+    error = true;
+}
+
+const showEmptyState = !pipelineData || error;
+
+const workflows = !showEmptyState && Array.isArray(pipelineData.workflows) ? pipelineData.workflows : [];
+const totalJobs = workflows.reduce(
+    (sum: number, wf: any) => sum + (Array.isArray(wf.jobs) ? wf.jobs.length : 0),
+    0
+);
+
+const antiPatterns: any[] = [];
+workflows.forEach((wf: any) => {
+    if (Array.isArray(wf.anti_patterns)) {
+        wf.anti_patterns.forEach((ap: any) => {
+            antiPatterns.push({ ...ap, workflowName: wf.name || wf.id });
+        });
+    }
+});
+
+const classifyWorkflowCategory = (name: string, triggers: string[] = []): string => {
+    const hay = `${name} ${triggers.join(' ')}`.toLowerCase();
+    if (/(release|publish|deploy|tag|pages)/.test(hay)) return 'Release & Deploy';
+    if (/(security|codeql|secret|audit|dependabot|stale|lock)/.test(hay)) return 'Security & Governance';
+    if (/(schedule|nightly|cron|workflow_dispatch)/.test(hay)) return 'Scheduled & Manual';
+    if (/(test|ci|lint|build|check|pr|pull_request|push)/.test(hay)) return 'CI & Verification';
+    return 'Automation & Other';
+};
+
+const clientPayload = {
+    repoLabel: `${org}/${repo_name}`,
+    workflows: workflows.map((wf: any, idx: number) => {
+        const triggers = Array.isArray(wf.triggers) ? wf.triggers.map(String) : [];
+        const name = String(wf.name || wf.id || `Workflow ${idx + 1}`);
+        const jobs = Array.isArray(wf.jobs)
+            ? wf.jobs.map((j: any) => ({
+                  id: String(j.id || j.name || 'job'),
+                  name: String(j.name || j.id || 'job'),
+                  runner: String(j.runner || 'ubuntu-latest'),
+                  needs: Array.isArray(j.needs) ? j.needs.map(String) : [],
+                  steps: Number(j.steps_count || 0),
+              }))
+            : [];
+        return {
+            index: idx,
+            name,
+            category: classifyWorkflowCategory(name, triggers),
+            triggers,
+            jobs,
+            antiPatternCount: Array.isArray(wf.anti_patterns) ? wf.anti_patterns.length : 0,
+        };
+    }),
+};
+
+const serializedPayload = JSON.stringify(clientPayload)
+    .replace(/<\//g, '<\\/')
+    .replace(/<!--/g, '<\\!--');
+const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
+---
+
+{showEmptyState ? (
+    <EmptyStatePrompt
+        phase="Pipeline"
+        command={`atruss analyze-pipeline --repos-file repos.txt --output-dir exports`}
+    />
+) : (
+    <div class="m3-pipeline-view" data-pipeline-root="true" data-default-mode={defaultMode}>
+        <script type="application/json" data-pipeline-payload set:html={serializedPayload} />
+
+        <div class="m3-pipeline-chips">
+            <span class="m3-chip m3-chip-tonal-primary">
+                <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+                {workflows.length} Workflow(s)
+            </span>
+            <span class="m3-chip m3-chip-tonal-secondary">
+                <span class="material-symbols-outlined" aria-hidden="true">work_outline</span>
+                {totalJobs} Job(s)
+            </span>
+            <span
+                class={`m3-chip ${antiPatterns.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    {antiPatterns.length > 0 ? 'warning' : 'verified'}
+                </span>
+                {antiPatterns.length} Anti-Pattern(s)
+            </span>
+            <span class="m3-chip">
+                <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+                {pipelineData.analyzed_at
+                    ? new Date(pipelineData.analyzed_at).toLocaleString()
+                    : 'Unknown'}
+            </span>
+        </div>
+
+        {antiPatterns.length > 0 && (
+            <section class="m3-card-elevated m3-findings-card">
+                <header class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">policy_alert</span>
+                    <h4>Pipeline Anti-Patterns Detected</h4>
+                </header>
+                <div class="m3-findings-list">
+                    {antiPatterns.map((ap) => (
+                        <AntiPatternBadge
+                            type={ap.type || 'UNKNOWN_PATTERN'}
+                            severity={ap.severity || 'LOW'}
+                            message={`[${ap.workflowName}] ${ap.message || ''}`}
+                        />
+                    ))}
+                </div>
+            </section>
+        )}
+
+        <section class="m3-card-elevated m3-diagram-card" data-zoom-container="true">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">schema</span>
+                    <h4>Workflow Dependency DAG (Top-Down)</h4>
+                </div>
+                <div class="m3-zoom-controls" role="group" aria-label="Diagram zoom controls">
+                    <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
+                        <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
+                    </button>
+                    <span class="m3-zoom-pct" data-zoom-label="true">100%</span>
+                    <button type="button" class="m3-zoom-btn" data-zoom-action="in" title="Zoom in">
+                        <span class="material-symbols-outlined" aria-hidden="true">zoom_in</span>
+                    </button>
+                    <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
+                        <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                    </button>
+                </div>
+            </header>
+
+            {workflows.length > 0 && (
+                <div class="m3-tree-nav">
+                    <div class="m3-tree-breadcrumbs" data-pipeline-breadcrumbs="true">
+                        <button
+                            type="button"
+                            class={`m3-tree-pill ${defaultMode === 'overview' ? 'is-active' : ''}`}
+                            data-pipeline-select="overview"
+                        >
+                            Top-Level Tree ({workflows.length})
+                        </button>
+                        {workflows.length > 1 && (
+                            <label class="m3-wf-select-wrap">
+                                <span class="m3-wf-select-label">Traverse workflow:</span>
+                                <select class="m3-wf-select" data-pipeline-dropdown="true">
+                                    <option value="overview">All Workflows (Top-Level Tree)</option>
+                                    {clientPayload.workflows.map((wf) => (
+                                        <option value={`wf:${wf.index}`}>
+                                            {wf.name} ({wf.jobs.length} jobs)
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                        )}
+                    </div>
+
+                    {workflows.length > 1 && workflows.length <= 12 && (
+                        <div class="m3-tree-chips" data-pipeline-chips="true">
+                            {clientPayload.workflows.map((wf) => (
+                                <button
+                                    type="button"
+                                    class={`m3-tree-chip ${defaultMode === `wf:${wf.index}` ? 'is-active' : ''}`}
+                                    data-pipeline-select={`wf:${wf.index}`}
+                                >
+                                    <span>{wf.name}</span>
+                                    <span class="m3-tree-count">{wf.jobs.length}</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <div class="m3-diagram-hint" data-pipeline-hint="true">
+                {workflows.length > 1
+                    ? 'Showing top-level workflow hierarchy. Click any workflow node or choose one above to inspect its job DAG.'
+                    : 'Top-down (TD) job execution DAG.'}
+            </div>
+
+            <div class="m3-diagram-viewport">
+                <div class="m3-diagram-canvas" data-pipeline-canvas="true" data-zoom-target="true">
+                    <p class="m3-diagram-loading">Rendering workflow DAG...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+)}
+
+<script>
+    import {
+        applyResponsiveSvgStyle,
+        bindDiagramZoom,
+        renderMermaidSvg,
+        safeId,
+        safeLabel,
+    } from '../lib/mermaid-client';
+
+    function buildOverviewGraph(
+        payload: any,
+        filterCategory?: string
+    ): { graphDef: string; catNames: string[] } {
+        const lines = ['flowchart TD'];
+        const wfs = Array.isArray(payload?.workflows) ? payload.workflows : [];
+        if (wfs.length === 0) {
+            lines.push('  empty["No Workflows Detected"]');
+            return { graphDef: lines.join('\n'), catNames: [] };
+        }
+
+        const rootLabel = `${safeLabel(payload.repoLabel)} (${wfs.length} workflows)`;
+        lines.push(`  repo_root(["${rootLabel}"])`);
+
+        const categories = new Map<string, any[]>();
+        for (const wf of wfs) {
+            if (filterCategory && wf.category !== filterCategory) continue;
+            if (!categories.has(wf.category)) categories.set(wf.category, []);
+            categories.get(wf.category)!.push(wf);
+        }
+
+        const sortedCats = Array.from(categories.entries()).sort(
+            (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0])
+        );
+        const catNames = sortedCats.map(([catName]) => catName);
+
+        if (sortedCats.length === 0) {
+            lines.push('  empty["No Matching Workflows"]');
+            lines.push('  repo_root --> empty');
+            return { graphDef: lines.join('\n'), catNames };
+        }
+
+        // Large multi-workflow repos: show clean top-level Category tree first so overview stays tall & readable
+        if (!filterCategory && wfs.length > 5 && sortedCats.length > 1) {
+            sortedCats.forEach(([catName, items], cIdx) => {
+                const catId = `cat_${cIdx}_node`;
+                const totalJobsInCat = items.reduce(
+                    (acc: number, item: any) => acc + (item.jobs?.length || 0),
+                    0
+                );
+                lines.push(
+                    `  ${catId}["${safeLabel(catName)} (${items.length} workflows · ${totalJobsInCat} jobs)"]`
+                );
+                lines.push(`  repo_root --> ${catId}`);
+            });
+            return { graphDef: lines.join('\n'), catNames };
+        }
+
+        const emitWorkflowNode = (wf: any, parentNodeId: string) => {
+            const wfId = `wf_${wf.index}_node`;
+            const alertTag = wf.antiPatternCount > 0 ? ` · ${wf.antiPatternCount} alerts` : '';
+            lines.push(`  ${wfId}["${safeLabel(wf.name)} (${wf.jobs.length} jobs${alertTag})"]`);
+            lines.push(`  ${parentNodeId} --> ${wfId}`);
+        };
+
+        sortedCats.forEach(([catName, items], cIdx) => {
+            const catId = `cat_${cIdx}_node`;
+            lines.push(`  ${catId}["${safeLabel(catName)} (${items.length})"]`);
+            lines.push(`  repo_root --> ${catId}`);
+
+            const slice = items.slice(0, 12);
+            if (slice.length <= 4) {
+                slice.forEach((wf: any) => emitWorkflowNode(wf, catId));
+            } else {
+                // Chunk workflows into rows of 3 stacked vertically so wide horizontal sprawl cannot happen
+                let prevBatchId = catId;
+                for (let i = 0; i < slice.length; i += 3) {
+                    const batch = slice.slice(i, i + 3);
+                    const batchId = `cat_${cIdx}_batch_${i}`;
+                    lines.push(`  ${batchId}("Workflows ${i + 1}-${i + batch.length}")`);
+                    lines.push(`  ${prevBatchId} --> ${batchId}`);
+                    batch.forEach((wf: any) => emitWorkflowNode(wf, batchId));
+                    prevBatchId = batchId;
+                }
+            }
+
+            if (items.length > slice.length) {
+                const rem = items.length - slice.length;
+                const moreId = `more_${cIdx}`;
+                lines.push(`  ${moreId}["+${rem} more in ${safeLabel(catName)} (use dropdown)"]`);
+                lines.push(`  ${catId} --> ${moreId}`);
+            }
+        });
+
+        return { graphDef: lines.join('\n'), catNames };
+    }
+
+    function buildWorkflowGraph(wf: any): string {
+        const lines = ['flowchart TD'];
+        if (!wf) {
+            lines.push('  empty["Workflow Not Found"]');
+            return lines.join('\n');
+        }
+
+        const trigLabel =
+            Array.isArray(wf.triggers) && wf.triggers.length > 0
+                ? wf.triggers.slice(0, 3).join(', ')
+                : 'manual / default';
+        lines.push(`  wf_trigger(["${safeLabel(wf.name)} · on: ${safeLabel(trigLabel)}"])`);
+
+        const jobs = Array.isArray(wf.jobs) ? wf.jobs : [];
+        if (jobs.length === 0) {
+            lines.push('  no_jobs["No Jobs Defined"]');
+            lines.push('  wf_trigger --> no_jobs');
+            return lines.join('\n');
+        }
+
+        const limitedJobs = jobs.slice(0, 28);
+        const rootJobs: string[] = [];
+        const declared = new Set<string>();
+
+        for (const job of limitedJobs) {
+            const jobId = `job_${safeId(job.id)}`;
+            declared.add(jobId);
+            const stepsInfo = job.steps > 0 ? `, ${job.steps} steps` : '';
+            lines.push(`  ${jobId}["${safeLabel(job.name)} (${safeLabel(job.runner)}${stepsInfo})"]`);
+        }
+
+        for (const job of limitedJobs) {
+            const jobId = `job_${safeId(job.id)}`;
+            const needs = Array.isArray(job.needs) ? job.needs : [];
+            const validNeeds = needs
+                .map((n: string) => `job_${safeId(n)}`)
+                .filter((nid: string) => declared.has(nid));
+
+            if (validNeeds.length > 0) {
+                for (const nid of validNeeds) {
+                    lines.push(`  ${nid} --> ${jobId}`);
+                }
+            } else {
+                rootJobs.push(jobId);
+            }
+        }
+
+        // Organize large unlinked root fan-outs into balanced vertical tiers so TD diagrams never turn into wide strips
+        if (rootJobs.length <= 5) {
+            for (const rj of rootJobs) {
+                lines.push(`  wf_trigger --> ${rj}`);
+            }
+        } else {
+            const chunkSize = 4;
+            let tierIdx = 0;
+            let prevGroupId = 'wf_trigger';
+            for (let i = 0; i < rootJobs.length; i += chunkSize) {
+                const chunk = rootJobs.slice(i, i + chunkSize);
+                const stageId = `stage_${tierIdx++}`;
+                lines.push(`  ${stageId}(["Stage ${tierIdx} (${chunk.length} jobs)"])`);
+                lines.push(`  ${prevGroupId} --> ${stageId}`);
+                for (const rj of chunk) {
+                    lines.push(`  ${stageId} --> ${rj}`);
+                }
+                prevGroupId = stageId;
+            }
+        }
+
+        if (jobs.length > limitedJobs.length) {
+            lines.push(`  jobs_more["+${jobs.length - limitedJobs.length} more jobs"]`);
+            lines.push(`  wf_trigger --> jobs_more`);
+        }
+
+        return lines.join('\n');
+    }
+
+    async function renderPipelineView(root: HTMLElement) {
+        if (root.closest('[hidden]')) return;
+
+        const payloadScript = root.querySelector<HTMLScriptElement>('[data-pipeline-payload]');
+        const canvas = root.querySelector<HTMLElement>('[data-pipeline-canvas]');
+        if (!payloadScript || !canvas) return;
+
+        let payload: any;
+        try {
+            payload = JSON.parse(payloadScript.textContent || '{}');
+        } catch {
+            return;
+        }
+
+        const mode = root.dataset.activeMode || root.dataset.defaultMode || 'overview';
+        let graphDef = '';
+        let hintText = '';
+        let catNames: string[] = [];
+
+        if (mode.startsWith('wf:')) {
+            const idx = Number(mode.slice(3));
+            const wf = payload.workflows?.[idx];
+            graphDef = buildWorkflowGraph(wf);
+            hintText = `Viewing job dependency DAG for "${wf?.name || 'workflow'}" (flowchart TD).`;
+        } else if (mode.startsWith('cat:')) {
+            const cat = mode.slice(4);
+            const built = buildOverviewGraph(payload, cat);
+            graphDef = built.graphDef;
+            catNames = built.catNames;
+            hintText = `Filtered category "${cat}". Click any workflow node or choose from the dropdown.`;
+        } else {
+            const built = buildOverviewGraph(payload);
+            graphDef = built.graphDef;
+            catNames = built.catNames;
+            hintText =
+                (payload.workflows?.length || 0) > 5 && catNames.length > 1
+                    ? 'Top-level pipeline categories (flowchart TD). Click any category node to view its workflows.'
+                    : (payload.workflows?.length || 0) > 1
+                      ? 'Top-level workflow hierarchy (flowchart TD). Click any workflow node or select one above to inspect its job DAG.'
+                      : 'Top-down (TD) job execution DAG.';
+        }
+
+        const hintEl = root.querySelector<HTMLElement>('[data-pipeline-hint]');
+        if (hintEl) hintEl.textContent = hintText;
+
+        const dropdown = root.querySelector<HTMLSelectElement>('[data-pipeline-dropdown]');
+        if (dropdown && (mode === 'overview' || mode.startsWith('wf:'))) {
+            dropdown.value = mode;
+        }
+
+        root.querySelectorAll<HTMLButtonElement>('[data-pipeline-select]').forEach((btn) => {
+            btn.classList.toggle('is-active', btn.dataset.pipelineSelect === mode);
+        });
+
+        try {
+            const svg = await renderMermaidSvg('pipe-dag', graphDef);
+            canvas.innerHTML = svg;
+            const svgEl = canvas.querySelector('svg');
+            if (svgEl) {
+                applyResponsiveSvgStyle(svgEl);
+
+                // Allow clicking category or workflow nodes inside the SVG to drill down
+                if (!mode.startsWith('wf:')) {
+                    svgEl.querySelectorAll<SVGGElement>('.node').forEach((nodeEl) => {
+                        const nid = nodeEl.id || nodeEl.getAttribute('data-id') || '';
+                        const wfMatch = nid.match(/wf_(\d+)_node/);
+                        if (wfMatch) {
+                            nodeEl.style.cursor = 'pointer';
+                            nodeEl.addEventListener('click', () => {
+                                root.dataset.activeMode = `wf:${wfMatch[1]}`;
+                                renderPipelineView(root);
+                            });
+                            return;
+                        }
+                        const catMatch = nid.match(/cat_(\d+)_node/);
+                        if (catMatch) {
+                            const catName = catNames[Number(catMatch[1])];
+                            if (catName) {
+                                nodeEl.style.cursor = 'pointer';
+                                nodeEl.addEventListener('click', () => {
+                                    root.dataset.activeMode = `cat:${catName}`;
+                                    renderPipelineView(root);
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        } catch (err) {
+            console.error('Mermaid pipeline render failed:', err);
+        }
+    }
+
+    function initPipelineRoots(scope: ParentNode = document) {
+        scope.querySelectorAll<HTMLElement>('[data-pipeline-root="true"]').forEach((root) => {
+            if (!root.dataset.pipelineBound) {
+                root.dataset.pipelineBound = 'true';
+                root.dataset.activeMode = root.dataset.defaultMode || 'overview';
+
+                root.querySelectorAll<HTMLButtonElement>('[data-pipeline-select]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        root.dataset.activeMode = btn.dataset.pipelineSelect || 'overview';
+                        renderPipelineView(root);
+                    });
+                });
+
+                const dropdown = root.querySelector<HTMLSelectElement>('[data-pipeline-dropdown]');
+                if (dropdown) {
+                    dropdown.addEventListener('change', () => {
+                        root.dataset.activeMode = dropdown.value || 'overview';
+                        renderPipelineView(root);
+                    });
+                }
+            }
+
+            if (!root.closest('[hidden]')) {
+                renderPipelineView(root);
+            }
+        });
+    }
+
+    const themeObserver = new MutationObserver(() => {
+        document.querySelectorAll<HTMLElement>('[data-pipeline-root="true"]').forEach((root) => {
+            if (!root.closest('[hidden]')) renderPipelineView(root);
+        });
+    });
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initPipelineRoots();
+        bindDiagramZoom();
+    });
+    document.addEventListener('astro:page-load', () => {
+        initPipelineRoots();
+        bindDiagramZoom();
+    });
+    document.addEventListener('atruss:tab-activated', (ev: any) => {
+        const panel = ev?.detail?.panel;
+        if (panel) {
+            initPipelineRoots(panel);
+            bindDiagramZoom();
+        }
+    });
+</script>
+
+<style>
+    .m3-pipeline-view {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .m3-pipeline-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .m3-pipeline-chips .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-findings-card,
+    .m3-diagram-card {
+        padding: 1.25rem;
+    }
+
+    .m3-section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-section-header .material-symbols-outlined {
+        color: var(--md-sys-color-primary);
+    }
+
+    .m3-section-header h4 {
+        margin: 0 !important;
+        font-size: 1.0625rem !important;
+        font-weight: 600;
+    }
+
+    .m3-findings-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        margin-top: 1rem;
+    }
+
+    .m3-diagram-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.875rem;
+    }
+
+    .m3-tree-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .m3-tree-breadcrumbs {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.625rem;
+    }
+
+    .m3-tree-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .m3-tree-pill,
+    .m3-tree-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: var(--md-sys-shape-corner-full);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        background-color: var(--md-sys-color-surface-container-high);
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .m3-tree-pill.is-active,
+    .m3-tree-chip.is-active {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+        border-color: var(--md-sys-color-primary);
+        font-weight: 600;
+    }
+
+    .m3-tree-count {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.75rem;
+        opacity: 0.85;
+    }
+
+    .m3-wf-select-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-wf-select {
+        padding: 0.35rem 0.65rem;
+        border-radius: var(--md-sys-shape-corner-small);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        background-color: var(--md-sys-color-surface-container-high);
+        color: var(--md-sys-color-on-surface);
+        font-size: 0.8125rem;
+        max-width: 280px;
+    }
+
+    .m3-diagram-hint {
+        font-size: 0.8125rem;
+        color: var(--md-sys-color-on-surface-variant);
+        margin-bottom: 0.75rem;
+    }
+
+    .m3-diagram-loading {
+        text-align: center;
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.875rem;
+        padding: 2rem 0;
+    }
+
+    .m3-zoom-controls {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        border-radius: var(--md-sys-shape-corner-full);
+        background-color: var(--md-sys-color-surface-container-high);
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-zoom-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: var(--md-sys-shape-corner-full);
+        border: none;
+        background: transparent;
+        color: var(--md-sys-color-on-surface);
+        cursor: pointer;
+    }
+
+    .m3-zoom-btn:hover {
+        background-color: var(--md-sys-color-secondary-container);
+        color: var(--md-sys-color-on-secondary-container);
+    }
+
+    .m3-zoom-pct {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
+        min-width: 3rem;
+        text-align: center;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-diagram-viewport {
+        background-color: var(--md-sys-color-surface-container-lowest);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-medium);
+        padding: 1rem;
+        overflow: auto;
+        min-height: 240px;
+        max-height: 680px;
+    }
+
+    .m3-diagram-canvas {
+        transition: transform 150ms ease;
+    }
+
+    .m3-diagram-canvas :global(svg) {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>

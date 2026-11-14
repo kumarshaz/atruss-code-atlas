@@ -1,0 +1,188 @@
+{
+  "org": "pytest-dev",
+  "repository": "pytest",
+  "sha": "fc9a7ef678f64d17f1c03b619f3842ea1d127e74",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "deploy.yml",
+      "name": "deploy",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "package",
+          "name": "package",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "generate-gh-release-notes",
+          "name": "generate-gh-release-notes",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "package"
+          ]
+        },
+        {
+          "id": "publish-to-pypi",
+          "name": "publish-to-pypi",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "package",
+            "generate-gh-release-notes"
+          ]
+        },
+        {
+          "id": "push-tag",
+          "name": "push-tag",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "publish-to-pypi"
+          ]
+        },
+        {
+          "id": "create-github-release",
+          "name": "create-github-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "push-tag",
+            "generate-gh-release-notes"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'generate-gh-release-notes' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-to-pypi' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "doc-check-links.yml",
+      "name": "Doc Check Links",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "doc-check-links",
+          "name": "doc-check-links",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "prepare-release-pr.yml",
+      "name": "prepare release pr",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "stale.yml",
+      "name": "close needs-information issues",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "close-issues",
+          "name": "close-issues",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "package",
+          "name": "package",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": [
+            "package"
+          ]
+        },
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches."
+        }
+      ]
+    },
+    {
+      "id": "update-plugin-list.yml",
+      "name": "Update Plugin List",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-plugin-list",
+          "name": "update-plugin-list",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

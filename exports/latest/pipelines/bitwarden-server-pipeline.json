@@ -1,0 +1,557 @@
+{
+  "org": "bitwarden",
+  "repository": "server",
+  "sha": "341acc9d3d8988cec8fe05debfa6d557cf5ab749",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "_move_edd_db_scripts.yml",
+      "name": "_move_edd_db_scripts",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "setup",
+          "name": "Setup",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "move-scripts",
+          "name": "Move scripts",
+          "runner": "ubuntu-22.04",
+          "steps_count": 11,
+          "needs": [
+            "setup"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "automatic-issue-responses.yml",
+      "name": "Automatic responses",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "close-issue",
+          "name": "Close issue with automatic response",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "build-seeded-databases.yml",
+      "name": "Build Seeded Database Images",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "setup",
+          "name": "Determine build matrix",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "${{ matrix.database }} / ${{ matrix.preset }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 18,
+          "needs": [
+            "setup"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "build.yml",
+      "name": "Build",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "build-artifacts",
+          "name": "Build Docker images",
+          "runner": "ubuntu-22.04",
+          "steps_count": 30,
+          "needs": [
+            "lint"
+          ]
+        },
+        {
+          "id": "image-manifest",
+          "name": "Build image manifest",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": [
+            "build-artifacts"
+          ]
+        },
+        {
+          "id": "upload",
+          "name": "Upload",
+          "runner": "ubuntu-22.04",
+          "steps_count": 11,
+          "needs": [
+            "build-artifacts"
+          ]
+        },
+        {
+          "id": "build-mssqlmigratorutility",
+          "name": "Build MSSQL migrator utility",
+          "runner": "ubuntu-22.04",
+          "steps_count": 6,
+          "needs": [
+            "lint"
+          ]
+        },
+        {
+          "id": "bitwarden-lite-build",
+          "name": "Trigger Bitwarden lite build",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": [
+            "build-artifacts"
+          ]
+        },
+        {
+          "id": "trigger-k8s-deploy",
+          "name": "Trigger K8s deploy",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": [
+            "build-artifacts",
+            "image-manifest"
+          ]
+        },
+        {
+          "id": "trigger-downstream-build",
+          "name": "Trigger downstream build",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'build-artifacts' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'trigger-k8s-deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "build_target.yml",
+      "name": "Build (Fork PR)",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "check-run",
+          "name": "Check PR run",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "remove-label",
+          "name": "Remove signed build label",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "check-run"
+          ]
+        },
+        {
+          "id": "run-workflow",
+          "name": "Build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "check-run"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "cleanup-rc-branch.yml",
+      "name": "Cleanup RC Branch",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "delete-rc",
+          "name": "Delete RC Branch",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "code-references.yml",
+      "name": "Collect code references",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "check-secret-access",
+          "name": "Check for secret access",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "refs",
+          "name": "Code reference collection",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": [
+            "check-secret-access"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "enforce-labels.yml",
+      "name": "Enforce PR labels",
+      "triggers": [
+        "workflow_call",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "enforce-label",
+          "name": "Enforce label",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "enforce-pr-labels-sdlc.yml",
+      "name": "SDLC / Enforce PR labels",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "enforce-label",
+          "name": "Enforce Label",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "load-test.yml",
+      "name": "Load test",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run-tests",
+          "name": "Run load tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in workflow env 'AZURE_KEY_VAULT_SECRETS'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "platform-community-signal.yml",
+      "name": "Platform community signal",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "signal",
+          "name": "Signal platform-community review",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "protect-files.yml",
+      "name": "Protect files",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changed-files",
+          "name": "Check for file changes",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "repository-management.yml",
+      "name": "Repository management",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "setup",
+          "name": "Setup",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "bump_version",
+          "name": "Bump Version",
+          "runner": "ubuntu-24.04",
+          "steps_count": 16,
+          "needs": [
+            "setup"
+          ]
+        },
+        {
+          "id": "cut_branch",
+          "name": "Cut branch",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": [
+            "setup",
+            "bump_version"
+          ]
+        },
+        {
+          "id": "move_edd_db_scripts",
+          "name": "Move EDD database scripts",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "cut_branch"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "respond.yml",
+      "name": "Respond",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "respond",
+          "name": "Respond",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "review-code.yml",
+      "name": "Code Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "review",
+          "name": "Review",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "stale-bot.yml",
+      "name": "Staleness",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "Check for stale issues and PRs",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test-database.yml",
+      "name": "Database testing",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Run tests",
+          "runner": "ubuntu-22.04",
+          "steps_count": 22,
+          "needs": []
+        },
+        {
+          "id": "validate",
+          "name": "Run validation",
+          "runner": "ubuntu-22.04",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "validate-migration-naming",
+          "name": "Validate new migration naming and order",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded secret detected in run script of job 'test'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'test' step env 'CONN_STR'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'test' step env 'CONN_STR'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'test' step env 'CONN_STR'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'test' step env 'BW_TEST_DATABASES__0__CONNECTIONSTRING'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'test' step env 'BW_TEST_DATABASES__2__CONNECTIONSTRING'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded token pattern in job 'validate' step env 'CONN_STR'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded secret detected in run script of job 'validate'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded secret detected in run script of job 'validate'."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "Testing",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "testing",
+          "name": "Run tests",
+          "runner": "ubuntu-22.04",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

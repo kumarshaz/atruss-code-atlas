@@ -1,0 +1,63 @@
+{
+  "repository": "Tyrrrz/YoutubeDownloader",
+  "sha": "a419ef2be70392e57d31bd5103f1d6d0d20b3919",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 136,
+    "loc": 10102,
+    "sloc": 8270,
+    "component_count": 6,
+    "avg_cyclomatic_complexity": 4.16,
+    "max_cyclomatic_complexity": 32,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "YoutubeDownloader",
+      "type": "MODULE",
+      "file": "YoutubeDownloader/YoutubeDownloader.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "YoutubeDownloader.Core"
+      ]
+    },
+    {
+      "name": "YoutubeDownloader.Core",
+      "type": "MODULE",
+      "file": "YoutubeDownloader.Core/YoutubeDownloader.Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SettingsService",
+      "type": "SERVICE",
+      "file": "YoutubeDownloader/Services/SettingsService.AuthCookiesEncryptionConverter.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SettingsService",
+      "type": "SERVICE",
+      "file": "YoutubeDownloader/Services/SettingsService.ContainerConverter.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SettingsService",
+      "type": "SERVICE",
+      "file": "YoutubeDownloader/Services/SettingsService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UpdateService",
+      "type": "SERVICE",
+      "file": "YoutubeDownloader/Services/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SettingsService"
+      ]
+    }
+  ]
+}

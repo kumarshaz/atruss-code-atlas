@@ -1,0 +1,215 @@
+version: "1.0"
+description: >
+  Policy-as-Code classification manifest for Atruss Code Atlas.
+  Defines priority-ordered ecosystem detection, framework sub-classification,
+  monorepo module manifest anchors, and 27-column discovery signals.
+
+# Priority order enforces tie-breaking: Java > .NET > Python > JS/TS
+ecosystems:
+  - id: java_springboot
+    display_name: "Java"
+    priority: 100
+    manifest_patterns:
+      - "(^|/)pom\\.xml$"
+      - "(^|/)build\\.gradle(\\.kts)?$"
+    extension_patterns:
+      - "\\.java$"
+      - "\\.kt$"
+    path_signals:
+      - "(^|/)src/main/java/"
+    frameworks:
+      - name: "Spring Boot"
+        path_patterns:
+          - "(^|/)src/main/resources/application\\.(ya?ml|properties)$"
+          - "Application\\.java$"
+        content_patterns:
+          - "spring-boot"
+          - "org\\.springframework\\.boot"
+          - "@SpringBootApplication"
+      - name: "Quarkus"
+        path_patterns: []
+        content_patterns:
+          - "io\\.quarkus"
+      - name: "Java Maven/Gradle"
+        path_patterns:
+          - "(^|/)src/main/java/"
+        content_patterns: []
+
+  - id: ".net"
+    display_name: ".NET"
+    priority: 90
+    manifest_patterns:
+      - "\\.sln$"
+      - "\\.csproj$"
+      - "\\.fsproj$"
+      - "\\.vbproj$"
+      - "(^|/)global\\.json$"
+    extension_patterns:
+      - "\\.cs$"
+      - "\\.fs$"
+      - "\\.vb$"
+    path_signals: []
+    frameworks:
+      - name: "ASP.NET Core"
+        path_patterns:
+          - "(^|/)[Cc]ontrollers/"
+          - "(^|/)appsettings(\\.[^/]+)?\\.json$"
+          - "(^|/)Program\\.cs$"
+          - "(^|/)Startup\\.cs$"
+        content_patterns:
+          - "Microsoft\\.NET\\.Sdk\\.Web"
+          - "WebApplication\\.CreateBuilder"
+      - name: ".NET Worker Service"
+        path_patterns:
+          - "Worker\\.cs$"
+        content_patterns:
+          - "BackgroundService"
+          - "IHostedService"
+      - name: "Blazor"
+        path_patterns:
+          - "\\.razor$"
+        content_patterns:
+          - "Microsoft\\.AspNetCore\\.Components"
+
+  - id: python
+    display_name: "Python"
+    priority: 80
+    manifest_patterns:
+      - "(^|/)requirements\\.txt$"
+      - "(^|/)requirements-[^/]+\\.txt$"
+      - "(^|/)pyproject\\.toml$"
+      - "(^|/)setup\\.py$"
+      - "(^|/)setup\\.cfg$"
+      - "(^|/)Pipfile$"
+    extension_patterns:
+      - "\\.py$"
+    path_signals:
+      - "(^|/)__init__\\.py$"
+    frameworks:
+      - name: "FastAPI"
+        path_patterns: []
+        content_patterns:
+          - "\\bfastapi\\b"
+          - "FastAPI\\("
+      - name: "Django"
+        path_patterns:
+          - "(^|/)manage\\.py$"
+          - "(^|/)settings\\.py$"
+        content_patterns:
+          - "\\bdjango\\b"
+      - name: "Flask"
+        path_patterns: []
+        content_patterns:
+          - "\\bflask\\b"
+          - "Flask\\("
+
+  - id: react_ts_js
+    display_name: "JavaScript/TypeScript"
+    priority: 70
+    manifest_patterns:
+      - "(^|/)package\\.json$"
+      - "(^|/)tsconfig\\.json$"
+    extension_patterns:
+      - "\\.tsx?$"
+      - "\\.jsx?$"
+    path_signals: []
+    frameworks:
+      - name: "Next.js"
+        path_patterns:
+          - "(^|/)next\\.config\\.(js|mjs|ts)$"
+        content_patterns:
+          - "\"next\"\\s*:"
+      - name: "Angular"
+        path_patterns:
+          - "(^|/)angular\\.json$"
+        content_patterns:
+          - "@angular/core"
+      - name: "Astro"
+        path_patterns:
+          - "(^|/)astro\\.config\\.(js|mjs|ts)$"
+        content_patterns:
+          - "\"astro\"\\s*:"
+      - name: "React (Vite)"
+        path_patterns:
+          - "(^|/)vite\\.config\\.(js|mjs|ts)$"
+        content_patterns:
+          - "\"react\"\\s*:"
+      - name: "React"
+        path_patterns:
+          - "\\.tsx$"
+          - "\\.jsx$"
+        content_patterns:
+          - "\"react\"\\s*:"
+      - name: "Express / Node API"
+        path_patterns:
+          - "(^|/)server\\.(js|ts)$"
+        content_patterns:
+          - "\"express\"\\s*:"
+          - "\"fastify\"\\s*:"
+      - name: "TypeScript"
+        path_patterns:
+          - "(^|/)tsconfig\\.json$"
+        content_patterns: []
+
+discovery_signals:
+  HasAPI:
+    - "\\.API\\."
+    - "(^|/)[Cc]ontrollers/"
+    - "Controller\\.cs$"
+    - "(^|/)routers?/"
+    - "(^|/)routes/"
+    - "(^|/)endpoints?/"
+    - "(^|/)api/"
+    - "openapi\\.ya?ml$"
+    - "swagger\\.json$"
+  HasService:
+    - "\\.Service\\."
+    - "Worker\\.cs$"
+    - "BackgroundService"
+    - "(^|/)services?/"
+    - "(^|/)workers?/"
+  HasFrontend:
+    - "\\.tsx$"
+    - "\\.jsx$"
+    - "(^|/)angular\\.json$"
+    - "(^|/)next\\.config\\."
+    - "(^|/)vite\\.config\\."
+    - "(^|/)astro\\.config\\."
+    - "(^|/)src/components/"
+    - "(^|/)pages/"
+  HasDatabase:
+    - "\\.sql$"
+    - "\\.sqlproj$"
+    - "(^|/)migrations/"
+    - "(^|/)alembic"
+    - "(^|/)prisma/"
+    - "DbContext\\.cs$"
+    - "(^|/)models\\.py$"
+    - "(^|/)entities/"
+  HasDockerfile:
+    - "(^|/)Dockerfile(\\.[^/]+)?$"
+    - "(^|/)docker-compose\\.ya?ml$"
+  HasPipeline:
+    - "(^|/)\\.github/workflows/.*\\.ya?ml$"
+  HasKubernetes:
+    - "(^|/)(k8s|kubernetes|helm|charts)/"
+    - "(^|/)Chart\\.ya?ml$"
+    - "(^|/)kustomization\\.ya?ml$"
+  HasTerraform:
+    - "\\.tf$"
+    - "\\.bicep$"
+
+deployable_mappings:
+  HasAPI: "API"
+  HasService: "Service"
+  HasFrontend: "Frontend"
+  HasDatabase: "Database"
+
+stack_mappings:
+  HasDockerfile: "Docker"
+  HasPipeline: "CI/CD"
+  HasKubernetes: "Kubernetes"
+  HasTerraform: "Terraform"
+
+documentation_priority:
+  p1_min_releases: 3

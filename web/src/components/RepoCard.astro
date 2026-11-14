@@ -1,0 +1,175 @@
+---
+interface Repo {
+    Organization: string;
+    RepositoryName: string;
+    PrimaryLanguage?: string;
+    FrameworkType?: string;
+    DocumentationPriority?: string;
+    HasPipeline?: boolean;
+    HasDockerfile?: boolean;
+    HasKubernetes?: boolean;
+    HasAPI?: boolean;
+    TechnologyStack?: string;
+    [key: string]: any;
+}
+
+interface Props {
+    repo: Repo;
+}
+
+const { repo } = Astro.props;
+
+const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (p: string) => `${baseUrl}${p.startsWith('/') ? p : '/' + p}`;
+
+const language = repo.PrimaryLanguage || 'Unknown';
+const framework = repo.FrameworkType && repo.FrameworkType !== 'Unknown' ? repo.FrameworkType : '';
+const priority = repo.DocumentationPriority || 'P3';
+const hasPipeline = Boolean(repo.HasPipeline);
+const hasDocker = Boolean(repo.HasDockerfile);
+const isHighRisk = (hasDocker && !hasPipeline) || priority === 'P1';
+
+// Align with Starlight docsLoader normalized slug rules
+const normalizeSlug = (segment: string) =>
+    segment
+        .trim()
+        .toLowerCase()
+        .replace(/^\.+/, '');
+
+const href = withBase(
+    `/reports/${normalizeSlug(repo.Organization)}/${normalizeSlug(repo.RepositoryName)}/`
+);
+
+const getPriorityChipClass = (p: string) => {
+    if (p === 'P1') return 'm3-chip-tonal-error';
+    if (p === 'P2') return 'm3-chip-tonal-warning';
+    return 'm3-chip-tonal-secondary';
+};
+---
+
+<a
+    href={href}
+    class="m3-repo-card-link"
+    data-repo-card="true"
+    data-name={`${repo.Organization}/${repo.RepositoryName} ${language} ${framework} ${repo.TechnologyStack || ''}`.toLowerCase()}
+    data-lang={language.toLowerCase()}
+    data-pipeline={String(hasPipeline)}
+    data-docker={String(hasDocker)}
+    data-risk={String(isHighRisk)}
+    data-priority={priority}
+>
+    <article class="m3-card-elevated m3-repo-card">
+        <div class="m3-repo-top">
+            <span class="m3-repo-org">{repo.Organization}</span>
+            <h4 class="m3-repo-title">{repo.RepositoryName}</h4>
+        </div>
+
+        <div class="m3-repo-chips">
+            <span class="m3-chip m3-chip-tonal-primary">
+                <span class="material-symbols-outlined" aria-hidden="true">code</span>
+                {language}
+            </span>
+            {framework && (
+                <span class="m3-chip">{framework}</span>
+            )}
+            <span class={`m3-chip ${getPriorityChipClass(priority)}`}>{priority}</span>
+        </div>
+
+        <footer class="m3-repo-signals" aria-label="Detected platform signals">
+            <span class={`m3-signal-pill ${hasPipeline ? 'active' : ''}`} title="CI/CD Pipeline">
+                <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+                CI/CD
+            </span>
+            <span class={`m3-signal-pill ${hasDocker ? 'active' : ''}`} title="Dockerfile">
+                <span class="material-symbols-outlined" aria-hidden="true">deployed_code</span>
+                Docker
+            </span>
+            <span class={`m3-signal-pill ${repo.HasAPI ? 'active' : ''}`} title="API Endpoints">
+                <span class="material-symbols-outlined" aria-hidden="true">api</span>
+                API
+            </span>
+        </footer>
+    </article>
+</a>
+
+<style>
+    .m3-repo-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    .m3-repo-card-link[hidden] {
+        display: none;
+    }
+
+    .m3-repo-card {
+        padding: 1.25rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .m3-repo-card-link:hover .m3-repo-card,
+    .m3-repo-card-link:focus-visible .m3-repo-card {
+        border-color: var(--md-sys-color-primary);
+        transform: translateY(-2px);
+    }
+
+    .m3-repo-org {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--md-sys-color-on-surface-variant);
+        margin-bottom: 0.25rem;
+    }
+
+    .m3-repo-title {
+        margin: 0 !important;
+        font-size: 1.0625rem !important;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+        word-break: break-word;
+    }
+
+    .m3-repo-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .m3-repo-chips .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-repo-signals {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--md-sys-color-outline-variant);
+        font-size: 0.75rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-signal-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        opacity: 0.5;
+    }
+
+    .m3-signal-pill.active {
+        opacity: 1;
+        color: var(--md-sys-color-primary);
+        font-weight: 600;
+    }
+
+    .m3-signal-pill .material-symbols-outlined {
+        font-size: 15px;
+    }
+</style>

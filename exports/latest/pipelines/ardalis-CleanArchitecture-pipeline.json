@@ -1,0 +1,213 @@
+{
+  "org": "ardalis",
+  "repository": "CleanArchitecture",
+  "sha": "60d9ee3a8702abce102b854ac103200928e67da9",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "codeql-analysis.yml",
+      "name": "CodeQL Analysis",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "CodeQL Analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "cross-platform-build-test-minimal.yml",
+      "name": "Cross-Platform Build & Test (MinimalClean)",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "cross-platform-build-test.yml",
+      "name": "Cross-Platform Build & Test (Clean Architecture)",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-and-test",
+          "name": "Build & Test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "build-and-test-sample",
+          "name": "Build & Test Sample",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "hugo-docs.yml",
+      "name": "Deploy docs redirect to GitHub Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "publish-templates.yml",
+      "name": "Publish Templates to NuGet",
+      "triggers": [
+        "push",
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "build-and-test",
+          "name": "build-and-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "package",
+          "name": "package",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "package"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches."
+        }
+      ]
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish to Nuget",
+      "triggers": [
+        "push",
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "repro-bug.yml",
+      "name": "Bug Reproduction Video",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "reproduce-bug",
+          "name": "reproduce-bug",
+          "runner": "ubuntu-latest",
+          "steps_count": 15,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

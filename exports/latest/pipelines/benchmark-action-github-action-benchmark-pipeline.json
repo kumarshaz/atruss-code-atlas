@@ -1,0 +1,464 @@
+{
+  "org": "benchmark-action",
+  "repository": "github-action-benchmark",
+  "sha": "84ec6ea748925b6580796c05ce7a1c8fd0d15f3b",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "benchmarkdotnet.yml",
+      "name": "Benchmark.Net Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Benchmark.Net benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "benchmarkjs.yml",
+      "name": "Benchmark.js Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run JavaScript benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "catch2.yml",
+      "name": "Catch2 C++ Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Catch2 C++ Benchmark Framework example (v3.x)",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "catch2_v2.yml",
+      "name": "Catch2 C++ Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Catch2 C++ Benchmark Framework example (v2.x)",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci-results-repo.yml",
+      "name": "CI - separate results repo",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "benchmarkdotnet-framework",
+          "name": "Run Benchmark.Net .Net Benchmark Framework example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "benchmarkjs",
+          "name": "Run JavaScript benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "catch2-v2-framework",
+          "name": "Run Catch2 C++ Benchmark Framework example (v2.x) - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "catch2-v3-framework",
+          "name": "Run Catch2 C++ Benchmark Framework example (v3.x) - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "cpp-framework",
+          "name": "Run Google C++ Benchmark Framework example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "go",
+          "name": "Run Go benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "java-jmh",
+          "name": "Run JMH Java Benchmark Framework example",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "julia-benchmark",
+          "name": "Run Julia benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "pytest-benchmark",
+          "name": "Run Pytest benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "rust",
+          "name": "Run Rust benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "rust-criterion-rs-framework",
+          "name": "Run Criterion.rs benchmark example - github.com/benchmark-action/github-action-benchmark-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "only-alert-with-cache",
+          "name": "Run alert check with actions/cache",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "benchmarkdotnet-framework",
+          "name": "Run Benchmark.Net .Net Benchmark Framework example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "benchmarkjs",
+          "name": "Run JavaScript benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "catch2-v2-framework",
+          "name": "Run Catch2 C++ Benchmark Framework example (v2.x)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "catch2-v3-framework",
+          "name": "Run Catch2 C++ Benchmark Framework example (v3.x)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "cpp-framework",
+          "name": "Run Google C++ Benchmark Framework example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "go",
+          "name": "Run Go benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "java-jmh",
+          "name": "Run JMH Java Benchmark Framework example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "julia-benchmark",
+          "name": "Run Julia benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "pytest-benchmark",
+          "name": "Run Pytest benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "rust",
+          "name": "Run Rust benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "rust-criterion-rs-framework",
+          "name": "Run Criterion.rs benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "only-alert-with-cache",
+          "name": "Run alert check with actions/cache",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "unit-tests",
+          "name": "Run unit tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "lint",
+          "name": "Run linting and formatting check",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "commit-comment.yml",
+      "name": "Example for alert with commit comment",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run alert check without using Git branch",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "cpp.yml",
+      "name": "C++ Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Google C++ Benchmark Framework example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "go.yml",
+      "name": "Go Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Go benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "java.yml",
+      "name": "JMH Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run JMH benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "julia.yml",
+      "name": "Julia Example with BenchmarkTools.jl",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run julia benchmark example",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "minimal.yml",
+      "name": "Example for minimal setup",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run minimal steps to run github-action-benchmark",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pytest.yml",
+      "name": "Python Example with pytest",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run pytest-benchmark benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "rust-criterion-rs.yml",
+      "name": "Criterion.rs Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Criterion.rs benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "rust.yml",
+      "name": "Rust Example",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "Run Rust benchmark example",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "validate-action-typings.yml",
+      "name": "Validate action typings",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "validate-typings",
+          "name": "validate-typings",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

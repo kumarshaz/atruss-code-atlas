@@ -1,0 +1,70 @@
+{
+  "org": "vuejs",
+  "repository": "vue",
+  "sha": "9e88707940088cb1f4cd7dd210c9168a50dc347c",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "name": "ci",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "unit-test",
+          "name": "unit-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "ssr-sfc-test",
+          "name": "ssr-sfc-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "e2e-test",
+          "name": "e2e-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "type-test",
+          "name": "type-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release-tag.yml",
+      "name": "Create Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Create Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

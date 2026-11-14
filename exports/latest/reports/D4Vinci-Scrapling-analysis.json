@@ -1,0 +1,183 @@
+{
+  "repository": "D4Vinci/Scrapling",
+  "sha": "bb223f2f5fc8f743772751a5ce283ef7851ca6be",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 274,
+    "loc": 71034,
+    "sloc": 59257,
+    "component_count": 19,
+    "avg_cyclomatic_complexity": 3.95,
+    "max_cyclomatic_complexity": 41,
+    "framework": "Unknown"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "install",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "mcp",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "shell",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "get",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "post",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "put",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "delete",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "fetch",
+      "type": "CLI_COMMAND",
+      "file": "scrapling/cli.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "shell"
+      ]
+    },
+    {
+      "name": "NetworkRequestInfo",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/_network_formatting.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "NetworkRequestModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/_network_formatting.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "ResponseModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/server.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "NetworkRequestInfo",
+        "NetworkRequestModel",
+        "shell"
+      ]
+    },
+    {
+      "name": "NetworkRequestsModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/server.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "NetworkRequestInfo",
+        "NetworkRequestModel",
+        "shell"
+      ]
+    },
+    {
+      "name": "SessionCreatedModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/server.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "NetworkRequestInfo",
+        "NetworkRequestModel",
+        "shell"
+      ]
+    },
+    {
+      "name": "SessionClosedModel",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "scrapling/core/ai/server.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "NetworkRequestInfo",
+        "NetworkRequestModel",
+        "shell"
+      ]
+    },
+    {
+      "name": "ResponseCacheManager",
+      "type": "SERVICE",
+      "file": "scrapling/spiders/cache.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "CheckpointManager",
+      "type": "SERVICE",
+      "file": "scrapling/spiders/checkpoint.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "RobotsTxtManager",
+      "type": "SERVICE",
+      "file": "scrapling/spiders/robotstxt.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "SessionManager",
+      "type": "SERVICE",
+      "file": "scrapling/spiders/session.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "TestResponseCacheManager",
+      "type": "SERVICE",
+      "file": "tests/spiders/test_cache.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "ResponseCacheManager",
+        "SessionManager"
+      ]
+    }
+  ]
+}

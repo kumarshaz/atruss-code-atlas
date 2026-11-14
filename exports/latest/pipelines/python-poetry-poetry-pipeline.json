@@ -1,0 +1,219 @@
+{
+  "org": "python-poetry",
+  "repository": "poetry",
+  "sha": "4acc75e19f128c8340c6f977a35e53b5f7f39071",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": ".tests-matrix.yaml",
+      "name": ".tests-matrix.yaml",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "mypy",
+          "name": "mypy",
+          "runner": "${{ inputs.runner }}",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "pytest",
+          "name": "pytest",
+          "runner": "${{ inputs.runner }}",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "pytest-export",
+          "name": "pytest (poetry-plugin-export)",
+          "runner": "${{ inputs.runner }}",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "backport.yaml",
+      "name": "Backport",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "backport",
+          "name": "Create backport",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docs.yaml",
+      "name": "Documentation Preview",
+      "triggers": [
+        "pull_request",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "deploy",
+          "name": "Build & Deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "lock-threads.yaml",
+      "name": "Lock Threads",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lock-issues",
+          "name": "lock-issues",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "lock-prs",
+          "name": "lock-prs",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yaml",
+      "name": "Release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "upload-github",
+          "name": "Upload (GitHub)",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "upload-pypi",
+          "name": "Upload (PyPI)",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload-pypi' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "tests.yaml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "Detect changed files",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "lockfile",
+          "name": "Check poetry.lock",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "smoke",
+          "name": "Smoke-test build and install",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "lockfile"
+          ]
+        },
+        {
+          "id": "fixtures-pypi",
+          "name": "Check fixtures (PyPI)",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "tests-matrix",
+          "name": "${{ matrix.os.name }} (Python ${{ matrix.python-version }})",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "lockfile",
+            "changes"
+          ]
+        },
+        {
+          "id": "status",
+          "name": "Status",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "lockfile",
+            "smoke",
+            "fixtures-pypi",
+            "tests-matrix"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

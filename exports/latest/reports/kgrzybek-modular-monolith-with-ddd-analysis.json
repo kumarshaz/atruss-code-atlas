@@ -1,0 +1,1703 @@
+{
+  "repository": "kgrzybek/modular-monolith-with-ddd",
+  "sha": "91c8ef24b4cb6ef558c95d8267fa07d68c7059f8",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 2112,
+    "loc": 75754,
+    "sloc": 63534,
+    "component_count": 221,
+    "avg_cyclomatic_complexity": 2.39,
+    "max_cyclomatic_complexity": 19,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "CompanyName.MyMeetings.API",
+      "type": "MODULE",
+      "file": "src/API/CompanyName.MyMeetings.API/CompanyName.MyMeetings.API.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.BuildingBlocks.Application",
+      "type": "MODULE",
+      "file": "src/BuildingBlocks/Application/CompanyName.MyMeetings.BuildingBlocks.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.BuildingBlocks.Domain",
+      "type": "MODULE",
+      "file": "src/BuildingBlocks/Domain/CompanyName.MyMeetings.BuildingBlocks.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.BuildingBlocks.Infrastructure",
+      "type": "MODULE",
+      "file": "src/BuildingBlocks/Infrastructure/CompanyName.MyMeetings.BuildingBlocks.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.BuildingBlocks.Application.UnitTests",
+      "type": "MODULE",
+      "file": "src/BuildingBlocks/Tests/Application.UnitTests/CompanyName.MyMeetings.BuildingBlocks.Application.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.BuildingBlocks.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/BuildingBlocks/Tests/IntegrationTests/CompanyName.MyMeetings.BuildingBlocks.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Database.Build",
+      "type": "MODULE",
+      "file": "src/Database/CompanyName.MyMeetings.Database.Build/CompanyName.MyMeetings.Database.Build.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DatabaseMigrator",
+      "type": "MODULE",
+      "file": "src/Database/DatabaseMigrator/DatabaseMigrator.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.Application",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Application/CompanyName.MyMeetings.Modules.Administration.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.Modules.Meetings.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.Registrations.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.UserAccess.IntegrationEvents"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.Domain",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Domain/CompanyName.MyMeetings.Modules.Administration.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Infrastructure/CompanyName.MyMeetings.Modules.Administration.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.IntegrationEvents",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/IntegrationEvents/CompanyName.MyMeetings.Modules.Administration.IntegrationEvents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.ArchTests",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Tests/ArchTests/CompanyName.MyMeetings.Modules.Administration.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Tests/IntegrationTests/CompanyName.MyMeetings.Modules.Administration.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Administration.Domain.UnitTests",
+      "type": "MODULE",
+      "file": "src/Modules/Administration/Tests/UnitTests/CompanyName.MyMeetings.Modules.Administration.Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.Application",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Application/CompanyName.MyMeetings.Modules.Meetings.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.Modules.Administration.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.Payments.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.Registrations.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.UserAccess.IntegrationEvents"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.Domain",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Domain/CompanyName.MyMeetings.Modules.Meetings.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Infrastructure/CompanyName.MyMeetings.Modules.Meetings.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.IntegrationEvents",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/IntegrationEvents/CompanyName.MyMeetings.Modules.Meetings.IntegrationEvents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.ArchTests",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Tests/ArchTests/CompanyName.MyMeetings.Modules.Meetings.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Tests/IntegrationTests/CompanyName.MyMeetings.Modules.Meetings.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Meetings.Domain.UnitTests",
+      "type": "MODULE",
+      "file": "src/Modules/Meetings/Tests/UnitTests/CompanyName.MyMeetings.Modules.Meetings.Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.Application",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Application/CompanyName.MyMeetings.Modules.Payments.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.Modules.Administration.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.Meetings.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.Registrations.IntegrationEvents",
+        "CompanyName.MyMeetings.Modules.UserAccess.IntegrationEvents"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.Domain",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Domain/CompanyName.MyMeetings.Modules.Payments.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Infrastructure/CompanyName.MyMeetings.Modules.Payments.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.IntegrationEvents",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/IntegrationEvents/CompanyName.MyMeetings.Modules.Payments.IntegrationEvents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.ArchTests",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Tests/ArchTests/CompanyName.MyMeetings.Modules.Payments.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Tests/IntegrationTests/CompanyName.MyMeetings.Modules.Payments.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Payments.Domain.UnitTests",
+      "type": "MODULE",
+      "file": "src/Modules/Payments/Tests/UnitTests/CompanyName.MyMeetings.Modules.Payments.Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.Application",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Application/CompanyName.MyMeetings.Modules.Registrations.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.BuildingBlocks.Application"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.Domain",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Domain/CompanyName.MyMeetings.Modules.Registrations.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Infrastructure/CompanyName.MyMeetings.Modules.Registrations.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.Modules.UserAccess.Application",
+        "CompanyName.MyMeetings.Modules.UserAccess.Infrastructure"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.IntegrationEvents",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/IntegrationEvents/CompanyName.MyMeetings.Modules.Registrations.IntegrationEvents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.ArchTests",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Tests/ArchTests/CompanyName.MyMeetings.Modules.Registrations.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyNames.MyMeetings.Modules.Registrations.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Tests/IntegrationTests/CompanyNames.MyMeetings.Modules.Registrations.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.Registrations.Domain.UnitTests",
+      "type": "MODULE",
+      "file": "src/Modules/Registrations/Tests/UnitTests/CompanyName.MyMeetings.Modules.Registrations.Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.Application",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Application/CompanyName.MyMeetings.Modules.UserAccess.Application.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CompanyName.MyMeetings.Modules.Meetings.IntegrationEvents"
+      ]
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.Domain",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Domain/CompanyName.MyMeetings.Modules.UserAccess.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Infrastructure/CompanyName.MyMeetings.Modules.UserAccess.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.IntegrationEvents",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/IntegrationEvents/CompanyName.MyMeetings.Modules.UserAccess.IntegrationEvents.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.ArchTests",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Tests/ArchTests/CompanyName.MyMeetings.Modules.UserAccess.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyNames.MyMeetings.Modules.UserAccess.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Tests/IntegrationTests/CompanyNames.MyMeetings.Modules.UserAccess.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.Modules.UserAccess.Domain.UnitTests",
+      "type": "MODULE",
+      "file": "src/Modules/UserAccess/Tests/UnitTests/CompanyName.MyMeetings.Modules.UserAccess.Domain.UnitTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.ArchTests",
+      "type": "MODULE",
+      "file": "src/Tests/ArchTests/CompanyName.MyMeetings.ArchTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.IntegrationTests",
+      "type": "MODULE",
+      "file": "src/Tests/IntegrationTests/CompanyName.MyMeetings.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CompanyName.MyMeetings.SUT",
+      "type": "MODULE",
+      "file": "src/Tests/SUT/CompanyName.MyMeetings.SUT.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AttributeAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/API/CompanyName.MyMeetings.API/Configuration/Authorization/AttributeAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HasPermissionAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/API/CompanyName.MyMeetings.API/Configuration/Authorization/HasPermissionAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AttributeAuthorizationHandler"
+      ]
+    },
+    {
+      "name": "MeetingGroupProposalsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Administration/MeetingGroupProposals/MeetingGroupProposalsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CountriesController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/Countries/CountriesController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCommentingConfigurationController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/MeetingCommentingConfiguration/MeetingCommentingConfigurationController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCommentsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/MeetingComments/MeetingCommentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupProposalsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/MeetingGroupProposals/MeetingGroupProposalsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/MeetingGroups/MeetingGroupsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Meetings/Meetings/MeetingsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingFeePaymentsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/MeetingFees/MeetingFeePaymentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PayersController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/Payers/PayersController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PriceListItemsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/PriceListItems/PriceListItemsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionRenewalsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/SubscriptionRenewalsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionPaymentsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/Subscriptions/SubscriptionPaymentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/Payments/Subscriptions/SubscriptionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AuthenticatedUserController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/UserAccess/AuthenticatedUserController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EmailsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/UserAccess/EmailsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserRegistrationsController",
+      "type": "API_ROUTE",
+      "file": "src/API/CompanyName.MyMeetings.API/Modules/UserAccess/UserRegistrationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AcceptMeetingGroupProposalCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/AcceptMeetingGroupProposal/AcceptMeetingGroupProposalCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupProposalRepository"
+      ]
+    },
+    {
+      "name": "MeetingGroupProposalAcceptedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/AcceptMeetingGroupProposal/MeetingGroupProposalAcceptedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingGroupProposalQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/GetMeetingGroupProposal/GetMeetingGroupProposalQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingGroupProposalsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/GetMeetingGroupProposals/GetMeetingGroupProposalsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupProposedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/MeetingGroupProposedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RequestMeetingGroupProposalVerificationCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/MeetingGroupProposals/RequestMeetingGroupProposalVerification/RequestMeetingGroupProposalVerificationCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupProposalRepository"
+      ]
+    },
+    {
+      "name": "CreateMemberCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/Members/CreateMember/CreateMemberCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MemberRepository"
+      ]
+    },
+    {
+      "name": "GetMemberQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/Members/GetMember/GetMemberQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NewUserRegisteredIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Application/Members/NewUserRegisteredIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AdministrationContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Administration/Infrastructure/AdministrationContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventGenericHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Infrastructure/Configuration/EventsBus/IntegrationEventGenericHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Infrastructure/Configuration/Processing/Inbox/ProcessInboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInternalCommandsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Infrastructure/Configuration/Processing/InternalCommands/ProcessInternalCommandsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessOutboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Administration/Infrastructure/Configuration/Processing/Outbox/ProcessOutboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupProposalRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Administration/Infrastructure/Domain/MeetingGroupProposals/MeetingGroupProposalRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AdministrationContext"
+      ]
+    },
+    {
+      "name": "MemberRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Administration/Infrastructure/Domain/Members/MemberRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AdministrationContext"
+      ]
+    },
+    {
+      "name": "GetAllCountriesQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Countries/GetAllCountriesQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DisableMeetingCommentingConfigurationCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingCommentingConfigurations/DisableMeetingCommentingConfiguration/DisableMeetingCommentingConfigurationCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentingConfigurationRepository",
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "EnableMeetingCommentingConfigurationCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingCommentingConfigurations/EnableMeetingCommentingConfiguration/EnableMeetingCommentingConfigurationCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentingConfigurationRepository",
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "GetMeetingCommentingConfigurationQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingCommentingConfigurations/GetMeetingCommentingConfiguration/GetMeetingCommentingConfigurationQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCreatedEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingCommentingConfigurations/MeetingCreatedEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentingConfigurationRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "AddMeetingCommentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/AddMeetingComment/AddMeetingCommentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentRepository",
+        "MeetingCommentingConfigurationRepository",
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "AddMeetingCommentLikeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/AddMeetingCommentLike/AddMeetingCommentLikeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentRepository"
+      ]
+    },
+    {
+      "name": "AddReplyToMeetingCommentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/AddMeetingCommentReply/AddReplyToMeetingCommentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentRepository",
+        "MeetingCommentingConfigurationRepository",
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "EditMeetingCommentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/EditMeetingComment/EditMeetingCommentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentRepository",
+        "MeetingCommentingConfigurationRepository"
+      ]
+    },
+    {
+      "name": "GetMeetingCommentLikersQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/GetMeetingCommentLikers/GetMeetingCommentLikersQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingCommentsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/GetMeetingComments/GetMeetingCommentsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCommentLikedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/MeetingCommentLikedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCommentUnlikeNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/MeetingCommentUnlikeNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RemoveMeetingCommentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/RemoveMeetingComment/RemoveMeetingCommentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingCommentRepository",
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "RemoveMeetingCommentLikeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingComments/RemoveMeetingCommentLike/RemoveMeetingCommentLikeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AcceptMeetingGroupProposalCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/AcceptMeetingGroupProposal/AcceptMeetingGroupProposalCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupProposalRepository"
+      ]
+    },
+    {
+      "name": "MeetingGroupProposalAcceptedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/AcceptMeetingGroupProposal/MeetingGroupProposalAcceptedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetAllMeetingGroupProposalsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/GetAllMeetingGroupProposals/GetAllMeetingGroupProposalsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingGroupProposalQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/GetMeetingGroupProposal/GetMeetingGroupProposalQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMemberMeetingGroupProposalsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/GetMemberMeetingGroupProposals/GetMemberMeetingGroupProposalsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupProposalAcceptedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/MeetingGroupProposalAcceptedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingGroupProposedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/MeetingGroupProposedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProposeMeetingGroupCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroupProposals/ProposeMeetingGroup/ProposeMeetingGroupCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupProposalRepository"
+      ]
+    },
+    {
+      "name": "CreateNewMeetingGroupCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/CreateNewMeetingGroup/CreateNewMeetingGroupCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupProposalRepository",
+        "MeetingGroupRepository"
+      ]
+    },
+    {
+      "name": "EditMeetingGroupGeneralAttributesCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/EditMeetingGroupGeneralAttributes/EditMeetingGroupGeneralAttributesCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository"
+      ]
+    },
+    {
+      "name": "GetAllMeetingGroupsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/GetAllMeetingGroups/GetAllMeetingGroupsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetAuthenticationMemberMeetingGroupsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/GetAuthenticationMemberMeetingGroups/GetAuthenticationMemberMeetingGroupsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingGroupDetailsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/GetMeetingGroupDetails/GetMeetingGroupDetailsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JoinToGroupCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/JoinToGroup/JoinToGroupCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository"
+      ]
+    },
+    {
+      "name": "LeaveMeetingGroupCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/LeaveMeetingGroup/LeaveMeetingGroupCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository"
+      ]
+    },
+    {
+      "name": "MeetingGroupCreatedSendEmailHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/MeetingGroupCreatedSendEmailHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendMeetingGroupCreatedEmailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/SendMeetingGroupCreatedEmail/SendMeetingGroupCreatedEmailCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SetMeetingGroupExpirationDateCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MeetingGroups/SetMeetingGroupExpirationDate/SetMeetingGroupExpirationDateCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository"
+      ]
+    },
+    {
+      "name": "AddMeetingAttendeeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/AddMeetingAttendee/AddMeetingAttendeeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "AddMeetingNotAttendeeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/AddMeetingNotAttendee/AddMeetingNotAttendeeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "CancelMeetingCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/CancelMeeting/CancelMeetingCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "ChangeMeetingMainAttributesCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/ChangeMeetingMainAttributes/ChangeMeetingMainAttributesCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "ChangeNotAttendeeDecisionCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/ChangeNotAttendeeDecision/ChangeNotAttendeeDecisionCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "CreateMeetingCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/CreateMeeting/CreateMeetingCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "GetAuthenticatedMemberMeetingsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/GetAuthenticatedMemberMeetings/GetAuthenticatedMemberMeetingsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingAttendeesQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/GetMeetingAttendees/GetMeetingAttendeesQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingDetailsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/GetMeetingDetails/GetMeetingDetailsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MarkMeetingAttendeeFeeAsPayedCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/MarkMeetingAttendeeFeeAsPayedCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "MeetingFeePaidIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/MeetingFeePaidIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RemoveMeetingAttendeeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/RemoveMeetingAttendee/RemoveMeetingAttendeeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "MeetingAttendeeAddedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SendMeetingAttendeeAddedEmail/MeetingAttendeeAddedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingAttendeeAddedPublishEventNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SendMeetingAttendeeAddedEmail/MeetingAttendeeAddedPublishEventNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendMeetingAttendeeAddedEmailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SendMeetingAttendeeAddedEmail/SendMeetingAttendeeAddedEmailCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SetMeetingAttendeeRoleCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SetMeetingAttendeeRole/SetMeetingAttendeeRoleCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "SetMeetingHostRoleCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SetMeetingHostRole/SetMeetingHostRoleCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "SignOffMemberFromWaitlistCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SignOffMemberFromWaitlist/SignOffMemberFromWaitlistCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "SignUpMemberToWaitlistCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Meetings/SignUpMemberToWaitlist/SignUpMemberToWaitlistCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingGroupRepository",
+        "MeetingRepository"
+      ]
+    },
+    {
+      "name": "ChangeSubscriptionExpirationDateForMemberCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MemberSubscriptions/ChangeSubscriptionExpirationDateForMember/ChangeSubscriptionExpirationDateForMemberCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MemberSubscriptionRepository"
+      ]
+    },
+    {
+      "name": "MemberSubscriptionExpirationDateChangedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MemberSubscriptions/MemberSubscriptionExpirationDateChangedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionExpirationDateChangedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/MemberSubscriptions/SubscriptionExpirationDateChangedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreateMemberCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Members/CreateMember/CreateMemberCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MemberRepository"
+      ]
+    },
+    {
+      "name": "MemberCratedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Members/CreateMember/MemberCratedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NewUserRegisteredIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Application/Members/CreateMember/NewUserRegisteredIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventGenericHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Infrastructure/Configuration/EventsBus/IntegrationEventGenericHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Infrastructure/Configuration/Processing/Inbox/ProcessInboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInternalCommandsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Infrastructure/Configuration/Processing/InternalCommands/ProcessInternalCommandsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessOutboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Meetings/Infrastructure/Configuration/Processing/Outbox/ProcessOutboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingCommentingConfigurationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/MeetingCommentingConfigurations/MeetingCommentingConfigurationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingCommentRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/MeetingComments/MeetingCommentRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingGroupProposalRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/MeetingGroupProposals/MeetingGroupProposalRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingGroupRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/MeetingGroups/MeetingGroupRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingMemberCommentLikeRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/MeetingMemberCommentLikes/MeetingMemberCommentLikeRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/Meetings/MeetingRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MemberRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/Members/MemberRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MemberSubscriptionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/Domain/Members/MemberSubscriptions/MemberSubscriptionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MeetingsContext"
+      ]
+    },
+    {
+      "name": "MeetingsContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Meetings/Infrastructure/MeetingsContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreateMeetingFeeCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/CreateMeetingFee/CreateMeetingFeeCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreateMeetingFeePaymentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/CreateMeetingFeePayment/CreateMeetingFeePaymentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetMeetingFeesQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/GetMeetingFees/GetMeetingFeesQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MarkMeetingFeeAsPaidCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/MarkMeetingFeeAsPaid/MarkMeetingFeeAsPaidCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingFeePaidNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/MarkMeetingFeeAsPaid/MeetingFeePaidNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MarkMeetingFeePaymentAsPaidCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/MarkMeetingFeePaymentAsPaid/MarkMeetingFeePaymentAsPaidCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingFeePaymentPaidNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/MarkMeetingFeePaymentAsPaid/MeetingFeePaymentPaidNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MeetingAttendeeAddedIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/MeetingFees/MeetingAttendeeAddedIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreatePayerCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Payers/CreatePayer/CreatePayerCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NewUserRegisteredIntegrationEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Payers/CreatePayer/NewUserRegisteredIntegrationEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetPayerQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Payers/GetPayer/GetPayerQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ActivatePriceListItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/ActivatePriceListItem/ActivatePriceListItemCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ChangePriceListItemAttributesCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/ChangePriceListItemAttributes/ChangePriceListItemAttributesCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreatePriceListItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/CreatePriceListItem/CreatePriceListItemCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeactivatePriceListItemCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/DeactivatePriceListItem/DeactivatePriceListItemCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetPriceListItemQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/GetPriceListItem/GetPriceListItemQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetPriceListItemsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/PriceListItems/GetPriceListItems/GetPriceListItemsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BuySubscriptionCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/BuySubscription/BuySubscriptionCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BuySubscriptionRenewalCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/BuySubscriptionRenewal/BuySubscriptionRenewalCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CreateSubscriptionCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/CreateSubscription/CreateSubscriptionCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionCreatedEnqueueEmailConfirmationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/CreateSubscription/SubscriptionCreatedEnqueueEmailConfirmationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionCreatedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/CreateSubscription/SubscriptionCreatedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExpireSubscriptionCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/ExpireSubscription/ExpireSubscriptionCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExpireSubscriptionPaymentCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/ExpireSubscriptionPayment/ExpireSubscriptionPaymentCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExpireSubscriptionPaymentsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/ExpireSubscriptionPayments/ExpireSubscriptionPaymentsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExpireSubscriptionsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/ExpireSubscriptions/ExpireSubscriptionsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetAuthenticatedPayerSubscriptionQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/GetPayerSubscription/GetAuthenticatedPayerSubscriptionQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetSubscriptionDetailsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/GetSubscriptionDetails/GetSubscriptionDetailsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetSubscriptionPaymentsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/GetSubscriptionPayments/GetSubscriptionPaymentsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MarkSubscriptionPaymentAsPaidCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/MarkSubscriptionPaymentAsPaid/MarkSubscriptionPaymentAsPaidCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionPaymentPaidNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/MarkSubscriptionPaymentAsPaid/SubscriptionPaymentPaidNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MarkSubscriptionRenewalPaymentAsPaidCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/MarkSubscriptionRenewalPaymentAsPaid/MarkSubscriptionRenewalPaymentAsPaidCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionRenewalPaymentAsPaidNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/MarkSubscriptionRenewalPaymentAsPaid/SubscriptionRenewalPaymentAsPaidNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RenewSubscriptionCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/RenewSubscription/RenewSubscriptionCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionRenewedEnqueueEmailConfirmationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/RenewSubscription/SubscriptionRenewedEnqueueEmailConfirmationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionRenewedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/RenewSubscription/SubscriptionRenewedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendSubscriptionCreationConfirmationEmailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/SendSubscriptionCreationConfirmationEmail/SendSubscriptionCreationConfirmationEmailCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendSubscriptionRenewalConfirmationEmailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Application/Subscriptions/SendSubscriptionRenewalConfirmationEmail/SendSubscriptionRenewalConfirmationEmailCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventGenericHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Infrastructure/Configuration/EventsBus/IntegrationEventGenericHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Infrastructure/Configuration/Processing/Inbox/ProcessInboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInternalCommandsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Infrastructure/Configuration/Processing/InternalCommands/ProcessInternalCommandsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessOutboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Payments/Infrastructure/Configuration/Processing/Outbox/ProcessOutboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConfirmUserRegistrationCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/ConfirmUserRegistration/ConfirmUserRegistrationCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRegistrationRepository"
+      ]
+    },
+    {
+      "name": "UserRegistrationConfirmedNotificationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/ConfirmUserRegistration/UserRegistrationConfirmedNotificationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetUserRegistrationQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/GetUserRegistration/GetUserRegistrationQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NewUserRegisteredEnqueueEmailConfirmationHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/RegisterNewUser/NewUserRegisteredEnqueueEmailConfirmationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NewUserRegisteredPublishEventHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/RegisterNewUser/NewUserRegisteredPublishEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RegisterNewUserCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/RegisterNewUser/RegisterNewUserCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRegistrationRepository"
+      ]
+    },
+    {
+      "name": "SendUserRegistrationConfirmationEmailCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Application/UserRegistrations/SendUserRegistrationConfirmationEmail/SendUserRegistrationConfirmationEmailCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventGenericHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Infrastructure/Configuration/EventsBus/IntegrationEventGenericHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Infrastructure/Configuration/Processing/Inbox/ProcessInboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInternalCommandsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Infrastructure/Configuration/Processing/InternalCommands/ProcessInternalCommandsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessOutboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/Registrations/Infrastructure/Configuration/Processing/Outbox/ProcessOutboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserRegistrationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Registrations/Infrastructure/Domain/UserRegistrations/UserRegistrationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "RegistrationsContext"
+      ]
+    },
+    {
+      "name": "RegistrationsContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/Registrations/Infrastructure/RegistrationsContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AuthenticateCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Authentication/Authenticate/AuthenticateCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetAuthenticatedUserPermissionsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Authorization/GetAuthenticatedUserPermissions/GetAuthenticatedUserPermissionsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetUserPermissionsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Authorization/GetUserPermissions/GetUserPermissionsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetAllEmailsQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Emails/GetAllEmailsQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AddAdminUserCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Users/AddAdminUser/AddAdminUserCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "CreateUserCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Users/CreateUser/CreateUserCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "GetAuthenticatedUserQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Users/GetAuthenticatedUser/GetAuthenticatedUserQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GetUserQueryHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Application/Users/GetUser/GetUserQueryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IntegrationEventGenericHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Infrastructure/Configuration/EventsBus/IntegrationEventGenericHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Infrastructure/Configuration/Processing/Inbox/ProcessInboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessInternalCommandsCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Infrastructure/Configuration/Processing/InternalCommands/ProcessInternalCommandsCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessOutboxCommandHandler",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Infrastructure/Configuration/Processing/Outbox/ProcessOutboxCommandHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/UserAccess/Infrastructure/Domain/Users/UserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserAccessContext"
+      ]
+    },
+    {
+      "name": "ProfileService",
+      "type": "SERVICE",
+      "file": "src/Modules/UserAccess/Infrastructure/IdentityServer/ProfileService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserAccessContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Modules/UserAccess/Infrastructure/UserAccessContext.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    }
+  ]
+}

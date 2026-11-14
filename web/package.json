@@ -1,0 +1,22 @@
+{
+  "name": "atruss-code-atlas-web",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "copy-data": "mkdir -p src/data/latest src/content/docs/reports/ && rm -rf src/data/latest/* src/content/docs/reports/* && cp -R ../exports/latest/* src/data/latest/ 2>/dev/null || true; PY_BIN=$([ -x ../.venv/bin/python3 ] && echo ../.venv/bin/python3 || echo python3); $PY_BIN ../scripts/generate-report-stubs.py --discovery ../exports/latest/repos/repositories.json --output src/content/docs/reports/ || echo 'Stub generation skipped'",
+    "dev": "npm run copy-data && astro dev",
+    "start": "astro dev",
+    "build": "npm run copy-data && astro build",
+    "preview": "astro preview",
+    "test": "node src/tests/AtlasSummary.test.ts && node src/tests/schema.test.ts",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.38.2",
+    "@material/web": "^2.5.0",
+    "astro": "^6.0.1",
+    "astro-mermaid": "^2.0.1",
+    "mermaid": "^11.13.0",
+    "sharp": "^0.34.2"
+  }
+}

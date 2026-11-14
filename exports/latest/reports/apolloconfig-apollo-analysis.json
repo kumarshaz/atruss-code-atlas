@@ -1,0 +1,1764 @@
+{
+  "repository": "apolloconfig/apollo",
+  "sha": "e31c48097be6b679fc91ea3a2c67640afc512d31",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 1586,
+    "loc": 206402,
+    "sloc": 141473,
+    "component_count": 196,
+    "avg_cyclomatic_complexity": 4.87,
+    "max_cyclomatic_complexity": 104,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "apollo-adminservice",
+      "type": "MODULE",
+      "file": "apollo-adminservice/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-assembly",
+      "type": "MODULE",
+      "file": "apollo-assembly/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-audit-annotation",
+      "type": "MODULE",
+      "file": "apollo-audit/apollo-audit-annotation/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-audit-api",
+      "type": "MODULE",
+      "file": "apollo-audit/apollo-audit-api/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-audit-impl",
+      "type": "MODULE",
+      "file": "apollo-audit/apollo-audit-impl/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-audit-spring-boot-starter",
+      "type": "MODULE",
+      "file": "apollo-audit/apollo-audit-spring-boot-starter/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-audit",
+      "type": "MODULE",
+      "file": "apollo-audit/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-biz",
+      "type": "MODULE",
+      "file": "apollo-biz/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-build-sql-converter",
+      "type": "MODULE",
+      "file": "apollo-build-sql-converter/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-buildtools",
+      "type": "MODULE",
+      "file": "apollo-buildtools/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-common",
+      "type": "MODULE",
+      "file": "apollo-common/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-configservice",
+      "type": "MODULE",
+      "file": "apollo-configservice/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo-portal",
+      "type": "MODULE",
+      "file": "apollo-portal/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "portal-ui-regression-client",
+      "type": "MODULE",
+      "file": "e2e/portal-e2e/release-regression/sdk-client/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "apollo",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminServiceApplication",
+      "type": "CONFIG",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/AdminServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloBizConfig",
+        "ApolloCommonConfig"
+      ]
+    },
+    {
+      "name": "AdminServiceAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/AdminServiceAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccessKeyController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/AccessKeyController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AccessKeyService"
+      ]
+    },
+    {
+      "name": "AppController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/AppController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AccessKeyService",
+        "AdminService",
+        "AppService"
+      ]
+    },
+    {
+      "name": "AppNamespaceController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/AppNamespaceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ClusterController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ClusterController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ClusterService"
+      ]
+    },
+    {
+      "name": "CommitController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/CommitController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CommitService"
+      ]
+    },
+    {
+      "name": "IndexController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/IndexController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "InstanceConfigController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/InstanceConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Instance",
+        "InstanceConfig",
+        "InstanceService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ItemController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ItemController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CommitService",
+        "ItemService",
+        "NamespaceService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ItemSetController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ItemSetController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ItemSetService"
+      ]
+    },
+    {
+      "name": "NamespaceBranchController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/NamespaceBranchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceBranchService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "NamespaceController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/NamespaceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "NamespaceLockController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/NamespaceLockController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceLock",
+        "NamespaceLockService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ReleaseController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ReleaseController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceBranchService",
+        "NamespaceService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ReleaseHistoryController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ReleaseHistoryController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseHistoryService"
+      ]
+    },
+    {
+      "name": "ServerConfigController",
+      "type": "API_ROUTE",
+      "file": "apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/controller/ServerConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ServerConfigService"
+      ]
+    },
+    {
+      "name": "LocalAdminServiceApplication",
+      "type": "CONFIG",
+      "file": "apollo-adminservice/src/test/java/com/ctrip/framework/apollo/LocalAdminServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TestWebSecurityConfig",
+      "type": "CONFIG",
+      "file": "apollo-adminservice/src/test/java/com/ctrip/framework/apollo/adminservice/controller/TestWebSecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloApplication",
+      "type": "CONFIG",
+      "file": "apollo-assembly/src/main/java/com/ctrip/framework/apollo/assembly/ApolloApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminService",
+        "AdminServiceApplication",
+        "ApolloAuditAutoConfiguration",
+        "ConfigServiceApplication",
+        "PortalApplication"
+      ]
+    },
+    {
+      "name": "LocalApolloApplication",
+      "type": "CONFIG",
+      "file": "apollo-assembly/src/test/java/com/ctrip/framework/apollo/assembly/LocalApolloApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminService",
+        "AdminServiceApplication",
+        "ApolloApplication",
+        "ConfigServiceApplication",
+        "PortalApplication"
+      ]
+    },
+    {
+      "name": "ApolloAuditProperties",
+      "type": "CONFIG",
+      "file": "apollo-audit/apollo-audit-impl/src/main/java/com/ctrip/framework/apollo/audit/ApolloAuditProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloAuditController",
+      "type": "API_ROUTE",
+      "file": "apollo-audit/apollo-audit-impl/src/main/java/com/ctrip/framework/apollo/audit/controller/ApolloAuditController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditProperties"
+      ]
+    },
+    {
+      "name": "ApolloAuditLog",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-audit/apollo-audit-impl/src/main/java/com/ctrip/framework/apollo/audit/entity/ApolloAuditLog.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloAuditLogDataInfluence",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-audit/apollo-audit-impl/src/main/java/com/ctrip/framework/apollo/audit/entity/ApolloAuditLogDataInfluence.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloAuditAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-audit/apollo-audit-spring-boot-starter/src/main/java/com/ctrip/framework/apollo/audit/configuration/ApolloAuditAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditController",
+        "ApolloAuditProperties"
+      ]
+    },
+    {
+      "name": "ApolloAuditNoOpAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-audit/apollo-audit-spring-boot-starter/src/main/java/com/ctrip/framework/apollo/audit/configuration/ApolloAuditNoOpAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditController",
+        "ApolloAuditProperties"
+      ]
+    },
+    {
+      "name": "ApolloBizAssemblyConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/ApolloBizAssemblyConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloBizConfig",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/ApolloBizConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebSecurityConfig",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/auth/WebSecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Instance",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/entity/Instance.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "InstanceConfig",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/entity/InstanceConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NamespaceLock",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/entity/NamespaceLock.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ReleaseMessage",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/entity/ReleaseMessage.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServiceRegistry",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/entity/ServiceRegistry.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloServiceDiscoveryAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/registry/configuration/ApolloServiceDiscoveryAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloServiceDiscoveryProperties"
+      ]
+    },
+    {
+      "name": "ApolloServiceRegistryAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/registry/configuration/ApolloServiceRegistryAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloServiceRegistryProperties"
+      ]
+    },
+    {
+      "name": "ApolloServiceDiscoveryProperties",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/registry/configuration/support/ApolloServiceDiscoveryProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloServiceRegistryProperties",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/registry/configuration/support/ApolloServiceRegistryProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccessKeyService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/AccessKeyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService"
+      ]
+    },
+    {
+      "name": "AdminService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/AdminService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceService",
+        "AppService",
+        "ClusterService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "AppNamespaceService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/AppNamespaceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "AuditService",
+        "ClusterService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "AppService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/AppService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "AuditService"
+      ]
+    },
+    {
+      "name": "AuditService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/AuditService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ClusterService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ClusterService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "CommitService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/CommitService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "InstanceService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/InstanceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Instance",
+        "InstanceConfig"
+      ]
+    },
+    {
+      "name": "ItemService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ItemService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminService",
+        "AppNamespaceService",
+        "AuditService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ItemSetService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ItemSetService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService",
+        "CommitService",
+        "ItemService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "NamespaceBranchService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/NamespaceBranchService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService",
+        "ClusterService",
+        "NamespaceService",
+        "ReleaseHistoryService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "NamespaceLockService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/NamespaceLockService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceLock"
+      ]
+    },
+    {
+      "name": "NamespaceService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/NamespaceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceService",
+        "AuditService",
+        "ClusterService",
+        "CommitService",
+        "InstanceService",
+        "ItemService",
+        "NamespaceBranchService",
+        "NamespaceLockService",
+        "ReleaseHistoryService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ReleaseHistoryService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ReleaseHistoryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService"
+      ]
+    },
+    {
+      "name": "ReleaseMessageService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ReleaseMessageService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseMessage"
+      ]
+    },
+    {
+      "name": "ReleaseService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ReleaseService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuditService",
+        "ItemService",
+        "ItemSetService",
+        "NamespaceBranchService",
+        "NamespaceLock",
+        "NamespaceLockService",
+        "NamespaceService",
+        "ReleaseHistoryService"
+      ]
+    },
+    {
+      "name": "ServerConfigService",
+      "type": "SERVICE",
+      "file": "apollo-biz/src/main/java/com/ctrip/framework/apollo/biz/service/ServerConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "BizTestConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-biz/src/test/java/com/ctrip/framework/apollo/biz/BizTestConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloBizConfig",
+        "ApolloCommonConfig"
+      ]
+    },
+    {
+      "name": "ApolloCommonConfig",
+      "type": "CONFIG",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/ApolloCommonConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ApolloInfoController",
+      "type": "API_ROUTE",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/controller/ApolloInfoController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CharacterEncodingFilterConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/controller/CharacterEncodingFilterConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalDefaultExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/controller/GlobalDefaultExceptionHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "HttpMessageConverterConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/controller/HttpMessageConverterConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebMvcConfig",
+      "type": "CONFIG",
+      "file": "apollo-common/src/main/java/com/ctrip/framework/apollo/common/controller/WebMvcConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigServerEurekaServerConfigure",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServerEurekaServerConfigure.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigServiceApplication",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloBizConfig",
+        "ApolloCommonConfig",
+        "ApolloMetaServiceConfig"
+      ]
+    },
+    {
+      "name": "ConfigServiceAssemblyConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServiceAssemblyConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigServiceAutoConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServiceAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConfigFileController",
+        "NotificationController",
+        "NotificationControllerV2",
+        "ReleaseMessageService",
+        "ReleaseMessageServiceWithCache",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ConfigController",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/controller/ConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceServiceWithCache",
+        "InstanceConfigAuditUtil"
+      ]
+    },
+    {
+      "name": "ConfigFileController",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/controller/ConfigFileController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConfigController",
+        "ReleaseMessage"
+      ]
+    },
+    {
+      "name": "NotificationController",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/controller/NotificationController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseMessage",
+        "ReleaseMessageServiceWithCache"
+      ]
+    },
+    {
+      "name": "NotificationControllerV2",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/controller/NotificationControllerV2.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseMessage",
+        "ReleaseMessageServiceWithCache"
+      ]
+    },
+    {
+      "name": "AccessKeyServiceWithCache",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/service/AccessKeyServiceWithCache.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AppNamespaceServiceWithCache",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/service/AppNamespaceServiceWithCache.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ReleaseMessageServiceWithCache",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/service/ReleaseMessageServiceWithCache.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseMessage",
+        "ReleaseMessageService"
+      ]
+    },
+    {
+      "name": "InstanceConfigAuditUtil",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/util/InstanceConfigAuditUtil.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Instance",
+        "InstanceConfig",
+        "InstanceService"
+      ]
+    },
+    {
+      "name": "ApolloMetaServiceConfig",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/ApolloMetaServiceConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "HomePageController",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/controller/HomePageController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServiceController",
+      "type": "API_ROUTE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/controller/ServiceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DatabaseDiscoveryService",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/service/DatabaseDiscoveryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DefaultDiscoveryService",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/service/DefaultDiscoveryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "KubernetesDiscoveryService",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/service/KubernetesDiscoveryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SpringCloudInnerDiscoveryService",
+      "type": "SERVICE",
+      "file": "apollo-configservice/src/main/java/com/ctrip/framework/apollo/metaservice/service/SpringCloudInnerDiscoveryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LocalConfigServiceApplication",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/test/java/com/ctrip/framework/apollo/LocalConfigServiceApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TestWebSecurityConfig",
+      "type": "CONFIG",
+      "file": "apollo-configservice/src/test/java/com/ctrip/framework/apollo/configservice/controller/TestWebSecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PortalOpenApiConfig",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/PortalOpenApiConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "WebMvcConfig"
+      ]
+    },
+    {
+      "name": "ConsumerAudit",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/entity/ConsumerAudit.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServerAccessKeyOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerAccessKeyOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AccessKeyService"
+      ]
+    },
+    {
+      "name": "ServerAppOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerAppOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppController",
+        "AppService",
+        "ClusterService"
+      ]
+    },
+    {
+      "name": "ServerClusterOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerClusterOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ClusterService"
+      ]
+    },
+    {
+      "name": "ServerEnvOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerEnvOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServerItemOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerItemOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminService",
+        "ItemService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ServerNamespaceManagementOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerNamespaceManagementOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "AppNamespaceService",
+        "NamespaceLockService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ServerOrganizationOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerOrganizationOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServerPermissionOpenApiService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/server/service/ServerPermissionOpenApiService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SystemRoleManagerService"
+      ]
+    },
+    {
+      "name": "ConsumerRolePermissionService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/service/ConsumerRolePermissionService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ConsumerService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/service/ConsumerService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConsumerAudit",
+        "SystemRoleManagerService"
+      ]
+    },
+    {
+      "name": "ConsumerAuditUtil",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/util/ConsumerAuditUtil.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConsumerAudit",
+        "ConsumerService"
+      ]
+    },
+    {
+      "name": "ConsumerAuthUtil",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/util/ConsumerAuthUtil.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConsumerService"
+      ]
+    },
+    {
+      "name": "AccessKeyController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/AccessKeyController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "AppController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/AppController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "ConsumerAuthUtil",
+        "ConsumerService"
+      ]
+    },
+    {
+      "name": "ClusterController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/ClusterController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "EnvController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/EnvController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "InstanceController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/InstanceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "InstanceService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ItemController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/ItemController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "NamespaceBranchController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/NamespaceBranchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "NamespaceBranchService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "NamespaceController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/NamespaceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "OrganizationController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/OrganizationController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PermissionController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/PermissionController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "PortalManagementController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/PortalManagementController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "ApolloAuditProperties",
+        "AppService",
+        "CommitService",
+        "ConfigsExportService",
+        "ConfigsImportService",
+        "ConsumerService",
+        "FavoriteService",
+        "GlobalSearchService",
+        "NamespaceService",
+        "PortalMetaDomainService",
+        "ReleaseHistoryService",
+        "ServerConfigService",
+        "UserTokenService"
+      ]
+    },
+    {
+      "name": "ReleaseController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/ReleaseController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceBranchService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/UserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserPO"
+      ]
+    },
+    {
+      "name": "UserTokenOpenApiController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/openapi/v1/controller/UserTokenOpenApiController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserTokenAuthUtil",
+        "UserTokenService"
+      ]
+    },
+    {
+      "name": "PortalApplication",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/PortalApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloCommonConfig",
+        "PortalOpenApiConfig"
+      ]
+    },
+    {
+      "name": "PortalAssemblyConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/PortalAssemblyConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AdminServiceAPI",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/api/AdminServiceAPI.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "SpringSessionConfig",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/component/config/SpringSessionConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccessKeyController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/AccessKeyController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AccessKeyService",
+        "ApolloAuditLog"
+      ]
+    },
+    {
+      "name": "AppController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/AppController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "AppService"
+      ]
+    },
+    {
+      "name": "ClusterController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ClusterController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "ClusterService"
+      ]
+    },
+    {
+      "name": "CommitController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/CommitController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CommitService"
+      ]
+    },
+    {
+      "name": "ConfigsExportController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ConfigsExportController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConfigsExportService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ConfigsImportController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ConfigsImportController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConfigsExportController",
+        "ConfigsImportService"
+      ]
+    },
+    {
+      "name": "ConsumerController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ConsumerController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConsumerService"
+      ]
+    },
+    {
+      "name": "EnvController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/EnvController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FavoriteController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/FavoriteController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FavoriteService"
+      ]
+    },
+    {
+      "name": "GlobalSearchController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/GlobalSearchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GlobalSearchService"
+      ]
+    },
+    {
+      "name": "InstanceController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/InstanceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "InstanceService"
+      ]
+    },
+    {
+      "name": "ItemController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ItemController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ItemService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "NamespaceBranchController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/NamespaceBranchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "NamespaceBranchService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "NamespaceController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/NamespaceController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "ApolloAuditLog",
+        "AppNamespaceService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "NamespaceLockController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/NamespaceLockController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "NamespaceLockService"
+      ]
+    },
+    {
+      "name": "OrganizationController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/OrganizationController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PageSettingController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/PageSettingController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PermissionController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/PermissionController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "SystemRoleManagerService"
+      ]
+    },
+    {
+      "name": "PrefixPathController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/PrefixPathController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ReleaseController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ReleaseController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ReleaseHistoryController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ReleaseHistoryController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ReleaseHistoryService"
+      ]
+    },
+    {
+      "name": "SearchController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/SearchController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ServerConfigController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/ServerConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "ServerConfigService"
+      ]
+    },
+    {
+      "name": "SignInController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/SignInController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SsoHeartbeatController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/SsoHeartbeatController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SystemInfoController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/SystemInfoController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "PortalMetaDomainService"
+      ]
+    },
+    {
+      "name": "UserInfoController",
+      "type": "API_ROUTE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/controller/UserInfoController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserPO"
+      ]
+    },
+    {
+      "name": "Authority",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/entity/po/Authority.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserPO",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/entity/po/UserPO.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserTokenAudit",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/entity/po/UserTokenAudit.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "PortalMetaDomainService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/environment/PortalMetaDomainService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AccessKeyService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/AccessKeyService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "AdditionalUserInfoEnrichServiceImpl",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/AdditionalUserInfoEnrichServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AppNamespaceService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/AppNamespaceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ApolloAuditLog",
+        "ApolloAuditLogDataInfluence",
+        "AppService"
+      ]
+    },
+    {
+      "name": "AppService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/AppService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "ApolloAuditLog",
+        "AppNamespaceService",
+        "ClusterService",
+        "FavoriteService"
+      ]
+    },
+    {
+      "name": "ClusterService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ClusterService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "CommitService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/CommitService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "ConfigsExportService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ConfigsExportService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceService",
+        "AppService",
+        "ClusterService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "ConfigsImportService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ConfigsImportService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AppNamespaceService",
+        "AppService",
+        "ClusterService",
+        "ItemService",
+        "NamespaceService"
+      ]
+    },
+    {
+      "name": "FavoriteService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/FavoriteService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalSearchService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/GlobalSearchService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "InstanceService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/InstanceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "ItemService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ItemService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "NamespaceBranchService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/NamespaceBranchService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "ItemService",
+        "NamespaceService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "NamespaceLockService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/NamespaceLockService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "NamespaceService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/NamespaceService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "AppNamespaceService",
+        "ClusterService",
+        "InstanceService",
+        "ItemService",
+        "NamespaceBranchService",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ReleaseHistoryService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ReleaseHistoryService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI",
+        "ReleaseService"
+      ]
+    },
+    {
+      "name": "ReleaseService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ReleaseService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "ServerConfigService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/ServerConfigService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AdminServiceAPI"
+      ]
+    },
+    {
+      "name": "SystemRoleManagerService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/SystemRoleManagerService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserTokenService",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/service/UserTokenService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserTokenAudit"
+      ]
+    },
+    {
+      "name": "AuthConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/AuthConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Authority",
+        "LdapExtendProperties",
+        "LdapProperties",
+        "OidcExtendProperties"
+      ]
+    },
+    {
+      "name": "AuthFilterConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/AuthFilterConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AuthConfiguration",
+        "ConsumerAuditUtil",
+        "ConsumerAuthUtil",
+        "UserTokenAuditUtil",
+        "UserTokenAuthUtil",
+        "UserTokenService"
+      ]
+    },
+    {
+      "name": "EmailConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/EmailConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LdapExtendProperties",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/LdapExtendProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LdapProperties",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/LdapProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MQConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/MQConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "OidcExtendProperties",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/OidcExtendProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserPO"
+      ]
+    },
+    {
+      "name": "RoleConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/spi/configuration/RoleConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "UserTokenAuditUtil",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/util/UserTokenAuditUtil.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "UserTokenAudit",
+        "UserTokenService"
+      ]
+    },
+    {
+      "name": "UserTokenAuthUtil",
+      "type": "SERVICE",
+      "file": "apollo-portal/src/main/java/com/ctrip/framework/apollo/portal/util/UserTokenAuthUtil.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ControllableAuthorizationConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/test/java/com/ctrip/framework/apollo/ControllableAuthorizationConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ItemService"
+      ]
+    },
+    {
+      "name": "LocalPortalApplication",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/test/java/com/ctrip/framework/apollo/LocalPortalApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SkipAuthorizationConfiguration",
+      "type": "CONFIG",
+      "file": "apollo-portal/src/test/java/com/ctrip/framework/apollo/SkipAuthorizationConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ConsumerAuthUtil"
+      ]
+    },
+    {
+      "name": "apollo-portal-e2e",
+      "type": "MODULE",
+      "file": "e2e/portal-e2e/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}

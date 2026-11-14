@@ -1,0 +1,56 @@
+name: CI Suite
+
+on:
+  push:
+    branches: [ "main", "006-*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint-and-unit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: ruff check src/ scripts/validate_agent_workflow.py scripts/curate_corpus.py scripts/run_benchmark_loop.py scripts/generate-report-stubs.py
+    - run: pytest tests/unit/ -v --strict-markers
+
+  web-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: "npm"
+        cache-dependency-path: web/package-lock.json
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - working-directory: web
+      run: npm ci && npm test && npm run build
+
+  integration-and-e2e:
+    needs: lint-and-unit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: pytest tests/integration/ -v --strict-markers
+
+  agent-workflow-eval:
+    needs: integration-and-e2e
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: pip install -e .[dev]
+    - run: python scripts/validate_agent_workflow.py --spec specs/006-core-unification-and-eval

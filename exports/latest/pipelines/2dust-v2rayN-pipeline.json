@@ -1,0 +1,763 @@
+{
+  "org": "2dust",
+  "repository": "v2rayN",
+  "sha": "e3457fa4b4776d380d3bac271e63eeb42847ebaa",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "build-WebAPI.yml",
+      "name": "build v2rayN.WebAPI",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch",
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "macos",
+          "name": "macOS WebAPI and ServiceLib tests",
+          "runner": "macos-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "identity",
+          "name": "Resolve API build identity",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "verify",
+          "name": "Backend, ServiceLib, package smoke",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "windows",
+          "name": "Windows WebAPI build and runtime smoke",
+          "runner": "windows-latest",
+          "steps_count": 18,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "windows-arm64",
+          "name": "Windows ARM64 WebAPI build and runtime smoke",
+          "runner": "windows-11-arm",
+          "steps_count": 14,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "native",
+          "name": "Native API build (${{ matrix.rid }})",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 8,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "native-riscv64",
+          "name": "Native API build (linux-riscv64)",
+          "runner": "ubuntu-24.04-riscv",
+          "steps_count": 9,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "native-loong64",
+          "name": "Native API build (linux-loongarch64)",
+          "runner": "ubuntu-26.04-arm",
+          "steps_count": 9,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "container",
+          "name": "API Containerfile (${{ matrix.rid }})",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "release-assets",
+          "name": "Assemble API release assets",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": [
+            "identity",
+            "verify",
+            "windows",
+            "windows-arm64",
+            "native",
+            "native-riscv64",
+            "native-loong64",
+            "container"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'container' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded secret detected in run script of job 'native-riscv64'."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded secret detected in run script of job 'native-loong64'."
+        }
+      ]
+    },
+    {
+      "id": "build-all.yml",
+      "name": "release all platforms",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "public-key",
+          "name": "public-key",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-WebAPI",
+          "name": "release-WebAPI",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "update",
+          "name": "update",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-WebAPI' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "build-linux.yml",
+      "name": "release Linux",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-zip",
+          "name": "release-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "build-aot",
+          "name": "build-aot",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-aot-zip",
+          "name": "release-aot-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build-aot"
+          ]
+        },
+        {
+          "id": "deb",
+          "name": "build and release deb x64 & arm64 & riscv64 & ppc64le & loong64",
+          "runner": "ubuntu-26.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "rpm",
+          "name": "build and release rpm x64 & arm64 & riscv64 & ppc64le & loong64",
+          "runner": "ubuntu-26.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "deb-x86",
+          "name": "build and release deb x86",
+          "runner": "ubuntu-26.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "rpm-x86",
+          "name": "build and release rpm x86",
+          "runner": "ubuntu-26.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "release-deb",
+          "name": "sign and upload deb x64 arm64 riscv64 ppc64le loong64",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "deb"
+          ]
+        },
+        {
+          "id": "release-rpm",
+          "name": "sign and upload rpm x64 arm64 riscv64 ppc64le loong64",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "rpm"
+          ]
+        },
+        {
+          "id": "release-deb-x86",
+          "name": "sign and upload deb x86",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "deb-x86"
+          ]
+        },
+        {
+          "id": "release-rpm-x86",
+          "name": "sign and upload rpm x86",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "rpm-x86"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-aot-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deb' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'rpm' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deb-x86' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'rpm-x86' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-deb' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-rpm' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-deb-x86' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-rpm-x86' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "build-osx.yml",
+      "name": "release macOS",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-zip",
+          "name": "release-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "build-aot",
+          "name": "build-aot",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-aot-zip",
+          "name": "release-aot-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build-aot"
+          ]
+        },
+        {
+          "id": "dmg",
+          "name": "package and release macOS dmg",
+          "runner": "macos-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "release-dmg",
+          "name": "sign and upload macOS dmg",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "dmg"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-aot-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'dmg' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-dmg' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "build-windows-desktop.yml",
+      "name": "release Windows desktop (Avalonia UI)",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-zip",
+          "name": "release-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "build-aot",
+          "name": "build-aot",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-aot-zip",
+          "name": "release-aot-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build-aot"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-aot-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "build-windows-x86.yml",
+      "name": "release Windows x86",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "package-x86",
+          "name": "build and release windows x86 WPF & Avalonia",
+          "runner": "windows-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "release-x86",
+          "name": "sign and upload windows x86",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "package-x86"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'package-x86' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-x86' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "build-windows.yml",
+      "name": "release Windows",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-zip",
+          "name": "release-zip",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-zip' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "build.yml",
+      "name": "build",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build x64 arm64",
+          "runner": "${{\n  case(\n    inputs.target == 'macos', 'macos-latest',\n    inputs.target == 'linux', 'ubuntu-24.04',\n    inputs.target == 'windows', 'windows-latest',\n    'ubuntu-latest'\n  )\n}}",
+          "steps_count": 12,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "package-zip.yml",
+      "name": "package and release Zip",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "package",
+          "name": "package x64 arm64",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "release",
+          "name": "sign and upload zip x64 arm64",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "package"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "pub-key.yml",
+      "name": "publish GPG public key",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-26.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-WebAPI.yml",
+      "name": "release v2rayN.WebAPI",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-web-packages",
+          "name": "sign and upload Web API packages",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "release-web-manifest",
+          "name": "sign and upload Web update manifest",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build",
+            "release-web-packages"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-web-packages' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-web-manifest' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "Code Test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "update-cert.yml",
+      "name": "Update Certificate",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "update-cert",
+          "name": "update-cert",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "upload-sign.yml",
+      "name": "sign and upload release files",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "upload",
+          "name": "upload",
+          "runner": "ubuntu-26.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "winget-publish.yml",
+      "name": "WinGet submission on release",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "winget",
+          "name": "Publish winget package",
+          "runner": "windows-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'winget' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    }
+  ]
+}

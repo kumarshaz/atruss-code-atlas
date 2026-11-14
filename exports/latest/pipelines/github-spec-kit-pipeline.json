@@ -1,0 +1,1005 @@
+{
+  "org": "github",
+  "repository": "spec-kit",
+  "sha": "2ee2b1e8005905db05f5717300a469b3068b908f",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "add-community-bundle.lock.yml",
+      "name": "Add Community Bundle from Issue Submission",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 43,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 18,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "add-community-extension.lock.yml",
+      "name": "Add Community Extension from Issue Submission",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 43,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "add-community-preset.lock.yml",
+      "name": "Add Community Preset from Issue Submission",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 45,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "add-community-workflow-step.lock.yml",
+      "name": "Add Community Workflow Step from Issue Submission",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 45,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 18,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "bug-assess.lock.yml",
+      "name": "Assess Bug from Labeled Issue",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 43,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "bug-fix.lock.yml",
+      "name": "Fix Bug from Labeled Issue",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 43,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "bug-test.lock.yml",
+      "name": "Test a Bug Fix from a Labeled Issue",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 47,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "catalog-assign.yml",
+      "name": "Catalog: Notify submission",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "notify",
+          "name": "notify",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docs.yml",
+      "name": "Deploy Documentation to Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "extension-version-guard.yml",
+      "name": "Extension Version Guard",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "version-bump",
+          "name": "version-bump",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "feature-assess.lock.yml",
+      "name": "Assess a Feature Request by Installing and Running Spec Kit",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 48,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 17,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "lint.yml",
+      "name": "Lint & Security",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "checks",
+          "name": "Lint & dependency audit",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        },
+        {
+          "id": "dependency-audit-scheduled",
+          "name": "Dependency audit scheduled (${{ matrix.os }}, Python ${{ matrix.python-version }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "pr-assess.lock.yml",
+      "name": "Assess PR Description Alignment",
+      "triggers": [
+        "issues",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 22,
+          "needs": [
+            "pre_activation"
+          ]
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 39,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 15,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 24,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "pre_activation",
+          "name": "pre_activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'conclusion' step env 'GH_AW_ENGINE_SECRET_FAILURE_MESSAGE'. Use GitHub Secrets instead."
+        },
+        {
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead."
+        }
+      ]
+    },
+    {
+      "id": "publish-pypi.yml",
+      "name": "Publish to PyPI",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "release-trigger.yml",
+      "name": "Release Trigger",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "bump-version",
+          "name": "bump-version",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "Create Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "name": "Close stale issues and PRs",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "Test Python",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "pytest",
+          "name": "pytest",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

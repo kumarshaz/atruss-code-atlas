@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "atruss-pipeline-output-v1",
+  "title": "Atruss Pipeline Analysis Output",
+  "description": "Schema for the JSON output of `atruss analyze-pipeline`. Consumed by PipelineView.astro to render Mermaid DAGs and anti-pattern badges.",
+  "type": "object",
+  "required": ["repo_name", "org", "workflows"],
+  "properties": {
+    "repo_name": { "type": "string" },
+    "org": { "type": "string" },
+    "analyzed_at": { "type": "string", "format": "date-time" },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "jobs"],
+        "properties": {
+          "name": { "type": "string", "description": "Workflow filename, e.g., ci.yml" },
+          "trigger": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "GitHub Actions event triggers"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "name"],
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "needs": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "default": []
+                }
+              }
+            }
+          },
+          "anti_patterns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "severity", "message"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["NO_TEST_GATE", "UNMASKED_SECRET", "MISSING_CACHE", "NO_TIMEOUT", "UNPINNED_ACTION"]
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": ["HIGH", "MEDIUM", "LOW"]
+                },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

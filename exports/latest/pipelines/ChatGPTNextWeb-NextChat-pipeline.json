@@ -1,0 +1,185 @@
+{
+  "org": "ChatGPTNextWeb",
+  "repository": "NextChat",
+  "sha": "1d3dc331512929a4b1d3e82354e72acce33b5c7a",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "app.yml",
+      "name": "Release App",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "create-release",
+          "name": "create-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build-tauri",
+          "name": "build-tauri",
+          "runner": "${{ matrix.config.os }}",
+          "steps_count": 7,
+          "needs": [
+            "create-release"
+          ]
+        },
+        {
+          "id": "publish-release",
+          "name": "publish-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "create-release",
+            "build-tauri"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'create-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "deploy_preview.yml",
+      "name": "VercelPreviewDeployment",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "deploy-preview",
+          "name": "deploy-preview",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy-preview' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "docker.yml",
+      "name": "Publish Docker image",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "push_to_registry",
+          "name": "Push Docker image to Docker Hub",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'push_to_registry' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "issue-translator.yml",
+      "name": "Issue Translator",
+      "triggers": [
+        "issue_comment",
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "remove_deploy_preview.yml",
+      "name": "Removedeploypreview",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "delete-deployments",
+          "name": "delete-deployments",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'delete-deployments' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "sync.yml",
+      "name": "Upstream Sync",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sync_latest_from_upstream",
+          "name": "Sync latest commits from upstream repo",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "Run Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

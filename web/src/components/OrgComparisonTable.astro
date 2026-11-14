@@ -1,0 +1,153 @@
+---
+interface OrgMaturityScore {
+    org: string;
+    total_repos: number;
+    repos_with_pipeline: number;
+    repos_with_docker: number;
+    pipeline_coverage_pct: number;
+    maturity_score: number;
+}
+
+interface Props {
+    orgs: OrgMaturityScore[];
+}
+
+const { orgs = [] } = Astro.props;
+
+const sortedOrgs = [...orgs].sort((a, b) => b.maturity_score - a.maturity_score);
+
+const getScoreBadgeClass = (score: number) => {
+    if (score >= 75) return 'm3-chip-tonal-success';
+    if (score >= 45) return 'm3-chip-tonal-warning';
+    return 'm3-chip-tonal-error';
+};
+---
+
+<div class="m3-table-surface m3-leaderboard-wrap">
+    <table class="m3-leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Organization</th>
+                <th>Total Repos</th>
+                <th>Containerized</th>
+                <th>Pipeline Coverage</th>
+                <th>Maturity Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {sortedOrgs.length === 0 ? (
+                <tr>
+                    <td colspan="6" class="m3-empty-row">
+                        No organization benchmarks available yet.
+                    </td>
+                </tr>
+            ) : (
+                sortedOrgs.map((org, index) => {
+                    const pct = Math.round(org.pipeline_coverage_pct);
+                    const score = Math.round(org.maturity_score);
+
+                    return (
+                        <tr>
+                            <td class="m3-rank-cell">
+                                {index < 3 ? (
+                                    <span class="m3-chip m3-chip-tonal-primary">
+                                        <span class="material-symbols-outlined" aria-hidden="true">
+                                            workspace_premium
+                                        </span>
+                                        #{index + 1}
+                                    </span>
+                                ) : (
+                                    <span class="m3-rank-num">#{index + 1}</span>
+                                )}
+                            </td>
+                            <td class="m3-org-cell">{org.org}</td>
+                            <td class="m3-numeric-cell">{org.total_repos}</td>
+                            <td class="m3-numeric-cell">{org.repos_with_docker}</td>
+                            <td>
+                                <div class="m3-coverage-cell">
+                                    <div class="m3-coverage-track">
+                                        <div class="m3-coverage-bar" style={`width: ${pct}%;`} />
+                                    </div>
+                                    <span class="m3-numeric-cell">{pct}%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class={`m3-chip ${getScoreBadgeClass(score)}`}>
+                                    {score} / 100
+                                </span>
+                            </td>
+                        </tr>
+                    );
+                })
+            )}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .m3-leaderboard-wrap {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    .m3-leaderboard-table {
+        width: 100%;
+        table-layout: auto;
+    }
+
+    .m3-rank-cell {
+        width: 80px;
+        white-space: nowrap;
+    }
+
+    .m3-rank-cell .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-rank-num {
+        font-family: var(--md-ref-typeface-mono);
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-org-cell {
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+        overflow-wrap: anywhere;
+    }
+
+    .m3-numeric-cell {
+        font-family: var(--md-ref-typeface-mono);
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .m3-coverage-cell {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        min-width: 120px;
+    }
+
+    .m3-coverage-track {
+        flex: 1;
+        height: 0.5rem;
+        background-color: var(--md-sys-color-surface-container-highest);
+        border-radius: var(--md-sys-shape-corner-full);
+        overflow: hidden;
+    }
+
+    .m3-coverage-bar {
+        height: 100%;
+        background-color: var(--md-sys-color-primary);
+        border-radius: var(--md-sys-shape-corner-full);
+    }
+
+    .m3-empty-row {
+        text-align: center !important;
+        padding: 2rem !important;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+</style>

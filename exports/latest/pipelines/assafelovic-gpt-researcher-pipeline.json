@@ -1,0 +1,125 @@
+{
+  "org": "assafelovic",
+  "repository": "gpt-researcher",
+  "sha": "ddd4db36208d9c8e49f3b2436efda97baecb5433",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "docker-build.yml",
+      "name": "GPTR tests",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "docker",
+          "name": "docker",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'docker' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "docker-publish.yml",
+      "name": "Docker images",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "image",
+          "name": "${{ matrix.image }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'image' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "llm-costs.yml",
+      "name": "LLM Cost Analysis",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "cost-analysis",
+          "name": "cost-analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "plugin-quality-gate.yml",
+      "name": "Plugin Quality Gate",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "scan",
+          "name": "scan",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "imports",
+          "name": "imports (py${{ matrix.python-version }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "collect",
+          "name": "collect",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "unit",
+          "name": "unit (py${{ matrix.python-version }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "imports",
+            "collect"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

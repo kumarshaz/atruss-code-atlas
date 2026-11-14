@@ -1,0 +1,110 @@
+{
+  "org": "sherlock-project",
+  "repository": "sherlock",
+  "sha": "c588d7c8b476df9f9c84912a05d1430fb8cdcdae",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "exclusions.yml",
+      "name": "Exclusions Updater",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-exclusions",
+          "name": "update-exclusions",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "regression.yml",
+      "name": "Regression Testing",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "tox-lint",
+          "name": "tox-lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "tox-matrix",
+          "name": "tox-matrix",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "docker-build-test",
+          "name": "docker-build-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "update-site-list.yml",
+      "name": "Update Site List",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "sync-json-data",
+          "name": "sync-json-data",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "validate_modified_targets.yml",
+      "name": "Modified Target Validation",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "validate-modified-targets",
+          "name": "validate-modified-targets",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

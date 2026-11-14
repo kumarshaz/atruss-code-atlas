@@ -1,0 +1,878 @@
+{
+  "repository": "elunez/eladmin",
+  "sha": "646c58c30f2e9aecf998b054f05f4d9ba0008995",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 548,
+    "loc": 46534,
+    "sloc": 25484,
+    "component_count": 100,
+    "avg_cyclomatic_complexity": 4.67,
+    "max_cyclomatic_complexity": 57,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "eladmin-common",
+      "type": "MODULE",
+      "file": "eladmin-common/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "eladmin-generator",
+      "type": "MODULE",
+      "file": "eladmin-generator/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "eladmin-logging",
+      "type": "MODULE",
+      "file": "eladmin-logging/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "eladmin-system",
+      "type": "MODULE",
+      "file": "eladmin-system/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "eladmin-tools",
+      "type": "MODULE",
+      "file": "eladmin-tools/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "eladmin",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "BaseEntity",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-common/src/main/java/me/zhengjie/base/BaseEntity.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AsyncExecutor",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/AsyncExecutor.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AuthorityConfig",
+      "type": "SERVICE",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/AuthorityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RedisConfiguration",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/RedisConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RedissonConfiguration",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/RedissonConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RemoveDruidAdConfig",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/RemoveDruidAdConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "FileProperties",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/properties/FileProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigurerAdapter",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/ConfigurerAdapter.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileProperties"
+      ]
+    },
+    {
+      "name": "MultipartConfig",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/MultipartConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "QueryCustomizer",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/QueryCustomizer.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SwaggerConfig",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/SwaggerConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SwaggerDataConfig",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/SwaggerDataConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "WebSocketConfig",
+      "type": "CONFIG",
+      "file": "eladmin-common/src/main/java/me/zhengjie/config/webConfig/WebSocketConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "API_ROUTE",
+      "file": "eladmin-common/src/main/java/me/zhengjie/exception/handler/GlobalExceptionHandler.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ColumnInfo",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/domain/ColumnInfo.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GenConfig",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/domain/GenConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "GenConfigController",
+      "type": "API_ROUTE",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/rest/GenConfigController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GenConfig"
+      ]
+    },
+    {
+      "name": "GeneratorController",
+      "type": "API_ROUTE",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/rest/GeneratorController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ColumnInfo"
+      ]
+    },
+    {
+      "name": "GenConfigServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/service/impl/GenConfigServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "GenConfig"
+      ]
+    },
+    {
+      "name": "GeneratorServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-generator/src/main/java/me/zhengjie/service/impl/GeneratorServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ColumnInfo",
+        "GenConfig"
+      ]
+    },
+    {
+      "name": "SysLog",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-logging/src/main/java/me/zhengjie/domain/SysLog.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LogRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-logging/src/main/java/me/zhengjie/repository/LogRepository.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SysLog"
+      ]
+    },
+    {
+      "name": "SysLogController",
+      "type": "API_ROUTE",
+      "file": "eladmin-logging/src/main/java/me/zhengjie/rest/SysLogController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SysLogServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-logging/src/main/java/me/zhengjie/service/impl/SysLogServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict",
+        "LogRepository",
+        "SysLog"
+      ]
+    },
+    {
+      "name": "AppRun",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/AppRun.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "App",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/domain/App.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "Database",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/domain/Database.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "Deploy",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/domain/Deploy.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "App",
+        "BaseEntity",
+        "ServerDeploy"
+      ]
+    },
+    {
+      "name": "DeployHistory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/domain/DeployHistory.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServerDeploy",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/domain/ServerDeploy.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "AppController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/rest/AppController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "App"
+      ]
+    },
+    {
+      "name": "DatabaseController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/rest/DatabaseController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Database"
+      ]
+    },
+    {
+      "name": "DeployController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/rest/DeployController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Deploy",
+        "DeployHistory"
+      ]
+    },
+    {
+      "name": "DeployHistoryController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/rest/DeployHistoryController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "ServerDeployController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/rest/ServerDeployController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ServerDeploy"
+      ]
+    },
+    {
+      "name": "AppServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/service/impl/AppServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "App"
+      ]
+    },
+    {
+      "name": "DatabaseServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/service/impl/DatabaseServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Database"
+      ]
+    },
+    {
+      "name": "DeployHistoryServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/service/impl/DeployHistoryServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DeployHistory"
+      ]
+    },
+    {
+      "name": "DeployServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/service/impl/DeployServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "App",
+        "Deploy",
+        "DeployHistory",
+        "ServerDeploy"
+      ]
+    },
+    {
+      "name": "ServerDeployServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/maint/service/impl/ServerDeployServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "ServerDeploy"
+      ]
+    },
+    {
+      "name": "QuartzConfig",
+      "type": "CONFIG",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/config/QuartzConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Job"
+      ]
+    },
+    {
+      "name": "QuartzJob",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/domain/QuartzJob.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "QuartzLog",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/domain/QuartzLog.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "QuartzJobController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/rest/QuartzJobController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "QuartzJob",
+        "QuartzLog"
+      ]
+    },
+    {
+      "name": "QuartzJobServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/service/impl/QuartzJobServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "QuartzJob",
+        "QuartzLog"
+      ]
+    },
+    {
+      "name": "TestTask",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/quartz/task/TestTask.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "CaptchaConfig",
+      "type": "CONFIG",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/config/CaptchaConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LoginProperties",
+      "type": "CONFIG",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/config/LoginProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SecurityProperties",
+      "type": "CONFIG",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/config/SecurityProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "SpringSecurityConfig",
+      "type": "CONFIG",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/config/SpringSecurityConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "OnlineUserService",
+        "SecurityProperties"
+      ]
+    },
+    {
+      "name": "AuthController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/rest/AuthController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "CaptchaConfig",
+        "LoginProperties",
+        "OnlineUserService",
+        "SecurityProperties",
+        "UserDetailsServiceImpl"
+      ]
+    },
+    {
+      "name": "OnlineController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/rest/OnlineController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "OnlineUserService"
+      ]
+    },
+    {
+      "name": "OnlineUserService",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/service/OnlineUserService.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "SecurityProperties"
+      ]
+    },
+    {
+      "name": "UserDetailsServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/security/service/UserDetailsServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "Dept",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/Dept.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "Role"
+      ]
+    },
+    {
+      "name": "Dict",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/Dict.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "DictDetail"
+      ]
+    },
+    {
+      "name": "DictDetail",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/DictDetail.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "Dict"
+      ]
+    },
+    {
+      "name": "Job",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/Job.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "Menu",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/Menu.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "Role"
+      ]
+    },
+    {
+      "name": "Role",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/Role.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "Dept",
+        "Menu",
+        "User"
+      ]
+    },
+    {
+      "name": "User",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/domain/User.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity",
+        "Dept",
+        "Job",
+        "Role"
+      ]
+    },
+    {
+      "name": "DeptController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/DeptController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dept"
+      ]
+    },
+    {
+      "name": "DictController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/DictController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict"
+      ]
+    },
+    {
+      "name": "DictDetailController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/DictDetailController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DictDetail"
+      ]
+    },
+    {
+      "name": "JobController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/JobController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Job"
+      ]
+    },
+    {
+      "name": "LimitController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/LimitController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "MenuController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MenuController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Menu"
+      ]
+    },
+    {
+      "name": "MonitorController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MonitorController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RoleController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/RoleController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict",
+        "Role"
+      ]
+    },
+    {
+      "name": "UserController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/UserController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dept",
+        "User"
+      ]
+    },
+    {
+      "name": "VerifyController",
+      "type": "API_ROUTE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/rest/VerifyController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DataServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/DataServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dept"
+      ]
+    },
+    {
+      "name": "DeptServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/DeptServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dept",
+        "User"
+      ]
+    },
+    {
+      "name": "DictDetailServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/DictDetailServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict",
+        "DictDetail"
+      ]
+    },
+    {
+      "name": "DictServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/DictServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict"
+      ]
+    },
+    {
+      "name": "JobServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/JobServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Job"
+      ]
+    },
+    {
+      "name": "MenuServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/MenuServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Menu",
+        "Role",
+        "User"
+      ]
+    },
+    {
+      "name": "MonitorServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/MonitorServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "RoleServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/RoleServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Menu",
+        "Role",
+        "User"
+      ]
+    },
+    {
+      "name": "UserServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/UserServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileProperties",
+        "OnlineUserService",
+        "User"
+      ]
+    },
+    {
+      "name": "VerifyServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-system/src/main/java/me/zhengjie/modules/system/service/impl/VerifyServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "Dict"
+      ]
+    },
+    {
+      "name": "AmzS3Config",
+      "type": "CONFIG",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/config/AmzS3Config.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "AlipayConfig",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/domain/AlipayConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EmailConfig",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/domain/EmailConfig.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LocalStorage",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/domain/LocalStorage.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "S3Storage",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/domain/S3Storage.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "BaseEntity"
+      ]
+    },
+    {
+      "name": "AliPayController",
+      "type": "API_ROUTE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/rest/AliPayController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AlipayConfig"
+      ]
+    },
+    {
+      "name": "EmailController",
+      "type": "API_ROUTE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/rest/EmailController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EmailConfig"
+      ]
+    },
+    {
+      "name": "LocalStorageController",
+      "type": "API_ROUTE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/rest/LocalStorageController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "LocalStorage"
+      ]
+    },
+    {
+      "name": "S3StorageController",
+      "type": "API_ROUTE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/rest/S3StorageController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AmzS3Config",
+        "S3Storage"
+      ]
+    },
+    {
+      "name": "AliPayServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/service/impl/AliPayServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AlipayConfig"
+      ]
+    },
+    {
+      "name": "EmailServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/service/impl/EmailServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EmailConfig"
+      ]
+    },
+    {
+      "name": "LocalStorageServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/service/impl/LocalStorageServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "FileProperties",
+        "LocalStorage"
+      ]
+    },
+    {
+      "name": "S3StorageServiceImpl",
+      "type": "SERVICE",
+      "file": "eladmin-tools/src/main/java/me/zhengjie/service/impl/S3StorageServiceImpl.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "AmzS3Config",
+        "S3Storage"
+      ]
+    }
+  ]
+}

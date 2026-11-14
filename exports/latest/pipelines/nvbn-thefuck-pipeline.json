@@ -1,0 +1,33 @@
+{
+  "org": "nvbn",
+  "repository": "thefuck",
+  "sha": "c7e7e1d884d3bb241ea6448f72a989434c2a35ec",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "test.yml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "test-deprecated",
+          "name": "test-deprecated",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

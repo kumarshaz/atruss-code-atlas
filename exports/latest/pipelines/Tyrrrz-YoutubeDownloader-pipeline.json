@@ -1,0 +1,78 @@
+{
+  "org": "Tyrrrz",
+  "repository": "YoutubeDownloader",
+  "sha": "a419ef2be70392e57d31bd5103f1d6d0d20b3919",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "main.yml",
+      "name": "main",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "format",
+          "name": "format",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "pack",
+          "name": "pack",
+          "runner": "${{ startsWith(matrix.rid, 'win-') && 'windows-latest' || startsWith(matrix.rid, 'osx-') && 'macos-latest' || 'ubuntu-latest' }}",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "format",
+            "pack"
+          ]
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "release"
+          ]
+        },
+        {
+          "id": "notify",
+          "name": "notify",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "deploy"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

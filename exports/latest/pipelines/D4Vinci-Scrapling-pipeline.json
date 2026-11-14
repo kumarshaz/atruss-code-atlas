@@ -1,0 +1,114 @@
+{
+  "org": "D4Vinci",
+  "repository": "Scrapling",
+  "sha": "bb223f2f5fc8f743772751a5ce283ef7851ca6be",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "code-quality.yml",
+      "name": "Code Quality",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "code-quality",
+          "name": "Code Quality Checks",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "docker-build.yml",
+      "name": "Build and Push Docker Image",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-and-push",
+          "name": "build-and-push",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build-and-push' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "release-and-publish.yml",
+      "name": "Create Release and Publish to PyPI",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "create-release-and-publish",
+          "name": "create-release-and-publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'create-release-and-publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "name": "Mark stale issues and pull requests",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "tests.yml",
+      "name": "Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "tests",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

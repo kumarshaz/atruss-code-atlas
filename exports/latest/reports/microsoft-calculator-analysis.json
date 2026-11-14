@@ -1,0 +1,74 @@
+{
+  "repository": "microsoft/calculator",
+  "sha": "79e1ac53bba690cdf930e5dcd6ed9dbc4cbfb128",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 150,
+    "loc": 36361,
+    "sloc": 29853,
+    "component_count": 6,
+    "avg_cyclomatic_complexity": 10.96,
+    "max_cyclomatic_complexity": 229,
+    "framework": "Unknown"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Calculator",
+      "type": "MODULE",
+      "file": "src/Calculator/Calculator.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CalcManager.Interop",
+        "Calculator.ViewModels",
+        "GraphControl",
+        "TraceLogging.Managed"
+      ]
+    },
+    {
+      "name": "Calculator.Tests",
+      "type": "MODULE",
+      "file": "src/Calculator.Tests/Calculator.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CalcManager.Interop",
+        "Calculator.ViewModels",
+        "GraphControl"
+      ]
+    },
+    {
+      "name": "Calculator.ViewModels",
+      "type": "MODULE",
+      "file": "src/Calculator.ViewModels/Calculator.ViewModels.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CalcManager.Interop",
+        "GraphControl",
+        "TraceLogging.Managed"
+      ]
+    },
+    {
+      "name": "CalculatorUITestFramework",
+      "type": "MODULE",
+      "file": "src/CalculatorUITestFramework/CalculatorUITestFramework.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CalculatorUITests",
+      "type": "MODULE",
+      "file": "src/CalculatorUITests/CalculatorUITests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CalculatorUITestFramework"
+      ]
+    },
+    {
+      "name": "TraceLogging.Managed",
+      "type": "MODULE",
+      "file": "src/TraceLogging.Managed/TraceLogging.Managed.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    }
+  ]
+}

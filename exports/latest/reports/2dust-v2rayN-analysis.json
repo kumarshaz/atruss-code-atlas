@@ -1,0 +1,1395 @@
+{
+  "repository": "2dust/v2rayN",
+  "sha": "e3457fa4b4776d380d3bac271e63eeb42847ebaa",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 1316,
+    "loc": 250626,
+    "sloc": 208632,
+    "component_count": 159,
+    "avg_cyclomatic_complexity": 9.96,
+    "max_cyclomatic_complexity": 372,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "AmazTool",
+      "type": "MODULE",
+      "file": "v2rayN/AmazTool/AmazTool.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ServiceLib",
+      "type": "MODULE",
+      "file": "v2rayN/ServiceLib/ServiceLib.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceLib.UdpTest"
+      ]
+    },
+    {
+      "name": "ServiceLib.Tests",
+      "type": "MODULE",
+      "file": "v2rayN/ServiceLib.Tests/ServiceLib.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceLib"
+      ]
+    },
+    {
+      "name": "ServiceLib.UdpTest",
+      "type": "MODULE",
+      "file": "v2rayN/ServiceLib.UdpTest/ServiceLib.UdpTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "v2rayN",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN/v2rayN.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceLib"
+      ]
+    },
+    {
+      "name": "v2rayN.Desktop",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN.Desktop/v2rayN.Desktop.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GlobalHotKeys",
+        "ServiceLib"
+      ]
+    },
+    {
+      "name": "InstanceLockProcessHelper",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/ProcessHelper/InstanceLockProcessHelper.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "v2rayN.WebAPI.Tests",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/v2rayN.WebAPI.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InstanceLockProcessHelper",
+        "v2rayN.WebAPI"
+      ]
+    },
+    {
+      "name": "v2rayN.WebAPI",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN.WebAPI/v2rayN.WebAPI.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceLib"
+      ]
+    },
+    {
+      "name": "DnsService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib.UdpTest/Tester/DnsService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "McBeService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib.UdpTest/Tester/McBeService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NtpService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib.UdpTest/Tester/NtpService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StunService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib.UdpTest/Tester/StunService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UdpTestService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib.UdpTest/UdpTestService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DnsService",
+        "McBeService",
+        "NtpService",
+        "StunService"
+      ]
+    },
+    {
+      "name": "AutoStartupHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/AutoStartupHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConfigHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/ConfigHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService",
+        "FmtHandler"
+      ]
+    },
+    {
+      "name": "ConnectionHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/ConnectionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService"
+      ]
+    },
+    {
+      "name": "CoreConfigHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/CoreConfigHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CoreConfigClashService",
+        "CoreConfigSingboxService",
+        "CoreConfigV2rayService"
+      ]
+    },
+    {
+      "name": "FmtHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/Fmt/FmtHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriptionHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/SubscriptionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigHandler",
+        "DownloadService"
+      ]
+    },
+    {
+      "name": "SysProxyHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Handler/SysProxy/SysProxyHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DualHandlerFallbackHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Helper/HttpClientHelper.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RequestHeadersHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Helper/HttpRequestHeadersHelper.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigClashService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/CoreConfigClashService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/CoreConfigSingboxService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxConfigTemplateService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxDnsService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxInboundService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxLogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxOutboundService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxRoutingService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxRulesetService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/Singbox/SingboxStatisticService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/CoreConfigV2rayService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayBalancerService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayConfigTemplateService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayDnsService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayInboundService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayLogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayOutboundService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayRoutingService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CoreConfigV2rayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayStatisticService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DownloadService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/DownloadService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProcessService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/ProcessService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SpeedtestService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/SpeedtestService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConnectionHandler",
+        "DownloadService",
+        "ProcessService",
+        "UdpTestService"
+      ]
+    },
+    {
+      "name": "StatisticsSingboxService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/Statistics/StatisticsSingboxService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StatisticsXrayService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/Statistics/StatisticsXrayService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UpdateService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService"
+      ]
+    },
+    {
+      "name": "WindowsJobService",
+      "type": "SERVICE",
+      "file": "v2rayN/ServiceLib/Services/WindowsJobService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProfileRowDropHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/v2rayN.Desktop/Views/ProfilesView.axaml.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GET_api_health",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_status",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_operations",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_logs",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_logs_page",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_logs",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_editor-options",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_subscriptions",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_subscriptions",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_subscriptions_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_subscriptions_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_subscriptions_{id}_share",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_subscriptions_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_subscriptions_{id}_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_profile-groups",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_profile-groups_current",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profile-groups_generate_all",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profile-groups_generate_regions",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_profiles_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_import",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_profiles_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_copy",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_move-to-group",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_move",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_sort",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_deduplicate",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_profiles_invalid-test-results",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_export",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_{id}_select",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_profiles_{id}_latency",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_speedtests",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_speedtests",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_latency_stop",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_apply",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_inbound",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_core",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_application",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_speedtest",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_core-types",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_routing",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_webdav",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_webdav",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_dns_simple",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_dns_simple",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_dns_profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_dns_profiles_{coreType}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_dns_editor-options",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_dns_defaults",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_routing-profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_routing-profiles_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_settings_routing-profiles_{id}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles_{id}_activate",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_routing-profiles_{id}_rules",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_routing-profiles_{id}_rules",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles_{id}_rules_import",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles_{id}_rules_import-url",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_settings_routing-profiles_{id}_rules_{ruleId}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles_{id}_rules_move",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_routing-profiles_import",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_settings_core-templates",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_settings_core-templates_{coreType}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_settings_regional-presets_{preset}",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "DELETE_api_statistics",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_backup_webdav_check",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_backup_webdav",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_backup_webdav_restore",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_backup_download",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_backup_restore",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_core-updates",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_web-updates",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_web-updates_check",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_web-updates_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_core-updates_progress",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "PUT_api_core-updates_settings",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core-updates_batch",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_core-updates_{coreType}_check",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core-updates_{coreType}_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_core_xray_check-update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core_xray_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core_geo_update",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core_start",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core_stop",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_core_restart",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_events",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebApiEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_auth_login",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebAuthEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_auth_logout",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebAuthEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_auth_sse-ticket",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebAuthEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_setup_status",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebSetupEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "POST_api_setup",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Api/WebSetupEndpoints.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "ExistingInstanceHandler",
+      "type": "SERVICE",
+      "file": "v2rayN/v2rayN.WebAPI/Launcher/WebLauncher.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WebAuthService",
+      "type": "SERVICE",
+      "file": "v2rayN/v2rayN.WebAPI/Security/WebAuthService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WebSessionService",
+      "type": "SERVICE",
+      "file": "v2rayN/v2rayN.WebAPI/Security/WebSessionService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "V2rayHostedService",
+      "type": "SERVICE",
+      "file": "v2rayN/v2rayN.WebAPI/Services/V2rayHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService"
+      ]
+    },
+    {
+      "name": "GET_main",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/SubscriptionParityTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService",
+        "SubscriptionHandler"
+      ]
+    },
+    {
+      "name": "GET_a",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/SubscriptionParityTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService",
+        "SubscriptionHandler"
+      ]
+    },
+    {
+      "name": "GET_b",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/SubscriptionParityTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService",
+        "SubscriptionHandler"
+      ]
+    },
+    {
+      "name": "GET_convert",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/SubscriptionParityTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DownloadService",
+        "SubscriptionHandler"
+      ]
+    },
+    {
+      "name": "GET_api_test_session",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebAuthEndpointTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_test_runtime-failure",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebAuthEndpointTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_login-limited",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebAuthRateLimitTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_setup-limited",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebAuthRateLimitTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_test_session",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebCorsTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "GET_api_test_download",
+      "type": "API_ROUTE",
+      "file": "v2rayN/v2rayN.WebAPI/Tests/WebCorsTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WebAuthService",
+        "WebSessionService"
+      ]
+    },
+    {
+      "name": "v2rayN",
+      "type": "MODULE",
+      "file": "v2rayN/v2rayN.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceLib"
+      ]
+    }
+  ]
+}

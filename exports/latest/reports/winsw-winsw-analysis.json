@@ -1,0 +1,96 @@
+{
+  "repository": "winsw/winsw",
+  "sha": "1d0ee4a91bad596d5e7e9c360f2b39ef54674674",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 149,
+    "loc": 18186,
+    "sloc": 14593,
+    "component_count": 9,
+    "avg_cyclomatic_complexity": 9.61,
+    "max_cyclomatic_complexity": 106,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "milestone-management",
+      "type": "MODULE",
+      "file": ".github/actions/milestone-management/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "WinSW",
+      "type": "MODULE",
+      "file": "src/WinSW/WinSW.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WinSW.Core",
+        "WinSW.Plugins",
+        "WinSW.Tasks"
+      ]
+    },
+    {
+      "name": "WinSW.Core",
+      "type": "MODULE",
+      "file": "src/WinSW.Core/WinSW.Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WinSW.Plugins",
+      "type": "MODULE",
+      "file": "src/WinSW.Plugins/WinSW.Plugins.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WinSW.Core"
+      ]
+    },
+    {
+      "name": "WinSW.Tasks",
+      "type": "MODULE",
+      "file": "src/WinSW.Tasks/WinSW.Tasks.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WinSW.Tests",
+      "type": "MODULE",
+      "file": "src/WinSW.Tests/WinSW.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WinSW",
+        "WinSW.Core",
+        "WinSW.Plugins"
+      ]
+    },
+    {
+      "name": "TempLogHandler",
+      "type": "SERVICE",
+      "file": "src/WinSW.Core/LogAppenders.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogHandler"
+      ]
+    },
+    {
+      "name": "LogHandler",
+      "type": "SERVICE",
+      "file": "src/WinSW.Core/LogAppenders.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TempLogHandler"
+      ]
+    },
+    {
+      "name": "WrapperService",
+      "type": "SERVICE",
+      "file": "src/WinSW.Core/WrapperService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogHandler"
+      ]
+    }
+  ]
+}

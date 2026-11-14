@@ -1,0 +1,150 @@
+{
+  "org": "expressjs",
+  "repository": "express",
+  "sha": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "name": "ci",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "Node.js ${{ matrix.node-version }} - ${{matrix.os}}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "coverage",
+          "name": "coverage",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "legacy.yml",
+      "name": "legacy",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Node.js ${{ matrix.node-version }} - ${{matrix.os}}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "coverage",
+          "name": "coverage",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "npm-publish.yml",
+      "name": "Publish package to npm",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "Publish to npm",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "scorecard.yml",
+      "name": "Scorecard supply-chain security",
+      "triggers": [
+        "branch_protection_rule",
+        "schedule",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "Scorecard analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

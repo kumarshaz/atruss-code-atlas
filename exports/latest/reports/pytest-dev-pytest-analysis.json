@@ -1,0 +1,95 @@
+{
+  "repository": "pytest-dev/pytest",
+  "sha": "fc9a7ef678f64d17f1c03b619f3842ea1d127e74",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 306,
+    "loc": 118889,
+    "sloc": 96285,
+    "component_count": 10,
+    "avg_cyclomatic_complexity": 1.92,
+    "max_cyclomatic_complexity": 57,
+    "framework": "Django"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "CaptureManager",
+      "type": "SERVICE",
+      "file": "src/_pytest/capture.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "PytestPluginManager",
+      "type": "SERVICE",
+      "file": "src/_pytest/config/__init__.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "PluginManager"
+      ]
+    },
+    {
+      "name": "FixtureManager",
+      "type": "SERVICE",
+      "file": "src/_pytest/fixtures.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "_SubTestContextManager",
+      "type": "SERVICE",
+      "file": "src/_pytest/subtests.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Test",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "testing/example_scripts/unittest/test_setup_skip.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "Test",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "testing/example_scripts/unittest/test_setup_skip_class.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "MockCaptureManager",
+      "type": "SERVICE",
+      "file": "testing/logging/test_reporting.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "CaptureManager"
+      ]
+    },
+    {
+      "name": "PluginManager",
+      "type": "SERVICE",
+      "file": "testing/test_assertion.py",
+      "ecosystem": "python",
+      "dependencies": []
+    },
+    {
+      "name": "TestCaptureManager",
+      "type": "SERVICE",
+      "file": "testing/test_capture.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "CaptureManager"
+      ]
+    },
+    {
+      "name": "TestPytestPluginManager",
+      "type": "SERVICE",
+      "file": "testing/test_pluginmanager.py",
+      "ecosystem": "python",
+      "dependencies": [
+        "PytestPluginManager"
+      ]
+    }
+  ]
+}

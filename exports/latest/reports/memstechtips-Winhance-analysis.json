@@ -1,0 +1,904 @@
+{
+  "repository": "memstechtips/Winhance",
+  "sha": "db80ecfcf6762a7b856860930d9f4ee17bf1e67c",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 1438,
+    "loc": 306990,
+    "sloc": 241958,
+    "component_count": 81,
+    "avg_cyclomatic_complexity": 9.34,
+    "max_cyclomatic_complexity": 302,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "WindowsPackageManager.Interop",
+      "type": "MODULE",
+      "file": "src/WindowsPackageManager.Interop/WindowsPackageManager.Interop.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Winhance.Core",
+      "type": "MODULE",
+      "file": "src/Winhance.Core/Winhance.Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Winhance.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Winhance.Infrastructure/Winhance.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "WindowsPackageManager.Interop",
+        "Winhance.Core"
+      ]
+    },
+    {
+      "name": "Winhance.UI",
+      "type": "MODULE",
+      "file": "src/Winhance.UI/Winhance.UI.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Winhance.Core",
+        "Winhance.Infrastructure"
+      ]
+    },
+    {
+      "name": "Winhance.Core.Tests",
+      "type": "MODULE",
+      "file": "tests/Winhance.Core.Tests/Winhance.Core.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Winhance.Core"
+      ]
+    },
+    {
+      "name": "Winhance.Infrastructure.Tests",
+      "type": "MODULE",
+      "file": "tests/Winhance.Infrastructure.Tests/Winhance.Infrastructure.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Winhance.Core",
+        "Winhance.Infrastructure"
+      ]
+    },
+    {
+      "name": "Winhance.IntegrationTests",
+      "type": "MODULE",
+      "file": "tests/Winhance.IntegrationTests/Winhance.IntegrationTests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Winhance.Core",
+        "Winhance.Infrastructure"
+      ]
+    },
+    {
+      "name": "Winhance.UI.Tests",
+      "type": "MODULE",
+      "file": "tests/Winhance.UI.Tests/Winhance.UI.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Winhance.Core",
+        "Winhance.Infrastructure",
+        "Winhance.UI"
+      ]
+    },
+    {
+      "name": "InitializationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Core/Features/Common/Services/InitializationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "LogService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Core/Features/Common/Services/LogService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InteractiveUserService"
+      ]
+    },
+    {
+      "name": "IsoService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/AdvancedTools/Services/IsoService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "WimCustomizationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/AdvancedTools/Services/WimCustomizationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "WimImageService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/AdvancedTools/Services/WimImageService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "TooltipRefreshEventHandler",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/EventHandlers/TooltipRefreshEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "TooltipDataService"
+      ]
+    },
+    {
+      "name": "BulkSettingsActionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/BulkSettingsActionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangeHistoryService",
+        "LocalizationService",
+        "LogService",
+        "SettingApplicationService",
+        "WindowsVersionService"
+      ]
+    },
+    {
+      "name": "ChangeHistoryService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ChangeHistoryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "ComboBoxSetupService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ComboBoxSetupService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "PowerPlanComboBoxService",
+        "SystemSettingsDiscoveryService"
+      ]
+    },
+    {
+      "name": "ConfigMigrationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ConfigMigrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "ConfigurationApplicationBridgeService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ConfigurationApplicationBridgeService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "SettingApplicationService"
+      ]
+    },
+    {
+      "name": "FileSystemService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/FileSystemService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HardwareDetectionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/HardwareDetectionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "InteractiveUserService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/InteractiveUserService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "LocalizationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/LocalizationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService"
+      ]
+    },
+    {
+      "name": "NewBadgeService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/NewBadgeService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "PolicyCleanupService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/PolicyCleanupService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "PowerPlanComboBoxService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/PowerPlanComboBoxService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "PowerSettingsQueryService"
+      ]
+    },
+    {
+      "name": "PowerSettingsQueryService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/PowerSettingsQueryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "PowerSettingsValidationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/PowerSettingsValidationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "PowerSettingsQueryService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "RemovalScriptUpdateService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/RemovalScriptUpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService",
+        "ScheduledTaskService"
+      ]
+    },
+    {
+      "name": "ScheduledTaskService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ScheduledTaskService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "ScriptMigrationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/ScriptMigrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "InteractiveUserService",
+        "LogService",
+        "ScheduledTaskService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "SettingApplicationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SettingApplicationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangeHistoryService",
+        "HardwareDetectionService",
+        "LocalizationService",
+        "LogService",
+        "SettingLocalizationService",
+        "SystemSettingsDiscoveryService"
+      ]
+    },
+    {
+      "name": "SponsorsService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SponsorsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "SystemBackupService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SystemBackupService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LocalizationService",
+        "LogService",
+        "SystemRestoreService"
+      ]
+    },
+    {
+      "name": "SystemParametersService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SystemParametersService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SystemRestoreService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SystemRestoreService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "SystemSettingsDiscoveryService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/SystemSettingsDiscoveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "PowerSettingsQueryService",
+        "ScheduledTaskService",
+        "SystemRestoreService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "TaskProgressService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/TaskProgressService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "TooltipDataService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/TooltipDataService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "PowerSettingsQueryService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "UserPreferencesService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/UserPreferencesService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "InteractiveUserService",
+        "LogService",
+        "NewBadgeService",
+        "ScriptMigrationService"
+      ]
+    },
+    {
+      "name": "VersionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/VersionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "WindowsRegistryService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/WindowsRegistryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InteractiveUserService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "WindowsUIManagementService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/WindowsUIManagementService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "WindowsVersionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Common/Services/WindowsVersionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "WallpaperService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Customize/Services/WallpaperService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InteractiveUserService",
+        "LogService",
+        "SystemParametersService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "PowerService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Optimize/Services/PowerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService",
+        "PowerPlanComboBoxService",
+        "PowerSettingsQueryService",
+        "SettingApplicationService"
+      ]
+    },
+    {
+      "name": "UpdateService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/Optimize/Services/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService",
+        "SettingApplicationService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "AppInstallationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/AppInstallationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BloatRemovalService",
+        "ChangeHistoryService",
+        "ExternalAppsService",
+        "FileSystemService",
+        "LegacyCapabilityService",
+        "LogService",
+        "OptionalFeatureService",
+        "ScheduledTaskService",
+        "TaskProgressService",
+        "WindowsAppsService"
+      ]
+    },
+    {
+      "name": "AppStatusDiscoveryService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/AppStatusDiscoveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChocolateyService",
+        "InteractiveUserService",
+        "LogService",
+        "WinGetDetectionService"
+      ]
+    },
+    {
+      "name": "BloatRemovalService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/BloatRemovalService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LogService",
+        "ScheduledTaskService"
+      ]
+    },
+    {
+      "name": "ChocolateyService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/ChocolateyService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService",
+        "TaskProgressService"
+      ]
+    },
+    {
+      "name": "DirectDownloadService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/DirectDownloadService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "InteractiveUserService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "ExternalAppUninstallService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/ExternalAppUninstallService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppStatusDiscoveryService",
+        "BloatRemovalService",
+        "ChocolateyService",
+        "InteractiveUserService",
+        "LogService",
+        "TaskProgressService"
+      ]
+    },
+    {
+      "name": "ExternalAppsService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/ExternalAppsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppStatusDiscoveryService",
+        "ChangeHistoryService",
+        "ChocolateyService",
+        "DirectDownloadService",
+        "ExternalAppUninstallService",
+        "FileSystemService",
+        "InteractiveUserService",
+        "LogService",
+        "TaskProgressService",
+        "WinGetDetectionService"
+      ]
+    },
+    {
+      "name": "IconManifestService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/IconManifestService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "LegacyCapabilityService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/LegacyCapabilityService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "OptionalFeatureService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/OptionalFeatureService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "StoreDownloadService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/StoreDownloadService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "LocalizationService",
+        "LogService",
+        "TaskProgressService"
+      ]
+    },
+    {
+      "name": "WinGetDetectionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/WinGet/WinGetDetectionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "FileSystemService",
+        "InteractiveUserService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "WindowsAppUninstallService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/WindowsAppUninstallService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BloatRemovalService",
+        "ChangeHistoryService",
+        "LogService",
+        "TaskProgressService",
+        "WindowsAppsService"
+      ]
+    },
+    {
+      "name": "WindowsAppsService",
+      "type": "SERVICE",
+      "file": "src/Winhance.Infrastructure/Features/SoftwareApps/Services/WindowsAppsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppStatusDiscoveryService",
+        "DialogService",
+        "LocalizationService",
+        "LogService",
+        "SettingApplicationService",
+        "StoreDownloadService",
+        "SystemSettingsDiscoveryService",
+        "TaskProgressService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "AutounattendXmlGeneratorService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/AdvancedTools/Services/AutounattendXmlGeneratorService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService",
+        "SystemSettingsDiscoveryService"
+      ]
+    },
+    {
+      "name": "ApplicationCloseService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ApplicationCloseService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DialogService",
+        "LogService",
+        "TaskProgressService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "ConfigAppSelectionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigAppSelectionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LogService"
+      ]
+    },
+    {
+      "name": "ConfigApplicationExecutionService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigApplicationExecutionService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangeHistoryService",
+        "ConfigAppSelectionService",
+        "ConfigImportOverlayService",
+        "ConfigLoadService",
+        "ConfigurationApplicationBridgeService",
+        "DialogService",
+        "LocalizationService",
+        "LogService",
+        "PolicyCleanupService",
+        "WindowsUIManagementService",
+        "WindowsVersionService"
+      ]
+    },
+    {
+      "name": "ConfigExportService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigExportService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AutounattendXmlGeneratorService",
+        "DialogService",
+        "FileSystemService",
+        "InteractiveUserService",
+        "LocalizationService",
+        "LogService",
+        "SystemSettingsDiscoveryService"
+      ]
+    },
+    {
+      "name": "ConfigImportOverlayService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigImportOverlayService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DispatcherService"
+      ]
+    },
+    {
+      "name": "ConfigLoadService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigLoadService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigMigrationService",
+        "DialogService",
+        "FileSystemService",
+        "InteractiveUserService",
+        "LocalizationService",
+        "LogService",
+        "WindowsVersionService"
+      ]
+    },
+    {
+      "name": "ConfigReviewOrchestrationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigReviewOrchestrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangeHistoryService",
+        "ConfigAppSelectionService",
+        "ConfigApplicationExecutionService",
+        "ConfigImportOverlayService",
+        "ConfigLoadService",
+        "DialogService",
+        "LocalizationService",
+        "LogService",
+        "PolicyCleanupService"
+      ]
+    },
+    {
+      "name": "ConfigReviewService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigReviewService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ComboBoxSetupService",
+        "LocalizationService",
+        "LogService",
+        "SystemSettingsDiscoveryService",
+        "WindowsVersionService"
+      ]
+    },
+    {
+      "name": "ConfigurationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ConfigurationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ConfigApplicationExecutionService",
+        "ConfigExportService",
+        "ConfigLoadService",
+        "ConfigReviewOrchestrationService",
+        "DialogService",
+        "LocalizationService",
+        "LogService"
+      ]
+    },
+    {
+      "name": "DialogService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/DialogService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LocalizationService",
+        "LogService",
+        "SponsorsService",
+        "TaskProgressService"
+      ]
+    },
+    {
+      "name": "DispatcherService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/DispatcherService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FilePickerService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/FilePickerService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NavBadgeService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/NavBadgeService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ResourceService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ResourceService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SettingLocalizationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/SettingLocalizationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LocalizationService"
+      ]
+    },
+    {
+      "name": "SettingsLoadingService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/SettingsLoadingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InitializationService",
+        "LogService",
+        "SystemSettingsDiscoveryService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "StartupNotificationService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/StartupNotificationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DialogService",
+        "LocalizationService",
+        "LogService",
+        "SystemBackupService",
+        "TaskProgressService",
+        "UserPreferencesService"
+      ]
+    },
+    {
+      "name": "ThemeService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/ThemeService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InteractiveUserService",
+        "UserPreferencesService",
+        "WindowsRegistryService"
+      ]
+    },
+    {
+      "name": "WindowsVersionFilterService",
+      "type": "SERVICE",
+      "file": "src/Winhance.UI/Features/Common/Services/WindowsVersionFilterService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DialogService",
+        "LocalizationService",
+        "LogService",
+        "UserPreferencesService"
+      ]
+    }
+  ]
+}

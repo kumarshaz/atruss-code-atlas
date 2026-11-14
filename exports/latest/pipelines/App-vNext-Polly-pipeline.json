@@ -1,0 +1,414 @@
+{
+  "org": "App-vNext",
+  "repository": "Polly",
+  "sha": "88f2039c1d865158a91fe05b8ac23d73a88a9092",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "after-release.yml",
+      "name": "after-release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "update-changelog",
+          "name": "update-changelog",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "update-milestone",
+          "name": "update-milestone",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "build.yml",
+      "name": "build",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "${{ matrix.job-name }}",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 13,
+          "needs": []
+        },
+        {
+          "id": "validate-packages",
+          "name": "validate-packages",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "sign",
+          "name": "sign",
+          "runner": "windows-2025",
+          "steps_count": 7,
+          "needs": [
+            "build",
+            "validate-packages"
+          ]
+        },
+        {
+          "id": "validate-signed-packages",
+          "name": "validate-signed-packages",
+          "runner": "windows-2025",
+          "steps_count": 7,
+          "needs": [
+            "build",
+            "sign"
+          ]
+        },
+        {
+          "id": "publish-nuget",
+          "name": "publish-nuget",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": [
+            "build",
+            "validate-signed-packages"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'sign' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-nuget' performs deployment without an upstream test job in its 'needs:' chain."
+        }
+      ]
+    },
+    {
+      "id": "code-ql.yml",
+      "name": "code-ql",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "analysis",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "code-ql",
+          "name": "code-ql",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "analysis"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependabot-approve.yml",
+      "name": "dependabot-approve",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "review",
+          "name": "review",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "dependency-review.yml",
+      "name": "dependency-review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "dependency-review",
+          "name": "dependency-review",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "gh-pages.yml",
+      "name": "github-pages",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-docs",
+          "name": "build-docs",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "publish-docs",
+          "name": "publish-docs",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "build-docs"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-docs' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "lint.yml",
+      "name": "lint",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "mutation-tests.yml",
+      "name": "mutation-tests",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "mutations",
+          "name": "mutations-${{ matrix.name }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "mutation-tests",
+          "name": "mutation-tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "mutations"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "nuget-packages-published.yml",
+      "name": "nuget-packages-published",
+      "triggers": [
+        "repository_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "wait-for-publish",
+          "name": "wait-for-publish",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "notify-release",
+          "name": "notify-release",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "wait-for-publish"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'wait-for-publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'notify-release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "on-push-do-docs.yml",
+      "name": "on-push-do-docs",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-docs",
+          "name": "update-docs",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ossf-scorecard.yml",
+      "name": "ossf-scorecard",
+      "triggers": [
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "analysis",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "name": "stale",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "update-dotnet-sdk.yml",
+      "name": "update-dotnet-sdk",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-dotnet-sdk",
+          "name": "update-dotnet-sdk",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "add-security-label",
+          "name": "add-security-label",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "update-dotnet-sdk"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "updater-approve.yml",
+      "name": "updater-approve",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "review",
+          "name": "review",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

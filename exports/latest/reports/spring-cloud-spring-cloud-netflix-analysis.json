@@ -1,0 +1,272 @@
+{
+  "repository": "spring-cloud/spring-cloud-netflix",
+  "sha": "897afeab091445961239013981a1828c343549a5",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 284,
+    "loc": 39138,
+    "sloc": 25422,
+    "component_count": 31,
+    "avg_cyclomatic_complexity": 4.69,
+    "max_cyclomatic_complexity": 48,
+    "framework": "Spring Boot"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "spring-cloud-netflix-docs",
+      "type": "MODULE",
+      "file": "docs/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-netflix",
+      "type": "MODULE",
+      "file": "pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-netflix-dependencies",
+      "type": "MODULE",
+      "file": "spring-cloud-netflix-dependencies/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-netflix-eureka-client",
+      "type": "MODULE",
+      "file": "spring-cloud-netflix-eureka-client/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-netflix-eureka-client-tls-tests",
+      "type": "MODULE",
+      "file": "spring-cloud-netflix-eureka-client-tls-tests/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-netflix-eureka-server",
+      "type": "MODULE",
+      "file": "spring-cloud-netflix-eureka-server/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-starter-netflix-eureka-client",
+      "type": "MODULE",
+      "file": "spring-cloud-starter-netflix-eureka-client/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "spring-cloud-starter-netflix-eureka-server",
+      "type": "MODULE",
+      "file": "spring-cloud-starter-netflix-eureka-server/pom.xml",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaClientAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaClientAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "DiscoveryClientOptionalArgsConfiguration",
+        "EurekaClientConfigBean",
+        "EurekaDiscoveryClientConfiguration",
+        "EurekaInstanceConfigBean"
+      ]
+    },
+    {
+      "name": "EurekaClientConfigBean",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaClientConfigBean.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaDiscoveryClientConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaDiscoveryClientConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaClientConfigBean"
+      ]
+    },
+    {
+      "name": "EurekaInstanceConfigBean",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaInstanceConfigBean.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "TimeoutProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/TimeoutProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "DiscoveryClientOptionalArgsConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/config/DiscoveryClientOptionalArgsConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "TimeoutProperties"
+      ]
+    },
+    {
+      "name": "EurekaClientConfigServerAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/config/EurekaClientConfigServerAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaInstanceConfigBean"
+      ]
+    },
+    {
+      "name": "EurekaConfigServerBootstrapConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/config/EurekaConfigServerBootstrapConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaClientConfigBean",
+        "TimeoutProperties"
+      ]
+    },
+    {
+      "name": "EurekaLoadBalancerClientConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/loadbalancer/EurekaLoadBalancerClientConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaLoadBalancerProperties",
+        "LoadBalancerEurekaAutoConfiguration"
+      ]
+    },
+    {
+      "name": "EurekaLoadBalancerProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/loadbalancer/EurekaLoadBalancerProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "LoadBalancerEurekaAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/loadbalancer/LoadBalancerEurekaAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaLoadBalancerClientConfiguration",
+        "EurekaLoadBalancerProperties"
+      ]
+    },
+    {
+      "name": "EurekaReactiveDiscoveryClientConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/reactive/EurekaReactiveDiscoveryClientConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaClientAutoConfiguration"
+      ]
+    },
+    {
+      "name": "EurekaServerMockApplication",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-netflix-eureka-client/src/test/java/org/springframework/cloud/netflix/eureka/http/EurekaServerMockApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaSampleApplication",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-netflix-eureka-client/src/test/java/org/springframework/cloud/netflix/eureka/sample/EurekaSampleApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaClientConfigBean",
+        "EurekaInstanceConfigBean"
+      ]
+    },
+    {
+      "name": "RefreshEurekaSampleApplication",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-netflix-eureka-client/src/test/java/org/springframework/cloud/netflix/eureka/sample/RefreshEurekaSampleApplication.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaController",
+      "type": "API_ROUTE",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaController.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaProperties"
+      ]
+    },
+    {
+      "name": "EurekaDashboardProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaDashboardProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaServerAutoConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaServerAutoConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaController",
+        "EurekaDashboardProperties",
+        "EurekaInstanceConfigBean",
+        "EurekaProperties",
+        "EurekaServerConfigBean",
+        "EurekaServerInitializerConfiguration",
+        "EurekaServerMarkerConfiguration",
+        "InstanceRegistryProperties"
+      ]
+    },
+    {
+      "name": "EurekaServerConfigBean",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaServerConfigBean.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaServerInitializerConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaServerInitializerConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    },
+    {
+      "name": "EurekaServerMarkerConfiguration",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/EurekaServerMarkerConfiguration.java",
+      "ecosystem": "java_springboot",
+      "dependencies": [
+        "EurekaServerAutoConfiguration"
+      ]
+    },
+    {
+      "name": "InstanceRegistryProperties",
+      "type": "CONFIG",
+      "file": "spring-cloud-netflix-eureka-server/src/main/java/org/springframework/cloud/netflix/eureka/server/InstanceRegistryProperties.java",
+      "ecosystem": "java_springboot",
+      "dependencies": []
+    }
+  ]
+}

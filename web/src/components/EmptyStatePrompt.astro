@@ -1,0 +1,121 @@
+---
+interface Props {
+    phase: string;
+    command: string;
+}
+
+const { phase, command } = Astro.props;
+---
+
+<div class="m3-card-outlined m3-empty-state">
+    <div class="m3-empty-icon m3-chip-tonal-secondary">
+        <span class="material-symbols-outlined" aria-hidden="true">terminal</span>
+    </div>
+    <div class="m3-empty-body">
+        <h3>No {phase} Data Extracted Yet</h3>
+        <p>
+            This repository does not have {phase.toLowerCase()} artifacts in
+            <code>exports/latest/</code>. Generate them offline with the CLI:
+        </p>
+        <div class="m3-command-row">
+            <pre class="m3-command-box"><code>{command}</code></pre>
+            <button
+                type="button"
+                class="m3-btn-tonal m3-copy-cmd-btn"
+                data-copy-command={command}
+                aria-label="Copy CLI command"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
+                <span class="m3-copy-label">Copy</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initCopyButtons() {
+        document.querySelectorAll<HTMLButtonElement>('[data-copy-command]').forEach((btn) => {
+            if (btn.dataset.bound === 'true') return;
+            btn.dataset.bound = 'true';
+            btn.addEventListener('click', async () => {
+                const cmd = btn.dataset.copyCommand || '';
+                try {
+                    await navigator.clipboard.writeText(cmd);
+                    const label = btn.querySelector('.m3-copy-label');
+                    const icon = btn.querySelector('.material-symbols-outlined');
+                    if (label) label.textContent = 'Copied';
+                    if (icon) icon.textContent = 'check';
+                    setTimeout(() => {
+                        if (label) label.textContent = 'Copy';
+                        if (icon) icon.textContent = 'content_copy';
+                    }, 1800);
+                } catch {
+                    // Clipboard API unavailable in non-secure contexts
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initCopyButtons);
+    document.addEventListener('astro:page-load', initCopyButtons);
+</script>
+
+<style>
+    .m3-empty-state {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        border-style: dashed;
+        background-color: var(--md-sys-color-surface-container-low);
+    }
+
+    .m3-empty-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .m3-empty-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .m3-empty-body h3 {
+        margin: 0 0 0.375rem !important;
+        font-size: 1.125rem !important;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-empty-body p {
+        margin: 0 0 1rem !important;
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.9375rem;
+    }
+
+    .m3-command-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .m3-command-box {
+        flex: 1 1 260px;
+        margin: 0 !important;
+        padding: 0.75rem 1rem !important;
+        background-color: var(--md-sys-color-surface-container-lowest) !important;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-medium);
+        overflow-x: auto;
+    }
+
+    .m3-copy-cmd-btn {
+        height: 2.25rem;
+        padding: 0 1rem;
+    }
+</style>

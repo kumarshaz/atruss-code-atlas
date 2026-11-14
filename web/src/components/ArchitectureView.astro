@@ -1,0 +1,476 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import EmptyStatePrompt from './EmptyStatePrompt.astro';
+import { buildArchTreeIndex } from '../lib/architecture-tree';
+
+interface Props {
+    repo_name: string;
+    org: string;
+}
+
+const { repo_name, org } = Astro.props;
+
+const mdModules = import.meta.glob('../data/latest/reports/*-report.md', { eager: true });
+const orgRepoMatch = `${org}-${repo_name}-report.md`.toLowerCase();
+const plainRepoMatch = `${repo_name}-report.md`.toLowerCase();
+
+let Content: any = null;
+for (const [modPath, mod] of Object.entries(mdModules)) {
+    const fileName = (modPath.split('/').pop() || '').toLowerCase();
+    if (fileName === orgRepoMatch || fileName === plainRepoMatch) {
+        Content = (mod as any).Content;
+        break;
+    }
+}
+
+let analysisJson: any = null;
+try {
+    const reportDirs = [
+        path.resolve(process.cwd(), '../exports/latest/reports'),
+        path.resolve(process.cwd(), 'src/data/latest/reports'),
+    ];
+    for (const dir of reportDirs) {
+        const candidates = [
+            path.join(dir, `${org}-${repo_name}-analysis.json`),
+            path.join(dir, `local-${repo_name}-analysis.json`),
+            path.join(dir, `${repo_name}-analysis.json`),
+        ];
+        for (const candidate of candidates) {
+            if (fs.existsSync(candidate)) {
+                analysisJson = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+                break;
+            }
+        }
+        if (analysisJson) break;
+    }
+} catch (e) {
+    console.error('Failed to read analysis JSON:', e);
+}
+
+const metrics = analysisJson?.metrics || {};
+const archComponents = Array.isArray(analysisJson?.architecture_components)
+    ? analysisJson.architecture_components
+    : [];
+const compCount = archComponents.length || metrics.component_count || 0;
+
+const archTree = buildArchTreeIndex(`${org}/${repo_name}`, archComponents);
+const serializedArchTree = JSON.stringify(archTree)
+    .replace(/<\//g, '<\\/')
+    .replace(/<!--/g, '<\\!--');
+const jumpableNodes = Object.values(archTree.nodes)
+    .filter((n) => n.id === archTree.rootId || n.children.length > 0 || n.topFiles.length > 0)
+    .sort((a, b) => {
+        if (a.id === archTree.rootId) return -1;
+        if (b.id === archTree.rootId) return 1;
+        return b.totalComponents - a.totalComponents || a.path.localeCompare(b.path);
+    });
+---
+
+{Content || archTree.hasTree ? (
+    <div class="m3-architecture-wrap">
+        {analysisJson && (
+            <div class="m3-arch-chips">
+                <span class="m3-chip m3-chip-tonal-primary">
+                    <span class="material-symbols-outlined" aria-hidden="true">category</span>
+                    {analysisJson.ecosystem || 'Unknown'}
+                </span>
+                <span class="m3-chip m3-chip-tonal-secondary">
+                    <span class="material-symbols-outlined" aria-hidden="true">hub</span>
+                    {compCount} Components
+                </span>
+                {metrics.files_analyzed !== undefined && (
+                    <span class="m3-chip">
+                        <span class="material-symbols-outlined" aria-hidden="true">description</span>
+                        {metrics.files_analyzed} Files
+                    </span>
+                )}
+                {metrics.loc !== undefined && (
+                    <span class="m3-chip">
+                        <span class="material-symbols-outlined" aria-hidden="true">code</span>
+                        {metrics.loc} LoC
+                    </span>
+                )}
+                {metrics.avg_cyclomatic_complexity !== undefined && (
+                    <span class="m3-chip m3-chip-tonal-tertiary">
+                        <span class="material-symbols-outlined" aria-hidden="true">speed</span>
+                        Avg CC: {metrics.avg_cyclomatic_complexity}
+                    </span>
+                )}
+            </div>
+        )}
+
+        {archTree.hasTree && (
+            <section
+                class="m3-card-elevated m3-arch-tree-card"
+                data-arch-root="true"
+                data-zoom-container="true"
+            >
+                <script
+                    type="application/json"
+                    data-arch-tree-payload="true"
+                    set:html={serializedArchTree}
+                />
+
+                <header class="m3-diagram-toolbar">
+                    <div class="m3-section-header">
+                        <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+                        <h4>Top-Level Architecture Tree (TD)</h4>
+                    </div>
+                    <div class="m3-zoom-controls" role="group" aria-label="Architecture tree zoom">
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
+                            <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
+                        </button>
+                        <span class="m3-zoom-pct" data-zoom-label="true">100%</span>
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="in" title="Zoom in">
+                            <span class="material-symbols-outlined" aria-hidden="true">zoom_in</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
+                            <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                        </button>
+                    </div>
+                </header>
+
+                <div class="m3-tree-nav">
+                    <div class="m3-tree-breadcrumbs">
+                        <nav
+                            class="m3-tree-trail"
+                            aria-label="Architecture module breadcrumbs"
+                            data-arch-breadcrumbs="true"
+                        >
+                            <button type="button" class="m3-tree-pill is-active" data-arch-node="root">
+                                Root ({compCount})
+                            </button>
+                        </nav>
+                        {jumpableNodes.length > 1 && (
+                            <label class="m3-wf-select-wrap">
+                                <span class="m3-wf-select-label">Jump to module:</span>
+                                <select class="m3-wf-select" data-arch-dropdown="true">
+                                    {jumpableNodes.map((n) => (
+                                        <option value={n.id}>
+                                            {n.id === archTree.rootId
+                                                ? `Root: ${n.label} (${n.totalComponents})`
+                                                : `${n.path} (${n.totalComponents})`}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                        )}
+                    </div>
+
+                    <div class="m3-tree-chips" data-arch-children="true" />
+                </div>
+
+                <div class="m3-diagram-hint" data-arch-hint="true">
+                    Showing top-level module hierarchy (flowchart TD). Click any subfolder node or pill to traverse deeper.
+                </div>
+
+                <div class="m3-diagram-viewport">
+                    <div class="m3-diagram-canvas" data-arch-canvas="true" data-zoom-target="true">
+                        <p class="m3-diagram-loading">Rendering top-level architecture tree...</p>
+                    </div>
+                </div>
+            </section>
+        )}
+
+        {Content && (
+            <div
+                class="m3-card-elevated m3-architecture-card"
+                data-arch-markdown="true"
+                data-zoom-container="true"
+            >
+                <header class="m3-arch-toolbar">
+                    <div class="m3-arch-title">
+                        <span class="material-symbols-outlined" aria-hidden="true">architecture</span>
+                        <h4>Arc42 Architecture &amp; Dependency Report</h4>
+                    </div>
+                    <div class="m3-zoom-controls" role="group" aria-label="Architecture report zoom">
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
+                            <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
+                        </button>
+                        <span class="m3-zoom-pct" data-zoom-label="true">100%</span>
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="in" title="Zoom in">
+                            <span class="material-symbols-outlined" aria-hidden="true">zoom_in</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
+                            <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                        </button>
+                    </div>
+                </header>
+
+                <div class="m3-architecture-content markdown-content" data-zoom-target="true">
+                    <Content />
+                </div>
+            </div>
+        )}
+    </div>
+) : (
+    <EmptyStatePrompt
+        phase="Architecture"
+        command={`atruss analyze-code --repos-file repos.txt --exports-dir exports`}
+    />
+)}
+
+<script>
+    import {
+        applyResponsiveSvgStyle,
+        bindDiagramZoom,
+        renderMermaidSvg,
+        repairVisibleMermaidBlocks,
+    } from '../lib/mermaid-client';
+    import {
+        buildArchTreeGraph,
+        buildBreadcrumbs,
+        type ArchTreePayload,
+    } from '../lib/architecture-tree';
+
+    function updateArchNavigation(
+        root: HTMLElement,
+        payload: ArchTreePayload,
+        activeNodeId: string
+    ): void {
+        const trailEl = root.querySelector<HTMLElement>('[data-arch-breadcrumbs]');
+        const chipsEl = root.querySelector<HTMLElement>('[data-arch-children]');
+        const dropdown = root.querySelector<HTMLSelectElement>('[data-arch-dropdown]');
+        const hintEl = root.querySelector<HTMLElement>('[data-arch-hint]');
+
+        const current = payload.nodes[activeNodeId] || payload.nodes[payload.rootId];
+        if (!current) return;
+
+        if (dropdown) {
+            dropdown.value = current.id;
+        }
+
+        if (trailEl) {
+            trailEl.replaceChildren();
+            const crumbs = buildBreadcrumbs(payload, current.id);
+            crumbs.forEach((crumb, idx) => {
+                if (idx > 0) {
+                    const sep = document.createElement('span');
+                    sep.className = 'm3-tree-sep';
+                    sep.setAttribute('aria-hidden', 'true');
+                    sep.textContent = '/';
+                    trailEl.appendChild(sep);
+                }
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `m3-tree-pill ${crumb.id === current.id ? 'is-active' : ''}`;
+                btn.textContent = idx === 0 ? `Root: ${crumb.label}` : crumb.label;
+                btn.addEventListener('click', () => {
+                    root.dataset.activeNode = crumb.id;
+                    renderArchTree(root);
+                });
+                trailEl.appendChild(btn);
+            });
+        }
+
+        if (chipsEl) {
+            chipsEl.replaceChildren();
+            const childSlice = current.children.slice(0, 20);
+            childSlice.forEach((cid) => {
+                const child = payload.nodes[cid];
+                if (!child) return;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'm3-tree-chip';
+
+                const labelSpan = document.createElement('span');
+                labelSpan.textContent = child.label;
+                const countSpan = document.createElement('span');
+                countSpan.className = 'm3-tree-count';
+                countSpan.textContent = String(child.totalComponents);
+
+                btn.append(labelSpan, countSpan);
+                btn.addEventListener('click', () => {
+                    root.dataset.activeNode = child.id;
+                    renderArchTree(root);
+                });
+                chipsEl.appendChild(btn);
+            });
+        }
+
+        if (hintEl) {
+            const loc = current.path ? `"${current.path}"` : 'repository root';
+            hintEl.textContent =
+                current.children.length > 0
+                    ? `Viewing ${loc} (${current.totalComponents} components, flowchart TD). Click any module node or pill to traverse deeper.`
+                    : `Leaf directory ${loc} (${current.totalFiles} files, ${current.directComponents} components). Use breadcrumbs above to traverse back up.`;
+        }
+    }
+
+    async function renderArchTree(root: HTMLElement): Promise<void> {
+        if (root.closest('[hidden]')) return;
+
+        const payloadEl = root.querySelector<HTMLScriptElement>('[data-arch-tree-payload]');
+        const canvas = root.querySelector<HTMLElement>('[data-arch-canvas]');
+        if (!payloadEl || !canvas) return;
+
+        let payload: ArchTreePayload;
+        try {
+            payload = JSON.parse(payloadEl.textContent || '{}');
+        } catch {
+            return;
+        }
+        if (!payload.hasTree) return;
+
+        const activeNodeId = root.dataset.activeNode || payload.rootId || 'root';
+        updateArchNavigation(root, payload, activeNodeId);
+
+        const graphDef = buildArchTreeGraph(payload, activeNodeId);
+        try {
+            const svg = await renderMermaidSvg('arch-tree', graphDef);
+            canvas.innerHTML = svg;
+            const svgEl = canvas.querySelector('svg');
+            if (svgEl) {
+                applyResponsiveSvgStyle(svgEl);
+                svgEl.querySelectorAll<SVGGElement>('.node').forEach((nodeEl) => {
+                    const nid = nodeEl.id || nodeEl.getAttribute('data-id') || '';
+                    const match = nid.match(/child_(node_\d+)/);
+                    if (match && payload.nodes[match[1]]) {
+                        nodeEl.style.cursor = 'pointer';
+                        nodeEl.addEventListener('click', () => {
+                            root.dataset.activeNode = match[1];
+                            renderArchTree(root);
+                        });
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Mermaid architecture tree render failed:', err);
+        }
+    }
+
+    function initArchitectureScope(scope: ParentNode = document, forceMarkdown = false): void {
+        scope.querySelectorAll<HTMLElement>('[data-arch-root="true"]').forEach((root) => {
+            if (!root.dataset.archBound) {
+                root.dataset.archBound = 'true';
+                root.dataset.activeNode = 'root';
+
+                const dropdown = root.querySelector<HTMLSelectElement>('[data-arch-dropdown]');
+                if (dropdown) {
+                    dropdown.addEventListener('change', () => {
+                        root.dataset.activeNode = dropdown.value || 'root';
+                        renderArchTree(root);
+                    });
+                }
+            }
+
+            if (!root.closest('[hidden]')) {
+                renderArchTree(root);
+            }
+        });
+
+        repairVisibleMermaidBlocks(scope, forceMarkdown);
+        bindDiagramZoom(scope);
+    }
+
+    const archThemeObserver = new MutationObserver(() => {
+        document.querySelectorAll<HTMLElement>('.m3-architecture-wrap').forEach((wrap) => {
+            if (wrap.closest('[hidden]')) return;
+            wrap.querySelectorAll<HTMLElement>('pre.mermaid').forEach((pre) => {
+                pre.dataset.archRenderedVisible = '';
+            });
+            initArchitectureScope(wrap, true);
+        });
+    });
+    archThemeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+    });
+
+    document.addEventListener('DOMContentLoaded', () => initArchitectureScope(document));
+    document.addEventListener('astro:page-load', () => initArchitectureScope(document));
+    document.addEventListener('atruss:tab-activated', (ev: any) => {
+        const panel = ev?.detail?.panel;
+        if (panel) {
+            initArchitectureScope(panel);
+        }
+    });
+</script>
+
+<style>
+    .m3-architecture-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .m3-arch-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .m3-arch-chips .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .m3-arch-tree-card,
+    .m3-architecture-card {
+        padding: 1.5rem;
+        overflow: hidden;
+    }
+
+    .m3-arch-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-arch-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .m3-arch-title .material-symbols-outlined {
+        color: var(--md-sys-color-primary);
+    }
+
+    .m3-arch-title h4 {
+        margin: 0 !important;
+        font-size: 1.0625rem !important;
+        font-weight: 600;
+    }
+
+    .m3-architecture-content {
+        transition: transform 150ms ease;
+    }
+
+    .markdown-content :global(h1),
+    .markdown-content :global(h2),
+    .markdown-content :global(h3) {
+        margin-top: 1.25rem;
+        margin-bottom: 0.75rem;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .markdown-content :global(p) {
+        margin-bottom: 0.875rem;
+        line-height: 1.6;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .markdown-content :global(pre.mermaid) {
+        background-color: var(--md-sys-color-surface-container-lowest);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        padding: 1rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        margin: 1rem 0;
+        overflow-x: auto;
+        display: block !important;
+        text-align: center;
+    }
+
+    .markdown-content :global(pre.mermaid svg) {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>

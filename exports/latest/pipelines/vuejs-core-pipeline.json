@@ -1,0 +1,205 @@
+{
+  "org": "vuejs",
+  "repository": "core",
+  "sha": "21738b527bac4a91eef9cbdfc2cc5ac1f3dbdec9",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "autofix.yml",
+      "name": "autofix.ci",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "autofix",
+          "name": "autofix",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci.yml",
+      "name": "ci",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "continuous-release",
+          "name": "continuous-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'continuous-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "ecosystem-ci-trigger.yml",
+      "name": "ecosystem-ci trigger",
+      "triggers": [
+        "issue_comment"
+      ],
+      "jobs": [
+        {
+          "id": "trigger",
+          "name": "trigger",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lock-closed-issues.yml",
+      "name": "Lock Closed Issues",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "action",
+          "name": "action",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "size-data.yml",
+      "name": "size data",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "upload",
+          "name": "upload",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "size-report.yml",
+      "name": "size report",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "size-report",
+          "name": "size-report",
+          "runner": "ubuntu-slim",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "test",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "unit-test",
+          "name": "unit-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "unit-test-windows",
+          "name": "unit-test-windows",
+          "runner": "windows-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "e2e-test",
+          "name": "e2e-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "lint-and-test-dts",
+          "name": "lint-and-test-dts",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

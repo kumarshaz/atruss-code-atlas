@@ -1,0 +1,210 @@
+{
+  "org": "colinhacks",
+  "repository": "zod",
+  "sha": "19c40d2072288b4cafec851e9d056a72a88e5973",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "claude-code-review.yml",
+      "name": "Claude Code Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "claude-review",
+          "name": "claude-review",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "claude.yml",
+      "name": "Claude Code",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "claude",
+          "name": "claude",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "iso-4217.yml",
+      "name": "Refresh the ISO 4217 currency list",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "refresh",
+          "name": "refresh",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lockstep.yml",
+      "name": "Check zod and @zod/mini lockstep on npm",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "pullfrog.yml",
+      "name": "Pullfrog",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "pullfrog",
+          "name": "pullfrog",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "name": "Release on npm",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test-node",
+          "name": "Test with TypeScript ${{ matrix.typescript }} on Node ${{ matrix.node }} (${{ matrix.os }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 11,
+          "needs": []
+        },
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "check-circular",
+          "name": "Check for circular dependencies",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "stage",
+          "name": "stage",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "test-node",
+            "lint",
+            "check-circular"
+          ]
+        },
+        {
+          "id": "finish",
+          "name": "finish",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "stage"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "name": "Auto-close labeled issues",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "auto-close",
+          "name": "auto-close",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-node",
+          "name": "Test with TypeScript ${{ matrix.typescript }} on Node ${{ matrix.node }} (${{ matrix.os }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "check-circular",
+          "name": "Check for circular dependencies",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

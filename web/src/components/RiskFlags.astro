@@ -1,0 +1,153 @@
+---
+interface Repo {
+    Organization: string;
+    RepositoryName: string;
+    HasPipeline?: boolean;
+    HasDockerfile?: boolean;
+    [key: string]: any;
+}
+
+interface Props {
+    repos: Repo[];
+}
+
+const { repos = [] } = Astro.props;
+
+const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (p: string) => `${baseUrl}${p.startsWith('/') ? p : '/' + p}`;
+const normalizeSlug = (segment: string) =>
+    segment
+        .trim()
+        .toLowerCase()
+        .replace(/^\.+/, '');
+
+const atRiskRepos = repos.filter(
+    (r) => r.HasDockerfile === true && r.HasPipeline === false
+);
+---
+
+<section class="m3-card-elevated m3-risk-card">
+    <header class="m3-risk-header">
+        <div class={`m3-risk-icon ${atRiskRepos.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}>
+            <span class="material-symbols-outlined" aria-hidden="true">
+                {atRiskRepos.length > 0 ? 'gpp_maybe' : 'verified_user'}
+            </span>
+        </div>
+        <div>
+            <h3>
+                {atRiskRepos.length > 0
+                    ? 'Risk Detection: Unmanaged Containers'
+                    : 'Deployment Governance Healthy'}
+            </h3>
+            <p class="m3-risk-subtitle">
+                {atRiskRepos.length > 0
+                    ? `${atRiskRepos.length} repositories declare a Dockerfile without a CI/CD workflow.`
+                    : 'All containerized repositories define automated CI/CD workflows.'}
+            </p>
+        </div>
+    </header>
+
+    {atRiskRepos.length > 0 && (
+        <ul class="m3-risk-list">
+            {atRiskRepos.map((repo) => (
+                <li>
+                    <a
+                        href={withBase(
+                            `/reports/${normalizeSlug(repo.Organization)}/${normalizeSlug(repo.RepositoryName)}/`
+                        )}
+                        class="m3-risk-item"
+                    >
+                        <span class="m3-risk-name">
+                            <span class="m3-risk-org">{repo.Organization} / </span>
+                            <strong>{repo.RepositoryName}</strong>
+                        </span>
+                        <span class="material-symbols-outlined m3-risk-arrow" aria-hidden="true">
+                            arrow_forward
+                        </span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    )}
+</section>
+
+<style>
+    .m3-risk-card {
+        padding: 1.5rem;
+    }
+
+    .m3-risk-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.875rem;
+    }
+
+    .m3-risk-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .m3-risk-header h3 {
+        margin: 0 !important;
+        font-size: 1.125rem !important;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-risk-subtitle {
+        margin: 0.25rem 0 0 !important;
+        font-size: 0.875rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-risk-list {
+        list-style: none;
+        padding: 0;
+        margin: 1.125rem 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-height: 240px;
+        overflow-y: auto;
+    }
+
+    .m3-risk-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-error-container);
+        color: var(--md-sys-color-on-error-container);
+        text-decoration: none;
+        transition: filter 150ms ease, transform 150ms ease;
+    }
+
+    .m3-risk-item:hover {
+        filter: brightness(1.08);
+        transform: translateX(2px);
+    }
+
+    .m3-risk-name {
+        font-size: 0.875rem;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .m3-risk-org {
+        opacity: 0.8;
+        font-size: 0.8125rem;
+    }
+
+    .m3-risk-arrow {
+        font-size: 18px;
+    }
+</style>

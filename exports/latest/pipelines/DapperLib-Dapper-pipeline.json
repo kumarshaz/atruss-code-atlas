@@ -1,0 +1,87 @@
+{
+  "org": "DapperLib",
+  "repository": "Dapper",
+  "sha": "eb47546a408bbf6c178bda4f04dc205bc51ffbfe",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "cla.yml",
+      "name": "CLA Assistant",
+      "triggers": [
+        "issue_comment",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "CLAAssistant",
+          "name": "CLAAssistant",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "main.yml",
+      "name": "Main Build",
+      "triggers": [
+        "workflow_dispatch",
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "vm-job",
+          "name": "Ubuntu",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "windows-job",
+          "name": "Windows (net481)",
+          "runner": "windows-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "name": "Release",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    }
+  ]
+}

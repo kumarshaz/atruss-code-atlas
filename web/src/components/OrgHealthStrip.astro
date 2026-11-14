@@ -1,0 +1,148 @@
+---
+interface Repo {
+    Organization: string;
+    RepositoryName: string;
+    PrimaryLanguage?: string;
+    HasPipeline?: boolean;
+    HasDockerfile?: boolean;
+    HasKubernetes?: boolean;
+    LastUpdate?: string;
+    AnalyzedDate?: string;
+    [key: string]: any;
+}
+
+interface Props {
+    repos: Repo[];
+}
+
+const { repos = [] } = Astro.props;
+
+const totalRepos = repos.length;
+const reposWithPipeline = repos.filter((r) => Boolean(r.HasPipeline)).length;
+const reposWithDocker = repos.filter((r) => Boolean(r.HasDockerfile)).length;
+const pipelinePct = totalRepos > 0 ? Math.round((reposWithPipeline / totalRepos) * 100) : 0;
+
+const latestTimestamp = repos
+    .map((r) => r.LastUpdate || r.AnalyzedDate || '')
+    .filter(Boolean)
+    .sort()
+    .pop();
+
+const formattedDate = latestTimestamp
+    ? new Date(latestTimestamp).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+      })
+    : 'Unknown';
+---
+
+<section class="m3-kpi-grid" aria-label="Organization Health Key Performance Indicators">
+    <article class="m3-card-elevated m3-kpi-card">
+        <div class="m3-kpi-icon m3-chip-tonal-primary">
+            <span class="material-symbols-outlined" aria-hidden="true">folder_managed</span>
+        </div>
+        <div class="m3-kpi-body">
+            <span class="m3-kpi-label">Total Repositories</span>
+            <span class="m3-kpi-value">{totalRepos}</span>
+        </div>
+    </article>
+
+    <article class="m3-card-elevated m3-kpi-card">
+        <div class="m3-kpi-icon m3-chip-tonal-secondary">
+            <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+        </div>
+        <div class="m3-kpi-body">
+            <span class="m3-kpi-label">With CI/CD Pipeline</span>
+            <span class="m3-kpi-value">
+                {reposWithPipeline}
+                <span class="m3-kpi-sub">({pipelinePct}%)</span>
+            </span>
+        </div>
+    </article>
+
+    <article class="m3-card-elevated m3-kpi-card">
+        <div class="m3-kpi-icon m3-chip-tonal-tertiary">
+            <span class="material-symbols-outlined" aria-hidden="true">deployed_code</span>
+        </div>
+        <div class="m3-kpi-body">
+            <span class="m3-kpi-label">Containerized (Docker)</span>
+            <span class="m3-kpi-value">{reposWithDocker}</span>
+        </div>
+    </article>
+
+    <article class="m3-card-elevated m3-kpi-card">
+        <div class="m3-kpi-icon m3-chip-tonal-success">
+            <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+        </div>
+        <div class="m3-kpi-body">
+            <span class="m3-kpi-label">Latest Activity</span>
+            <span class="m3-kpi-date">{formattedDate}</span>
+        </div>
+    </article>
+</section>
+
+<style>
+    .m3-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .m3-kpi-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+
+    .m3-kpi-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .m3-kpi-icon .material-symbols-outlined {
+        font-size: 24px;
+    }
+
+    .m3-kpi-body {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .m3-kpi-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-kpi-value {
+        font-size: 1.875rem;
+        font-weight: 700;
+        line-height: 1.15;
+        color: var(--md-sys-color-on-surface);
+        margin-top: 0.25rem;
+    }
+
+    .m3-kpi-sub {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-kpi-date {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+        margin-top: 0.35rem;
+    }
+</style>

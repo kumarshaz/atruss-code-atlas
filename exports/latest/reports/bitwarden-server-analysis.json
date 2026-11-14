@@ -1,0 +1,5749 @@
+{
+  "repository": "bitwarden/server",
+  "sha": "341acc9d3d8988cec8fe05debfa6d557cf5ab749",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 12611,
+    "loc": 4308535,
+    "sloc": 3159785,
+    "component_count": 596,
+    "avg_cyclomatic_complexity": 4.3,
+    "max_cyclomatic_complexity": 175,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "AppHost",
+      "type": "MODULE",
+      "file": "AppHost/AppHost.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Admin",
+        "Api",
+        "Billing",
+        "Events",
+        "EventsProcessor",
+        "Icons",
+        "Identity",
+        "Notifications",
+        "Scim",
+        "Sso"
+      ]
+    },
+    {
+      "name": "Commercial.Core",
+      "type": "MODULE",
+      "file": "bitwarden_license/src/Commercial.Core/Commercial.Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core"
+      ]
+    },
+    {
+      "name": "Commercial.Infrastructure.EntityFramework",
+      "type": "MODULE",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/Commercial.Infrastructure.EntityFramework.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "Scim",
+      "type": "MODULE",
+      "file": "bitwarden_license/src/Scim/Scim.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "SharedWeb",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Pam",
+      "type": "MODULE",
+      "file": "bitwarden_license/src/Services/Pam/Pam.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "HttpExtensions",
+        "OrganizationAuthorization",
+        "Pam.Domain"
+      ]
+    },
+    {
+      "name": "Sso",
+      "type": "MODULE",
+      "file": "bitwarden_license/src/Sso/Sso.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "SharedWeb",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Commercial.Core.Test",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Commercial.Core.Test/Commercial.Core.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Commercial.Core",
+        "Core.Test"
+      ]
+    },
+    {
+      "name": "SSO.Test",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/SSO.Test/SSO.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Sso"
+      ]
+    },
+    {
+      "name": "Scim.IntegrationTest",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Scim.IntegrationTest/Scim.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "IntegrationTestCommon",
+        "Scim"
+      ]
+    },
+    {
+      "name": "Scim.Test",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Scim.Test/Scim.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Scim"
+      ]
+    },
+    {
+      "name": "Pam.IntegrationTest",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Services/Pam.IntegrationTest/Pam.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Api.IntegrationTest",
+        "Pam"
+      ]
+    },
+    {
+      "name": "Pam.Test",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Services/Pam.Test/Pam.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core.Test",
+        "Pam"
+      ]
+    },
+    {
+      "name": "Sso.IntegrationTest",
+      "type": "MODULE",
+      "file": "bitwarden_license/test/Sso.IntegrationTest/Sso.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core.Test",
+        "IntegrationTestCommon",
+        "Sso"
+      ]
+    },
+    {
+      "name": "MicroBenchmarks",
+      "type": "MODULE",
+      "file": "perf/MicroBenchmarks/MicroBenchmarks.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Identity"
+      ]
+    },
+    {
+      "name": "Admin",
+      "type": "MODULE",
+      "file": "src/Admin/Admin.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Commercial.Core",
+        "Commercial.Infrastructure.EntityFramework",
+        "Core",
+        "Migrator",
+        "MySqlMigrations",
+        "PostgresMigrations",
+        "SharedWeb",
+        "SqliteMigrations",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Api",
+      "type": "MODULE",
+      "file": "src/Api/Api.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Commercial.Core",
+        "Commercial.Infrastructure.EntityFramework",
+        "Core",
+        "CurrentUser",
+        "HttpExtensions",
+        "OrganizationAuthorization",
+        "OrganizationKeys",
+        "Pam",
+        "SharedWeb",
+        "Subscriptions.Organization",
+        "Subscriptions.User"
+      ]
+    },
+    {
+      "name": "Billing",
+      "type": "MODULE",
+      "file": "src/Billing/Billing.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Commercial.Core",
+        "Core",
+        "SharedWeb",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Core",
+      "type": "MODULE",
+      "file": "src/Core/Core.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Clients",
+        "Data",
+        "ExceptionHandling",
+        "MailDelivery",
+        "Push.Infrastructure",
+        "SerilogFileLogging",
+        "SsrfProtection"
+      ]
+    },
+    {
+      "name": "Events",
+      "type": "MODULE",
+      "file": "src/Events/Events.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "SharedWeb"
+      ]
+    },
+    {
+      "name": "EventsProcessor",
+      "type": "MODULE",
+      "file": "src/EventsProcessor/EventsProcessor.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "SharedWeb"
+      ]
+    },
+    {
+      "name": "HttpExtensions",
+      "type": "MODULE",
+      "file": "src/HttpExtensions/HttpExtensions.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Icons",
+      "type": "MODULE",
+      "file": "src/Icons/Icons.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GlobalSettingsBridge",
+        "SerilogFileLogging",
+        "SsrfProtection"
+      ]
+    },
+    {
+      "name": "Identity",
+      "type": "MODULE",
+      "file": "src/Identity/Identity.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Pam.Domain",
+        "SharedWeb",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Infrastructure.Dapper",
+      "type": "MODULE",
+      "file": "src/Infrastructure.Dapper/Infrastructure.Dapper.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Pam.Domain"
+      ]
+    },
+    {
+      "name": "Infrastructure.EntityFramework",
+      "type": "MODULE",
+      "file": "src/Infrastructure.EntityFramework/Infrastructure.EntityFramework.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Pam.Domain"
+      ]
+    },
+    {
+      "name": "Clients",
+      "type": "MODULE",
+      "file": "src/Libraries/Clients/Clients.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CurrentUser",
+      "type": "MODULE",
+      "file": "src/Libraries/CurrentUser/CurrentUser.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Data",
+      "type": "MODULE",
+      "file": "src/Libraries/Data/Data.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ExceptionHandling",
+      "type": "MODULE",
+      "file": "src/Libraries/ExceptionHandling/ExceptionHandling.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "HttpExtensions"
+      ]
+    },
+    {
+      "name": "GlobalSettingsBridge",
+      "type": "MODULE",
+      "file": "src/Libraries/GlobalSettingsBridge/GlobalSettingsBridge.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Invoicing",
+      "type": "MODULE",
+      "file": "src/Libraries/Invoicing/Invoicing.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core"
+      ]
+    },
+    {
+      "name": "MailDelivery",
+      "type": "MODULE",
+      "file": "src/Libraries/MailDelivery/MailDelivery.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationAuthorization",
+      "type": "MODULE",
+      "file": "src/Libraries/OrganizationAuthorization/OrganizationAuthorization.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "CurrentUser"
+      ]
+    },
+    {
+      "name": "OrganizationKeys",
+      "type": "MODULE",
+      "file": "src/Libraries/OrganizationKeys/OrganizationKeys.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "CurrentUser",
+        "ExceptionHandling",
+        "OrganizationAuthorization"
+      ]
+    },
+    {
+      "name": "Push.Infrastructure",
+      "type": "MODULE",
+      "file": "src/Libraries/Push.Infrastructure/Push.Infrastructure.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SerilogFileLogging",
+      "type": "MODULE",
+      "file": "src/Libraries/SerilogFileLogging/SerilogFileLogging.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SsrfProtection",
+      "type": "MODULE",
+      "file": "src/Libraries/SsrfProtection/SsrfProtection.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Subscriptions.Organization",
+      "type": "MODULE",
+      "file": "src/Libraries/Subscriptions.Organization/Subscriptions.Organization.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "ExceptionHandling",
+        "Invoicing",
+        "OrganizationAuthorization"
+      ]
+    },
+    {
+      "name": "Subscriptions.User",
+      "type": "MODULE",
+      "file": "src/Libraries/Subscriptions.User/Subscriptions.User.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "ExceptionHandling",
+        "Invoicing"
+      ]
+    },
+    {
+      "name": "Notifications",
+      "type": "MODULE",
+      "file": "src/Notifications/Notifications.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Clients",
+        "GlobalSettingsBridge",
+        "Push.Infrastructure",
+        "SerilogFileLogging"
+      ]
+    },
+    {
+      "name": "Pam.Domain",
+      "type": "MODULE",
+      "file": "src/Pam.Domain/Pam.Domain.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Data"
+      ]
+    },
+    {
+      "name": "SharedWeb",
+      "type": "MODULE",
+      "file": "src/SharedWeb/SharedWeb.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.Dapper",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "Admin.Test",
+      "type": "MODULE",
+      "file": "test/Admin.Test/Admin.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Admin",
+        "Common"
+      ]
+    },
+    {
+      "name": "Api.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Api.IntegrationTest/Api.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Api",
+        "IntegrationTestCommon",
+        "Seeder"
+      ]
+    },
+    {
+      "name": "Api.Test",
+      "type": "MODULE",
+      "file": "test/Api.Test/Api.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Api",
+        "Common",
+        "Core",
+        "Core.Test"
+      ]
+    },
+    {
+      "name": "Billing.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Billing.IntegrationTest/Billing.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Admin",
+        "Api.IntegrationTest",
+        "Billing",
+        "Common"
+      ]
+    },
+    {
+      "name": "Billing.Test",
+      "type": "MODULE",
+      "file": "test/Billing.Test/Billing.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Billing",
+        "Common",
+        "Core.Test"
+      ]
+    },
+    {
+      "name": "Common",
+      "type": "MODULE",
+      "file": "test/Common/Common.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core"
+      ]
+    },
+    {
+      "name": "Core.Test",
+      "type": "MODULE",
+      "file": "test/Core.Test/Core.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core"
+      ]
+    },
+    {
+      "name": "Events.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Events.IntegrationTest/Events.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Events",
+        "IntegrationTestCommon"
+      ]
+    },
+    {
+      "name": "Events.Test",
+      "type": "MODULE",
+      "file": "test/Events.Test/Events.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core",
+        "Events"
+      ]
+    },
+    {
+      "name": "EventsProcessor.Test",
+      "type": "MODULE",
+      "file": "test/EventsProcessor.Test/EventsProcessor.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventsProcessor"
+      ]
+    },
+    {
+      "name": "HttpExtensions.Test",
+      "type": "MODULE",
+      "file": "test/HttpExtensions.Test/HttpExtensions.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "HttpExtensions"
+      ]
+    },
+    {
+      "name": "Icons.Test",
+      "type": "MODULE",
+      "file": "test/Icons.Test/Icons.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Icons"
+      ]
+    },
+    {
+      "name": "Identity.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Identity.IntegrationTest/Identity.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core.Test",
+        "Identity",
+        "IntegrationTestCommon"
+      ]
+    },
+    {
+      "name": "Identity.Test",
+      "type": "MODULE",
+      "file": "test/Identity.Test/Identity.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core",
+        "Identity"
+      ]
+    },
+    {
+      "name": "Infrastructure.Dapper.Test",
+      "type": "MODULE",
+      "file": "test/Infrastructure.Dapper.Test/Infrastructure.Dapper.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Infrastructure.Dapper"
+      ]
+    },
+    {
+      "name": "Infrastructure.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Infrastructure.IntegrationTest/Infrastructure.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Infrastructure.Dapper",
+        "Infrastructure.EntityFramework",
+        "Migrator",
+        "MySqlMigrations",
+        "PostgresMigrations",
+        "SqliteMigrations"
+      ]
+    },
+    {
+      "name": "IntegrationTestCommon",
+      "type": "MODULE",
+      "file": "test/IntegrationTestCommon/IntegrationTestCommon.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Identity",
+        "Migrator",
+        "Seeder"
+      ]
+    },
+    {
+      "name": "CurrentUser.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/CurrentUser.Test/CurrentUser.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CurrentUser"
+      ]
+    },
+    {
+      "name": "Data.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/Data.Test/Data.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Data"
+      ]
+    },
+    {
+      "name": "ExceptionHandling.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/ExceptionHandling.Test/ExceptionHandling.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ExceptionHandling"
+      ]
+    },
+    {
+      "name": "GlobalSettingsBridge.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/GlobalSettingsBridge.Test/GlobalSettingsBridge.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GlobalSettingsBridge"
+      ]
+    },
+    {
+      "name": "Invoicing.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/Invoicing.Test/Invoicing.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Invoicing"
+      ]
+    },
+    {
+      "name": "MailDelivery.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/MailDelivery.Test/MailDelivery.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GlobalSettingsBridge",
+        "MailDelivery"
+      ]
+    },
+    {
+      "name": "OrganizationAuthorization.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/OrganizationAuthorization.Test/OrganizationAuthorization.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core.Test",
+        "OrganizationAuthorization"
+      ]
+    },
+    {
+      "name": "OrganizationKeys.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/OrganizationKeys.Test/OrganizationKeys.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationKeys"
+      ]
+    },
+    {
+      "name": "SerilogFileLogging.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/SerilogFileLogging.Test/SerilogFileLogging.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SerilogFileLogging"
+      ]
+    },
+    {
+      "name": "SsrfProtection.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/SsrfProtection.Test/SsrfProtection.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsrfProtection"
+      ]
+    },
+    {
+      "name": "Subscriptions.Organization.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/Subscriptions.Organization.Test/Subscriptions.Organization.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Subscriptions.Organization"
+      ]
+    },
+    {
+      "name": "Subscriptions.User.Test",
+      "type": "MODULE",
+      "file": "test/Libraries/Subscriptions.User.Test/Subscriptions.User.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Subscriptions.User"
+      ]
+    },
+    {
+      "name": "Migrator.Test",
+      "type": "MODULE",
+      "file": "test/Migrator.Test/Migrator.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Migrator"
+      ]
+    },
+    {
+      "name": "Notifications.Test",
+      "type": "MODULE",
+      "file": "test/Notifications.Test/Notifications.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Common",
+        "Core.Test",
+        "IntegrationTestCommon",
+        "Notifications"
+      ]
+    },
+    {
+      "name": "SeederApi.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/SeederApi.IntegrationTest/SeederApi.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "IntegrationTestCommon",
+        "Seeder",
+        "SeederApi",
+        "SeederUtility"
+      ]
+    },
+    {
+      "name": "Server.IntegrationTest",
+      "type": "MODULE",
+      "file": "test/Server.IntegrationTest/Server.IntegrationTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Server"
+      ]
+    },
+    {
+      "name": "Setup.Test",
+      "type": "MODULE",
+      "file": "test/Setup.Test/Setup.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Setup"
+      ]
+    },
+    {
+      "name": "SharedWeb.Test",
+      "type": "MODULE",
+      "file": "test/SharedWeb.Test/SharedWeb.Test.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GlobalSettingsBridge",
+        "SharedWeb"
+      ]
+    },
+    {
+      "name": "Migrator",
+      "type": "MODULE",
+      "file": "util/Migrator/Migrator.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core"
+      ]
+    },
+    {
+      "name": "MsSqlMigratorUtility",
+      "type": "MODULE",
+      "file": "util/MsSqlMigratorUtility/MsSqlMigratorUtility.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Migrator"
+      ]
+    },
+    {
+      "name": "MySqlMigrations",
+      "type": "MODULE",
+      "file": "util/MySqlMigrations/MySqlMigrations.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "PostgresMigrations",
+      "type": "MODULE",
+      "file": "util/PostgresMigrations/PostgresMigrations.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "RustSdk",
+      "type": "MODULE",
+      "file": "util/RustSdk/RustSdk.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Seeder",
+      "type": "MODULE",
+      "file": "util/Seeder/Seeder.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.EntityFramework",
+        "RustSdk",
+        "SharedWeb"
+      ]
+    },
+    {
+      "name": "SeederApi",
+      "type": "MODULE",
+      "file": "util/SeederApi/SeederApi.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Commercial.Infrastructure.EntityFramework",
+        "Core",
+        "Seeder",
+        "SharedWeb"
+      ]
+    },
+    {
+      "name": "SeederUtility",
+      "type": "MODULE",
+      "file": "util/SeederUtility/SeederUtility.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Seeder"
+      ]
+    },
+    {
+      "name": "Server",
+      "type": "MODULE",
+      "file": "util/Server/Server.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Setup",
+      "type": "MODULE",
+      "file": "util/Setup/Setup.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Migrator"
+      ]
+    },
+    {
+      "name": "SqlServerEFScaffold",
+      "type": "MODULE",
+      "file": "util/SqlServerEFScaffold/SqlServerEFScaffold.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Api",
+        "Core",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "SqliteMigrations",
+      "type": "MODULE",
+      "file": "util/SqliteMigrations/SqliteMigrations.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Core",
+        "Infrastructure.EntityFramework"
+      ]
+    },
+    {
+      "name": "ProviderBillingService",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/Billing/Providers/Services/ProviderBillingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "OrganizationRepository",
+        "ProviderInvoiceItemRepository",
+        "ProviderOrganizationRepository",
+        "ProviderPlanRepository",
+        "ProviderUserRepository",
+        "SubscriberService",
+        "TaxService"
+      ]
+    },
+    {
+      "name": "ProviderService",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/Providers/Services/ProviderService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "OrganizationRepository",
+        "OrganizationService",
+        "ProviderBillingService",
+        "ProviderOrganizationRepository",
+        "ProviderRepository",
+        "ProviderUserRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ProjectPeopleAccessPoliciesAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/AccessPolicies/ProjectPeopleAccessPoliciesAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository"
+      ]
+    },
+    {
+      "name": "ProjectServiceAccountsAccessPoliciesAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/AccessPolicies/ProjectServiceAccountsAccessPoliciesAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository",
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "SecretAccessPoliciesUpdatesAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/AccessPolicies/SecretAccessPoliciesUpdatesAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SecretRepository",
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "ServiceAccountGrantedPoliciesAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/AccessPolicies/ServiceAccountGrantedPoliciesAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository",
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "ServiceAccountPeopleAccessPoliciesAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/AccessPolicies/ServiceAccountPeopleAccessPoliciesAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "ProjectAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/Projects/ProjectAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository"
+      ]
+    },
+    {
+      "name": "BulkSecretAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/Secrets/BulkSecretAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SecretRepository"
+      ]
+    },
+    {
+      "name": "SecretAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/Secrets/SecretAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository",
+        "SecretRepository"
+      ]
+    },
+    {
+      "name": "ServiceAccountAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Commercial.Core/SecretsManager/AuthorizationHandlers/ServiceAccounts/ServiceAccountAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "AccessPolicyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/SecretsManager/Repositories/AccessPolicyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository",
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "ProjectRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/SecretsManager/Repositories/ProjectRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SecretRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/SecretsManager/Repositories/SecretRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "SecretVersionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/SecretsManager/Repositories/SecretVersionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository",
+        "SecretRepository"
+      ]
+    },
+    {
+      "name": "ServiceAccountRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "bitwarden_license/src/Commercial.Infrastructure.EntityFramework/SecretsManager/Repositories/ServiceAccountRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Scim/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ScimConfigurationController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Scim/Controllers/ScimConfigurationController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GroupsController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Scim/Controllers/v2/GroupsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GroupRepository",
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "UsersController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Scim/Controllers/v2/UsersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "ApiKeyAuthenticationHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Scim/Utilities/ApiKeyAuthenticationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationApiKeyRepository"
+      ]
+    },
+    {
+      "name": "AccessConnectorEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Api/Endpoints/Handlers/AccessConnectorEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "PamLeaseExpirySweepService",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Jobs/PamLeaseExpirySweepService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessLeaseRepository"
+      ]
+    },
+    {
+      "name": "PamRotationSweepService",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Jobs/PamRotationSweepService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PamRotationConfigRepository",
+        "PamRotationJobRepository"
+      ]
+    },
+    {
+      "name": "RotationAttemptEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Rotation/Api/Endpoints/Handlers/RotationAttemptEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RotationConfigEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Rotation/Api/Endpoints/Handlers/RotationConfigEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PamRotationConfigRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "RotationJobEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Rotation/Api/Endpoints/Handlers/RotationJobEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PamRotationJobRepository"
+      ]
+    },
+    {
+      "name": "TargetSystemEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/AccessConnector/Rotation/Api/Endpoints/Handlers/TargetSystemEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PamTargetSystemRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AccessRequestEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/Api/Endpoints/Handlers/AccessRequestEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "AccessRuleEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/Api/Endpoints/Handlers/AccessRuleEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessRuleRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AuditEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/Api/Endpoints/Handlers/AuditEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CipherLeaseEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/Api/Endpoints/Handlers/CipherLeaseEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "LeaseEndpointsHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/src/Services/Pam/Api/Endpoints/Handlers/LeaseEndpointsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessLeaseRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AccountController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Sso/Controllers/AccountController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "I18nService",
+        "OrganizationDomainRepository",
+        "OrganizationRepository",
+        "OrganizationService",
+        "OrganizationUserRepository",
+        "SsoConfigRepository",
+        "SsoUserRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "HomeController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Sso/Controllers/HomeController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Sso/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MetadataController",
+      "type": "API_ROUTE",
+      "file": "bitwarden_license/src/Sso/Controllers/MetadataController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RecordingHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/test/SSO.Test/Utilities/DynamicAuthenticationSchemeProviderTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsoConfigRepository"
+      ]
+    },
+    {
+      "name": "TestAuthHandler",
+      "type": "SERVICE",
+      "file": "bitwarden_license/test/Scim.IntegrationTest/Factories/ScimApplicationFactory.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "NoopMailService"
+      ]
+    },
+    {
+      "name": "SignalingMailDeliveryService",
+      "type": "SERVICE",
+      "file": "bitwarden_license/test/Sso.IntegrationTest/Endpoints/Saml2AssertionKeyTransportAlgorithmVerificationTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "NoopMailDeliveryService",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "OrganizationsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/AdminConsole/Controllers/OrganizationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessControlService",
+        "AutomaticUserConfirmationOrganizationPolicyComplianceHandler",
+        "CipherRepository",
+        "CollectionRepository",
+        "EventService",
+        "GroupRepository",
+        "OrganizationBillingService",
+        "OrganizationConnectionRepository",
+        "OrganizationPlanMigrationCohortAssignmentRepository",
+        "OrganizationPlanMigrationCohortRepository",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "PolicyRepository",
+        "ProjectRepository",
+        "ProviderBillingService",
+        "ProviderOrganizationRepository",
+        "ProviderRepository",
+        "SecretRepository",
+        "ServiceAccountRepository",
+        "StripePaymentService",
+        "SubscriberService"
+      ]
+    },
+    {
+      "name": "LoginController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Auth/Controllers/LoginController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SalesAssistedTrialController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Auth/Controllers/SalesAssistedTrialController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationsController"
+      ]
+    },
+    {
+      "name": "BusinessUnitConversionController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Billing/Controllers/BusinessUnitConversionController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderRepository",
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortAssignmentsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Billing/Controllers/OrganizationPlanMigrationCohortAssignmentsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Billing/Controllers/OrganizationPlanMigrationCohortsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationPlanMigrationCohortRepository"
+      ]
+    },
+    {
+      "name": "OrganizationTrialController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Billing/Controllers/OrganizationTrialController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "SubscriptionDiscountsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Billing/Controllers/SubscriptionDiscountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SubscriptionDiscountRepository"
+      ]
+    },
+    {
+      "name": "ErrorController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Controllers/ErrorController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HomeController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Controllers/HomeController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ToolsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Controllers/ToolsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InstallationRepository",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "ProviderUserRepository",
+        "TransactionRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "UsersController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Controllers/UsersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessControlService",
+        "CipherRepository",
+        "OrganizationUserRepository",
+        "StripePaymentService",
+        "SubscriberService",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AzureQueueMailHostedService",
+      "type": "SERVICE",
+      "file": "src/Admin/HostedServices/AzureQueueMailHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DatabaseMigrationHostedService",
+      "type": "SERVICE",
+      "file": "src/Admin/HostedServices/DatabaseMigrationHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JobsHostedService",
+      "type": "SERVICE",
+      "file": "src/Admin/Jobs/JobsHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJobsHostedService",
+        "EventsCleanupOrganizationDeleteTaskHandler"
+      ]
+    },
+    {
+      "name": "ProviderOrganizationsController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Providers/Controllers/ProviderOrganizationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderOrganizationRepository",
+        "ProviderRepository"
+      ]
+    },
+    {
+      "name": "ProvidersController",
+      "type": "API_ROUTE",
+      "file": "src/Admin/Providers/Controllers/ProvidersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessControlService",
+        "OrganizationRepository",
+        "ProviderBillingService",
+        "ProviderOrganizationRepository",
+        "ProviderPlanRepository",
+        "ProviderRepository",
+        "ProviderService",
+        "ProviderUserRepository",
+        "SubscriberService"
+      ]
+    },
+    {
+      "name": "AccessControlService",
+      "type": "SERVICE",
+      "file": "src/Admin/Services/AccessControlService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BulkCollectionAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Api/AdminConsole/Authorization/Collections/BulkCollectionAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BulkAuthorizationHandler",
+        "CollectionRepository"
+      ]
+    },
+    {
+      "name": "CollectionAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Api/AdminConsole/Authorization/Collections/CollectionAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseAdminConsoleController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/BaseAdminConsoleController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CollectionsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/CollectionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository",
+        "ProviderService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "GroupsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/GroupsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository",
+        "GroupRepository",
+        "GroupService",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationAuthRequestsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationAuthRequestsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AuthRequestRepository",
+        "AuthRequestService"
+      ]
+    },
+    {
+      "name": "OrganizationConnectionsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationConnectionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService",
+        "OrganizationConnectionRepository"
+      ]
+    },
+    {
+      "name": "OrganizationDomainController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationDomainController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationDomainRepository",
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "OrganizationInviteLinksController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationInviteLinksController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseAdminConsoleController"
+      ]
+    },
+    {
+      "name": "OrganizationUsersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationUsersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseAdminConsoleController",
+        "CollectionRepository",
+        "GroupRepository",
+        "OrganizationRepository",
+        "OrganizationService",
+        "OrganizationUserRepository",
+        "SsoConfigRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/OrganizationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationApiKeyRepository",
+        "OrganizationRepository",
+        "OrganizationService",
+        "OrganizationUserRepository",
+        "ProviderBillingService",
+        "ProviderRepository",
+        "SsoConfigRepository",
+        "SsoConfigService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "PoliciesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Controllers/PoliciesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository",
+        "PolicyRepository"
+      ]
+    },
+    {
+      "name": "CollectionsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Public/Controllers/CollectionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository"
+      ]
+    },
+    {
+      "name": "GroupsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Public/Controllers/GroupsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GroupRepository",
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "MembersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Public/Controllers/MembersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseAdminConsoleController",
+        "GroupRepository",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "StripePaymentService"
+      ]
+    },
+    {
+      "name": "OrganizationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Public/Controllers/OrganizationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationService"
+      ]
+    },
+    {
+      "name": "PoliciesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/AdminConsole/Public/Controllers/PoliciesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PolicyRepository"
+      ]
+    },
+    {
+      "name": "AccountsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/AccountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationService",
+        "OrganizationUserRepository",
+        "ProviderUserRepository",
+        "TwoFactorEmailService",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AuthRequestsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/AuthRequestsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AuthRequestRepository",
+        "AuthRequestService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "EmergencyAccessController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/EmergencyAccessController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EmergencyAccessRepository",
+        "EmergencyAccessService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SsoJitProvisionFinishController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/SsoJitProvisionFinishController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccountsController",
+        "UserService"
+      ]
+    },
+    {
+      "name": "TwoFactorController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/TwoFactorController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AuthRequestRepository",
+        "DuoUniversalTokenService",
+        "OrganizationRepository",
+        "OrganizationService",
+        "TwoFactorEmailService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "WebAuthnController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Auth/Controllers/WebAuthnController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService",
+        "WebAuthnCredentialRepository"
+      ]
+    },
+    {
+      "name": "AccountsBillingController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/AccountsBillingController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccountBillingVNextController",
+        "PaymentHistoryService",
+        "StripePaymentService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AccountsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/AccountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccountBillingVNextController",
+        "SubscriberService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "BaseBillingController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/BaseBillingController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseProviderController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/BaseProviderController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController",
+        "ProviderRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "LicensesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/LicensesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationBillingController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/OrganizationBillingController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController",
+        "OrganizationBillingService",
+        "OrganizationBillingVNextController",
+        "OrganizationRepository",
+        "PaymentHistoryService",
+        "StripePaymentService"
+      ]
+    },
+    {
+      "name": "OrganizationSponsorshipsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/OrganizationSponsorshipsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationSponsorshipRepository",
+        "OrganizationUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/OrganizationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService",
+        "OrganizationInstallationRepository",
+        "OrganizationRepository",
+        "OrganizationService",
+        "OrganizationUserRepository",
+        "StripePaymentService",
+        "SubscriberService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "PlansController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/PlansController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProviderBillingController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/ProviderBillingController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseProviderController",
+        "ProviderBillingService",
+        "ProviderBillingVNextController",
+        "ProviderPlanRepository",
+        "ProviderRepository",
+        "SubscriberService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "StripeController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/StripeController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TaxService"
+      ]
+    },
+    {
+      "name": "AccountBillingVNextController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/VNext/AccountBillingVNextController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController"
+      ]
+    },
+    {
+      "name": "OrganizationBillingVNextController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/VNext/OrganizationBillingVNextController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController"
+      ]
+    },
+    {
+      "name": "ProviderBillingVNextController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/VNext/ProviderBillingVNextController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController",
+        "ProviderService"
+      ]
+    },
+    {
+      "name": "SelfHostedAccountBillingVNextController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/VNext/SelfHostedAccountBillingVNextController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController"
+      ]
+    },
+    {
+      "name": "SelfHostedOrganizationBillingVNextController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Controllers/VNext/SelfHostedOrganizationBillingVNextController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController"
+      ]
+    },
+    {
+      "name": "OrganizationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Billing/Public/Controllers/OrganizationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationService"
+      ]
+    },
+    {
+      "name": "ConfigController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/ConfigController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DevicesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/DevicesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DeviceRepository",
+        "DeviceService",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SelfHostedOrganizationLicensesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/SelfHosted/SelfHostedOrganizationLicensesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationConnectionRepository",
+        "OrganizationRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SelfHostedOrganizationSponsorshipsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/SelfHosted/SelfHostedOrganizationSponsorshipsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationSponsorshipRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "SettingsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Controllers/SettingsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "EventsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/EventsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "EventRepository",
+        "OrganizationUserRepository",
+        "ProjectRepository",
+        "ProviderUserRepository",
+        "SecretRepository",
+        "ServiceAccountRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "HibpController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/HibpController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationIntegrationConfigurationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/OrganizationIntegrationConfigurationController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationIntegrationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/OrganizationIntegrationController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationReportsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/OrganizationReportsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureOrganizationReportStorageService",
+        "OrganizationReportRepository"
+      ]
+    },
+    {
+      "name": "ReportsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/ReportsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SlackIntegrationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/SlackIntegrationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationIntegrationRepository",
+        "SlackService"
+      ]
+    },
+    {
+      "name": "TeamsIntegrationController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Controllers/TeamsIntegrationController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationIntegrationRepository",
+        "TeamsService"
+      ]
+    },
+    {
+      "name": "EventsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Dirt/Public/Controllers/EventsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "EventRepository",
+        "ProjectRepository",
+        "SecretRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "JobsHostedService",
+      "type": "SERVICE",
+      "file": "src/Api/Jobs/JobsHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJobsHostedService"
+      ]
+    },
+    {
+      "name": "AccountsKeyManagementController",
+      "type": "API_ROUTE",
+      "file": "src/Api/KeyManagement/Controllers/AccountsKeyManagementController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EmergencyAccessRepository",
+        "OrganizationUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationUsersKeysController",
+      "type": "API_ROUTE",
+      "file": "src/Api/KeyManagement/Controllers/OrganizationUsersKeysController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserKeyRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "UsersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/KeyManagement/Controllers/UsersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "NotificationsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/NotificationCenter/Controllers/NotificationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "InstallationsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Platform/Installations/Controllers/InstallationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InstallationRepository"
+      ]
+    },
+    {
+      "name": "PushController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Platform/Push/Controllers/PushController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SsoCookieVendorController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Platform/SsoCookieVendor/Controllers/SsoCookieVendorController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ProviderClientsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Providers/Controllers/ProviderClientsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseAdminConsoleController",
+        "OrganizationRepository",
+        "ProviderBillingService",
+        "ProviderOrganizationRepository",
+        "ProviderRepository",
+        "ProviderService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ProviderOrganizationsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Providers/Controllers/ProviderOrganizationsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderOrganizationRepository",
+        "ProviderRepository",
+        "ProviderService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ProviderUsersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Providers/Controllers/ProviderUsersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderService",
+        "ProviderUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ProvidersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Providers/Controllers/ProvidersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderBillingService",
+        "ProviderRepository",
+        "ProviderService",
+        "UserService"
+      ]
+    },
+    {
+      "name": "AccessPoliciesController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/AccessPoliciesController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessPolicyRepository",
+        "EventService",
+        "ProjectRepository",
+        "SecretRepository",
+        "ServiceAccountRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "CountsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/CountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository",
+        "SecretRepository",
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "ProjectsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/ProjectsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "ProjectRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "RequestSMAccessController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/RequestSMAccessController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SecretVersionsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/SecretVersionsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "SecretRepository",
+        "SecretVersionRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SecretsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/SecretsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "ProjectRepository",
+        "SecretRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SecretsManagerEventsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/SecretsManagerEventsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventRepository",
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "SecretsManagerPortingController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/SecretsManagerPortingController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository",
+        "SecretRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "TrashController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/SecretsTrashController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "SecretRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ServiceAccountsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/SecretsManager/Controllers/ServiceAccountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ApiKeyRepository",
+        "EventService",
+        "OrganizationRepository",
+        "ServiceAccountRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "VaultExportAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Api/Tools/Authorization/VaultExportAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ImportCiphersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Tools/Controllers/ImportCiphersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository",
+        "Repository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "OrganizationExportController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Tools/Controllers/OrganizationExportController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SendsController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Tools/Controllers/SendsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureSendFileStorageService",
+        "EventService",
+        "SendAuthorizationService",
+        "SendRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "CiphersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Vault/Controllers/CiphersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureAttachmentStorageService",
+        "BulkCollectionAuthorizationHandler",
+        "CipherRepository",
+        "CipherService",
+        "CollectionCipherRepository",
+        "CollectionRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "FoldersController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Vault/Controllers/FoldersController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherService",
+        "FolderRepository"
+      ]
+    },
+    {
+      "name": "SecurityTaskController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Vault/Controllers/SecurityTaskController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "SyncController",
+      "type": "API_ROUTE",
+      "file": "src/Api/Vault/Controllers/SyncController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "CollectionCipherRepository",
+        "CollectionRepository",
+        "FolderRepository",
+        "OrganizationUserRepository",
+        "PolicyRepository",
+        "ProviderUserRepository",
+        "SendRepository",
+        "UserService",
+        "WebAuthnCredentialRepository"
+      ]
+    },
+    {
+      "name": "AppleController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/AppleController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BitPayController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/BitPayController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "PremiumUserBillingService",
+        "ProviderRepository",
+        "StripePaymentService",
+        "TransactionRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JobsController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/JobsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JobsHostedService"
+      ]
+    },
+    {
+      "name": "PayPalController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/PayPalController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "PremiumUserBillingService",
+        "ProviderRepository",
+        "StripePaymentService",
+        "TransactionRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "StripeController",
+      "type": "API_ROUTE",
+      "file": "src/Billing/Controllers/StripeController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StripeEventService"
+      ]
+    },
+    {
+      "name": "JobsHostedService",
+      "type": "SERVICE",
+      "file": "src/Billing/Jobs/JobsHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJobsHostedService"
+      ]
+    },
+    {
+      "name": "ChargeRefundedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/ChargeRefundedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "TransactionRepository"
+      ]
+    },
+    {
+      "name": "ChargeSucceededHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/ChargeSucceededHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "TransactionRepository"
+      ]
+    },
+    {
+      "name": "CheckoutSessionCompletedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/CheckoutSessionCompletedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "CouponDeletedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/CouponDeletedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SubscriptionDiscountRepository"
+      ]
+    },
+    {
+      "name": "CustomerUpdatedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/CustomerUpdatedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "StripeEventService",
+        "StripeEventUtilityService"
+      ]
+    },
+    {
+      "name": "InvoiceCreatedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/InvoiceCreatedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BraintreeService",
+        "ProviderEventService",
+        "StripeEventService"
+      ]
+    },
+    {
+      "name": "InvoiceFinalizedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/InvoiceFinalizedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderEventService"
+      ]
+    },
+    {
+      "name": "PaymentFailedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/PaymentFailedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "UpcomingInvoiceHandler"
+      ]
+    },
+    {
+      "name": "PaymentMethodAttachedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/PaymentMethodAttachedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderRepository",
+        "StripeEventService",
+        "StripeEventUtilityService"
+      ]
+    },
+    {
+      "name": "PaymentSucceededHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/PaymentSucceededHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderRepository",
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "UpcomingInvoiceHandler",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ProviderEventService",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/ProviderEventService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderInvoiceItemRepository",
+        "ProviderOrganizationRepository",
+        "ProviderPlanRepository",
+        "StripeEventService"
+      ]
+    },
+    {
+      "name": "SetupIntentSucceededHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/SetupIntentSucceededHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderRepository",
+        "StripeEventService"
+      ]
+    },
+    {
+      "name": "StripeEventService",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/StripeEventService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StripeEventUtilityService",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/StripeEventUtilityService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TransactionRepository"
+      ]
+    },
+    {
+      "name": "SubscriptionDeletedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/SubscriptionDeletedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderRepository",
+        "ProviderService",
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "SubscriptionUpdatedHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/SubscriptionUpdatedHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationPlanMigrationCohortAssignmentRepository",
+        "OrganizationPlanMigrationCohortRepository",
+        "OrganizationRepository",
+        "OrganizationService",
+        "ProviderRepository",
+        "ProviderService",
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "SubscriptionDeletedHandler",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "UpcomingInvoiceHandler",
+      "type": "SERVICE",
+      "file": "src/Billing/Services/Implementations/UpcomingInvoiceHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderRepository",
+        "StripeEventService",
+        "StripeEventUtilityService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "ExtendedOrganizationAbilityCacheService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/AbilitiesCache/ExtendedOrganizationAbilityCacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "InviteLinkValidationService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/InviteLinks/InviteLinkValidationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "JoinOrganizationPolicyValidationService",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "OrganizationUserValidationService"
+      ]
+    },
+    {
+      "name": "OrganizationUserUserDetailsAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/OrganizationUsers/Authorization/OrganizationUserUserDetailsAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationUserValidationService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/OrganizationUsers/OrganizationUserAction/OrganizationUserValidationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "AutomaticUserConfirmationOrganizationPolicyComplianceHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/Enforcement/AutoConfirm/AutomaticUserConfirmationOrganizationPolicyComplianceHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository",
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "AutomaticUserConfirmationPolicyEnforcementHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/Enforcement/AutoConfirm/AutomaticUserConfirmationPolicyEnforcementHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "JoinOrganizationPolicyValidationService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/Implementations/JoinOrganizationPolicyValidationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository",
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "AutomaticUserConfirmationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/AutomaticUserConfirmationPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AutomaticUserConfirmationOrganizationPolicyComplianceHandler",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "BlockClaimedDomainAccountCreationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/BlockClaimedDomainAccountCreationPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FillAssistPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/FillAssistPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "FreeFamiliesForEnterprisePolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/FreeFamiliesForEnterprisePolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationSponsorshipRepository"
+      ]
+    },
+    {
+      "name": "MaximumVaultTimeoutPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/MaximumVaultTimeoutPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationDataOwnershipPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/OrganizationDataOwnershipPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionRepository",
+        "OrganizationPolicyEventHandler",
+        "PolicyRepository"
+      ]
+    },
+    {
+      "name": "OrganizationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/OrganizationPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PolicyRepository"
+      ]
+    },
+    {
+      "name": "OrganizationUserNotificationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/OrganizationUserNotificationPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RequireSsoPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/RequireSsoPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsoConfigRepository"
+      ]
+    },
+    {
+      "name": "ResetPasswordPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/ResetPasswordPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsoConfigRepository"
+      ]
+    },
+    {
+      "name": "SingleOrgPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/SingleOrgPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "SsoConfigRepository"
+      ]
+    },
+    {
+      "name": "TwoFactorAuthenticationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/TwoFactorAuthenticationPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "UriMatchDefaultPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/UriMatchDefaultPolicyEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GroupService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/Services/Implementations/GroupService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "GroupRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "OrganizationDomainService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/Services/Implementations/OrganizationDomainService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "OrganizationDomainRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "OrganizationService",
+      "type": "SERVICE",
+      "file": "src/Core/AdminConsole/Services/Implementations/OrganizationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "ProviderOrganizationRepository",
+        "ProviderRepository",
+        "ProviderUserRepository",
+        "SsoUserRepository",
+        "StripePaymentService"
+      ]
+    },
+    {
+      "name": "DuoUniversalTokenService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/Identity/TokenProviders/DuoUniversalTokenService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GrantRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/Auth/Repositories/Cosmos/GrantRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AuthRequestService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/Services/Implementations/AuthRequestService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AuthRequestRepository",
+        "DeviceRepository",
+        "EventService",
+        "OrganizationUserRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "SsoConfigService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/Services/Implementations/SsoConfigService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "SsoConfigRepository"
+      ]
+    },
+    {
+      "name": "TwoFactorEmailService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/Services/Implementations/TwoFactorEmailService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeviceLastActivityCacheService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/UserFeatures/Devices/DeviceLastActivityCacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EmergencyAccessService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/UserFeatures/EmergencyAccess/EmergencyAccessService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "CipherService",
+        "EmergencyAccessRepository",
+        "MasterPasswordService",
+        "OrganizationUserRepository",
+        "PolicyRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "MasterPasswordService",
+      "type": "SERVICE",
+      "file": "src/Core/Auth/UserFeatures/UserMasterPassword/MasterPasswordService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "BusinessPlanRenewalNotificationService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Organizations/PlanMigration/Services/BusinessPlanRenewalNotificationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "OrganizationBillingService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Organizations/Services/OrganizationBillingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "SubscriberService",
+        "SubscriptionDiscountService",
+        "TaxService"
+      ]
+    },
+    {
+      "name": "LicensingService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/LicensingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "PaymentHistoryService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/PaymentHistoryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TransactionRepository"
+      ]
+    },
+    {
+      "name": "PremiumUserBillingService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/PremiumUserBillingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SubscriberService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "StripePaymentService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/StripePaymentService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationService",
+        "TransactionRepository"
+      ]
+    },
+    {
+      "name": "StripeSyncService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/StripeSyncService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SubscriberService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/SubscriberService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "ProviderRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "SubscriptionDiscountService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/Implementations/SubscriptionDiscountService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SubscriptionDiscountRepository"
+      ]
+    },
+    {
+      "name": "NoopLicensingService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Services/NoopImplementations/NoopLicensingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService"
+      ]
+    },
+    {
+      "name": "TaxService",
+      "type": "SERVICE",
+      "file": "src/Core/Billing/Tax/Services/Implementations/TaxService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureOrganizationReportStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Reports/Services/AzureOrganizationReportStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LocalOrganizationReportStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Reports/Services/LocalOrganizationReportStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopOrganizationReportStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Reports/Services/NoopOrganizationReportStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/Dirt/Repositories/TableStorage/EventRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureQueueEventWriteService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/AzureQueueEventWriteService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureQueueService"
+      ]
+    },
+    {
+      "name": "AzureServiceBusEventListenerService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/AzureServiceBusEventListenerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureServiceBusService",
+        "EventLoggingListenerService"
+      ]
+    },
+    {
+      "name": "AzureServiceBusIntegrationListenerService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/AzureServiceBusIntegrationListenerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureServiceBusService"
+      ]
+    },
+    {
+      "name": "AzureServiceBusService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/AzureServiceBusService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureTableStorageEventHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/AzureTableStorageEventHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DatadogIntegrationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/DatadogIntegrationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventIntegrationEventWriteService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventIntegrationEventWriteService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventIntegrationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventIntegrationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "GroupRepository",
+        "IntegrationFilterService",
+        "OrganizationIntegrationConfigurationRepository",
+        "OrganizationRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "EventLoggingListenerService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventLoggingListenerService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventRepositoryHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventRepositoryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository",
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "EventsCleanupOrganizationDeleteTaskHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/EventsCleanupOrganizationDeleteTaskHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventRepository"
+      ]
+    },
+    {
+      "name": "IntegrationFilterService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/IntegrationFilterService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RabbitMqEventListenerService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/RabbitMqEventListenerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventLoggingListenerService",
+        "RabbitMqService"
+      ]
+    },
+    {
+      "name": "RabbitMqIntegrationListenerService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/RabbitMqIntegrationListenerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "RabbitMqService"
+      ]
+    },
+    {
+      "name": "RabbitMqService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/RabbitMqService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "RepositoryEventWriteService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/RepositoryEventWriteService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventRepository"
+      ]
+    },
+    {
+      "name": "SlackIntegrationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/SlackIntegrationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SlackService"
+      ]
+    },
+    {
+      "name": "SlackService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/SlackService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TeamsIntegrationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/TeamsIntegrationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TeamsService"
+      ]
+    },
+    {
+      "name": "TeamsService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/TeamsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationIntegrationRepository"
+      ]
+    },
+    {
+      "name": "WebhookIntegrationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/Implementations/WebhookIntegrationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopEventService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/NoopImplementations/NoopEventService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService"
+      ]
+    },
+    {
+      "name": "NoopEventWriteService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/NoopImplementations/NoopEventWriteService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopSlackService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/NoopImplementations/NoopSlackService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SlackService"
+      ]
+    },
+    {
+      "name": "NoopTeamsService",
+      "type": "SERVICE",
+      "file": "src/Core/Dirt/Services/NoopImplementations/NoopTeamsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TeamsService"
+      ]
+    },
+    {
+      "name": "IpRateLimitSeedStartupService",
+      "type": "SERVICE",
+      "file": "src/Core/HostedServices/IpRateLimitSeedStartupService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseJobsHostedService",
+      "type": "SERVICE",
+      "file": "src/Core/Jobs/BaseJobsHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "KeyConnectorAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/KeyManagement/Authorization/KeyConnectorAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NotificationAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/NotificationCenter/Authorization/NotificationAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NotificationStatusAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/NotificationCenter/Authorization/NotificationStatusAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureQueueMailService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/Mail/Enqueuing/AzureQueueMailService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureQueueService"
+      ]
+    },
+    {
+      "name": "BlockingMailEnqueuingService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/Mail/Enqueuing/BlockingMailQueueService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HandlebarsMailService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/Mail/HandlebarsMailService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopMailService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/Mail/NoopMailService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MultiServicePushNotificationService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/Push/Engines/MultiServicePushNotificationService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopPushRegistrationService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/PushRegistration/NoopPushRegistrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NotificationHubPushRegistrationService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/PushRegistration/NotificationHubPushRegistrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InstallationDeviceRepository"
+      ]
+    },
+    {
+      "name": "RelayPushRegistrationService",
+      "type": "SERVICE",
+      "file": "src/Core/Platform/PushRegistration/RelayPushRegistrationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseIdentityClientService"
+      ]
+    },
+    {
+      "name": "ExtendedProviderAbilityCacheService",
+      "type": "SERVICE",
+      "file": "src/Core/Providers/AbilitiesCache/ExtendedProviderAbilityCacheService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderRepository"
+      ]
+    },
+    {
+      "name": "NoopProviderService",
+      "type": "SERVICE",
+      "file": "src/Core/Providers/Services/NoopImplementations/NoopProviderService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderService"
+      ]
+    },
+    {
+      "name": "InstallationDeviceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/Repositories/Noop/InstallationDeviceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "InstallationDeviceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/Repositories/TableStorage/InstallationDeviceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopProjectRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/SecretsManager/Repositories/Noop/NoopProjectRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProjectRepository"
+      ]
+    },
+    {
+      "name": "NoopSecretRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/SecretsManager/Repositories/Noop/NoopSecretRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SecretRepository"
+      ]
+    },
+    {
+      "name": "NoopSecretVersionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/SecretsManager/Repositories/Noop/NoopSecretVersionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SecretVersionRepository"
+      ]
+    },
+    {
+      "name": "NoopServiceAccountRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Core/SecretsManager/Repositories/Noop/NoopServiceAccountRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ServiceAccountRepository"
+      ]
+    },
+    {
+      "name": "AzureQueueService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/AzureQueueService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BaseIdentityClientService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/BaseIdentityClientService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BraintreeService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/BraintreeService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeviceService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/DeviceService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DeviceRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "DnsResolverService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/DnsResolverService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "I18nService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/I18nService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Implementations/UserService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventService",
+        "LicensingService",
+        "MasterPasswordService",
+        "OrganizationDomainRepository",
+        "OrganizationRepository",
+        "OrganizationUserRepository",
+        "ProviderUserRepository",
+        "StripePaymentService",
+        "StripeSyncService",
+        "SubscriberService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "PlayIdService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Play/Implementations/PlayIdService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PlayIdSingletonService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Play/Implementations/PlayIdSingletonService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayIdService"
+      ]
+    },
+    {
+      "name": "PlayItemService",
+      "type": "SERVICE",
+      "file": "src/Core/Services/Play/Implementations/PlayItemService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayIdService",
+        "PlayItemRepository"
+      ]
+    },
+    {
+      "name": "AzureSendFileStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/SendFeatures/Services/AzureSendFileStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SendRepository"
+      ]
+    },
+    {
+      "name": "LocalSendStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/SendFeatures/Services/LocalSendStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SendRepository"
+      ]
+    },
+    {
+      "name": "SendAuthorizationService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/SendFeatures/Services/SendAuthorizationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SendRepository"
+      ]
+    },
+    {
+      "name": "SendCoreHelperService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/SendFeatures/Services/SendCoreHelperService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendValidationService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/SendFeatures/Services/SendValidationService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "OrganizationRepository",
+        "SendRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "NoopSendFileStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Tools/Services/NoopImplementations/NoopSendFileStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BulkAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Utilities/BulkAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CipherOrganizationAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Authorization/Ciphers/CipherOrganizationAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SecurityTaskAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Authorization/SecurityTasks/SecurityTaskAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SecurityTaskOrganizationAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Authorization/SecurityTasks/SecurityTaskOrganizationAuthorizationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureAttachmentStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Services/Implementations/AzureAttachmentStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CipherService",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Services/Implementations/CipherService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "CipherSyncPushService",
+        "CollectionCipherRepository",
+        "CollectionRepository",
+        "EventService",
+        "FolderRepository",
+        "OrganizationRepository",
+        "SecurityTaskRepository",
+        "UserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "CipherSyncPushService",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Services/Implementations/CipherSyncPushService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CollectionCipherRepository"
+      ]
+    },
+    {
+      "name": "LocalAttachmentStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Services/Implementations/LocalAttachmentStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoopAttachmentStorageService",
+      "type": "SERVICE",
+      "file": "src/Core/Vault/Services/NoopImplementations/NoopAttachmentStorageService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CollectController",
+      "type": "API_ROUTE",
+      "file": "src/Events/Controllers/CollectController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CipherRepository",
+        "EventService",
+        "OrganizationRepository",
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Events/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AzureQueueHostedService",
+      "type": "SERVICE",
+      "file": "src/EventsProcessor/AzureQueueHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "EventRepository",
+        "RepositoryEventWriteService"
+      ]
+    },
+    {
+      "name": "DeadLetterCleanupHostedService",
+      "type": "SERVICE",
+      "file": "src/EventsProcessor/DeadLetterCleanupHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AzureServiceBusService"
+      ]
+    },
+    {
+      "name": "ChangePasswordUriController",
+      "type": "API_ROUTE",
+      "file": "src/Icons/Controllers/ChangePasswordUriController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangePasswordUriService",
+        "DomainMappingService"
+      ]
+    },
+    {
+      "name": "IconsController",
+      "type": "API_ROUTE",
+      "file": "src/Icons/Controllers/IconsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DomainMappingService",
+        "IconFetchingService"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Icons/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ChangePasswordUriService",
+      "type": "SERVICE",
+      "file": "src/Icons/Services/ChangePasswordUriService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DomainMappingService",
+      "type": "SERVICE",
+      "file": "src/Icons/Services/DomainMappingService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "IconFetchingService",
+      "type": "SERVICE",
+      "file": "src/Icons/Services/IconFetchingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UriService"
+      ]
+    },
+    {
+      "name": "UriService",
+      "type": "SERVICE",
+      "file": "src/Icons/Services/UriService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AccountsController",
+      "type": "API_ROUTE",
+      "file": "src/Identity/Billing/Controller/AccountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AccountsController",
+      "type": "API_ROUTE",
+      "file": "src/Identity/Controllers/AccountsController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "src/Identity/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SsoController",
+      "type": "API_ROUTE",
+      "file": "src/Identity/Controllers/SsoController.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsoConfigRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "ProfileService",
+      "type": "SERVICE",
+      "file": "src/Identity/IdentityServer/ProfileService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService",
+        "OrganizationUserRepository",
+        "ProviderOrganizationRepository",
+        "ProviderUserRepository",
+        "UserService"
+      ]
+    },
+    {
+      "name": "CustomCorsPolicyService",
+      "type": "SERVICE",
+      "file": "src/Identity/IdentityServer/VaultCorsPolicyService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BulkResourceCreationService",
+      "type": "SERVICE",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Helpers/BulkResourceCreationService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CollectionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/CollectionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BulkResourceCreationService",
+        "Repository"
+      ]
+    },
+    {
+      "name": "GroupRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/GroupRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationInviteLinkRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/OrganizationInviteLinkRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/OrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/OrganizationUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PolicyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/AdminConsole/Repositories/PolicyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "AuthRequestRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/AuthRequestRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "EmergencyAccessRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/EmergencyAccessRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "GrantRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/GrantRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "SsoConfigRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/SsoConfigRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SsoUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/SsoUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "TwoFactorRememberTokenRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/TwoFactorRememberTokenRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "WebAuthnCredentialRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Auth/Repositories/WebAuthnCredentialRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ClientOrganizationMigrationRecordRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/ClientOrganizationMigrationRecordRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationInstallationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/OrganizationInstallationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortAssignmentRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/OrganizationPlanMigrationCohortAssignmentRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/OrganizationPlanMigrationCohortRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderInvoiceItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/ProviderInvoiceItemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderPlanRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/ProviderPlanRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SubscriptionDiscountRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Billing/Repositories/SubscriptionDiscountRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationApplicationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/OrganizationApplicationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationMemberBaseDetailRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/OrganizationMemberBaseDetailRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "OrganizationReportRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/OrganizationReportRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PasswordHealthReportApplicationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/PasswordHealthReportApplicationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "EventRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/Repositories/EventRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationDeleteTaskRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/Repositories/OrganizationDeleteTaskRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "OrganizationIntegrationConfigurationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/Repositories/OrganizationIntegrationConfigurationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationIntegrationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Dirt/Repositories/OrganizationIntegrationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationUserKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/KeyManagement/Repositories/OrganizationUserKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UserAsymmetricKeysRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/KeyManagement/Repositories/UserAsymmetricKeysRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "UserSignatureKeyPairRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/KeyManagement/Repositories/UserSignatureKeyPairRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "NotificationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/NotificationCenter/Repositories/NotificationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "NotificationStatusRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/NotificationCenter/Repositories/NotificationStatusRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "AccessAuditEventRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/AccessAuditEventRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "AccessLeaseRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/AccessLeaseRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "AccessRequestRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/AccessRequestRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "AccessRuleRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/AccessRuleRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamAccessConnectorRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/PamAccessConnectorRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamRotationConfigRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/PamRotationConfigRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamRotationJobRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/PamRotationJobRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "PamTargetSystemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Pam/Repositories/PamTargetSystemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "InstallationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Platform/Installations/Repositories/InstallationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderOrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Providers/Repositories/ProviderOrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Providers/Repositories/ProviderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Providers/Repositories/ProviderUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "BaseRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/BaseRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DateTimeHandler",
+        "JsonCollectionTypeHandler"
+      ]
+    },
+    {
+      "name": "CollectionCipherRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/CollectionCipherRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "DateTimeHandler",
+      "type": "SERVICE",
+      "file": "src/Infrastructure.Dapper/Repositories/DateTimeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeviceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/DeviceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "JsonCollectionTypeHandler",
+      "type": "SERVICE",
+      "file": "src/Infrastructure.Dapper/Repositories/JsonCollectionTypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MaintenanceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/MaintenanceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "OrganizationApiKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/OrganizationApiKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationConnectionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/OrganizationConnectionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationDomainRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/OrganizationDomainRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationSponsorshipRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/OrganizationSponsorshipRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PlayItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/PlayItemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "Repository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/Repository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseRepository"
+      ]
+    },
+    {
+      "name": "TransactionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/TransactionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "UserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Repositories/UserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MasterPasswordService",
+        "Repository"
+      ]
+    },
+    {
+      "name": "ApiKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/SecretsManager/Repositories/ApiKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SendRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Tools/Repositories/SendRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "CipherRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Vault/Repositories/CipherRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BulkResourceCreationService",
+        "Repository"
+      ]
+    },
+    {
+      "name": "FolderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Vault/Repositories/FolderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SecurityTaskRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.Dapper/Vault/Repositories/SecurityTaskRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "CollectionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/CollectionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "GroupRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/GroupRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationInviteLinkRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/OrganizationInviteLinkRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/OrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/OrganizationUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "PolicyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/AdminConsole/Repositories/PolicyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "AuthRequestRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/AuthRequestRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "EmergencyAccessRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/EmergencyAccessRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "GrantRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/GrantRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "SsoConfigRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/SsoConfigRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "SsoUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/SsoUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "TwoFactorRememberTokenRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/TwoFactorRememberTokenRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "WebAuthnCredentialRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Auth/Repositories/WebAuthnCredentialRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ClientOrganizationMigrationRecordRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/ClientOrganizationMigrationRecordRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationInstallationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/OrganizationInstallationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortAssignmentRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/OrganizationPlanMigrationCohortAssignmentRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationPlanMigrationCohortRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/OrganizationPlanMigrationCohortRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderInvoiceItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/ProviderInvoiceItemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderPlanRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/ProviderPlanRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "SubscriptionDiscountRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Billing/Repositories/SubscriptionDiscountRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationMemberBaseDetailRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/OrganizationMemberBaseDetailRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "EventRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/EventRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationApplicationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/OrganizationApplicationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationDeleteTaskRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/OrganizationDeleteTaskRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "OrganizationIntegrationConfigurationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/OrganizationIntegrationConfigurationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationIntegrationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/OrganizationIntegrationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationReportRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/OrganizationReportRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "PasswordHealthReportApplicationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Dirt/Repositories/PasswordHealthReportApplicationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationUserKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/KeyManagement/Repositories/OrganizationUserKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "UserAsymmetricKeysRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/KeyManagement/Repositories/UserAsymmetricKeysRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "UserSignatureKeyPairRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/KeyManagement/Repositories/UserSignatureKeyPairRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "NotificationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/NotificationCenter/Repositories/NotificationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "NotificationStatusRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/NotificationCenter/Repositories/NotificationStatusRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "AccessAuditEventRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/AccessAuditEventRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository",
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "AccessLeaseRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/AccessLeaseRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "AccessRequestRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/AccessRequestRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "AccessRuleRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/AccessRuleRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamAccessConnectorRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/PamAccessConnectorRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamRotationConfigRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/PamRotationConfigRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "PamRotationJobRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/PamRotationJobRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository",
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "PamTargetSystemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Pam/Repositories/PamTargetSystemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "InstallationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Platform/Installations/Repositories/InstallationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderOrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Providers/Repositories/ProviderOrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Providers/Repositories/ProviderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "ProviderUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Providers/Repositories/ProviderUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "BaseEntityFrameworkRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/BaseEntityFrameworkRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "CollectionCipherRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/CollectionCipherRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "DatabaseContext",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/DatabaseContext.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AccessRuleRepository",
+        "CollectionRepository"
+      ]
+    },
+    {
+      "name": "DeviceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/DeviceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "MaintenanceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/MaintenanceRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository"
+      ]
+    },
+    {
+      "name": "OrganizationApiKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/OrganizationApiKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationConnectionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/OrganizationConnectionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationDomainRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/OrganizationDomainRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "OrganizationSponsorshipRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/OrganizationSponsorshipRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "PlayItemRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/PlayItemRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "Repository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/Repository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseEntityFrameworkRepository",
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "TransactionRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/TransactionRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "UserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Repositories/UserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "MasterPasswordService",
+        "Repository"
+      ]
+    },
+    {
+      "name": "ApiKeyRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/SecretsManager/Repositories/ApiKeyRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "SendRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Tools/Repositories/SendRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "CipherRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Vault/Repositories/CipherRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "FolderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Vault/Repositories/FolderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "Repository"
+      ]
+    },
+    {
+      "name": "SecurityTaskRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/Infrastructure.EntityFramework/Vault/Repositories/SecurityTaskRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Repository"
+      ]
+    },
+    {
+      "name": "InvoicePreviewService",
+      "type": "SERVICE",
+      "file": "src/Libraries/Invoicing/InvoicePreviews/InvoicePreviewService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AmazonSesMailDeliveryService",
+      "type": "SERVICE",
+      "file": "src/Libraries/MailDelivery/AmazonSesMailDeliveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MailKitSmtpMailDeliveryService",
+      "type": "SERVICE",
+      "file": "src/Libraries/MailDelivery/MailKitSmtpMailDeliveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "MultiServiceMailDeliveryService",
+      "type": "SERVICE",
+      "file": "src/Libraries/MailDelivery/MultiServiceMailDeliveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AmazonSesMailDeliveryService",
+        "SendGridMailDeliveryService"
+      ]
+    },
+    {
+      "name": "NoopMailDeliveryService",
+      "type": "SERVICE",
+      "file": "src/Libraries/MailDelivery/NoopMailDeliveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SendGridMailDeliveryService",
+      "type": "SERVICE",
+      "file": "src/Libraries/MailDelivery/SendGridMailDeliveryService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationRequirementHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/OrganizationAuthorization/Organizations/OrganizationRequirementHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderUserRepository"
+      ]
+    },
+    {
+      "name": "ProviderRequirementHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/OrganizationAuthorization/Providers/ProviderRequirementHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SetOrganizationKeyIdHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/OrganizationKeys/Handlers/SetOrganizationKeyIdHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationUserRepository"
+      ]
+    },
+    {
+      "name": "SsrfProtectionHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/SsrfProtection/SsrfProtectionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ChangePrivilegedControlsSeatsHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/ChangePrivilegedControlsSeatsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "GetOrganizationSubscriptionPreviewHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/GetOrganizationSubscriptionPreviewHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "PreviewOrganizationPlanChangeHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/PreviewOrganizationPlanChangeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "PreviewOrganizationRestartHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/PreviewOrganizationRestartHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "PreviewOrganizationSubscriptionPurchaseHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/PreviewOrganizationSubscriptionPurchaseHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "PurchasePrivilegedControlsHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/PurchasePrivilegedControlsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "RemovePrivilegedControlsHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Handlers/RemovePrivilegedControlsHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository"
+      ]
+    },
+    {
+      "name": "StandaloneOrganizationOwnerRequirementHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.Organization/Requirements/StandaloneOrganizationOwnerRequirementHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ProviderOrganizationRepository"
+      ]
+    },
+    {
+      "name": "GetAccountSubscriptionPreviewHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.User/Handlers/GetAccountSubscriptionPreviewHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "GetAccountSubscriptionPurchasePreviewHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.User/Handlers/GetAccountSubscriptionPurchasePreviewHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "GetAccountSubscriptionUpgradePreviewHandler",
+      "type": "SERVICE",
+      "file": "src/Libraries/Subscriptions.User/Handlers/GetAccountSubscriptionUpgradePreviewHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "AzureQueueHostedService",
+      "type": "SERVICE",
+      "file": "src/Notifications/AzureQueueHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HeartbeatHostedService",
+      "type": "SERVICE",
+      "file": "src/Notifications/HeartbeatHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DapperTestOrganizationTrackingOrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/DapperTestOrganizationTrackingOrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "PlayItemService"
+      ]
+    },
+    {
+      "name": "DapperTestProviderTrackingProviderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/DapperTestProviderTrackingProviderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayItemService",
+        "ProviderRepository"
+      ]
+    },
+    {
+      "name": "DapperTestUserTrackingUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/DapperTestUserTrackingUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayItemService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "EFTestOrganizationTrackingOrganizationRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/EFTestOrganizationTrackingOrganizationRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationRepository",
+        "PlayItemService"
+      ]
+    },
+    {
+      "name": "EFTestProviderTrackingProviderRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/EFTestProviderTrackingProviderRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayItemService",
+        "ProviderRepository"
+      ]
+    },
+    {
+      "name": "EFTestUserTrackingUserRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "src/SharedWeb/Play/Repositories/EFTestUserTrackingUserRepository.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PlayItemService",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "TestI18nService",
+      "type": "SERVICE",
+      "file": "test/Api.Test/Auth/Models/Request/OrganizationSsoRequestModelTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "I18nService"
+      ]
+    },
+    {
+      "name": "TestBillingController",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Billing/Controllers/BaseBillingControllerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseBillingController"
+      ]
+    },
+    {
+      "name": "MockHttpMessageHandler",
+      "type": "SERVICE",
+      "file": "test/Api.Test/Dirt/HibpControllerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "HibpController",
+        "UserService"
+      ]
+    },
+    {
+      "name": "ControllerWithoutClassAuthorize",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithAllowAnonymous",
+        "ControllerWithNoHttpMethods",
+        "ControllerWithNoopAuthorize",
+        "ControllerWithProperAuthorization",
+        "ControllerWithUnauthorizedMethod"
+      ]
+    },
+    {
+      "name": "ControllerWithUnauthorizedMethod",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithAllowAnonymous",
+        "ControllerWithNoHttpMethods",
+        "ControllerWithNoopAuthorize",
+        "ControllerWithProperAuthorization",
+        "ControllerWithoutClassAuthorize"
+      ]
+    },
+    {
+      "name": "ControllerWithProperAuthorization",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithAllowAnonymous",
+        "ControllerWithNoHttpMethods",
+        "ControllerWithNoopAuthorize",
+        "ControllerWithUnauthorizedMethod",
+        "ControllerWithoutClassAuthorize"
+      ]
+    },
+    {
+      "name": "ControllerWithAllowAnonymous",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithNoHttpMethods",
+        "ControllerWithNoopAuthorize",
+        "ControllerWithProperAuthorization",
+        "ControllerWithUnauthorizedMethod",
+        "ControllerWithoutClassAuthorize"
+      ]
+    },
+    {
+      "name": "ControllerWithNoopAuthorize",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithAllowAnonymous",
+        "ControllerWithNoHttpMethods",
+        "ControllerWithProperAuthorization",
+        "ControllerWithUnauthorizedMethod",
+        "ControllerWithoutClassAuthorize"
+      ]
+    },
+    {
+      "name": "ControllerWithNoHttpMethods",
+      "type": "API_ROUTE",
+      "file": "test/Api.Test/Utilities/ControllerAuthorizationTestHelpersTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ControllerWithAllowAnonymous",
+        "ControllerWithNoopAuthorize",
+        "ControllerWithProperAuthorization",
+        "ControllerWithUnauthorizedMethod",
+        "ControllerWithoutClassAuthorize"
+      ]
+    },
+    {
+      "name": "MockedHttpMessageHandler",
+      "type": "SERVICE",
+      "file": "test/Common/MockedHttpClient/MockedHttpMessageHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestOrganizationPolicyEventHandler",
+      "type": "SERVICE",
+      "file": "test/Core.Test/AdminConsole/OrganizationFeatures/Policies/PolicyEventHandlers/OrganizationPolicyEventHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationPolicyEventHandler",
+        "PolicyRepository"
+      ]
+    },
+    {
+      "name": "TestIntegrationHandler",
+      "type": "SERVICE",
+      "file": "test/Core.Test/Dirt/Services/IntegrationHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StubDeviceRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "test/Core.Test/Platform/Push/PushServiceCollectionExtensionsTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DeviceRepository",
+        "InstallationDeviceRepository"
+      ]
+    },
+    {
+      "name": "TestBulkAuthorizationHandler",
+      "type": "SERVICE",
+      "file": "test/Core.Test/Utilities/BulkAuthorizationHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BulkAuthorizationHandler"
+      ]
+    },
+    {
+      "name": "ThrowingHttpMessageHandler",
+      "type": "SERVICE",
+      "file": "test/Icons.Test/Services/ChangePasswordUriServiceTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ChangePasswordUriService",
+        "MockedHttpMessageHandler"
+      ]
+    },
+    {
+      "name": "StaleFirstReadDapperRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "test/Infrastructure.IntegrationTest/Auth/Repositories/TwoFactorRememberTokenRepositoryTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "DeviceRepository",
+        "StaleFirstReadEfRepository",
+        "TwoFactorRememberTokenRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "StaleFirstReadEfRepository",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "test/Infrastructure.IntegrationTest/Auth/Repositories/TwoFactorRememberTokenRepositoryTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "DeviceRepository",
+        "StaleFirstReadDapperRepository",
+        "TwoFactorRememberTokenRepository",
+        "UserRepository"
+      ]
+    },
+    {
+      "name": "GET_test",
+      "type": "API_ROUTE",
+      "file": "test/Libraries/ExceptionHandling.Test/ExceptionHandlerEndpointFilterTests.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestInnerHandler",
+      "type": "SERVICE",
+      "file": "test/Libraries/SsrfProtection.Test/SsrfProtectionHandlerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SsrfProtectionHandler"
+      ]
+    },
+    {
+      "name": "RecordingHandler",
+      "type": "SERVICE",
+      "file": "test/Libraries/Subscriptions.Organization.Test/Commands/PreviewOrganizationRestartCommandTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InvoicePreviewService",
+        "SubscriberService",
+        "TaxService"
+      ]
+    },
+    {
+      "name": "StubLicensingService",
+      "type": "SERVICE",
+      "file": "test/SeederApi.IntegrationTest/LicenseTestHelpers.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService"
+      ]
+    },
+    {
+      "name": "RecordingOrganizationStripeBillingService",
+      "type": "SERVICE",
+      "file": "test/SeederApi.IntegrationTest/Pipeline/RecipeOrchestratorIntegrationTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "LicensingService",
+        "ManglerService",
+        "NoOpManglerService",
+        "NoopAttachmentStorageService",
+        "OrganizationStripeBillingService",
+        "RecordingUserStripeBillingService",
+        "UserRepository",
+        "UserStripeBillingService"
+      ]
+    },
+    {
+      "name": "RecordingUserStripeBillingService",
+      "type": "SERVICE",
+      "file": "test/SeederApi.IntegrationTest/Pipeline/RecipeOrchestratorIntegrationTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext",
+        "LicensingService",
+        "ManglerService",
+        "NoOpManglerService",
+        "NoopAttachmentStorageService",
+        "OrganizationStripeBillingService",
+        "RecordingOrganizationStripeBillingService",
+        "UserRepository",
+        "UserStripeBillingService"
+      ]
+    },
+    {
+      "name": "CapturingOrganizationBillingService",
+      "type": "SERVICE",
+      "file": "test/SeederApi.IntegrationTest/Services/OrganizationStripeBillingServiceTests.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationBillingService",
+        "OrganizationStripeBillingService"
+      ]
+    },
+    {
+      "name": "TestController",
+      "type": "API_ROUTE",
+      "file": "test/SharedWeb.Test/BindNeverOperationFilterTest.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "UniqueOperationIdsController",
+      "type": "API_ROUTE",
+      "file": "test/SharedWeb.Test/CheckDuplicateOperationIdsDocumentFilterTest.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MultipleHttpMethodsController",
+        "OverloadedOperationIdsController"
+      ]
+    },
+    {
+      "name": "OverloadedOperationIdsController",
+      "type": "API_ROUTE",
+      "file": "test/SharedWeb.Test/CheckDuplicateOperationIdsDocumentFilterTest.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "MultipleHttpMethodsController",
+        "UniqueOperationIdsController"
+      ]
+    },
+    {
+      "name": "MultipleHttpMethodsController",
+      "type": "API_ROUTE",
+      "file": "test/SharedWeb.Test/CheckDuplicateOperationIdsDocumentFilterTest.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OverloadedOperationIdsController",
+        "UniqueOperationIdsController"
+      ]
+    },
+    {
+      "name": "DummyController",
+      "type": "API_ROUTE",
+      "file": "test/SharedWeb.Test/SourceFileLineOperationFilterTest.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DatabaseContextFactory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "util/MySqlMigrations/Factories.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "DatabaseContextFactory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "util/PostgresMigrations/Factories.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "RustSdkService",
+      "type": "SERVICE",
+      "file": "util/RustSdk/RustSdkService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ManglerService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/ManglerService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "NoOpManglerService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/NoOpManglerService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ManglerService"
+      ]
+    },
+    {
+      "name": "NoopFeatureService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/NoopFeatureService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OrganizationStripeBillingService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/OrganizationStripeBillingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "OrganizationBillingService"
+      ]
+    },
+    {
+      "name": "PresetCatalogService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/PresetCatalogService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SelfHostLicenseService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/SelfHostLicenseService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LicensingService"
+      ]
+    },
+    {
+      "name": "UserStripeBillingService",
+      "type": "SERVICE",
+      "file": "util/Seeder/Services/UserStripeBillingService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UserService"
+      ]
+    },
+    {
+      "name": "InfoController",
+      "type": "API_ROUTE",
+      "file": "util/SeederApi/Controllers/InfoController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "QueryController",
+      "type": "API_ROUTE",
+      "file": "util/SeederApi/Controllers/QueryController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SeedController",
+      "type": "API_ROUTE",
+      "file": "util/SeederApi/Controllers/SeedController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "JobsHostedService",
+      "type": "SERVICE",
+      "file": "util/SeederApi/Jobs/JobsHostedService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "BaseJobsHostedService"
+      ]
+    },
+    {
+      "name": "BasicAuthenticationHandler",
+      "type": "SERVICE",
+      "file": "util/SeederApi/Utilities/BasicAuthenticationHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DatabaseContextFactory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "util/SqlServerEFScaffold/Factories.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "DatabaseContextFactory",
+      "type": "DATA_ACCESS_LAYER",
+      "file": "util/SqliteMigrations/Factories.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DatabaseContext"
+      ]
+    },
+    {
+      "name": "@bitwarden/mjml-emails",
+      "type": "MODULE",
+      "file": "src/Core/MailTemplates/Mjml/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}

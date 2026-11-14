@@ -1,0 +1,467 @@
+{
+  "org": "psf",
+  "repository": "black",
+  "sha": "cf3e0938971fc5cd0d71e7b696e86a6fb953332a",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "changelog.yml",
+      "name": "changelog",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "cut_release.yml",
+      "name": "cut release",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "new-changelog",
+          "name": "new-changelog",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "release"
+          ]
+        },
+        {
+          "id": "binaries",
+          "name": "build-binaries (${{ matrix.os }})",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": [
+            "release"
+          ]
+        },
+        {
+          "id": "update-stable",
+          "name": "update-stable",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "release",
+            "binaries"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "diff_shades.yml",
+      "name": "diff-shades",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "configure",
+          "name": "configure",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "analysis-base",
+          "name": "analysis / base / ${{ matrix.mode }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "configure"
+          ]
+        },
+        {
+          "id": "analysis-target",
+          "name": "analysis / target / ${{ matrix.mode }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "configure"
+          ]
+        },
+        {
+          "id": "compare",
+          "name": "compare / ${{ matrix.mode }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "configure",
+            "analysis-base",
+            "analysis-target"
+          ]
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "diff_shades_comment.yml",
+      "name": "diff-shades comment",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "comment",
+          "name": "comment",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "docker.yml",
+      "name": "docker",
+      "triggers": [
+        "push",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build (${{ matrix.platform }})",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "push",
+          "name": "push",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "docs.yml",
+      "name": "docs",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "docs",
+          "name": "docs",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "fuzz.yml",
+      "name": "fuzz",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "fuzz",
+          "name": "fuzz",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "create-issue",
+          "name": "create-issue",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "fuzz"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "lint.yml",
+      "name": "lint and format",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "prepare_release.yml",
+      "name": "prepare release",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "create",
+          "name": "create",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "update",
+          "name": "update",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "create"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "pypi_upload.yml",
+      "name": "build and publish",
+      "triggers": [
+        "release",
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "configure",
+          "name": "generate wheels matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "mypyc",
+          "name": "mypyc wheels ${{ matrix.only }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": [
+            "configure"
+          ]
+        },
+        {
+          "id": "hatch",
+          "name": "sdist + pure wheel",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "publish-mypyc",
+          "name": "publish-mypyc",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "mypyc"
+          ]
+        },
+        {
+          "id": "publish-hatch",
+          "name": "publish-hatch",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "hatch"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-mypyc' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-hatch' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "release_tests.yml",
+      "name": "test release tool",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-release-tool",
+          "name": "test-release-tool",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'test-release-tool' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        },
+        {
+          "type": "UNFILTERED_MAIN_PUSH",
+          "severity": "HIGH",
+          "message": "Deployment workflow triggers on 'push' without branch or tag filters."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "coveralls-finish",
+          "name": "coveralls-finish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "uvloop",
+          "name": "uvloop",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+        }
+      ]
+    },
+    {
+      "id": "zizmor.yml",
+      "name": "zizmor",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

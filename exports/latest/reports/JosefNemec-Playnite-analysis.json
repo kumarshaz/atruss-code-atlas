@@ -1,0 +1,369 @@
+{
+  "repository": "JosefNemec/Playnite",
+  "sha": "e2e6efcda311fea38fcd92f61c8ca90811d97f28",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 741,
+    "loc": 143976,
+    "sloc": 114083,
+    "component_count": 41,
+    "avg_cyclomatic_complexity": 5.52,
+    "max_cyclomatic_complexity": 461,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "Playnite",
+      "type": "MODULE",
+      "file": "source/Playnite/Playnite.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "GenericPlayController",
+      "type": "API_ROUTE",
+      "file": "source/Playnite/Controllers/GenericGameController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventBufferHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/Database/Collections/ItemCollection.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EventBufferHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/Database/EventBufferHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalTaskHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/GlobalTaskHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LoadedGameController",
+      "type": "API_ROUTE",
+      "file": "source/Playnite/Input/GameController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PipeService",
+      "type": "SERVICE",
+      "file": "source/Playnite/PipeServer.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PlayniteUriHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/PlayniteUriHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeleteCookiesHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/WebView/CookieDestroyer.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SetCookieHandler"
+      ]
+    },
+    {
+      "name": "SetCookieHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/WebView/CookieDestroyer.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "DeleteCookiesHandler"
+      ]
+    },
+    {
+      "name": "CustomResourceRequestHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/WebView/WebViewBase.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CustomRequestHandler",
+        "DeleteCookiesHandler",
+        "SetCookieHandler"
+      ]
+    },
+    {
+      "name": "CustomRequestHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/WebView/WebViewBase.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "CustomResourceRequestHandler",
+        "DeleteCookiesHandler",
+        "SetCookieHandler"
+      ]
+    },
+    {
+      "name": "WindowPositionHandler",
+      "type": "SERVICE",
+      "file": "source/Playnite/Windows/WindowPositionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Playnite.BrowserProcess",
+      "type": "MODULE",
+      "file": "source/Playnite.BrowserProcess/Playnite.BrowserProcess.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Playnite.Deps",
+      "type": "MODULE",
+      "file": "source/Playnite.Deps/Playnite.Deps.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Playnite.DesktopApp",
+      "type": "MODULE",
+      "file": "source/Playnite.DesktopApp/Playnite.DesktopApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "Playnite.FullscreenApp",
+      "type": "MODULE",
+      "file": "source/Playnite.FullscreenApp/Playnite.FullscreenApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "Playnite.SDK",
+      "type": "MODULE",
+      "file": "source/PlayniteSDK/Playnite.SDK.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GamepadController",
+      "type": "API_ROUTE",
+      "file": "source/PlayniteSDK/Events/ApplicationEvents.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AutomaticPlayController",
+      "type": "API_ROUTE",
+      "file": "source/PlayniteSDK/Plugins/Actions.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "InstallController",
+        "PlayController",
+        "UninstallController"
+      ]
+    },
+    {
+      "name": "InstallController",
+      "type": "API_ROUTE",
+      "file": "source/PlayniteSDK/Plugins/Actions.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AutomaticPlayController",
+        "PlayController",
+        "UninstallController"
+      ]
+    },
+    {
+      "name": "UninstallController",
+      "type": "API_ROUTE",
+      "file": "source/PlayniteSDK/Plugins/Actions.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AutomaticPlayController",
+        "InstallController",
+        "PlayController"
+      ]
+    },
+    {
+      "name": "PlayController",
+      "type": "API_ROUTE",
+      "file": "source/PlayniteSDK/Plugins/Actions.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AutomaticPlayController",
+        "InstallController",
+        "UninstallController"
+      ]
+    },
+    {
+      "name": "Playnite.DesktopApp.Tests",
+      "type": "MODULE",
+      "file": "source/Tests/Playnite.DesktopApp.Tests/Playnite.DesktopApp.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.DesktopApp",
+        "Playnite.SDK",
+        "Playnite.Tests"
+      ]
+    },
+    {
+      "name": "Playnite.FullscreenApp.Tests",
+      "type": "MODULE",
+      "file": "source/Tests/Playnite.FullscreenApp.Tests/Playnite.FullscreenApp.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.FullscreenApp",
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "Playnite.Tests",
+      "type": "MODULE",
+      "file": "source/Tests/Playnite.Tests/Playnite.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "Playnite.Toolbox.Tests",
+      "type": "MODULE",
+      "file": "source/Tests/Playnite.Toolbox.Tests/Playnite.Toolbox.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.SDK",
+        "Playnite.Toolbox"
+      ]
+    },
+    {
+      "name": "TestApp",
+      "type": "MODULE",
+      "file": "source/Tests/TestApp/TestApp.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "TestGameLibrary",
+      "type": "MODULE",
+      "file": "source/Tests/TestGameLibrary/TestGameLibrary.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "TestMetadataPlugin",
+      "type": "MODULE",
+      "file": "source/Tests/TestMetadataPlugin/TestMetadataPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "TestPlugin",
+      "type": "MODULE",
+      "file": "source/Tests/TestPlugin/TestPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "Playnite.Toolbox",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Playnite.Toolbox.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite",
+        "Playnite.SDK"
+      ]
+    },
+    {
+      "name": "CustomLibraryPlugin",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Templates/Extensions/CustomLibraryPlugin/CustomLibraryPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "CustomMetadataPlugin",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Templates/Extensions/CustomMetadataPlugin/CustomMetadataPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GenericPlugin",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Templates/Extensions/GenericPlugin/GenericPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Theme",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Templates/Themes/Desktop/Theme.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Theme",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Toolbox/Templates/Themes/Fullscreen/Theme.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Playnite.Utilities",
+      "type": "MODULE",
+      "file": "source/Tools/Playnite.Utilities/Playnite.Utilities.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "Playnite"
+      ]
+    },
+    {
+      "name": "PlayniteInstaller",
+      "type": "MODULE",
+      "file": "source/Tools/PlayniteInstaller/PlayniteInstaller.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestPluginDev",
+      "type": "MODULE",
+      "file": "tests/Extensions/Plugins/FullTestPluginDev/TestPluginDev.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestPluginNuget",
+      "type": "MODULE",
+      "file": "tests/Extensions/Plugins/FullTestPluginNuget/TestPluginNuget.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "org": "vitejs",
+  "repository": "vite",
+  "sha": "61622b8df68b7a8e657caa6f98d9b70069643abf",
+  "analyzed_at": "2026-11-13T04:13:07Z",
+  "workflows": [
+    {
+      "id": "bot.yml",
+      "name": "Bot",
+      "triggers": [
+        "issues",
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "agentscan",
+          "name": "AgentScan",
+          "runner": "ubuntu-slim",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "issue",
+          "name": "Comment and close issue",
+          "runner": "ubuntu-slim",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "pr",
+          "name": "Comment and close PR",
+          "runner": "ubuntu-slim",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "changed",
+          "name": "Get changed files",
+          "runner": "ubuntu-slim",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "Build&Test: node-${{ matrix.node_version }}, ${{ matrix.os }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 13,
+          "needs": [
+            "changed"
+          ]
+        },
+        {
+          "id": "test-passed",
+          "name": "Build & Test Passed or Skipped",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "test-failed",
+          "name": "Build & Test Failed",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": [
+            "test"
+          ]
+        },
+        {
+          "id": "lint",
+          "name": "Lint: node-26, ubuntu-latest",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "copilot-setup-steps.yml",
+      "name": "copilot-setup-steps.yml",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "copilot-setup-steps",
+          "name": "copilot-setup-steps",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "ecosystem-ci-trigger.yml",
+      "name": "ecosystem-ci trigger",
+      "triggers": [
+        "issue_comment"
+      ],
+      "jobs": [
+        {
+          "id": "trigger",
+          "name": "trigger",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-close-require.yml",
+      "name": "Issue Close Require",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "close-issues",
+          "name": "close-issues",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "issue-labeled.yml",
+      "name": "Issue Labeled",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "reply-labeled",
+          "name": "reply-labeled",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "lock-closed-issues.yml",
+      "name": "Lock Closed Issues",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "action",
+          "name": "action",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "prepare-release.yml",
+      "name": "Prepare Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare",
+          "name": "Prepare release PR",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'prepare' performs deployment without upstream test gates ('needs:' block is empty)."
+        }
+      ]
+    },
+    {
+      "id": "preview-release.yml",
+      "name": "Preview release",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "preview",
+          "name": "preview",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yml",
+      "name": "Publish Package",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "detect-release",
+          "name": "Detect release commit",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "publish-release",
+          "name": "Publish ${{ needs.detect-release.outputs.tag }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "detect-release"
+          ]
+        }
+      ],
+      "anti_patterns": [
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'detect-release' performs deployment without upstream test gates ('needs:' block is empty)."
+        },
+        {
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-release' performs deployment without an upstream test job in its 'needs:' chain."
+        },
+        {
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
+        }
+      ]
+    },
+    {
+      "id": "semantic-pull-request.yml",
+      "name": "Semantic Pull Request",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "Semantic Pull Request",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "semgrep.yml",
+      "name": "Semgrep",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "semgrep",
+          "name": "Run Semgrep",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    },
+    {
+      "id": "zizmor.yml",
+      "name": "Zizmor",
+      "triggers": [
+        "workflow_dispatch",
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "Run zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "anti_patterns": []
+    }
+  ]
+}

@@ -1,0 +1,621 @@
+{
+  "repository": "icsharpcode/ILSpy",
+  "sha": "caff1a9549afc1a97b5319454fe602bfbde5ccde",
+  "ecosystem": ".NET",
+  "metrics": {
+    "files_analyzed": 3846,
+    "loc": 810837,
+    "sloc": 589197,
+    "component_count": 77,
+    "avg_cyclomatic_complexity": 14.29,
+    "max_cyclomatic_complexity": 748,
+    "framework": "ASP.NET Core"
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "ICSharpCode.BamlDecompiler",
+      "type": "MODULE",
+      "file": "ICSharpCode.BamlDecompiler/ICSharpCode.BamlDecompiler.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler"
+      ]
+    },
+    {
+      "name": "ICSharpCode.Decompiler",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler/ICSharpCode.Decompiler.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler.Generators"
+      ]
+    },
+    {
+      "name": "ICSharpCode.Decompiler.AotTest",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler.AotTest/ICSharpCode.Decompiler.AotTest.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler"
+      ]
+    },
+    {
+      "name": "ICSharpCode.Decompiler.Generators",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler.Generators/ICSharpCode.Decompiler.Generators.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ICSharpCode.Decompiler.PowerShell",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler.PowerShell/ICSharpCode.Decompiler.PowerShell.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler"
+      ]
+    },
+    {
+      "name": "ICSharpCode.Decompiler.TestRunner",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler.TestRunner/ICSharpCode.Decompiler.TestRunner.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ICSharpCode.Decompiler.Tests",
+      "type": "MODULE",
+      "file": "ICSharpCode.Decompiler.Tests/ICSharpCode.Decompiler.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler",
+        "ICSharpCode.ILSpyX"
+      ]
+    },
+    {
+      "name": "ICSharpCode.ILSpyCmd",
+      "type": "MODULE",
+      "file": "ICSharpCode.ILSpyCmd/ICSharpCode.ILSpyCmd.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.BamlDecompiler",
+        "ICSharpCode.Decompiler",
+        "ICSharpCode.ILSpyX"
+      ]
+    },
+    {
+      "name": "ICSharpCode.ILSpyCmd.Tests",
+      "type": "MODULE",
+      "file": "ICSharpCode.ILSpyCmd.Tests/ICSharpCode.ILSpyCmd.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.ILSpyCmd"
+      ]
+    },
+    {
+      "name": "ICSharpCode.ILSpyX",
+      "type": "MODULE",
+      "file": "ICSharpCode.ILSpyX/ICSharpCode.ILSpyX.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler"
+      ]
+    },
+    {
+      "name": "ILSpy",
+      "type": "MODULE",
+      "file": "ILSpy/ILSpy.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.BamlDecompiler",
+        "ICSharpCode.Decompiler",
+        "ICSharpCode.ILSpyX"
+      ]
+    },
+    {
+      "name": "ILSpy.AddIn.VS2022",
+      "type": "MODULE",
+      "file": "ILSpy.AddIn.VS2022/ILSpy.AddIn.VS2022.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ILSpy.BamlDecompiler.Tests",
+      "type": "MODULE",
+      "file": "ILSpy.BamlDecompiler.Tests/ILSpy.BamlDecompiler.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.BamlDecompiler"
+      ]
+    },
+    {
+      "name": "ILSpy.BamlDecompiler.Tests.Windows",
+      "type": "MODULE",
+      "file": "ILSpy.BamlDecompiler.Tests.Windows/ILSpy.BamlDecompiler.Tests.Windows.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.BamlDecompiler",
+        "ICSharpCode.Decompiler.Tests"
+      ]
+    },
+    {
+      "name": "ILSpy.Installer",
+      "type": "MODULE",
+      "file": "ILSpy.Installer/ILSpy.Installer.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler"
+      ]
+    },
+    {
+      "name": "ILSpy.ReadyToRun",
+      "type": "MODULE",
+      "file": "ILSpy.ReadyToRun/ILSpy.ReadyToRun.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler",
+        "ICSharpCode.ILSpyX",
+        "ILSpy"
+      ]
+    },
+    {
+      "name": "ILSpy.Tests",
+      "type": "MODULE",
+      "file": "ILSpy.Tests/ILSpy.Tests.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ILSpy",
+        "TestPlugin"
+      ]
+    },
+    {
+      "name": "ILSpy.Tests.Windows",
+      "type": "MODULE",
+      "file": "ILSpy.Tests.Windows/ILSpy.Tests.Windows.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ILSpy",
+        "ILSpy.Tests"
+      ]
+    },
+    {
+      "name": "Generate",
+      "type": "MODULE",
+      "file": "TestFixtures.Resources/Generate.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestFixtures.Resources",
+      "type": "MODULE",
+      "file": "TestFixtures.Resources/TestFixtures.Resources.csproj",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TestPlugin",
+      "type": "MODULE",
+      "file": "TestPlugin/TestPlugin.csproj",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ICSharpCode.Decompiler",
+        "ILSpy"
+      ]
+    },
+    {
+      "name": "ConstructorParametersStartHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/ConstructorParametersHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DocumentHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/DocumentHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ElementHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/ElementHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "KeyElementStartHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/KeyElementStartHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "ElementHandler"
+      ]
+    },
+    {
+      "name": "PropertyArrayHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/PropertyArrayHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyComplexHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/PropertyComplexHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyDictionaryHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/PropertyDictionaryHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyListHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Blocks/PropertyListHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AssemblyInfoHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/AssemblyInfoHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AttributeInfoHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/AttributeInfoHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConnectionIdHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/ConnectionIdHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ConstructorParameterTypeHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/ConstructorParameterTypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "ContentPropertyHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/ContentPropertyHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DefAttributeHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/DefAttributeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DefAttributeStringHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/DefAttributeKeyStringHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DefAttributeTypeHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/DefAttributeKeyTypeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "DeferableContentStartHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/DeferableContentStartHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LineNumberAndPositionHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/LineNumberAndPositionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LinePositionHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/LinePositionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LiteralContentHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/LiteralContentHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "OptimizedStaticResourceHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/OptimizedStaticResourceHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PIMappingHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PIMappingHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PresentationOptionsAttributeHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PresentationOptionsAttributeHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyCustomHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyCustomHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyTypeReferenceHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyTypeReferenceHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyWithConverterHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyWithConverterHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "PropertyHandler"
+      ]
+    },
+    {
+      "name": "PropertyWithExtensionHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyWithExtensionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "PropertyWithStaticResourceIdHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/PropertyWithStaticResourceIdHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StaticResourceIdHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/StaticResourceIdHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "StaticResourceStartHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/StaticResourceStartHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TextHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/TextHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TextWithIdHandler"
+      ]
+    },
+    {
+      "name": "TextWithIdHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/TextHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TextHandler"
+      ]
+    },
+    {
+      "name": "TextWithConverterHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/TextWithConverterHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TextHandler"
+      ]
+    },
+    {
+      "name": "TypeInfoHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/TypeInfoHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeSerializerInfoHandler"
+      ]
+    },
+    {
+      "name": "TypeSerializerInfoHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/TypeInfoHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "TypeInfoHandler"
+      ]
+    },
+    {
+      "name": "XmlnsPropertyHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.BamlDecompiler/Handlers/Records/XmlnsPropertyHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "EWSService",
+      "type": "SERVICE",
+      "file": "ICSharpCode.Decompiler.Tests/TestCases/Correctness/InitializerTests.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AsyncSteppingCatchHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.Decompiler.Tests/TestCases/PdbGen/AsyncSteppingCatchHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "Service",
+      "type": "SERVICE",
+      "file": "ICSharpCode.Decompiler.Tests/TestCases/Pretty/LocalFunctions.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TryCatchHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.Decompiler/IL/Instructions.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TryCatchHandler",
+      "type": "SERVICE",
+      "file": "ICSharpCode.Decompiler/IL/Instructions/TryInstruction.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "GlobalExceptionHandler",
+      "type": "SERVICE",
+      "file": "ILSpy/AppEnv/GlobalExceptionHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AssemblyRowDropHandler",
+      "type": "SERVICE",
+      "file": "ILSpy/AssemblyTree/AssemblyRowDropHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "WeakHandler",
+      "type": "SERVICE",
+      "file": "ILSpy/Commands/CommandManager.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TreeContextMenuController",
+      "type": "API_ROUTE",
+      "file": "ILSpy/Controls/TreeView/TreeContextMenuController.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "LanguageService",
+      "type": "SERVICE",
+      "file": "ILSpy/Languages/LanguageService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "SettingsService"
+      ]
+    },
+    {
+      "name": "MetadataProtocolHandler",
+      "type": "SERVICE",
+      "file": "ILSpy/Metadata/MetadataProtocolHandler.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "SettingsService",
+      "type": "SERVICE",
+      "file": "ILSpy/SettingsService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "LanguageService"
+      ]
+    },
+    {
+      "name": "TaskbarProgressService",
+      "type": "SERVICE",
+      "file": "ILSpy/TaskbarProgressService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "HighlightingService",
+      "type": "SERVICE",
+      "file": "ILSpy/TextView/HighlightingService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "TextMarkerService",
+      "type": "SERVICE",
+      "file": "ILSpy/TextView/TextMarkerService.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "BamlResourceFileHandler",
+      "type": "SERVICE",
+      "file": "ILSpy/TreeNodes/BamlResourceNodeFactory.cs",
+      "ecosystem": ".net",
+      "dependencies": []
+    },
+    {
+      "name": "AppUpdateService",
+      "type": "SERVICE",
+      "file": "ILSpy/Updates/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "UpdateService"
+      ]
+    },
+    {
+      "name": "UpdateService",
+      "type": "SERVICE",
+      "file": "ILSpy/Updates/UpdateService.cs",
+      "ecosystem": ".net",
+      "dependencies": [
+        "AppUpdateService"
+      ]
+    },
+    {
+      "name": "html",
+      "type": "MODULE",
+      "file": "ICSharpCode.ILSpyX/MermaidDiagrammer/html/package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ]
+}
