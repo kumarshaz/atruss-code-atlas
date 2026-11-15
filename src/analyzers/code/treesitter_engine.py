@@ -1533,7 +1533,7 @@ def analyze_repo_treesitter_metrics(
     Analyze matching source files in `repo_dir` via tree-sitter (with clean fallback)
     and return unified polyglot complexity, clone duplication, dead-code, and import metrics.
     """
-    src_files = iter_source_files(repo_dir, extensions)
+    src_files = iter_source_files(repo_dir, extensions)[:1500]
     if not src_files:
         return {
             "ast_engine": "tree-sitter" if is_treesitter_available() else "fallback",

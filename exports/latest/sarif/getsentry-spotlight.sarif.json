@@ -1,0 +1,1312 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "atruss-code-atlas",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/kumarshaz/atruss-code-atlas",
+          "rules": [
+            {
+              "id": "ATRUSS-ARCH-004",
+              "name": "CIRCULAR_DEPENDENCY",
+              "shortDescription": {
+                "text": "Circular dependency detected between architectural components."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-ARCH-005",
+              "name": "COMPLEXITY_THRESHOLD",
+              "shortDescription": {
+                "text": "Code quality metric exceeds configured architectural threshold."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-001",
+              "name": "NO_TEST_GATE",
+              "shortDescription": {
+                "text": "Deployment job executes without an upstream test gate in its needs chain."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-004",
+              "name": "HARDCODED_SECRET",
+              "shortDescription": {
+                "text": "Potential hardcoded credential detected in workflow definition."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-008",
+              "name": "UNPINNED_ACTION",
+              "shortDescription": {
+                "text": "Third-party GitHub Action is not pinned to a 40-character commit SHA."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-009",
+              "name": "TEMPLATE_INJECTION",
+              "shortDescription": {
+                "text": "Workflow run block interpolates untrusted event context or writes to GITHUB_ENV/PATH."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-013",
+              "name": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+              "shortDescription": {
+                "text": "actions/checkout persists git credentials in job that uploads artifacts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+              }
+            },
+            {
+              "id": "ATRUSS-SEC-004",
+              "name": "PRIVATE_KEY",
+              "shortDescription": {
+                "text": "Private key material header detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 28,
+                  "endLine": 175
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 28,
+                  "endLine": 175
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 35,
+                  "endLine": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'build' step 3 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 46,
+                  "endLine": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'build' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'build' step 8 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 74,
+                  "endLine": 96
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 90,
+                  "endLine": 90
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "getsentry/spotlight",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'build' step 9 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 103,
+                  "endLine": 108
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-unit' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 176,
+                  "endLine": 219
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'test-unit' step 3 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 194,
+                  "endLine": 194
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'test-unit' step 8 uses unpinned action 'getsentry/coverage-action@main'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 216,
+                  "endLine": 216
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-e2e-cli' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 221,
+                  "endLine": 254
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'test-e2e-cli' step 2 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 232,
+                  "endLine": 232
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-e2e-ui' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 256,
+                  "endLine": 304
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'test-e2e-ui' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 264,
+                  "endLine": 264
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'test-e2e-ui' step 2 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 267,
+                  "endLine": 267
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "HIGH: Job 'docker' performs deployment without an upstream test job in its 'needs:' chain."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 306,
+                  "endLine": 355
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'docker' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 306,
+                  "endLine": 355
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'docker' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 328,
+                  "endLine": 328
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'docker' step 5 uses unpinned action 'docker/setup-qemu-action@v3'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 335,
+                  "endLine": 335
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'docker' step 6 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 338,
+                  "endLine": 338
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'docker' step 7 uses unpinned action 'docker/build-push-action@v5'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 341,
+                  "endLine": 341
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "HIGH: Job 'electron-mac' performs deployment without an upstream test job in its 'needs:' chain."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 356,
+                  "endLine": 431
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'electron-mac' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 356,
+                  "endLine": 431
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'electron-mac' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 364,
+                  "endLine": 364
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'electron-mac' step 2 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 367,
+                  "endLine": 367
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-004",
+          "level": "error",
+          "message": {
+            "text": "Potential hardcoded secret detected in run script of job 'electron-mac'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 396,
+                  "endLine": 409
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'electron-mac' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 396,
+                  "endLine": 409
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 404,
+                  "endLine": 404
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "getsentry/spotlight",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'release-comment-issues' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/notify-issues.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'release-comment-issues' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/notify-issues.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'release-comment-issues' step 2 uses unpinned action 'getsentry/release-comment-issues-gh-action@v1'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/notify-issues.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 38,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'release' step 3 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 41,
+                  "endLine": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-008",
+          "level": "error",
+          "message": {
+            "text": "Job 'release' step 5 uses unpinned action 'getsentry/craft@v3'. Pin to a 40-character commit SHA."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "endLine": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/spotlight",
+            "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository duplication_pct (73.61) exceeds policy threshold (15.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/server/messageBuffer.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cognitive_complexity (82.0) exceeds policy threshold (25.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/server/messageBuffer.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cyclomatic_complexity (40.0) exceeds policy threshold (20.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/server/messageBuffer.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (TraceList -> TraceSplitViewLayout -> TraceList)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/ui/telemetry/components/traces/TraceList.tsx",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (TraceList -> TracesTab -> TraceList)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/ui/telemetry/components/traces/TraceList.tsx",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (AITraceToggle -> TraceList -> AITraceToggle)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/spotlight/src/ui/telemetry/tabs/TracesTab.tsx",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/spotlight"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,745 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "atruss-code-atlas",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/kumarshaz/atruss-code-atlas",
+          "rules": [
+            {
+              "id": "ATRUSS-ARCH-001",
+              "name": "LAYER_VIOLATION",
+              "shortDescription": {
+                "text": "API_ROUTE directly depends on DATA_ACCESS_LAYER bypassing SERVICE."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-ARCH-004",
+              "name": "CIRCULAR_DEPENDENCY",
+              "shortDescription": {
+                "text": "Circular dependency detected between architectural components."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-ARCH-005",
+              "name": "COMPLEXITY_THRESHOLD",
+              "shortDescription": {
+                "text": "Code quality metric exceeds configured architectural threshold."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-002",
+              "name": "NO_CACHE",
+              "shortDescription": {
+                "text": "Workflow installs dependencies without caching configured."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-004",
+              "name": "HARDCODED_SECRET",
+              "shortDescription": {
+                "text": "Potential hardcoded credential detected in workflow definition."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-011",
+              "name": "EXCESSIVE_PERMISSIONS",
+              "shortDescription": {
+                "text": "Workflow grants write-all or omits least-privilege permissions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-013",
+              "name": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+              "shortDescription": {
+                "text": "actions/checkout persists git credentials in job that uploads artifacts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/markdownlint.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/playwright.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/playwright.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-002",
+          "level": "warning",
+          "message": {
+            "text": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/playwright.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 30,
+                  "endLine": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-004",
+          "level": "error",
+          "message": {
+            "text": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/playwright.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 38,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation-maui.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation-maui.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-002",
+          "level": "warning",
+          "message": {
+            "text": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation-maui.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 39,
+                  "endLine": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-002",
+          "level": "warning",
+          "message": {
+            "text": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/pr-validation.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository duplication_pct (83.77) exceeds policy threshold (15.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/ClientApp/Services/Basket/Protos/Basket.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/ClientApp/Services/Basket/Protos/Basket.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/ClientApp/Services/Basket/Protos/Basket.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (CancelOrderCommandHandler -> CancelOrderIdentifiedCommandHandler -> CancelOrderCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/CancelOrderCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (CreateOrderCommandHandler -> CreateOrderIdentifiedCommandHandler -> CreateOrderCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/CreateOrderCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SetAwaitingValidationIdentifiedOrderStatusCommandHandler -> SetAwaitingValidationOrderStatusCommandHandler -> SetAwaitingValidationIdentifiedOrderStatusCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/SetAwaitingValidationOrderStatusCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SetPaidIdentifiedOrderStatusCommandHandler -> SetPaidOrderStatusCommandHandler -> SetPaidIdentifiedOrderStatusCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/SetPaidOrderStatusCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SetStockConfirmedOrderStatusCommandHandler -> SetStockConfirmedOrderStatusIdentifiedCommandHandler -> SetStockConfirmedOrderStatusCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/SetStockConfirmedOrderStatusCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SetStockRejectedOrderStatusCommandHandler -> SetStockRejectedOrderStatusIdentifiedCommandHandler -> SetStockRejectedOrderStatusCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/SetStockRejectedOrderStatusCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (ShipOrderCommandHandler -> ShipOrderIdentifiedCommandHandler -> ShipOrderCommandHandler)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Ordering.API/Application/Commands/ShipOrderCommandHandler.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-001",
+          "level": "error",
+          "message": {
+            "text": "API_ROUTE cannot directly import DATA_ACCESS_LAYER when SERVICE components exist. (POST_webhook-received -> HooksRepository)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/WebhookClient/Endpoints/WebhookEndpoints.cs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "dotnet/eShop"
+          }
+        }
+      ]
+    }
+  ]
+}

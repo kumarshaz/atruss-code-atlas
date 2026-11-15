@@ -1,0 +1,377 @@
+{
+  "org": "mattermost",
+  "repository": "mattermost-plugin-github",
+  "sha": "bcbfe137f48b42f0cc929aa6ee0af78470cfd274",
+  "analyzed_at": "2026-11-15T05:22:54Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "ci",
+      "triggers": [
+        "schedule",
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "plugin-ci",
+          "name": "plugin-ci",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/ci.yml",
+          "source_job": "plugin-ci",
+          "target_workflow": "mattermost/actions-workflows/.github/workflows/plugin-ci.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "plugin-ci": 0.0
+        },
+        "pagerank": {
+          "plugin-ci": 1.0
+        },
+        "downstream_impact": {
+          "plugin-ci": []
+        },
+        "critical_nodes": [
+          "plugin-ci"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'plugin-ci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 17,
+          "end_line": 19,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 2 uses unpinned action 'github/codeql-action/init@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 3 uses unpinned action 'github/codeql-action/autobuild@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 4 uses unpinned action 'github/codeql-action/analyze@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 45,
+          "end_line": 45,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 16,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e.yml",
+      "path": ".github/workflows/e2e.yml",
+      "name": "e2e",
+      "triggers": [
+        "schedule",
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "playwright",
+          "name": "playwright (${{ matrix.name }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "visual",
+          "name": "playwright visual",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "contract-drift",
+          "name": "fake-github contract drift",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "real-github",
+          "name": "real github.com journey",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "contract-drift": 0.0,
+          "playwright": 0.0,
+          "real-github": 0.0,
+          "visual": 0.0
+        },
+        "pagerank": {
+          "contract-drift": 0.25,
+          "playwright": 0.25,
+          "real-github": 0.25,
+          "visual": 0.25
+        },
+        "downstream_impact": {
+          "contract-drift": [],
+          "playwright": [],
+          "real-github": [],
+          "visual": []
+        },
+        "critical_nodes": [
+          "contract-drift",
+          "playwright",
+          "real-github",
+          "visual"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "issue_add.yml",
+      "path": ".github/workflows/issue_add.yml",
+      "name": "issue_add",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "add-to-project",
+          "name": "Add issue to project",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "add-to-project": 0.0
+        },
+        "pagerank": {
+          "add-to-project": 1.0
+        },
+        "downstream_impact": {
+          "add-to-project": []
+        },
+        "critical_nodes": [
+          "add-to-project"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'add-to-project' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/issue_add.yml",
+          "start_line": 12,
+          "end_line": 26,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "playwright.yml",
+      "path": ".github/workflows/playwright.yml",
+      "name": "Playwright Tests",
+      "triggers": [
+        "schedule",
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "playwright-run",
+          "name": "playwright-run",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/ci.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/playwright.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "playwright-run": 0.0
+        },
+        "pagerank": {
+          "playwright-run": 1.0
+        },
+        "downstream_impact": {
+          "playwright-run": []
+        },
+        "critical_nodes": [
+          "playwright-run"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'playwright-run' env 'MM_ADMIN_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 94,
+          "end_line": 94,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 2,
+          "end_line": 8,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'playwright-run' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 15,
+          "end_line": 171,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'playwright-run' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 99,
+          "end_line": 99,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    }
+  ]
+}

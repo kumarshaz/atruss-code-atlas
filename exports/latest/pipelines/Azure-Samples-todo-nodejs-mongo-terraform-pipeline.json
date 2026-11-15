@@ -2,10 +2,11 @@
   "org": "Azure-Samples",
   "repository": "todo-nodejs-mongo-terraform",
   "sha": "8a0fc6ba6d225476afacd29ad74262e2abd7588a",
-  "analyzed_at": "2026-11-13T04:13:07Z",
+  "analyzed_at": "2026-11-15T05:22:48Z",
   "workflows": [
     {
       "id": "azure-dev.yml",
+      "path": ".github/workflows/azure-dev.yml",
       "name": "azure-dev.yml",
       "triggers": [
         "workflow_dispatch",
@@ -20,11 +21,127 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-001",
           "type": "NO_TEST_GATE",
           "severity": "CRITICAL",
-          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 14,
+          "end_line": 71,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 2 uses unpinned action 'Azure/setup-azd@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 21,
+          "end_line": 21,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 4 uses unpinned action 'azure/login@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 29,
+          "end_line": 29,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 5 uses unpinned action 'azure/CLI@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 34,
+          "end_line": 34,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 1,
+          "end_line": 8,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 14,
+          "end_line": 71,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'build' step 4 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 29,
+          "end_line": 29,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'build' step 6 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 39,
+          "end_line": 50,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'build' step 7 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/azure-dev.yml",
+          "start_line": 52,
+          "end_line": 64,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
         }
       ]
     }

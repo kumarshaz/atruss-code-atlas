@@ -1,0 +1,381 @@
+{
+  "org": "apache",
+  "repository": "activemq",
+  "sha": "03a17a7f4c2a3136289141c29e5324fa033529d6",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "ci-manual.yaml",
+      "path": ".github/workflows/ci-manual.yaml",
+      "name": "CI Manual",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ inputs.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ inputs.os }}",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci-manual.yaml",
+          "start_line": 111,
+          "end_line": 111,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "ci-periodic-full.yml",
+      "path": ".github/workflows/ci-periodic-full.yml",
+      "name": "CI Periodic Full",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci-periodic-full.yml",
+          "start_line": 80,
+          "end_line": 80,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "ci-periodic-quick.yml",
+      "path": ".github/workflows/ci-periodic-quick.yml",
+      "name": "CI Periodic Quick",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci-periodic-quick.yml",
+          "start_line": 83,
+          "end_line": 83,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "ci-quick.yml",
+      "path": ".github/workflows/ci-quick.yml",
+      "name": "CI Quick",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci-quick.yml",
+          "start_line": 81,
+          "end_line": 81,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "deploy.yml",
+      "path": ".github/workflows/deploy.yml",
+      "name": "Deploy",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy": 0.0
+        },
+        "pagerank": {
+          "deploy": 1.0
+        },
+        "downstream_impact": {
+          "deploy": []
+        },
+        "critical_nodes": [
+          "deploy"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 31,
+          "end_line": 51,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "stale.yml",
+      "path": ".github/workflows/stale.yml",
+      "name": "Mark stale issues and close stale PRs",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale.yml",
+          "start_line": 30,
+          "end_line": 41,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

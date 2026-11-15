@@ -1,0 +1,691 @@
+{
+  "org": "keycloak",
+  "repository": "keycloak-quickstarts",
+  "sha": "03002a69bbca820d47bf3f548b36d64dcc96973a",
+  "analyzed_at": "2026-11-15T05:22:50Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "Keycloak Integration CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "call-ci-workflow",
+          "name": "call-ci-workflow",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/ci.yml",
+          "source_job": "call-ci-workflow",
+          "target_workflow": ".github/workflows/workflow-ci.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "call-ci-workflow": 0.0
+        },
+        "pagerank": {
+          "call-ci-workflow": 1.0
+        },
+        "downstream_impact": {
+          "call-ci-workflow": []
+        },
+        "critical_nodes": [
+          "call-ci-workflow"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'call-ci-workflow' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 10,
+          "end_line": 11,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "nightly-ci.yml",
+      "path": ".github/workflows/nightly-ci.yml",
+      "name": "Keycloak Integration CI Nightly",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "call-ci-workflow",
+          "name": "call-ci-workflow",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/nightly-ci.yml",
+          "source_job": "call-ci-workflow",
+          "target_workflow": ".github/workflows/workflow-ci.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "call-ci-workflow": 0.0
+        },
+        "pagerank": {
+          "call-ci-workflow": 1.0
+        },
+        "downstream_impact": {
+          "call-ci-workflow": []
+        },
+        "critical_nodes": [
+          "call-ci-workflow"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-ci.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'call-ci-workflow' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-ci.yml",
+          "start_line": 10,
+          "end_line": 13,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "schedule.yml",
+      "path": ".github/workflows/schedule.yml",
+      "name": "Scheduled workflows",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run-ci",
+          "name": "Run CI workflow",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "run-nightly-ci",
+          "name": "Run Nightly CI workflow",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "run-ci": 0.0,
+          "run-nightly-ci": 0.0
+        },
+        "pagerank": {
+          "run-ci": 0.5,
+          "run-nightly-ci": 0.5
+        },
+        "downstream_impact": {
+          "run-ci": [],
+          "run-nightly-ci": []
+        },
+        "critical_nodes": [
+          "run-ci",
+          "run-nightly-ci"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/schedule.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-ci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/schedule.yml",
+          "start_line": 10,
+          "end_line": 17,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-nightly-ci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/schedule.yml",
+          "start_line": 19,
+          "end_line": 26,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-keycloak-client-version.yml",
+      "path": ".github/workflows/update-keycloak-client-version.yml",
+      "name": "Update Keycloak Client Version",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-keycloak-version",
+          "name": "update-keycloak-version",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-keycloak-version": 0.0
+        },
+        "pagerank": {
+          "update-keycloak-version": 1.0
+        },
+        "downstream_impact": {
+          "update-keycloak-version": []
+        },
+        "critical_nodes": [
+          "update-keycloak-version"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'update-keycloak-version' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-keycloak-client-version.yml",
+          "start_line": 21,
+          "end_line": 25,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-keycloak-client-version.yml",
+          "start_line": 3,
+          "end_line": 9,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-keycloak-version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-keycloak-client-version.yml",
+          "start_line": 12,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-nodejs-adapter-version.yml",
+      "path": ".github/workflows/update-nodejs-adapter-version.yml",
+      "name": "Update Node.js Adapter Version",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-nodejs-adapter-version",
+          "name": "update-nodejs-adapter-version",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-nodejs-adapter-version": 0.0
+        },
+        "pagerank": {
+          "update-nodejs-adapter-version": 1.0
+        },
+        "downstream_impact": {
+          "update-nodejs-adapter-version": []
+        },
+        "critical_nodes": [
+          "update-nodejs-adapter-version"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'update-nodejs-adapter-version' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-nodejs-adapter-version.yml",
+          "start_line": 21,
+          "end_line": 25,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-nodejs-adapter-version.yml",
+          "start_line": 3,
+          "end_line": 9,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-nodejs-adapter-version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-nodejs-adapter-version.yml",
+          "start_line": 12,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "workflow-ci.yml",
+      "path": ".github/workflows/workflow-ci.yml",
+      "name": "Reusable Keycloak Integration CI",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "Jakarta",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "tests-spring",
+          "name": "Spring",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "tests-nodejs",
+          "name": "Node.js",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "tests-js",
+          "name": "JavaScript",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "tests-extension",
+          "name": "Extension",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "tests-haproxy-passthrough",
+          "name": "HAProxy Passthrough",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "tests-device",
+          "name": "Device",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "tests-haproxy-reencrypt",
+          "name": "HAProxy Re-encrypt",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "tests-traefik-passthrough",
+          "name": "Traefik Passthrough",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "tests-traefik-reencrypt",
+          "name": "Traefik Re-encrypt",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 10,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tests": 0.0,
+          "tests-device": 0.0,
+          "tests-extension": 0.0,
+          "tests-haproxy-passthrough": 0.0,
+          "tests-haproxy-reencrypt": 0.0,
+          "tests-js": 0.0,
+          "tests-nodejs": 0.0,
+          "tests-spring": 0.0,
+          "tests-traefik-passthrough": 0.0,
+          "tests-traefik-reencrypt": 0.0
+        },
+        "pagerank": {
+          "tests": 0.1,
+          "tests-device": 0.1,
+          "tests-extension": 0.1,
+          "tests-haproxy-passthrough": 0.1,
+          "tests-haproxy-reencrypt": 0.1,
+          "tests-js": 0.1,
+          "tests-nodejs": 0.1,
+          "tests-spring": 0.1,
+          "tests-traefik-passthrough": 0.1,
+          "tests-traefik-reencrypt": 0.1
+        },
+        "downstream_impact": {
+          "tests": [],
+          "tests-device": [],
+          "tests-extension": [],
+          "tests-haproxy-passthrough": [],
+          "tests-haproxy-reencrypt": [],
+          "tests-js": [],
+          "tests-nodejs": [],
+          "tests-spring": [],
+          "tests-traefik-passthrough": [],
+          "tests-traefik-reencrypt": []
+        },
+        "critical_nodes": [
+          "tests",
+          "tests-device",
+          "tests-extension",
+          "tests-haproxy-passthrough",
+          "tests-haproxy-reencrypt",
+          "tests-js",
+          "tests-nodejs",
+          "tests-spring",
+          "tests-traefik-passthrough",
+          "tests-traefik-reencrypt"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'tests-haproxy-passthrough' step 2 uses unpinned action 'docker/setup-compose-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 160,
+          "end_line": 160,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'tests-haproxy-reencrypt' step 2 uses unpinned action 'docker/setup-compose-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 213,
+          "end_line": 213,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'tests-traefik-passthrough' step 2 uses unpinned action 'docker/setup-compose-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 250,
+          "end_line": 250,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'tests-traefik-reencrypt' step 2 uses unpinned action 'docker/setup-compose-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 279,
+          "end_line": 279,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 3,
+          "end_line": 10,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 19,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-spring' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 49,
+          "end_line": 77,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-nodejs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 79,
+          "end_line": 99,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-js' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 101,
+          "end_line": 121,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-extension' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 123,
+          "end_line": 151,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-haproxy-passthrough' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 153,
+          "end_line": 180,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-device' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 182,
+          "end_line": 204,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-haproxy-reencrypt' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 206,
+          "end_line": 241,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-traefik-passthrough' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 243,
+          "end_line": 270,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests-traefik-reencrypt' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/workflow-ci.yml",
+          "start_line": 272,
+          "end_line": 307,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

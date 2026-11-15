@@ -40,6 +40,11 @@ _SOURCE_EXTENSIONS: dict[str, frozenset[str]] = {
     "npm": frozenset({".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"}),
     "nuget": frozenset({".cs", ".fs", ".vb"}),
     "maven": frozenset({".java", ".kt", ".kts"}),
+    "golang": frozenset({".go"}),
+    "cargo": frozenset({".rs"}),
+    "gem": frozenset({".rb"}),
+    "composer": frozenset({".php"}),
+    "hex": frozenset({".ex", ".exs"}),
 }
 
 _CVSS3_METRICS: dict[str, dict[str, Any]] = {

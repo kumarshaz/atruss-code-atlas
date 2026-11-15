@@ -7,7 +7,7 @@ import httpx
 import typer
 
 from src.analyzers.classification import Ecosystem, classify_repository
-from src.analyzers.code.base import SKIP_DIRS
+from src.analyzers.code.base import SKIP_DIRS, compute_text_loc_metrics, iter_source_files
 from src.analyzers.code.dotnet_structural import analyze_dotnet_structural
 from src.analyzers.code.fitness_engine import (
     discover_workspace_packages,
@@ -64,6 +64,36 @@ class CodeAnalysisResult:
     scorecard: RepositoryScorecard | None = None
 
 
+_EXTRA_ECOSYSTEM_EXTENSIONS: dict[Ecosystem, tuple[str, ...]] = {
+    Ecosystem.GO: (".go",),
+    Ecosystem.RUST: (".rs",),
+    Ecosystem.RUBY: (".rb",),
+    Ecosystem.PHP: (".php",),
+    Ecosystem.ELIXIR: (".ex", ".exs"),
+    Ecosystem.INFRA_DEVOPS: (".tf", ".bicep", ".yml", ".yaml"),
+}
+
+
+def _run_generic_structural(
+    target_dir: Path, extensions: tuple[str, ...]
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    files = iter_source_files(target_dir, extensions)
+    loc_metrics = compute_text_loc_metrics(files)
+    components = [
+        {
+            "name": fpath.stem,
+            "type": "module",
+            "file": str(fpath.relative_to(target_dir)).replace("\\", "/"),
+            "line": 1,
+        }
+        for fpath in files[:250]
+    ]
+    return components, {
+        **loc_metrics,
+        "component_count": len(components),
+    }
+
+
 def _run_analyzer_for_ecosystem(
     eco: Ecosystem, target_dir: Path
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -75,10 +105,14 @@ def _run_analyzer_for_ecosystem(
         return analyze_js_ts_structural(target_dir)
     if eco == Ecosystem.JAVA_SPRINGBOOT:
         return analyze_java_structural(target_dir)
+    if eco in _EXTRA_ECOSYSTEM_EXTENSIONS:
+        return _run_generic_structural(target_dir, _EXTRA_ECOSYSTEM_EXTENSIONS[eco])
     return [], {"files_analyzed": 0, "loc": 0, "sloc": 0, "component_count": 0}
 
 
 def _collect_repo_files_and_contents(repo_dir: Path) -> tuple[list[str], dict[str, str]]:
+    import os
+
     all_files: list[str] = []
     manifest_contents: dict[str, str] = {}
     manifest_names = {
@@ -87,21 +121,26 @@ def _collect_repo_files_and_contents(repo_dir: Path) -> tuple[list[str], dict[st
         "requirements.txt",
         "pom.xml",
         "build.gradle",
+        "go.mod",
+        "Cargo.toml",
+        "Gemfile",
+        "composer.json",
+        "mix.exs",
     }
 
-    for f in repo_dir.rglob("*"):
-        if not f.is_file():
-            continue
-        rel_parts = f.relative_to(repo_dir).parts
-        if any(part in SKIP_DIRS for part in rel_parts):
-            continue
-        rel_str = str(f.relative_to(repo_dir)).replace("\\", "/")
-        all_files.append(rel_str)
-        if f.name in manifest_names or f.suffix.lower() == ".csproj":
-            with suppress(OSError):
-                manifest_contents[rel_str] = f.read_text(encoding="utf-8", errors="replace")[:8192]
+    for root, dirnames, filenames in os.walk(repo_dir):
+        dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS)
+        root_path = Path(root)
+        for fname in sorted(filenames):
+            f = root_path / fname
+            rel_str = str(f.relative_to(repo_dir)).replace("\\", "/")
+            all_files.append(rel_str)
+            if fname in manifest_names or f.suffix.lower() == ".csproj":
+                with suppress(OSError):
+                    content = f.read_text(encoding="utf-8", errors="replace")[:8192]
+                    manifest_contents[rel_str] = content
 
-    return sorted(all_files), manifest_contents
+    return all_files, manifest_contents
 
 
 def _is_test_file_path(rel_path: str) -> bool:
@@ -211,7 +250,6 @@ def orchestrate_full_analysis(
     dead_by_key: dict[tuple[str, int, str], dict[str, Any]] = {}
     edge_conf: dict[tuple[str, str], float] = {}
 
-    analyzed_ecos: set[Ecosystem] = set()
     module_summaries: list[dict[str, Any]] = []
 
     def _accumulate_module(
@@ -291,6 +329,8 @@ def orchestrate_full_analysis(
             if conf > edge_conf.get(ekey, 0.0):
                 edge_conf[ekey] = conf
 
+    analyzed_eco_paths: dict[Ecosystem, list[str]] = {}
+    analyzer_runs = 0
     if classification.modules:
         for mod in classification.modules:
             mod_dir = repo_dir if mod.path == "." else (repo_dir / mod.path)
@@ -302,10 +342,16 @@ def orchestrate_full_analysis(
                 "framework": mod.framework,
                 "manifests": mod.manifest_files,
             })
-            if mod.path == "." and mod.ecosystem in analyzed_ecos:
+            seen_paths = analyzed_eco_paths.get(mod.ecosystem, [])
+            if "." in seen_paths or any(
+                mod.path == p or mod.path.startswith(f"{p}/") for p in seen_paths if p != "."
+            ):
+                continue
+            if analyzer_runs >= 12:
                 continue
             mod_comps, mod_metrics = _run_analyzer_for_ecosystem(mod.ecosystem, mod_dir)
-            analyzed_ecos.add(mod.ecosystem)
+            analyzed_eco_paths.setdefault(mod.ecosystem, []).append(mod.path)
+            analyzer_runs += 1
             prefix = "" if mod.path == "." else f"{mod.path}/"
             _accumulate_module(mod_comps, mod_metrics, prefix)
     elif classification.ecosystem != Ecosystem.UNKNOWN:

@@ -1,0 +1,593 @@
+{
+  "org": "zulip",
+  "repository": "zulip",
+  "sha": "0d59088c1d4d1741e6ec17074f0ede4d0c467044",
+  "analyzed_at": "2026-11-15T05:22:49Z",
+  "workflows": [
+    {
+      "id": "api-docs-update-check.yml",
+      "path": ".github/workflows/api-docs-update-check.yml",
+      "name": "API Documentation Update Check",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check-feature-level-updated",
+          "name": "check-feature-level-updated",
+          "runner": "ubuntu-slim",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "notify-if-api-docs-changed",
+          "name": "notify-if-api-docs-changed",
+          "runner": "ubuntu-slim",
+          "steps_count": 5,
+          "needs": [
+            "check-feature-level-updated"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-feature-level-updated": 0.0,
+          "notify-if-api-docs-changed": 0.0
+        },
+        "pagerank": {
+          "check-feature-level-updated": 0.350877,
+          "notify-if-api-docs-changed": 0.649123
+        },
+        "downstream_impact": {
+          "check-feature-level-updated": [
+            "notify-if-api-docs-changed"
+          ],
+          "notify-if-api-docs-changed": []
+        },
+        "critical_nodes": [
+          "notify-if-api-docs-changed",
+          "check-feature-level-updated"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-feature-level-updated' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/api-docs-update-check.yml",
+          "start_line": 14,
+          "end_line": 46,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'notify-if-api-docs-changed' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/api-docs-update-check.yml",
+          "start_line": 48,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "auto-add-parent-label.yml",
+      "path": ".github/workflows/auto-add-parent-label.yml",
+      "name": "Auto add general area label",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "add-general-label",
+          "name": "add-general-label",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "add-general-label": 0.0
+        },
+        "pagerank": {
+          "add-general-label": 1.0
+        },
+        "downstream_impact": {
+          "add-general-label": []
+        },
+        "critical_nodes": [
+          "add-general-label"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'add-general-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/auto-add-parent-label.yml",
+          "start_line": 11,
+          "end_line": 46,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "Code scanning",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "CodeQL",
+          "name": "CodeQL",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "CodeQL": 0.0
+        },
+        "pagerank": {
+          "CodeQL": 1.0
+        },
+        "downstream_impact": {
+          "CodeQL": []
+        },
+        "critical_nodes": [
+          "CodeQL"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'CodeQL' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 19,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "production-suite.yml",
+      "path": ".github/workflows/production-suite.yml",
+      "name": "Zulip production suite",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "production_build",
+          "name": "Ubuntu 22.04 production build",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "production_install",
+          "name": "${{ matrix.name  }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "production_build"
+          ]
+        },
+        {
+          "id": "production_upgrade",
+          "name": "${{ matrix.name  }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "production_build"
+          ]
+        },
+        {
+          "id": "required-jobs",
+          "name": "Required jobs",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": [
+            "production_build",
+            "production_install",
+            "production_upgrade"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "production_build": 0.0,
+          "production_install": 0.0,
+          "production_upgrade": 0.0,
+          "required-jobs": 0.0
+        },
+        "pagerank": {
+          "production_build": 0.142213,
+          "production_install": 0.182508,
+          "production_upgrade": 0.182508,
+          "required-jobs": 0.492771
+        },
+        "downstream_impact": {
+          "production_build": [
+            "production_install",
+            "production_upgrade",
+            "required-jobs"
+          ],
+          "production_install": [
+            "required-jobs"
+          ],
+          "production_upgrade": [
+            "required-jobs"
+          ],
+          "required-jobs": []
+        },
+        "critical_nodes": [
+          "required-jobs",
+          "production_install",
+          "production_upgrade",
+          "production_build"
+        ],
+        "max_blast_radius": 3
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'production_build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/production-suite.yml",
+          "start_line": 42,
+          "end_line": 137,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'production_install' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/production-suite.yml",
+          "start_line": 139,
+          "end_line": 246,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'production_upgrade' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/production-suite.yml",
+          "start_line": 248,
+          "end_line": 340,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'required-jobs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/production-suite.yml",
+          "start_line": 342,
+          "end_line": 354,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-oneclick-apps.yml",
+      "path": ".github/workflows/update-oneclick-apps.yml",
+      "name": "Update one click apps",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "update-digitalocean-oneclick-app",
+          "name": "update-digitalocean-oneclick-app",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-digitalocean-oneclick-app": 0.0
+        },
+        "pagerank": {
+          "update-digitalocean-oneclick-app": 1.0
+        },
+        "downstream_impact": {
+          "update-digitalocean-oneclick-app": []
+        },
+        "critical_nodes": [
+          "update-digitalocean-oneclick-app"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-digitalocean-oneclick-app' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-oneclick-apps.yml",
+          "start_line": 9,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "zizmor.yml",
+      "path": ".github/workflows/zizmor.yml",
+      "name": "GitHub Actions Security Analysis with zizmor",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "zizmor": 0.0
+        },
+        "pagerank": {
+          "zizmor": 1.0
+        },
+        "downstream_impact": {
+          "zizmor": []
+        },
+        "critical_nodes": [
+          "zizmor"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zizmor.yml",
+          "start_line": 12,
+          "end_line": 23,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "zulip-ci.yml",
+      "path": ".github/workflows/zulip-ci.yml",
+      "name": "Zulip CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "${{ matrix.name }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 28,
+          "needs": []
+        },
+        {
+          "id": "required-jobs",
+          "name": "Required jobs",
+          "runner": "ubuntu-slim",
+          "steps_count": 1,
+          "needs": [
+            "tests"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "required-jobs": 0.0,
+          "tests": 0.0
+        },
+        "pagerank": {
+          "required-jobs": 0.649123,
+          "tests": 0.350877
+        },
+        "downstream_impact": {
+          "required-jobs": [],
+          "tests": [
+            "required-jobs"
+          ]
+        },
+        "critical_nodes": [
+          "required-jobs",
+          "tests"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zulip-ci.yml",
+          "start_line": 26,
+          "end_line": 283,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'required-jobs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zulip-ci.yml",
+          "start_line": 285,
+          "end_line": 295,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "zulip-cloud-deploy.yaml",
+      "path": ".github/workflows/zulip-cloud-deploy.yaml",
+      "name": "Notify of issues resolved in latest Zulip Cloud deploy",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-messages",
+          "name": "build-messages",
+          "runner": "ubuntu-slim",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "send-messages",
+          "name": "send-messages",
+          "runner": "ubuntu-slim",
+          "steps_count": 3,
+          "needs": [
+            "build-messages"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-messages": 0.0,
+          "send-messages": 0.0
+        },
+        "pagerank": {
+          "build-messages": 0.350877,
+          "send-messages": 0.649123
+        },
+        "downstream_impact": {
+          "build-messages": [
+            "send-messages"
+          ],
+          "send-messages": []
+        },
+        "critical_nodes": [
+          "send-messages",
+          "build-messages"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-messages' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zulip-cloud-deploy.yaml",
+          "start_line": 28,
+          "end_line": 74,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'send-messages' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zulip-cloud-deploy.yaml",
+          "start_line": 75,
+          "end_line": 108,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

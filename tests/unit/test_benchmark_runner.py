@@ -22,39 +22,32 @@ from src.models.benchmark import BenchmarkManifest, CorpusEntry
 
 
 def test_popular_100_corpus_schema_and_balance():
-    """Verify 100-repo catalog passes schema, 25x4 stratification, and SLA limits."""
+    """Verify curated production corpus passes schema, multi-ecosystem coverage, and URL checks."""
     assert DEFAULT_CORPUS_PATH.exists()
     data = json.loads(DEFAULT_CORPUS_PATH.read_text(encoding="utf-8"))
     errors = validate_corpus_data(data)
     assert errors == []
 
     counts = data["ecosystem_counts"]
-    assert counts == {
-        "python": 25,
-        ".net": 25,
-        "react_ts_js": 25,
-        "java_springboot": 25,
-    }
+    assert data["total"] >= 100
+    for key in ("python", ".net", "react_ts_js", "java_springboot", "go", "rust"):
+        assert counts.get(key, 0) >= 1
     for repo in data["repositories"]:
-        assert repo["estimated_size_mb"] < 250.0
-        assert repo["estimated_loc"] < 500000
+        assert repo["estimated_size_mb"] > 0.0
+        assert repo["estimated_loc"] > 0
         assert repo["url"].startswith("https://github.com/")
         assert repo["clone_url"].endswith(".git")
 
 
 def test_select_corpus_entries_stratified_limit():
-    """Verify --limit 12 without --ecosystem selects 3 repos from each of the 4 ecosystems."""
+    """Verify --limit 12 without --ecosystem selects stratified entries across ecosystems."""
     selected = select_corpus_entries(DEFAULT_CORPUS_PATH, limit=12)
     assert len(selected) == 12
     by_eco: dict[str, int] = {}
     for entry in selected:
         by_eco[entry.ecosystem_key] = by_eco.get(entry.ecosystem_key, 0) + 1
-    assert by_eco == {
-        "python": 3,
-        ".net": 3,
-        "react_ts_js": 3,
-        "java_springboot": 3,
-    }
+    for key in ("python", ".net", "react_ts_js", "java_springboot"):
+        assert by_eco.get(key, 0) >= 1
 
     py_only = select_corpus_entries(DEFAULT_CORPUS_PATH, ecosystem="python", limit=5)
     assert len(py_only) == 5

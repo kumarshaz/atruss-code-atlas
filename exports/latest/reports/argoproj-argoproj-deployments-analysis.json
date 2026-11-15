@@ -1,0 +1,732 @@
+{
+  "repository": "argoproj/argoproj-deployments",
+  "sha": "30594a0e81ec441963348a15f920077a3cbd5362",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 93,
+    "loc": 1720,
+    "sloc": 1613,
+    "component_count": 93,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Helm Chart",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argo-events/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "calendar-eventsource",
+      "type": "module",
+      "file": "argo-events/base/calendar-eventsource.yaml",
+      "line": 1
+    },
+    {
+      "name": "log-sensor",
+      "type": "module",
+      "file": "argo-events/base/log-sensor.yaml",
+      "line": 1
+    },
+    {
+      "name": "operate-wf-rbac",
+      "type": "module",
+      "file": "argo-events/base/operate-wf-rbac.yaml",
+      "line": 1
+    },
+    {
+      "name": "operate-workflow-sa",
+      "type": "module",
+      "file": "argo-events/base/operate-workflow-sa.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-sensor",
+      "type": "module",
+      "file": "argo-events/base/workflow-sensor.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argo-events/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argo-rollouts/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argo-rollouts/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argo-workflows/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-role",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-role.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-rolebinding",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-deploy",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-server-deploy.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-role",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-server-role.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-rolebinding",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-server-rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-sa",
+      "type": "module",
+      "file": "argo-workflows/overlays/argo-server-sa.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argo-workflows/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-configmap",
+      "type": "module",
+      "file": "argo-workflows/overlays/workflow-controller-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-deploy",
+      "type": "module",
+      "file": "argo-workflows/overlays/workflow-controller-deploy.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-ns",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-ns.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-rolebinding",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-ingress",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-server-ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-rolebinding",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-server-rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-workflows-certificate",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-workflows-certificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-workflows-issuer",
+      "type": "module",
+      "file": "argo-workflows/resources/argo-workflows-issuer.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-count-resourcequota",
+      "type": "module",
+      "file": "argo-workflows/resources/workflow-count-resourcequota.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-server-read-only-clusterrole",
+      "type": "module",
+      "file": "argo-workflows/resources/rbac/argo-server-read-only-clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "read-only-clusterrole",
+      "type": "module",
+      "file": "argo-workflows/resources/rbac/read-only-clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "read-only-namespaced-clusterrole",
+      "type": "module",
+      "file": "argo-workflows/resources/rbac/read-only-namespaced-clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "read-write-namespaced-clusterrole",
+      "type": "module",
+      "file": "argo-workflows/resources/rbac/read-write-namespaced-clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argocd/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-cd-certificate",
+      "type": "module",
+      "file": "argocd/base/argo-cd-certificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-cd-issuer",
+      "type": "module",
+      "file": "argocd/base/argo-cd-issuer.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-cd-ui-ingress",
+      "type": "module",
+      "file": "argocd/base/argo-cd-ui-ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argocd/base/namespaces/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-backend",
+      "type": "module",
+      "file": "argocd/base/namespaces/team-backend.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-frontend",
+      "type": "module",
+      "file": "argocd/base/namespaces/team-frontend.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-platform",
+      "type": "module",
+      "file": "argocd/base/namespaces/team-platform.yaml",
+      "line": 1
+    },
+    {
+      "name": "sync-project",
+      "type": "module",
+      "file": "argocd/base/projects/sync-project.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-backend-project",
+      "type": "module",
+      "file": "argocd/base/projects/team-backend-project.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-frontend-project",
+      "type": "module",
+      "file": "argocd/base/projects/team-frontend-project.yaml",
+      "line": 1
+    },
+    {
+      "name": "team-platform-project",
+      "type": "module",
+      "file": "argocd/base/projects/team-platform-project.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-cd-cm",
+      "type": "module",
+      "file": "argocd/overlays/production/argo-cd-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-cmd-params-cm",
+      "type": "module",
+      "file": "argocd/overlays/production/argocd-cmd-params-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-notifications-cm",
+      "type": "module",
+      "file": "argocd/overlays/production/argocd-notifications-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-notifications-controller-deploy",
+      "type": "module",
+      "file": "argocd/overlays/production/argocd-notifications-controller-deploy.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-rbac-cm",
+      "type": "module",
+      "file": "argocd/overlays/production/argocd-rbac-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-server-service",
+      "type": "module",
+      "file": "argocd/overlays/production/argocd-server-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics-extension",
+      "type": "module",
+      "file": "argocd/overlays/production/metrics-extension.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argocd/overlays/production/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "rollouts-extension",
+      "type": "module",
+      "file": "argocd/overlays/production/rollouts-extension.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argocd-extension-metrics/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "monitoring-namespace",
+      "type": "module",
+      "file": "argocd-extension-metrics/base/monitoring-namespace.yaml",
+      "line": 1
+    },
+    {
+      "name": "prometheus-redirect-service",
+      "type": "module",
+      "file": "argocd-extension-metrics/base/prometheus-redirect-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argocd-extension-metrics/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argocd-image-updater/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "argocd-image-updater/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "argoproj/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-cd",
+      "type": "module",
+      "file": "argoproj/base/argo-cd.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-events",
+      "type": "module",
+      "file": "argoproj/base/argo-events.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-rollouts",
+      "type": "module",
+      "file": "argoproj/base/argo-rollouts.yaml",
+      "line": 1
+    },
+    {
+      "name": "argo-workflows",
+      "type": "module",
+      "file": "argoproj/base/argo-workflows.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-extension-metrics",
+      "type": "module",
+      "file": "argoproj/base/argocd-extension-metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-image-updater",
+      "type": "module",
+      "file": "argoproj/base/argocd-image-updater.yaml",
+      "line": 1
+    },
+    {
+      "name": "cert-manager",
+      "type": "module",
+      "file": "argoproj/base/cert-manager.yaml",
+      "line": 1
+    },
+    {
+      "name": "cluster-config",
+      "type": "module",
+      "file": "argoproj/base/cluster-config.yaml",
+      "line": 1
+    },
+    {
+      "name": "dex",
+      "type": "module",
+      "file": "argoproj/base/dex.yaml",
+      "line": 1
+    },
+    {
+      "name": "external-dns",
+      "type": "module",
+      "file": "argoproj/base/external-dns.yaml",
+      "line": 1
+    },
+    {
+      "name": "governor",
+      "type": "module",
+      "file": "argoproj/base/governor.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-nginx",
+      "type": "module",
+      "file": "argoproj/base/ingress-nginx.yaml",
+      "line": 1
+    },
+    {
+      "name": "istio-addons",
+      "type": "module",
+      "file": "argoproj/base/istio-addons.yaml",
+      "line": 1
+    },
+    {
+      "name": "istio-controlplane",
+      "type": "module",
+      "file": "argoproj/base/istio-controlplane.yaml",
+      "line": 1
+    },
+    {
+      "name": "istio-operator",
+      "type": "module",
+      "file": "argoproj/base/istio-operator.yaml",
+      "line": 1
+    },
+    {
+      "name": "prometheus-operator",
+      "type": "module",
+      "file": "argoproj/base/prometheus-operator.yaml",
+      "line": 1
+    },
+    {
+      "name": "sync-argoproj",
+      "type": "module",
+      "file": "argoproj/base/sync-argoproj.yaml",
+      "line": 1
+    },
+    {
+      "name": "sync-example-apps",
+      "type": "module",
+      "file": "argoproj/base/sync-example-apps.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-examples",
+      "type": "module",
+      "file": "argoproj/base/workflow-examples.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "cert-manager/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "cert-manager-namespace",
+      "type": "module",
+      "file": "cert-manager/overlays/cert-manager-namespace.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "cert-manager/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "cluster-config/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "namespace",
+      "type": "module",
+      "file": "cluster-config/base/namespace.yaml",
+      "line": 1
+    },
+    {
+      "name": "priority-class",
+      "type": "module",
+      "file": "cluster-config/base/priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "dex/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "dex/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "certificate",
+      "type": "module",
+      "file": "dex/templates/certificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "issuer",
+      "type": "module",
+      "file": "dex/templates/issuer.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "external-dns/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "external-dns/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "kustomization",
+      "type": "module",
+      "file": "governor/kustomization.yaml",
+      "line": 1
+    },
+    {
+      "name": "patch-priority-class",
+      "type": "module",
+      "file": "governor/overlays/patch-priority-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "pod-reaper-cr",
+      "type": "module",
+      "file": "governor/overlays/pod-reaper-cr.yaml",
+      "line": 1
+    },
+    {
+      "name": "pod-reaper-job-patch",
+      "type": "module",
+      "file": "governor/overlays/pod-reaper-job-patch.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 80.5,
+    "overall_grade": "B",
+    "technical_debt_score": 19.5,
+    "remediation_hours": 4.88,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=0"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/gke/providers.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/gke/terraform.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/network/main.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/network/providers.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/network/terraform.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/network/variables.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/remote-state/providers.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/remote-state/terraform.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/user-access/providers.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "argoproj",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/user-access/terraform.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "external-dns",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/gke/workload_identity.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "external-dns",
+      "source_type": "code_module",
+      "target": "infrastructure/terraform/gcp/network/main.tf",
+      "target_type": "iac",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

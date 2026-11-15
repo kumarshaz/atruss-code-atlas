@@ -429,7 +429,13 @@ def _expand_workspace_globs(
 
     matched: dict[str, Path] = {}
     for pat in positives:
-        candidates = [repo_dir] if pat == "." else list(repo_dir.glob(pat))
+        if not pat or pat == ".":
+            candidates = [repo_dir]
+        else:
+            try:
+                candidates = list(repo_dir.glob(pat))
+            except ValueError:
+                candidates = []
         for cand in candidates:
             if not cand.is_dir():
                 continue

@@ -1,0 +1,404 @@
+{
+  "repository": "medusajs/medusa-agent-skills",
+  "sha": "c5a56b4646b2c39d49b1da10c8a5404236b6b4ba",
+  "ecosystem": "Unknown",
+  "metrics": {
+    "files_analyzed": 0,
+    "loc": 0,
+    "sloc": 0,
+    "component_count": 0,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Unknown",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "skills-stats-to-posthog.yml",
+      "path": ".github/workflows/skills-stats-to-posthog.yml",
+      "name": "Skills stats → PostHog",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "snapshot": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@v4"
+            },
+            {
+              "name": "Set up Node.js",
+              "uses": "actions/setup-node@v4",
+              "with": {
+                "node-version": "20"
+              }
+            },
+            {
+              "name": "Install Vercel CLI",
+              "run": "npm install -g vercel@latest"
+            },
+            {
+              "name": "Pull Vercel OIDC token",
+              "env": {
+                "VERCEL_TOKEN": "${{ secrets.VERCEL_TOKEN }}",
+                "VERCEL_ORG_ID": "${{ secrets.VERCEL_ORG_ID }}",
+                "VERCEL_PROJECT_ID": "${{ secrets.VERCEL_PROJECT_ID }}"
+              },
+              "run": "# Fail early with a clear message if any secret is missing (never print values).\n[ -n \"$VERCEL_TOKEN\" ]      || { echo \"::error::VERCEL_TOKEN secret is empty or unset.\"; exit 1; }\n[ -n \"$VERCEL_ORG_ID\" ]     || { echo \"::error::VERCEL_ORG_ID secret is empty or unset.\"; exit 1; }\n[ -n \"$VERCEL_PROJECT_ID\" ] || { echo \"::error::VERCEL_PROJECT_ID secret is empty or unset.\"; exit 1; }\n\n# Show which account the token authenticates as (helps diagnose scope issues).\necho \"Vercel token authenticates as: $(vercel whoami --token=\"$VERCEL_TOKEN\" 2>&1)\"\n\n# Link the project by writing .vercel/project.json directly. Relying on\n# VERCEL_ORG_ID/VERCEL_PROJECT_ID env-var auto-linking failed to resolve the\n# project in CI (\"Could not retrieve Project Settings\"); this is deterministic.\nmkdir -p .vercel\nprintf '{\"orgId\":\"%s\",\"projectId\":\"%s\"}' \"$VERCEL_ORG_ID\" \"$VERCEL_PROJECT_ID\" > .vercel/project.json\n\n# Writes .env.local containing a fresh (~12h) VERCEL_OIDC_TOKEN.\nvercel env pull .env.local \\\n  --environment=development \\\n  --token=\"$VERCEL_TOKEN\" \\\n  --yes\nif ! grep -q '^VERCEL_OIDC_TOKEN=' .env.local; then\n  echo \"::error::vercel env pull did not produce a VERCEL_OIDC_TOKEN. Check that Secure Backend Access (OIDC) is enabled on the project and that VERCEL_TOKEN can access this org/project.\"\n  exit 1\nfi\n"
+            },
+            {
+              "name": "Snapshot install counts to PostHog",
+              "env": {
+                "POSTHOG_PROJECT_API_KEY": "${{ secrets.POSTHOG_PROJECT_API_KEY }}"
+              },
+              "run": "set -a\n. ./.env.local\nset +a\nnode scripts/skills-stats-to-posthog.mjs\n"
+            },
+            {
+              "name": "Clean up token",
+              "if": "always()",
+              "run": "rm -rf .env.local .vercel"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "snapshot",
+          "name": "snapshot",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+        "[LOW] NO_TIMEOUT: Job 'snapshot' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/skills-stats-to-posthog.yml",
+          "start_line": 40,
+          "end_line": 40,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'snapshot' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/skills-stats-to-posthog.yml",
+          "start_line": 28,
+          "end_line": 83,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "snapshot": 0.0
+        },
+        "pagerank": {
+          "snapshot": 1.0
+        },
+        "downstream_impact": {
+          "snapshot": []
+        },
+        "critical_nodes": [
+          "snapshot"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "sync-medusa-docs-changes.yml",
+      "path": ".github/workflows/sync-medusa-docs-changes.yml",
+      "name": "Sync Medusa Docs Changes",
+      "triggers": [
+        "repository_dispatch",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "sync": {
+          "name": "Sync docs changes into skills",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Generate GitHub App token",
+              "id": "app-token",
+              "uses": "actions/create-github-app-token@v1",
+              "with": {
+                "app-id": "${{ secrets.MEDUSA_APP_ID }}",
+                "private-key": "${{ secrets.MEDUSA_APP_PRIVATE_KEY }}"
+              }
+            },
+            {
+              "name": "Resolve and validate commit SHA",
+              "id": "sha",
+              "env": {
+                "DISPATCH_SHA": "${{ github.event.client_payload.commit_sha }}",
+                "INPUT_SHA": "${{ inputs.commit_sha }}"
+              },
+              "run": "set -euo pipefail\nif [ \"${{ github.event_name }}\" = \"workflow_dispatch\" ]; then\n  SHA=\"$INPUT_SHA\"\nelse\n  SHA=\"$DISPATCH_SHA\"\nfi\n\nif ! printf '%s' \"$SHA\" | grep -qE '^[0-9a-fA-F]{40}$'; then\n  echo \"::error::invalid or missing commit_sha in dispatch payload\"\n  exit 1\nfi\n\necho \"sha=$SHA\" >> \"$GITHUB_OUTPUT\"\necho \"short_sha=${SHA:0:8}\" >> \"$GITHUB_OUTPUT\"\necho \"Processing $DOCS_REPO commit $SHA\"\n"
+            },
+            {
+              "name": "Check the payload carries docs files",
+              "id": "payload-files",
+              "env": {
+                "CHANGED_FILES_JSON": "${{ toJSON(github.event.client_payload.changed_files) }}"
+              },
+              "run": "set -euo pipefail\nif [ \"${{ github.event_name }}\" = \"workflow_dispatch\" ]; then\n  echo \"proceed=true\" >> \"$GITHUB_OUTPUT\"\n  exit 0\nfi\nCOUNT=$(printf '%s' \"$CHANGED_FILES_JSON\" | jq 'if type == \"array\" then length else 0 end')\nif [ \"$COUNT\" -eq 0 ]; then\n  echo \"no docs files in payload\"\n  echo \"proceed=false\" >> \"$GITHUB_OUTPUT\"\n  exit 0\nfi\necho \"proceed=true\" >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Checkout repository",
+              "if": "steps.payload-files.outputs.proceed == 'true'",
+              "uses": "actions/checkout@v4",
+              "with": {
+                "token": "${{ steps.app-token.outputs.token }}",
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Set up Node.js",
+              "if": "steps.payload-files.outputs.proceed == 'true'",
+              "uses": "actions/setup-node@v4",
+              "with": {
+                "node-version": "22"
+              }
+            },
+            {
+              "name": "Fetch the docs commit",
+              "if": "steps.payload-files.outputs.proceed == 'true'",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}",
+                "SHA": "${{ steps.sha.outputs.sha }}"
+              },
+              "run": "set -euo pipefail\nmkdir -p \"$WORK_DIR\"\nif ! gh api \"repos/$DOCS_REPO/commits/$SHA?per_page=300\" > \"$WORK_DIR/commit-api.json\" 2> \"$WORK_DIR/commit-api.err\"; then\n  # A well-formed SHA that does not exist answers 422 (\"No commit\n  # found for SHA\"), not 404 -- both mean the same thing here.\n  if grep -qE 'HTTP 404|HTTP 422|Not Found|No commit found' \"$WORK_DIR/commit-api.err\"; then\n    echo \"::error::commit $SHA was not found in $DOCS_REPO. It may have been force-pushed away or the SHA is wrong. Refusing to proceed on partial data.\"\n  else\n    echo \"::error::could not fetch commit $SHA from $DOCS_REPO\"\n    cat \"$WORK_DIR/commit-api.err\"\n  fi\n  exit 1\nfi\nTOTAL=$(jq '.files | length' \"$WORK_DIR/commit-api.json\")\necho \"commit API returned $TOTAL file entries\"\nif [ \"$TOTAL\" -ge 300 ]; then\n  echo \"::warning::the commits API caps its file list at 300 entries; this commit may have more.\"\nfi\n"
+            },
+            {
+              "name": "Normalize and filter the changed-file list",
+              "id": "resolve",
+              "if": "steps.payload-files.outputs.proceed == 'true'",
+              "env": {
+                "PAYLOAD_JSON": "${{ toJSON(github.event.client_payload) }}"
+              },
+              "run": "set -euo pipefail\nnode scripts/resolve-docs-commit.mjs \\\n  --commit-api \"$WORK_DIR/commit-api.json\" \\\n  --output-dir \"$WORK_DIR\"\n"
+            },
+            {
+              "name": "Report commit with no docs content",
+              "if": "steps.payload-files.outputs.proceed != 'true' || steps.resolve.outputs.has_docs_files != 'true'",
+              "run": "set -euo pipefail\nif [ -f \"$WORK_DIR/changed-files.json\" ]; then\n  echo \"no authored docs files in this commit after filtering build output and generated references\"\n  jq -r '.ignored[] | \"ignored: [\\(.status)] \\(.path) - \\(.reason)\"' \"$WORK_DIR/changed-files.json\"\nelse\n  echo \"no docs files in payload\"\nfi\necho \"No pull request opened.\"\n"
+            },
+            {
+              "name": "Run Claude Code to update affected skills",
+              "if": "steps.resolve.outputs.has_docs_files == 'true'",
+              "uses": "anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34",
+              "with": {
+                "anthropic_api_key": "${{ secrets.ANTHROPIC_API_KEY }}",
+                "prompt_file": ".github/prompts/sync-medusa-docs-changes.md",
+                "model": "claude-sonnet-4-6",
+                "mcp_config": "{\"mcpServers\":{\"MedusaDocs\":{\"type\":\"http\",\"url\":\"https://docs.medusajs.com/mcp\"}}}",
+                "allowed_tools": "Read,Write,Edit,Glob,Grep,WebFetch,mcp__MedusaDocs,Bash(node scripts/validate-skills.mjs),Bash(ls:*),Bash(cat:*),Bash(find:*)",
+                "max_turns": 60,
+                "timeout_minutes": 30
+              }
+            },
+            {
+              "name": "Remove Claude scratch artifacts",
+              "if": "steps.resolve.outputs.has_docs_files == 'true'",
+              "run": "set -euo pipefail\n# If the summary landed at the repo root instead of the work dir,\n# rescue it rather than throwing away the PR body.\nif [ -f summary.md ] && ! git ls-files --error-unmatch summary.md >/dev/null 2>&1; then\n  [ -f \"$WORK_DIR/summary.md\" ] || mv summary.md \"$WORK_DIR/summary.md\"\n  rm -f summary.md\n  echo \"Moved a stray summary.md into $WORK_DIR\"\nfi\n\nfor artifact in output.txt output.json claude-execution-output.json execution-output.json; do\n  [ -e \"$artifact\" ] || continue\n  if git ls-files --error-unmatch \"$artifact\" >/dev/null 2>&1; then\n    echo \"::warning::$artifact is tracked in this repository and was left in place\"\n    continue\n  fi\n  rm -rf \"$artifact\"\n  echo \"Removed scratch artifact $artifact\"\ndone\n"
+            },
+            {
+              "name": "Validate skill content",
+              "if": "steps.resolve.outputs.has_docs_files == 'true'",
+              "run": "node scripts/validate-skills.mjs"
+            },
+            {
+              "name": "Detect edits on disk",
+              "id": "diff",
+              "if": "steps.resolve.outputs.has_docs_files == 'true'",
+              "run": "set -euo pipefail\n# Check for strays first. A run that edited nothing but left a file\n# outside plugins/ behind is still a prompt violation and must fail\n# loudly rather than pass as \"nothing to do\".\n# cut -c4- keeps paths containing spaces intact.\nSTRAY=$(git status --porcelain -- . ':(exclude)plugins' | cut -c4-)\nif [ -n \"$STRAY\" ]; then\n  echo \"::error::files outside plugins/ were created or modified, which the prompt forbids:\"\n  echo \"$STRAY\"\n  exit 1\nfi\n\nCHANGED=$(git status --porcelain -- plugins | cut -c4-)\nif [ -z \"$CHANGED\" ]; then\n  echo \"No skill files changed on disk. No pull request opened.\"\n  echo \"has_changes=false\" >> \"$GITHUB_OUTPUT\"\n  exit 0\nfi\necho \"has_changes=true\" >> \"$GITHUB_OUTPUT\"\necho \"$CHANGED\" > \"$WORK_DIR/changed-plugin-files.txt\"\necho \"Changed files:\"\necho \"$CHANGED\"\n"
+            },
+            {
+              "name": "Bump plugin and marketplace versions",
+              "id": "bump",
+              "if": "steps.resolve.outputs.has_docs_files == 'true' && steps.diff.outputs.has_changes == 'true'",
+              "run": "set -euo pipefail\nnode scripts/bump-versions.mjs --output \"$WORK_DIR/version-bumps.md\" \\\n  < \"$WORK_DIR/changed-plugin-files.txt\"\n"
+            },
+            {
+              "name": "Build pull request body",
+              "id": "pr-body",
+              "if": "steps.resolve.outputs.has_docs_files == 'true' && steps.diff.outputs.has_changes == 'true'",
+              "run": "set -euo pipefail\n{\n  echo \"## Automated skill update from a Medusa docs change\"\n  echo\n  echo \"Source commit: $(jq -r '.url' \"$WORK_DIR/commit.json\")\"\n  echo\n  echo \"> $(jq -r '.message' \"$WORK_DIR/commit.json\")\"\n  echo\n  echo \"File list source: $(jq -r '.file_list_source' \"$WORK_DIR/commit.json\")\"\n  echo\n  echo \"### Docs files Claude reviewed\"\n  echo\n  jq -r '.considered[] | \"- `\\(.path)` (\\(.status))\" + (if .patch_omitted then \" - diff omitted, over the patch budget\" else \"\" end)' \"$WORK_DIR/changed-files.json\"\n  echo\n  # Claude reports what it changed and what it could not judge. The\n  # fallback keeps the body honest if it never wrote a summary.\n  if [ -f \"$WORK_DIR/summary.md\" ]; then\n    cat \"$WORK_DIR/summary.md\"\n  else\n    echo \"### Files updated\"\n    echo\n    git status --porcelain -- plugins | cut -c4- | sed 's/^/- `/; s/$/`/'\n    echo\n    echo \"Claude did not write a summary, so this list is derived from the diff.\"\n  fi\n  echo\n  if [ -s \"$WORK_DIR/version-bumps.md\" ]; then\n    cat \"$WORK_DIR/version-bumps.md\"\n  fi\n  echo \"---\"\n  echo\n  echo \"Generated by the \\`sync-medusa-docs-changes\\` workflow. Review before merging: the edits are model-generated and may have missed context.\"\n} > \"$WORK_DIR/pr-body.md\"\ncat \"$WORK_DIR/pr-body.md\"\n"
+            },
+            {
+              "name": "Commit and push to a dedicated branch",
+              "id": "push",
+              "if": "steps.resolve.outputs.has_docs_files == 'true' && steps.diff.outputs.has_changes == 'true'",
+              "env": {
+                "SHORT_SHA": "${{ steps.sha.outputs.short_sha }}"
+              },
+              "run": "set -euo pipefail\nBRANCH=\"docs-sync/medusa-$SHORT_SHA\"\ngit config user.name \"medusa-bot[bot]\"\ngit config user.email \"medusa-bot[bot]@users.noreply.github.com\"\n# Deterministic branch name so a re-run of the same docs commit updates\n# the existing pull request instead of opening a second one.\ngit checkout -B \"$BRANCH\"\n# .claude-plugin holds the marketplace manifest, written by the bump\n# step above -- never by Claude.\ngit add -- plugins .claude-plugin\ngit commit -m \"chore(skills): sync with medusa docs commit $SHORT_SHA\"\n# Never force-push: a plain push to a branch we just branched from the\n# default branch either fast-forwards or fails loudly.\ngit push origin \"$BRANCH\"\necho \"branch=$BRANCH\" >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Create or update the pull request",
+              "if": "steps.resolve.outputs.has_docs_files == 'true' && steps.diff.outputs.has_changes == 'true'",
+              "env": {
+                "GH_TOKEN": "${{ steps.app-token.outputs.token }}",
+                "BRANCH": "${{ steps.push.outputs.branch }}",
+                "SHORT_SHA": "${{ steps.sha.outputs.short_sha }}",
+                "REPO": "${{ github.repository }}"
+              },
+              "run": "set -euo pipefail\nTITLE=\"chore(skills): sync with Medusa docs commit $SHORT_SHA\"\n\nEXISTING=$(gh pr list --repo \"$REPO\" --head \"$BRANCH\" --state open --json number --jq '.[0].number' || true)\nif [ -n \"$EXISTING\" ]; then\n  gh pr edit \"$EXISTING\" --repo \"$REPO\" \\\n    --title \"$TITLE\" \\\n    --body-file \"$WORK_DIR/pr-body.md\"\n  echo \"Updated existing pull request #$EXISTING\"\n  exit 0\nfi\n\nif ! gh pr create --repo \"$REPO\" \\\n  --base \"${{ github.event.repository.default_branch }}\" \\\n  --head \"$BRANCH\" \\\n  --title \"$TITLE\" \\\n  --body-file \"$WORK_DIR/pr-body.md\" 2> \"$WORK_DIR/pr-create.err\"; then\n  if grep -qE 'HTTP 40[34]|Resource not accessible' \"$WORK_DIR/pr-create.err\"; then\n    echo \"::error::could not open the pull request with the Medusa GitHub App token. The app is either not installed on $REPO or lacks contents:write and pull-requests:write. Not falling back to any other credential.\"\n  fi\n  cat \"$WORK_DIR/pr-create.err\"\n  exit 1\nfi\n"
+            },
+            {
+              "name": "Clean up branch on failure",
+              "if": "failure() && steps.push.outputs.branch != ''",
+              "env": {
+                "GH_TOKEN": "${{ steps.app-token.outputs.token }}",
+                "BRANCH": "${{ steps.push.outputs.branch }}",
+                "REPO": "${{ github.repository }}"
+              },
+              "run": "OPEN=$(gh pr list --repo \"$REPO\" --head \"$BRANCH\" --state open --json number --jq '.[0].number' || true)\nif [ -z \"$OPEN\" ]; then\n  gh api --method DELETE \"repos/$REPO/git/refs/heads/$BRANCH\" || true\n  echo \"Deleted partial branch $BRANCH\"\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "sync",
+          "name": "Sync docs changes into skills",
+          "runner": "ubuntu-latest",
+          "steps_count": 17,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'sync' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sync' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sync-medusa-docs-changes.yml",
+          "start_line": 41,
+          "end_line": 368,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sync": 0.0
+        },
+        "pagerank": {
+          "sync": 1.0
+        },
+        "downstream_impact": {
+          "sync": []
+        },
+        "critical_nodes": [
+          "sync"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [],
+  "scorecard": {
+    "overall_score": 87.7,
+    "overall_grade": "B",
+    "technical_debt_score": 12.3,
+    "remediation_hours": 5.08,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 88.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "workflows=2, operational_antipatterns=3, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

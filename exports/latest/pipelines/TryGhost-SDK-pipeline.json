@@ -1,0 +1,151 @@
+{
+  "org": "TryGhost",
+  "repository": "SDK",
+  "sha": "8d3c1c470472f1a64b694725d511a9a219fe758c",
+  "analyzed_at": "2026-11-15T05:22:55Z",
+  "workflows": [
+    {
+      "id": "publish.yml",
+      "path": ".github/workflows/publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "Publish to npm",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "publish": 0.0
+        },
+        "pagerank": {
+          "publish": 1.0
+        },
+        "downstream_impact": {
+          "publish": []
+        },
+        "critical_nodes": [
+          "publish"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 18,
+          "end_line": 166,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 18,
+          "end_line": 166,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "Test",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "test / Node ${{ matrix.node }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "required",
+          "name": "Required CI checks pass",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "required": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "required": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "required"
+          ],
+          "required": []
+        },
+        "critical_nodes": [
+          "required",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 13,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'required' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 54,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

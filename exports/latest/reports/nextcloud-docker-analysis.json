@@ -1,0 +1,3030 @@
+{
+  "repository": "nextcloud/docker",
+  "sha": "18bc14cc9d4d8516fd8cd19034f9493ace636f13",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 8,
+    "loc": 730,
+    "sloc": 530,
+    "component_count": 8,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Docker Compose",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "images.yml",
+      "path": ".github/workflows/images.yml",
+      "name": "Images",
+      "triggers": [
+        "pull_request",
+        "workflow_run"
+      ],
+      "jobs": {
+        "init": {
+          "name": "Generate Jobs",
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "strategy": "${{ steps.generate-jobs.outputs.strategy }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "uses": "docker-library/bashbrew@HEAD"
+            },
+            {
+              "id": "generate-jobs",
+              "name": "Generate Jobs",
+              "run": "strategy=\"$(GITHUB_REPOSITORY=nextcloud \"$BASHBREW_SCRIPTS/github-actions/generate.sh\")\"\nstrategy=\"$(\"$BASHBREW_SCRIPTS/github-actions/munge-i386.sh\" -c <<<\"$strategy\")\"\necho \"strategy=$strategy\" >> \"$GITHUB_OUTPUT\"\njq . <<<\"$strategy\" # sanity check / debugging aid\n"
+            }
+          ]
+        },
+        "test": {
+          "needs": "init",
+          "strategy": "${{ fromJson(needs.init.outputs.strategy) }}",
+          "name": "${{ matrix.name }}",
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Prepare Environment",
+              "run": "${{ matrix.runs.prepare }}"
+            },
+            {
+              "name": "Run update.sh script",
+              "run": "./update.sh"
+            },
+            {
+              "name": "Pull Dependencies",
+              "run": "${{ matrix.runs.pull }}"
+            },
+            {
+              "name": "Build ${{ matrix.name }}",
+              "run": "${{ matrix.runs.build }}"
+            },
+            {
+              "name": "History ${{ matrix.name }}",
+              "run": "${{ matrix.runs.history }}"
+            },
+            {
+              "name": "Test ${{ matrix.name }}",
+              "run": "${{ matrix.runs.test }}"
+            },
+            {
+              "name": "\"docker images\"",
+              "run": "${{ matrix.runs.images }}"
+            }
+          ]
+        },
+        "summary": {
+          "runs-on": "ubuntu-latest",
+          "needs": "test",
+          "if": "always()",
+          "name": "images-test-summary",
+          "steps": [
+            {
+              "name": "Summary status",
+              "run": "if ${{ needs.test.result != 'success' && needs.test.result != 'skipped' }}; then exit 1; fi"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "init",
+          "name": "Generate Jobs",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.name }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": [
+            "init"
+          ],
+          "environment": null
+        },
+        {
+          "id": "summary",
+          "name": "images-test-summary",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "test"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[LOW] SEQUENTIAL_ONLY: Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+        "[HIGH] UNPINNED_ACTION: Job 'init' step 2 uses unpinned action 'docker-library/bashbrew@HEAD'. Pin to a 40-character commit SHA.",
+        "[LOW] NO_TIMEOUT: Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 18,
+          "end_line": 68,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'init' step 2 uses unpinned action 'docker-library/bashbrew@HEAD'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 20,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 36,
+          "end_line": 56,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 58,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": "update.sh",
+          "source_job": "",
+          "target_workflow": ".github/workflows/images.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "init": 0.0,
+          "summary": 0.0,
+          "test": 0.5
+        },
+        "pagerank": {
+          "init": 0.184417,
+          "summary": 0.474412,
+          "test": 0.341172
+        },
+        "downstream_impact": {
+          "init": [
+            "summary",
+            "test"
+          ],
+          "summary": [],
+          "test": [
+            "summary"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "summary",
+          "init"
+        ],
+        "max_blast_radius": 2
+      }
+    },
+    {
+      "id": "update-sh.yml",
+      "path": ".github/workflows/update-sh.yml",
+      "name": "update.sh",
+      "triggers": [
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "run_update_sh": {
+          "name": "Run update.sh script",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Run update.sh script",
+              "run": "./update.sh"
+            },
+            {
+              "name": "Commit files",
+              "run": "git config --local user.email \"workflow@github.com\"\ngit config --local user.name \"GitHub Workflow\"\ngit add -A\ngit commit -m \"Runs update.sh\" || echo \"Nothing to update\"\n"
+            },
+            {
+              "name": "Push changes",
+              "uses": "ad-m/github-push-action@master",
+              "with": {
+                "github_token": "${{ secrets.GITHUB_TOKEN }}",
+                "force": true
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "run_update_sh",
+          "name": "Run update.sh script",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'run_update_sh' step 4 uses unpinned action 'ad-m/github-push-action@master'. Pin to a 40-character commit SHA.",
+        "[LOW] NO_TIMEOUT: Job 'run_update_sh' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'run_update_sh' step 4 uses unpinned action 'ad-m/github-push-action@master'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-sh.yml",
+          "start_line": 30,
+          "end_line": 30,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run_update_sh' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-sh.yml",
+          "start_line": 16,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "run_update_sh": 0.0
+        },
+        "pagerank": {
+          "run_update_sh": 1.0
+        },
+        "downstream_impact": {
+          "run_update_sh": []
+        },
+        "critical_nodes": [
+          "run_update_sh"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/insecure/mariadb/apache/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/insecure/mariadb/fpm/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/insecure/postgres/apache/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/insecure/postgres/fpm/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/with-nginx-proxy/postgres/apache/compose.yaml",
+      "line": 1
+    },
+    {
+      "name": "compose",
+      "type": "module",
+      "file": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/compose.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 86.95,
+    "overall_grade": "B",
+    "technical_debt_score": 13.05,
+    "remediation_hours": 8.76,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 76.0,
+        "grade": "C",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=2"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "workflows=2, operational_antipatterns=5, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/insecure/postgres/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy",
+      "source_type": "code_module",
+      "target": ".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/cron/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/full/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/imap/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".examples/dockerfiles/smb/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "32/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "33/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "34/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": "32/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": "33/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": "34/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/apache",
+      "source_type": "code_module",
+      "target": "35/apache/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "32/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "33/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "34/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm",
+      "source_type": "code_module",
+      "target": "35/fpm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/cron/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/full/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/imap/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": ".examples/dockerfiles/smb/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": "32/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": "33/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": "34/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "35/fpm-alpine",
+      "source_type": "code_module",
+      "target": "35/fpm-alpine/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

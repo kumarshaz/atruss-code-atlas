@@ -2,10 +2,11 @@
   "org": "umami-software",
   "repository": "umami",
   "sha": "b18d5144dfe7342edeeca6f61d13ba3baabed9ad",
-  "analyzed_at": "2026-11-13T04:13:07Z",
+  "analyzed_at": "2026-11-15T05:22:49Z",
   "workflows": [
     {
       "id": "cd-cloud.yml",
+      "path": ".github/workflows/cd-cloud.yml",
       "name": "Create docker images (cloud)",
       "triggers": [
         "push"
@@ -19,16 +20,78 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-001",
           "type": "NO_TEST_GATE",
           "severity": "CRITICAL",
-          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd-cloud.yml",
+          "start_line": 10,
+          "end_line": 29,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 3 uses unpinned action 'mr-smithers-excellent/docker-build-push@v6'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd-cloud.yml",
+          "start_line": 21,
+          "end_line": 21,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd-cloud.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd-cloud.yml",
+          "start_line": 10,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "cd.yml",
+      "path": ".github/workflows/cd.yml",
       "name": "Create docker images",
       "triggers": [
         "push",
@@ -43,16 +106,122 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-001",
           "type": "NO_TEST_GATE",
           "severity": "CRITICAL",
-          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty)."
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 20,
+          "end_line": 127,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 2 uses unpinned action 'docker/setup-qemu-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 31,
+          "end_line": 31,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 3 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 34,
+          "end_line": 34,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 37,
+          "end_line": 37,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 5 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 45,
+          "end_line": 45,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 7 uses unpinned action 'docker/build-push-action@v5'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 109,
+          "end_line": 109,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 8 uses unpinned action 'docker/build-push-action@v5'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 120,
+          "end_line": 120,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cd.yml",
+          "start_line": 20,
+          "end_line": 127,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
       "name": "Node.js CI",
       "triggers": [
         "push",
@@ -67,16 +236,67 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-004",
           "type": "HARDCODED_SECRET",
           "severity": "CRITICAL",
-          "message": "Potential hardcoded credential in workflow env 'APP_SECRET'. Use GitHub Secrets instead."
+          "message": "Potential hardcoded credential in workflow env 'APP_SECRET'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 9,
+          "end_line": 9,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 2 uses unpinned action 'pnpm/action-setup@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 22,
+          "end_line": 22,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 14,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "gitleaks.yml",
+      "path": ".github/workflows/gitleaks.yml",
       "name": "Gitleaks",
       "triggers": [
         "push",
@@ -92,10 +312,56 @@
           "needs": []
         }
       ],
-      "anti_patterns": []
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "scan": 0.0
+        },
+        "pagerank": {
+          "scan": 1.0
+        },
+        "downstream_impact": {
+          "scan": []
+        },
+        "critical_nodes": [
+          "scan"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'scan' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gitleaks.yml",
+          "start_line": 27,
+          "end_line": 37,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'scan' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gitleaks.yml",
+          "start_line": 12,
+          "end_line": 54,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
     },
     {
       "id": "stale-issues.yml",
+      "path": ".github/workflows/stale-issues.yml",
       "name": "Close stale issues",
       "triggers": [
         "schedule"
@@ -109,7 +375,41 @@
           "needs": []
         }
       ],
-      "anti_patterns": []
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale-issues.yml",
+          "start_line": 7,
+          "end_line": 25,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
     }
   ]
 }

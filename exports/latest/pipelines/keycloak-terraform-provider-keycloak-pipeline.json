@@ -1,0 +1,423 @@
+{
+  "org": "keycloak",
+  "repository": "terraform-provider-keycloak",
+  "sha": "517b552af3c776d1a55533751f8310c6348c4b7b",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 3 uses unpinned action 'github/codeql-action/init@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 59,
+          "end_line": 59,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 4 uses unpinned action 'github/codeql-action/autobuild@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 70,
+          "end_line": 70,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 5 uses unpinned action 'github/codeql-action/analyze@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 84,
+          "end_line": 84,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 32,
+          "end_line": 84,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "dependency-submission.yml",
+      "path": ".github/workflows/dependency-submission.yml",
+      "name": "Go Dependency Submission",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "go-dependency-submission",
+          "name": "go-dependency-submission",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "go-dependency-submission": 0.0
+        },
+        "pagerank": {
+          "go-dependency-submission": 1.0
+        },
+        "downstream_impact": {
+          "go-dependency-submission": []
+        },
+        "critical_nodes": [
+          "go-dependency-submission"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'go-dependency-submission' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dependency-submission.yml",
+          "start_line": 13,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "nightly.yml",
+      "path": ".github/workflows/nightly.yml",
+      "name": "nightly",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "nightly",
+          "name": "nightly",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "nightly": 0.0
+        },
+        "pagerank": {
+          "nightly": 1.0
+        },
+        "downstream_impact": {
+          "nightly": []
+        },
+        "critical_nodes": [
+          "nightly"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nightly' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly.yml",
+          "start_line": 8,
+          "end_line": 88,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "wait",
+          "name": "Wait for acceptance tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": [
+            "wait"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0,
+          "wait": 0.0
+        },
+        "pagerank": {
+          "release": 0.649123,
+          "wait": 0.350877
+        },
+        "downstream_impact": {
+          "release": [],
+          "wait": [
+            "release"
+          ]
+        },
+        "critical_nodes": [
+          "release",
+          "wait"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 24,
+          "end_line": 66,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'wait' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 8,
+          "end_line": 22,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'release' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 25,
+          "end_line": 25,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'wait' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 8,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 24,
+          "end_line": 66,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "verify",
+          "name": "verify",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "acceptance",
+          "name": "acceptance",
+          "runner": "ubuntu-24.04",
+          "steps_count": 15,
+          "needs": [
+            "verify"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "acceptance": 0.0,
+          "verify": 0.0
+        },
+        "pagerank": {
+          "acceptance": 0.649123,
+          "verify": 0.350877
+        },
+        "downstream_impact": {
+          "acceptance": [],
+          "verify": [
+            "acceptance"
+          ]
+        },
+        "critical_nodes": [
+          "acceptance",
+          "verify"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'acceptance' step env 'KEYCLOAK_CLIENT_SECRET'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 197,
+          "end_line": 197,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'acceptance' step env 'KEYCLOAK_CLIENT_SECRET'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 215,
+          "end_line": 215,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 2,
+          "end_line": 14,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 17,
+          "end_line": 38,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'acceptance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 40,
+          "end_line": 254,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

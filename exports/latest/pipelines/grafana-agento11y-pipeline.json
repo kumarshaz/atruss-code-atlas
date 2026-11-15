@@ -1,0 +1,1420 @@
+{
+  "org": "grafana",
+  "repository": "agento11y",
+  "sha": "fad86a9f2cc3b8a05baffb800f49096fbc2b0218",
+  "analyzed_at": "2026-11-15T05:22:56Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "scripts",
+          "name": "Workflow scripts",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "proto",
+          "name": "Protobuf drift",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "conformance",
+          "name": "Cross-SDK conformance",
+          "runner": "ubuntu-latest",
+          "steps_count": 15,
+          "needs": []
+        },
+        {
+          "id": "go-module",
+          "name": "Go module",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "go-plugin-windows",
+          "name": "Go plugin (Windows)",
+          "runner": "windows-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "go",
+          "name": "Go SDK",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "go-module",
+            "go-plugin-windows"
+          ]
+        },
+        {
+          "id": "typescript",
+          "name": "TypeScript SDK",
+          "runner": "ubuntu-latest",
+          "steps_count": 19,
+          "needs": []
+        },
+        {
+          "id": "hermes-checks",
+          "name": "Hermes lint, types, and artifacts",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "hermes-test",
+          "name": "Hermes Python ${{ matrix.python-version }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "python-lint",
+          "name": "Python Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "python",
+          "name": "Python SDK",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "python-core",
+          "name": "Python SDK core / ${{ matrix.python-version }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "dotnet",
+          "name": ".NET SDK",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "java",
+          "name": "Java SDK",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 14,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "conformance": 0.0,
+          "dotnet": 0.0,
+          "go": 0.0,
+          "go-module": 0.0,
+          "go-plugin-windows": 0.0,
+          "hermes-checks": 0.0,
+          "hermes-test": 0.0,
+          "java": 0.0,
+          "proto": 0.0,
+          "python": 0.0,
+          "python-core": 0.0,
+          "python-lint": 0.0,
+          "scripts": 0.0,
+          "typescript": 0.0
+        },
+        "pagerank": {
+          "conformance": 0.063694,
+          "dotnet": 0.063694,
+          "go": 0.171974,
+          "go-module": 0.063694,
+          "go-plugin-windows": 0.063694,
+          "hermes-checks": 0.063694,
+          "hermes-test": 0.063694,
+          "java": 0.063694,
+          "proto": 0.063694,
+          "python": 0.063694,
+          "python-core": 0.063694,
+          "python-lint": 0.063694,
+          "scripts": 0.063694,
+          "typescript": 0.063694
+        },
+        "downstream_impact": {
+          "conformance": [],
+          "dotnet": [],
+          "go": [],
+          "go-module": [
+            "go"
+          ],
+          "go-plugin-windows": [
+            "go"
+          ],
+          "hermes-checks": [],
+          "hermes-test": [],
+          "java": [],
+          "proto": [],
+          "python": [],
+          "python-core": [],
+          "python-lint": [],
+          "scripts": [],
+          "typescript": []
+        },
+        "critical_nodes": [
+          "go",
+          "go-module",
+          "go-plugin-windows",
+          "conformance",
+          "dotnet",
+          "hermes-checks",
+          "hermes-test",
+          "java",
+          "proto",
+          "python",
+          "python-core",
+          "python-lint",
+          "scripts",
+          "typescript"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 63,
+          "end_line": 63,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'scripts' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 12,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'proto' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 35,
+          "end_line": 72,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'conformance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 74,
+          "end_line": 134,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'go-module' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 136,
+          "end_line": 204,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'go-plugin-windows' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 205,
+          "end_line": 221,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'go' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 223,
+          "end_line": 239,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'typescript' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 240,
+          "end_line": 304,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'python-lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 344,
+          "end_line": 360,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'python' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 362,
+          "end_line": 396,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'python-core' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 398,
+          "end_line": 425,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dotnet' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 427,
+          "end_line": 468,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'java' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 470,
+          "end_line": 485,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "dotnet-publish.yml",
+      "path": ".github/workflows/dotnet-publish.yml",
+      "name": "Publish .NET SDK to NuGet",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "release-pr",
+          "name": "release-pr",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build",
+            "publish"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "publish": 0.0,
+          "release-pr": 0.0
+        },
+        "pagerank": {
+          "build": 0.19758,
+          "publish": 0.281551,
+          "release-pr": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "publish",
+            "release-pr"
+          ],
+          "publish": [
+            "release-pr"
+          ],
+          "release-pr": []
+        },
+        "critical_nodes": [
+          "release-pr",
+          "publish",
+          "build"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnet-publish.yml",
+          "start_line": 115,
+          "end_line": 160,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-pr' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnet-publish.yml",
+          "start_line": 161,
+          "end_line": 224,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnet-publish.yml",
+          "start_line": 25,
+          "end_line": 113,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnet-publish.yml",
+          "start_line": 115,
+          "end_line": 160,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnet-publish.yml",
+          "start_line": 161,
+          "end_line": 224,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "java-publish.yml",
+      "path": ".github/workflows/java-publish.yml",
+      "name": "Publish Java SDK to Maven Central",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "release-pr",
+          "name": "release-pr",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build",
+            "publish"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "publish": 0.0,
+          "release-pr": 0.0
+        },
+        "pagerank": {
+          "build": 0.19758,
+          "publish": 0.281551,
+          "release-pr": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "publish",
+            "release-pr"
+          ],
+          "publish": [
+            "release-pr"
+          ],
+          "release-pr": []
+        },
+        "critical_nodes": [
+          "release-pr",
+          "publish",
+          "build"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 101,
+          "end_line": 140,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-pr' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 141,
+          "end_line": 204,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 98,
+          "end_line": 100,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 101,
+          "end_line": 140,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 25,
+          "end_line": 100,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 101,
+          "end_line": 140,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/java-publish.yml",
+          "start_line": 141,
+          "end_line": 204,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "js-sdk-publish.yml",
+      "path": ".github/workflows/js-sdk-publish.yml",
+      "name": "Publish JS SDK to npm",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "release-pr",
+          "name": "release-pr",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build",
+            "publish"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "publish": 0.0,
+          "release-pr": 0.0
+        },
+        "pagerank": {
+          "build": 0.19758,
+          "publish": 0.281551,
+          "release-pr": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "publish",
+            "release-pr"
+          ],
+          "publish": [
+            "release-pr"
+          ],
+          "release-pr": []
+        },
+        "critical_nodes": [
+          "release-pr",
+          "publish",
+          "build"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/js-sdk-publish.yml",
+          "start_line": 126,
+          "end_line": 163,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-pr' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/js-sdk-publish.yml",
+          "start_line": 164,
+          "end_line": 237,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/js-sdk-publish.yml",
+          "start_line": 25,
+          "end_line": 124,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/js-sdk-publish.yml",
+          "start_line": 126,
+          "end_line": 163,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/js-sdk-publish.yml",
+          "start_line": 164,
+          "end_line": 237,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "plugins-publish.yml",
+      "path": ".github/workflows/plugins-publish.yml",
+      "name": "Publish plugins to npm",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare",
+          "name": "prepare",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "prepare"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "prepare": 0.0,
+          "publish": 0.0
+        },
+        "pagerank": {
+          "prepare": 0.350877,
+          "publish": 0.649123
+        },
+        "downstream_impact": {
+          "prepare": [
+            "publish"
+          ],
+          "publish": []
+        },
+        "critical_nodes": [
+          "publish",
+          "prepare"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/plugins-publish.yml",
+          "start_line": 222,
+          "end_line": 251,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'prepare' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/plugins-publish.yml",
+          "start_line": 33,
+          "end_line": 220,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/plugins-publish.yml",
+          "start_line": 222,
+          "end_line": 251,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'prepare' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/plugins-publish.yml",
+          "start_line": 51,
+          "end_line": 51,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "publish-homebrew-formula.yml",
+      "path": ".github/workflows/publish-homebrew-formula.yml",
+      "name": "Publish Homebrew Formula",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "Publish formula PR",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "publish": 0.0
+        },
+        "pagerank": {
+          "publish": 1.0
+        },
+        "downstream_impact": {
+          "publish": []
+        },
+        "critical_nodes": [
+          "publish"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-homebrew-formula.yml",
+          "start_line": 27,
+          "end_line": 185,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-homebrew-formula.yml",
+          "start_line": 27,
+          "end_line": 185,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "python-sdks-publish.yml",
+      "path": ".github/workflows/python-sdks-publish.yml",
+      "name": "Publish Python SDKs to PyPI",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "publish-core",
+          "name": "publish-core",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        },
+        {
+          "id": "publish-dependents",
+          "name": "publish-dependents",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "build",
+            "publish-core"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "publish-core": 0.0,
+          "publish-dependents": 0.0
+        },
+        "pagerank": {
+          "build": 0.19758,
+          "publish-core": 0.281551,
+          "publish-dependents": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "publish-core",
+            "publish-dependents"
+          ],
+          "publish-core": [
+            "publish-dependents"
+          ],
+          "publish-dependents": []
+        },
+        "critical_nodes": [
+          "publish-dependents",
+          "publish-core",
+          "build"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-core' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 312,
+          "end_line": 335,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish-dependents' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 337,
+          "end_line": 360,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 84,
+          "end_line": 84,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 48,
+          "end_line": 310,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish-core' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 312,
+          "end_line": 335,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish-dependents' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 337,
+          "end_line": 360,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/python-sdks-publish.yml",
+          "start_line": 67,
+          "end_line": 67,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "release-agento11y-binaries.yml",
+      "path": ".github/workflows/release-agento11y-binaries.yml",
+      "name": "Release plugins/agento11y binaries",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-agento11y-binaries.yml",
+          "start_line": 22,
+          "end_line": 160,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-agento11y-binaries.yml",
+          "start_line": 22,
+          "end_line": 160,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-agento11y.yml",
+      "path": ".github/workflows/release-agento11y.yml",
+      "name": "Release plugins/agento11y",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-agento11y.yml",
+          "start_line": 30,
+          "end_line": 161,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-agento11y.yml",
+          "start_line": 30,
+          "end_line": 161,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-go-sdk.yml",
+      "path": ".github/workflows/release-go-sdk.yml",
+      "name": "Release Go SDK",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-go-sdk.yml",
+          "start_line": 28,
+          "end_line": 134,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-go-sdk.yml",
+          "start_line": 28,
+          "end_line": 134,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "sdk-github-releases.yml",
+      "path": ".github/workflows/sdk-github-releases.yml",
+      "name": "Publish SDK release notes",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdk-github-releases.yml",
+          "start_line": 28,
+          "end_line": 82,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdk-github-releases.yml",
+          "start_line": 28,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tag-agento11y-on-merge.yml",
+      "path": ".github/workflows/tag-agento11y-on-merge.yml",
+      "name": "Tag plugins/agento11y on merge",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "tag",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tag": 0.0
+        },
+        "pagerank": {
+          "tag": 1.0
+        },
+        "downstream_impact": {
+          "tag": []
+        },
+        "critical_nodes": [
+          "tag"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tag-agento11y-on-merge.yml",
+          "start_line": 21,
+          "end_line": 84,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tag-releases-on-merge.yml",
+      "path": ".github/workflows/tag-releases-on-merge.yml",
+      "name": "Tag SDK and plugin releases on merge",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "tag",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tag": 0.0
+        },
+        "pagerank": {
+          "tag": 1.0
+        },
+        "downstream_impact": {
+          "tag": []
+        },
+        "critical_nodes": [
+          "tag"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tag-releases-on-merge.yml",
+          "start_line": 36,
+          "end_line": 136,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

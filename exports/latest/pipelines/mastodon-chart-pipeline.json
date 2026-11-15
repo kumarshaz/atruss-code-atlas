@@ -1,0 +1,106 @@
+{
+  "org": "mastodon",
+  "repository": "chart",
+  "sha": "7b553728474820d5e44dfcef5f91612aed9bafa4",
+  "analyzed_at": "2026-11-15T05:22:54Z",
+  "workflows": [
+    {
+      "id": "test-chart.yml",
+      "path": ".github/workflows/test-chart.yml",
+      "name": "Test chart",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint-templates",
+          "name": "lint-templates",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "test-install",
+          "name": "test-install",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint-templates": 0.0,
+          "test-install": 0.0
+        },
+        "pagerank": {
+          "lint-templates": 0.5,
+          "test-install": 0.5
+        },
+        "downstream_impact": {
+          "lint-templates": [],
+          "test-install": []
+        },
+        "critical_nodes": [
+          "lint-templates",
+          "test-install"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-chart.yml",
+          "start_line": 29,
+          "end_line": 29,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'test-install' step 2 uses unpinned action 'jupyterhub/action-k3s-helm@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-chart.yml",
+          "start_line": 92,
+          "end_line": 92,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'test-install' step 6 uses unpinned action 'jupyterhub/action-k8s-namespace-report@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-chart.yml",
+          "start_line": 121,
+          "end_line": 121,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-templates' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-chart.yml",
+          "start_line": 19,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

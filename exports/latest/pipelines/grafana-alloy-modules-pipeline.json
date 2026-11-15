@@ -1,0 +1,323 @@
+{
+  "org": "grafana",
+  "repository": "alloy-modules",
+  "sha": "9c838a1fd98962edf80393cf5f5f94bbb416ecc1",
+  "analyzed_at": "2026-11-15T05:22:58Z",
+  "workflows": [
+    {
+      "id": "auto-approve-dependabot.yml",
+      "path": ".github/workflows/auto-approve-dependabot.yml",
+      "name": "Dependabot Auto-Approve",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "dependabot",
+          "name": "dependabot",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "dependabot": 0.0
+        },
+        "pagerank": {
+          "dependabot": 1.0
+        },
+        "downstream_impact": {
+          "dependabot": []
+        },
+        "critical_nodes": [
+          "dependabot"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dependabot' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/auto-approve-dependabot.yml",
+          "start_line": 13,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "auto-merge.yml",
+      "path": ".github/workflows/auto-merge.yml",
+      "name": "Auto-Merge",
+      "triggers": [
+        "pull_request",
+        "pull_request_review",
+        "check_suite",
+        "status"
+      ],
+      "jobs": [
+        {
+          "id": "automerge",
+          "name": "automerge",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "automerge": 0.0
+        },
+        "pagerank": {
+          "automerge": 1.0
+        },
+        "downstream_impact": {
+          "automerge": []
+        },
+        "critical_nodes": [
+          "automerge"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'automerge' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/auto-merge.yml",
+          "start_line": 23,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "auto-tag.yml",
+      "path": ".github/workflows/auto-tag.yml",
+      "name": "Bump version",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/auto-tag.yml",
+          "start_line": 11,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "issue-labeler.yml",
+      "path": ".github/workflows/issue-labeler.yml",
+      "name": "Issue Labeler",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "triage",
+          "name": "triage",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "triage": 0.0
+        },
+        "pagerank": {
+          "triage": 1.0
+        },
+        "downstream_impact": {
+          "triage": []
+        },
+        "critical_nodes": [
+          "triage"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/issue-labeler.yml",
+          "start_line": 14,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-labeler.yml",
+      "path": ".github/workflows/pr-labeler.yml",
+      "name": "Pull Request Labeler",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "triage",
+          "name": "triage",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "triage": 0.0
+        },
+        "pagerank": {
+          "triage": 1.0
+        },
+        "downstream_impact": {
+          "triage": []
+        },
+        "critical_nodes": [
+          "triage"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-labeler.yml",
+          "start_line": 11,
+          "end_line": 20,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "stale-branches.yml",
+      "path": ".github/workflows/stale-branches.yml",
+      "name": "Stale Branches",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale_branches",
+          "name": "stale_branches",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale_branches": 0.0
+        },
+        "pagerank": {
+          "stale_branches": 1.0
+        },
+        "downstream_impact": {
+          "stale_branches": []
+        },
+        "critical_nodes": [
+          "stale_branches"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale_branches' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale-branches.yml",
+          "start_line": 15,
+          "end_line": 25,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

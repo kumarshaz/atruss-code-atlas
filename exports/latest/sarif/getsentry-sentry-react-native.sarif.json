@@ -1,0 +1,3401 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "atruss-code-atlas",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/kumarshaz/atruss-code-atlas",
+          "rules": [
+            {
+              "id": "ATRUSS-ARCH-004",
+              "name": "CIRCULAR_DEPENDENCY",
+              "shortDescription": {
+                "text": "Circular dependency detected between architectural components."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-ARCH-005",
+              "name": "COMPLEXITY_THRESHOLD",
+              "shortDescription": {
+                "text": "Code quality metric exceeds configured architectural threshold."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-001",
+              "name": "NO_TEST_GATE",
+              "shortDescription": {
+                "text": "Deployment job executes without an upstream test gate in its needs chain."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-009",
+              "name": "TEMPLATE_INJECTION",
+              "shortDescription": {
+                "text": "Workflow run block interpolates untrusted event context or writes to GITHUB_ENV/PATH."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-011",
+              "name": "EXCESSIVE_PERMISSIONS",
+              "shortDescription": {
+                "text": "Workflow grants write-all or omits least-privilege permissions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-013",
+              "name": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+              "shortDescription": {
+                "text": "actions/checkout persists git credentials in job that uploads artifacts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'add_label' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/add-platform-label.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 9,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_test' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_native_link_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 37,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_lint' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 59,
+                  "endLine": 130
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'job_lint' step 8 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 97,
+                  "endLine": 125
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_check_integrity' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 131,
+                  "endLine": 154
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_build' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 155,
+                  "endLine": 201
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'job_build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 161,
+                  "endLine": 161
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_type_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 283,
+                  "endLine": 315
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_circular_dep_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 316,
+                  "endLine": 343
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_api_report' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 345,
+                  "endLine": 368
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'job_bundle' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/buildandtest.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 370,
+                  "endLine": 410
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/cancel-pr-workflows.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'cancel' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/cancel-pr-workflows.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'changelog-preview' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/changelog-preview.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/changes-in-high-risk-code.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'files-changed' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/changes-in-high-risk-code.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'validate-high-risk-code' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/changes-in-high-risk-code.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 31,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codegen.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codegen.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'codegen' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codegen.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codeql-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codeql-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codeql-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/danger.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'danger' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/danger.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/detect-changes.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/detect-changes.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 60,
+                  "endLine": 182
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 29,
+                  "endLine": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'detect-changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 32,
+                  "endLine": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'auth_token_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 38,
+                  "endLine": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'react-native-build' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 42,
+                  "endLine": 197
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'react-native-build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 108,
+                  "endLine": 108
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'react-native-build' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 118,
+                  "endLine": 121
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'react-native-build' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 124,
+                  "endLine": 127
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'react-native-test' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 199,
+                  "endLine": 364
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'react-native-test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/e2e-v2.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 236,
+                  "endLine": 236
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ios-crash-screenshot-no-freeze.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ios-crash-screenshot-no-freeze.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 37,
+                  "endLine": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ios-crash-screenshot-no-freeze.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 44,
+                  "endLine": 75
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 16,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 23,
+                  "endLine": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'detect-changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-ios' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 113
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-android' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/native-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 114,
+                  "endLine": 172
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ready-to-merge-workflow.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 12
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ready-to-merge-workflow.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "endLine": 43
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'release-comment-issues' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release-comment-issues.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'release-comment-issues' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release-comment-issues.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 19,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'detect-changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 30,
+                  "endLine": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-ios' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 37,
+                  "endLine": 133
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-ios' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-android' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 135,
+                  "endLine": 206
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-android' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 152,
+                  "endLine": 152
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-web' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application-expo.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 208,
+                  "endLine": 247
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 36
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'detect-changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 38,
+                  "endLine": 43
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-ios' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 140
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-ios' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 69,
+                  "endLine": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-android' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 142,
+                  "endLine": 240
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-android' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 160,
+                  "endLine": 160
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-macos' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 242,
+                  "endLine": 318
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-macos' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 259,
+                  "endLine": 259
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-visionos' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 320,
+                  "endLine": 407
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-visionos' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 340,
+                  "endLine": 340
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-tvos' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 409,
+                  "endLine": 490
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-tvos' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 426,
+                  "endLine": 426
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-catalyst' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 492,
+                  "endLine": 582
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-catalyst' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 512,
+                  "endLine": 512
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-ios' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 584,
+                  "endLine": 667
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'test-android' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sample-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 669,
+                  "endLine": 745
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/size-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/size-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 30,
+                  "endLine": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'ios' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/size-analysis.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 99,
+                  "endLine": 99
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/skip-ci-noauth.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'auth_token_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/skip-ci-noauth.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/skip-ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 7
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/skip-ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 68
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spm-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 9,
+                  "endLine": 15
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'ready-to-merge-gate' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spm-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 29,
+                  "endLine": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spm-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 36,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'detect-changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spm-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 40,
+                  "endLine": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-ios' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spm-application.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 225
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/testflight.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'diff_check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/testflight.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'upload_to_testflight' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/testflight.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "endLine": 80
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'upload_to_testflight' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/testflight.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'android' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'cocoa' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'javascript' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 35,
+                  "endLine": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'wizard' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 44,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'cli' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 54,
+                  "endLine": 61
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'sample-rn' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 63,
+                  "endLine": 72
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'maestro' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 74,
+                  "endLine": 83
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'sentry-android-gradle-plugin' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/update-deps.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 85,
+                  "endLine": 94
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/validate-pr.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "getsentry/sentry-react-native",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository duplication_pct (83.67) exceeds policy threshold (15.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/android/src/main/java/io/sentry/react/RNSentryModuleImpl.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cognitive_complexity (206.0) exceeds policy threshold (25.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/android/src/main/java/io/sentry/react/RNSentryModuleImpl.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cyclomatic_complexity (96.0) exceeds policy threshold (20.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/android/src/main/java/io/sentry/react/RNSentryModuleImpl.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (ReactNativeClient -> TRACE_STOP_DELAY_MS -> ReactNativeClient)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/client.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (ReactNativeClient -> UI_PROFILING_INTEGRATION_NAME -> ReactNativeClient)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/client.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (HERMES_CHUNK_DURATION_MS -> ReactNativeClient -> HERMES_CHUNK_DURATION_MS)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/profiling/uiProfilingIntegration.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (MOBILE_REPLAY_INTEGRATION_NAME -> NATIVE -> MOBILE_REPLAY_INTEGRATION_NAME)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/replay/mobilereplay.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SENTRY_DISCARD_REASON_ATTRIBUTE -> SPAN_THREAD_NAME -> SENTRY_DISCARD_REASON_ATTRIBUTE)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/tracing/onSpanEndUtils.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SENTRY_DISCARD_REASON_ATTRIBUTE -> SPAN_THREAD_NAME_JAVASCRIPT -> SENTRY_DISCARD_REASON_ATTRIBUTE)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/tracing/onSpanEndUtils.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SENTRY_DISCARD_REASON_ATTRIBUTE -> SPAN_THREAD_NAME_MAIN -> SENTRY_DISCARD_REASON_ATTRIBUTE)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/tracing/onSpanEndUtils.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (DEFAULT_NAVIGATION_SPAN_NAME -> SENTRY_DISCARD_REASON_ATTRIBUTE -> DEFAULT_NAVIGATION_SPAN_NAME)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/tracing/span.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-004",
+          "level": "error",
+          "message": {
+            "text": "Circular dependency detected between architectural components. (SCOPE_SPAN_FIELD -> SENTRY_DISCARD_REASON_ATTRIBUTE -> SCOPE_SPAN_FIELD)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "packages/core/src/js/tracing/span.ts",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "architecture",
+            "repository": "getsentry/sentry-react-native"
+          }
+        }
+      ]
+    }
+  ]
+}

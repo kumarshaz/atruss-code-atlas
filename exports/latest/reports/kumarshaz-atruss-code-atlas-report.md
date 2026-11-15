@@ -11,23 +11,23 @@ description: Arc42 and Pipeline report for kumarshaz/atruss-code-atlas
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
-- **avg_cognitive_complexity**: 11.14
-- **avg_cyclomatic_complexity**: 6.99
-- **component_count**: 44
+- **avg_cognitive_complexity**: 7.78
+- **avg_cyclomatic_complexity**: 5.39
+- **component_count**: 30
 - **dead_code_count**: 3
 - **dead_code_symbols**: 3 entry(ies)
-- **duplication_pct**: 77.24
+- **duplication_pct**: 67.83
 - **file_complexities**: 25 entry(ies)
-- **files_analyzed**: 104
+- **files_analyzed**: 81
 - **fitness_passed**: False
 - **fitness_violation_count**: 3
 - **framework**: Unknown
 - **import_edges**: 100 entry(ies)
-- **loc**: 26979
-- **max_cognitive_complexity**: 304
-- **max_cyclomatic_complexity**: 122
-- **sloc**: 23883
-- **test_file_count**: 39
+- **loc**: 9882
+- **max_cognitive_complexity**: 81
+- **max_cyclomatic_complexity**: 39
+- **sloc**: 8594
+- **test_file_count**: 32
 
 # Architecture: kumarshaz/atruss-code-atlas
 
@@ -41,55 +41,41 @@ description: Arc42 and Pipeline report for kumarshaz/atruss-code-atlas
 
 ```mermaid
 graph TD;
-    repo_root(["kumarshaz/atruss-code-atlas (44 components)"])
-    dir_0_src["src (42)"]
+    repo_root(["kumarshaz/atruss-code-atlas (30 components)"])
+    dir_0_src["src (28)"]
     repo_root --> dir_0_src
-    sub_0_0_models["models (22)"]
+    sub_0_0_models["models (12)"]
     dir_0_src --> sub_0_0_models
-    sub_0_1_core["core (11)"]
+    sub_0_1_core["core (10)"]
     dir_0_src --> sub_0_1_core
-    sub_0_2_cli["cli (9)"]
+    sub_0_2_cli["cli (6)"]
     dir_0_src --> sub_0_2_cli
     dir_1_tests["tests (1)"]
     repo_root --> dir_1_tests
     dir_2_web["web (1)"]
     repo_root --> dir_2_web
-    sub_0_2_cli -.->|"17 deps"| sub_0_1_core
-    sub_0_2_cli -.->|"13 deps"| sub_0_0_models
-    sub_0_1_core -.->|"7 deps"| sub_0_0_models
+    sub_0_2_cli -.->|"15 deps"| sub_0_1_core
+    sub_0_2_cli -.->|"11 deps"| sub_0_0_models
+    sub_0_1_core -.->|"5 deps"| sub_0_0_models
 ```
 
 ## Component Details
+- **version** (`src/cli/main.py`): CLI_COMMAND (deps: analyze_code, analyze_coverage, analyze_pipeline, benchmark, discover)
 - **analyze_code** (`src/cli/commands/analyze_code.py`): CLI_COMMAND (deps: ExportManager, JSONExporter, MarkdownExporter, PortableArtifact)
 - **analyze_coverage** (`src/cli/commands/analyze_coverage.py`): CLI_COMMAND
 - **analyze_pipeline** (`src/cli/commands/analyze_pipeline.py`): CLI_COMMAND (deps: ExportManager, JSONExporter, MarkdownArchiver, MarkdownExporter, PipelineWorkflow, PortableArtifact, TopologyArchiver)
 - **benchmark** (`src/cli/commands/benchmark.py`): CLI_COMMAND (deps: AnomalyRecord, BenchmarkManifest, BenchmarkRepoResult, BenchmarkSummary, CorpusEntry, DiscoveryArchiver, DiscoveryManifestItem, ExportManager, MarkdownArchiver, MarkdownExporter, PortableArtifact, TopologyArchiver, analyze_code, analyze_pipeline)
-- **check** (`src/cli/commands/check.py`): CLI_COMMAND (deps: ExportManager, PipelineWorkflow, PortableArtifact)
-- **diff** (`src/cli/commands/diff.py`): CLI_COMMAND (deps: ExportManager)
 - **discover** (`src/cli/commands/discover.py`): CLI_COMMAND (deps: DiscoveryArchiver, DiscoveryManifestItem, ExportManager)
-- **mcp** (`src/cli/commands/mcp_server.py`): CLI_COMMAND
-- **version** (`src/cli/main.py`): CLI_COMMAND (deps: analyze_code, analyze_coverage, analyze_pipeline, benchmark, check, diff, discover)
 - **BaseExporter** (`src/core/exporters/base_exporter.py`): SERVICE
 - **CSVExporter** (`src/core/exporters/csv_exporter.py`): SERVICE (deps: BaseExporter)
 - **DiscoveryArchiver** (`src/core/exporters/discovery_exporter.py`): SERVICE (deps: DiscoveryManifestItem, ExportManager)
 - **JSONExporter** (`src/core/exporters/json_exporter.py`): SERVICE (deps: BaseExporter, PortableArtifact)
 - **MarkdownArchiver** (`src/core/exporters/markdown_exporter.py`): SERVICE (deps: ExportManager, PortableArtifact)
 - **TopologyArchiver** (`src/core/exporters/pipeline_exporter.py`): SERVICE (deps: ExportManager)
-- **SBOMExporter** (`src/core/exporters/sbom_exporter.py`): SERVICE (deps: DependencyRecord, VulnerabilityRecord)
 - **YAMLExporter** (`src/core/exporters/yaml_exporter.py`): SERVICE (deps: BaseExporter)
 - **ExportManager** (`src/core/utils/export_manager.py`): SERVICE
 - **JSONExporter** (`src/core/utils/json_exporter.py`): SERVICE (deps: PortableArtifact)
 - **MarkdownExporter** (`src/core/utils/markdown_exporter.py`): SERVICE (deps: MarkdownArchiver, PortableArtifact)
-- **AntiPatternFinding** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **FitnessViolation** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **WorkspacePackage** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **CrossWorkflowEdge** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **DependencyRecord** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **VulnerabilityRecord** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **SecretFinding** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **ScorecardDimension** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **RepositoryScorecard** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
-- **CodeToCloudEdge** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
 - **PipelineWorkflow** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
 - **PortableArtifact** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
 - **HarnessFixture** (`src/models/artifacts.py`): DATA_ACCESS_LAYER
@@ -107,28 +93,31 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `D` (68.89/100)
-- **Technical Debt Score**: 31.11
-- **Estimated Remediation Effort**: 47.98h
+- **Overall Grade**: `D` (60.69/100)
+- **Technical Debt Score**: 39.31
+- **Estimated Remediation Effort**: 41.14h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `F` | 28.04 | 0.20 | avg_cc=6.99, max_cc=122, duplication=77.24%, dead_code=3 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=600, outdated=0, vulnerable=0, has_lockfile=True |
-| Maintainability | `F` | 18.58 | 0.15 | avg_cognitive=11.14, max_cognitive=304, fitness_violations=3, oversized_files=13 |
-| Pipeline Health | `A` | 100.00 | 0.15 | workflows=3, operational_antipatterns=0, parallel_branches=True |
-| Security | `A` | 100.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=0 |
+| Code Quality | `F` | 34.44 | 0.20 | avg_cc=5.39, max_cc=39, duplication=67.83%, dead_code=3 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=588, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `F` | 38.66 | 0.15 | avg_cognitive=7.78, max_cognitive=81, fitness_violations=3, oversized_files=2 |
+| Pipeline Health | `D` | 66.00 | 0.15 | workflows=3, operational_antipatterns=9, parallel_branches=True |
+| Security | `D` | 63.00 | 0.20 | vulnerabilities=0, secrets=1, pipeline_security_findings=1 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
 
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (77.24) exceeds policy threshold (15.0).
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (304.0) exceeds policy threshold (25.0).
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (67.83) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (81.0) exceeds policy threshold (25.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (39.0) exceeds policy threshold (20.0).
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 600 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 588 | **Vulnerabilities**: 0 | **Secrets**: 1
+
+### Secret Findings (Redacted)
+- **[CRITICAL] `ATRUSS-SEC-002`** at `tests/integration/test_pipeline_dag_e2e.py:67` (`SECRET_TOKEN: "ghp_***REDACTED***"`)
 
 ### Inventory Sample
 - `bandit` `1.7.8` (PyPI, `pyproject.toml`)
@@ -151,17 +140,17 @@ graph TD;
 - `requests` `2.31.0` (PyPI, `requirements.txt`)
 - `ruff` `0.3.4` (PyPI, `pyproject.toml`)
 - `ruff` `0.3.4` (PyPI, `requirements.txt`)
-- `tree-sitter` `0.23.0` (PyPI, `pyproject.toml`)
-- `tree-sitter` `0.23.0` (PyPI, `requirements.txt`)
-- `tree-sitter-c-sharp` `0.23.0` (PyPI, `pyproject.toml`)
-- `tree-sitter-c-sharp` `0.23.0` (PyPI, `requirements.txt`)
-- `tree-sitter-java` `0.23.0` (PyPI, `pyproject.toml`)
-- `tree-sitter-java` `0.23.0` (PyPI, `requirements.txt`)
-- `tree-sitter-javascript` `0.23.0` (PyPI, `pyproject.toml`)
-- `tree-sitter-javascript` `0.23.0` (PyPI, `requirements.txt`)
-- `tree-sitter-python` `0.23.0` (PyPI, `pyproject.toml`)
-- `tree-sitter-python` `0.23.0` (PyPI, `requirements.txt`)
-- ... (+570 more dependencies)
+- `typer` `0.12.0` (PyPI, `pyproject.toml`)
+- `typer` `0.12.0` (PyPI, `requirements.txt`)
+- `@astrojs/starlight` `0.38.2` (npm, `web/package-lock.json`)
+- `@astrojs/starlight` `0.38.2` (npm, `web/package.json`)
+- `@material/web` `2.5.0` (npm, `web/package-lock.json`)
+- `@material/web` `2.5.0` (npm, `web/package.json`)
+- `astro` `6.0.1` (npm, `web/package.json`)
+- `astro` `6.1.1` (npm, `web/package-lock.json`)
+- `astro-mermaid` `2.0.1` (npm, `web/package-lock.json`)
+- `astro-mermaid` `2.0.1` (npm, `web/package.json`)
+- ... (+558 more dependencies)
 
 ## Section 7: Code-to-Cloud Deployment Traceability
 

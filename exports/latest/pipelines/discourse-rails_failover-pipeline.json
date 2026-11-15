@@ -1,0 +1,214 @@
+{
+  "org": "discourse",
+  "repository": "rails_failover",
+  "sha": "c7d03a474d6198c921dcf27d8006f9d4a6bc92a3",
+  "analyzed_at": "2026-11-15T05:22:56Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "redis",
+          "name": "Redis (Redis gem ~> ${{ matrix.redis_gem }}, Ruby ${{ matrix.ruby }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "active_record",
+          "name": "ActiveRecord ~>${{ matrix.rails }} (Ruby ${{ matrix.ruby }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "lint",
+            "redis",
+            "active_record"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "active_record": 0.0,
+          "lint": 0.0,
+          "publish": 0.0,
+          "redis": 0.0
+        },
+        "pagerank": {
+          "active_record": 0.152672,
+          "lint": 0.152672,
+          "publish": 0.541985,
+          "redis": 0.152672
+        },
+        "downstream_impact": {
+          "active_record": [
+            "publish"
+          ],
+          "lint": [
+            "publish"
+          ],
+          "publish": [],
+          "redis": [
+            "publish"
+          ]
+        },
+        "critical_nodes": [
+          "publish",
+          "active_record",
+          "lint",
+          "redis"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 17,
+          "end_line": 17,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'redis' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 49,
+          "end_line": 49,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'active_record' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 85,
+          "end_line": 85,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish' step 2 uses unpinned action 'discourse/publish-rubygems-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 118,
+          "end_line": 118,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 10,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'redis' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 31,
+          "end_line": 64,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'active_record' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 66,
+          "end_line": 107,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

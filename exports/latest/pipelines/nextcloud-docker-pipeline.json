@@ -1,0 +1,208 @@
+{
+  "org": "nextcloud",
+  "repository": "docker",
+  "sha": "18bc14cc9d4d8516fd8cd19034f9493ace636f13",
+  "analyzed_at": "2026-11-15T05:22:50Z",
+  "workflows": [
+    {
+      "id": "images.yml",
+      "path": ".github/workflows/images.yml",
+      "name": "Images",
+      "triggers": [
+        "pull_request",
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "init",
+          "name": "Generate Jobs",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.name }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": [
+            "init"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "images-test-summary",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/update-sh.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/images.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "init": 0.0,
+          "summary": 0.0,
+          "test": 0.5
+        },
+        "pagerank": {
+          "init": 0.184417,
+          "summary": 0.474412,
+          "test": 0.341172
+        },
+        "downstream_impact": {
+          "init": [
+            "summary",
+            "test"
+          ],
+          "summary": [],
+          "test": [
+            "summary"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "summary",
+          "init"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 18,
+          "end_line": 68,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'init' step 2 uses unpinned action 'docker-library/bashbrew@HEAD'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 20,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 36,
+          "end_line": 56,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 58,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-sh.yml",
+      "path": ".github/workflows/update-sh.yml",
+      "name": "update.sh",
+      "triggers": [
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run_update_sh",
+          "name": "Run update.sh script",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "run_update_sh": 0.0
+        },
+        "pagerank": {
+          "run_update_sh": 1.0
+        },
+        "downstream_impact": {
+          "run_update_sh": []
+        },
+        "critical_nodes": [
+          "run_update_sh"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'run_update_sh' step 4 uses unpinned action 'ad-m/github-push-action@master'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-sh.yml",
+          "start_line": 30,
+          "end_line": 30,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run_update_sh' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-sh.yml",
+          "start_line": 16,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,594 @@
+{
+  "org": "dani-garcia",
+  "repository": "vaultwarden",
+  "sha": "bd7beab76e42c3e9605f1c9b96814ee97f70e376",
+  "analyzed_at": "2026-11-15T05:22:49Z",
+  "workflows": [
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "Build",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build and Test ${{ matrix.channel }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 15,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "check-templates.yml",
+      "path": ".github/workflows/check-templates.yml",
+      "name": "Check templates",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "docker-templates",
+          "name": "Validate docker templates",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "docker-templates": 0.0
+        },
+        "pagerank": {
+          "docker-templates": 1.0
+        },
+        "downstream_impact": {
+          "docker-templates": []
+        },
+        "critical_nodes": [
+          "docker-templates"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "hadolint.yml",
+      "path": ".github/workflows/hadolint.yml",
+      "name": "Hadolint",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "hadolint",
+          "name": "Validate Dockerfile syntax",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "hadolint": 0.0
+        },
+        "pagerank": {
+          "hadolint": 1.0
+        },
+        "downstream_impact": {
+          "hadolint": []
+        },
+        "critical_nodes": [
+          "hadolint"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "docker-build",
+          "name": "Build Vaultwarden containers",
+          "runner": "${{ contains(matrix.arch, 'arm') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}",
+          "steps_count": 20,
+          "needs": []
+        },
+        {
+          "id": "merge-manifests",
+          "name": "Merge manifests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 12,
+          "needs": [
+            "docker-build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "docker-build": 0.0,
+          "merge-manifests": 0.0
+        },
+        "pagerank": {
+          "docker-build": 0.350877,
+          "merge-manifests": 0.649123
+        },
+        "downstream_impact": {
+          "docker-build": [
+            "merge-manifests"
+          ],
+          "merge-manifests": []
+        },
+        "critical_nodes": [
+          "merge-manifests",
+          "docker-build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'docker-build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 38,
+          "end_line": 248,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'merge-manifests' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 250,
+          "end_line": 388,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 90,
+          "end_line": 94,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 97,
+          "end_line": 106,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 119,
+          "end_line": 121,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 9 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 135,
+          "end_line": 137,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 11 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 151,
+          "end_line": 153,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 12 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 159,
+          "end_line": 170,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 13 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 175,
+          "end_line": 185,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'docker-build' step 15 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 211,
+          "end_line": 214,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'merge-manifests' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 285,
+          "end_line": 287,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'merge-manifests' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 301,
+          "end_line": 303,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'merge-manifests' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 317,
+          "end_line": 319,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'merge-manifests' step 8 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 325,
+          "end_line": 332,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'merge-manifests' step 9 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 338,
+          "end_line": 364,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'merge-manifests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 250,
+          "end_line": 388,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "releasecache-cleanup.yml",
+      "path": ".github/workflows/releasecache-cleanup.yml",
+      "name": "Cleanup",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "releasecache-cleanup",
+          "name": "Releasecache Cleanup",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "releasecache-cleanup": 0.0
+        },
+        "pagerank": {
+          "releasecache-cleanup": 1.0
+        },
+        "downstream_impact": {
+          "releasecache-cleanup": []
+        },
+        "critical_nodes": [
+          "releasecache-cleanup"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'releasecache-cleanup' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/releasecache-cleanup.yml",
+          "start_line": 20,
+          "end_line": 34,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "sdk-live-tests.yml",
+      "path": ".github/workflows/sdk-live-tests.yml",
+      "name": "SDK live tests",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "sdk-live-tests",
+          "name": "SDK live tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sdk-live-tests": 0.0
+        },
+        "pagerank": {
+          "sdk-live-tests": 1.0
+        },
+        "downstream_impact": {
+          "sdk-live-tests": []
+        },
+        "critical_nodes": [
+          "sdk-live-tests"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "trivy.yml",
+      "path": ".github/workflows/trivy.yml",
+      "name": "Trivy",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "trivy-scan",
+          "name": "Trivy Scan",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "trivy-scan": 0.0
+        },
+        "pagerank": {
+          "trivy-scan": 1.0
+        },
+        "downstream_impact": {
+          "trivy-scan": []
+        },
+        "critical_nodes": [
+          "trivy-scan"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "typos.yml",
+      "path": ".github/workflows/typos.yml",
+      "name": "Code Spell Checking",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "typos",
+          "name": "Run typos spell checking",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "typos": 0.0
+        },
+        "pagerank": {
+          "typos": 1.0
+        },
+        "downstream_impact": {
+          "typos": []
+        },
+        "critical_nodes": [
+          "typos"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "zizmor.yml",
+      "path": ".github/workflows/zizmor.yml",
+      "name": "Security Analysis with zizmor",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "Run zizmor",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "zizmor": 0.0
+        },
+        "pagerank": {
+          "zizmor": 1.0
+        },
+        "downstream_impact": {
+          "zizmor": []
+        },
+        "critical_nodes": [
+          "zizmor"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zizmor.yml",
+          "start_line": 15,
+          "end_line": 31,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

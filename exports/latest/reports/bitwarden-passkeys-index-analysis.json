@@ -1,0 +1,526 @@
+{
+  "repository": "bitwarden/passkeys-index",
+  "sha": "25acc4a1560d18dbbf205701d614441349f48378",
+  "ecosystem": "JavaScript/TypeScript",
+  "metrics": {
+    "files_analyzed": 7,
+    "loc": 151,
+    "sloc": 132,
+    "component_count": 2,
+    "avg_cyclomatic_complexity": 1.91,
+    "max_cyclomatic_complexity": 6,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 1.64,
+    "max_cognitive_complexity": 9,
+    "duplication_pct": 35.31,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [
+      {
+        "file": "src/pages/api/v1/data.json.ts",
+        "loc": 59,
+        "cyclomatic": 6,
+        "cognitive": 11
+      },
+      {
+        "file": "src/utils/markdown.ts",
+        "loc": 29,
+        "cyclomatic": 6,
+        "cognitive": 7
+      },
+      {
+        "file": "tailwind.config.mjs",
+        "loc": 27,
+        "cyclomatic": 1,
+        "cognitive": 0
+      },
+      {
+        "file": "svgo.config.mjs",
+        "loc": 18,
+        "cyclomatic": 1,
+        "cognitive": 0
+      },
+      {
+        "file": "astro.config.mjs",
+        "loc": 10,
+        "cyclomatic": 1,
+        "cognitive": 0
+      },
+      {
+        "file": "postcss.config.mjs",
+        "loc": 7,
+        "cyclomatic": 1,
+        "cognitive": 0
+      },
+      {
+        "file": "src/env.d.ts",
+        "loc": 1,
+        "cyclomatic": 1,
+        "cognitive": 0
+      }
+    ],
+    "import_edges": [
+      {
+        "source_file": "astro.config.mjs",
+        "target_symbol": "defineConfig",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "astro.config.mjs",
+        "target_symbol": "mdx",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/pages/api/v1/data.json.ts",
+        "target_symbol": "Tokens",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/pages/api/v1/data.json.ts",
+        "target_symbol": "getReadMeData",
+        "confidence": 1.0
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "Lexer",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "Token",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "Tokens",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "marked",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "parse",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "src/utils/markdown.ts",
+        "target_symbol": "passkeyIndexMd",
+        "confidence": 0.5
+      }
+    ],
+    "framework": "Astro",
+    "fitness_passed": false,
+    "fitness_violation_count": 1
+  },
+  "pipelines": [
+    {
+      "id": "deploy.yml",
+      "path": ".github/workflows/deploy.yml",
+      "name": "Deploy to GitHub Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "build": {
+          "name": "Build",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout your repository using git",
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Install, build, and upload your site output",
+              "uses": "withastro/action@b7d53628f8b666036b0238aadb0b984a2a489f26"
+            }
+          ]
+        },
+        "deploy": {
+          "name": "Deploy",
+          "needs": "build",
+          "runs-on": "ubuntu-22.04",
+          "permissions": {
+            "pages": "write",
+            "id-token": "write"
+          },
+          "environment": {
+            "name": "github-pages",
+            "url": "${{ steps.deployment.outputs.page_url }}"
+          },
+          "steps": [
+            {
+              "name": "Deploy to GitHub Pages",
+              "id": "deployment",
+              "uses": "actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "deploy",
+          "name": "Deploy",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ],
+          "environment": "github-pages"
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 26,
+          "end_line": 40,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 26,
+          "end_line": 40,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 13,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 26,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "deploy": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "deploy": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "deploy"
+          ],
+          "deploy": []
+        },
+        "critical_nodes": [
+          "deploy",
+          "build"
+        ],
+        "max_blast_radius": 1
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "site",
+      "type": "MODULE",
+      "file": "package.json",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    },
+    {
+      "name": "API_v1_data.json",
+      "type": "API_ROUTE",
+      "file": "src/pages/api/v1/data.json.ts",
+      "ecosystem": "react_ts_js",
+      "dependencies": []
+    }
+  ],
+  "scorecard": {
+    "overall_score": 79.25,
+    "overall_grade": "C",
+    "technical_debt_score": 20.75,
+    "remediation_hours": 17.25,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 75.0,
+        "grade": "C",
+        "weight": 0.2,
+        "details": "avg_cc=1.91, max_cc=6, duplication=35.31%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 94.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=1.64, max_cognitive=9, fitness_violations=1, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=11, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 76.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=1, operational_antipatterns=4, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "@astrojs/check",
+      "version": "0.9.10",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40astrojs/check@0.9.10",
+      "manifest_file": "package.json",
+      "line": 13,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "@astrojs/mdx",
+      "version": "7.0.5",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40astrojs/mdx@7.0.5",
+      "manifest_file": "package.json",
+      "line": 14,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "@fontsource/dm-sans",
+      "version": "5.1.0",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40fontsource/dm-sans@5.1.0",
+      "manifest_file": "package.json",
+      "line": 15,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "astro",
+      "version": "7.2.8",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/astro@7.2.8",
+      "manifest_file": "package.json",
+      "line": 16,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "astro-seo",
+      "version": "0.8.4",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/astro-seo@0.8.4",
+      "manifest_file": "package.json",
+      "line": 17,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "autoprefixer",
+      "version": "10.5.4",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/autoprefixer@10.5.4",
+      "manifest_file": "package.json",
+      "line": 18,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "classnames",
+      "version": "2.5.1",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/classnames@2.5.1",
+      "manifest_file": "package.json",
+      "line": 19,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "marked",
+      "version": "15.0.4",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/marked@15.0.4",
+      "manifest_file": "package.json",
+      "line": 20,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "postcss",
+      "version": "8.5.25",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/postcss@8.5.25",
+      "manifest_file": "package.json",
+      "line": 21,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "tailwindcss",
+      "version": "3.4.17",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/tailwindcss@3.4.17",
+      "manifest_file": "package.json",
+      "line": 22,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "typescript",
+      "version": "5.7.2",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/typescript@5.7.2",
+      "manifest_file": "package.json",
+      "line": 23,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [
+    {
+      "rule_id": "ATRUSS-ARCH-005",
+      "type": "COMPLEXITY_THRESHOLD",
+      "severity": "MEDIUM",
+      "message": "Repository duplication_pct (35.31) exceeds policy threshold (15.0).",
+      "source_component": "src/pages/api/v1/data.json.ts",
+      "target_component": "duplication_pct",
+      "source_layer": "REPOSITORY",
+      "target_layer": "THRESHOLD",
+      "file_source": "src/pages/api/v1/data.json.ts",
+      "start_line": 1,
+      "end_line": 1
+    }
+  ],
+  "code_to_cloud_edges": [
+    {
+      "source": "deploy.yml#deploy",
+      "source_type": "ci_job",
+      "target": "github-pages",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "02c70195-5133-41cc-ac97-5c3f4ec9a7e4",
+      "source_type": "code_module",
+      "target": "deploy.yml#build",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "02c70195-5133-41cc-ac97-5c3f4ec9a7e4",
+      "source_type": "code_module",
+      "target": "deploy.yml#deploy",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

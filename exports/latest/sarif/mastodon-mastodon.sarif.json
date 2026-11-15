@@ -1,0 +1,1335 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "atruss-code-atlas",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/kumarshaz/atruss-code-atlas",
+          "rules": [
+            {
+              "id": "ATRUSS-ARCH-005",
+              "name": "COMPLEXITY_THRESHOLD",
+              "shortDescription": {
+                "text": "Code quality metric exceeds configured architectural threshold."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "architecture"
+                ]
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-001",
+              "name": "NO_TEST_GATE",
+              "shortDescription": {
+                "text": "Deployment job executes without an upstream test gate in its needs chain."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-009",
+              "name": "TEMPLATE_INJECTION",
+              "shortDescription": {
+                "text": "Workflow run block interpolates untrusted event context or writes to GITHUB_ENV/PATH."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-011",
+              "name": "EXCESSIVE_PERMISSIONS",
+              "shortDescription": {
+                "text": "Workflow grants write-all or omits least-privilege permissions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-013",
+              "name": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+              "shortDescription": {
+                "text": "actions/checkout persists git credentials in job that uploads artifacts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+              }
+            },
+            {
+              "id": "ATRUSS-SEC-005",
+              "name": "HIGH_ENTROPY_SECRET",
+              "shortDescription": {
+                "text": "High-entropy credential candidate detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.64 > 4.5) detected. Snippet: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=fkSx***REDACTED***"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".env.development",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "mastodon/mastodon",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=r0hv***REDACTED***"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".env.development",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "mastodon/mastodon",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=PhdF***REDACTED***"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".env.development",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "mastodon/mastodon",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "CRITICAL: Job 'build-image' performs deployment without upstream test gates ('needs:' block is empty)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 28,
+                  "endLine": 119
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 28,
+                  "endLine": 119
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build-image' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'build-image' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 52,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'merge-images' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-container-image.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 122,
+                  "endLine": 180
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'compute-suffix' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-nightly.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-nightly.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image-streaming' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-nightly.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 44,
+                  "endLine": 62
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'compute-suffix' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-push-pr.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-009",
+          "level": "error",
+          "message": {
+            "text": "Job 'compute-suffix' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-push-pr.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 23,
+                  "endLine": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-push-pr.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 30,
+                  "endLine": 43
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image-streaming' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-push-pr.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'check-latest-stable' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-releases.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-releases.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 65
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image-streaming' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-releases.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67,
+                  "endLine": 84
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'compute-suffix' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-security.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-security.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image-streaming' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/build-security.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 41,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/bundler-audit.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'download-translations-stable' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/crowdin-download-stable.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'download-translations' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/crowdin-download.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 71
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/crowdin-upload.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'upload-translations' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/crowdin-upload.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/format-check.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/lint-css.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/lint-haml.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/lint-js.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/lint-ruby.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'label-rebase-needed' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/rebase-needed.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-image-build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 16,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build-image-streaming' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-image-build.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-js.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-migrations.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-ruby.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-ruby.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 31,
+                  "endLine": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'test-e2e' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-ruby.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 212,
+                  "endLine": 212
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'test-search' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/test-ruby.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 344,
+                  "endLine": 344
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "mastodon/mastodon",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.50 > 4.5) detected. Snippet: \"keyboard_shortcuts.toggle_hidden\": \"\u0e41\u0e2a\u0e14\u0e07***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/javascript/mastodon/locales/th.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 417,
+                  "endLine": 417
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "mastodon/mastodon",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cognitive_complexity (287.0) exceeds policy threshold (25.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "streaming/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "mastodon/mastodon"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cyclomatic_complexity (110.0) exceeds policy threshold (20.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "streaming/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "mastodon/mastodon"
+          }
+        }
+      ]
+    }
+  ]
+}

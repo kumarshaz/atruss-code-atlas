@@ -24,22 +24,387 @@
                   "architecture"
                 ]
               }
+            },
+            {
+              "id": "ATRUSS-PIPE-001",
+              "name": "NO_TEST_GATE",
+              "shortDescription": {
+                "text": "Deployment job executes without an upstream test gate in its needs chain."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-002",
+              "name": "NO_CACHE",
+              "shortDescription": {
+                "text": "Workflow installs dependencies without caching configured."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-011",
+              "name": "EXCESSIVE_PERMISSIONS",
+              "shortDescription": {
+                "text": "Workflow grants write-all or omits least-privilege permissions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-SEC-002",
+              "name": "GITHUB_TOKEN",
+              "shortDescription": {
+                "text": "Potential hardcoded GitHub Personal Access Token detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
             }
           ]
         }
       },
       "results": [
         {
-          "ruleId": "ATRUSS-ARCH-005",
-          "level": "warning",
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
           "message": {
-            "text": "Repository duplication_pct (77.24) exceeds policy threshold (15.0)."
+            "text": "Job 'benchmark' omits 'timeout-minutes', risking 360-minute hung runners."
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "src/analyzers/code/treesitter_engine.py",
+                  "uri": ".github/workflows/benchmark.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 25,
+                  "endLine": 66
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-002",
+          "level": "warning",
+          "message": {
+            "text": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/benchmark.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 37,
+                  "endLine": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/deploy-pages.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-001",
+          "level": "error",
+          "message": {
+            "text": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/deploy-pages.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 64
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/deploy-pages.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 64
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 7
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'lint-and-unit' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'web-check' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'integration-and-e2e' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 36,
+                  "endLine": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'agent-workflow-eval' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository duplication_pct (67.83) exceeds policy threshold (15.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/commands/benchmark.py",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
@@ -59,13 +424,13 @@
           "ruleId": "ATRUSS-ARCH-005",
           "level": "warning",
           "message": {
-            "text": "Repository max_cognitive_complexity (304.0) exceeds policy threshold (25.0)."
+            "text": "Repository max_cognitive_complexity (81.0) exceeds policy threshold (25.0)."
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "src/analyzers/code/treesitter_engine.py",
+                  "uri": "src/cli/commands/benchmark.py",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
@@ -85,13 +450,13 @@
           "ruleId": "ATRUSS-ARCH-005",
           "level": "warning",
           "message": {
-            "text": "Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0)."
+            "text": "Repository max_cyclomatic_complexity (39.0) exceeds policy threshold (20.0)."
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "src/analyzers/code/treesitter_engine.py",
+                  "uri": "src/cli/commands/benchmark.py",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
@@ -105,6 +470,33 @@
             "severity": "MEDIUM",
             "category": "architecture",
             "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-002",
+          "level": "error",
+          "message": {
+            "text": "Potential hardcoded GitHub Personal Access Token detected. Snippet: SECRET_TOKEN: \"ghp_***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tests/integration/test_pipeline_dag_e2e.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67,
+                  "endLine": 67
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
           }
         }
       ]

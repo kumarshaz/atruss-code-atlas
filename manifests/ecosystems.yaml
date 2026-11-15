@@ -103,6 +103,128 @@ ecosystems:
           - "\\bflask\\b"
           - "Flask\\("
 
+  - id: go
+    display_name: "Go"
+    priority: 75
+    manifest_patterns:
+      - "(^|/)go\\.mod$"
+      - "(^|/)go\\.sum$"
+      - "(^|/)go\\.work$"
+    extension_patterns:
+      - "\\.go$"
+    path_signals:
+      - "(^|/)cmd/"
+      - "(^|/)pkg/"
+    frameworks:
+      - name: "Go Gin / Echo / Fiber"
+        path_patterns: []
+        content_patterns:
+          - "github\\.com/gin-gonic/gin"
+          - "github\\.com/labstack/echo"
+          - "github\\.com/gofiber/fiber"
+      - name: "Go Service"
+        path_patterns:
+          - "(^|/)main\\.go$"
+          - "(^|/)cmd/.+/main\\.go$"
+        content_patterns: []
+
+  - id: rust
+    display_name: "Rust"
+    priority: 74
+    manifest_patterns:
+      - "(^|/)Cargo\\.toml$"
+      - "(^|/)Cargo\\.lock$"
+    extension_patterns:
+      - "\\.rs$"
+    path_signals:
+      - "(^|/)src/main\\.rs$"
+      - "(^|/)src/lib\\.rs$"
+    frameworks:
+      - name: "Axum / Actix / Rocket"
+        path_patterns: []
+        content_patterns:
+          - "\\baxum\\b"
+          - "\\bactix-web\\b"
+          - "\\brocket\\b"
+      - name: "Rust Cargo"
+        path_patterns:
+          - "(^|/)Cargo\\.toml$"
+        content_patterns: []
+
+  - id: ruby
+    display_name: "Ruby"
+    priority: 73
+    manifest_patterns:
+      - "(^|/)Gemfile$"
+      - "(^|/)Gemfile\\.lock$"
+      - "\\.gemspec$"
+    extension_patterns:
+      - "\\.rb$"
+    path_signals:
+      - "(^|/)config/routes\\.rb$"
+      - "(^|/)app/controllers/"
+    frameworks:
+      - name: "Ruby on Rails"
+        path_patterns:
+          - "(^|/)config/application\\.rb$"
+          - "(^|/)config/routes\\.rb$"
+          - "(^|/)bin/rails$"
+        content_patterns:
+          - "gem ['\"]rails['\"]"
+          - "Rails::Application"
+      - name: "Ruby"
+        path_patterns:
+          - "(^|/)Gemfile$"
+        content_patterns: []
+
+  - id: php
+    display_name: "PHP"
+    priority: 72
+    manifest_patterns:
+      - "(^|/)composer\\.json$"
+      - "(^|/)composer\\.lock$"
+    extension_patterns:
+      - "\\.php$"
+    path_signals:
+      - "(^|/)apps/"
+      - "(^|/)app/Http/"
+    frameworks:
+      - name: "Laravel"
+        path_patterns:
+          - "(^|/)artisan$"
+        content_patterns:
+          - "laravel/framework"
+      - name: "Symfony"
+        path_patterns:
+          - "(^|/)symfony\\.lock$"
+        content_patterns:
+          - "symfony/"
+      - name: "PHP Composer"
+        path_patterns:
+          - "(^|/)composer\\.json$"
+        content_patterns: []
+
+  - id: elixir
+    display_name: "Elixir"
+    priority: 71
+    manifest_patterns:
+      - "(^|/)mix\\.exs$"
+      - "(^|/)mix\\.lock$"
+    extension_patterns:
+      - "\\.exs?$"
+    path_signals:
+      - "(^|/)lib/.+\\.ex$"
+    frameworks:
+      - name: "Phoenix"
+        path_patterns:
+          - "(^|/)lib/.+_web/"
+        content_patterns:
+          - ":phoenix"
+      - name: "Elixir Mix"
+        path_patterns:
+          - "(^|/)mix\\.exs$"
+        content_patterns: []
+
   - id: react_ts_js
     display_name: "JavaScript/TypeScript"
     priority: 70
@@ -151,6 +273,40 @@ ecosystems:
           - "(^|/)tsconfig\\.json$"
         content_patterns: []
 
+  - id: infra_devops
+    display_name: "Container / Helm / IaC"
+    priority: 10
+    manifest_patterns:
+      - "(^|/)Chart\\.ya?ml$"
+      - "(^|/)docker-compose(\\.[^/]+)?\\.ya?ml$"
+      - "(^|/)compose\\.ya?ml$"
+      - "(^|/)Dockerfile(\\.[^/]+)?$"
+      - "(^|/)kustomization\\.ya?ml$"
+    extension_patterns:
+      - "\\.tf$"
+      - "\\.bicep$"
+    path_signals:
+      - "(^|/)(helm|charts|k8s|kubernetes|terraform)/"
+    frameworks:
+      - name: "Helm Chart"
+        path_patterns:
+          - "(^|/)Chart\\.ya?ml$"
+        content_patterns: []
+      - name: "Docker Compose"
+        path_patterns:
+          - "(^|/)docker-compose(\\.[^/]+)?\\.ya?ml$"
+          - "(^|/)compose\\.ya?ml$"
+        content_patterns: []
+      - name: "Terraform / IaC"
+        path_patterns:
+          - "\\.tf$"
+          - "\\.bicep$"
+        content_patterns: []
+      - name: "Container"
+        path_patterns:
+          - "(^|/)Dockerfile(\\.[^/]+)?$"
+        content_patterns: []
+
 discovery_signals:
   HasAPI:
     - "\\.API\\."
@@ -188,7 +344,7 @@ discovery_signals:
     - "(^|/)entities/"
   HasDockerfile:
     - "(^|/)Dockerfile(\\.[^/]+)?$"
-    - "(^|/)docker-compose\\.ya?ml$"
+    - "(^|/)docker-compose(\\.[^/]+)?\\.ya?ml$"
   HasPipeline:
     - "(^|/)\\.github/workflows/.*\\.ya?ml$"
   HasKubernetes:

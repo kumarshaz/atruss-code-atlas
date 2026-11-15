@@ -1,0 +1,1357 @@
+{
+  "org": "supabase",
+  "repository": "etl",
+  "sha": "8c27b92d378f66b5d79165b60e43dc4bc5eb01a8",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "benchmark.yml",
+      "path": ".github/workflows/benchmark.yml",
+      "name": "Benchmark",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "plan",
+          "name": "Plan",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "benchmark",
+          "name": "Benchmark (${{ matrix.destination }})",
+          "runner": "${{ needs.plan.outputs.runner }}",
+          "steps_count": 15,
+          "needs": [
+            "plan"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "benchmark": 0.0,
+          "plan": 0.0
+        },
+        "pagerank": {
+          "benchmark": 0.649123,
+          "plan": 0.350877
+        },
+        "downstream_impact": {
+          "benchmark": [],
+          "plan": [
+            "benchmark"
+          ]
+        },
+        "critical_nodes": [
+          "benchmark",
+          "plan"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in workflow env 'POSTGRES_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/benchmark.yml",
+          "start_line": 97,
+          "end_line": 97,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'benchmark' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/benchmark.yml",
+          "start_line": 219,
+          "end_line": 237,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        }
+      ]
+    },
+    {
+      "id": "bigquery-nightly-tests.yml",
+      "path": ".github/workflows/bigquery-nightly-tests.yml",
+      "name": "BigQuery nightly tests",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Tests (BigQuery nightly)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'POSTGRES_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/bigquery-nightly-tests.yml",
+          "start_line": 31,
+          "end_line": 31,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'TESTS_DATABASE_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/bigquery-nightly-tests.yml",
+          "start_line": 38,
+          "end_line": 38,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'test' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/bigquery-nightly-tests.yml",
+          "start_line": 46,
+          "end_line": 60,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        }
+      ]
+    },
+    {
+      "id": "ci-metrics.yml",
+      "path": ".github/workflows/ci-metrics.yml",
+      "name": "CI metrics",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sync",
+          "name": "Sync CI metrics",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sync": 0.0
+        },
+        "pagerank": {
+          "sync": 1.0
+        },
+        "downstream_impact": {
+          "sync": []
+        },
+        "critical_nodes": [
+          "sync"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'sync' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci-metrics.yml",
+          "start_line": 26,
+          "end_line": 78,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "format",
+          "name": "Format",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "clippy",
+          "name": "Clippy",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "tls",
+          "name": "TLS (AWS-LC only)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "snowflake",
+          "name": "Features (Snowflake only)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "workflow-lint",
+          "name": "Workflow lint",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test-build",
+          "name": "Build tests",
+          "runner": "blacksmith-8vcpu-ubuntu-2404",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "Tests (${{ matrix.name }})",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "test-build"
+          ]
+        },
+        {
+          "id": "coverage",
+          "name": "Tests (PostgreSQL 18, coverage)",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "multigres",
+          "name": "Tests (Multigres)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 6,
+          "needs": [
+            "test-build"
+          ]
+        },
+        {
+          "id": "fuzz-corpus",
+          "name": "Fuzz corpus replay",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "image",
+          "name": "Image (${{ matrix.arch }})",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "hostname-connections",
+          "name": "Hostname connections",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "ci-passed",
+          "name": "CI passed",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 1,
+          "needs": [
+            "hostname-connections",
+            "format",
+            "clippy",
+            "tls",
+            "snowflake",
+            "workflow-lint",
+            "test-build",
+            "test",
+            "coverage",
+            "multigres",
+            "fuzz-corpus",
+            "image"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 13,
+        "edge_count": 14,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/ci.yml",
+          "source_job": "coverage",
+          "target_workflow": ".github/workflows/reusable-tests.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/ci.yml",
+          "source_job": "test",
+          "target_workflow": ".github/workflows/reusable-tests.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "ci-passed": 0.0,
+          "clippy": 0.0,
+          "coverage": 0.0,
+          "format": 0.0,
+          "fuzz-corpus": 0.0,
+          "hostname-connections": 0.0,
+          "image": 0.0,
+          "multigres": 0.0,
+          "snowflake": 0.0,
+          "test": 0.0,
+          "test-build": 0.0,
+          "tls": 0.0,
+          "workflow-lint": 0.0
+        },
+        "pagerank": {
+          "ci-passed": 0.469353,
+          "clippy": 0.042227,
+          "coverage": 0.042227,
+          "format": 0.042227,
+          "fuzz-corpus": 0.042227,
+          "hostname-connections": 0.042227,
+          "image": 0.042227,
+          "multigres": 0.054191,
+          "snowflake": 0.042227,
+          "test": 0.054191,
+          "test-build": 0.042227,
+          "tls": 0.042227,
+          "workflow-lint": 0.042227
+        },
+        "downstream_impact": {
+          "ci-passed": [],
+          "clippy": [
+            "ci-passed"
+          ],
+          "coverage": [
+            "ci-passed"
+          ],
+          "format": [
+            "ci-passed"
+          ],
+          "fuzz-corpus": [
+            "ci-passed"
+          ],
+          "hostname-connections": [
+            "ci-passed"
+          ],
+          "image": [
+            "ci-passed"
+          ],
+          "multigres": [
+            "ci-passed"
+          ],
+          "snowflake": [
+            "ci-passed"
+          ],
+          "test": [
+            "ci-passed"
+          ],
+          "test-build": [
+            "ci-passed",
+            "multigres",
+            "test"
+          ],
+          "tls": [
+            "ci-passed"
+          ],
+          "workflow-lint": [
+            "ci-passed"
+          ]
+        },
+        "critical_nodes": [
+          "ci-passed",
+          "multigres",
+          "test",
+          "test-build",
+          "clippy",
+          "coverage",
+          "format",
+          "fuzz-corpus",
+          "hostname-connections",
+          "image",
+          "snowflake",
+          "tls",
+          "workflow-lint"
+        ],
+        "max_blast_radius": 3
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 234,
+          "end_line": 262,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'coverage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 264,
+          "end_line": 271,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "codeql.yml",
+      "path": ".github/workflows/codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze (${{ matrix.language }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "dependency-audit.yml",
+      "path": ".github/workflows/dependency-audit.yml",
+      "name": "Dependency audit",
+      "triggers": [
+        "schedule",
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "audit",
+          "name": "Audit dependencies",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "audit": 0.0
+        },
+        "pagerank": {
+          "audit": 1.0
+        },
+        "downstream_impact": {
+          "audit": []
+        },
+        "critical_nodes": [
+          "audit"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "docs.yml",
+      "path": ".github/workflows/docs.yml",
+      "name": "Docs",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build docs",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "Deploy docs",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 2,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "deploy": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "deploy": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "deploy"
+          ],
+          "deploy": []
+        },
+        "critical_nodes": [
+          "deploy",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docs.yml",
+          "start_line": 62,
+          "end_line": 80,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "feature-check.yml",
+      "path": ".github/workflows/feature-check.yml",
+      "name": "Feature combinations",
+      "triggers": [
+        "schedule",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "each-feature",
+          "name": "Clippy (each feature)",
+          "runner": "blacksmith-8vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "each-feature": 0.0
+        },
+        "pagerank": {
+          "each-feature": 1.0
+        },
+        "downstream_impact": {
+          "each-feature": []
+        },
+        "critical_nodes": [
+          "each-feature"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "fuzz.yml",
+      "path": ".github/workflows/fuzz.yml",
+      "name": "Fuzz",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "fuzz",
+          "name": "Fuzz (${{ matrix.target }})",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "fuzz": 0.0
+        },
+        "pagerank": {
+          "fuzz": 1.0
+        },
+        "downstream_impact": {
+          "fuzz": []
+        },
+        "critical_nodes": [
+          "fuzz"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "prepare-release.yml",
+      "path": ".github/workflows/prepare-release.yml",
+      "name": "Prepare release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare",
+          "name": "Prepare release PR",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "prepare": 0.0
+        },
+        "pagerank": {
+          "prepare": 1.0
+        },
+        "downstream_impact": {
+          "prepare": []
+        },
+        "critical_nodes": [
+          "prepare"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'prepare' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/prepare-release.yml",
+          "start_line": 29,
+          "end_line": 115,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "property-tests.yml",
+      "path": ".github/workflows/property-tests.yml",
+      "name": "Property tests",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test-build",
+          "name": "Build tests",
+          "runner": "blacksmith-8vcpu-ubuntu-2404",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "Property tests (PostgreSQL 18)",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "test-build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/property-tests.yml",
+          "source_job": "test",
+          "target_workflow": ".github/workflows/reusable-tests.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "test-build": 0.0
+        },
+        "pagerank": {
+          "test": 0.649123,
+          "test-build": 0.350877
+        },
+        "downstream_impact": {
+          "test": [],
+          "test-build": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/property-tests.yml",
+          "start_line": 66,
+          "end_line": 75,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish-image.yml",
+      "path": ".github/workflows/publish-image.yml",
+      "name": "Publish image",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "route",
+          "name": "Resolve publication route",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "image",
+          "name": "Publish image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "route"
+          ]
+        },
+        {
+          "id": "release",
+          "name": "Publish release",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "route"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/publish-image.yml",
+          "source_job": "image",
+          "target_workflow": ".github/workflows/reusable-publish-image.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/publish-image.yml",
+          "source_job": "release",
+          "target_workflow": ".github/workflows/release.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "image": 0.0,
+          "release": 0.0,
+          "route": 0.0
+        },
+        "pagerank": {
+          "image": 0.37013,
+          "release": 0.37013,
+          "route": 0.259741
+        },
+        "downstream_impact": {
+          "image": [],
+          "release": [],
+          "route": [
+            "image",
+            "release"
+          ]
+        },
+        "critical_nodes": [
+          "image",
+          "release",
+          "route"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'image' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-image.yml",
+          "start_line": 41,
+          "end_line": 50,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-image.yml",
+          "start_line": 52,
+          "end_line": 63,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-image.yml",
+          "start_line": 41,
+          "end_line": 50,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-image.yml",
+          "start_line": 41,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-image.yml",
+          "start_line": 52,
+          "end_line": 63,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "Create release tag",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "image",
+          "name": "Publish image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "tag"
+          ]
+        },
+        {
+          "id": "release",
+          "name": "Publish GitHub release",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 1,
+          "needs": [
+            "tag",
+            "image"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/release.yml",
+          "source_job": "image",
+          "target_workflow": ".github/workflows/reusable-publish-image.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "image": 0.0,
+          "release": 0.0,
+          "tag": 0.0
+        },
+        "pagerank": {
+          "image": 0.281551,
+          "release": 0.520869,
+          "tag": 0.19758
+        },
+        "downstream_impact": {
+          "image": [
+            "release"
+          ],
+          "release": [],
+          "tag": [
+            "image",
+            "release"
+          ]
+        },
+        "critical_nodes": [
+          "release",
+          "image",
+          "tag"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tag' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 23,
+          "end_line": 89,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'image' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 90,
+          "end_line": 100,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 102,
+          "end_line": 122,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 23,
+          "end_line": 89,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 90,
+          "end_line": 100,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "reusable-publish-image.yml",
+      "path": ".github/workflows/reusable-publish-image.yml",
+      "name": "Publish image (reusable)",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "prepare",
+          "name": "Prepare image tags",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "Build image (${{ matrix.name }})",
+          "runner": "${{ format('blacksmith-{0}vcpu-ubuntu-2404{1}', inputs.build-vcpus, matrix.arch == 'arm64' && '-arm' || '') }}",
+          "steps_count": 6,
+          "needs": [
+            "prepare"
+          ]
+        },
+        {
+          "id": "manifest",
+          "name": "Publish image manifest",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": [
+            "prepare",
+            "build"
+          ]
+        },
+        {
+          "id": "latest",
+          "name": "Promote latest image",
+          "runner": "blacksmith-2vcpu-ubuntu-2404",
+          "steps_count": 4,
+          "needs": [
+            "prepare",
+            "manifest"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "latest": 0.0,
+          "manifest": 0.166667,
+          "prepare": 0.0
+        },
+        "pagerank": {
+          "build": 0.161246,
+          "latest": 0.414804,
+          "manifest": 0.298305,
+          "prepare": 0.125646
+        },
+        "downstream_impact": {
+          "build": [
+            "latest",
+            "manifest"
+          ],
+          "latest": [],
+          "manifest": [
+            "latest"
+          ],
+          "prepare": [
+            "build",
+            "latest",
+            "manifest"
+          ]
+        },
+        "critical_nodes": [
+          "manifest",
+          "latest",
+          "build",
+          "prepare"
+        ],
+        "max_blast_radius": 3
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'manifest' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reusable-publish-image.yml",
+          "start_line": 169,
+          "end_line": 227,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        }
+      ]
+    },
+    {
+      "id": "reusable-tests.yml",
+      "path": ".github/workflows/reusable-tests.yml",
+      "name": "Tests (reusable)",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Run tests",
+          "runner": "${{ format('blacksmith-{0}vcpu-ubuntu-2404', inputs.runner-vcpus) }}",
+          "steps_count": 15,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'POSTGRES_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reusable-tests.yml",
+          "start_line": 42,
+          "end_line": 42,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'TESTS_DATABASE_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reusable-tests.yml",
+          "start_line": 53,
+          "end_line": 53,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'test' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reusable-tests.yml",
+          "start_line": 67,
+          "end_line": 80,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'test' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reusable-tests.yml",
+          "start_line": 116,
+          "end_line": 127,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        }
+      ]
+    },
+    {
+      "id": "snowflake-tests.yml",
+      "path": ".github/workflows/snowflake-tests.yml",
+      "name": "Snowflake tests",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Tests (Snowflake)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'POSTGRES_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/snowflake-tests.yml",
+          "start_line": 26,
+          "end_line": 26,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'test' env 'TESTS_DATABASE_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/snowflake-tests.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        }
+      ]
+    }
+  ]
+}

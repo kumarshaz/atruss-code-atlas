@@ -1,0 +1,327 @@
+---
+title: Architecture — dani-garcia/vaultwarden
+description: Arc42 and Pipeline report for dani-garcia/vaultwarden
+---
+
+# Repository Architecture Analysis: dani-garcia/vaultwarden
+
+## Metadata
+- **SHA**: `bd7beab76e42c3e9605f1c9b96814ee97f70e376`
+- **Primary Ecosystem**: Rust
+
+## Quality Metrics
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 1.13
+- **avg_cyclomatic_complexity**: 1.96
+- **component_count**: 67
+- **dead_code_count**: 0
+- **dead_code_symbols**: 0 entry(ies)
+- **duplication_pct**: 4.58
+- **file_complexities**: 25 entry(ies)
+- **files_analyzed**: 92
+- **fitness_passed**: True
+- **fitness_violation_count**: 0
+- **framework**: Axum / Actix / Rocket
+- **import_edges**: 100 entry(ies)
+- **loc**: 42319
+- **max_cognitive_complexity**: 11
+- **max_cyclomatic_complexity**: 10
+- **sloc**: 33051
+- **test_file_count**: 26
+
+# Architecture: dani-garcia/vaultwarden
+
+## Context
+- **Repository**: `dani-garcia/vaultwarden`
+- **SHA**: `bd7beab76e42c3e9605f1c9b96814ee97f70e376`
+- **Ecosystem**: Rust
+- **Framework**: Axum / Actix / Rocket
+
+## Building Block View
+
+```mermaid
+graph TD;
+    repo_root(["dani-garcia/vaultwarden (67 components)"])
+    dir_0_src["src (63)"]
+    repo_root --> dir_0_src
+    sub_0_0_api["api (25)"]
+    dir_0_src --> sub_0_0_api
+    sub_0_1_db["db (24)"]
+    dir_0_src --> sub_0_1_db
+    sub_0_2__module_root_["(module root) (12)"]
+    dir_0_src --> sub_0_2__module_root_
+    sub_0_more["+1 more submodules (2)"]
+    dir_0_src --> sub_0_more
+    dir_1__root_["(root) (1)"]
+    repo_root --> dir_1__root_
+    dir_2_docker["docker (1)"]
+    repo_root --> dir_2_docker
+    dir_3_macros["macros (1)"]
+    repo_root --> dir_3_macros
+    dir_4_playwright["playwright (1)"]
+    repo_root --> dir_4_playwright
+```
+
+## Component Details
+
+Showing top 60 representative components out of 67 across 5 module group(s):
+
+- **Module `src`** (63 components — module: 63)
+- **Module `(root)`** (1 components — module: 1)
+- **Module `docker`** (1 components — module: 1)
+- **Module `macros`** (1 components — module: 1)
+- **Module `playwright`** (1 components — MODULE: 1)
+
+- **DockerSettings** (`docker/DockerSettings.yaml`): module
+- **accounts** (`src/api/core/accounts.rs`): module
+- **admin** (`src/api/admin.rs`): module
+- **archive** (`src/db/models/archive.rs`): module
+- **attachment** (`src/db/models/attachment.rs`): module
+- **auth** (`src/auth.rs`): module
+- **auth_request** (`src/db/models/auth_request.rs`): module
+- **authenticator** (`src/api/core/two_factor/authenticator.rs`): module
+- **build** (`build.rs`): module
+- **cipher** (`src/db/models/cipher.rs`): module
+- **ciphers** (`src/api/core/ciphers.rs`): module
+- **collection** (`src/db/models/collection.rs`): module
+- **config** (`src/config.rs`): module
+- **crypto** (`src/crypto.rs`): module
+- **device** (`src/db/models/device.rs`): module
+- **duo** (`src/api/core/two_factor/duo.rs`): module
+- **duo_oidc** (`src/api/core/two_factor/duo_oidc.rs`): module
+- **email** (`src/api/core/two_factor/email.rs`): module
+- **emergency_access** (`src/api/core/emergency_access.rs`): module
+- **emergency_access** (`src/db/models/emergency_access.rs`): module
+- **error** (`src/error.rs`): module
+- **event** (`src/db/models/event.rs`): module
+- **events** (`src/api/core/events.rs`): module
+- **favorite** (`src/db/models/favorite.rs`): module
+- **folder** (`src/db/models/folder.rs`): module
+- **folders** (`src/api/core/folders.rs`): module
+- **group** (`src/db/models/group.rs`): module
+- **http_client** (`src/http_client.rs`): module
+- **icons** (`src/api/icons.rs`): module
+- **identity** (`src/api/identity.rs`): module
+- **lib** (`macros/src/lib.rs`): module
+- **mail** (`src/mail.rs`): module
+- **main** (`src/main.rs`): module
+- **mod** (`src/api/core/mod.rs`): module
+- **mod** (`src/api/core/two_factor/mod.rs`): module
+- **mod** (`src/api/mod.rs`): module
+- **mod** (`src/db/mod.rs`): module
+- **mod** (`src/db/models/mod.rs`): module
+- **notifications** (`src/api/notifications.rs`): module
+- **org_policy** (`src/db/models/org_policy.rs`): module
+- **organization** (`src/db/models/organization.rs`): module
+- **organizations** (`src/api/core/organizations.rs`): module
+- **protected_actions** (`src/api/core/two_factor/protected_actions.rs`): module
+- **public** (`src/api/core/public.rs`): module
+- **push** (`src/api/push.rs`): module
+- **query_logger** (`src/db/query_logger.rs`): module
+- **ratelimit** (`src/ratelimit.rs`): module
+- **scenarios** (`playwright/package.json`): MODULE
+- **schema** (`src/db/schema.rs`): module
+- **send** (`src/auth/send.rs`): module
+- **send** (`src/db/models/send.rs`): module
+- **sends** (`src/api/core/sends.rs`): module
+- **sso** (`src/sso.rs`): module
+- **sso_auth** (`src/db/models/sso_auth.rs`): module
+- **sso_client** (`src/sso_client.rs`): module
+- **storage** (`src/storage.rs`): module
+- **test_seeder** (`src/api/test_seeder.rs`): module
+- **two_factor** (`src/auth/two_factor.rs`): module
+- **two_factor** (`src/db/models/two_factor.rs`): module
+- **two_factor_duo_context** (`src/db/models/two_factor_duo_context.rs`): module
+
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `D` (65.43/100)
+- **Technical Debt Score**: 34.57
+- **Estimated Remediation Effort**: 46.06h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `A` | 93.13 | 0.20 | avg_cc=1.96, max_cc=10, duplication=4.58%, dead_code=0 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=965, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=1.13, max_cognitive=11, fitness_violations=0, oversized_files=0 |
+| Pipeline Health | `F` | 42.00 | 0.15 | workflows=9, operational_antipatterns=5, parallel_branches=False |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=0, secrets=2, pipeline_security_findings=13 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+### Workspace Packages
+- **macros** (`macros`, rust, cargo)
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 965 | **Vulnerabilities**: 0 | **Secrets**: 2
+
+### Secret Findings (Redacted)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.template:453` (`# ADMIN_TOKEN='$arg***REDACTED***'`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/static/scripts/datatables.js:11336` (`const _publicKey = 'BE1A***REDACTED***';`)
+
+### Inventory Sample
+- `argon2` `0.6.0` (cargo, `Cargo.toml`)
+- `aws-config` `1.13.0` (cargo, `Cargo.toml`)
+- `aws-credential-types` `1.3.1` (cargo, `Cargo.toml`)
+- `aws-smithy-runtime-api` `1.19.2` (cargo, `Cargo.toml`)
+- `bigdecimal` `0.4.11` (cargo, `Cargo.toml`)
+- `bytes` `1.12.1` (cargo, `Cargo.toml`)
+- `cached` `4.1.0` (cargo, `Cargo.toml`)
+- `chrono` `0.4.45` (cargo, `Cargo.toml`)
+- `chrono-tz` `0.10.4` (cargo, `Cargo.toml`)
+- `cookie` `0.18.2` (cargo, `Cargo.toml`)
+- `cookie_store` `0.22.1` (cargo, `Cargo.toml`)
+- `dashmap` `6.2.1` (cargo, `Cargo.toml`)
+- `data-encoding` `2.11.1` (cargo, `Cargo.toml`)
+- `data-url` `0.3.2` (cargo, `Cargo.toml`)
+- `derive_more` `2.1.1` (cargo, `Cargo.toml`)
+- `diesel` `2.3.14` (cargo, `Cargo.toml`)
+- `diesel-derive-newtype` `2.1.3` (cargo, `Cargo.toml`)
+- `diesel_migrations` `2.3.2` (cargo, `Cargo.toml`)
+- `dotenvy` `0.15.7` (cargo, `Cargo.toml`)
+- `email_address` `0.2.9` (cargo, `Cargo.toml`)
+- `fern` `0.7.1` (cargo, `Cargo.toml`)
+- `futures` `0.3.34` (cargo, `Cargo.toml`)
+- `governor` `0.10.4` (cargo, `Cargo.toml`)
+- `grass_compiler` `0.13.4` (cargo, `Cargo.toml`)
+- `handlebars` `6.4.4` (cargo, `Cargo.toml`)
+- `hickory-resolver` `0.26.3` (cargo, `Cargo.toml`)
+- `html5gum` `0.9.0` (cargo, `Cargo.toml`)
+- `http` `1.5.0` (cargo, `Cargo.toml`)
+- `ipnet` `2.12.2` (cargo, `Cargo.toml`)
+- `job_scheduler_ng` `2.5.0` (cargo, `Cargo.toml`)
+- ... (+935 more dependencies)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    subgraph code_modules["Code Modules"]
+        mod_docker["docker"]
+        mod_f87e7a9e_5cce_4c6c_abba_628962386f02["f87e7a9e-5cce-4c6c-abba-628962386f02"]
+        mod_macros["macros"]
+        mod_playwright["playwright"]
+        mod_playwright_compose_keycloak["playwright/compose/keycloak"]
+        mod_playwright_compose_playwright["playwright/compose/playwright"]
+        mod_playwright_compose_warden["playwright/compose/warden"]
+    end
+    subgraph build_artifacts["Build Artifacts / Containers"]
+        art_Dockerfile["Dockerfile"]
+        art_docker_Dockerfile_alpine["docker/Dockerfile.alpine"]
+        art_docker_Dockerfile_debian["docker/Dockerfile.debian"]
+        art_docker_Dockerfile_j2["docker/Dockerfile.j2"]
+        art_playwright_compose_keycloak_Dockerfile["playwright/compose/keycloak/Dockerfile"]
+        art_playwright_compose_playwright_Dockerfile["playwright/compose/playwright/Dockerfile"]
+        art_playwright_compose_warden_Dockerfile["playwright/compose/warden/Dockerfile"]
+        art_playwright_docker_compose_yml["playwright/docker-compose.yml"]
+    end
+    subgraph ci_jobs["CI/CD Jobs"]
+        job_check_templates_yml_docker_templates["check-templates.yml#docker-templates"]
+        job_hadolint_yml_hadolint["hadolint.yml#hadolint"]
+        job_release_yml_docker_build["release.yml#docker-build"]
+        job_release_yml_merge_manifests["release.yml#merge-manifests"]
+    end
+    subgraph runtime_envs["Runtime Environments"]
+        env_release["release"]
+    end
+    job_release_yml_docker_build -->|DEPLOYS_TO| env_release
+    job_release_yml_merge_manifests -->|DEPLOYS_TO| env_release
+    mod_docker -->|BUILT_BY| job_check_templates_yml_docker_templates
+    mod_docker -->|BUILT_BY| job_hadolint_yml_hadolint
+    mod_docker -->|DEPLOYED_BY| job_release_yml_merge_manifests
+    mod_docker -->|PACKAGED_BY| art_Dockerfile
+    mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_alpine
+    mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_debian
+    mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_j2
+    mod_docker -->|PACKAGED_BY| art_playwright_compose_keycloak_Dockerfile
+    mod_docker -->|PACKAGED_BY| art_playwright_compose_playwright_Dockerfile
+    mod_docker -->|PACKAGED_BY| art_playwright_compose_warden_Dockerfile
+    mod_docker -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|BUILT_BY| job_hadolint_yml_hadolint
+    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|PACKAGED_BY| art_Dockerfile
+    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_macros -->|PACKAGED_BY| art_Dockerfile
+    mod_macros -->|PACKAGED_BY| art_docker_Dockerfile_alpine
+    mod_macros -->|PACKAGED_BY| art_docker_Dockerfile_debian
+    mod_macros -->|PACKAGED_BY| art_docker_Dockerfile_j2
+    mod_playwright -->|PACKAGED_BY| art_playwright_compose_playwright_Dockerfile
+    mod_playwright -->|PACKAGED_BY| art_playwright_compose_warden_Dockerfile
+    mod_playwright -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_playwright_compose_keycloak -->|PACKAGED_BY| art_playwright_compose_keycloak_Dockerfile
+    mod_playwright_compose_keycloak -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_playwright_compose_playwright -->|PACKAGED_BY| art_playwright_compose_playwright_Dockerfile
+    mod_playwright_compose_playwright -->|PACKAGED_BY| art_playwright_compose_warden_Dockerfile
+    mod_playwright_compose_playwright -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_Dockerfile
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_docker_Dockerfile_alpine
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_docker_Dockerfile_debian
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_docker_Dockerfile_j2
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_playwright_compose_warden_Dockerfile
+    mod_playwright_compose_warden -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    art_Dockerfile -->|BUILT_BY| job_hadolint_yml_hadolint
+    art_docker_Dockerfile_alpine -->|BUILT_BY| job_check_templates_yml_docker_templates
+    art_docker_Dockerfile_alpine -->|BUILT_BY| job_hadolint_yml_hadolint
+    art_docker_Dockerfile_debian -->|BUILT_BY| job_check_templates_yml_docker_templates
+    art_docker_Dockerfile_debian -->|BUILT_BY| job_hadolint_yml_hadolint
+    art_docker_Dockerfile_j2 -->|BUILT_BY| job_check_templates_yml_docker_templates
+    art_docker_Dockerfile_j2 -->|BUILT_BY| job_hadolint_yml_hadolint
+```
+
+- `release.yml#docker-build` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
+- `release.yml#merge-manifests` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
+- `docker` (code_module) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
+- `docker` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `docker` (code_module) --[DEPLOYED_BY]--> `release.yml#merge-manifests` (ci_job)
+- `docker` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.alpine` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.debian` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.j2` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `playwright/compose/keycloak/Dockerfile` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `playwright/compose/playwright/Dockerfile` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `playwright/compose/warden/Dockerfile` (container)
+- `docker` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `macros` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `macros` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.alpine` (container)
+- `macros` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.debian` (container)
+- `macros` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.j2` (container)
+- `playwright` (code_module) --[PACKAGED_BY]--> `playwright/compose/playwright/Dockerfile` (container)
+- `playwright` (code_module) --[PACKAGED_BY]--> `playwright/compose/warden/Dockerfile` (container)
+- `playwright` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `playwright/compose/keycloak` (code_module) --[PACKAGED_BY]--> `playwright/compose/keycloak/Dockerfile` (container)
+- `playwright/compose/keycloak` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `playwright/compose/playwright` (code_module) --[PACKAGED_BY]--> `playwright/compose/playwright/Dockerfile` (container)
+- `playwright/compose/playwright` (code_module) --[PACKAGED_BY]--> `playwright/compose/warden/Dockerfile` (container)
+- `playwright/compose/playwright` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.alpine` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.debian` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.j2` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `playwright/compose/warden/Dockerfile` (container)
+- `playwright/compose/warden` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `Dockerfile` (container) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `docker/Dockerfile.alpine` (container) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
+- `docker/Dockerfile.alpine` (container) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `docker/Dockerfile.debian` (container) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
+- `docker/Dockerfile.debian` (container) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `docker/Dockerfile.j2` (container) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
+
+
+## CI/CD Pipeline Topology
+
+```mermaid
+graph TD;
+  pipeline_root(["dani-garcia/vaultwarden (9 workflows)"])
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  pipeline_root --> grp_0_CI___Verification
+  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+  pipeline_root --> grp_1_Scheduled___Manual
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  pipeline_root --> grp_2_Release___Deploy
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  pipeline_root --> grp_3_Security___Governance
+```

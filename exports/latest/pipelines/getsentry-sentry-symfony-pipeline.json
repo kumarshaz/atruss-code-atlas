@@ -1,0 +1,383 @@
+{
+  "org": "getsentry",
+  "repository": "sentry-symfony",
+  "sha": "8b63bb688c6023cac2bf9ceb3f837ae9bb20cb25",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "publish-release.yaml",
+      "path": ".github/workflows/publish-release.yaml",
+      "name": "Prepare Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "Release version",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-release.yaml",
+          "start_line": 17,
+          "end_line": 40,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-release.yaml",
+          "start_line": 17,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "static-analysis.yaml",
+      "path": ".github/workflows/static-analysis.yaml",
+      "name": "Code style and static analysis",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "php-cs-fixer",
+          "name": "PHP-CS-Fixer",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "phpstan",
+          "name": "PHPStan",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "psalm",
+          "name": "Psalm",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "php-cs-fixer": 0.0,
+          "phpstan": 0.0,
+          "psalm": 0.0
+        },
+        "pagerank": {
+          "php-cs-fixer": 0.333333,
+          "phpstan": 0.333333,
+          "psalm": 0.333333
+        },
+        "downstream_impact": {
+          "php-cs-fixer": [],
+          "phpstan": [],
+          "psalm": []
+        },
+        "critical_nodes": [
+          "php-cs-fixer",
+          "phpstan",
+          "psalm"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'php-cs-fixer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 20,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpstan' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 41,
+          "end_line": 60,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'psalm' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 62,
+          "end_line": 81,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tests.yaml",
+      "path": ".github/workflows/tests.yaml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "tests",
+          "name": "Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        },
+        {
+          "id": "missing-optional-packages-tests",
+          "name": "Tests without optional packages",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "runtime-tests-frankenphp",
+          "name": "Runtime tests (FrankenPHP)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "runtime-tests-roadrunner",
+          "name": "Runtime tests (RoadRunner)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "missing-optional-packages-tests": 0.0,
+          "runtime-tests-frankenphp": 0.0,
+          "runtime-tests-roadrunner": 0.0,
+          "tests": 0.0
+        },
+        "pagerank": {
+          "missing-optional-packages-tests": 0.25,
+          "runtime-tests-frankenphp": 0.25,
+          "runtime-tests-roadrunner": 0.25,
+          "tests": 0.25
+        },
+        "downstream_impact": {
+          "missing-optional-packages-tests": [],
+          "runtime-tests-frankenphp": [],
+          "runtime-tests-roadrunner": [],
+          "tests": []
+        },
+        "critical_nodes": [
+          "missing-optional-packages-tests",
+          "runtime-tests-frankenphp",
+          "runtime-tests-roadrunner",
+          "tests"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'runtime-tests-frankenphp' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 231,
+          "end_line": 231,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'runtime-tests-roadrunner' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 299,
+          "end_line": 299,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'runtime-tests-frankenphp' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 257,
+          "end_line": 282,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'runtime-tests-roadrunner' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 325,
+          "end_line": 354,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 21,
+          "end_line": 148,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'missing-optional-packages-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 150,
+          "end_line": 218,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'runtime-tests-frankenphp' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 220,
+          "end_line": 286,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'runtime-tests-roadrunner' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 288,
+          "end_line": 358,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "validate-pr.yml",
+      "path": ".github/workflows/validate-pr.yml",
+      "name": "Validate PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "validate-pr",
+          "name": "validate-pr",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr": 0.0
+        },
+        "pagerank": {
+          "validate-pr": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr": []
+        },
+        "critical_nodes": [
+          "validate-pr"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-pr.yml",
+          "start_line": 8,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

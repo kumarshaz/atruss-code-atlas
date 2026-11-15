@@ -1,0 +1,211 @@
+{
+  "org": "apache",
+  "repository": "airflow-site",
+  "sha": "6da43e3d9ad9ccdd3c7505e457e1d9c6f9e31594",
+  "analyzed_at": "2026-11-15T05:22:54Z",
+  "workflows": [
+    {
+      "id": "asf-allowlist-check.yml",
+      "path": ".github/workflows/asf-allowlist-check.yml",
+      "name": "ASF Allowlist Check",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "asf-allowlist-check",
+          "name": "asf-allowlist-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "asf-allowlist-check": 0.0
+        },
+        "pagerank": {
+          "asf-allowlist-check": 1.0
+        },
+        "downstream_impact": {
+          "asf-allowlist-check": []
+        },
+        "critical_nodes": [
+          "asf-allowlist-check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'asf-allowlist-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/asf-allowlist-check.yml",
+          "start_line": 29,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "Build docs",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-22.04",
+          "steps_count": 38,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 31,
+          "end_line": 303,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 90,
+          "end_line": 90,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 31,
+          "end_line": 303,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 106,
+          "end_line": 106,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'build' step 21 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 144,
+          "end_line": 144,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    },
+    {
+      "id": "reset-staging.yml",
+      "path": ".github/workflows/reset-staging.yml",
+      "name": "Reset staging to main",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "reset-staging",
+          "name": "reset-staging",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "reset-staging": 0.0
+        },
+        "pagerank": {
+          "reset-staging": 1.0
+        },
+        "downstream_impact": {
+          "reset-staging": []
+        },
+        "critical_nodes": [
+          "reset-staging"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'reset-staging' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reset-staging.yml",
+          "start_line": 29,
+          "end_line": 73,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

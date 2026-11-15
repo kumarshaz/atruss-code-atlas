@@ -462,8 +462,12 @@ def scan_repository_secrets(repo_dir: Path) -> list[SecretFinding]:
     rules_by_dir: dict[str, list[_GitIgnoreRule]] = {"": root_rules}
     has_negation = any(r.negated for r in root_rules)
     findings: list[SecretFinding] = []
+    scanned_files = 0
+    max_scan_files = 2000
 
     for root, dirnames, filenames in os.walk(repo_dir):
+        if scanned_files >= max_scan_files:
+            break
         root_path = Path(root)
         rel_root = root_path.relative_to(repo_dir)
         rel_root_posix = "" if rel_root == Path(".") else rel_root.as_posix()
@@ -493,6 +497,8 @@ def scan_repository_secrets(repo_dir: Path) -> list[SecretFinding]:
         dirnames[:] = kept_dirs
 
         for fname in sorted(filenames):
+            if scanned_files >= max_scan_files:
+                break
             if fname == ".gitignore":
                 continue
             fpath = root_path / fname
@@ -501,6 +507,7 @@ def scan_repository_secrets(repo_dir: Path) -> list[SecretFinding]:
                 continue
             if not _is_scannable_file(fpath):
                 continue
+            scanned_files += 1
             try:
                 text = fpath.read_text(encoding="utf-8", errors="replace")
             except OSError:

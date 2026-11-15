@@ -1,0 +1,203 @@
+---
+title: Architecture — nextcloud/spreed
+description: Arc42 and Pipeline report for nextcloud/spreed
+---
+
+# Repository Architecture Analysis: nextcloud/spreed
+
+## Metadata
+- **SHA**: `d1adc6be568045dd442a2bc08f74f83935f69da3`
+- **Primary Ecosystem**: PHP
+
+## Quality Metrics
+- **ast_engine**: fallback
+- **avg_cognitive_complexity**: 0.0
+- **avg_cyclomatic_complexity**: 0.0
+- **component_count**: 250
+- **dead_code_count**: 0
+- **dead_code_symbols**: 0 entry(ies)
+- **duplication_pct**: 0.0
+- **file_complexities**: 0 entry(ies)
+- **files_analyzed**: 889
+- **fitness_passed**: True
+- **fitness_violation_count**: 0
+- **framework**: PHP Composer
+- **import_edges**: 0 entry(ies)
+- **loc**: 140894
+- **max_cognitive_complexity**: 0
+- **max_cyclomatic_complexity**: 0
+- **sloc**: 100690
+- **test_file_count**: 433
+
+# Architecture: nextcloud/spreed
+
+## Context
+- **Repository**: `nextcloud/spreed`
+- **SHA**: `d1adc6be568045dd442a2bc08f74f83935f69da3`
+- **Ecosystem**: PHP
+- **Framework**: PHP Composer
+
+## Building Block View
+
+```mermaid
+graph TD;
+    repo_root(["nextcloud/spreed (250 components)"])
+    dir_0_lib["lib (247)"]
+    repo_root --> dir_0_lib
+    sub_0_0_Events["Events (73)"]
+    dir_0_lib --> sub_0_0_Events
+    sub_0_1_Command["Command (46)"]
+    dir_0_lib --> sub_0_1_Command
+    sub_0_2_Controller["Controller (33)"]
+    dir_0_lib --> sub_0_2_Controller
+    sub_0_more["+14 more submodules (95)"]
+    dir_0_lib --> sub_0_more
+    dir_1__root_["(root) (2)"]
+    repo_root --> dir_1__root_
+    dir_2_composer["composer (1)"]
+    repo_root --> dir_2_composer
+```
+
+## Component Details
+
+Showing top 60 representative components out of 250 across 3 module group(s):
+
+- **Module `lib`** (247 components — module: 247)
+- **Module `(root)`** (2 components — module: 2)
+- **Module `composer`** (1 components — module: 1)
+
+- **.php-cs-fixer.dist** (`.php-cs-fixer.dist.php`): module
+- **AAttendeeRemovedEvent** (`lib/Events/AAttendeeRemovedEvent.php`): module
+- **ABeforeJoinedRoomEvent** (`lib/Events/ABeforeJoinedRoomEvent.php`): module
+- **ACallEndedEvent** (`lib/Events/ACallEndedEvent.php`): module
+- **ACallEndedForEveryoneEvent** (`lib/Events/ACallEndedForEveryoneEvent.php`): module
+- **ACallStartedEvent** (`lib/Events/ACallStartedEvent.php`): module
+- **AEnvironmentAwareOCSController** (`lib/Controller/AEnvironmentAwareOCSController.php`): module
+- **ALobbyModifiedEvent** (`lib/Events/ALobbyModifiedEvent.php`): module
+- **AMessageSentEvent** (`lib/Events/AMessageSentEvent.php`): module
+- **AParticipantModifiedEvent** (`lib/Events/AParticipantModifiedEvent.php`): module
+- **AReactionEvent** (`lib/Events/AReactionEvent.php`): module
+- **ARoomEvent** (`lib/Events/ARoomEvent.php`): module
+- **ARoomModifiedEvent** (`lib/Events/ARoomModifiedEvent.php`): module
+- **ARoomSyncedEvent** (`lib/Events/ARoomSyncedEvent.php`): module
+- **ASessionLeftRoomEvent** (`lib/Events/ASessionLeftRoomEvent.php`): module
+- **ASystemMessageSentEvent** (`lib/Events/ASystemMessageSentEvent.php`): module
+- **AccountId** (`lib/DataObjects/AccountId.php`): module
+- **Add** (`lib/Command/MatrixHomeserver/Add.php`): module
+- **Add** (`lib/Command/Room/Add.php`): module
+- **Add** (`lib/Command/Signaling/Add.php`): module
+- **Add** (`lib/Command/Stun/Add.php`): module
+- **Add** (`lib/Command/Turn/Add.php`): module
+- **AddPhoneNumber** (`lib/Command/PhoneNumber/AddPhoneNumber.php`): module
+- **AgeChatMessages** (`lib/Command/Developer/AgeChatMessages.php`): module
+- **AppConfigEntry** (`lib/Config/AppConfigEntry.php`): module
+- **Application** (`lib/AppInfo/Application.php`): module
+- **AttendeeRemovedEvent** (`lib/Events/AttendeeRemovedEvent.php`): module
+- **AttendeesAddedEvent** (`lib/Events/AttendeesAddedEvent.php`): module
+- **AttendeesEvent** (`lib/Events/AttendeesEvent.php`): module
+- **AttendeesRemovedEvent** (`lib/Events/AttendeesRemovedEvent.php`): module
+- **Authenticator** (`lib/Authenticator.php`): module
+- **AvatarController** (`lib/Controller/AvatarController.php`): module
+- **BanController** (`lib/Controller/BanController.php`): module
+- **Base** (`lib/Activity/Provider/Base.php`): module
+- **BeforeAttendeeRemovedEvent** (`lib/Events/BeforeAttendeeRemovedEvent.php`): module
+- **BeforeAttendeesAddedEvent** (`lib/Events/BeforeAttendeesAddedEvent.php`): module
+- **BeforeCallEndedEvent** (`lib/Events/BeforeCallEndedEvent.php`): module
+- **BeforeCallEndedForEveryoneEvent** (`lib/Events/BeforeCallEndedForEveryoneEvent.php`): module
+- **BeforeCallStartedEvent** (`lib/Events/BeforeCallStartedEvent.php`): module
+- **BeforeChatMessageSentEvent** (`lib/Events/BeforeChatMessageSentEvent.php`): module
+- **BeforeDuplicateShareSentEvent** (`lib/Events/BeforeDuplicateShareSentEvent.php`): module
+- **BeforeEmailInvitationSentEvent** (`lib/Events/BeforeEmailInvitationSentEvent.php`): module
+- **BeforeFederatedUserJoinedRoomEvent** (`lib/Events/BeforeFederatedUserJoinedRoomEvent.php`): module
+- **BeforeGuestJoinedRoomEvent** (`lib/Events/BeforeGuestJoinedRoomEvent.php`): module
+- **BeforeGuestsCleanedUpEvent** (`lib/Events/BeforeGuestsCleanedUpEvent.php`): module
+- **BeforeLobbyModifiedEvent** (`lib/Events/BeforeLobbyModifiedEvent.php`): module
+- **BeforeParticipantModifiedEvent** (`lib/Events/BeforeParticipantModifiedEvent.php`): module
+- **BeforeReactionAddedEvent** (`lib/Events/BeforeReactionAddedEvent.php`): module
+- **BeforeReactionRemovedEvent** (`lib/Events/BeforeReactionRemovedEvent.php`): module
+- **BeforeRoomDeletedEvent** (`lib/Events/BeforeRoomDeletedEvent.php`): module
+- **BeforeRoomModifiedEvent** (`lib/Events/BeforeRoomModifiedEvent.php`): module
+- **BeforeRoomSyncedEvent** (`lib/Events/BeforeRoomSyncedEvent.php`): module
+- **BeforeRoomsFetchEvent** (`lib/Events/BeforeRoomsFetchEvent.php`): module
+- **BeforeSessionLeftRoomEvent** (`lib/Events/BeforeSessionLeftRoomEvent.php`): module
+- **BeforeSignalingResponseSentEvent** (`lib/Events/BeforeSignalingResponseSentEvent.php`): module
+- **BeforeSignalingRoomPropertiesSentEvent** (`lib/Events/BeforeSignalingRoomPropertiesSentEvent.php`): module
+- **BeforeSystemMessageSentEvent** (`lib/Events/BeforeSystemMessageSentEvent.php`): module
+- **BeforeTurnServersGetEvent** (`lib/Events/BeforeTurnServersGetEvent.php`): module
+- **BeforeUserJoinedRoomEvent** (`lib/Events/BeforeUserJoinedRoomEvent.php`): module
+- **BotController** (`lib/Controller/BotController.php`): module
+
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `D` (60.50/100)
+- **Technical Debt Score**: 39.50
+- **Estimated Remediation Effort**: 104.88h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=1260, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
+| Pipeline Health | `F` | 0.00 | 0.15 | workflows=40, operational_antipatterns=86, parallel_branches=True |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=0, secrets=3, pipeline_security_findings=19 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 1260 | **Vulnerabilities**: 0 | **Secrets**: 3
+
+### Secret Findings (Redacted)
+- **[HIGH] `ATRUSS-SEC-005`** at `docs/signaling-messages.md:452` (`"key": "q0Yy***REDACTED***"`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/utils/generatePassword.ts:10` (`const passwordSet = 'abcd***REDACTED***'`)
+- **[HIGH] `ATRUSS-SEC-005`** at `tests/php/Matrix/Service/CryptoServiceTest.php:54` (`private const BACKUP_PUBLIC_KEY = 'E75P***REDACTED***';`)
+
+### Inventory Sample
+- `bamarni/composer-bin-plugin` `1.9` (composer, `composer.json`)
+- `coenjacobs/mozart` `1.2.3` (composer, `vendor-bin/mozart/composer.json`)
+- `cuyz/valinor` `2.6` (composer, `composer.json`)
+- `cweagans/composer-patches` `2.0.0` (composer, `composer.json`)
+- `firebase/php-jwt` `7.2` (composer, `composer.json`)
+- `@matrix-org/olm` `3.2.15` (npm, `package-lock.json`)
+- `@matrix-org/olm` `3.2.15` (npm, `package.json`)
+- `@mediapipe/tasks-vision` `0.10.35` (npm, `package-lock.json`)
+- `@mediapipe/tasks-vision` `0.10.35` (npm, `package.json`)
+- `@nextcloud/auth` `2.6.0` (npm, `package-lock.json`)
+- `@nextcloud/auth` `2.6.0` (npm, `package.json`)
+- `@nextcloud/axios` `2.6.0` (npm, `package-lock.json`)
+- `@nextcloud/axios` `2.6.0` (npm, `package.json`)
+- `@nextcloud/browser-storage` `0.5.0` (npm, `package-lock.json`)
+- `@nextcloud/browser-storage` `0.5.0` (npm, `package.json`)
+- `@nextcloud/browserslist-config` `3.1.2` (npm, `package-lock.json`)
+- `@nextcloud/browserslist-config` `3.1.2` (npm, `package.json`)
+- `@nextcloud/capabilities` `1.2.1` (npm, `package-lock.json`)
+- `@nextcloud/capabilities` `1.2.1` (npm, `package.json`)
+- `@nextcloud/cdav-library` `2.8.2` (npm, `package-lock.json`)
+- `@nextcloud/cdav-library` `2.8.2` (npm, `package.json`)
+- `@nextcloud/dialogs` `8.0.0` (npm, `package-lock.json`)
+- `@nextcloud/dialogs` `8.0.0` (npm, `package.json`)
+- `@nextcloud/eslint-config` `9.0.1` (npm, `package-lock.json`)
+- `@nextcloud/eslint-config` `9.0.1` (npm, `package.json`)
+- `@nextcloud/event-bus` `3.3.3` (npm, `package-lock.json`)
+- `@nextcloud/event-bus` `3.3.3` (npm, `package.json`)
+- `@nextcloud/files` `4.1.1` (npm, `package-lock.json`)
+- `@nextcloud/files` `4.1.1` (npm, `package.json`)
+- `@nextcloud/initial-state` `3.0.0` (npm, `package-lock.json`)
+- ... (+1230 more dependencies)
+
+
+## CI/CD Pipeline Topology
+
+```mermaid
+graph TD;
+  pipeline_root(["nextcloud/spreed (40 workflows)"])
+  grp_0_CI___Verification["CI & Verification (22 workflows · 42 jobs)"]
+  pipeline_root --> grp_0_CI___Verification
+  grp_1_Scheduled___Manual["Scheduled & Manual (11 workflows · 23 jobs)"]
+  pipeline_root --> grp_1_Scheduled___Manual
+  grp_2_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
+  pipeline_root --> grp_2_Security___Governance
+  grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  pipeline_root --> grp_3_Release___Deploy
+  grp_4_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+  pipeline_root --> grp_4_Automation___Other
+```

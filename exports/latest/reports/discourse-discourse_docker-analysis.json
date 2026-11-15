@@ -1,0 +1,1261 @@
+{
+  "repository": "discourse/discourse_docker",
+  "sha": "0ba1841d589e77df3bc923774abca2720a320ec2",
+  "ecosystem": "Ruby",
+  "metrics": {
+    "files_analyzed": 12,
+    "loc": 1708,
+    "sloc": 1303,
+    "component_count": 12,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Ruby",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "build-web-only.yml",
+      "path": ".github/workflows/build-web-only.yml",
+      "name": "build-web-only.yml",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": {
+        "version": {
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "latest": "${{ steps.latest.outputs.version }}",
+            "esr": "${{ steps.esr.outputs.version }}"
+          },
+          "steps": [
+            {
+              "uses": "ruby/setup-ruby@v1",
+              "with": {
+                "ruby-version": "3.3"
+              }
+            },
+            {
+              "name": "checkout tests passed",
+              "uses": "actions/checkout@v4",
+              "with": {
+                "repository": "discourse/discourse",
+                "ref": "latest",
+                "fetch-depth": 1,
+                "path": "latest"
+              }
+            },
+            {
+              "name": "checkout esr",
+              "uses": "actions/checkout@v4",
+              "with": {
+                "repository": "discourse/discourse",
+                "ref": "esr",
+                "fetch-depth": 1,
+                "path": "esr"
+              }
+            },
+            {
+              "id": "latest",
+              "working-directory": "latest",
+              "run": "version=$(ruby -r ./lib/version.rb -e \"puts ::Discourse::VERSION::STRING\")\necho \"version=$version\"\necho \"version=$version\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "id": "esr",
+              "working-directory": "esr",
+              "run": "version=$(ruby -r ./lib/version.rb -e \"puts ::Discourse::VERSION::STRING\")\necho \"version=$version\"\necho \"version=$version\" >> $GITHUB_OUTPUT\n"
+            }
+          ]
+        },
+        "build": {
+          "strategy": {
+            "matrix": {
+              "version": [
+                "latest",
+                "esr"
+              ],
+              "os": [
+                "ubuntu-latest",
+                "ubuntu-24.04-arm"
+              ]
+            }
+          },
+          "runs-on": "${{ matrix.os }}",
+          "needs": "version",
+          "env": {
+            "ARCH": "${{ matrix.os == 'ubuntu-24.04-arm' && 'arm64' || 'amd64' }}",
+            "VERSION": "${{ matrix.version }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v4",
+              "with": {
+                "fetch-depth": 1
+              }
+            },
+            {
+              "name": "download-launcher",
+              "run": "BINDIR=\"bin\"\npackage=\"${BINDIR}/launcher.tar.gz\"\ncurl -s -o ${package} -L https://get.discourse.org/launcher/latest/launcher-linux-${{ env.ARCH }}.tar.gz\ntar -zxf ${package} -C ${BINDIR}\nrm ${package}\n"
+            },
+            {
+              "uses": "docker/setup-buildx-action@v3"
+            },
+            {
+              "name": "Login to Docker Hub",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' }}",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "username": "${{ vars.DOCKERHUB_USERNAME }}",
+                "password": "${{ secrets.DOCKERHUB_PASSWORD }}"
+              }
+            },
+            {
+              "name": "prep configuration",
+              "run": "cp ./samples/web_only.yml ./containers/web_only.yml\necho $(grep base_image: ./templates/web.template.yml)-web-only >> ./containers/web_only.yml\n\nsed -Ei '/^ *+- \"templates\\/web.template.yml\"/a\\  - \"templates/offline-page.template.yml\"' ./containers/web_only.yml\nsed -Ei 's/^ *+#- \"templates\\/web.ssl.template.yml\"/  - \"templates\\/web.ssl.template.yml\"/' ./containers/web_only.yml\nsed -Ei 's/^ *+#- \"templates\\/web.letsencrypt.ssl.template.yml\"/  - \"templates\\/web.letsencrypt.ssl.template.yml\"/' ./containers/web_only.yml\n\n# remove docker manager\nsed -Ei '/^.*docker_manager.git/d' ./containers/web_only.yml\n"
+            },
+            {
+              "name": "build from configuration",
+              "if": "${{ github.event_name == 'pull_request' }}",
+              "run": "# test builds\nif [ \"$VERSION\" = \"latest\" ]; then\nbin/launcher build \\\n  --set params.version=${{ matrix.version }} \\\n  --set env.DISABLE_LETSENCRYPT=1 \\\n  --set base_image_slim=discourse/base:runtime-deps \\\n  --build-slim web_only \\\n  --tag ${{ env.DOCKER_IMAGE }} \\\n  --output=type=docker\nelse\nbin/launcher build \\\n  --set params.version=${{ matrix.version }} \\\n  --set env.DISABLE_LETSENCRYPT=1 \\\n  web_only \\\n  --tag ${{ env.DOCKER_IMAGE }} \\\n  --output=type=docker\nfi\ndocker images\n"
+            },
+            {
+              "name": "build and push",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' }}",
+              "run": "# build and push slim on latest\nif [ \"$VERSION\" = \"latest\" ]; then\nbin/launcher build \\\n  --set params.version=${{ matrix.version }} \\\n  --set env.DISABLE_LETSENCRYPT=1 \\\n  --set base_image_slim=discourse/base:runtime-deps \\\n  --build-slim web_only \\\n  --tag ${{ env.DOCKER_IMAGE }} \\\n  --output=type=registry,push-by-digest=true \\\n  --metadata-file=/tmp/out.json\nelse\nbin/launcher build \\\n  --set params.version=${{ matrix.version }} \\\n  --set env.DISABLE_LETSENCRYPT=1 \\\n  web_only \\\n  --tag ${{ env.DOCKER_IMAGE }} \\\n  --output=type=registry,push-by-digest=true \\\n  --metadata-file=/tmp/out.json\nfi\n"
+            },
+            {
+              "name": "save image digests",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' }}",
+              "id": "metadata",
+              "run": "${{ matrix.version }}_${{ env.ARCH }}=$(jq -r '.\"containerimage.digest\"' /tmp/out.json)\necho \"${{ matrix.version }}_${{ env.ARCH }}=$${{ matrix.version }}_${{ env.ARCH }}\"\necho \"${{ matrix.version }}_${{ env.ARCH }}=$${{ matrix.version }}_${{ env.ARCH }}\" >> $GITHUB_OUTPUT\n"
+            }
+          ],
+          "outputs": {
+            "latest_amd64": "${{ steps.metadata.outputs.latest_amd64 }}",
+            "latest_arm64": "${{ steps.metadata.outputs.latest_arm64 }}",
+            "esr_amd64": "${{ steps.metadata.outputs.esr_amd64 }}",
+            "esr_arm64": "${{ steps.metadata.outputs.esr_arm64 }}"
+          }
+        },
+        "manifest": {
+          "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' }}",
+          "runs-on": "ubuntu-latest",
+          "needs": [
+            "version",
+            "build"
+          ],
+          "steps": [
+            {
+              "uses": "docker/setup-buildx-action@v3"
+            },
+            {
+              "name": "Login to Docker Hub",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "username": "${{ vars.DOCKERHUB_USERNAME }}",
+                "password": "${{ secrets.DOCKERHUB_PASSWORD }}"
+              }
+            },
+            {
+              "name": "update manifest",
+              "run": "docker buildx imagetools create -t ${{ env.DOCKER_IMAGE }}:latest \\\n  ${{ needs.build.outputs.latest_amd64 }} \\\n  ${{ needs.build.outputs.latest_arm64 }}\n\ndocker buildx imagetools create -t ${{ env.DOCKER_IMAGE }}:${{ needs.version.outputs.latest }} \\\n  ${{ needs.build.outputs.latest_amd64 }} \\\n  ${{ needs.build.outputs.latest_arm64 }}\n\ndocker buildx imagetools create -t ${{ env.DOCKER_IMAGE }}:${{ needs.version.outputs.esr }} \\\n  ${{ needs.build.outputs.esr_amd64 }} \\\n  ${{ needs.build.outputs.esr_arm64 }}\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "version",
+          "name": "version",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": [
+            "version"
+          ],
+          "environment": null
+        },
+        {
+          "id": "manifest",
+          "name": "manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "version",
+            "build"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'version' step 1 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'build' step 3 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'build' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'manifest' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'manifest' step 2 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'manifest' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'version' step 1 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 20,
+          "end_line": 20,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 3 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 71,
+          "end_line": 71,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 74,
+          "end_line": 74,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'manifest' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 152,
+          "end_line": 152,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'manifest' step 2 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 154,
+          "end_line": 154,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 1,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 14,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 50,
+          "end_line": 145,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-web-only.yml",
+          "start_line": 147,
+          "end_line": 170,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "manifest": 0.0,
+          "version": 0.0
+        },
+        "pagerank": {
+          "build": 0.281551,
+          "manifest": 0.520869,
+          "version": 0.19758
+        },
+        "downstream_impact": {
+          "build": [
+            "manifest"
+          ],
+          "manifest": [],
+          "version": [
+            "build",
+            "manifest"
+          ]
+        },
+        "critical_nodes": [
+          "manifest",
+          "build",
+          "version"
+        ],
+        "max_blast_radius": 2
+      }
+    },
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "build.yml",
+      "triggers": [
+        "workflow_dispatch",
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": {
+        "timestamp": {
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "timestamp": "${{ steps.timestamp.outputs.timestamp }}",
+            "datestamp": "${{ steps.timestamp.outputs.datestamp }}"
+          },
+          "steps": [
+            {
+              "id": "timestamp",
+              "run": "timestamp=$(date +%Y%m%d-%H%M)\ndatestamp=$(echo $timestamp | sed -e 's/-.*$//')\necho \"timestamp=$timestamp\"\necho \"datestamp=$datestamp\"\necho \"timestamp=$timestamp\" >> $GITHUB_OUTPUT\necho \"datestamp=$datestamp\" >> $GITHUB_OUTPUT\n"
+            }
+          ]
+        },
+        "base": {
+          "runs-on": "${{ (matrix.arch == 'amd64' && vars.AMD64_RUNNER) || vars.ARM64_RUNNER }}",
+          "strategy": {
+            "matrix": {
+              "arch": [
+                "amd64",
+                "arm64"
+              ]
+            }
+          },
+          "timeout-minutes": 90,
+          "needs": "timestamp",
+          "defaults": {
+            "run": {
+              "working-directory": "image"
+            }
+          },
+          "env": {
+            "TIMESTAMP": "${{ needs.timestamp.outputs.timestamp }}",
+            "DATESTAMP": "${{ needs.timestamp.outputs.datestamp }}",
+            "ARCH": "${{ matrix.arch }}",
+            "CACHE_IMAGE": "ghcr.io/${{ github.repository }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v4",
+              "with": {
+                "fetch-depth": 1
+              }
+            },
+            {
+              "uses": "docker/setup-buildx-action@v3"
+            },
+            {
+              "name": "Login to cache registry",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Login to Docker Hub",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "username": "${{ vars.DOCKERHUB_USERNAME }}",
+                "password": "${{ secrets.DOCKERHUB_PASSWORD }}"
+              }
+            },
+            {
+              "name": "Build deps",
+              "run": "docker buildx bake base-runtime-deps -f docker-bake.hcl -f docker-bake.cache.hcl --load\n"
+            },
+            {
+              "name": "Build slim image",
+              "run": "docker buildx bake base-slim-main -f docker-bake.hcl -f docker-bake.cache.hcl\ndocker buildx bake base-slim-stable -f docker-bake.hcl -f docker-bake.cache.hcl\n"
+            },
+            {
+              "name": "Build web only image",
+              "run": "docker buildx bake base-web-only-main -f docker-bake.hcl -f docker-bake.cache.hcl --load\ndocker buildx bake base-web-only-stable -f docker-bake.hcl -f docker-bake.cache.hcl --load\n"
+            },
+            {
+              "name": "Build release image",
+              "run": "docker buildx bake base-release-main -f docker-bake.hcl -f docker-bake.cache.hcl --load\ndocker buildx bake base-release-stable -f docker-bake.hcl -f docker-bake.cache.hcl --load\n"
+            },
+            {
+              "name": "Build test images",
+              "run": "docker buildx bake test-release -f docker-bake.hcl -f docker-bake.cache.hcl --load\n"
+            },
+            {
+              "name": "run specs for `main` branch",
+              "if": "vars.SKIP_TESTS != '1'",
+              "run": "docker run --rm -e RUBY_ONLY=1 -e USE_TURBO=1 -e SKIP_PLUGINS=1 -e SKIP_LINT=1 -e DISCOURSE_TURBO_RSPEC_RETRY_AND_LOG_FLAKY_TESTS=1 ${TEST_IMAGE}:release\n"
+            },
+            {
+              "name": "Build and push test image",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+              "run": "docker buildx bake test-slim -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/test-slim.json\ndocker buildx bake test-slim-browsers -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/test-slim-browsers.json\ndocker buildx bake test-release -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/test-release.json\n"
+            },
+            {
+              "name": "Build and push dev image",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+              "run": "docker buildx bake --allow=fs.read=../templates dev -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/dev.json\n"
+            },
+            {
+              "name": "Print summary",
+              "run": "docker images ${BASE_IMAGE}\n"
+            },
+            {
+              "name": "Print `docker history` summary for main branch image",
+              "run": "docker history ${BASE_IMAGE}:release-main\n"
+            },
+            {
+              "name": "push to dockerhub",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+              "run": "docker buildx bake base-runtime-deps -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-runtime-deps.json\ndocker buildx bake base-slim-main -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-slim-main.json\ndocker buildx bake base-slim-stable -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-slim-stable.json\ndocker buildx bake base-web-only-main -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-web-only-main.json\ndocker buildx bake base-web-only-stable -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-web-only-stable.json\ndocker buildx bake base-release-main -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-release-main.json\ndocker buildx bake base-release-stable -f docker-bake.hcl -f docker-bake.push.hcl -f docker-bake.cache.hcl -f docker-bake.cache-write.hcl --metadata-file=/tmp/base-release-stable.json\n"
+            },
+            {
+              "name": "save image digests",
+              "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+              "id": "metadata",
+              "run": "test_slim_${{ matrix.arch }}=$(jq -r '.\"test-slim\"[\"containerimage.digest\"]' /tmp/test-slim.json)\necho \"test_slim_${{ matrix.arch }}=$test_slim_${{ matrix.arch }}\"\necho \"test_slim_${{ matrix.arch }}=$test_slim_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\ntest_slim_browsers_${{ matrix.arch }}=$(jq -r '.\"test-slim-browsers\"[\"containerimage.digest\"]' /tmp/test-slim-browsers.json)\necho \"test_slim_browsers_${{ matrix.arch }}=$test_slim_browsers_${{ matrix.arch }}\"\necho \"test_slim_browsers_${{ matrix.arch }}=$test_slim_browsers_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\ntest_release_${{ matrix.arch }}=$(jq -r '.\"test-release\"[\"containerimage.digest\"]' /tmp/test-release.json)\necho \"test_release_${{ matrix.arch }}=$test_release_${{ matrix.arch }}\"\necho \"test_release_${{ matrix.arch }}=$test_release_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\ndev_${{ matrix.arch }}=$(jq -r '.\"dev\"[\"containerimage.digest\"]' /tmp/dev.json)\necho \"dev_${{ matrix.arch }}=$dev_${{ matrix.arch }}\"\necho \"dev_${{ matrix.arch }}=$dev_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_runtime_deps_${{ matrix.arch }}=$(jq -r '.\"base-runtime-deps\"[\"containerimage.digest\"]' /tmp/base-runtime-deps.json)\necho \"base_runtime_deps_${{ matrix.arch }}=$base_runtime_deps_${{ matrix.arch }}\"\necho \"base_runtime_deps_${{ matrix.arch }}=$base_runtime_deps_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_slim_main_${{ matrix.arch }}=$(jq -r '.\"base-slim-main\"[\"containerimage.digest\"]' /tmp/base-slim-main.json)\necho \"base_slim_main_${{ matrix.arch }}=$base_slim_main_${{ matrix.arch }}\"\necho \"base_slim_main_${{ matrix.arch }}=$base_slim_main_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_slim_stable_${{ matrix.arch }}=$(jq -r '.\"base-slim-stable\"[\"containerimage.digest\"]' /tmp/base-slim-stable.json)\necho \"base_slim_stable_${{ matrix.arch }}=$base_slim_stable_${{ matrix.arch }}\"\necho \"base_slim_stable_${{ matrix.arch }}=$base_slim_stable_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_web_only_main_${{ matrix.arch }}=$(jq -r '.\"base-web-only-main\"[\"containerimage.digest\"]' /tmp/base-web-only-main.json)\necho \"base_web_only_main_${{ matrix.arch }}=$base_web_only_main_${{ matrix.arch }}\"\necho \"base_web_only_main_${{ matrix.arch }}=$base_web_only_main_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_web_only_stable_${{ matrix.arch }}=$(jq -r '.\"base-web-only-stable\"[\"containerimage.digest\"]' /tmp/base-web-only-stable.json)\necho \"base_web_only_stable_${{ matrix.arch }}=$base_web_only_stable_${{ matrix.arch }}\"\necho \"base_web_only_stable_${{ matrix.arch }}=$base_web_only_stable_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_release_main_${{ matrix.arch }}=$(jq -r '.\"base-release-main\"[\"containerimage.digest\"]' /tmp/base-release-main.json)\necho \"base_release_main_${{ matrix.arch }}=$base_release_main_${{ matrix.arch }}\"\necho \"base_release_main_${{ matrix.arch }}=$base_release_main_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n\nbase_release_stable_${{ matrix.arch }}=$(jq -r '.\"base-release-stable\"[\"containerimage.digest\"]' /tmp/base-release-stable.json)\necho \"base_release_stable_${{ matrix.arch }}=$base_release_stable_${{ matrix.arch }}\"\necho \"base_release_stable_${{ matrix.arch }}=$base_release_stable_${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n"
+            }
+          ],
+          "outputs": {
+            "base_runtime_deps_amd64": "${{ steps.metadata.outputs.base_runtime_deps_amd64 }}",
+            "base_runtime_deps_arm64": "${{ steps.metadata.outputs.base_runtime_deps_arm64 }}",
+            "base_slim_main_amd64": "${{ steps.metadata.outputs.base_slim_main_amd64 }}",
+            "base_slim_main_arm64": "${{ steps.metadata.outputs.base_slim_main_arm64 }}",
+            "base_slim_stable_amd64": "${{ steps.metadata.outputs.base_slim_stable_amd64 }}",
+            "base_slim_stable_arm64": "${{ steps.metadata.outputs.base_slim_stable_arm64 }}",
+            "base_web_only_main_amd64": "${{ steps.metadata.outputs.base_web_only_main_amd64 }}",
+            "base_web_only_main_arm64": "${{ steps.metadata.outputs.base_web_only_main_arm64 }}",
+            "base_web_only_stable_amd64": "${{ steps.metadata.outputs.base_web_only_stable_amd64 }}",
+            "base_web_only_stable_arm64": "${{ steps.metadata.outputs.base_web_only_stable_arm64 }}",
+            "base_release_main_amd64": "${{ steps.metadata.outputs.base_release_main_amd64 }}",
+            "base_release_main_arm64": "${{ steps.metadata.outputs.base_release_main_arm64 }}",
+            "base_release_stable_amd64": "${{ steps.metadata.outputs.base_release_stable_amd64 }}",
+            "base_release_stable_arm64": "${{ steps.metadata.outputs.base_release_stable_arm64 }}",
+            "dev_amd64": "${{ steps.metadata.outputs.dev_amd64 }}",
+            "dev_arm64": "${{ steps.metadata.outputs.dev_arm64 }}",
+            "test_slim_amd64": "${{ steps.metadata.outputs.test_slim_amd64 }}",
+            "test_slim_arm64": "${{ steps.metadata.outputs.test_slim_arm64 }}",
+            "test_slim_browsers_amd64": "${{ steps.metadata.outputs.test_slim_browsers_amd64 }}",
+            "test_slim_browsers_arm64": "${{ steps.metadata.outputs.test_slim_browsers_arm64 }}",
+            "test_release_amd64": "${{ steps.metadata.outputs.test_release_amd64 }}",
+            "test_release_arm64": "${{ steps.metadata.outputs.test_release_arm64 }}"
+          }
+        },
+        "setup_wizard": {
+          "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+          "runs-on": "${{ (matrix.arch == 'amd64' && vars.AMD64_RUNNER) || vars.ARM64_RUNNER }}",
+          "strategy": {
+            "matrix": {
+              "arch": [
+                "amd64",
+                "arm64"
+              ]
+            }
+          },
+          "defaults": {
+            "run": {
+              "working-directory": "image"
+            }
+          },
+          "env": {
+            "ARCH": "${{ matrix.arch }}"
+          },
+          "timeout-minutes": 15,
+          "steps": [
+            {
+              "uses": "docker/setup-buildx-action@v3"
+            },
+            {
+              "uses": "actions/checkout@v4",
+              "with": {
+                "fetch-depth": 1
+              }
+            },
+            {
+              "name": "Login to Docker Hub",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "username": "${{ vars.DOCKERHUB_USERNAME }}",
+                "password": "${{ secrets.DOCKERHUB_PASSWORD }}"
+              }
+            },
+            {
+              "name": "build and push to dockerhub",
+              "run": "docker buildx bake setup-wizard -f docker-bake.hcl -f docker-bake.push.hcl --metadata-file=/tmp/setup-wizard.json\n"
+            },
+            {
+              "name": "save image digests",
+              "id": "metadata",
+              "run": "${{ matrix.arch }}=$(jq -r '.\"setup-wizard\"[\"containerimage.digest\"]' /tmp/setup-wizard.json)\necho \"${{ matrix.arch }}=$${{ matrix.arch }}\"\necho \"${{ matrix.arch }}=$${{ matrix.arch }}\" >> $GITHUB_OUTPUT\n"
+            }
+          ],
+          "outputs": {
+            "amd64": "${{ steps.metadata.outputs.amd64 }}",
+            "arm64": "${{ steps.metadata.outputs.arm64 }}"
+          }
+        },
+        "push_multi_arch_manifests": {
+          "runs-on": "ubuntu-latest",
+          "needs": [
+            "base",
+            "setup_wizard",
+            "timestamp"
+          ],
+          "env": {
+            "TIMESTAMP": "${{ needs.timestamp.outputs.timestamp }}"
+          },
+          "if": "${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}",
+          "steps": [
+            {
+              "uses": "docker/setup-buildx-action@v3"
+            },
+            {
+              "name": "Login to Docker Hub",
+              "uses": "docker/login-action@v3",
+              "with": {
+                "username": "${{ vars.DOCKERHUB_USERNAME }}",
+                "password": "${{ secrets.DOCKERHUB_PASSWORD }}"
+              }
+            },
+            {
+              "name": "create and push multi-arch manifests",
+              "run": "# Slim timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }}-slim \\\n  ${{ needs.base.outputs.base_slim_main_amd64 }} \\\n  ${{ needs.base.outputs.base_slim_main_arm64 }}\n\n# Slim release\ndocker buildx imagetools create -t ${BASE_IMAGE}:slim \\\n  ${{ needs.base.outputs.base_slim_main_amd64 }} \\\n  ${{ needs.base.outputs.base_slim_main_arm64 }}\n\n# runtime-deps timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }}-runtime-deps \\\n  ${{ needs.base.outputs.base_runtime_deps_amd64 }} \\\n  ${{ needs.base.outputs.base_runtime_deps_arm64 }}\n\n# runtime-deps release\ndocker buildx imagetools create -t ${BASE_IMAGE}:runtime-deps \\\n  ${{ needs.base.outputs.base_runtime_deps_amd64 }} \\\n  ${{ needs.base.outputs.base_runtime_deps_arm64 }}\n\n# Web-Only `main` timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }}-web-only \\\n  ${{ needs.base.outputs.base_web_only_main_amd64 }} \\\n  ${{ needs.base.outputs.base_web_only_main_arm64 }}\n\n# Web-Only `main` release\ndocker buildx imagetools create -t ${BASE_IMAGE}:web-only \\\n  ${{ needs.base.outputs.base_web_only_main_amd64 }} \\\n  ${{ needs.base.outputs.base_web_only_main_arm64 }}\n\n# Web-Only `stable` timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }}-web-only-stable \\\n  ${{ needs.base.outputs.base_web_only_stable_amd64 }} \\\n  ${{ needs.base.outputs.base_web_only_stable_arm64 }}\n\n# Web-Only `stable` release\ndocker buildx imagetools create -t ${BASE_IMAGE}:web-only-stable \\\n  ${{ needs.base.outputs.base_web_only_stable_amd64 }} \\\n  ${{ needs.base.outputs.base_web_only_stable_arm64 }}\n\n# Full Discourse `main` branch timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }} \\\n  ${{ needs.base.outputs.base_release_main_amd64 }} \\\n  ${{ needs.base.outputs.base_release_main_arm64 }}\n\n# Full Discourse `stable` branch timestamped\ndocker buildx imagetools create -t ${BASE_IMAGE}:2.0.${{ env.TIMESTAMP }}-stable \\\n  ${{ needs.base.outputs.base_release_stable_amd64 }} \\\n  ${{ needs.base.outputs.base_release_stable_arm64 }}\n\n# Full Discourse `main` branch release\ndocker buildx imagetools create -t ${BASE_IMAGE}:release \\\n  ${{ needs.base.outputs.base_release_main_amd64 }} \\\n  ${{ needs.base.outputs.base_release_main_arm64 }}\n\n# Full Discourse `stable` branch release\ndocker buildx imagetools create -t ${BASE_IMAGE}:release-stable \\\n  ${{ needs.base.outputs.base_release_stable_amd64 }} \\\n  ${{ needs.base.outputs.base_release_stable_arm64 }}\n\n# Dev timestamped\ndocker buildx imagetools create -t ${DEV_IMAGE}:${{ env.TIMESTAMP }} \\\n  ${{ needs.base.outputs.dev_amd64 }} \\\n  ${{ needs.base.outputs.dev_arm64 }}\n\n# Dev release\ndocker buildx imagetools create -t ${DEV_IMAGE}:release \\\n  ${{ needs.base.outputs.dev_amd64 }} \\\n  ${{ needs.base.outputs.dev_arm64 }}\n\n# Setup wizard release\ndocker buildx imagetools create -t ${SETUP_WIZARD_IMAGE}:release \\\n  ${{ needs.setup_wizard.outputs.amd64 }} \\\n  ${{ needs.setup_wizard.outputs.arm64 }}\n\n# Discourse aarch64 for backwards compatibility\ndocker buildx imagetools create -t ${BASE_IMAGE}:aarch64 \\\n  ${{ needs.base.outputs.base_release_main_arm64 }}\n\n# Test slim\ndocker buildx imagetools create -t ${TEST_IMAGE}:slim \\\n  ${{ needs.base.outputs.test_slim_amd64 }} \\\n  ${{ needs.base.outputs.test_slim_arm64 }}\n\n# Test slim-browsers\ndocker buildx imagetools create -t ${TEST_IMAGE}:slim-browsers \\\n  ${{ needs.base.outputs.test_slim_browsers_amd64 }} \\\n  ${{ needs.base.outputs.test_slim_browsers_arm64 }}\n\n# Test release\ndocker buildx imagetools create -t ${TEST_IMAGE}:release \\\n  ${{ needs.base.outputs.test_release_amd64 }} \\\n  ${{ needs.base.outputs.test_release_arm64 }}\n"
+            }
+          ]
+        },
+        "bump_base_image": {
+          "runs-on": "ubuntu-latest",
+          "needs": [
+            "timestamp",
+            "push_multi_arch_manifests"
+          ],
+          "if": "github.ref == 'refs/heads/main'",
+          "permissions": {
+            "contents": "write",
+            "issues": "write",
+            "pull-requests": "write"
+          },
+          "concurrency": {
+            "group": "bump-base-image"
+          },
+          "env": {
+            "VERSION": "2.0.${{ needs.timestamp.outputs.timestamp }}",
+            "BRANCH": "bump-base-image",
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v4",
+              "with": {
+                "ref": "main",
+                "fetch-depth": 1
+              }
+            },
+            {
+              "name": "Create or update the draft PR",
+              "run": "current_version() {\n  git show \"$1:templates/web.template.yml\" | grep -oE '2\\.0\\.[0-9]{8}-[0-9]{4}'\n}\n\nlatest=$(current_version HEAD)\nif git fetch --depth=1 origin \"$BRANCH\"; then\n  pr_version=$(current_version FETCH_HEAD)\n  [[ \"$pr_version\" > \"$latest\" ]] && latest=$pr_version\nfi\nif [[ ! \"$VERSION\" > \"$latest\" ]]; then\n  echo \"Already at $latest, skipping $VERSION\"\n  exit 0\nfi\n\nscripts/bump-base-image \"$VERSION\"\n\ntitle=\"Bump default base image to discourse/base:$VERSION\"\nbody=\"[skip ci]\"\n\ngit config user.name discoursebot\ngit config user.email team@discourse.org\ngit checkout -B \"$BRANCH\"\ngit commit -am \"$title\" -m \"$body\"\ngit push -f origin \"$BRANCH\"\n\npr=$(gh pr list --head \"$BRANCH\" --state open --json number --jq '.[0].number')\nif [ -n \"$pr\" ]; then\n  gh pr edit \"$pr\" --title \"$title\" --body \"$body\" --add-label bump-base-image\nelse\n  gh pr create --draft --base main --head \"$BRANCH\" --title \"$title\" --body \"$body\" --label bump-base-image\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "timestamp",
+          "name": "timestamp",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "base",
+          "name": "base",
+          "runner": "${{ (matrix.arch == 'amd64' && vars.AMD64_RUNNER) || vars.ARM64_RUNNER }}",
+          "steps_count": 16,
+          "needs": [
+            "timestamp"
+          ],
+          "environment": null
+        },
+        {
+          "id": "setup_wizard",
+          "name": "setup_wizard",
+          "runner": "${{ (matrix.arch == 'amd64' && vars.AMD64_RUNNER) || vars.ARM64_RUNNER }}",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "push_multi_arch_manifests",
+          "name": "push_multi_arch_manifests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "base",
+            "setup_wizard",
+            "timestamp"
+          ],
+          "environment": null
+        },
+        {
+          "id": "bump_base_image",
+          "name": "bump_base_image",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "timestamp",
+            "push_multi_arch_manifests"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 6,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'base' step 2 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'base' step 3 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'base' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'setup_wizard' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'setup_wizard' step 3 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'push_multi_arch_manifests' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'push_multi_arch_manifests' step 2 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Job 'timestamp' omits least-privilege 'permissions:' or sets write-all.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Job 'base' omits least-privilege 'permissions:' or sets write-all.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Job 'setup_wizard' omits least-privilege 'permissions:' or sets write-all.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Job 'push_multi_arch_manifests' omits least-privilege 'permissions:' or sets write-all.",
+        "[LOW] NO_TIMEOUT: Job 'timestamp' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'push_multi_arch_manifests' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'bump_base_image' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'base' step 2 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 61,
+          "end_line": 61,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'base' step 3 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 63,
+          "end_line": 63,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'base' step 4 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 70,
+          "end_line": 70,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'setup_wizard' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 217,
+          "end_line": 217,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'setup_wizard' step 3 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 223,
+          "end_line": 223,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'push_multi_arch_manifests' step 1 uses unpinned action 'docker/setup-buildx-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 249,
+          "end_line": 249,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'push_multi_arch_manifests' step 2 uses unpinned action 'docker/login-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 251,
+          "end_line": 251,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'timestamp' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 22,
+          "end_line": 36,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'base' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 39,
+          "end_line": 202,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'setup_wizard' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 204,
+          "end_line": 240,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'push_multi_arch_manifests' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 242,
+          "end_line": 351,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'timestamp' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 22,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'push_multi_arch_manifests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 242,
+          "end_line": 351,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'bump_base_image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 352,
+          "end_line": 404,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "base": 0.0,
+          "bump_base_image": 0.0,
+          "push_multi_arch_manifests": 0.166667,
+          "setup_wizard": 0.0,
+          "timestamp": 0.0
+        },
+        "pagerank": {
+          "base": 0.121858,
+          "bump_base_image": 0.382084,
+          "push_multi_arch_manifests": 0.306149,
+          "setup_wizard": 0.094954,
+          "timestamp": 0.094954
+        },
+        "downstream_impact": {
+          "base": [
+            "bump_base_image",
+            "push_multi_arch_manifests"
+          ],
+          "bump_base_image": [],
+          "push_multi_arch_manifests": [
+            "bump_base_image"
+          ],
+          "setup_wizard": [
+            "bump_base_image",
+            "push_multi_arch_manifests"
+          ],
+          "timestamp": [
+            "base",
+            "bump_base_image",
+            "push_multi_arch_manifests"
+          ]
+        },
+        "critical_nodes": [
+          "push_multi_arch_manifests",
+          "bump_base_image",
+          "base",
+          "timestamp",
+          "setup_wizard"
+        ],
+        "max_blast_radius": 3
+      }
+    },
+    {
+      "id": "cleanup-cache.yml",
+      "path": ".github/workflows/cleanup-cache.yml",
+      "name": "cleanup-cache.yml",
+      "triggers": [
+        "push",
+        "schedule"
+      ],
+      "jobs": {
+        "cleanup_cache": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "cleanup cache",
+              "env": {
+                "GH_TOKEN": "${{ secrets.GH_CLEANUP_CACHE_TOKEN }}",
+                "PACKAGE_NAME": "discourse_docker"
+              },
+              "run": "if [[ -z \"$GH_TOKEN\" ]]; then\n  echo \"no cleanup token set, set cleanup token by setting an access token for secrets.GH_CLEANUP_CACHE_TOKEN with delete:packages, read:org permissions\"\n  exit 0\nfi\n# figure out if this is a user or organization repository\nOWNER_TYPE=$(gh api /users/${{ github.repository_owner }} --jq '.type')\nif [[ \"$OWNER_TYPE\" == \"User\" ]]; then\n  OWNER_TYPE=\"users\"\nelse\n  OWNER_TYPE=\"orgs\"\nfi\ngh api /${OWNER_TYPE}/${{ github.repository_owner }}/packages/container/discourse_docker/versions --paginate > /tmp/dangling_ids.txt\nids_to_delete=$(cat /tmp/dangling_ids.txt | jq -r '.[] | select(.metadata.container.tags==[]) | .id')\nif [ \"${ids_to_delete}\" = \"\" ]\nthen\n  echo \"There are no dangling images to remove for this package\"\n  exit 0\nfi\necho \"Deleting dangling ids...\"\nwhile read -r id; do\n  gh api --method DELETE /${OWNER_TYPE}/${{ github.repository_owner }}/packages/container/${PACKAGE_NAME}/versions/${id}\n  echo Dangling image with ID $id deleted successfully\ndone <<< $ids_to_delete\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "cleanup_cache",
+          "name": "cleanup_cache",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'cleanup_cache' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cleanup-cache.yml",
+          "start_line": 1,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'cleanup_cache' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cleanup-cache.yml",
+          "start_line": 9,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "cleanup_cache": 0.0
+        },
+        "pagerank": {
+          "cleanup_cache": 1.0
+        },
+        "downstream_impact": {
+          "cleanup_cache": []
+        },
+        "critical_nodes": [
+          "cleanup_cache"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "postgres_dev.template",
+      "type": "module",
+      "file": "image/discourse_dev/postgres_dev.template.yml",
+      "line": 1
+    },
+    {
+      "name": "wizard",
+      "type": "module",
+      "file": "image/setup_wizard/wizard.rb",
+      "line": 1
+    },
+    {
+      "name": "cli",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/cli.rb",
+      "line": 1
+    },
+    {
+      "name": "config_generator",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/config_generator.rb",
+      "line": 1
+    },
+    {
+      "name": "constants",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/constants.rb",
+      "line": 1
+    },
+    {
+      "name": "launcher",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/launcher.rb",
+      "line": 1
+    },
+    {
+      "name": "network_checks",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/network_checks.rb",
+      "line": 1
+    },
+    {
+      "name": "prompts",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/prompts.rb",
+      "line": 1
+    },
+    {
+      "name": "resource_scaler",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/resource_scaler.rb",
+      "line": 1
+    },
+    {
+      "name": "system_checks",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/system_checks.rb",
+      "line": 1
+    },
+    {
+      "name": "tui_components",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/tui_components.rb",
+      "line": 1
+    },
+    {
+      "name": "ui",
+      "type": "module",
+      "file": "image/setup_wizard/lib/discourse_setup/ui.rb",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 68.6,
+    "overall_grade": "D",
+    "technical_debt_score": 31.4,
+    "remediation_hours": 38.35,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 0.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=18"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=3, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 84.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "workflows=3, operational_antipatterns=7, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "docker-api",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/docker-api",
+      "manifest_file": "image/setup_wizard/Gemfile",
+      "line": 7,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "base64",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/base64",
+      "manifest_file": "image/setup_wizard/Gemfile",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "ratatui_ruby",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/ratatui_ruby",
+      "manifest_file": "image/setup_wizard/Gemfile",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "image/base",
+      "source_type": "code_module",
+      "target": "build.yml#base",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/base",
+      "source_type": "code_module",
+      "target": "build.yml#setup_wizard",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/base",
+      "source_type": "code_module",
+      "target": "image/base/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "image/base",
+      "source_type": "code_module",
+      "target": "image/discourse_dev/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "image/base",
+      "source_type": "code_module",
+      "target": "image/discourse_test/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "image/discourse_dev",
+      "source_type": "code_module",
+      "target": "build.yml#base",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/discourse_dev",
+      "source_type": "code_module",
+      "target": "build.yml#setup_wizard",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/discourse_dev",
+      "source_type": "code_module",
+      "target": "image/discourse_dev/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "image/discourse_test",
+      "source_type": "code_module",
+      "target": "build.yml#base",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/discourse_test",
+      "source_type": "code_module",
+      "target": "build.yml#setup_wizard",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/discourse_test",
+      "source_type": "code_module",
+      "target": "image/discourse_test/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "image/setup_wizard",
+      "source_type": "code_module",
+      "target": "build.yml#base",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/setup_wizard",
+      "source_type": "code_module",
+      "target": "build.yml#setup_wizard",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "image/setup_wizard",
+      "source_type": "code_module",
+      "target": "image/setup_wizard/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

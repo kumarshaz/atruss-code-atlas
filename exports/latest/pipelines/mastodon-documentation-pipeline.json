@@ -1,0 +1,172 @@
+{
+  "org": "mastodon",
+  "repository": "documentation",
+  "sha": "431e64f8a31b4e25d602d6ce6e2b56e9fdf3b7b9",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "deploy.yml",
+      "path": ".github/workflows/deploy.yml",
+      "name": "Deploy on Github Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "deploy": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "deploy": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "deploy"
+          ],
+          "deploy": []
+        },
+        "critical_nodes": [
+          "deploy",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 55,
+          "end_line": 64,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 3 uses unpinned action 'peaceiris/actions-hugo@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 28,
+          "end_line": 52,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy.yml",
+          "start_line": 55,
+          "end_line": 64,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "rebase-needed.yml",
+      "path": ".github/workflows/rebase-needed.yml",
+      "name": "PR Needs Rebase",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "label-rebase-needed",
+          "name": "label-rebase-needed",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "label-rebase-needed": 0.0
+        },
+        "pagerank": {
+          "label-rebase-needed": 1.0
+        },
+        "downstream_impact": {
+          "label-rebase-needed": []
+        },
+        "critical_nodes": [
+          "label-rebase-needed"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'label-rebase-needed' step 1 uses unpinned action 'eps1lon/actions-label-merge-conflict@releases/2.x'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/rebase-needed.yml",
+          "start_line": 20,
+          "end_line": 20,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'label-rebase-needed' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/rebase-needed.yml",
+          "start_line": 11,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

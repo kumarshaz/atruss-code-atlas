@@ -1,0 +1,78 @@
+{
+  "org": "appwrite",
+  "repository": "sdk-for-go",
+  "sha": "ac4b239fee3e8ad8f36b7ac179bb1a5e90f7669b",
+  "analyzed_at": "2026-11-15T05:22:57Z",
+  "workflows": [
+    {
+      "id": "autoclose.yml",
+      "path": ".github/workflows/autoclose.yml",
+      "name": "Auto-close External Pull Requests",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "auto_close",
+          "name": "auto_close",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/autoclose.yml",
+          "source_job": "auto_close",
+          "target_workflow": "appwrite/.github/.github/workflows/autoclose.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "auto_close": 0.0
+        },
+        "pagerank": {
+          "auto_close": 1.0
+        },
+        "downstream_impact": {
+          "auto_close": []
+        },
+        "critical_nodes": [
+          "auto_close"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/autoclose.yml",
+          "start_line": 3,
+          "end_line": 5,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'auto_close' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/autoclose.yml",
+          "start_line": 8,
+          "end_line": 11,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

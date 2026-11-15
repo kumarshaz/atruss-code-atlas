@@ -1,0 +1,319 @@
+---
+title: Architecture — supabase/storage
+description: Arc42 and Pipeline report for supabase/storage
+---
+
+# Repository Architecture Analysis: supabase/storage
+
+## Metadata
+- **SHA**: `be3cecb4f4ef844be55183bd59f04986f14f4b54`
+- **Primary Ecosystem**: JavaScript/TypeScript
+
+## Quality Metrics
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 2.54
+- **avg_cyclomatic_complexity**: 2.95
+- **component_count**: 130
+- **dead_code_count**: 94
+- **dead_code_symbols**: 50 entry(ies)
+- **duplication_pct**: 85.51
+- **file_complexities**: 25 entry(ies)
+- **files_analyzed**: 701
+- **fitness_passed**: False
+- **fitness_violation_count**: 3
+- **framework**: Express / Node API
+- **import_edges**: 100 entry(ies)
+- **loc**: 196787
+- **max_cognitive_complexity**: 143
+- **max_cyclomatic_complexity**: 114
+- **sloc**: 169610
+- **test_file_count**: 299
+
+# Architecture: supabase/storage
+
+## Context
+- **Repository**: `supabase/storage`
+- **SHA**: `be3cecb4f4ef844be55183bd59f04986f14f4b54`
+- **Ecosystem**: JavaScript/TypeScript
+- **Framework**: Express / Node API
+
+## Building Block View
+
+```mermaid
+graph TD;
+    repo_root(["supabase/storage (130 components)"])
+    dir_0_src["src (124)"]
+    repo_root --> dir_0_src
+    sub_0_0_http["http (94)"]
+    dir_0_src --> sub_0_0_http
+    sub_0_1_storage["storage (16)"]
+    dir_0_src --> sub_0_1_storage
+    sub_0_2__module_root_["(module root) (6)"]
+    dir_0_src --> sub_0_2__module_root_
+    sub_0_more["+2 more submodules (8)"]
+    dir_0_src --> sub_0_more
+    dir_1_rust["rust (4)"]
+    repo_root --> dir_1_rust
+    dir_2__root_["(root) (1)"]
+    repo_root --> dir_2__root_
+    dir_3_acceptance["acceptance (1)"]
+    repo_root --> dir_3_acceptance
+    sub_0_more -.->|"4 deps"| sub_0_1_storage
+    sub_0_0_http -.->|"3 deps"| dir_3_acceptance
+    sub_0_2__module_root_ -.->|"3 deps"| dir_3_acceptance
+    sub_0_0_http -.->|"1 dep"| sub_0_1_storage
+```
+
+## Component Details
+
+Showing top 60 representative components out of 130 across 4 module group(s):
+
+- **Module `src`** (124 components — API_ROUTE: 109, SERVICE: 15)
+- **Module `rust`** (4 components — module: 4)
+- **Module `(root)`** (1 components — MODULE: 1)
+- **Module `acceptance`** (1 components — SERVICE: 1)
+
+- **PgShardStore** (`src/internal/sharding/pg.ts`): SERVICE (deps: FileStore, ProfileStore, S3Store)
+- **CollectingStore** (`src/storage/protocols/tus/splitter-workaround.test.ts`): SERVICE (deps: S3Store)
+- **ConcurrentStore** (`src/storage/protocols/tus/splitter-workaround.test.ts`): SERVICE (deps: S3Store)
+- **GET_.well-known_jwks.json** (`src/app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **GET_download** (`src/storage/uploader.test.ts`): API_ROUTE (deps: FileStore)
+- **GET_metrics** (`src/admin-app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **GET_objects_:bucket** (`src/http/plugins/metrics.test.ts`): API_ROUTE (deps: GET_metrics)
+- **GET_status** (`src/admin-app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **GET_status** (`src/app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **GET_version** (`src/admin-app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **GET_version** (`src/app.ts`): API_ROUTE (deps: AcceptanceHttpClient)
+- **MultiPartStore** (`src/storage/protocols/tus/splitter-workaround.test.ts`): SERVICE (deps: S3Store)
+- **PATCH_upload_file** (`src/test/tus-timeout.test.ts`): API_ROUTE (deps: S3Store)
+- **POST_objects_:bucket** (`src/http/plugins/metrics.test.ts`): API_ROUTE (deps: GET_metrics)
+- **PausedStore** (`src/test/tus-timeout.test.ts`): SERVICE (deps: S3Store)
+- **ResumeStore** (`src/storage/protocols/tus/splitter-workaround.test.ts`): SERVICE (deps: S3Store)
+- **TestS3Store** (`src/storage/protocols/tus/s3-store.test.ts`): SERVICE (deps: S3Store)
+- **TestStore** (`src/storage/protocols/tus/splitter-workaround.test.ts`): SERVICE (deps: S3Store)
+- **AcceptanceHttpClient** (`acceptance/support/http.ts`): SERVICE
+- **AsyncAbortController** (`src/internal/concurrency/async-abort-controller.ts`): API_ROUTE
+- **DELETE_*** (`src/http/routes/tus/index.ts`): API_ROUTE
+- **DELETE_active** (`src/http/routes/admin/migrations.ts`): API_ROUTE
+- **DELETE_iceberg_orphan-catalogs** (`src/http/routes/admin/iceberg-admin.ts`): API_ROUTE
+- **DELETE_objects** (`src/storage/backend/s3/adapter.test.ts`): API_ROUTE
+- **FakePgPoolClient** (`src/internal/database/pg-connection.test.ts`): SERVICE
+- **FileStore** (`src/storage/protocols/tus/file-store.ts`): SERVICE
+- **GET_:Bucket** (`src/http/routes/s3/router.test.ts`): API_ROUTE
+- **GET_:Bucket_*** (`src/http/plugins/signature-v4.test.ts`): API_ROUTE
+- **GET_:Bucket_*** (`src/http/routes/s3/router.test.ts`): API_ROUTE
+- **GET_:Bucket_*?list-type=2** (`src/http/routes/s3/router.test.ts`): API_ROUTE
+- **GET_:Bucket_*?list-type=2&*** (`src/http/routes/s3/router.test.ts`): API_ROUTE
+- **GET_:Bucket_*?uploads** (`src/http/routes/s3/router.test.ts`): API_ROUTE
+- **GET_aborted** (`src/storage/renderer/image.test.ts`): API_ROUTE
+- **GET_active** (`src/http/routes/admin/migrations.ts`): API_ROUTE
+- **GET_blob** (`src/http/plugins/blob-response.test.ts`): API_ROUTE
+- **GET_blob** (`src/storage/renderer/image.test.ts`): API_ROUTE
+- **GET_bucket_:bucket** (`src/http/plugins/log-request.test.ts`): API_ROUTE
+- **GET_bucket_:bucket_object_:name** (`src/http/plugins/log-request.test.ts`): API_ROUTE
+- **GET_buffer** (`src/http/plugins/blob-response.test.ts`): API_ROUTE
+- **GET_context** (`src/http/plugins/request-context.test.ts`): API_ROUTE
+- **GET_download** (`src/http/error-handler.test.ts`): API_ROUTE
+- **GET_error-probe** (`src/http/routes/vector/index.test.ts`): API_ROUTE
+- **GET_fail** (`src/http/error-handler.test.ts`): API_ROUTE
+- **GET_health** (`src/http/error-handler.connection.test.ts`): API_ROUTE
+- **GET_heap-snapshot** (`src/http/routes/admin/pprof.ts`): API_ROUTE
+- **GET_iceberg** (`src/http/plugins/request-scoped-pg-executor.test.ts`): API_ROUTE
+- **GET_iceberg_orphan-catalogs** (`src/http/routes/admin/iceberg-admin.ts`): API_ROUTE
+- **GET_internal-error** (`src/http/error-handler.test.ts`): API_ROUTE
+- **GET_json** (`src/http/plugins/blob-response.test.ts`): API_ROUTE
+- **GET_jwks_generate-all-missing** (`src/http/routes/admin/jwks.ts`): API_ROUTE
+- **GET_lifecycle** (`src/http/plugins/xml.test.ts`): API_ROUTE
+- **GET_metadata-log** (`src/http/plugins/log-request.test.ts`): API_ROUTE
+- **GET_metrics** (`src/http/plugins/metrics.ts`): API_ROUTE
+- **GET_missing** (`src/http/error-handler.test.ts`): API_ROUTE
+- **GET_missing** (`src/storage/renderer/image.test.ts`): API_ROUTE
+- **GET_node-stream** (`src/http/plugins/blob-response.test.ts`): API_ROUTE
+- **GET_object** (`src/storage/renderer/renderer.test.ts`): API_ROUTE
+- **GET_outside-vector** (`src/http/routes/vector/index.test.ts`): API_ROUTE
+- **GET_probe** (`src/http/plugins/tenant-feature.test.ts`): API_ROUTE
+- **GET_probe** (`src/http/plugins/vector.test.ts`): API_ROUTE
+
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `F` (37.05/100)
+- **Technical Debt Score**: 62.95
+- **Estimated Remediation Effort**: 128.34h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `F` | 30.00 | 0.20 | avg_cc=2.95, max_cc=114, duplication=85.51%, dead_code=94 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=1255, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `F` | 37.00 | 0.15 | avg_cognitive=2.54, max_cognitive=143, fitness_violations=3, oversized_files=20 |
+| Pipeline Health | `F` | 0.00 | 0.15 | workflows=8, operational_antipatterns=15, parallel_branches=True |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=0, secrets=10, pipeline_security_findings=2 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (85.51) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (143.0) exceeds policy threshold (25.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (114.0) exceeds policy threshold (20.0).
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 1255 | **Vulnerabilities**: 0 | **Secrets**: 10
+
+### Secret Findings (Redacted)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.acceptance.sample:44` (`ACCEPTANCE_AUTHENTICATED_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.acceptance.sample:45` (`ACCEPTANCE_ANON_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.acceptance.sample:46` (`ACCEPTANCE_SERVICE_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.test.sample:1` (`AUTHENTICATED_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.test.sample:2` (`ANON_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.test.sample:3` (`SERVICE_KEY=eyJh***REDACTED***`)
+- **[HIGH] `ATRUSS-SEC-005`** at `monitoring/prometheus/prometheus.yml:37` (`bearer_token: "eyJh***REDACTED***"`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/scripts/pprof-client.test.ts:176` (`key: 'v1/a***REDACTED***',`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/scripts/pprof-client.test.ts:189` (`key: 'v1/a***REDACTED***',`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/scripts/pprof-client.test.ts:253` (`key: 'v1/m***REDACTED***',`)
+
+### Inventory Sample
+- `aws-sdk-sqs` `*` (cargo, `rust/crates/queue/Cargo.toml`)
+- `thiserror` `*` (cargo, `rust/crates/queue/Cargo.toml`)
+- `tokio` `*` (cargo, `rust/crates/queue/Cargo.toml`)
+- `@aws-sdk/client-ecs` `3.1164.0` (npm, `package-lock.json`)
+- `@aws-sdk/client-ecs` `3.1164.0` (npm, `package.json`)
+- `@aws-sdk/client-s3` `3.1070.0` (npm, `package-lock.json`)
+- `@aws-sdk/client-s3` `3.1070.0` (npm, `package.json`)
+- `@aws-sdk/client-s3vectors` `3.1152.0` (npm, `package-lock.json`)
+- `@aws-sdk/client-s3vectors` `3.1152.0` (npm, `package.json`)
+- `@aws-sdk/lib-storage` `3.1070.0` (npm, `package-lock.json`)
+- `@aws-sdk/lib-storage` `3.1070.0` (npm, `package.json`)
+- `@aws-sdk/s3-presigned-post` `3.1070.0` (npm, `package-lock.json`)
+- `@aws-sdk/s3-presigned-post` `3.1070.0` (npm, `package.json`)
+- `@aws-sdk/s3-request-presigner` `3.1070.0` (npm, `package-lock.json`)
+- `@aws-sdk/s3-request-presigner` `3.1070.0` (npm, `package.json`)
+- `@biomejs/biome` `2.6.2` (npm, `package-lock.json`)
+- `@biomejs/biome` `2.6.2` (npm, `package.json`)
+- `@fastify/accepts` `5.0.7` (npm, `package-lock.json`)
+- `@fastify/accepts` `5.0.7` (npm, `package.json`)
+- `@fastify/multipart` `10.1.0` (npm, `package-lock.json`)
+- `@fastify/multipart` `10.1.0` (npm, `package.json`)
+- `@fastify/otel` `0.21.2` (npm, `package-lock.json`)
+- `@fastify/otel` `0.21.2` (npm, `package.json`)
+- `@fastify/rate-limit` `11.2.0` (npm, `package-lock.json`)
+- `@fastify/rate-limit` `11.2.0` (npm, `package.json`)
+- `@fastify/swagger` `9.9.1` (npm, `package-lock.json`)
+- `@fastify/swagger` `9.9.1` (npm, `package.json`)
+- `@fastify/swagger-ui` `6.1.1` (npm, `package-lock.json`)
+- `@fastify/swagger-ui` `6.1.1` (npm, `package.json`)
+- `@kubernetes/client-node` `2.0.0` (npm, `package-lock.json`)
+- ... (+1225 more dependencies)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    subgraph code_modules["Code Modules"]
+        mod__docker_pgbouncer[".docker/pgbouncer"]
+        mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca["8e685e6d-26e5-4755-a944-1f2cc7ce4bca"]
+        mod_acceptance["acceptance"]
+        mod_rust["rust"]
+    end
+    subgraph build_artifacts["Build Artifacts / Containers"]
+        art__docker_docker_compose_infra_multigres_override_yml[".docker/docker-compose-infra-multigres-override.yml"]
+        art__docker_docker_compose_infra_oriole_override_yml[".docker/docker-compose-infra-oriole-override.yml"]
+        art__docker_docker_compose_infra_oriole_pgvector_override_yml[".docker/docker-compose-infra-oriole-pgvector-override.yml"]
+        art__docker_docker_compose_infra_yml[".docker/docker-compose-infra.yml"]
+        art__docker_docker_compose_monitoring_yml[".docker/docker-compose-monitoring.yml"]
+        art__docker_pgbouncer_Dockerfile[".docker/pgbouncer/Dockerfile"]
+        art_Dockerfile["Dockerfile"]
+        art_docker_compose_multi_tenant_yml["docker-compose-multi-tenant.yml"]
+        art_docker_compose_yml["docker-compose.yml"]
+    end
+    subgraph ci_jobs["CI/CD Jobs"]
+        job_acceptance_yml_acceptance_local["acceptance.yml#acceptance_local"]
+        job_acceptance_yml_acceptance_remote["acceptance.yml#acceptance_remote"]
+        job_docs_yml_build_docs["docs.yml#build-docs"]
+        job_docs_yml_deploy["docs.yml#deploy"]
+        job_release_yml_publish_pgbouncer["release.yml#publish_pgbouncer"]
+        job_rust_yml_test["rust.yml#test"]
+    end
+    subgraph runtime_envs["Runtime Environments"]
+        env_____inputs_acceptance_environment___["${{ inputs.acceptance_environment }}"]
+        env_github_pages["github-pages"]
+    end
+    job_acceptance_yml_acceptance_remote -->|DEPLOYS_TO| env_____inputs_acceptance_environment___
+    job_docs_yml_build_docs -->|DEPLOYS_TO| env_github_pages
+    job_docs_yml_deploy -->|DEPLOYS_TO| env_github_pages
+    mod__docker_pgbouncer -->|DEPLOYED_BY| job_release_yml_publish_pgbouncer
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_docker_compose_infra_multigres_override_yml
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_docker_compose_infra_oriole_override_yml
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_docker_compose_infra_oriole_pgvector_override_yml
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_docker_compose_infra_yml
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_docker_compose_monitoring_yml
+    mod__docker_pgbouncer -->|PACKAGED_BY| art__docker_pgbouncer_Dockerfile
+    mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca -->|BUILT_BY| job_rust_yml_test
+    mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca -->|PACKAGED_BY| art__docker_docker_compose_infra_oriole_pgvector_override_yml
+    mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca -->|PACKAGED_BY| art_Dockerfile
+    mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca -->|PACKAGED_BY| art_docker_compose_multi_tenant_yml
+    mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca -->|PACKAGED_BY| art_docker_compose_yml
+    mod_acceptance -->|BUILT_BY| job_acceptance_yml_acceptance_local
+    mod_acceptance -->|DEPLOYED_BY| job_acceptance_yml_acceptance_remote
+    mod_acceptance -->|PACKAGED_BY| art__docker_docker_compose_infra_multigres_override_yml
+    mod_rust -->|BUILT_BY| job_rust_yml_test
+    mod_rust -->|PACKAGED_BY| art__docker_docker_compose_infra_multigres_override_yml
+    mod_rust -->|PACKAGED_BY| art__docker_docker_compose_infra_yml
+    mod_rust -->|PACKAGED_BY| art_docker_compose_multi_tenant_yml
+    mod_rust -->|PACKAGED_BY| art_docker_compose_yml
+    art__docker_docker_compose_infra_multigres_override_yml -->|BUILT_BY| job_rust_yml_test
+    art__docker_docker_compose_infra_oriole_override_yml -->|BUILT_BY| job_rust_yml_test
+    art__docker_docker_compose_infra_oriole_pgvector_override_yml -->|BUILT_BY| job_rust_yml_test
+    art__docker_docker_compose_infra_yml -->|BUILT_BY| job_rust_yml_test
+    art__docker_docker_compose_monitoring_yml -->|BUILT_BY| job_rust_yml_test
+    art__docker_pgbouncer_Dockerfile -->|BUILT_BY| job_release_yml_publish_pgbouncer
+    art_Dockerfile -->|BUILT_BY| job_rust_yml_test
+    art_docker_compose_multi_tenant_yml -->|BUILT_BY| job_rust_yml_test
+    art_docker_compose_yml -->|BUILT_BY| job_rust_yml_test
+```
+
+- `acceptance.yml#acceptance_remote` (ci_job) --[DEPLOYS_TO]--> `${{ inputs.acceptance_environment }}` (environment)
+- `docs.yml#build-docs` (ci_job) --[DEPLOYS_TO]--> `github-pages` (environment)
+- `docs.yml#deploy` (ci_job) --[DEPLOYS_TO]--> `github-pages` (environment)
+- `.docker/pgbouncer` (code_module) --[DEPLOYED_BY]--> `release.yml#publish_pgbouncer` (ci_job)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-multigres-override.yml` (container)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-oriole-override.yml` (container)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-oriole-pgvector-override.yml` (container)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra.yml` (container)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-monitoring.yml` (container)
+- `.docker/pgbouncer` (code_module) --[PACKAGED_BY]--> `.docker/pgbouncer/Dockerfile` (container)
+- `8e685e6d-26e5-4755-a944-1f2cc7ce4bca` (code_module) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `8e685e6d-26e5-4755-a944-1f2cc7ce4bca` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-oriole-pgvector-override.yml` (container)
+- `8e685e6d-26e5-4755-a944-1f2cc7ce4bca` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `8e685e6d-26e5-4755-a944-1f2cc7ce4bca` (code_module) --[PACKAGED_BY]--> `docker-compose-multi-tenant.yml` (container)
+- `8e685e6d-26e5-4755-a944-1f2cc7ce4bca` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `acceptance` (code_module) --[BUILT_BY]--> `acceptance.yml#acceptance_local` (ci_job)
+- `acceptance` (code_module) --[DEPLOYED_BY]--> `acceptance.yml#acceptance_remote` (ci_job)
+- `acceptance` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-multigres-override.yml` (container)
+- `rust` (code_module) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `rust` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra-multigres-override.yml` (container)
+- `rust` (code_module) --[PACKAGED_BY]--> `.docker/docker-compose-infra.yml` (container)
+- `rust` (code_module) --[PACKAGED_BY]--> `docker-compose-multi-tenant.yml` (container)
+- `rust` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `.docker/docker-compose-infra-multigres-override.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `.docker/docker-compose-infra-oriole-override.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `.docker/docker-compose-infra-oriole-pgvector-override.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `.docker/docker-compose-infra.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `.docker/docker-compose-monitoring.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `.docker/pgbouncer/Dockerfile` (container) --[BUILT_BY]--> `release.yml#publish_pgbouncer` (ci_job)
+- `Dockerfile` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `docker-compose-multi-tenant.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+- `docker-compose.yml` (container) --[BUILT_BY]--> `rust.yml#test` (ci_job)
+
+
+## CI/CD Pipeline Topology
+
+```mermaid
+graph TD;
+  pipeline_root(["supabase/storage (8 workflows)"])
+  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 14 jobs)"]
+  pipeline_root --> grp_0_Scheduled___Manual
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]
+  pipeline_root --> grp_1_Release___Deploy
+  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+  pipeline_root --> grp_2_CI___Verification
+```

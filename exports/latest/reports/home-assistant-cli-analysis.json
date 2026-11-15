@@ -1,0 +1,1849 @@
+{
+  "repository": "home-assistant/cli",
+  "sha": "a9bea5764909a7592500a1483efaf2f5a1cc7440",
+  "ecosystem": "Go",
+  "metrics": {
+    "files_analyzed": 192,
+    "loc": 11847,
+    "sloc": 9833,
+    "component_count": 192,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 6,
+    "framework": "Go Service",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "build",
+      "triggers": [
+        "push",
+        "release",
+        "pull_request"
+      ],
+      "jobs": {
+        "build": {
+          "name": "Build ${{ matrix.variant.name }}",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "write"
+          },
+          "strategy": {
+            "matrix": {
+              "variant": [
+                {
+                  "name": "ha_amd64",
+                  "args": "GOARCH=amd64"
+                },
+                {
+                  "name": "ha_aarch64",
+                  "args": "GOARCH=arm64"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout the repository",
+              "uses": "actions/checkout@v7.0.1"
+            },
+            {
+              "name": "Setup go ${{ env.GOLANG_VERSION }}",
+              "uses": "actions/setup-go@v7.0.0",
+              "with": {
+                "go-version": "${{ env.GOLANG_VERSION }}"
+              }
+            },
+            {
+              "name": "Build ${{ matrix.variant.name }}",
+              "env": {
+                "VERSION": "${{ github.event.release.tag_name }}"
+              },
+              "run": "CGO_ENABLED=0 ${{ matrix.variant.args }} go build -ldflags=\"-s -w -X github.com/home-assistant/cli/client.Version=${VERSION}\" -o \"${{ matrix.variant.name }}\""
+            },
+            {
+              "name": "Upload release asset",
+              "if": "github.event_name == 'release'",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "gh release upload \"${{ github.event.release.tag_name }}\" \"${{ matrix.variant.name }}\" --clobber"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "Build ${{ matrix.variant.name }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 15,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "codespell.yml",
+      "path": ".github/workflows/codespell.yml",
+      "name": "codespell",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "codespell": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v7.0.1"
+            },
+            {
+              "uses": "codespell-project/actions-codespell@v2.2",
+              "with": {
+                "skip": "./.git,./go.sum"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "codespell",
+          "name": "codespell",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'codespell' step 2 uses unpinned action 'codespell-project/actions-codespell@v2.2'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'codespell' step 2 uses unpinned action 'codespell-project/actions-codespell@v2.2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codespell.yml",
+          "start_line": 14,
+          "end_line": 14,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codespell.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codespell.yml",
+          "start_line": 10,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "codespell": 0.0
+        },
+        "pagerank": {
+          "codespell": 1.0
+        },
+        "downstream_impact": {
+          "codespell": []
+        },
+        "critical_nodes": [
+          "codespell"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "golangci-lint.yml",
+      "path": ".github/workflows/golangci-lint.yml",
+      "name": "golangci-lint",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "golangci": {
+          "name": "lint",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v7.0.1"
+            },
+            {
+              "name": "golangci-lint",
+              "uses": "golangci/golangci-lint-action@v9.3.0",
+              "with": {
+                "version": "latest",
+                "args": "--fix=false"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "golangci",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'golangci' step 2 uses unpinned action 'golangci/golangci-lint-action@v9.3.0'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'golangci' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'golangci' step 2 uses unpinned action 'golangci/golangci-lint-action@v9.3.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/golangci-lint.yml",
+          "start_line": 16,
+          "end_line": 16,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/golangci-lint.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'golangci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/golangci-lint.yml",
+          "start_line": 10,
+          "end_line": 19,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "golangci": 0.0
+        },
+        "pagerank": {
+          "golangci": 1.0
+        },
+        "downstream_impact": {
+          "golangci": []
+        },
+        "critical_nodes": [
+          "golangci"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "release-drafter.yml",
+      "path": ".github/workflows/release-drafter.yml",
+      "name": "Release Drafter",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "update_release_draft": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "release-drafter/release-drafter@v7.9.0",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "update_release_draft",
+          "name": "update_release_draft",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'update_release_draft' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] UNPINNED_ACTION: Job 'update_release_draft' step 1 uses unpinned action 'release-drafter/release-drafter@v7.9.0'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'update_release_draft' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'update_release_draft' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 10,
+          "end_line": 15,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update_release_draft' step 1 uses unpinned action 'release-drafter/release-drafter@v7.9.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 13,
+          "end_line": 13,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update_release_draft' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 10,
+          "end_line": 15,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update_release_draft": 0.0
+        },
+        "pagerank": {
+          "update_release_draft": 1.0
+        },
+        "downstream_impact": {
+          "update_release_draft": []
+        },
+        "critical_nodes": [
+          "update_release_draft"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "test": {
+          "name": "Run tests",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout the repository",
+              "uses": "actions/checkout@v7.0.1"
+            },
+            {
+              "name": "Setup go ${{ env.GOLANG_VERSION }}",
+              "uses": "actions/setup-go@v7.0.0",
+              "with": {
+                "go-version": "${{ env.GOLANG_VERSION }}"
+              }
+            },
+            {
+              "name": "Run tests",
+              "run": "go test -race ./..."
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "test",
+          "name": "Run tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 16,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "main",
+      "type": "module",
+      "file": "main.go",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "client/client.go",
+      "line": 1
+    },
+    {
+      "name": "helper",
+      "type": "module",
+      "file": "client/helper.go",
+      "line": 1
+    },
+    {
+      "name": "helper_test",
+      "type": "module",
+      "file": "client/helper_test.go",
+      "line": 1
+    },
+    {
+      "name": "identity",
+      "type": "module",
+      "file": "client/identity.go",
+      "line": 1
+    },
+    {
+      "name": "identity_test",
+      "type": "module",
+      "file": "client/identity_test.go",
+      "line": 1
+    },
+    {
+      "name": "request",
+      "type": "module",
+      "file": "client/request.go",
+      "line": 1
+    },
+    {
+      "name": "transport",
+      "type": "module",
+      "file": "client/transport.go",
+      "line": 1
+    },
+    {
+      "name": "transport_test",
+      "type": "module",
+      "file": "client/transport_test.go",
+      "line": 1
+    },
+    {
+      "name": "yaml",
+      "type": "module",
+      "file": "client/yaml.go",
+      "line": 1
+    },
+    {
+      "name": "yaml_test",
+      "type": "module",
+      "file": "client/yaml_test.go",
+      "line": 1
+    },
+    {
+      "name": "apps",
+      "type": "module",
+      "file": "cmd/apps.go",
+      "line": 1
+    },
+    {
+      "name": "apps_changelog",
+      "type": "module",
+      "file": "cmd/apps_changelog.go",
+      "line": 1
+    },
+    {
+      "name": "apps_info",
+      "type": "module",
+      "file": "cmd/apps_info.go",
+      "line": 1
+    },
+    {
+      "name": "apps_install",
+      "type": "module",
+      "file": "cmd/apps_install.go",
+      "line": 1
+    },
+    {
+      "name": "apps_logs",
+      "type": "module",
+      "file": "cmd/apps_logs.go",
+      "line": 1
+    },
+    {
+      "name": "apps_rebuild",
+      "type": "module",
+      "file": "cmd/apps_rebuild.go",
+      "line": 1
+    },
+    {
+      "name": "apps_restart",
+      "type": "module",
+      "file": "cmd/apps_restart.go",
+      "line": 1
+    },
+    {
+      "name": "apps_start",
+      "type": "module",
+      "file": "cmd/apps_start.go",
+      "line": 1
+    },
+    {
+      "name": "apps_stats",
+      "type": "module",
+      "file": "cmd/apps_stats.go",
+      "line": 1
+    },
+    {
+      "name": "apps_stop",
+      "type": "module",
+      "file": "cmd/apps_stop.go",
+      "line": 1
+    },
+    {
+      "name": "apps_uninstall",
+      "type": "module",
+      "file": "cmd/apps_uninstall.go",
+      "line": 1
+    },
+    {
+      "name": "apps_update",
+      "type": "module",
+      "file": "cmd/apps_update.go",
+      "line": 1
+    },
+    {
+      "name": "audio",
+      "type": "module",
+      "file": "cmd/audio.go",
+      "line": 1
+    },
+    {
+      "name": "audio_default",
+      "type": "module",
+      "file": "cmd/audio_default.go",
+      "line": 1
+    },
+    {
+      "name": "audio_default_input",
+      "type": "module",
+      "file": "cmd/audio_default_input.go",
+      "line": 1
+    },
+    {
+      "name": "audio_default_output",
+      "type": "module",
+      "file": "cmd/audio_default_output.go",
+      "line": 1
+    },
+    {
+      "name": "audio_info",
+      "type": "module",
+      "file": "cmd/audio_info.go",
+      "line": 1
+    },
+    {
+      "name": "audio_logs",
+      "type": "module",
+      "file": "cmd/audio_logs.go",
+      "line": 1
+    },
+    {
+      "name": "audio_profile",
+      "type": "module",
+      "file": "cmd/audio_profile.go",
+      "line": 1
+    },
+    {
+      "name": "audio_reload",
+      "type": "module",
+      "file": "cmd/audio_reload.go",
+      "line": 1
+    },
+    {
+      "name": "audio_restart",
+      "type": "module",
+      "file": "cmd/audio_restart.go",
+      "line": 1
+    },
+    {
+      "name": "audio_stats",
+      "type": "module",
+      "file": "cmd/audio_stats.go",
+      "line": 1
+    },
+    {
+      "name": "audio_update",
+      "type": "module",
+      "file": "cmd/audio_update.go",
+      "line": 1
+    },
+    {
+      "name": "audio_volume",
+      "type": "module",
+      "file": "cmd/audio_volume.go",
+      "line": 1
+    },
+    {
+      "name": "audio_volume_input",
+      "type": "module",
+      "file": "cmd/audio_volume_input.go",
+      "line": 1
+    },
+    {
+      "name": "audio_volume_output",
+      "type": "module",
+      "file": "cmd/audio_volume_output.go",
+      "line": 1
+    },
+    {
+      "name": "auth",
+      "type": "module",
+      "file": "cmd/auth.go",
+      "line": 1
+    },
+    {
+      "name": "auth_cache",
+      "type": "module",
+      "file": "cmd/auth_cache.go",
+      "line": 1
+    },
+    {
+      "name": "auth_list",
+      "type": "module",
+      "file": "cmd/auth_list.go",
+      "line": 1
+    },
+    {
+      "name": "auth_reset",
+      "type": "module",
+      "file": "cmd/auth_reset.go",
+      "line": 1
+    },
+    {
+      "name": "available_updates",
+      "type": "module",
+      "file": "cmd/available_updates.go",
+      "line": 1
+    },
+    {
+      "name": "backups",
+      "type": "module",
+      "file": "cmd/backups.go",
+      "line": 1
+    },
+    {
+      "name": "backups_freeze",
+      "type": "module",
+      "file": "cmd/backups_freeze.go",
+      "line": 1
+    },
+    {
+      "name": "backups_info",
+      "type": "module",
+      "file": "cmd/backups_info.go",
+      "line": 1
+    },
+    {
+      "name": "backups_new",
+      "type": "module",
+      "file": "cmd/backups_new.go",
+      "line": 1
+    },
+    {
+      "name": "backups_options",
+      "type": "module",
+      "file": "cmd/backups_options.go",
+      "line": 1
+    },
+    {
+      "name": "backups_reload",
+      "type": "module",
+      "file": "cmd/backups_reload.go",
+      "line": 1
+    },
+    {
+      "name": "backups_remove",
+      "type": "module",
+      "file": "cmd/backups_remove.go",
+      "line": 1
+    },
+    {
+      "name": "backups_restore",
+      "type": "module",
+      "file": "cmd/backups_restore.go",
+      "line": 1
+    },
+    {
+      "name": "backups_thaw",
+      "type": "module",
+      "file": "cmd/backups_thaw.go",
+      "line": 1
+    },
+    {
+      "name": "banner",
+      "type": "module",
+      "file": "cmd/banner.go",
+      "line": 1
+    },
+    {
+      "name": "cli",
+      "type": "module",
+      "file": "cmd/cli.go",
+      "line": 1
+    },
+    {
+      "name": "cli_info",
+      "type": "module",
+      "file": "cmd/cli_info.go",
+      "line": 1
+    },
+    {
+      "name": "cli_stats",
+      "type": "module",
+      "file": "cmd/cli_stats.go",
+      "line": 1
+    },
+    {
+      "name": "cli_update",
+      "type": "module",
+      "file": "cmd/cli_update.go",
+      "line": 1
+    },
+    {
+      "name": "core",
+      "type": "module",
+      "file": "cmd/core.go",
+      "line": 1
+    },
+    {
+      "name": "core_check",
+      "type": "module",
+      "file": "cmd/core_check.go",
+      "line": 1
+    },
+    {
+      "name": "core_info",
+      "type": "module",
+      "file": "cmd/core_info.go",
+      "line": 1
+    },
+    {
+      "name": "core_logs",
+      "type": "module",
+      "file": "cmd/core_logs.go",
+      "line": 1
+    },
+    {
+      "name": "core_options",
+      "type": "module",
+      "file": "cmd/core_options.go",
+      "line": 1
+    },
+    {
+      "name": "core_rebuild",
+      "type": "module",
+      "file": "cmd/core_rebuild.go",
+      "line": 1
+    },
+    {
+      "name": "core_restart",
+      "type": "module",
+      "file": "cmd/core_restart.go",
+      "line": 1
+    },
+    {
+      "name": "core_start",
+      "type": "module",
+      "file": "cmd/core_start.go",
+      "line": 1
+    },
+    {
+      "name": "core_stats",
+      "type": "module",
+      "file": "cmd/core_stats.go",
+      "line": 1
+    },
+    {
+      "name": "core_stop",
+      "type": "module",
+      "file": "cmd/core_stop.go",
+      "line": 1
+    },
+    {
+      "name": "core_update",
+      "type": "module",
+      "file": "cmd/core_update.go",
+      "line": 1
+    },
+    {
+      "name": "dns",
+      "type": "module",
+      "file": "cmd/dns.go",
+      "line": 1
+    },
+    {
+      "name": "dns_info",
+      "type": "module",
+      "file": "cmd/dns_info.go",
+      "line": 1
+    },
+    {
+      "name": "dns_logs",
+      "type": "module",
+      "file": "cmd/dns_logs.go",
+      "line": 1
+    },
+    {
+      "name": "dns_options",
+      "type": "module",
+      "file": "cmd/dns_options.go",
+      "line": 1
+    },
+    {
+      "name": "dns_reset",
+      "type": "module",
+      "file": "cmd/dns_reset.go",
+      "line": 1
+    },
+    {
+      "name": "dns_restart",
+      "type": "module",
+      "file": "cmd/dns_restart.go",
+      "line": 1
+    },
+    {
+      "name": "dns_stats",
+      "type": "module",
+      "file": "cmd/dns_stats.go",
+      "line": 1
+    },
+    {
+      "name": "dns_update",
+      "type": "module",
+      "file": "cmd/dns_update.go",
+      "line": 1
+    },
+    {
+      "name": "docker",
+      "type": "module",
+      "file": "cmd/docker.go",
+      "line": 1
+    },
+    {
+      "name": "docker_info",
+      "type": "module",
+      "file": "cmd/docker_info.go",
+      "line": 1
+    },
+    {
+      "name": "docker_migrate_storage_driver",
+      "type": "module",
+      "file": "cmd/docker_migrate_storage_driver.go",
+      "line": 1
+    },
+    {
+      "name": "docker_options",
+      "type": "module",
+      "file": "cmd/docker_options.go",
+      "line": 1
+    },
+    {
+      "name": "docker_registries",
+      "type": "module",
+      "file": "cmd/docker_registries.go",
+      "line": 1
+    },
+    {
+      "name": "docker_registries_add",
+      "type": "module",
+      "file": "cmd/docker_registries_add.go",
+      "line": 1
+    },
+    {
+      "name": "docker_registries_delete",
+      "type": "module",
+      "file": "cmd/docker_registries_delete.go",
+      "line": 1
+    },
+    {
+      "name": "docker_reset_storage",
+      "type": "module",
+      "file": "cmd/docker_reset_storage.go",
+      "line": 1
+    },
+    {
+      "name": "factory_reset",
+      "type": "module",
+      "file": "cmd/factory_reset.go",
+      "line": 1
+    },
+    {
+      "name": "hardware",
+      "type": "module",
+      "file": "cmd/hardware.go",
+      "line": 1
+    },
+    {
+      "name": "hardware_audio",
+      "type": "module",
+      "file": "cmd/hardware_audio.go",
+      "line": 1
+    },
+    {
+      "name": "hardware_info",
+      "type": "module",
+      "file": "cmd/hardware_info.go",
+      "line": 1
+    },
+    {
+      "name": "host",
+      "type": "module",
+      "file": "cmd/host.go",
+      "line": 1
+    },
+    {
+      "name": "host_disks",
+      "type": "module",
+      "file": "cmd/host_disks.go",
+      "line": 1
+    },
+    {
+      "name": "host_disks_usage",
+      "type": "module",
+      "file": "cmd/host_disks_usage.go",
+      "line": 1
+    },
+    {
+      "name": "host_info",
+      "type": "module",
+      "file": "cmd/host_info.go",
+      "line": 1
+    },
+    {
+      "name": "host_logs",
+      "type": "module",
+      "file": "cmd/host_logs.go",
+      "line": 1
+    },
+    {
+      "name": "host_logs_boots",
+      "type": "module",
+      "file": "cmd/host_logs_boots.go",
+      "line": 1
+    },
+    {
+      "name": "host_logs_identifiers",
+      "type": "module",
+      "file": "cmd/host_logs_identifiers.go",
+      "line": 1
+    },
+    {
+      "name": "host_options",
+      "type": "module",
+      "file": "cmd/host_options.go",
+      "line": 1
+    },
+    {
+      "name": "host_reboot",
+      "type": "module",
+      "file": "cmd/host_reboot.go",
+      "line": 1
+    },
+    {
+      "name": "host_reload",
+      "type": "module",
+      "file": "cmd/host_reload.go",
+      "line": 1
+    },
+    {
+      "name": "host_shutdown",
+      "type": "module",
+      "file": "cmd/host_shutdown.go",
+      "line": 1
+    },
+    {
+      "name": "info",
+      "type": "module",
+      "file": "cmd/info.go",
+      "line": 1
+    },
+    {
+      "name": "jobs",
+      "type": "module",
+      "file": "cmd/jobs.go",
+      "line": 1
+    },
+    {
+      "name": "jobs_info",
+      "type": "module",
+      "file": "cmd/jobs_info.go",
+      "line": 1
+    },
+    {
+      "name": "jobs_options",
+      "type": "module",
+      "file": "cmd/jobs_options.go",
+      "line": 1
+    },
+    {
+      "name": "jobs_reset",
+      "type": "module",
+      "file": "cmd/jobs_reset.go",
+      "line": 1
+    },
+    {
+      "name": "mounts",
+      "type": "module",
+      "file": "cmd/mounts.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_add",
+      "type": "module",
+      "file": "cmd/mounts_add.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_delete",
+      "type": "module",
+      "file": "cmd/mounts_delete.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_info",
+      "type": "module",
+      "file": "cmd/mounts_info.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_options",
+      "type": "module",
+      "file": "cmd/mounts_options.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_reload",
+      "type": "module",
+      "file": "cmd/mounts_reload.go",
+      "line": 1
+    },
+    {
+      "name": "mounts_update",
+      "type": "module",
+      "file": "cmd/mounts_update.go",
+      "line": 1
+    },
+    {
+      "name": "multicast",
+      "type": "module",
+      "file": "cmd/multicast.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_info",
+      "type": "module",
+      "file": "cmd/multicast_info.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_logs",
+      "type": "module",
+      "file": "cmd/multicast_logs.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_options",
+      "type": "module",
+      "file": "cmd/multicast_options.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_restart",
+      "type": "module",
+      "file": "cmd/multicast_restart.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_stats",
+      "type": "module",
+      "file": "cmd/multicast_stats.go",
+      "line": 1
+    },
+    {
+      "name": "multicast_update",
+      "type": "module",
+      "file": "cmd/multicast_update.go",
+      "line": 1
+    },
+    {
+      "name": "network",
+      "type": "module",
+      "file": "cmd/network.go",
+      "line": 1
+    },
+    {
+      "name": "network_info",
+      "type": "module",
+      "file": "cmd/network_info.go",
+      "line": 1
+    },
+    {
+      "name": "network_reload",
+      "type": "module",
+      "file": "cmd/network_reload.go",
+      "line": 1
+    },
+    {
+      "name": "network_scan",
+      "type": "module",
+      "file": "cmd/network_scan.go",
+      "line": 1
+    },
+    {
+      "name": "network_update",
+      "type": "module",
+      "file": "cmd/network_update.go",
+      "line": 1
+    },
+    {
+      "name": "network_vlan",
+      "type": "module",
+      "file": "cmd/network_vlan.go",
+      "line": 1
+    },
+    {
+      "name": "observer",
+      "type": "module",
+      "file": "cmd/observer.go",
+      "line": 1
+    },
+    {
+      "name": "observer_info",
+      "type": "module",
+      "file": "cmd/observer_info.go",
+      "line": 1
+    },
+    {
+      "name": "observer_stats",
+      "type": "module",
+      "file": "cmd/observer_stats.go",
+      "line": 1
+    },
+    {
+      "name": "observer_update",
+      "type": "module",
+      "file": "cmd/observer_update.go",
+      "line": 1
+    },
+    {
+      "name": "os",
+      "type": "module",
+      "file": "cmd/os.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards",
+      "type": "module",
+      "file": "cmd/os_boards.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_green",
+      "type": "module",
+      "file": "cmd/os_boards_green.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_green_options",
+      "type": "module",
+      "file": "cmd/os_boards_green_options.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_raspberrypi",
+      "type": "module",
+      "file": "cmd/os_boards_raspberrypi.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_raspberrypi_firmware",
+      "type": "module",
+      "file": "cmd/os_boards_raspberrypi_firmware.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_raspberrypi_firmware_update",
+      "type": "module",
+      "file": "cmd/os_boards_raspberrypi_firmware_update.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_yellow",
+      "type": "module",
+      "file": "cmd/os_boards_yellow.go",
+      "line": 1
+    },
+    {
+      "name": "os_boards_yellow_options",
+      "type": "module",
+      "file": "cmd/os_boards_yellow_options.go",
+      "line": 1
+    },
+    {
+      "name": "os_boot_slot",
+      "type": "module",
+      "file": "cmd/os_boot_slot.go",
+      "line": 1
+    },
+    {
+      "name": "os_config",
+      "type": "module",
+      "file": "cmd/os_config.go",
+      "line": 1
+    },
+    {
+      "name": "os_config_swap",
+      "type": "module",
+      "file": "cmd/os_config_swap.go",
+      "line": 1
+    },
+    {
+      "name": "os_config_swap_info",
+      "type": "module",
+      "file": "cmd/os_config_swap_info.go",
+      "line": 1
+    },
+    {
+      "name": "os_config_swap_options",
+      "type": "module",
+      "file": "cmd/os_config_swap_options.go",
+      "line": 1
+    },
+    {
+      "name": "os_datadisk",
+      "type": "module",
+      "file": "cmd/os_datadisk.go",
+      "line": 1
+    },
+    {
+      "name": "os_datadisk_list",
+      "type": "module",
+      "file": "cmd/os_datadisk_list.go",
+      "line": 1
+    },
+    {
+      "name": "os_datadisk_move",
+      "type": "module",
+      "file": "cmd/os_datadisk_move.go",
+      "line": 1
+    },
+    {
+      "name": "os_datadisk_wipe",
+      "type": "module",
+      "file": "cmd/os_datadisk_wipe.go",
+      "line": 1
+    },
+    {
+      "name": "os_import",
+      "type": "module",
+      "file": "cmd/os_import.go",
+      "line": 1
+    },
+    {
+      "name": "os_info",
+      "type": "module",
+      "file": "cmd/os_info.go",
+      "line": 1
+    },
+    {
+      "name": "os_update",
+      "type": "module",
+      "file": "cmd/os_update.go",
+      "line": 1
+    },
+    {
+      "name": "refresh_updates",
+      "type": "module",
+      "file": "cmd/refresh_updates.go",
+      "line": 1
+    },
+    {
+      "name": "resolution",
+      "type": "module",
+      "file": "cmd/resolution.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_check",
+      "type": "module",
+      "file": "cmd/resolution_check.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_check_options",
+      "type": "module",
+      "file": "cmd/resolution_check_options.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_check_run",
+      "type": "module",
+      "file": "cmd/resolution_check_run.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_healthcheck",
+      "type": "module",
+      "file": "cmd/resolution_healthcheck.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_info",
+      "type": "module",
+      "file": "cmd/resolution_info.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_issue",
+      "type": "module",
+      "file": "cmd/resolution_issue.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_issue_dismiss",
+      "type": "module",
+      "file": "cmd/resolution_issue_dismiss.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_issue_suggestions",
+      "type": "module",
+      "file": "cmd/resolution_issue_suggestions.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_suggestion",
+      "type": "module",
+      "file": "cmd/resolution_suggestion.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_suggestion_apply",
+      "type": "module",
+      "file": "cmd/resolution_suggestion_apply.go",
+      "line": 1
+    },
+    {
+      "name": "resolution_suggestion_dismiss",
+      "type": "module",
+      "file": "cmd/resolution_suggestion_dismiss.go",
+      "line": 1
+    },
+    {
+      "name": "root",
+      "type": "module",
+      "file": "cmd/root.go",
+      "line": 1
+    },
+    {
+      "name": "root_test",
+      "type": "module",
+      "file": "cmd/root_test.go",
+      "line": 1
+    },
+    {
+      "name": "security",
+      "type": "module",
+      "file": "cmd/security.go",
+      "line": 1
+    },
+    {
+      "name": "security_info",
+      "type": "module",
+      "file": "cmd/security_info.go",
+      "line": 1
+    },
+    {
+      "name": "security_integrity",
+      "type": "module",
+      "file": "cmd/security_integrity.go",
+      "line": 1
+    },
+    {
+      "name": "security_options",
+      "type": "module",
+      "file": "cmd/security_options.go",
+      "line": 1
+    },
+    {
+      "name": "store",
+      "type": "module",
+      "file": "cmd/store.go",
+      "line": 1
+    },
+    {
+      "name": "store_apps",
+      "type": "module",
+      "file": "cmd/store_apps.go",
+      "line": 1
+    },
+    {
+      "name": "store_apps_install",
+      "type": "module",
+      "file": "cmd/store_apps_install.go",
+      "line": 1
+    },
+    {
+      "name": "store_apps_update",
+      "type": "module",
+      "file": "cmd/store_apps_update.go",
+      "line": 1
+    },
+    {
+      "name": "store_reload",
+      "type": "module",
+      "file": "cmd/store_reload.go",
+      "line": 1
+    },
+    {
+      "name": "store_repositories_add",
+      "type": "module",
+      "file": "cmd/store_repositories_add.go",
+      "line": 1
+    },
+    {
+      "name": "store_repositories_delete",
+      "type": "module",
+      "file": "cmd/store_repositories_delete.go",
+      "line": 1
+    },
+    {
+      "name": "store_repositories_repair",
+      "type": "module",
+      "file": "cmd/store_repositories_repair.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor",
+      "type": "module",
+      "file": "cmd/supervisor.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_available_updates",
+      "type": "module",
+      "file": "cmd/supervisor_available_updates.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_info",
+      "type": "module",
+      "file": "cmd/supervisor_info.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_logs",
+      "type": "module",
+      "file": "cmd/supervisor_logs.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_options",
+      "type": "module",
+      "file": "cmd/supervisor_options.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_reload",
+      "type": "module",
+      "file": "cmd/supervisor_reload.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_repair",
+      "type": "module",
+      "file": "cmd/supervisor_repair.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_restart",
+      "type": "module",
+      "file": "cmd/supervisor_restart.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_stats",
+      "type": "module",
+      "file": "cmd/supervisor_stats.go",
+      "line": 1
+    },
+    {
+      "name": "supervisor_update",
+      "type": "module",
+      "file": "cmd/supervisor_update.go",
+      "line": 1
+    },
+    {
+      "name": "time",
+      "type": "module",
+      "file": "cmd/time.go",
+      "line": 1
+    },
+    {
+      "name": "time_info",
+      "type": "module",
+      "file": "cmd/time_info.go",
+      "line": 1
+    },
+    {
+      "name": "time_options",
+      "type": "module",
+      "file": "cmd/time_options.go",
+      "line": 1
+    },
+    {
+      "name": "config",
+      "type": "module",
+      "file": "config/config.go",
+      "line": 1
+    },
+    {
+      "name": "config_test",
+      "type": "module",
+      "file": "config/config_test.go",
+      "line": 1
+    },
+    {
+      "name": "character_sets",
+      "type": "module",
+      "file": "spinner/character_sets.go",
+      "line": 1
+    },
+    {
+      "name": "spinner",
+      "type": "module",
+      "file": "spinner/spinner.go",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 73.6,
+    "overall_grade": "C",
+    "technical_debt_score": 26.4,
+    "remediation_hours": 20.1,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 28.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=6"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=6, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 65.0,
+        "grade": "D",
+        "weight": 0.15,
+        "details": "workflows=5, operational_antipatterns=6, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "github.com/spf13/cobra",
+      "version": "1.10.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/spf13/cobra@1.10.2",
+      "manifest_file": "go.mod",
+      "line": 6,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/spf13/pflag",
+      "version": "1.0.10",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/spf13/pflag@1.0.10",
+      "manifest_file": "go.mod",
+      "line": 7,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.yaml.in/yaml/v3",
+      "version": "3.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.yaml.in/yaml/v3@3.0.6",
+      "manifest_file": "go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/term",
+      "version": "0.46.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/term@0.46.0",
+      "manifest_file": "go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/inconshreveable/mousetrap",
+      "version": "1.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/inconshreveable/mousetrap@1.1.0",
+      "manifest_file": "go.mod",
+      "line": 13,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "0170eb6f-501f-4103-8685-9a5490326cca",
+      "source_type": "code_module",
+      "target": "build.yml#build",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "0170eb6f-501f-4103-8685-9a5490326cca",
+      "source_type": "code_module",
+      "target": "codespell.yml#codespell",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "0170eb6f-501f-4103-8685-9a5490326cca",
+      "source_type": "code_module",
+      "target": "golangci-lint.yml#golangci",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "0170eb6f-501f-4103-8685-9a5490326cca",
+      "source_type": "code_module",
+      "target": "test.yml#test",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "0170eb6f-501f-4103-8685-9a5490326cca",
+      "source_type": "code_module",
+      "target": "release-drafter.yml#update_release_draft",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

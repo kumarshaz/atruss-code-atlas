@@ -1,0 +1,1528 @@
+{
+  "org": "argoproj",
+  "repository": "argo-rollouts",
+  "sha": "1147bc34b4ee737e1a6a40d17fff13a73909da4b",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "changelog.yml",
+      "path": ".github/workflows/changelog.yml",
+      "name": "Update Changelog",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "updateChangelog",
+          "name": "updateChangelog",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "updateChangelog": 0.0
+        },
+        "pagerank": {
+          "updateChangelog": 1.0
+        },
+        "downstream_impact": {
+          "updateChangelog": []
+        },
+        "critical_nodes": [
+          "updateChangelog"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'updateChangelog' step 3 uses unpinned action 'peter-evans/create-pull-request@v8'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/changelog.yml",
+          "start_line": 26,
+          "end_line": 26,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'updateChangelog' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/changelog.yml",
+          "start_line": 9,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "cherry-pick-single.yml",
+      "path": ".github/workflows/cherry-pick-single.yml",
+      "name": "Cherry Pick Single",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "cherry-pick",
+          "name": "Cherry Pick to ${{ inputs.version_number }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "cherry-pick": 0.0
+        },
+        "pagerank": {
+          "cherry-pick": 1.0
+        },
+        "downstream_impact": {
+          "cherry-pick": []
+        },
+        "critical_nodes": [
+          "cherry-pick"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick-single.yml",
+          "start_line": 3,
+          "end_line": 26,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'cherry-pick' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick-single.yml",
+          "start_line": 29,
+          "end_line": 134,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "cherry-pick.yml",
+      "path": ".github/workflows/cherry-pick.yml",
+      "name": "Cherry Pick",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "find-labels",
+          "name": "Find Cherry Pick Labels",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "cherry-pick",
+          "name": "Cherry Pick",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "find-labels"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/cherry-pick.yml",
+          "source_job": "cherry-pick",
+          "target_workflow": ".github/workflows/cherry-pick-single.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "cherry-pick": 0.0,
+          "find-labels": 0.0
+        },
+        "pagerank": {
+          "cherry-pick": 0.649123,
+          "find-labels": 0.350877
+        },
+        "downstream_impact": {
+          "cherry-pick": [],
+          "find-labels": [
+            "cherry-pick"
+          ]
+        },
+        "critical_nodes": [
+          "cherry-pick",
+          "find-labels"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'find-labels' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick.yml",
+          "start_line": 23,
+          "end_line": 36,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'find-labels' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick.yml",
+          "start_line": 10,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'cherry-pick' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cherry-pick.yml",
+          "start_line": 37,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "codeql.yml",
+      "path": ".github/workflows/codeql.yml",
+      "name": "Code scanning - action",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "CodeQL-Build",
+          "name": "CodeQL-Build",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "CodeQL-Build": 0.0
+        },
+        "pagerank": {
+          "CodeQL-Build": 1.0
+        },
+        "downstream_impact": {
+          "CodeQL-Build": []
+        },
+        "critical_nodes": [
+          "CodeQL-Build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'CodeQL-Build' step 2 uses unpinned action 'github/codeql-action/init@v4.39.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql.yml",
+          "start_line": 38,
+          "end_line": 38,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'CodeQL-Build' step 3 uses unpinned action 'github/codeql-action/autobuild@v4.39.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql.yml",
+          "start_line": 46,
+          "end_line": 46,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'CodeQL-Build' step 4 uses unpinned action 'github/codeql-action/analyze@v4.39.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql.yml",
+          "start_line": 60,
+          "end_line": 60,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'CodeQL-Build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql.yml",
+          "start_line": 23,
+          "end_line": 60,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "docker-publish.yml",
+      "path": ".github/workflows/docker-publish.yml",
+      "name": "Docker",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "set-vars",
+          "name": "set-vars",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "build-and-push-controller-image",
+          "name": "build-and-push-controller-image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "set-vars"
+          ]
+        },
+        {
+          "id": "build-and-push-plugin-image",
+          "name": "build-and-push-plugin-image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "set-vars"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/docker-publish.yml",
+          "source_job": "build-and-push-controller-image",
+          "target_workflow": ".github/workflows/image-reuse.yaml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/docker-publish.yml",
+          "source_job": "build-and-push-plugin-image",
+          "target_workflow": ".github/workflows/image-reuse.yaml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-and-push-controller-image": 0.0,
+          "build-and-push-plugin-image": 0.0,
+          "set-vars": 0.0
+        },
+        "pagerank": {
+          "build-and-push-controller-image": 0.37013,
+          "build-and-push-plugin-image": 0.37013,
+          "set-vars": 0.259741
+        },
+        "downstream_impact": {
+          "build-and-push-controller-image": [],
+          "build-and-push-plugin-image": [],
+          "set-vars": [
+            "build-and-push-controller-image",
+            "build-and-push-plugin-image"
+          ]
+        },
+        "critical_nodes": [
+          "build-and-push-controller-image",
+          "build-and-push-plugin-image",
+          "set-vars"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'set-vars' step 1 uses unpinned action 'docker/metadata-action@v6'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'set-vars' step 2 uses unpinned action 'docker/metadata-action@v6'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 51,
+          "end_line": 51,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'set-vars' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 62,
+          "end_line": 69,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'set-vars' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 29,
+          "end_line": 69,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-and-push-controller-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 70,
+          "end_line": 85,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-and-push-plugin-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-publish.yml",
+          "start_line": 87,
+          "end_line": 103,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "go.yml",
+      "path": ".github/workflows/go.yml",
+      "name": "Go",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "lint-go",
+          "name": "Lint Go code",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "codegen",
+          "name": "Verify Codegen",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "changes"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "changes": 0.0,
+          "codegen": 0.0,
+          "lint-go": 0.0
+        },
+        "pagerank": {
+          "build": 0.264605,
+          "changes": 0.206186,
+          "codegen": 0.264605,
+          "lint-go": 0.264605
+        },
+        "downstream_impact": {
+          "build": [],
+          "changes": [
+            "build",
+            "codegen",
+            "lint-go"
+          ],
+          "codegen": [],
+          "lint-go": []
+        },
+        "critical_nodes": [
+          "build",
+          "codegen",
+          "lint-go",
+          "changes"
+        ],
+        "max_blast_radius": 3
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint-go' step 3 uses unpinned action 'golangci/golangci-lint-action@v9'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/go.yml",
+          "start_line": 53,
+          "end_line": 53,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/go.yml",
+          "start_line": 22,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-go' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/go.yml",
+          "start_line": 37,
+          "end_line": 56,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/go.yml",
+          "start_line": 57,
+          "end_line": 91,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'codegen' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/go.yml",
+          "start_line": 93,
+          "end_line": 145,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "image-reuse.yaml",
+      "path": ".github/workflows/image-reuse.yaml",
+      "name": "Publish and Sign Container Image",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-22.04",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "publish": 0.0
+        },
+        "pagerank": {
+          "publish": 1.0
+        },
+        "downstream_impact": {
+          "publish": []
+        },
+        "critical_nodes": [
+          "publish"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/image-reuse.yaml",
+          "start_line": 51,
+          "end_line": 158,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'publish' step 8 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/image-reuse.yaml",
+          "start_line": 90,
+          "end_line": 99,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'publish' step 9 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/image-reuse.yaml",
+          "start_line": 101,
+          "end_line": 112,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/image-reuse.yaml",
+          "start_line": 51,
+          "end_line": 158,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-title-check.yml",
+      "path": ".github/workflows/pr-title-check.yml",
+      "name": "Lint PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "Validate PR title",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "main": 0.0
+        },
+        "pagerank": {
+          "main": 1.0
+        },
+        "downstream_impact": {
+          "main": []
+        },
+        "critical_nodes": [
+          "main"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'main' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-title-check.yml",
+          "start_line": 14,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yaml",
+      "path": ".github/workflows/release.yaml",
+      "name": "Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "set-registry-namespace",
+          "name": "set-registry-namespace",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "controller-image",
+          "name": "controller-image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "plugin-image",
+          "name": "plugin-image",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "controller-image-provenance",
+          "name": "controller-image-provenance",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "controller-image",
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "plugin-image-provenance",
+          "name": "plugin-image-provenance",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "plugin-image",
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "release-artifacts",
+          "name": "release-artifacts",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "release-artifacts-provenance",
+          "name": "release-artifacts-provenance",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "release-artifacts"
+          ]
+        },
+        {
+          "id": "generate-sbom",
+          "name": "Create Sbom and sign assets",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "release-artifacts",
+            "release-artifacts-provenance",
+            "set-registry-namespace"
+          ]
+        },
+        {
+          "id": "post-release",
+          "name": "post-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "release-artifacts",
+            "generate-sbom"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 9,
+        "edge_count": 13,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/release.yaml",
+          "source_job": "controller-image",
+          "target_workflow": ".github/workflows/image-reuse.yaml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release.yaml",
+          "source_job": "controller-image-provenance",
+          "target_workflow": "slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release.yaml",
+          "source_job": "plugin-image",
+          "target_workflow": ".github/workflows/image-reuse.yaml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release.yaml",
+          "source_job": "plugin-image-provenance",
+          "target_workflow": "slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release.yaml",
+          "source_job": "release-artifacts-provenance",
+          "target_workflow": "slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "controller-image": 0.0,
+          "controller-image-provenance": 0.0,
+          "generate-sbom": 0.026786,
+          "plugin-image": 0.0,
+          "plugin-image-provenance": 0.0,
+          "post-release": 0.0,
+          "release-artifacts": 0.026786,
+          "release-artifacts-provenance": 0.0,
+          "set-registry-namespace": 0.0
+        },
+        "pagerank": {
+          "controller-image": 0.070965,
+          "controller-image-provenance": 0.131285,
+          "generate-sbom": 0.160997,
+          "plugin-image": 0.070965,
+          "plugin-image-provenance": 0.131285,
+          "post-release": 0.219114,
+          "release-artifacts": 0.070965,
+          "release-artifacts-provenance": 0.082266,
+          "set-registry-namespace": 0.062159
+        },
+        "downstream_impact": {
+          "controller-image": [
+            "controller-image-provenance"
+          ],
+          "controller-image-provenance": [],
+          "generate-sbom": [
+            "post-release"
+          ],
+          "plugin-image": [
+            "plugin-image-provenance"
+          ],
+          "plugin-image-provenance": [],
+          "post-release": [],
+          "release-artifacts": [
+            "generate-sbom",
+            "post-release",
+            "release-artifacts-provenance"
+          ],
+          "release-artifacts-provenance": [
+            "generate-sbom",
+            "post-release"
+          ],
+          "set-registry-namespace": [
+            "controller-image",
+            "controller-image-provenance",
+            "generate-sbom",
+            "plugin-image",
+            "plugin-image-provenance",
+            "post-release",
+            "release-artifacts",
+            "release-artifacts-provenance"
+          ]
+        },
+        "critical_nodes": [
+          "post-release",
+          "generate-sbom",
+          "controller-image-provenance",
+          "plugin-image-provenance",
+          "release-artifacts",
+          "release-artifacts-provenance",
+          "controller-image",
+          "plugin-image",
+          "set-registry-namespace"
+        ],
+        "max_blast_radius": 8
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-artifacts' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 97,
+          "end_line": 153,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release-artifacts-provenance' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 154,
+          "end_line": 167,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'post-release' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 252,
+          "end_line": 297,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 211,
+          "end_line": 233,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 97,
+          "end_line": 153,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'set-registry-namespace' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 14,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'controller-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 28,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'plugin-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 45,
+          "end_line": 61,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'controller-image-provenance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 63,
+          "end_line": 78,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'plugin-image-provenance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 80,
+          "end_line": 95,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-artifacts' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 97,
+          "end_line": 153,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-artifacts-provenance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 154,
+          "end_line": 167,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'generate-sbom' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 169,
+          "end_line": 251,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'post-release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 252,
+          "end_line": 297,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "stale-issues-pr.yml",
+      "path": ".github/workflows/stale-issues-pr.yml",
+      "name": "Close stale issues and PRs",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale-issues-pr.yml",
+          "start_line": 10,
+          "end_line": 31,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "testing-results.yml",
+      "path": ".github/workflows/testing-results.yml",
+      "name": "Testing Results",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "test-results",
+          "name": "${{ github.event.workflow.name }} Test Results",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/testing.yaml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/testing-results.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-results": 0.0
+        },
+        "pagerank": {
+          "test-results": 1.0
+        },
+        "downstream_impact": {
+          "test-results": []
+        },
+        "critical_nodes": [
+          "test-results"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'test-results' step 2 uses unpinned action 'EnricoMi/publish-unit-test-result-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing-results.yml",
+          "start_line": 29,
+          "end_line": 29,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'test-results' step 3 uses unpinned action 'EnricoMi/publish-unit-test-result-action@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing-results.yml",
+          "start_line": 40,
+          "end_line": 40,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing-results.yml",
+          "start_line": 12,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "testing.yaml",
+      "path": ".github/workflows/testing.yaml",
+      "name": "Testing",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "event_file",
+          "name": "Event File",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "test-unit",
+          "name": "Run unit tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "test-ui",
+          "name": "Run UI unit tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "test-e2e",
+          "name": "Run end-to-end tests (${{ matrix.kubernetes.version }}, ${{ matrix.kubernetes.latest }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "test-e2e-composite-result",
+          "name": "E2E Tests - Composite result",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "test-e2e",
+            "changes"
+          ]
+        },
+        {
+          "id": "coverage-process",
+          "name": "Process Coverage Files",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "changes",
+            "test-unit",
+            "test-e2e"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 7,
+        "edge_count": 8,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "coverage-process": 0.0,
+          "event_file": 0.0,
+          "test-e2e": 0.0,
+          "test-e2e-composite-result": 0.0,
+          "test-ui": 0.0,
+          "test-unit": 0.0
+        },
+        "pagerank": {
+          "changes": 0.101636,
+          "coverage-process": 0.270531,
+          "event_file": 0.101636,
+          "test-e2e": 0.118914,
+          "test-e2e-composite-result": 0.169453,
+          "test-ui": 0.118914,
+          "test-unit": 0.118914
+        },
+        "downstream_impact": {
+          "changes": [
+            "coverage-process",
+            "test-e2e",
+            "test-e2e-composite-result",
+            "test-ui",
+            "test-unit"
+          ],
+          "coverage-process": [],
+          "event_file": [],
+          "test-e2e": [
+            "coverage-process",
+            "test-e2e-composite-result"
+          ],
+          "test-e2e-composite-result": [],
+          "test-ui": [],
+          "test-unit": [
+            "coverage-process"
+          ]
+        },
+        "critical_nodes": [
+          "coverage-process",
+          "test-e2e-composite-result",
+          "test-e2e",
+          "test-unit",
+          "test-ui",
+          "changes",
+          "event_file"
+        ],
+        "max_blast_radius": 5
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 26,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'event_file' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 45,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-unit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 54,
+          "end_line": 96,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-ui' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 98,
+          "end_line": 124,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-e2e' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 126,
+          "end_line": 211,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-e2e-composite-result' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 219,
+          "end_line": 235,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'coverage-process' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 236,
+          "end_line": 288,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-unit' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 67,
+          "end_line": 67,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-e2e' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/testing.yaml",
+          "start_line": 152,
+          "end_line": 152,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "waiting-issues.yml",
+      "path": ".github/workflows/waiting-issues.yml",
+      "name": "Close stale issues and PRs waiting for response",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/waiting-issues.yml",
+          "start_line": 10,
+          "end_line": 32,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

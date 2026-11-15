@@ -1,0 +1,1644 @@
+{
+  "org": "bitwarden",
+  "repository": "android",
+  "sha": "d173d6837108f92e192f5ecf944aa250d72a0861",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "_version.yml",
+      "path": ".github/workflows/_version.yml",
+      "name": "Calculate Version Name and Number",
+      "triggers": [
+        "workflow_dispatch",
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "calculate-version",
+          "name": "Calculate Version Name and Number",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "calculate-version": 0.0
+        },
+        "pagerank": {
+          "calculate-version": 1.0
+        },
+        "downstream_impact": {
+          "calculate-version": []
+        },
+        "critical_nodes": [
+          "calculate-version"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'calculate-version' step 1 uses unpinned action 'bitwarden/android/.github/actions/log-inputs@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/_version.yml",
+          "start_line": 71,
+          "end_line": 71,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'calculate-version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/_version.yml",
+          "start_line": 61,
+          "end_line": 173,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-authenticator.yml",
+      "path": ".github/workflows/build-authenticator.yml",
+      "name": "Build Authenticator",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "version",
+          "name": "Calculate Version Name and Number",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "publish_playstore",
+          "name": "Publish Authenticator Play Store artifacts",
+          "runner": "ubuntu-24.04",
+          "steps_count": 22,
+          "needs": [
+            "version"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/build-authenticator.yml",
+          "source_job": "version",
+          "target_workflow": "bitwarden/android/.github/workflows/_version.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "publish_playstore": 0.0,
+          "version": 0.0
+        },
+        "pagerank": {
+          "publish_playstore": 0.649123,
+          "version": 0.350877
+        },
+        "downstream_impact": {
+          "publish_playstore": [],
+          "version": [
+            "publish_playstore"
+          ]
+        },
+        "critical_nodes": [
+          "publish_playstore",
+          "version"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish_playstore' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 52,
+          "end_line": 239,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 2 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 71,
+          "end_line": 71,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 3 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 79,
+          "end_line": 79,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 7 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 127,
+          "end_line": 127,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 42,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish_playstore' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-authenticator.yml",
+          "start_line": 52,
+          "end_line": 239,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-testharness.yml",
+      "path": ".github/workflows/build-testharness.yml",
+      "name": "Build Test Harness",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "version",
+          "name": "Calculate Version Name and Number",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "Build Test Harness",
+          "runner": "ubuntu-24.04",
+          "steps_count": 8,
+          "needs": [
+            "version"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/build-testharness.yml",
+          "source_job": "version",
+          "target_workflow": "bitwarden/android/.github/workflows/_version.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "version": 0.0
+        },
+        "pagerank": {
+          "build": 0.649123,
+          "version": 0.350877
+        },
+        "downstream_impact": {
+          "build": [],
+          "version": [
+            "build"
+          ]
+        },
+        "critical_nodes": [
+          "build",
+          "version"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-testharness.yml",
+          "start_line": 65,
+          "end_line": 65,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 1 uses unpinned action 'bitwarden/android/.github/actions/log-inputs@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-testharness.yml",
+          "start_line": 46,
+          "end_line": 46,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-testharness.yml",
+          "start_line": 29,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-testharness.yml",
+          "start_line": 39,
+          "end_line": 84,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "Build",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "version",
+          "name": "Calculate Version Name and Number",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "publish_playstore",
+          "name": "Publish Play Store artifacts",
+          "runner": "ubuntu-24.04",
+          "steps_count": 34,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "publish_fdroid",
+          "name": "Publish F-Droid artifacts",
+          "runner": "ubuntu-24.04",
+          "steps_count": 19,
+          "needs": [
+            "version"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/build.yml",
+          "source_job": "version",
+          "target_workflow": "bitwarden/android/.github/workflows/_version.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "publish_fdroid": 0.0,
+          "publish_playstore": 0.0,
+          "version": 0.0
+        },
+        "pagerank": {
+          "publish_fdroid": 0.37013,
+          "publish_playstore": 0.37013,
+          "version": 0.259741
+        },
+        "downstream_impact": {
+          "publish_fdroid": [],
+          "publish_playstore": [],
+          "version": [
+            "publish_fdroid",
+            "publish_playstore"
+          ]
+        },
+        "critical_nodes": [
+          "publish_fdroid",
+          "publish_playstore",
+          "version"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish_playstore' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 54,
+          "end_line": 336,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish_fdroid' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 337,
+          "end_line": 475,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 2 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 73,
+          "end_line": 73,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 3 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 81,
+          "end_line": 81,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_playstore' step 6 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 122,
+          "end_line": 122,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_fdroid' step 2 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 351,
+          "end_line": 351,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_fdroid' step 3 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 359,
+          "end_line": 359,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish_fdroid' step 6 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 386,
+          "end_line": 386,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 43,
+          "end_line": 52,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish_playstore' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 54,
+          "end_line": 336,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish_fdroid' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 337,
+          "end_line": 475,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "cron-sync-google-priviledged-browsers.yml",
+      "path": ".github/workflows/cron-sync-google-priviledged-browsers.yml",
+      "name": "Cron / Sync Google Privileged Browsers List",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sync-privileged-browsers",
+          "name": "Sync Google Privileged Browsers List",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sync-privileged-browsers": 0.0
+        },
+        "pagerank": {
+          "sync-privileged-browsers": 1.0
+        },
+        "downstream_impact": {
+          "sync-privileged-browsers": []
+        },
+        "critical_nodes": [
+          "sync-privileged-browsers"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'sync-privileged-browsers' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cron-sync-google-priviledged-browsers.yml",
+          "start_line": 63,
+          "end_line": 75,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sync-privileged-browsers' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cron-sync-google-priviledged-browsers.yml",
+          "start_line": 15,
+          "end_line": 99,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "crowdin-pull.yml",
+      "path": ".github/workflows/crowdin-pull.yml",
+      "name": "Cron / Crowdin Pull",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "crowdin-sync",
+          "name": "Crowdin Pull - ${{ github.event_name }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "crowdin-sync": 0.0
+        },
+        "pagerank": {
+          "crowdin-sync": 1.0
+        },
+        "downstream_impact": {
+          "crowdin-sync": []
+        },
+        "critical_nodes": [
+          "crowdin-sync"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-sync' step 2 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-pull.yml",
+          "start_line": 26,
+          "end_line": 26,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-sync' step 3 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-pull.yml",
+          "start_line": 34,
+          "end_line": 34,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-sync' step 4 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-pull.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-sync' step 5 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-pull.yml",
+          "start_line": 47,
+          "end_line": 47,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'crowdin-sync' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-pull.yml",
+          "start_line": 13,
+          "end_line": 76,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "crowdin-push.yml",
+      "path": ".github/workflows/crowdin-push.yml",
+      "name": "CI / Crowdin Push",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "crowdin-push",
+          "name": "Crowdin Push - ${{ github.event_name }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "crowdin-push": 0.0
+        },
+        "pagerank": {
+          "crowdin-push": 1.0
+        },
+        "downstream_impact": {
+          "crowdin-push": []
+        },
+        "critical_nodes": [
+          "crowdin-push"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-push' step 2 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-push.yml",
+          "start_line": 24,
+          "end_line": 24,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-push' step 3 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-push.yml",
+          "start_line": 32,
+          "end_line": 32,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'crowdin-push' step 5 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-push.yml",
+          "start_line": 49,
+          "end_line": 49,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'crowdin-push' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/crowdin-push.yml",
+          "start_line": 11,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "github-release.yml",
+      "path": ".github/workflows/github-release.yml",
+      "name": "Create GitHub Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "create-release",
+          "name": "Create GitHub Release",
+          "runner": "ubuntu-24.04",
+          "steps_count": 12,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "create-release": 0.0
+        },
+        "pagerank": {
+          "create-release": 1.0
+        },
+        "downstream_impact": {
+          "create-release": []
+        },
+        "critical_nodes": [
+          "create-release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'create-release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/github-release.yml",
+          "start_line": 19,
+          "end_line": 294,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'create-release' step 6 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/github-release.yml",
+          "start_line": 160,
+          "end_line": 160,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'create-release' step 7 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/github-release.yml",
+          "start_line": 168,
+          "end_line": 168,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'create-release' step 8 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/github-release.yml",
+          "start_line": 174,
+          "end_line": 174,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/github-release.yml",
+          "start_line": 19,
+          "end_line": 294,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-branch.yml",
+      "path": ".github/workflows/release-branch.yml",
+      "name": "Cut Release Branch",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "create-release-branch",
+          "name": "Create Release Branch",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "create-release-branch": 0.0
+        },
+        "pagerank": {
+          "create-release-branch": 1.0
+        },
+        "downstream_impact": {
+          "create-release-branch": []
+        },
+        "critical_nodes": [
+          "create-release-branch"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'create-release-branch' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-branch.yml",
+          "start_line": 17,
+          "end_line": 86,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-release-branch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-branch.yml",
+          "start_line": 17,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "respond.yml",
+      "path": ".github/workflows/respond.yml",
+      "name": "Respond",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "respond",
+          "name": "Respond",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/respond.yml",
+          "source_job": "respond",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_respond.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "respond": 0.0
+        },
+        "pagerank": {
+          "respond": 1.0
+        },
+        "downstream_impact": {
+          "respond": []
+        },
+        "critical_nodes": [
+          "respond"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'respond' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/respond.yml",
+          "start_line": 16,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "review-code.yml",
+      "path": ".github/workflows/review-code.yml",
+      "name": "Code Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "review",
+          "name": "Review",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/review-code.yml",
+          "source_job": "review",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_review-code.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "review": 0.0
+        },
+        "pagerank": {
+          "review": 1.0
+        },
+        "downstream_impact": {
+          "review": []
+        },
+        "critical_nodes": [
+          "review"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'review' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/review-code.yml",
+          "start_line": 10,
+          "end_line": 21,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "scan-ci.yml",
+      "path": ".github/workflows/scan-ci.yml",
+      "name": "Scan Protected Branches On Push",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "sast",
+          "name": "Checkmarx",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "quality",
+          "name": "Sonar",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/scan-ci.yml",
+          "source_job": "quality",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_sonar.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/scan-ci.yml",
+          "source_job": "sast",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_checkmarx.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "quality": 0.0,
+          "sast": 0.0
+        },
+        "pagerank": {
+          "quality": 0.5,
+          "sast": 0.5
+        },
+        "downstream_impact": {
+          "quality": [],
+          "sast": []
+        },
+        "critical_nodes": [
+          "quality",
+          "sast"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sast' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/scan-ci.yml",
+          "start_line": 12,
+          "end_line": 23,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'quality' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/scan-ci.yml",
+          "start_line": 25,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "sdlc-enforce-labels.yml",
+      "path": ".github/workflows/sdlc-enforce-labels.yml",
+      "name": "SDLC / Enforce PR labels",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "enforce-label",
+          "name": "Enforce Label",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "enforce-label": 0.0
+        },
+        "pagerank": {
+          "enforce-label": 1.0
+        },
+        "downstream_impact": {
+          "enforce-label": []
+        },
+        "critical_nodes": [
+          "enforce-label"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'enforce-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-enforce-labels.yml",
+          "start_line": 11,
+          "end_line": 64,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "sdlc-gh-release-update-issue.yml",
+      "path": ".github/workflows/sdlc-gh-release-update-issue.yml",
+      "name": "SDLC / Update Linked Issues on Release",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-linked-issues",
+          "name": "Update Linked Issues",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-linked-issues": 0.0
+        },
+        "pagerank": {
+          "update-linked-issues": 1.0
+        },
+        "downstream_impact": {
+          "update-linked-issues": []
+        },
+        "critical_nodes": [
+          "update-linked-issues"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-linked-issues' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-gh-release-update-issue.yml",
+          "start_line": 22,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "sdlc-label-pr.yml",
+      "path": ".github/workflows/sdlc-label-pr.yml",
+      "name": "SDLC / Label PR",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "label-pr",
+          "name": "Label PR by Changed Files",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "label-pr": 0.0
+        },
+        "pagerank": {
+          "label-pr": 1.0
+        },
+        "downstream_impact": {
+          "label-pr": []
+        },
+        "critical_nodes": [
+          "label-pr"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'label-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-label-pr.yml",
+          "start_line": 28,
+          "end_line": 90,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "sdlc-sdk-update.yml",
+      "path": ".github/workflows/sdlc-sdk-update.yml",
+      "name": "SDLC / SDK Update",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update",
+          "name": "Update and PR",
+          "runner": "ubuntu-24.04",
+          "steps_count": 12,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "Test Update",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "update": 0.0
+        },
+        "pagerank": {
+          "test": 0.5,
+          "update": 0.5
+        },
+        "downstream_impact": {
+          "test": [],
+          "update": []
+        },
+        "critical_nodes": [
+          "test",
+          "update"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 124,
+          "end_line": 136,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update' step 1 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 39,
+          "end_line": 39,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update' step 2 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 47,
+          "end_line": 47,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update' step 3 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 53,
+          "end_line": 53,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 30,
+          "end_line": 196,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sdlc-sdk-update.yml",
+          "start_line": 197,
+          "end_line": 230,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "send_slack_notification.yml",
+      "path": ".github/workflows/send_slack_notification.yml",
+      "name": "Send Slack Notification",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "send_notification",
+          "name": "Send Slack Notification",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "send_notification": 0.0
+        },
+        "pagerank": {
+          "send_notification": 1.0
+        },
+        "downstream_impact": {
+          "send_notification": []
+        },
+        "critical_nodes": [
+          "send_notification"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'send_notification' step 1 uses unpinned action 'bitwarden/gh-actions/azure-login@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/send_slack_notification.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'send_notification' step 2 uses unpinned action 'bitwarden/gh-actions/get-keyvault-secrets@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/send_slack_notification.yml",
+          "start_line": 35,
+          "end_line": 35,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'send_notification' step 3 uses unpinned action 'bitwarden/gh-actions/azure-logout@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/send_slack_notification.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'send_notification' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/send_slack_notification.yml",
+          "start_line": 19,
+          "end_line": 88,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test-device.yml",
+      "path": ".github/workflows/test-device.yml",
+      "name": "Test Device",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "Test Device",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-device.yml",
+          "start_line": 10,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "test-sharded",
+          "name": "Test ${{ matrix.group }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "coverage-notify",
+          "name": "Coverage Notification",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "test-sharded"
+          ]
+        },
+        {
+          "id": "test",
+          "name": "Test",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "test-sharded"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "coverage-notify": 0.0,
+          "test": 0.0,
+          "test-sharded": 0.0
+        },
+        "pagerank": {
+          "coverage-notify": 0.37013,
+          "test": 0.37013,
+          "test-sharded": 0.259741
+        },
+        "downstream_impact": {
+          "coverage-notify": [],
+          "test": [],
+          "test-sharded": [
+            "coverage-notify",
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "coverage-notify",
+          "test",
+          "test-sharded"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-sharded' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 18,
+          "end_line": 110,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'coverage-notify' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 112,
+          "end_line": 142,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 143,
+          "end_line": 158,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

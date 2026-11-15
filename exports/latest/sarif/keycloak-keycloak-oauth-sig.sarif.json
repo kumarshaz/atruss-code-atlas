@@ -1,0 +1,5109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "atruss-code-atlas",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/kumarshaz/atruss-code-atlas",
+          "rules": [
+            {
+              "id": "ATRUSS-PIPE-011",
+              "name": "EXCESSIVE_PERMISSIONS",
+              "shortDescription": {
+                "text": "Workflow grants write-all or omits least-privilege permissions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-012",
+              "name": "NO_TIMEOUT",
+              "shortDescription": {
+                "text": "Job omits timeout-minutes configuration."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+              }
+            },
+            {
+              "id": "ATRUSS-PIPE-013",
+              "name": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+              "shortDescription": {
+                "text": "actions/checkout persists git credentials in job that uploads artifacts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "pipeline"
+                ]
+              },
+              "help": {
+                "text": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+              }
+            },
+            {
+              "id": "ATRUSS-SEC-004",
+              "name": "PRIVATE_KEY",
+              "shortDescription": {
+                "text": "Private key material header detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
+            },
+            {
+              "id": "ATRUSS-SEC-005",
+              "name": "HIGH_ENTROPY_SECRET",
+              "shortDescription": {
+                "text": "High-entropy credential candidate detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ATRUSS-PIPE-011",
+          "level": "error",
+          "message": {
+            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/run-conformance-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "pipeline",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'run-conformance-test' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/run-conformance-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 66
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'run-conformance-test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/run-conformance-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 19,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'evaluate-test-results' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/run-conformance-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 67,
+                  "endLine": 129
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-013",
+          "level": "warning",
+          "message": {
+            "text": "Job 'evaluate-test-results' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/run-conformance-tests.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 75,
+                  "endLine": 75
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "pipeline",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/common/https/ca-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/common/https/client-ca-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/common/https/client1-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/common/https/client2-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/common/https/server-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-par-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-par-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-par-jarm-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-aus-cdr/fapi-aus-cdr-private-key-par-jarm-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-ping-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 48,
+                  "endLine": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-ciba/fapi-ciba-id1-poll-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-uk-ob/fapi-uk-ob-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-uk-ob/fapi-uk-ob-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-uk-ob/fapi-uk-ob-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi-uk-ob/fapi-uk-ob-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-final-with-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-jarm-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-jarm-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-mtls-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-mtls-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-private-key-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-private-key-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi1-advanced/fapi1-advanced-par-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JAR-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JAR-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JAR-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JAR-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JARM-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JARM-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JARM-private-key-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-DPOP-JARM-private-key-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JAR-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JAR-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JAR-private-key-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JAR-private-key-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JARM-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JARM-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JARM-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-final/fapi2-final-FAPI2MS-JARM-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-DPOP-JAR-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-DPOP-JAR-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-DPOP-JARM-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-DPOP-JARM-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-JAR-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-JAR-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-JARM-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-ms-id1/fapi2-ID1-FAPI2MS-JARM-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-DPOP-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-DPOP-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-DPOP-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-DPOP-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-OpenID-Connect-DPOP-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-OpenID-Connect-DPOP-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-OpenID-Connect-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-OpenID-Connect-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-final/fapi2-final-FAPI2SP-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-DPOP-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-DPOP-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-DPOP-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-DPOP-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-MTLS-MTLS-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-MTLS-MTLS-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-OpenID-Connect-DPOP-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-OpenID-Connect-DPOP-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-OpenID-Connect-ES256-ES256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-OpenID-Connect-ES256-ES256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-private-key-MTLS-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/fapi2-sp-id2/fapi2-ID2-FAPI2SP-private-key-MTLS-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-final-with-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-final-with-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-final-with-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-final-with-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-jarm-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-jarm-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-jarm-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-jarm-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-jarm-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-jarm-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-jarm-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-jarm-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-mtls-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-mtls-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/ob-br-fapi1-advanced/ob-br-fapi1-advanced-par-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "endLine": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/of-br-fapi1-advanced/of-br-fapi1-advanced-par-private-key-PS256-PS256-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/of-br-fapi1-advanced/of-br-fapi1-advanced-par-private-key-PS256-PS256.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 81,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.69 > 4.5) detected. Snippet: \"client_secret\": \"OmvG***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-backchannel-rp-initiated-logout-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.69 > 4.5) detected. Snippet: \"client_secret\": \"OmvG***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-backchannel-rp-initiated-logout.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"client_secret\": \"45qK***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-frontchannel-rp-initiated-logout-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"client_secret\": \"45qK***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-frontchannel-rp-initiated-logout.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"omvn***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-session-management-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"omvn***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc-logout/oidcc-session-management.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"IOxD***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.66 > 4.5) detected. Snippet: \"client_secret\": \"t9XC***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"IOxD***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.66 > 4.5) detected. Snippet: \"client_secret\": \"t9XC***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"IOxD***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.66 > 4.5) detected. Snippet: \"client_secret\": \"t9XC***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-basic.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"XtLF***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"client_secret\": \"YbOQ***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"Af62***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"XtLF***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"client_secret\": \"YbOQ***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"Af62***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"XtLF***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"client_secret\": \"YbOQ***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"client_secret\": \"Af62***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-basic.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.75 > 4.5) detected. Snippet: \"client_secret\": \"W81J***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-hybrid-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.75 > 4.5) detected. Snippet: \"client_secret\": \"W81J***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-hybrid-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.75 > 4.5) detected. Snippet: \"client_secret\": \"W81J***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-hybrid.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"Ruk3***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-implicit-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"Ruk3***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-implicit-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"Ruk3***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-formpost-implicit.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.52 > 4.5) detected. Snippet: \"client_secret\": \"ulvk***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-hybrid-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.52 > 4.5) detected. Snippet: \"client_secret\": \"ulvk***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-hybrid-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.52 > 4.5) detected. Snippet: \"client_secret\": \"ulvk***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-hybrid.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"ZzO5***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-implicit-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"ZzO5***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-implicit-static-static-automated.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"client_secret\": \"ZzO5***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/conformance-suite/fapi-conformance-suite-configs/oidc/oidcc-implicit.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vci-attester-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vci-client1-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vci-client2-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vci-issuer-ca-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vci-issuer-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/oid4vc/vp-verifier-key.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"secret\": \"45qK***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc-logout.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 64,
+                  "endLine": 64
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.69 > 4.5) detected. Snippet: \"secret\": \"OmvG***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc-logout.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 154,
+                  "endLine": 154
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"secret\": \"omvn***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc-logout.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 245,
+                  "endLine": 245
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.75 > 4.5) detected. Snippet: \"secret\": \"W81J***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 99,
+                  "endLine": 99
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"secret\": \"Ruk3***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 372,
+                  "endLine": 372
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"secret\": \"XtLF***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 463,
+                  "endLine": 463
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"secret\": \"YbOQ***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 554,
+                  "endLine": 554
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"secret\": \"Af62***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 645,
+                  "endLine": 645
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.52 > 4.5) detected. Snippet: \"secret\": \"ulvk***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 736,
+                  "endLine": 736
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.62 > 4.5) detected. Snippet: \"secret\": \"ZzO5***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1009,
+                  "endLine": 1009
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"secret\": \"IOxD***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1191,
+                  "endLine": 1191
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.66 > 4.5) detected. Snippet: \"secret\": \"t9XC***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "conformance-tests-env/test-target/keycloak/keycloak/realms/realm-oidc.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1282,
+                  "endLine": 1282
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "keycloak/keycloak-oauth-sig",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -16,6 +16,12 @@ class Ecosystem(str, Enum):
     DOTNET = ".net"
     REACT_TS_JS = "react_ts_js"
     JAVA_SPRINGBOOT = "java_springboot"
+    GO = "go"
+    RUST = "rust"
+    RUBY = "ruby"
+    PHP = "php"
+    ELIXIR = "elixir"
+    INFRA_DEVOPS = "infra_devops"
     UNKNOWN = "unknown"
 
 
@@ -84,9 +90,10 @@ def _detect_ecosystem_from_manifest(
         reverse=True,
     )
 
-    scored: list[tuple[int, int, dict[str, Any]]] = []
+    scored: list[tuple[int, int, int, dict[str, Any]]] = []
     for eco in ecosystems:
         score = 0
+        has_manifest = False
         manifest_pats = eco.get("manifest_patterns", [])
         ext_pats = eco.get("extension_patterns", [])
         path_sigs = eco.get("path_signals", [])
@@ -95,21 +102,23 @@ def _detect_ecosystem_from_manifest(
             depth = p.count("/")
             if any(re.search(pat, p) for pat in manifest_pats):
                 score += 30 if depth == 0 else 15
+                has_manifest = True
             elif any(re.search(pat, p) for pat in path_sigs):
                 score += 10
             elif any(re.search(pat, p) for pat in ext_pats):
                 score += 2
 
         if score > 0:
-            scored.append((score, int(eco.get("priority", 0)), eco))
+            app_manifest_rank = 1 if (has_manifest and eco.get("id") != "infra_devops") else 0
+            scored.append((app_manifest_rank, score, int(eco.get("priority", 0)), eco))
 
     if not scored:
         return None, []
 
-    # Primary choice: prioritize manifest presence + root proximity, breaking ties by YAML priority.
-    scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
-    matched_ecos = [item[2] for item in scored]
-    return scored[0][2], matched_ecos
+    # Primary choice: app manifest presence, then manifest/signal score, then YAML priority.
+    scored.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
+    matched_ecos = [item[3] for item in scored]
+    return scored[0][3], matched_ecos
 
 
 def _detect_frameworks_for_ecosystem(

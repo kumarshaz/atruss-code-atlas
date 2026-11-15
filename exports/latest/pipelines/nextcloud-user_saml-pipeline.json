@@ -1,0 +1,1517 @@
+{
+  "org": "nextcloud",
+  "repository": "user_saml",
+  "sha": "b4f465eeaddcd4efc39015273cec97937a11dadb",
+  "analyzed_at": "2026-11-15T05:22:56Z",
+  "workflows": [
+    {
+      "id": "appstore-build-publish.yml",
+      "path": ".github/workflows/appstore-build-publish.yml",
+      "name": "Build and publish app release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "build_and_publish",
+          "name": "build_and_publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 23,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build_and_publish": 0.0
+        },
+        "pagerank": {
+          "build_and_publish": 1.0
+        },
+        "downstream_impact": {
+          "build_and_publish": []
+        },
+        "critical_nodes": [
+          "build_and_publish"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build_and_publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/appstore-build-publish.yml",
+          "start_line": 19,
+          "end_line": 191,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/appstore-build-publish.yml",
+          "start_line": 114,
+          "end_line": 118,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'build_and_publish' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/appstore-build-publish.yml",
+          "start_line": 32,
+          "end_line": 36,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build_and_publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/appstore-build-publish.yml",
+          "start_line": 19,
+          "end_line": 191,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "files-external-smb-kerberos.yml",
+      "path": ".github/workflows/files-external-smb-kerberos.yml",
+      "name": "Samba Kerberos SSO",
+      "triggers": [
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "files-external-smb-kerberos",
+          "name": "smb-kerberos-sso",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "smb-kerberos-sso-summary",
+          "name": "smb-kerberos-sso-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "files-external-smb-kerberos"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "files-external-smb-kerberos": 0.0,
+          "smb-kerberos-sso-summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.19758,
+          "files-external-smb-kerberos": 0.281551,
+          "smb-kerberos-sso-summary": 0.520869
+        },
+        "downstream_impact": {
+          "changes": [
+            "files-external-smb-kerberos",
+            "smb-kerberos-sso-summary"
+          ],
+          "files-external-smb-kerberos": [
+            "smb-kerberos-sso-summary"
+          ],
+          "smb-kerberos-sso-summary": []
+        },
+        "critical_nodes": [
+          "smb-kerberos-sso-summary",
+          "files-external-smb-kerberos",
+          "changes"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'files-external-smb-kerberos' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/files-external-smb-kerberos.yml",
+          "start_line": 49,
+          "end_line": 52,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'files-external-smb-kerberos' step 6 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/files-external-smb-kerberos.yml",
+          "start_line": 82,
+          "end_line": 87,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/files-external-smb-kerberos.yml",
+          "start_line": 17,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'files-external-smb-kerberos' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/files-external-smb-kerberos.yml",
+          "start_line": 38,
+          "end_line": 114,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'smb-kerberos-sso-summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/files-external-smb-kerberos.yml",
+          "start_line": 115,
+          "end_line": 123,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "integration.yml",
+      "path": ".github/workflows/integration.yml",
+      "name": "Integration tests",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "integration",
+          "name": "Integration php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "summary",
+          "name": "integration-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "integration"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "integration": 0.0,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.212766,
+          "integration": 0.212766,
+          "summary": 0.574469
+        },
+        "downstream_impact": {
+          "changes": [
+            "summary"
+          ],
+          "integration": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "summary",
+          "changes",
+          "integration"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/integration.yml",
+          "start_line": 16,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'integration' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/integration.yml",
+          "start_line": 38,
+          "end_line": 157,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/integration.yml",
+          "start_line": 159,
+          "end_line": 171,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "lint-info-xml.yml",
+      "path": ".github/workflows/lint-info-xml.yml",
+      "name": "Lint info.xml",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "xml-linters",
+          "name": "info.xml lint",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "xml-linters": 0.0
+        },
+        "pagerank": {
+          "xml-linters": 1.0
+        },
+        "downstream_impact": {
+          "xml-linters": []
+        },
+        "critical_nodes": [
+          "xml-linters"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'xml-linters' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-info-xml.yml",
+          "start_line": 21,
+          "end_line": 38,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "lint-php-cs.yml",
+      "path": ".github/workflows/lint-php-cs.yml",
+      "name": "Lint php-cs",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "php-cs",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0
+        },
+        "pagerank": {
+          "lint": 1.0
+        },
+        "downstream_impact": {
+          "lint": []
+        },
+        "critical_nodes": [
+          "lint"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-php-cs.yml",
+          "start_line": 21,
+          "end_line": 52,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "lint-php.yml",
+      "path": ".github/workflows/lint-php.yml",
+      "name": "Lint php",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "php-lint",
+          "name": "php-lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "php-lint-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "php-lint"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "matrix": 0.0,
+          "php-lint": 0.5,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "matrix": 0.184417,
+          "php-lint": 0.341172,
+          "summary": 0.474412
+        },
+        "downstream_impact": {
+          "matrix": [
+            "php-lint",
+            "summary"
+          ],
+          "php-lint": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "php-lint",
+          "summary",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-php.yml",
+          "start_line": 20,
+          "end_line": 75,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-php.yml",
+          "start_line": 21,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'php-lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-php.yml",
+          "start_line": 35,
+          "end_line": 61,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-php.yml",
+          "start_line": 63,
+          "end_line": 75,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "node.yml",
+      "path": ".github/workflows/node.yml",
+      "name": "Node",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "NPM build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "changes"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "node",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "changes": 0.0,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "build": 0.281551,
+          "changes": 0.19758,
+          "summary": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "summary"
+          ],
+          "changes": [
+            "build",
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "summary",
+          "build",
+          "changes"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 79,
+          "end_line": 82,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 21,
+          "end_line": 46,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 47,
+          "end_line": 93,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 94,
+          "end_line": 107,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "phpunit-mysql.yml",
+      "path": ".github/workflows/phpunit-mysql.yml",
+      "name": "PHPUnit MySQL",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "phpunit-mysql",
+          "name": "MySQL ${{ matrix.mysql-versions }} PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 15,
+          "needs": [
+            "changes",
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "phpunit-mysql-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "phpunit-mysql"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "matrix": 0.0,
+          "phpunit-mysql": 0.166667,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.130997,
+          "matrix": 0.130997,
+          "phpunit-mysql": 0.298019,
+          "summary": 0.439986
+        },
+        "downstream_impact": {
+          "changes": [
+            "phpunit-mysql",
+            "summary"
+          ],
+          "matrix": [
+            "phpunit-mysql",
+            "summary"
+          ],
+          "phpunit-mysql": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "phpunit-mysql",
+          "summary",
+          "changes",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'phpunit-mysql' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-mysql.yml",
+          "start_line": 87,
+          "end_line": 90,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-mysql.yml",
+          "start_line": 21,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-mysql.yml",
+          "start_line": 37,
+          "end_line": 63,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpunit-mysql' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-mysql.yml",
+          "start_line": 64,
+          "end_line": 187,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-mysql.yml",
+          "start_line": 188,
+          "end_line": 200,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "phpunit-oci.yml",
+      "path": ".github/workflows/phpunit-oci.yml",
+      "name": "PHPUnit OCI",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "phpunit-oci",
+          "name": "OCI ${{ matrix.oci-versions }} PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "changes",
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "phpunit-oci-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "phpunit-oci"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "matrix": 0.0,
+          "phpunit-oci": 0.166667,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.130997,
+          "matrix": 0.130997,
+          "phpunit-oci": 0.298019,
+          "summary": 0.439986
+        },
+        "downstream_impact": {
+          "changes": [
+            "phpunit-oci",
+            "summary"
+          ],
+          "matrix": [
+            "phpunit-oci",
+            "summary"
+          ],
+          "phpunit-oci": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "phpunit-oci",
+          "summary",
+          "changes",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'phpunit-oci' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-oci.yml",
+          "start_line": 109,
+          "end_line": 112,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-oci.yml",
+          "start_line": 21,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-oci.yml",
+          "start_line": 36,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpunit-oci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-oci.yml",
+          "start_line": 63,
+          "end_line": 206,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-oci.yml",
+          "start_line": 207,
+          "end_line": 219,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "phpunit-pgsql.yml",
+      "path": ".github/workflows/phpunit-pgsql.yml",
+      "name": "PHPUnit PostgreSQL",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "phpunit-pgsql",
+          "name": "PostgreSQL PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "changes",
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "phpunit-pgsql-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "phpunit-pgsql"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "matrix": 0.0,
+          "phpunit-pgsql": 0.166667,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.130997,
+          "matrix": 0.130997,
+          "phpunit-pgsql": 0.298019,
+          "summary": 0.439986
+        },
+        "downstream_impact": {
+          "changes": [
+            "phpunit-pgsql",
+            "summary"
+          ],
+          "matrix": [
+            "phpunit-pgsql",
+            "summary"
+          ],
+          "phpunit-pgsql": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "phpunit-pgsql",
+          "summary",
+          "changes",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'phpunit-pgsql' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-pgsql.yml",
+          "start_line": 90,
+          "end_line": 93,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-pgsql.yml",
+          "start_line": 21,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-pgsql.yml",
+          "start_line": 36,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpunit-pgsql' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-pgsql.yml",
+          "start_line": 63,
+          "end_line": 185,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-pgsql.yml",
+          "start_line": 186,
+          "end_line": 198,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "phpunit-sqlite.yml",
+      "path": ".github/workflows/phpunit-sqlite.yml",
+      "name": "PHPUnit SQLite",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "phpunit-sqlite",
+          "name": "SQLite PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "changes",
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "phpunit-sqlite-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "phpunit-sqlite"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changes": 0.0,
+          "matrix": 0.0,
+          "phpunit-sqlite": 0.166667,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "changes": 0.130997,
+          "matrix": 0.130997,
+          "phpunit-sqlite": 0.298019,
+          "summary": 0.439986
+        },
+        "downstream_impact": {
+          "changes": [
+            "phpunit-sqlite",
+            "summary"
+          ],
+          "matrix": [
+            "phpunit-sqlite",
+            "summary"
+          ],
+          "phpunit-sqlite": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "phpunit-sqlite",
+          "summary",
+          "changes",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'phpunit-sqlite' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-sqlite.yml",
+          "start_line": 79,
+          "end_line": 82,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-sqlite.yml",
+          "start_line": 21,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-sqlite.yml",
+          "start_line": 36,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpunit-sqlite' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-sqlite.yml",
+          "start_line": 63,
+          "end_line": 174,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/phpunit-sqlite.yml",
+          "start_line": 175,
+          "end_line": 187,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-feedback.yml",
+      "path": ".github/workflows/pr-feedback.yml",
+      "name": "Ask for feedback on PRs",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "pr-feedback",
+          "name": "pr-feedback",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "pr-feedback": 0.0
+        },
+        "pagerank": {
+          "pr-feedback": 1.0
+        },
+        "downstream_impact": {
+          "pr-feedback": []
+        },
+        "critical_nodes": [
+          "pr-feedback"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pr-feedback' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-feedback.yml",
+          "start_line": 23,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "psalm-matrix.yml",
+      "path": ".github/workflows/psalm-matrix.yml",
+      "name": "Static analysis",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "matrix",
+          "name": "matrix",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "static-analysis",
+          "name": "static-psalm-analysis ${{ matrix.ocp-version }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "matrix"
+          ]
+        },
+        {
+          "id": "summary",
+          "name": "static-psalm-analysis-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "static-analysis"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "matrix": 0.0,
+          "static-analysis": 0.5,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "matrix": 0.184417,
+          "static-analysis": 0.341172,
+          "summary": 0.474412
+        },
+        "downstream_impact": {
+          "matrix": [
+            "static-analysis",
+            "summary"
+          ],
+          "static-analysis": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "static-analysis",
+          "summary",
+          "matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/psalm-matrix.yml",
+          "start_line": 20,
+          "end_line": 89,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/psalm-matrix.yml",
+          "start_line": 21,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'static-analysis' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/psalm-matrix.yml",
+          "start_line": 38,
+          "end_line": 77,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/psalm-matrix.yml",
+          "start_line": 79,
+          "end_line": 89,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-relay.yml",
+      "path": ".github/workflows/release-relay.yml",
+      "name": "Notify release-relay on release",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "notify",
+          "name": "Dispatch release to release-relay",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "notify": 0.0
+        },
+        "pagerank": {
+          "notify": 1.0
+        },
+        "downstream_impact": {
+          "notify": []
+        },
+        "critical_nodes": [
+          "notify"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'notify' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-relay.yml",
+          "start_line": 19,
+          "end_line": 38,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'notify' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-relay.yml",
+          "start_line": 19,
+          "end_line": 38,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "reuse.yml",
+      "path": ".github/workflows/reuse.yml",
+      "name": "REUSE Compliance Check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "reuse-compliance-check",
+          "name": "reuse-compliance-check",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "reuse-compliance-check": 0.0
+        },
+        "pagerank": {
+          "reuse-compliance-check": 1.0
+        },
+        "downstream_impact": {
+          "reuse-compliance-check": []
+        },
+        "critical_nodes": [
+          "reuse-compliance-check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'reuse-compliance-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/reuse.yml",
+          "start_line": 18,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

@@ -90,6 +90,13 @@ def build_purl(ecosystem: str, name: str, version: str = "", group: str = "") ->
     elif eco_lower == "maven":
         clean_group = group.strip()
         base = f"pkg:maven/{clean_group}/{clean_name}" if clean_group else f"pkg:maven/{clean_name}"
+    elif eco_lower == "composer" and "/" in clean_name:
+        vendor, pkg = clean_name.split("/", 1)
+        base = f"pkg:composer/{vendor.lower()}/{pkg.lower()}"
+    elif eco_lower == "golang":
+        base = f"pkg:golang/{clean_name}"
+    elif eco_lower in {"cargo", "gem", "hex"}:
+        base = f"pkg:{eco_lower}/{clean_name}"
     else:
         base = f"pkg:{eco_lower}/{clean_name}"
 
@@ -138,10 +145,11 @@ def _clean_version(raw: str) -> str:
             if chosen:
                 break
         val = chosen or clauses[0]
-    elif " " in val:
+    val = re.sub(r"^(?:~>|===|==|~=|>=|<=|!=|>|<|\^|~|=)+\s*", "", val).strip()
+    if " " in val:
         val = val.split()[0]
 
-    val = re.sub(r"^(?:===|==|~=|>=|<=|!=|>|<|\^|~|=)+\s*", "", val).strip()
+    val = re.sub(r"^(?:~>|===|==|~=|>=|<=|!=|>|<|\^|~|=)+\s*", "", val).strip()
     val = re.sub(r"^v(?=\d)", "", val)
     if not val or "*" in val or "${" in val or not re.match(r"^[0-9A-Za-z][0-9A-Za-z.+_-]*$", val):
         return ""
@@ -1421,6 +1429,215 @@ def _parse_gradle(path: Path, rel_path: str) -> list[DependencyRecord]:
     return records
 
 
+def _parse_go_mod(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text:
+        return []
+    records: list[DependencyRecord] = []
+    in_require = False
+    for lineno, raw in enumerate(text.splitlines(), start=1):
+        line = raw.split("//", 1)[0].strip()
+        if not line:
+            continue
+        if line.startswith("require ("):
+            in_require = True
+            continue
+        if in_require and line == ")":
+            in_require = False
+            continue
+        if line.startswith("require "):
+            body = line[len("require ") :].strip()
+        elif in_require:
+            body = line
+        else:
+            body = ""
+        if not body:
+            continue
+        parts = body.split()
+        if len(parts) >= 2:
+            mod, ver = parts[0], parts[1].lstrip("v")
+            is_direct = "// indirect" not in raw
+            records.append(
+                DependencyRecord(
+                    ecosystem="golang",
+                    name=mod,
+                    version=ver,
+                    purl=build_purl("golang", mod, ver),
+                    manifest_file=rel_path,
+                    line=lineno,
+                    is_direct=is_direct,
+                )
+            )
+    return records
+
+
+def _parse_cargo_toml(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text or tomllib is None:
+        return []
+    try:
+        data = tomllib.loads(text)
+    except Exception:
+        return []
+    if not isinstance(data, dict):
+        return []
+    lines = text.splitlines()
+    records: list[DependencyRecord] = []
+    for section in ("dependencies", "dev-dependencies", "build-dependencies"):
+        deps = data.get(section)
+        if not isinstance(deps, dict):
+            continue
+        is_direct = section == "dependencies"
+        for name, spec in deps.items():
+            if isinstance(spec, str):
+                raw_ver = spec
+            elif isinstance(spec, dict):
+                raw_ver = spec.get("version", "")
+            else:
+                raw_ver = ""
+            ver = _clean_version(str(raw_ver))
+            lineno = 1
+            pat = re.compile(rf"^\s*{re.escape(str(name))}\s*=")
+            for idx, line in enumerate(lines, start=1):
+                if pat.match(line):
+                    lineno = idx
+                    break
+            records.append(
+                DependencyRecord(
+                    ecosystem="cargo",
+                    name=str(name),
+                    version=ver,
+                    purl=build_purl("cargo", str(name), ver),
+                    manifest_file=rel_path,
+                    line=lineno,
+                    is_direct=is_direct,
+                )
+            )
+    return records
+
+
+def _parse_cargo_lock(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text or tomllib is None:
+        return []
+    try:
+        data = tomllib.loads(text)
+    except Exception:
+        return []
+    pkgs = data.get("package") if isinstance(data, dict) else None
+    if not isinstance(pkgs, list):
+        return []
+    records: list[DependencyRecord] = []
+    for idx, pkg in enumerate(pkgs, start=1):
+        if not isinstance(pkg, dict):
+            continue
+        name = str(pkg.get("name") or "").strip()
+        ver = str(pkg.get("version") or "").strip()
+        if not name:
+            continue
+        records.append(
+            DependencyRecord(
+                ecosystem="cargo",
+                name=name,
+                version=ver,
+                purl=build_purl("cargo", name, ver),
+                manifest_file=rel_path,
+                line=idx,
+                is_direct=False,
+            )
+        )
+    return records
+
+
+def _parse_gemfile(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text:
+        return []
+    gem_re = re.compile(r"""^\s*gem\s+['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?""")
+    records: list[DependencyRecord] = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        m = gem_re.match(line)
+        if not m:
+            continue
+        name = m.group(1).strip()
+        ver = _clean_version(m.group(2) or "")
+        records.append(
+            DependencyRecord(
+                ecosystem="gem",
+                name=name,
+                version=ver,
+                purl=build_purl("gem", name, ver),
+                manifest_file=rel_path,
+                line=lineno,
+                is_direct=True,
+            )
+        )
+    return records
+
+
+def _parse_composer_json(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text:
+        return []
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        return []
+    if not isinstance(data, dict):
+        return []
+    lines = text.splitlines()
+    records: list[DependencyRecord] = []
+    for section, is_direct in (("require", True), ("require-dev", False)):
+        deps = data.get(section)
+        if not isinstance(deps, dict):
+            continue
+        for name, raw_ver in deps.items():
+            if name == "php" or name.startswith("ext-"):
+                continue
+            ver = _clean_version(str(raw_ver))
+            lineno = 1
+            for idx, line in enumerate(lines, start=1):
+                if f'"{name}"' in line:
+                    lineno = idx
+                    break
+            records.append(
+                DependencyRecord(
+                    ecosystem="composer",
+                    name=name,
+                    version=ver,
+                    purl=build_purl("composer", name, ver),
+                    manifest_file=rel_path,
+                    line=lineno,
+                    is_direct=is_direct,
+                )
+            )
+    return records
+
+
+def _parse_mix_exs(path: Path, rel_path: str) -> list[DependencyRecord]:
+    text = _safe_read_text(path)
+    if not text:
+        return []
+    dep_re = re.compile(r"""\{\s*:([a-zA-Z0-9_]+)\s*,\s*["']([^"']+)["']""")
+    records: list[DependencyRecord] = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        for m in dep_re.finditer(line):
+            name = m.group(1)
+            ver = _clean_version(m.group(2))
+            records.append(
+                DependencyRecord(
+                    ecosystem="hex",
+                    name=name,
+                    version=ver,
+                    purl=build_purl("hex", name, ver),
+                    manifest_file=rel_path,
+                    line=lineno,
+                    is_direct=True,
+                )
+            )
+    return records
+
+
 def _iter_manifest_files(repo_dir: Path) -> list[Path]:
     matched: list[Path] = []
     for root, dirnames, filenames in os.walk(repo_dir):
@@ -1442,6 +1659,12 @@ def _iter_manifest_files(repo_dir: Path) -> list[Path]:
                     "pom.xml",
                     "build.gradle",
                     "build.gradle.kts",
+                    "go.mod",
+                    "cargo.toml",
+                    "cargo.lock",
+                    "gemfile",
+                    "composer.json",
+                    "mix.exs",
                 }
                 or low.endswith(".csproj")
             ):
@@ -1452,7 +1675,8 @@ def _iter_manifest_files(repo_dir: Path) -> list[Path]:
 def parse_repository_dependencies(repo_dir: Path) -> list[DependencyRecord]:
     """
     Parse direct and transitive dependency manifests and lockfiles across Python,
-    JS/TS, .NET, and Java repositories with exact 1-indexed line numbers and PURLs.
+    JS/TS, .NET, Java, Go, Rust, Ruby, PHP, and Elixir repositories with exact
+    1-indexed line numbers and PURLs.
     """
     if not repo_dir.exists() or not repo_dir.is_dir():
         return []
@@ -1484,6 +1708,18 @@ def parse_repository_dependencies(repo_dir: Path) -> list[DependencyRecord]:
             records.extend(_parse_pom_xml(fpath, rel_path))
         elif low in {"build.gradle", "build.gradle.kts"}:
             records.extend(_parse_gradle(fpath, rel_path))
+        elif low == "go.mod":
+            records.extend(_parse_go_mod(fpath, rel_path))
+        elif low == "cargo.toml":
+            records.extend(_parse_cargo_toml(fpath, rel_path))
+        elif low == "cargo.lock":
+            records.extend(_parse_cargo_lock(fpath, rel_path))
+        elif low == "gemfile":
+            records.extend(_parse_gemfile(fpath, rel_path))
+        elif low == "composer.json":
+            records.extend(_parse_composer_json(fpath, rel_path))
+        elif low == "mix.exs":
+            records.extend(_parse_mix_exs(fpath, rel_path))
 
     # Deduplicate exact (manifest_file, line, purl) collisions while sorting deterministically
     unique: dict[tuple[str, int, str], DependencyRecord] = {}

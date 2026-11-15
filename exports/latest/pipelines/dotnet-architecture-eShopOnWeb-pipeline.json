@@ -2,10 +2,11 @@
   "org": "dotnet-architecture",
   "repository": "eShopOnWeb",
   "sha": "4da8212117e87d808d4bbc7da6286fd2147ce606",
-  "analyzed_at": "2026-11-13T04:13:07Z",
+  "analyzed_at": "2026-11-15T05:22:48Z",
   "workflows": [
     {
       "id": "dotnetcore.yml",
+      "path": ".github/workflows/dotnetcore.yml",
       "name": "eShopOnWeb Build and Test",
       "triggers": [
         "push",
@@ -21,16 +22,67 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-002",
           "type": "NO_CACHE",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnetcore.yml",
+          "start_line": 19,
+          "end_line": 19,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnetcore.yml",
+          "start_line": 3,
+          "end_line": 3,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dotnetcore.yml",
+          "start_line": 6,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "richnav.yml",
+      "path": ".github/workflows/richnav.yml",
       "name": "eShopOnWeb - Code Index",
       "triggers": [
         "workflow_dispatch"
@@ -44,11 +96,72 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-002",
           "type": "NO_CACHE",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/richnav.yml",
+          "start_line": 18,
+          "end_line": 18,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 4 uses unpinned action 'microsoft/RichCodeNavIndexer@v0.1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/richnav.yml",
+          "start_line": 20,
+          "end_line": 20,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/richnav.yml",
+          "start_line": 3,
+          "end_line": 3,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/richnav.yml",
+          "start_line": 6,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     }

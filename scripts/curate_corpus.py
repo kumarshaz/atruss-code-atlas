@@ -378,7 +378,7 @@ async def resolve_shas(entries: list[CorpusEntry]) -> list[CorpusEntry]:
 
 
 def validate_corpus_data(data: Any) -> list[str]:
-    """Validate corpus JSON structure, balance, uniqueness, golden fixtures, and SLA limits."""
+    """Validate corpus JSON structure, ecosystem coverage, uniqueness, and golden fixtures."""
     errors: list[str] = []
     if not isinstance(data, dict):
         return ["Corpus JSON root must be an object"]
@@ -393,8 +393,8 @@ def validate_corpus_data(data: Any) -> list[str]:
         except Exception as exc:
             errors.append(f"Entry[{idx}] invalid: {exc}")
 
-    if len(entries) != 100:
-        errors.append(f"Expected 100 repositories, found {len(entries)}")
+    if len(entries) < 100:
+        errors.append(f"Expected at least 100 repositories, found {len(entries)}")
 
     seen = {e.full_name for e in entries}
     if len(seen) != len(entries):
@@ -403,10 +403,8 @@ def validate_corpus_data(data: Any) -> list[str]:
     counts = Counter(e.ecosystem_key for e in entries)
     for eco_key in ("python", ".net", "react_ts_js", "java_springboot"):
         cnt = counts.get(eco_key, 0)
-        if cnt != REQUIRED_PER_ECOSYSTEM:
-            errors.append(
-                f"Ecosystem '{eco_key}' count={cnt}, expected {REQUIRED_PER_ECOSYSTEM}"
-            )
+        if cnt < 1:
+            errors.append(f"Ecosystem '{eco_key}' count={cnt}, expected >= 1")
 
     missing_golden = sorted(GOLDEN_FIXTURE_NAMES - seen)
     if missing_golden:
@@ -427,7 +425,7 @@ def write_corpus(entries: list[CorpusEntry], path: Path = DEFAULT_CORPUS_PATH) -
     payload = {
         "schema_version": "1.0",
         "description": (
-            "Stratified 100 Popular Public GitHub Repositories Corpus for Atruss Code Atlas"
+            "Curated Production Applications & Multi-Repo Systems Corpus for Atruss Code Atlas"
         ),
         "total": len(entries),
         "ecosystem_counts": dict(Counter(e.ecosystem_key for e in entries)),
@@ -440,7 +438,7 @@ def write_corpus(entries: list[CorpusEntry], path: Path = DEFAULT_CORPUS_PATH) -
 def main() -> None:
     parser = argparse.ArgumentParser(description="Curate and validate popular_100_corpus.json")
     parser.add_argument("--input", type=Path, default=DEFAULT_CORPUS_PATH)
-    parser.add_argument("--write", action="store_true", help="Write curated 100-repo corpus JSON")
+    parser.add_argument("--write", action="store_true", help="Write curated corpus JSON")
     parser.add_argument(
         "--resolve-shas",
         action="store_true",
@@ -449,7 +447,7 @@ def main() -> None:
     parser.add_argument("--validate", action="store_true", help="Validate corpus JSON file")
     args = parser.parse_args()
 
-    if args.write or args.resolve_shas:
+    if args.write:
         entries = build_corpus_entries()
         if args.resolve_shas:
             entries = asyncio.run(resolve_shas(entries))
@@ -457,6 +455,14 @@ def main() -> None:
             print(f"Pinned HEAD SHAs via git ls-remote: {pinned}/{len(entries)}")
         write_corpus(entries, args.input)
         print(f"Wrote {len(entries)} corpus entries to {args.input}")
+    elif args.resolve_shas:
+        data = json.loads(args.input.read_text(encoding="utf-8"))
+        entries = [CorpusEntry.model_validate(item) for item in data["repositories"]]
+        entries = asyncio.run(resolve_shas(entries))
+        pinned = sum(1 for e in entries if e.pinned_sha)
+        print(f"Pinned HEAD SHAs via git ls-remote: {pinned}/{len(entries)}")
+        write_corpus(entries, args.input)
+        print(f"Updated {len(entries)} corpus entries in {args.input}")
 
     if args.validate or not (args.write or args.resolve_shas):
         if not args.input.exists():

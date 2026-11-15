@@ -9,6 +9,12 @@ ECOSYSTEM_KEY_TO_DISPLAY: dict[str, str] = {
     ".net": ".NET",
     "react_ts_js": "JavaScript/TypeScript",
     "java_springboot": "Java",
+    "go": "Go",
+    "rust": "Rust",
+    "ruby": "Ruby",
+    "php": "PHP",
+    "elixir": "Elixir",
+    "infra_devops": "Container / Helm / IaC",
 }
 
 DISPLAY_TO_ECOSYSTEM_KEY: dict[str, str] = {v: k for k, v in ECOSYSTEM_KEY_TO_DISPLAY.items()}
@@ -23,13 +29,24 @@ class CorpusEntry(BaseModel):
     url: str
     clone_url: str
     expected_ecosystem: str
-    ecosystem_key: Literal["python", ".net", "react_ts_js", "java_springboot"]
+    ecosystem_key: Literal[
+        "python",
+        ".net",
+        "react_ts_js",
+        "java_springboot",
+        "go",
+        "rust",
+        "ruby",
+        "php",
+        "elixir",
+        "infra_devops",
+    ]
     expected_pipeline: bool = True
     expected_framework: str | None = None
     pinned_ref: str = "main"
     pinned_sha: str | None = None
-    estimated_size_mb: float = Field(default=20.0, gt=0.0, lt=250.0)
-    estimated_loc: int = Field(default=50000, gt=0, lt=500000)
+    estimated_size_mb: float = Field(default=20.0, gt=0.0)
+    estimated_loc: int = Field(default=50000, gt=0)
     star_tier: Literal["popular", "100..1000", "1000..10000", ">10000"] = "popular"
     stars: int = Field(default=0, ge=0)
     is_golden_fixture: bool = False

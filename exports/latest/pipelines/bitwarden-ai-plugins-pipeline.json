@@ -1,0 +1,492 @@
+{
+  "org": "bitwarden",
+  "repository": "ai-plugins",
+  "sha": "c0fb6f6d22cefcef0311a47d5b5a6856297e94fa",
+  "analyzed_at": "2026-11-15T05:22:55Z",
+  "workflows": [
+    {
+      "id": "atlassian-mcp-server-build.yml",
+      "path": ".github/workflows/atlassian-mcp-server-build.yml",
+      "name": "Atlassian MCP Server Build",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build",
+          "runner": "ubuntu-24.04",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'build' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/atlassian-mcp-server-build.yml",
+          "start_line": 58,
+          "end_line": 63,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/atlassian-mcp-server-build.yml",
+          "start_line": 26,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "atlassian-mcp-server-test.yml",
+      "path": ".github/workflows/atlassian-mcp-server-test.yml",
+      "name": "Atlassian MCP Server Testing",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "testing",
+          "name": "Run tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "launch",
+          "name": "Launch via .mcp.json",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "launch": 0.0,
+          "testing": 0.0
+        },
+        "pagerank": {
+          "launch": 0.5,
+          "testing": 0.5
+        },
+        "downstream_impact": {
+          "launch": [],
+          "testing": []
+        },
+        "critical_nodes": [
+          "launch",
+          "testing"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'testing' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/atlassian-mcp-server-test.yml",
+          "start_line": 54,
+          "end_line": 59,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'testing' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/atlassian-mcp-server-test.yml",
+          "start_line": 28,
+          "end_line": 75,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'launch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/atlassian-mcp-server-test.yml",
+          "start_line": 77,
+          "end_line": 138,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "audit-external-plugin.yml",
+      "path": ".github/workflows/audit-external-plugin.yml",
+      "name": "Audit External Claude Plugin",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "audit",
+          "name": "Audit External Claude Plugin",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/audit-external-plugin.yml",
+          "source_job": "audit",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_audit-external-claude-plugin.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "audit": 0.0
+        },
+        "pagerank": {
+          "audit": 1.0
+        },
+        "downstream_impact": {
+          "audit": []
+        },
+        "critical_nodes": [
+          "audit"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'audit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/audit-external-plugin.yml",
+          "start_line": 11,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "lint.yml",
+      "path": ".github/workflows/lint.yml",
+      "name": "Lint",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-24.04",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0
+        },
+        "pagerank": {
+          "lint": 1.0
+        },
+        "downstream_impact": {
+          "lint": []
+        },
+        "critical_nodes": [
+          "lint"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'lint' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yml",
+          "start_line": 39,
+          "end_line": 44,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yml",
+          "start_line": 14,
+          "end_line": 71,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "respond.yml",
+      "path": ".github/workflows/respond.yml",
+      "name": "Respond",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "respond",
+          "name": "Respond",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/respond.yml",
+          "source_job": "respond",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_respond.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "respond": 0.0
+        },
+        "pagerank": {
+          "respond": 1.0
+        },
+        "downstream_impact": {
+          "respond": []
+        },
+        "critical_nodes": [
+          "respond"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'respond' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/respond.yml",
+          "start_line": 16,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "review-code.yml",
+      "path": ".github/workflows/review-code.yml",
+      "name": "Code Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "review",
+          "name": "Review",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/review-code.yml",
+          "source_job": "review",
+          "target_workflow": "bitwarden/gh-actions/.github/workflows/_review-code.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "review": 0.0
+        },
+        "pagerank": {
+          "review": 1.0
+        },
+        "downstream_impact": {
+          "review": []
+        },
+        "critical_nodes": [
+          "review"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'review' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/review-code.yml",
+          "start_line": 10,
+          "end_line": 21,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test-automation-mcp-server-test.yml",
+      "path": ".github/workflows/test-automation-mcp-server-test.yml",
+      "name": "Test Automation MCP Server Testing",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "testing",
+          "name": "Run tests",
+          "runner": "ubuntu-24.04",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "launch",
+          "name": "Launch via .mcp.json",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "launch": 0.0,
+          "testing": 0.0
+        },
+        "pagerank": {
+          "launch": 0.5,
+          "testing": 0.5
+        },
+        "downstream_impact": {
+          "launch": [],
+          "testing": []
+        },
+        "critical_nodes": [
+          "launch",
+          "testing"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'testing' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-automation-mcp-server-test.yml",
+          "start_line": 54,
+          "end_line": 59,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'testing' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-automation-mcp-server-test.yml",
+          "start_line": 28,
+          "end_line": 75,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'launch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-automation-mcp-server-test.yml",
+          "start_line": 77,
+          "end_line": 133,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3387 @@
+{
+  "org": "mattermost",
+  "repository": "desktop",
+  "sha": "da9e5ada4051cef83e0f6ed1bd05c1c9e23d849e",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "build-for-pr.yml",
+      "path": ".github/workflows/build-for-pr.yml",
+      "name": "build-for-pr",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build-linux-for-pr",
+          "name": "build-linux-for-pr",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "windows-install-deps",
+          "name": "windows-install-deps",
+          "runner": "windows-2022",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build-win-for-pr",
+          "name": "build-win-for-pr",
+          "runner": "windows-2022",
+          "steps_count": 7,
+          "needs": [
+            "windows-install-deps"
+          ]
+        },
+        {
+          "id": "build-mac-for-pr",
+          "name": "build-mac-for-pr",
+          "runner": "macos-15",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-linux-for-pr": 0.0,
+          "build-mac-for-pr": 0.0,
+          "build-win-for-pr": 0.0,
+          "windows-install-deps": 0.0
+        },
+        "pagerank": {
+          "build-linux-for-pr": 0.206186,
+          "build-mac-for-pr": 0.206186,
+          "build-win-for-pr": 0.381443,
+          "windows-install-deps": 0.206186
+        },
+        "downstream_impact": {
+          "build-linux-for-pr": [],
+          "build-mac-for-pr": [],
+          "build-win-for-pr": [],
+          "windows-install-deps": [
+            "build-win-for-pr"
+          ]
+        },
+        "critical_nodes": [
+          "build-win-for-pr",
+          "windows-install-deps",
+          "build-linux-for-pr",
+          "build-mac-for-pr"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'build-mac-for-pr' step env 'APPLE_API_KEY'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 165,
+          "end_line": 165,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-linux-for-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 16,
+          "end_line": 48,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'windows-install-deps' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 50,
+          "end_line": 76,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-win-for-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 78,
+          "end_line": 129,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-mac-for-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 131,
+          "end_line": 182,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-linux-for-pr' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 21,
+          "end_line": 21,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-win-for-pr' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 85,
+          "end_line": 85,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-mac-for-pr' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-for-pr.yml",
+          "start_line": 139,
+          "end_line": 139,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "ci.yaml",
+      "path": ".github/workflows/ci.yaml",
+      "name": "ci",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build-linux",
+          "name": "build-linux",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "windows-install-deps",
+          "name": "windows-install-deps",
+          "runner": "windows-2022",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "build-win-no-installer",
+          "name": "build-win-no-installer",
+          "runner": "windows-2022",
+          "steps_count": 9,
+          "needs": [
+            "windows-install-deps"
+          ]
+        },
+        {
+          "id": "build-mac-no-dmg",
+          "name": "build-mac-no-dmg",
+          "runner": "macos-15",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "report-test-results",
+          "name": "report-test-results",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "build-mac-no-dmg",
+            "build-win-no-installer",
+            "build-linux"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-linux": 0.0,
+          "build-mac-no-dmg": 0.0,
+          "build-win-no-installer": 0.083333,
+          "report-test-results": 0.0,
+          "windows-install-deps": 0.0
+        },
+        "pagerank": {
+          "build-linux": 0.109619,
+          "build-mac-no-dmg": 0.109619,
+          "build-win-no-installer": 0.202795,
+          "report-test-results": 0.468348,
+          "windows-install-deps": 0.109619
+        },
+        "downstream_impact": {
+          "build-linux": [
+            "report-test-results"
+          ],
+          "build-mac-no-dmg": [
+            "report-test-results"
+          ],
+          "build-win-no-installer": [
+            "report-test-results"
+          ],
+          "report-test-results": [],
+          "windows-install-deps": [
+            "build-win-no-installer",
+            "report-test-results"
+          ]
+        },
+        "critical_nodes": [
+          "report-test-results",
+          "build-win-no-installer",
+          "windows-install-deps",
+          "build-linux",
+          "build-mac-no-dmg"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'build-mac-no-dmg' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 156,
+          "end_line": 164,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-linux' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 13,
+          "end_line": 50,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'windows-install-deps' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 52,
+          "end_line": 82,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-win-no-installer' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 83,
+          "end_line": 137,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-mac-no-dmg' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 139,
+          "end_line": 185,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-linux' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 13,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'windows-install-deps' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 52,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-win-no-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 83,
+          "end_line": 137,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-mac-no-dmg' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 139,
+          "end_line": 185,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'report-test-results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 187,
+          "end_line": 219,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-linux' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 17,
+          "end_line": 17,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-win-no-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 89,
+          "end_line": 89,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-mac-no-dmg' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 146,
+          "end_line": 146,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "cmt-provisioner.yml",
+      "path": ".github/workflows/cmt-provisioner.yml",
+      "name": "CMT Provisioner",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "trigger-matterwick",
+          "name": "trigger-matterwick",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "trigger-matterwick": 0.0
+        },
+        "pagerank": {
+          "trigger-matterwick": 1.0
+        },
+        "downstream_impact": {
+          "trigger-matterwick": []
+        },
+        "critical_nodes": [
+          "trigger-matterwick"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'trigger-matterwick' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/cmt-provisioner.yml",
+          "start_line": 27,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 16,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "compatibility-matrix-testing.yml",
+      "path": ".github/workflows/compatibility-matrix-testing.yml",
+      "name": "Compatibility Matrix Testing",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "upload-cmt-server-detals",
+          "name": "upload-cmt-server-detals",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "calculate-commit-hash",
+          "name": "calculate-commit-hash",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "update-initial-status",
+          "name": "update-initial-status",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "calculate-commit-hash"
+          ]
+        },
+        {
+          "id": "e2e-linux-install",
+          "name": "E2E Linux install",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "calculate-commit-hash",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-windows-install",
+          "name": "E2E Windows install",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "calculate-commit-hash",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-linux",
+          "name": "E2E Linux \u00b7 MM ${{ matrix.server.version }}",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "calculate-commit-hash",
+            "update-initial-status",
+            "e2e-linux-install"
+          ]
+        },
+        {
+          "id": "e2e-macos",
+          "name": "E2E macOS \u00b7 MM ${{ matrix.server.version }}",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "calculate-commit-hash",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-windows",
+          "name": "E2E Windows \u00b7 MM ${{ matrix.server.version }}",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "calculate-commit-hash",
+            "update-initial-status",
+            "e2e-windows-install"
+          ]
+        },
+        {
+          "id": "update-final-status",
+          "name": "update-final-status",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "calculate-commit-hash",
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows"
+          ]
+        },
+        {
+          "id": "cmt-triage",
+          "name": "Triage CMT (${{ matrix.platform }} \u00b7 MM ${{ matrix.server }})",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": [
+            "calculate-commit-hash",
+            "update-final-status",
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows"
+          ]
+        },
+        {
+          "id": "cmt-verdict",
+          "name": "CMT verdict",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": [
+            "calculate-commit-hash",
+            "update-final-status",
+            "cmt-triage",
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 11,
+        "edge_count": 28,
+        "is_valid_dag": true,
+        "max_depth": 6
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/compatibility-matrix-testing.yml",
+          "source_job": "e2e-linux",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/compatibility-matrix-testing.yml",
+          "source_job": "e2e-linux-install",
+          "target_workflow": ".github/workflows/e2e-install.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/compatibility-matrix-testing.yml",
+          "source_job": "e2e-macos",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/compatibility-matrix-testing.yml",
+          "source_job": "e2e-windows",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/compatibility-matrix-testing.yml",
+          "source_job": "e2e-windows-install",
+          "target_workflow": ".github/workflows/e2e-install.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "calculate-commit-hash": 0.0,
+          "cmt-triage": 0.0,
+          "cmt-verdict": 0.0,
+          "e2e-linux": 0.044444,
+          "e2e-linux-install": 0.0,
+          "e2e-macos": 0.011111,
+          "e2e-windows": 0.044444,
+          "e2e-windows-install": 0.0,
+          "update-final-status": 0.0,
+          "update-initial-status": 0.0,
+          "upload-cmt-server-detals": 0.0
+        },
+        "pagerank": {
+          "calculate-commit-hash": 0.038694,
+          "cmt-triage": 0.154372,
+          "cmt-verdict": 0.285589,
+          "e2e-linux": 0.091663,
+          "e2e-linux-install": 0.049548,
+          "e2e-macos": 0.049548,
+          "e2e-windows": 0.091663,
+          "e2e-windows-install": 0.049548,
+          "update-final-status": 0.10833,
+          "update-initial-status": 0.042349,
+          "upload-cmt-server-detals": 0.038694
+        },
+        "downstream_impact": {
+          "calculate-commit-hash": [
+            "cmt-triage",
+            "cmt-verdict",
+            "e2e-linux",
+            "e2e-linux-install",
+            "e2e-macos",
+            "e2e-windows",
+            "e2e-windows-install",
+            "update-final-status",
+            "update-initial-status"
+          ],
+          "cmt-triage": [
+            "cmt-verdict"
+          ],
+          "cmt-verdict": [],
+          "e2e-linux": [
+            "cmt-triage",
+            "cmt-verdict",
+            "update-final-status"
+          ],
+          "e2e-linux-install": [
+            "cmt-triage",
+            "cmt-verdict",
+            "e2e-linux",
+            "update-final-status"
+          ],
+          "e2e-macos": [
+            "cmt-triage",
+            "cmt-verdict",
+            "update-final-status"
+          ],
+          "e2e-windows": [
+            "cmt-triage",
+            "cmt-verdict",
+            "update-final-status"
+          ],
+          "e2e-windows-install": [
+            "cmt-triage",
+            "cmt-verdict",
+            "e2e-windows",
+            "update-final-status"
+          ],
+          "update-final-status": [
+            "cmt-triage",
+            "cmt-verdict"
+          ],
+          "update-initial-status": [
+            "cmt-triage",
+            "cmt-verdict",
+            "e2e-linux",
+            "e2e-linux-install",
+            "e2e-macos",
+            "e2e-windows",
+            "e2e-windows-install",
+            "update-final-status"
+          ],
+          "upload-cmt-server-detals": []
+        },
+        "critical_nodes": [
+          "cmt-verdict",
+          "cmt-triage",
+          "e2e-linux",
+          "e2e-windows",
+          "update-final-status",
+          "e2e-macos",
+          "e2e-linux-install",
+          "e2e-windows-install",
+          "update-initial-status",
+          "calculate-commit-hash",
+          "upload-cmt-server-detals"
+        ],
+        "max_blast_radius": 9
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'upload-cmt-server-detals' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 28,
+          "end_line": 39,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'calculate-commit-hash' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 41,
+          "end_line": 117,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload-cmt-server-detals' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 28,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'calculate-commit-hash' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 41,
+          "end_line": 117,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-initial-status' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 121,
+          "end_line": 140,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-linux-install' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 169,
+          "end_line": 180,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-windows-install' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 182,
+          "end_line": 193,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-linux' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 195,
+          "end_line": 219,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-macos' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 221,
+          "end_line": 244,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-windows' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/compatibility-matrix-testing.yml",
+          "start_line": 246,
+          "end_line": 270,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "docs-impact-review.yml",
+      "path": ".github/workflows/docs-impact-review.yml",
+      "name": "Documentation Impact Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "docs-impact-review",
+          "name": "docs-impact-review",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "docs-impact-review": 0.0
+        },
+        "pagerank": {
+          "docs-impact-review": 1.0
+        },
+        "downstream_impact": {
+          "docs-impact-review": []
+        },
+        "critical_nodes": [
+          "docs-impact-review"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'docs-impact-review' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docs-impact-review.yml",
+          "start_line": 16,
+          "end_line": 275,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e-fork-policy.yml",
+      "path": ".github/workflows/e2e-fork-policy.yml",
+      "name": "E2E fork policy",
+      "triggers": [
+        "pull_request_target",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "fork-e2e-policy",
+          "name": "fork-e2e-policy",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "fork-e2e-policy": 0.0
+        },
+        "pagerank": {
+          "fork-e2e-policy": 1.0
+        },
+        "downstream_impact": {
+          "fork-e2e-policy": []
+        },
+        "critical_nodes": [
+          "fork-e2e-policy"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fork-e2e-policy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-fork-policy.yml",
+          "start_line": 35,
+          "end_line": 242,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e-functional-template.yml",
+      "path": ".github/workflows/e2e-functional-template.yml",
+      "name": "E2E Functional Tests Template",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "e2e",
+          "name": "e2e-on-${{ inputs.runs-on }}-${{ inputs.MM_SERVER_VERSION }}${{ inputs.shard != '1-of-1' && format('-{0}', inputs.shard) || '' }}",
+          "runner": "${{ inputs.runs-on }}",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "e2e": 0.0
+        },
+        "pagerank": {
+          "e2e": 1.0
+        },
+        "downstream_impact": {
+          "e2e": []
+        },
+        "critical_nodes": [
+          "e2e"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'e2e' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional-template.yml",
+          "start_line": 136,
+          "end_line": 177,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'e2e' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional-template.yml",
+          "start_line": 179,
+          "end_line": 179,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'e2e' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional-template.yml",
+          "start_line": 182,
+          "end_line": 182,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "e2e-functional.yml",
+      "path": ".github/workflows/e2e-functional.yml",
+      "name": "Electron Playwright Tests",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare-matrix",
+          "name": "prepare-matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "update-initial-status",
+          "name": "Set pending E2E OS statuses",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "prepare-matrix"
+          ]
+        },
+        {
+          "id": "e2e-linux-install",
+          "name": "E2E Linux install",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-windows-install",
+          "name": "E2E Windows install",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-linux",
+          "name": "E2E Linux (${{ matrix.shardDisplay }})",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status",
+            "e2e-linux-install"
+          ]
+        },
+        {
+          "id": "e2e-macos",
+          "name": "E2E macOS (${{ matrix.shardDisplay }})",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-windows",
+          "name": "E2E Windows (${{ matrix.shardDisplay }})",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status",
+            "e2e-windows-install"
+          ]
+        },
+        {
+          "id": "e2e-linux-status",
+          "name": "Post e2e/linux",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "e2e-linux"
+          ]
+        },
+        {
+          "id": "e2e-macos-status",
+          "name": "Post e2e/macos",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "e2e-macos"
+          ]
+        },
+        {
+          "id": "e2e-windows-status",
+          "name": "Post e2e/windows",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "e2e-windows"
+          ]
+        },
+        {
+          "id": "e2e-policy-status",
+          "name": "Post e2e/<os>-policy",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "prepare-matrix",
+            "e2e-policy-macos",
+            "e2e-policy-windows"
+          ]
+        },
+        {
+          "id": "tsio-summary",
+          "name": "TSIO summary",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": [
+            "prepare-matrix",
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows",
+            "e2e-policy-macos",
+            "e2e-policy-windows"
+          ]
+        },
+        {
+          "id": "tsio-triage",
+          "name": "Triage E2E failures (${{ matrix.platform }})",
+          "runner": "ubuntu-24.04",
+          "steps_count": 4,
+          "needs": [
+            "prepare-matrix",
+            "tsio-summary",
+            "e2e-policy-status",
+            "e2e-linux-status",
+            "e2e-macos-status",
+            "e2e-windows-status"
+          ]
+        },
+        {
+          "id": "master-e2e-verdict",
+          "name": "Master E2E verdict",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": [
+            "prepare-matrix",
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows",
+            "e2e-policy-macos",
+            "e2e-policy-windows",
+            "tsio-summary",
+            "tsio-triage",
+            "e2e-linux-status",
+            "e2e-macos-status",
+            "e2e-windows-status",
+            "e2e-policy-status"
+          ]
+        },
+        {
+          "id": "remove-e2e-label",
+          "name": "Remove E2E label from PR",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [
+            "e2e-linux",
+            "e2e-macos",
+            "e2e-windows",
+            "e2e-policy-macos",
+            "e2e-policy-windows",
+            "tsio-summary"
+          ]
+        },
+        {
+          "id": "e2e-policy-macos",
+          "name": "policy-tests-macos",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status"
+          ]
+        },
+        {
+          "id": "e2e-policy-windows",
+          "name": "policy-tests-windows",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare-matrix",
+            "update-initial-status",
+            "e2e-windows-install"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 17,
+        "edge_count": 57,
+        "is_valid_dag": true,
+        "max_depth": 6
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-linux",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-linux-install",
+          "target_workflow": ".github/workflows/e2e-install.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-linux-status",
+          "target_workflow": ".github/workflows/e2e-post-os-status.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-macos",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-macos-status",
+          "target_workflow": ".github/workflows/e2e-post-os-status.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-policy-macos",
+          "target_workflow": ".github/workflows/e2e-policy.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-policy-windows",
+          "target_workflow": ".github/workflows/e2e-policy.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-windows",
+          "target_workflow": ".github/workflows/e2e-functional-template.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-windows-install",
+          "target_workflow": ".github/workflows/e2e-install.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "e2e-windows-status",
+          "target_workflow": ".github/workflows/e2e-post-os-status.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "e2e-linux": 0.029028,
+          "e2e-linux-install": 0.0,
+          "e2e-linux-status": 0.004583,
+          "e2e-macos": 0.008194,
+          "e2e-macos-status": 0.0025,
+          "e2e-policy-macos": 0.006111,
+          "e2e-policy-status": 0.006042,
+          "e2e-policy-windows": 0.018611,
+          "e2e-windows": 0.020694,
+          "e2e-windows-install": 0.0,
+          "e2e-windows-status": 0.003542,
+          "master-e2e-verdict": 0.0,
+          "prepare-matrix": 0.0,
+          "remove-e2e-label": 0.0,
+          "tsio-summary": 0.017361,
+          "tsio-triage": 0.0,
+          "update-initial-status": 0.0
+        },
+        "pagerank": {
+          "e2e-linux": 0.056844,
+          "e2e-linux-install": 0.030727,
+          "e2e-linux-status": 0.039479,
+          "e2e-macos": 0.030727,
+          "e2e-macos-status": 0.033929,
+          "e2e-policy-macos": 0.030727,
+          "e2e-policy-status": 0.043233,
+          "e2e-policy-windows": 0.043785,
+          "e2e-windows": 0.043785,
+          "e2e-windows-install": 0.030727,
+          "e2e-windows-status": 0.036704,
+          "master-e2e-verdict": 0.252294,
+          "prepare-matrix": 0.02593,
+          "remove-e2e-label": 0.089834,
+          "tsio-summary": 0.071146,
+          "tsio-triage": 0.11273,
+          "update-initial-status": 0.0274
+        },
+        "downstream_impact": {
+          "e2e-linux": [
+            "e2e-linux-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-linux-install": [
+            "e2e-linux",
+            "e2e-linux-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-linux-status": [
+            "master-e2e-verdict",
+            "tsio-triage"
+          ],
+          "e2e-macos": [
+            "e2e-macos-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-macos-status": [
+            "master-e2e-verdict",
+            "tsio-triage"
+          ],
+          "e2e-policy-macos": [
+            "e2e-policy-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-policy-status": [
+            "master-e2e-verdict",
+            "tsio-triage"
+          ],
+          "e2e-policy-windows": [
+            "e2e-policy-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-windows": [
+            "e2e-windows-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-windows-install": [
+            "e2e-policy-status",
+            "e2e-policy-windows",
+            "e2e-windows",
+            "e2e-windows-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ],
+          "e2e-windows-status": [
+            "master-e2e-verdict",
+            "tsio-triage"
+          ],
+          "master-e2e-verdict": [],
+          "prepare-matrix": [
+            "e2e-linux",
+            "e2e-linux-install",
+            "e2e-linux-status",
+            "e2e-macos",
+            "e2e-macos-status",
+            "e2e-policy-macos",
+            "e2e-policy-status",
+            "e2e-policy-windows",
+            "e2e-windows",
+            "e2e-windows-install",
+            "e2e-windows-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage",
+            "update-initial-status"
+          ],
+          "remove-e2e-label": [],
+          "tsio-summary": [
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-triage"
+          ],
+          "tsio-triage": [
+            "master-e2e-verdict"
+          ],
+          "update-initial-status": [
+            "e2e-linux",
+            "e2e-linux-install",
+            "e2e-linux-status",
+            "e2e-macos",
+            "e2e-macos-status",
+            "e2e-policy-macos",
+            "e2e-policy-status",
+            "e2e-policy-windows",
+            "e2e-windows",
+            "e2e-windows-install",
+            "e2e-windows-status",
+            "master-e2e-verdict",
+            "remove-e2e-label",
+            "tsio-summary",
+            "tsio-triage"
+          ]
+        },
+        "critical_nodes": [
+          "master-e2e-verdict",
+          "tsio-triage",
+          "remove-e2e-label",
+          "tsio-summary",
+          "e2e-linux",
+          "e2e-windows",
+          "e2e-policy-windows",
+          "e2e-policy-status",
+          "e2e-linux-status",
+          "e2e-windows-status",
+          "e2e-macos",
+          "e2e-policy-macos",
+          "e2e-macos-status",
+          "e2e-windows-install",
+          "e2e-linux-install",
+          "update-initial-status",
+          "prepare-matrix"
+        ],
+        "max_blast_radius": 16
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'prepare-matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 52,
+          "end_line": 152,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-initial-status' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 153,
+          "end_line": 189,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-linux-install' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 190,
+          "end_line": 201,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-windows-install' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 203,
+          "end_line": 214,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-linux' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 216,
+          "end_line": 242,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-macos' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 244,
+          "end_line": 269,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-windows' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 271,
+          "end_line": 297,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-linux-status' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 302,
+          "end_line": 319,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-macos-status' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 321,
+          "end_line": 338,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-windows-status' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 340,
+          "end_line": 357,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tsio-triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 541,
+          "end_line": 659,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'remove-e2e-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 778,
+          "end_line": 843,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-policy-macos' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 845,
+          "end_line": 865,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-policy-windows' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-functional.yml",
+          "start_line": 867,
+          "end_line": 890,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e-install.yml",
+      "path": ".github/workflows/e2e-install.yml",
+      "name": "E2E install dependencies",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "install",
+          "name": "install-${{ inputs.runs-on }}",
+          "runner": "${{ inputs.runs-on }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "install": 0.0
+        },
+        "pagerank": {
+          "install": 1.0
+        },
+        "downstream_impact": {
+          "install": []
+        },
+        "critical_nodes": [
+          "install"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'install' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-install.yml",
+          "start_line": 28,
+          "end_line": 28,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "e2e-label-cleanup.yml",
+      "path": ".github/workflows/e2e-label-cleanup.yml",
+      "name": "E2E Label Cleanup",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "remove-e2e-label",
+          "name": "Remove E2E/Run label from PR",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/e2e-label-cleanup.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "remove-e2e-label": 0.0
+        },
+        "pagerank": {
+          "remove-e2e-label": 1.0
+        },
+        "downstream_impact": {
+          "remove-e2e-label": []
+        },
+        "critical_nodes": [
+          "remove-e2e-label"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'remove-e2e-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-label-cleanup.yml",
+          "start_line": 20,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e-policy.yml",
+      "path": ".github/workflows/e2e-policy.yml",
+      "name": "E2E policy tests",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "policy",
+          "name": "policy-tests-${{ inputs.platform }}",
+          "runner": "${{ inputs.runs-on }}",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "policy": 0.0
+        },
+        "pagerank": {
+          "policy": 1.0
+        },
+        "downstream_impact": {
+          "policy": []
+        },
+        "critical_nodes": [
+          "policy"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'policy' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-policy.yml",
+          "start_line": 64,
+          "end_line": 76,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'policy' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-policy.yml",
+          "start_line": 78,
+          "end_line": 78,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "e2e-post-os-status.yml",
+      "path": ".github/workflows/e2e-post-os-status.yml",
+      "name": "E2E post OS commit status",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "post",
+          "name": "Flip e2e/${{ inputs.os }}",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "post": 0.0
+        },
+        "pagerank": {
+          "post": 1.0
+        },
+        "downstream_impact": {
+          "post": []
+        },
+        "critical_nodes": [
+          "post"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "e2e-pr-trigger.yml",
+      "path": ".github/workflows/e2e-pr-trigger.yml",
+      "name": "E2E PR Trigger",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "e2e-label-orchestration",
+          "name": "E2E label",
+          "runner": "ubuntu-24.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "e2e-label-orchestration": 0.0
+        },
+        "pagerank": {
+          "e2e-label-orchestration": 1.0
+        },
+        "downstream_impact": {
+          "e2e-label-orchestration": []
+        },
+        "critical_nodes": [
+          "e2e-label-orchestration"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-label-orchestration' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-pr-trigger.yml",
+          "start_line": 33,
+          "end_line": 324,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e-tests-rerun.yml",
+      "path": ".github/workflows/e2e-tests-rerun.yml",
+      "name": "E2E re-run on infrastructure failure",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "rerun",
+          "name": "rerun",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/e2e-functional.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/e2e-tests-rerun.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "rerun": 0.0
+        },
+        "pagerank": {
+          "rerun": 1.0
+        },
+        "downstream_impact": {
+          "rerun": []
+        },
+        "critical_nodes": [
+          "rerun"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'rerun' step 2 uses unpinned action 'mattermost/mattermost-test-automation-toolkit/actions/e2e-test-rerun@main'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-tests-rerun.yml",
+          "start_line": 92,
+          "end_line": 92,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        }
+      ]
+    },
+    {
+      "id": "nightly-builds.yaml",
+      "path": ".github/workflows/nightly-builds.yaml",
+      "name": "nightly-builds",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "tag-nightly-build",
+          "name": "tag-nightly-build",
+          "runner": "ubuntu-24.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "nightly-main",
+          "name": "nightly-main",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "tag-nightly-build"
+          ]
+        },
+        {
+          "id": "nightly-rainforest",
+          "name": "nightly-rainforest",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "tag-nightly-build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/nightly-builds.yaml",
+          "source_job": "nightly-main",
+          "target_workflow": ".github/workflows/nightly-main.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/nightly-builds.yaml",
+          "source_job": "nightly-rainforest",
+          "target_workflow": ".github/workflows/nightly-rainforest.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "nightly-main": 0.0,
+          "nightly-rainforest": 0.0,
+          "tag-nightly-build": 0.0
+        },
+        "pagerank": {
+          "nightly-main": 0.37013,
+          "nightly-rainforest": 0.37013,
+          "tag-nightly-build": 0.259741
+        },
+        "downstream_impact": {
+          "nightly-main": [],
+          "nightly-rainforest": [],
+          "tag-nightly-build": [
+            "nightly-main",
+            "nightly-rainforest"
+          ]
+        },
+        "critical_nodes": [
+          "nightly-main",
+          "nightly-rainforest",
+          "tag-nightly-build"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-builds.yaml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag-nightly-build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-builds.yaml",
+          "start_line": 9,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nightly-main' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-builds.yaml",
+          "start_line": 30,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nightly-rainforest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-builds.yaml",
+          "start_line": 38,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "nightly-main.yml",
+      "path": ".github/workflows/nightly-main.yml",
+      "name": "nightly-main",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-linux",
+          "name": "build-linux",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "build-msi-installer",
+          "name": "build-msi-installer",
+          "runner": "windows-2022",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "mac-app-store-preflight",
+          "name": "mac-app-store-preflight",
+          "runner": "macos-15",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "build-mac-installer",
+          "name": "build-mac-installer",
+          "runner": "macos-15",
+          "steps_count": 7,
+          "needs": [
+            "mac-app-store-preflight"
+          ]
+        },
+        {
+          "id": "upload-to-s3",
+          "name": "upload-to-s3",
+          "runner": "ubuntu-22.04",
+          "steps_count": 8,
+          "needs": [
+            "build-mac-installer",
+            "build-msi-installer",
+            "build-linux"
+          ]
+        },
+        {
+          "id": "share-links-to-channel",
+          "name": "share-links-to-channel",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": [
+            "upload-to-s3"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 6,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-linux": 0.0,
+          "build-mac-installer": 0.1,
+          "build-msi-installer": 0.0,
+          "mac-app-store-preflight": 0.0,
+          "share-links-to-channel": 0.0,
+          "upload-to-s3": 0.2
+        },
+        "pagerank": {
+          "build-linux": 0.072705,
+          "build-mac-installer": 0.134505,
+          "build-msi-installer": 0.072705,
+          "mac-app-store-preflight": 0.072705,
+          "share-links-to-channel": 0.336746,
+          "upload-to-s3": 0.310634
+        },
+        "downstream_impact": {
+          "build-linux": [
+            "share-links-to-channel",
+            "upload-to-s3"
+          ],
+          "build-mac-installer": [
+            "share-links-to-channel",
+            "upload-to-s3"
+          ],
+          "build-msi-installer": [
+            "share-links-to-channel",
+            "upload-to-s3"
+          ],
+          "mac-app-store-preflight": [
+            "build-mac-installer",
+            "share-links-to-channel",
+            "upload-to-s3"
+          ],
+          "share-links-to-channel": [],
+          "upload-to-s3": [
+            "share-links-to-channel"
+          ]
+        },
+        "critical_nodes": [
+          "upload-to-s3",
+          "share-links-to-channel",
+          "build-mac-installer",
+          "mac-app-store-preflight",
+          "build-linux",
+          "build-msi-installer"
+        ],
+        "max_blast_radius": 3
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload-to-s3' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 197,
+          "end_line": 261,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'build-mac-installer' step env 'APPLE_API_KEY'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 177,
+          "end_line": 177,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-linux' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 28,
+          "end_line": 62,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-msi-installer' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 64,
+          "end_line": 105,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'mac-app-store-preflight' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 107,
+          "end_line": 141,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-mac-installer' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 143,
+          "end_line": 195,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'share-links-to-channel' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 262,
+          "end_line": 274,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-linux' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 28,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-msi-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 64,
+          "end_line": 105,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'mac-app-store-preflight' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 107,
+          "end_line": 141,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-mac-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 143,
+          "end_line": 195,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload-to-s3' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 197,
+          "end_line": 261,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'share-links-to-channel' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 262,
+          "end_line": 274,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-linux' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 32,
+          "end_line": 32,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-msi-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 68,
+          "end_line": 68,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-mac-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-main.yml",
+          "start_line": 151,
+          "end_line": 151,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "nightly-rainforest.yml",
+      "path": ".github/workflows/nightly-rainforest.yml",
+      "name": "nightly-rainforest",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build-msi-installer",
+          "name": "build-msi-installer",
+          "runner": "windows-2022",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "build-mac-installer",
+          "name": "build-mac-installer",
+          "runner": "macos-15",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "upload-to-s3-daily",
+          "name": "upload-to-s3-daily",
+          "runner": "ubuntu-22.04",
+          "steps_count": 6,
+          "needs": [
+            "build-mac-installer",
+            "build-msi-installer"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-mac-installer": 0.0,
+          "build-msi-installer": 0.0,
+          "upload-to-s3-daily": 0.0
+        },
+        "pagerank": {
+          "build-mac-installer": 0.212766,
+          "build-msi-installer": 0.212766,
+          "upload-to-s3-daily": 0.574469
+        },
+        "downstream_impact": {
+          "build-mac-installer": [
+            "upload-to-s3-daily"
+          ],
+          "build-msi-installer": [
+            "upload-to-s3-daily"
+          ],
+          "upload-to-s3-daily": []
+        },
+        "critical_nodes": [
+          "upload-to-s3-daily",
+          "build-mac-installer",
+          "build-msi-installer"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload-to-s3-daily' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 124,
+          "end_line": 155,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'build-mac-installer' step env 'APPLE_API_KEY'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 104,
+          "end_line": 104,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 3,
+          "end_line": 15,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-msi-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 29,
+          "end_line": 70,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-mac-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 72,
+          "end_line": 122,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload-to-s3-daily' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 124,
+          "end_line": 155,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-msi-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-mac-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 78,
+          "end_line": 78,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'upload-to-s3-daily' step 2 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-rainforest.yml",
+          "start_line": 135,
+          "end_line": 135,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    },
+    {
+      "id": "pr-test-analysis-override.yml",
+      "path": ".github/workflows/pr-test-analysis-override.yml",
+      "name": "PR Test Analysis Override",
+      "triggers": [
+        "issue_comment"
+      ],
+      "jobs": [
+        {
+          "id": "override",
+          "name": "override",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/pr-test-analysis-override.yml",
+          "source_job": "override",
+          "target_workflow": "mattermost/mattermost-test-automation-toolkit/.github/workflows/pr-test-analysis-override.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "override": 0.0
+        },
+        "pagerank": {
+          "override": 1.0
+        },
+        "downstream_impact": {
+          "override": []
+        },
+        "critical_nodes": [
+          "override"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'override' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-test-analysis-override.yml",
+          "start_line": 13,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-test-analysis.yml",
+      "path": ".github/workflows/pr-test-analysis.yml",
+      "name": "PR Test Analysis",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "analyze",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/pr-test-analysis.yml",
+          "source_job": "analyze",
+          "target_workflow": "mattermost/mattermost-test-automation-toolkit/.github/workflows/pr-test-analysis.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-test-analysis.yml",
+          "start_line": 26,
+          "end_line": 48,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-mas.yaml",
+      "path": ".github/workflows/release-mas.yaml",
+      "name": "release-mas",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "mac-app-store-preflight",
+          "name": "mac-app-store-preflight",
+          "runner": "macos-15",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "mac-app-store-preflight": 0.0
+        },
+        "pagerank": {
+          "mac-app-store-preflight": 1.0
+        },
+        "downstream_impact": {
+          "mac-app-store-preflight": []
+        },
+        "critical_nodes": [
+          "mac-app-store-preflight"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-mas.yaml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'mac-app-store-preflight' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-mas.yaml",
+          "start_line": 17,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yaml",
+      "path": ".github/workflows/release.yaml",
+      "name": "release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "begin-notification",
+          "name": "begin-notification",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "build-linux",
+          "name": "build-linux",
+          "runner": "ubuntu-22.04",
+          "steps_count": 6,
+          "needs": [
+            "begin-notification"
+          ]
+        },
+        {
+          "id": "build-msi-installer",
+          "name": "build-msi-installer",
+          "runner": "windows-2022",
+          "steps_count": 7,
+          "needs": [
+            "begin-notification"
+          ]
+        },
+        {
+          "id": "build-mac-installer",
+          "name": "build-mac-installer",
+          "runner": "macos-15",
+          "steps_count": 8,
+          "needs": [
+            "begin-notification"
+          ]
+        },
+        {
+          "id": "upload-to-s3",
+          "name": "upload-to-s3",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": [
+            "build-mac-installer",
+            "build-msi-installer",
+            "build-linux"
+          ]
+        },
+        {
+          "id": "github-release",
+          "name": "github-release",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "upload-to-s3"
+          ]
+        },
+        {
+          "id": "end-notification",
+          "name": "end-notification",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": [
+            "github-release"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 7,
+        "edge_count": 8,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "begin-notification": 0.0,
+          "build-linux": 0.033333,
+          "build-mac-installer": 0.033333,
+          "build-msi-installer": 0.033333,
+          "end-notification": 0.0,
+          "github-release": 0.166667,
+          "upload-to-s3": 0.266667
+        },
+        "pagerank": {
+          "begin-notification": 0.053502,
+          "build-linux": 0.068661,
+          "build-mac-installer": 0.068661,
+          "build-msi-installer": 0.068661,
+          "end-notification": 0.264133,
+          "github-release": 0.247799,
+          "upload-to-s3": 0.228585
+        },
+        "downstream_impact": {
+          "begin-notification": [
+            "build-linux",
+            "build-mac-installer",
+            "build-msi-installer",
+            "end-notification",
+            "github-release",
+            "upload-to-s3"
+          ],
+          "build-linux": [
+            "end-notification",
+            "github-release",
+            "upload-to-s3"
+          ],
+          "build-mac-installer": [
+            "end-notification",
+            "github-release",
+            "upload-to-s3"
+          ],
+          "build-msi-installer": [
+            "end-notification",
+            "github-release",
+            "upload-to-s3"
+          ],
+          "end-notification": [],
+          "github-release": [
+            "end-notification"
+          ],
+          "upload-to-s3": [
+            "end-notification",
+            "github-release"
+          ]
+        },
+        "critical_nodes": [
+          "upload-to-s3",
+          "github-release",
+          "end-notification",
+          "build-linux",
+          "build-mac-installer",
+          "build-msi-installer",
+          "begin-notification"
+        ],
+        "max_blast_radius": 6
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload-to-s3' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 174,
+          "end_line": 205,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'github-release' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 207,
+          "end_line": 236,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'build-mac-installer' step env 'APPLE_API_KEY'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 154,
+          "end_line": 154,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'begin-notification' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 19,
+          "end_line": 37,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-linux' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 38,
+          "end_line": 74,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-msi-installer' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 76,
+          "end_line": 118,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'build-mac-installer' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 120,
+          "end_line": 172,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'github-release' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 207,
+          "end_line": 236,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'end-notification' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 237,
+          "end_line": 261,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'begin-notification' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 19,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-linux' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 38,
+          "end_line": 74,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-msi-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 76,
+          "end_line": 118,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-mac-installer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 120,
+          "end_line": 172,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload-to-s3' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 174,
+          "end_line": 205,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'github-release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 207,
+          "end_line": 236,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'end-notification' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 237,
+          "end_line": 261,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-linux' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 44,
+          "end_line": 44,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-msi-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 82,
+          "end_line": 82,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-mac-installer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 128,
+          "end_line": 128,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "run-release-script.yml",
+      "path": ".github/workflows/run-release-script.yml",
+      "name": "Run Release Script",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run-release",
+          "name": "run-release",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "run-release": 0.0
+        },
+        "pagerank": {
+          "run-release": 1.0
+        },
+        "downstream_impact": {
+          "run-release": []
+        },
+        "critical_nodes": [
+          "run-release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'run-release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-release-script.yml",
+          "start_line": 34,
+          "end_line": 93,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-release-script.yml",
+          "start_line": 34,
+          "end_line": 93,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "scorecards-analysis.yml",
+      "path": ".github/workflows/scorecards-analysis.yml",
+      "name": "Scorecards supply-chain security",
+      "triggers": [
+        "branch_protection_rule",
+        "schedule",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "analysis",
+          "name": "Scorecards analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analysis": 0.0
+        },
+        "pagerank": {
+          "analysis": 1.0
+        },
+        "downstream_impact": {
+          "analysis": []
+        },
+        "critical_nodes": [
+          "analysis"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analysis' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/scorecards-analysis.yml",
+          "start_line": 14,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "snyk-sbom.yml",
+      "path": ".github/workflows/snyk-sbom.yml",
+      "name": "Snyk - Software Bill of Materials (SBOM)",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "sbom",
+          "name": "sbom",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/snyk-sbom.yml",
+          "source_job": "sbom",
+          "target_workflow": "mattermost/actions-workflows/.github/workflows/snyk-sbom.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sbom": 0.0
+        },
+        "pagerank": {
+          "sbom": 1.0
+        },
+        "downstream_impact": {
+          "sbom": []
+        },
+        "critical_nodes": [
+          "sbom"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sbom' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/snyk-sbom.yml",
+          "start_line": 13,
+          "end_line": 20,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-latest-version.yml",
+      "path": ".github/workflows/update-latest-version.yml",
+      "name": "Update Latest Version",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-latest-version",
+          "name": "update-latest-version",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-latest-version": 0.0
+        },
+        "pagerank": {
+          "update-latest-version": 1.0
+        },
+        "downstream_impact": {
+          "update-latest-version": []
+        },
+        "critical_nodes": [
+          "update-latest-version"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'update-latest-version' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-latest-version.yml",
+          "start_line": 19,
+          "end_line": 55,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-latest-version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-latest-version.yml",
+          "start_line": 19,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

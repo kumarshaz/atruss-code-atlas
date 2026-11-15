@@ -91,6 +91,21 @@ def _normalize_ecosystem_filter(raw: str | None) -> str | None:
         "java_springboot": "java_springboot",
         "springboot": "java_springboot",
         "spring-boot": "java_springboot",
+        "go": "go",
+        "golang": "go",
+        "rust": "rust",
+        "rs": "rust",
+        "ruby": "ruby",
+        "rb": "ruby",
+        "rails": "ruby",
+        "php": "php",
+        "elixir": "elixir",
+        "ex": "elixir",
+        "infra": "infra_devops",
+        "infra_devops": "infra_devops",
+        "devops": "infra_devops",
+        "helm": "infra_devops",
+        "docker": "infra_devops",
     }
     if cleaned in aliases:
         return aliases[cleaned]
@@ -98,7 +113,7 @@ def _normalize_ecosystem_filter(raw: str | None) -> str | None:
         return DISPLAY_TO_ECOSYSTEM_KEY[raw]
     raise typer.BadParameter(
         f"Unsupported ecosystem filter '{raw}'. Choose from: "
-        "python, .net, react_ts_js, java_springboot"
+        "python, .net, react_ts_js, java_springboot, go, rust, ruby, php, elixir, infra_devops"
     )
 
 
@@ -123,13 +138,24 @@ def select_corpus_entries(
     if not limit or limit >= len(entries):
         return entries
 
-    # Stratified round-robin slice across ecosystems (`--limit 12` hits 3 per ecosystem)
+    # Stratified round-robin slice across ecosystems
     buckets: dict[str, list[CorpusEntry]] = defaultdict(list)
     for entry in entries:
         buckets[entry.ecosystem_key].append(entry)
 
     selected: list[CorpusEntry] = []
-    eco_order = ["python", ".net", "react_ts_js", "java_springboot"]
+    eco_order = [
+        "python",
+        ".net",
+        "react_ts_js",
+        "java_springboot",
+        "go",
+        "rust",
+        "ruby",
+        "php",
+        "elixir",
+        "infra_devops",
+    ]
     for extra in buckets:
         if extra not in eco_order:
             eco_order.append(extra)

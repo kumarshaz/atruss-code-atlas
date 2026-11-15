@@ -1,0 +1,3187 @@
+{
+  "org": "grafana",
+  "repository": "loki",
+  "sha": "1dd2abbb8d672c316dd3a0d3a03f76acdc1e680f",
+  "analyzed_at": "2026-11-15T05:22:49Z",
+  "workflows": [
+    {
+      "id": "backport.yml",
+      "path": ".github/workflows/backport.yml",
+      "name": "Backport PR Creator",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "main",
+          "name": "main",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "main": 0.0
+        },
+        "pagerank": {
+          "main": 1.0
+        },
+        "downstream_impact": {
+          "main": []
+        },
+        "critical_nodes": [
+          "main"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'main' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/backport.yml",
+          "start_line": 11,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-loki-binary.yml",
+      "path": ".github/workflows/build-loki-binary.yml",
+      "name": "Test Build Loki Binaries",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Test Build ${{ matrix.binary.name }} (${{ matrix.goos }}/${{ matrix.goarch }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-loki-binary.yml",
+          "start_line": 15,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "check.yml",
+      "path": ".github/workflows/check.yml",
+      "name": "check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/check.yml",
+          "source_job": "check",
+          "target_workflow": "grafana/loki-release/.github/workflows/check.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0
+        },
+        "pagerank": {
+          "check": 1.0
+        },
+        "downstream_impact": {
+          "check": []
+        },
+        "critical_nodes": [
+          "check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/check.yml",
+          "start_line": 5,
+          "end_line": 12,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "claude-code-review.yml",
+      "path": ".github/workflows/claude-code-review.yml",
+      "name": "Claude Code Review",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "claude-review",
+          "name": "claude-review",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "claude-review": 0.0
+        },
+        "pagerank": {
+          "claude-review": 1.0
+        },
+        "downstream_impact": {
+          "claude-review": []
+        },
+        "critical_nodes": [
+          "claude-review"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'claude-review' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/claude-code-review.yml",
+          "start_line": 21,
+          "end_line": 65,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "claude.yml",
+      "path": ".github/workflows/claude.yml",
+      "name": "Claude Code",
+      "triggers": [
+        "issue_comment",
+        "pull_request_review_comment",
+        "issues",
+        "pull_request_review"
+      ],
+      "jobs": [
+        {
+          "id": "claude",
+          "name": "claude",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "claude": 0.0
+        },
+        "pagerank": {
+          "claude": 1.0
+        },
+        "downstream_impact": {
+          "claude": []
+        },
+        "critical_nodes": [
+          "claude"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'claude' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/claude.yml",
+          "start_line": 19,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "conventional-commits.yml",
+      "path": ".github/workflows/conventional-commits.yml",
+      "name": "enforce conventional commits",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-title",
+          "name": "check-title",
+          "runner": "ubuntu-x64-small",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-title": 0.0
+        },
+        "pagerank": {
+          "check-title": 1.0
+        },
+        "downstream_impact": {
+          "check-title": []
+        },
+        "critical_nodes": [
+          "check-title"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-title' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/conventional-commits.yml",
+          "start_line": 9,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "deploy-pr-preview.yml",
+      "path": ".github/workflows/deploy-pr-preview.yml",
+      "name": "Deploy pr preview",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "deploy-pr-preview",
+          "name": "deploy-pr-preview",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/deploy-pr-preview.yml",
+          "source_job": "deploy-pr-preview",
+          "target_workflow": "grafana/writers-toolkit/.github/workflows/deploy-preview.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy-pr-preview": 0.0
+        },
+        "pagerank": {
+          "deploy-pr-preview": 1.0
+        },
+        "downstream_impact": {
+          "deploy-pr-preview": []
+        },
+        "critical_nodes": [
+          "deploy-pr-preview"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy-pr-preview' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-pr-preview.yml",
+          "start_line": 15,
+          "end_line": 38,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy-pr-preview' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-pr-preview.yml",
+          "start_line": 15,
+          "end_line": 38,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "govulncheck.yml",
+      "path": ".github/workflows/govulncheck.yml",
+      "name": "govulncheck",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "govulncheck",
+          "name": "govulncheck",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "govulncheck": 0.0
+        },
+        "pagerank": {
+          "govulncheck": 1.0
+        },
+        "downstream_impact": {
+          "govulncheck": []
+        },
+        "critical_nodes": [
+          "govulncheck"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "helm-ci.yml",
+      "path": ".github/workflows/helm-ci.yml",
+      "name": "helm-ci",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "call-test",
+          "name": "Test Helm Chart",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "list-integration-tests",
+          "name": "List integration tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "run-integration-tests",
+          "name": "Integration Test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "list-integration-tests"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "call-test": 0.0,
+          "list-integration-tests": 0.0,
+          "run-integration-tests": 0.0
+        },
+        "pagerank": {
+          "call-test": 0.25974,
+          "list-integration-tests": 0.25974,
+          "run-integration-tests": 0.48052
+        },
+        "downstream_impact": {
+          "call-test": [],
+          "list-integration-tests": [
+            "run-integration-tests"
+          ],
+          "run-integration-tests": []
+        },
+        "critical_nodes": [
+          "run-integration-tests",
+          "list-integration-tests",
+          "call-test"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'call-test' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-ci.yml",
+          "start_line": 29,
+          "end_line": 95,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-ci.yml",
+          "start_line": 29,
+          "end_line": 95,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'call-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-ci.yml",
+          "start_line": 29,
+          "end_line": 95,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'list-integration-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-ci.yml",
+          "start_line": 96,
+          "end_line": 118,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-integration-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-ci.yml",
+          "start_line": 119,
+          "end_line": 223,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-diff-ci.yml",
+      "path": ".github/workflows/helm-diff-ci.yml",
+      "name": "Helm Loki Diff CI",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "helm-diff",
+          "name": "${{ matrix.scenario.name }}",
+          "runner": "ubuntu-x64",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "summary-diff-outputs",
+          "name": "Summary Diffs",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": [
+            "helm-diff"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "helm-diff": 0.0,
+          "summary-diff-outputs": 0.0
+        },
+        "pagerank": {
+          "helm-diff": 0.350877,
+          "summary-diff-outputs": 0.649123
+        },
+        "downstream_impact": {
+          "helm-diff": [
+            "summary-diff-outputs"
+          ],
+          "summary-diff-outputs": []
+        },
+        "critical_nodes": [
+          "summary-diff-outputs",
+          "helm-diff"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'helm-diff' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-diff-ci.yml",
+          "start_line": 16,
+          "end_line": 105,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'summary-diff-outputs' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-diff-ci.yml",
+          "start_line": 150,
+          "end_line": 151,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary-diff-outputs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-diff-ci.yml",
+          "start_line": 107,
+          "end_line": 151,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-release.yaml",
+      "path": ".github/workflows/helm-release.yaml",
+      "name": "helm-release",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "call-update-helm-repo",
+          "name": "call-update-helm-repo",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/helm-release.yaml",
+          "source_job": "call-update-helm-repo",
+          "target_workflow": "grafana/helm-charts/.github/workflows/update-helm-repo.yaml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "call-update-helm-repo": 0.0
+        },
+        "pagerank": {
+          "call-update-helm-repo": 1.0
+        },
+        "downstream_impact": {
+          "call-update-helm-repo": []
+        },
+        "critical_nodes": [
+          "call-update-helm-repo"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'call-update-helm-repo' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-release.yaml",
+          "start_line": 15,
+          "end_line": 26,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-tagged-release-pr.yaml",
+      "path": ".github/workflows/helm-tagged-release-pr.yaml",
+      "name": "Helm tagged release PR",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "tagged-release-pr",
+          "name": "tagged-release-pr",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tagged-release-pr": 0.0
+        },
+        "pagerank": {
+          "tagged-release-pr": 1.0
+        },
+        "downstream_impact": {
+          "tagged-release-pr": []
+        },
+        "critical_nodes": [
+          "tagged-release-pr"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tagged-release-pr' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-tagged-release-pr.yaml",
+          "start_line": 15,
+          "end_line": 55,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tagged-release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-tagged-release-pr.yaml",
+          "start_line": 15,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-test-build.yml",
+      "path": ".github/workflows/helm-test-build.yml",
+      "name": "helm-test-build",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build helm-test",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "images.yml",
+      "path": ".github/workflows/images.yml",
+      "name": "Publish images",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "logql-analyzer-image",
+          "name": "logql-analyzer-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 11,
+          "needs": [
+            "check"
+          ]
+        },
+        {
+          "id": "logql-analyzer-manifest",
+          "name": "logql-analyzer-manifest",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "logql-analyzer-image"
+          ]
+        },
+        {
+          "id": "loki-canary-boringcrypto-image",
+          "name": "loki-canary-boringcrypto-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 11,
+          "needs": [
+            "check"
+          ]
+        },
+        {
+          "id": "loki-canary-boringcrypto-manifest",
+          "name": "loki-canary-boringcrypto-manifest",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "loki-canary-boringcrypto-image"
+          ]
+        },
+        {
+          "id": "loki-canary-image",
+          "name": "loki-canary-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 11,
+          "needs": [
+            "check"
+          ]
+        },
+        {
+          "id": "loki-canary-manifest",
+          "name": "loki-canary-manifest",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "loki-canary-image"
+          ]
+        },
+        {
+          "id": "loki-image",
+          "name": "loki-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 11,
+          "needs": [
+            "check"
+          ]
+        },
+        {
+          "id": "loki-manifest",
+          "name": "loki-manifest",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "loki-image"
+          ]
+        },
+        {
+          "id": "loki-query-tee-image",
+          "name": "loki-query-tee-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 11,
+          "needs": [
+            "check"
+          ]
+        },
+        {
+          "id": "loki-query-tee-manifest",
+          "name": "loki-query-tee-manifest",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "loki-query-tee-image"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 11,
+        "edge_count": 10,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/images.yml",
+          "source_job": "check",
+          "target_workflow": "grafana/loki-release/.github/workflows/check.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0,
+          "logql-analyzer-image": 0.011111,
+          "logql-analyzer-manifest": 0.0,
+          "loki-canary-boringcrypto-image": 0.011111,
+          "loki-canary-boringcrypto-manifest": 0.0,
+          "loki-canary-image": 0.011111,
+          "loki-canary-manifest": 0.0,
+          "loki-image": 0.011111,
+          "loki-manifest": 0.0,
+          "loki-query-tee-image": 0.011111,
+          "loki-query-tee-manifest": 0.0
+        },
+        "pagerank": {
+          "check": 0.059444,
+          "logql-analyzer-image": 0.06955,
+          "logql-analyzer-manifest": 0.118561,
+          "loki-canary-boringcrypto-image": 0.06955,
+          "loki-canary-boringcrypto-manifest": 0.118561,
+          "loki-canary-image": 0.06955,
+          "loki-canary-manifest": 0.118561,
+          "loki-image": 0.06955,
+          "loki-manifest": 0.118561,
+          "loki-query-tee-image": 0.06955,
+          "loki-query-tee-manifest": 0.118561
+        },
+        "downstream_impact": {
+          "check": [
+            "logql-analyzer-image",
+            "logql-analyzer-manifest",
+            "loki-canary-boringcrypto-image",
+            "loki-canary-boringcrypto-manifest",
+            "loki-canary-image",
+            "loki-canary-manifest",
+            "loki-image",
+            "loki-manifest",
+            "loki-query-tee-image",
+            "loki-query-tee-manifest"
+          ],
+          "logql-analyzer-image": [
+            "logql-analyzer-manifest"
+          ],
+          "logql-analyzer-manifest": [],
+          "loki-canary-boringcrypto-image": [
+            "loki-canary-boringcrypto-manifest"
+          ],
+          "loki-canary-boringcrypto-manifest": [],
+          "loki-canary-image": [
+            "loki-canary-manifest"
+          ],
+          "loki-canary-manifest": [],
+          "loki-image": [
+            "loki-manifest"
+          ],
+          "loki-manifest": [],
+          "loki-query-tee-image": [
+            "loki-query-tee-manifest"
+          ],
+          "loki-query-tee-manifest": []
+        },
+        "critical_nodes": [
+          "logql-analyzer-manifest",
+          "loki-canary-boringcrypto-manifest",
+          "loki-canary-manifest",
+          "loki-manifest",
+          "loki-query-tee-manifest",
+          "logql-analyzer-image",
+          "loki-canary-boringcrypto-image",
+          "loki-canary-image",
+          "loki-image",
+          "loki-query-tee-image",
+          "check"
+        ],
+        "max_blast_radius": 10
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 2,
+          "end_line": 9,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logql-analyzer-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 10,
+          "end_line": 107,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logql-analyzer-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 108,
+          "end_line": 147,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-boringcrypto-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 148,
+          "end_line": 245,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-boringcrypto-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 246,
+          "end_line": 285,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 286,
+          "end_line": 383,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 384,
+          "end_line": 423,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 424,
+          "end_line": 521,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 522,
+          "end_line": 561,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-query-tee-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 562,
+          "end_line": 659,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-query-tee-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/images.yml",
+          "start_line": 660,
+          "end_line": 699,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "labeler.yml",
+      "path": ".github/workflows/labeler.yml",
+      "name": "Pull Request Labeler",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "triage",
+          "name": "triage",
+          "runner": "ubuntu-x64-small",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "triage": 0.0
+        },
+        "pagerank": {
+          "triage": 1.0
+        },
+        "downstream_impact": {
+          "triage": []
+        },
+        "critical_nodes": [
+          "triage"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/labeler.yml",
+          "start_line": 9,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "lint-jsonnet.yml",
+      "path": ".github/workflows/lint-jsonnet.yml",
+      "name": "lint-jsonnet",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-mixin",
+          "name": "Check mixin jsonnet files",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-mixin": 0.0
+        },
+        "pagerank": {
+          "check-mixin": 1.0
+        },
+        "downstream_impact": {
+          "check-mixin": []
+        },
+        "critical_nodes": [
+          "check-mixin"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-mixin' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-jsonnet.yml",
+          "start_line": 18,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "major-release-pr.yml",
+      "path": ".github/workflows/major-release-pr.yml",
+      "name": "Prepare Major Release PR",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "create-release-pr",
+          "name": "create-release-pr",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        {
+          "id": "dist",
+          "name": "dist",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluent-bit",
+          "name": "fluent-bit",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluentd",
+          "name": "fluentd",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logcli",
+          "name": "logcli",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logstash",
+          "name": "logstash",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki",
+          "name": "loki",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary",
+          "name": "loki-canary",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary-boringcrypto",
+          "name": "loki-canary-boringcrypto",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-docker-driver",
+          "name": "loki-docker-driver",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 12,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-helm-test",
+          "name": "loki-helm-test",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "querytee",
+          "name": "querytee",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "version",
+          "name": "version",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "check"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 14,
+        "edge_count": 23,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/major-release-pr.yml",
+          "source_job": "check",
+          "target_workflow": "grafana/loki-release/.github/workflows/check.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0,
+          "create-release-pr": 0.0,
+          "dist": 0.001166,
+          "fluent-bit": 0.001166,
+          "fluentd": 0.001166,
+          "logcli": 0.001166,
+          "logstash": 0.001166,
+          "loki": 0.001166,
+          "loki-canary": 0.001166,
+          "loki-canary-boringcrypto": 0.001166,
+          "loki-docker-driver": 0.001166,
+          "loki-helm-test": 0.001166,
+          "querytee": 0.001166,
+          "version": 0.076923
+        },
+        "pagerank": {
+          "check": 0.036888,
+          "create-release-pr": 0.431093,
+          "dist": 0.042161,
+          "fluent-bit": 0.042161,
+          "fluentd": 0.042161,
+          "logcli": 0.042161,
+          "logstash": 0.042161,
+          "loki": 0.042161,
+          "loki-canary": 0.042161,
+          "loki-canary-boringcrypto": 0.042161,
+          "loki-docker-driver": 0.042161,
+          "loki-helm-test": 0.042161,
+          "querytee": 0.042161,
+          "version": 0.068243
+        },
+        "downstream_impact": {
+          "check": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee",
+            "version"
+          ],
+          "create-release-pr": [],
+          "dist": [
+            "create-release-pr"
+          ],
+          "fluent-bit": [
+            "create-release-pr"
+          ],
+          "fluentd": [
+            "create-release-pr"
+          ],
+          "logcli": [
+            "create-release-pr"
+          ],
+          "logstash": [
+            "create-release-pr"
+          ],
+          "loki": [
+            "create-release-pr"
+          ],
+          "loki-canary": [
+            "create-release-pr"
+          ],
+          "loki-canary-boringcrypto": [
+            "create-release-pr"
+          ],
+          "loki-docker-driver": [
+            "create-release-pr"
+          ],
+          "loki-helm-test": [
+            "create-release-pr"
+          ],
+          "querytee": [
+            "create-release-pr"
+          ],
+          "version": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        "critical_nodes": [
+          "create-release-pr",
+          "version",
+          "dist",
+          "fluent-bit",
+          "fluentd",
+          "logcli",
+          "logstash",
+          "loki",
+          "loki-canary",
+          "loki-canary-boringcrypto",
+          "loki-docker-driver",
+          "loki-helm-test",
+          "querytee",
+          "check"
+        ],
+        "max_blast_radius": 13
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 83,
+          "end_line": 100,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 17,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 28,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dist' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 102,
+          "end_line": 180,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluent-bit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 181,
+          "end_line": 259,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluentd' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 260,
+          "end_line": 338,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logcli' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 339,
+          "end_line": 423,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logstash' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 424,
+          "end_line": 502,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 503,
+          "end_line": 587,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 588,
+          "end_line": 672,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-boringcrypto' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 673,
+          "end_line": 757,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-docker-driver' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 758,
+          "end_line": 854,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-helm-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 855,
+          "end_line": 939,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'querytee' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 940,
+          "end_line": 1021,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/major-release-pr.yml",
+          "start_line": 1022,
+          "end_line": 1117,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "minor-release-pr.yml",
+      "path": ".github/workflows/minor-release-pr.yml",
+      "name": "Prepare Minor Release PR from Weekly",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "create-release-pr",
+          "name": "create-release-pr",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        {
+          "id": "dist",
+          "name": "dist",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluent-bit",
+          "name": "fluent-bit",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluentd",
+          "name": "fluentd",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logcli",
+          "name": "logcli",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logstash",
+          "name": "logstash",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki",
+          "name": "loki",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary",
+          "name": "loki-canary",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary-boringcrypto",
+          "name": "loki-canary-boringcrypto",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-docker-driver",
+          "name": "loki-docker-driver",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 12,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-helm-test",
+          "name": "loki-helm-test",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "querytee",
+          "name": "querytee",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "version",
+          "name": "version",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "check"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 14,
+        "edge_count": 23,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/minor-release-pr.yml",
+          "source_job": "check",
+          "target_workflow": "grafana/loki-release/.github/workflows/check.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0,
+          "create-release-pr": 0.0,
+          "dist": 0.001166,
+          "fluent-bit": 0.001166,
+          "fluentd": 0.001166,
+          "logcli": 0.001166,
+          "logstash": 0.001166,
+          "loki": 0.001166,
+          "loki-canary": 0.001166,
+          "loki-canary-boringcrypto": 0.001166,
+          "loki-docker-driver": 0.001166,
+          "loki-helm-test": 0.001166,
+          "querytee": 0.001166,
+          "version": 0.076923
+        },
+        "pagerank": {
+          "check": 0.036888,
+          "create-release-pr": 0.431093,
+          "dist": 0.042161,
+          "fluent-bit": 0.042161,
+          "fluentd": 0.042161,
+          "logcli": 0.042161,
+          "logstash": 0.042161,
+          "loki": 0.042161,
+          "loki-canary": 0.042161,
+          "loki-canary-boringcrypto": 0.042161,
+          "loki-docker-driver": 0.042161,
+          "loki-helm-test": 0.042161,
+          "querytee": 0.042161,
+          "version": 0.068243
+        },
+        "downstream_impact": {
+          "check": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee",
+            "version"
+          ],
+          "create-release-pr": [],
+          "dist": [
+            "create-release-pr"
+          ],
+          "fluent-bit": [
+            "create-release-pr"
+          ],
+          "fluentd": [
+            "create-release-pr"
+          ],
+          "logcli": [
+            "create-release-pr"
+          ],
+          "logstash": [
+            "create-release-pr"
+          ],
+          "loki": [
+            "create-release-pr"
+          ],
+          "loki-canary": [
+            "create-release-pr"
+          ],
+          "loki-canary-boringcrypto": [
+            "create-release-pr"
+          ],
+          "loki-docker-driver": [
+            "create-release-pr"
+          ],
+          "loki-helm-test": [
+            "create-release-pr"
+          ],
+          "querytee": [
+            "create-release-pr"
+          ],
+          "version": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        "critical_nodes": [
+          "create-release-pr",
+          "version",
+          "dist",
+          "fluent-bit",
+          "fluentd",
+          "logcli",
+          "logstash",
+          "loki",
+          "loki-canary",
+          "loki-canary-boringcrypto",
+          "loki-docker-driver",
+          "loki-helm-test",
+          "querytee",
+          "check"
+        ],
+        "max_blast_radius": 13
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 83,
+          "end_line": 100,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 17,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 28,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dist' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 102,
+          "end_line": 180,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluent-bit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 181,
+          "end_line": 259,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluentd' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 260,
+          "end_line": 338,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logcli' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 339,
+          "end_line": 423,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logstash' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 424,
+          "end_line": 502,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 503,
+          "end_line": 587,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 588,
+          "end_line": 672,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-boringcrypto' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 673,
+          "end_line": 757,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-docker-driver' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 758,
+          "end_line": 854,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-helm-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 855,
+          "end_line": 939,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'querytee' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 940,
+          "end_line": 1021,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/minor-release-pr.yml",
+          "start_line": 1022,
+          "end_line": 1117,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "nix-ci.yaml",
+      "path": ".github/workflows/nix-ci.yaml",
+      "name": "Lint And Build Nix Flake",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "packages",
+          "name": "packages",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0,
+          "packages": 0.0
+        },
+        "pagerank": {
+          "lint": 0.5,
+          "packages": 0.5
+        },
+        "downstream_impact": {
+          "lint": [],
+          "packages": []
+        },
+        "critical_nodes": [
+          "lint",
+          "packages"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nix-ci.yaml",
+          "start_line": 19,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'packages' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nix-ci.yaml",
+          "start_line": 31,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "patch-release-pr.yml",
+      "path": ".github/workflows/patch-release-pr.yml",
+      "name": "Prepare Patch Release PR",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "create-release-pr",
+          "name": "create-release-pr",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        {
+          "id": "dist",
+          "name": "dist",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluent-bit",
+          "name": "fluent-bit",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "fluentd",
+          "name": "fluentd",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logcli",
+          "name": "logcli",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "logstash",
+          "name": "logstash",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki",
+          "name": "loki",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary",
+          "name": "loki-canary",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-canary-boringcrypto",
+          "name": "loki-canary-boringcrypto",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-docker-driver",
+          "name": "loki-docker-driver",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 12,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "loki-helm-test",
+          "name": "loki-helm-test",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "querytee",
+          "name": "querytee",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 10,
+          "needs": [
+            "version"
+          ]
+        },
+        {
+          "id": "version",
+          "name": "version",
+          "runner": "ubuntu-x64",
+          "steps_count": 7,
+          "needs": [
+            "check"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 14,
+        "edge_count": 23,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/patch-release-pr.yml",
+          "source_job": "check",
+          "target_workflow": "grafana/loki-release/.github/workflows/check.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0,
+          "create-release-pr": 0.0,
+          "dist": 0.001166,
+          "fluent-bit": 0.001166,
+          "fluentd": 0.001166,
+          "logcli": 0.001166,
+          "logstash": 0.001166,
+          "loki": 0.001166,
+          "loki-canary": 0.001166,
+          "loki-canary-boringcrypto": 0.001166,
+          "loki-docker-driver": 0.001166,
+          "loki-helm-test": 0.001166,
+          "querytee": 0.001166,
+          "version": 0.076923
+        },
+        "pagerank": {
+          "check": 0.036888,
+          "create-release-pr": 0.431093,
+          "dist": 0.042161,
+          "fluent-bit": 0.042161,
+          "fluentd": 0.042161,
+          "logcli": 0.042161,
+          "logstash": 0.042161,
+          "loki": 0.042161,
+          "loki-canary": 0.042161,
+          "loki-canary-boringcrypto": 0.042161,
+          "loki-docker-driver": 0.042161,
+          "loki-helm-test": 0.042161,
+          "querytee": 0.042161,
+          "version": 0.068243
+        },
+        "downstream_impact": {
+          "check": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee",
+            "version"
+          ],
+          "create-release-pr": [],
+          "dist": [
+            "create-release-pr"
+          ],
+          "fluent-bit": [
+            "create-release-pr"
+          ],
+          "fluentd": [
+            "create-release-pr"
+          ],
+          "logcli": [
+            "create-release-pr"
+          ],
+          "logstash": [
+            "create-release-pr"
+          ],
+          "loki": [
+            "create-release-pr"
+          ],
+          "loki-canary": [
+            "create-release-pr"
+          ],
+          "loki-canary-boringcrypto": [
+            "create-release-pr"
+          ],
+          "loki-docker-driver": [
+            "create-release-pr"
+          ],
+          "loki-helm-test": [
+            "create-release-pr"
+          ],
+          "querytee": [
+            "create-release-pr"
+          ],
+          "version": [
+            "create-release-pr",
+            "dist",
+            "fluent-bit",
+            "fluentd",
+            "logcli",
+            "logstash",
+            "loki",
+            "loki-canary",
+            "loki-canary-boringcrypto",
+            "loki-docker-driver",
+            "loki-helm-test",
+            "querytee"
+          ]
+        },
+        "critical_nodes": [
+          "create-release-pr",
+          "version",
+          "dist",
+          "fluent-bit",
+          "fluentd",
+          "logcli",
+          "logstash",
+          "loki",
+          "loki-canary",
+          "loki-canary-boringcrypto",
+          "loki-docker-driver",
+          "loki-helm-test",
+          "querytee",
+          "check"
+        ],
+        "max_blast_radius": 13
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 83,
+          "end_line": 100,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 17,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-release-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 28,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dist' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 102,
+          "end_line": 180,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluent-bit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 181,
+          "end_line": 259,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fluentd' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 260,
+          "end_line": 338,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logcli' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 339,
+          "end_line": 423,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'logstash' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 424,
+          "end_line": 502,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 503,
+          "end_line": 587,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 588,
+          "end_line": 672,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-canary-boringcrypto' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 673,
+          "end_line": 757,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-docker-driver' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 758,
+          "end_line": 854,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-helm-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 855,
+          "end_line": 939,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'querytee' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 940,
+          "end_line": 1021,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/patch-release-pr.yml",
+          "start_line": 1022,
+          "end_line": 1117,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "querytee-images.yml",
+      "path": ".github/workflows/querytee-images.yml",
+      "name": "Publish loki-query-tee images",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "loki-query-tee-image",
+          "name": "loki-query-tee-image",
+          "runner": "${{ matrix.runs_on }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "loki-query-tee-manifest",
+          "name": "loki-query-tee-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "loki-query-tee-image"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "loki-query-tee-image": 0.0,
+          "loki-query-tee-manifest": 0.0
+        },
+        "pagerank": {
+          "loki-query-tee-image": 0.350877,
+          "loki-query-tee-manifest": 0.649123
+        },
+        "downstream_impact": {
+          "loki-query-tee-image": [
+            "loki-query-tee-manifest"
+          ],
+          "loki-query-tee-manifest": []
+        },
+        "critical_nodes": [
+          "loki-query-tee-manifest",
+          "loki-query-tee-image"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'loki-query-tee-image' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/querytee-images.yml",
+          "start_line": 23,
+          "end_line": 91,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-query-tee-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/querytee-images.yml",
+          "start_line": 23,
+          "end_line": 91,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'loki-query-tee-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/querytee-images.yml",
+          "start_line": 92,
+          "end_line": 132,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "create release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "createRelease",
+          "name": "createRelease",
+          "runner": "ubuntu-x64",
+          "steps_count": 11,
+          "needs": [
+            "shouldRelease"
+          ]
+        },
+        {
+          "id": "createReleaseBranch",
+          "name": "createReleaseBranch",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": [
+            "publishRelease"
+          ]
+        },
+        {
+          "id": "publishImages",
+          "name": "publishImages",
+          "runner": "ubuntu-x64",
+          "steps_count": 6,
+          "needs": [
+            "createRelease"
+          ]
+        },
+        {
+          "id": "publishRelease",
+          "name": "publishRelease",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": [
+            "createRelease",
+            "publishImages"
+          ]
+        },
+        {
+          "id": "shouldRelease",
+          "name": "shouldRelease",
+          "runner": "ubuntu-x64-small",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "createRelease": 0.25,
+          "createReleaseBranch": 0.0,
+          "publishImages": 0.0,
+          "publishRelease": 0.25,
+          "shouldRelease": 0.0
+        },
+        "pagerank": {
+          "createRelease": 0.157451,
+          "createReleaseBranch": 0.324169,
+          "publishImages": 0.152025,
+          "publishRelease": 0.281247,
+          "shouldRelease": 0.085108
+        },
+        "downstream_impact": {
+          "createRelease": [
+            "createReleaseBranch",
+            "publishImages",
+            "publishRelease"
+          ],
+          "createReleaseBranch": [],
+          "publishImages": [
+            "createReleaseBranch",
+            "publishRelease"
+          ],
+          "publishRelease": [
+            "createReleaseBranch"
+          ],
+          "shouldRelease": [
+            "createRelease",
+            "createReleaseBranch",
+            "publishImages",
+            "publishRelease"
+          ]
+        },
+        "critical_nodes": [
+          "publishRelease",
+          "createRelease",
+          "createReleaseBranch",
+          "publishImages",
+          "shouldRelease"
+        ],
+        "max_blast_radius": 4
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'createRelease' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 13,
+          "end_line": 134,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'createReleaseBranch' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 135,
+          "end_line": 213,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publishImages' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 214,
+          "end_line": 254,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publishRelease' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 255,
+          "end_line": 285,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'shouldRelease' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 286,
+          "end_line": 321,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 97,
+          "end_line": 111,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 13,
+          "end_line": 134,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'createRelease' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 13,
+          "end_line": 134,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'createReleaseBranch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 135,
+          "end_line": 213,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publishImages' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 214,
+          "end_line": 254,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publishRelease' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 255,
+          "end_line": 285,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'shouldRelease' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 286,
+          "end_line": 321,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "relyance.yml",
+      "path": ".github/workflows/relyance.yml",
+      "name": "Relyance Compliance Inspection",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "relyance",
+          "name": "relyance",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "relyance": 0.0
+        },
+        "pagerank": {
+          "relyance": 1.0
+        },
+        "downstream_impact": {
+          "relyance": []
+        },
+        "critical_nodes": [
+          "relyance"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "sbom-on-release.yml",
+      "path": ".github/workflows/sbom-on-release.yml",
+      "name": "SBOM on Release",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "export-sbom",
+          "name": "Export SBOM and attach to release",
+          "runner": "ubuntu-x64",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "export-sbom": 0.0
+        },
+        "pagerank": {
+          "export-sbom": 1.0
+        },
+        "downstream_impact": {
+          "export-sbom": []
+        },
+        "critical_nodes": [
+          "export-sbom"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'export-sbom' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sbom-on-release.yml",
+          "start_line": 21,
+          "end_line": 68,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'export-sbom' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sbom-on-release.yml",
+          "start_line": 21,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "secret-scanning.yml",
+      "path": ".github/workflows/secret-scanning.yml",
+      "name": "TruffleHog Secrets Scan",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "TruffleHog",
+          "name": "TruffleHog",
+          "runner": "ubuntu-x64",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "TruffleHog": 0.0
+        },
+        "pagerank": {
+          "TruffleHog": 1.0
+        },
+        "downstream_impact": {
+          "TruffleHog": []
+        },
+        "critical_nodes": [
+          "TruffleHog"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'TruffleHog' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/secret-scanning.yml",
+          "start_line": 8,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "verify-release-workflow.yaml",
+      "path": ".github/workflows/verify-release-workflow.yaml",
+      "name": "Verify release workflow updates",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-release-changes",
+          "name": "check-release-changes",
+          "runner": "ubuntu-x64",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-release-changes": 0.0
+        },
+        "pagerank": {
+          "check-release-changes": 1.0
+        },
+        "downstream_impact": {
+          "check-release-changes": []
+        },
+        "critical_nodes": [
+          "check-release-changes"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'check-release-changes' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-release-workflow.yaml",
+          "start_line": 8,
+          "end_line": 26,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-release-changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-release-workflow.yaml",
+          "start_line": 8,
+          "end_line": 26,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}
