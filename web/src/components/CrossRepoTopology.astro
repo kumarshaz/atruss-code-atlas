@@ -210,22 +210,39 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
 
     function buildCrossTopologyGraph(edges: Array<{ kind: string; source: string; target: string }>): string {
         const lines = ['flowchart TD', ...getMermaidClassDefs()];
-        const declared = new Set<string>();
-        edges.forEach((edge, idx) => {
+        const srcNodes = new Map<string, string>();
+        const targetNodes = new Map<string, { label: string; cls: string }>();
+
+        edges.slice(0, 28).forEach((edge) => {
             const sId = `n_${safeId(edge.source)}`;
             const tId = `n_${safeId(edge.target)}`;
-            if (!declared.has(sId)) {
-                declared.add(sId);
-                lines.push(`  ${sId}["${safeLabel(edge.source)}"]:::atlasWorkflow`);
+            if (!srcNodes.has(sId)) srcNodes.set(sId, safeLabel(edge.source));
+            if (!targetNodes.has(tId)) {
+                const cls = edge.target.startsWith('env:') ? ':::atlasTarget' : ':::atlasCategory';
+                targetNodes.set(tId, { label: safeLabel(edge.target), cls });
             }
-            if (!declared.has(tId)) {
-                declared.add(tId);
-                const tCls = edge.target.startsWith('env:') ? ':::atlasTarget' : ':::atlasCategory';
-                lines.push(`  ${tId}["${safeLabel(edge.target)}"]${tCls}`);
+        });
+
+        lines.push('  subgraph Repositories["Repositories & Workspaces"]');
+        lines.push('    direction TB');
+        for (const [id, label] of srcNodes.entries()) {
+            if (!targetNodes.has(id)) {
+                lines.push(`    ${id}["${label}"]:::atlasWorkflow`);
             }
-            if (idx < 28) {
-                lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);
-            }
+        }
+        lines.push('  end');
+
+        lines.push('  subgraph SharedTargets["Shared Targets & Packages"]');
+        lines.push('    direction TB');
+        for (const [id, info] of targetNodes.entries()) {
+            lines.push(`    ${id}["${info.label}"]${info.cls}`);
+        }
+        lines.push('  end');
+
+        edges.slice(0, 28).forEach((edge) => {
+            const sId = `n_${safeId(edge.source)}`;
+            const tId = `n_${safeId(edge.target)}`;
+            lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);
         });
         return lines.join('\n');
     }
