@@ -83,11 +83,16 @@ name: Clean Pipeline
 on:
   pull_request:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -95,8 +100,11 @@ jobs:
       - run: npm ci && npm test
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -106,6 +114,7 @@ jobs:
   deploy:
     needs: [test, build]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
     steps:

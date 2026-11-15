@@ -1,0 +1,47 @@
+version: "1.0"
+description: >
+  Declarative Policy-as-Code architectural fitness rules for Atruss Code Atlas.
+  Defines layer boundary constraints, circular dependency prohibition, complexity
+  and duplication thresholds, and deployment test-gate invariants.
+
+forbid_circular_dependencies: true
+require_test_gate_before_deploy: true
+
+thresholds:
+  max_cyclomatic_complexity: 20
+  max_cognitive_complexity: 25
+  max_duplication_pct: 15.0
+
+layer_rules:
+  - rule_id: "ATRUSS-ARCH-001"
+    type: "LAYER_VIOLATION"
+    severity: "HIGH"
+    source_layer: "API_ROUTE"
+    forbidden_target_layer: "DATA_ACCESS_LAYER"
+    when_layer_present: "SERVICE"
+    message: "API_ROUTE cannot directly import DATA_ACCESS_LAYER when SERVICE components exist."
+
+  - rule_id: "ATRUSS-ARCH-002"
+    type: "LAYER_VIOLATION"
+    severity: "HIGH"
+    source_layer: "UI_COMPONENT"
+    forbidden_target_layer: "DATA_ACCESS_LAYER"
+    message: "UI_COMPONENT cannot directly import DATA_ACCESS_LAYER."
+
+  - rule_id: "ATRUSS-ARCH-003"
+    type: "LAYER_VIOLATION"
+    severity: "MEDIUM"
+    source_layer: "DOMAIN"
+    forbidden_target_layer: "INFRASTRUCTURE"
+    message: "DOMAIN cannot import INFRASTRUCTURE."
+
+cycle_rule:
+  rule_id: "ATRUSS-ARCH-004"
+  type: "CIRCULAR_DEPENDENCY"
+  severity: "HIGH"
+  message: "Circular dependency detected between architectural components."
+
+threshold_rule:
+  rule_id: "ATRUSS-ARCH-005"
+  type: "COMPLEXITY_THRESHOLD"
+  severity: "MEDIUM"

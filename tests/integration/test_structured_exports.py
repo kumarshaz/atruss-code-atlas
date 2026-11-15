@@ -13,7 +13,7 @@ from src.cli.commands.discover import execute_discovery
 @pytest.mark.integration
 @pytest.mark.asyncio
 async def test_discover_and_export_lifecycle_latest_merge(tmp_path: Path):
-    """Validates discover -> analyze-pipeline -> analyze-code merges all modules into exports/latest/."""
+    """Validates discover -> analyze-pipeline -> analyze-code merges modules into latest/."""
 
     def handler(request: httpx.Request) -> httpx.Response:
         if request.url.path == "/orgs/demo/repos":
@@ -88,5 +88,6 @@ async def test_discover_and_export_lifecycle_latest_merge(tmp_path: Path):
     assert (latest / "pipelines" / "demo-atlas-svc-pipeline.json").exists()
     assert (latest / "relationships" / "pipeline_topology.json").exists()
     assert (latest / "reports" / "local-atlas-svc-report.md").exists()
-    analysis = json.loads((latest / "reports" / "local-atlas-svc-analysis.json").read_text(encoding="utf-8"))
+    analysis_file = latest / "reports" / "local-atlas-svc-analysis.json"
+    analysis = json.loads(analysis_file.read_text(encoding="utf-8"))
     assert analysis["ecosystem"] == "Python"

@@ -73,12 +73,18 @@ def test_generate_stubs_creates_correct_structure(tmp_path: Path):
     assert "import PipelineView from '../../../../components/PipelineView.astro'" in content_1
     arch_import = "import ArchitectureView from '../../../../components/ArchitectureView.astro'"
     assert arch_import in content_1
+    scorecard_import = (
+        "import ScorecardHeatmap from '../../../../components/ScorecardHeatmap.astro'"
+    )
+    assert scorecard_import in content_1
     assert "<RepoTabs " in content_1
     assert 'slot="discovery"' in content_1
     assert 'slot="pipeline"' in content_1
     assert 'slot="architecture"' in content_1
+    assert 'slot="scorecard"' in content_1
     assert "<PipelineView " in content_1
     assert "<ArchitectureView " in content_1
+    assert "<ScorecardHeatmap " in content_1
 
 
 def test_generate_stubs_missing_file(tmp_path: Path):

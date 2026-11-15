@@ -1,0 +1,315 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface CrossEdge {
+    kind: string;
+    source: string;
+    target: string;
+    detail: string;
+}
+
+const readJsonSafe = (filePath: string): any => {
+    try {
+        if (fs.existsSync(filePath)) {
+            return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        }
+    } catch {
+        // Ignore malformed files gracefully
+    }
+    return null;
+};
+
+const resolveExportDir = (sub: string): string | null => {
+    const candidates = [
+        path.resolve(process.cwd(), `../exports/latest/${sub}`),
+        path.resolve(process.cwd(), `src/data/latest/${sub}`),
+    ];
+    for (const dir of candidates) {
+        if (fs.existsSync(dir)) return dir;
+    }
+    return null;
+};
+
+const crossEdges: CrossEdge[] = [];
+const seenEdgeKeys = new Set<string>();
+const pushEdge = (kind: string, source: string, target: string, detail: string) => {
+    const cleanSource = String(source || '').trim();
+    const cleanTarget = String(target || '').trim();
+    if (!cleanSource || !cleanTarget || cleanSource === cleanTarget) return;
+    const key = `${kind}|${cleanSource}|${cleanTarget}|${detail}`;
+    if (!seenEdgeKeys.has(key)) {
+        seenEdgeKeys.add(key);
+        crossEdges.push({ kind, source: cleanSource, target: cleanTarget, detail });
+    }
+};
+
+// 1. Cross-workflow calls & shared deployment targets from pipelines
+const pipeDir = resolveExportDir('pipelines');
+if (pipeDir) {
+    for (const entry of fs.readdirSync(pipeDir).sort()) {
+        if (!entry.endsWith('-pipeline.json')) continue;
+        const pdata = readJsonSafe(path.join(pipeDir, entry));
+        if (!pdata || !Array.isArray(pdata.workflows)) continue;
+        const org = String(pdata.org || '').trim();
+        const repo = String(pdata.repository || '').trim();
+        const repoLabel = org && repo && !repo.includes('/') ? `${org}/${repo}` : repo || entry;
+
+        for (const wf of pdata.workflows) {
+            if (!wf || typeof wf !== 'object') continue;
+            const cwes = Array.isArray(wf.cross_workflow_edges) ? wf.cross_workflow_edges : [];
+            for (const cwe of cwes) {
+                if (!cwe || typeof cwe !== 'object') continue;
+                const edgeType = String(cwe.edge_type || 'workflow_call');
+                const srcWf = String(cwe.source_workflow || wf.id || 'workflow');
+                const tgtWf = String(cwe.target_workflow || 'target');
+                pushEdge(edgeType, `${repoLabel}:${srcWf}`, tgtWf, `Trigger via ${cwe.job_id || edgeType}`);
+            }
+        }
+    }
+}
+
+// 2. Shared internal workspaces & Code-to-Cloud target convergence from reports
+const reportsDir = resolveExportDir('reports');
+const targetDeployers = new Map<string, Set<string>>();
+if (reportsDir) {
+    for (const entry of fs.readdirSync(reportsDir).sort()) {
+        if (!entry.endsWith('-analysis.json')) continue;
+        const rdata = readJsonSafe(path.join(reportsDir, entry));
+        if (!rdata || typeof rdata !== 'object') continue;
+        const repoLabel = String(rdata.repository || entry.replace(/-analysis\.json$/, '')).trim();
+
+        const workspaces = Array.isArray(rdata.workspace_packages) ? rdata.workspace_packages : [];
+        for (const wp of workspaces) {
+            if (!wp || typeof wp !== 'object') continue;
+            const pkgName = String(wp.name || wp.path || '').trim();
+            const ideps = Array.isArray(wp.internal_dependencies) ? wp.internal_dependencies : [];
+            for (const dep of ideps) {
+                pushEdge('workspace_dep', `${repoLabel}/${pkgName}`, `${repoLabel}/${dep}`, String(wp.manager || 'workspace'));
+            }
+        }
+
+        const c2c = Array.isArray(rdata.code_to_cloud_edges) ? rdata.code_to_cloud_edges : [];
+        for (const edge of c2c) {
+            if (!edge || typeof edge !== 'object') continue;
+            const tgtType = String(edge.target_type || '').toLowerCase();
+            const tgtName = String(edge.target || '').trim();
+            if (tgtName && (tgtType === 'environment' || tgtType === 'container' || tgtType === 'iac')) {
+                if (!targetDeployers.has(tgtName)) targetDeployers.set(tgtName, new Set());
+                targetDeployers.get(tgtName)!.add(repoLabel);
+            }
+        }
+    }
+}
+
+// 3. Multi-repo shared targets from pipeline_topology.json
+const relDir = resolveExportDir('relationships');
+if (relDir) {
+    const topo = readJsonSafe(path.join(relDir, 'pipeline_topology.json'));
+    const items = Array.isArray(topo?.items) ? topo.items : Array.isArray(topo) ? topo : [];
+    for (const node of items) {
+        if (!node || typeof node !== 'object') continue;
+        const rName = String(node.repoName || '').trim();
+        const envName = String(node.deploymentTargetName || '').trim();
+        if (rName && envName && envName !== 'ci') {
+            if (!targetDeployers.has(envName)) targetDeployers.set(envName, new Set());
+            targetDeployers.get(envName)!.add(rName);
+        }
+        const resources = Array.isArray(node.resourceNames) ? node.resourceNames : [];
+        for (const res of resources) {
+            const resStr = String(res || '').trim();
+            if (rName && resStr && resStr !== 'ci-runner') {
+                if (!targetDeployers.has(resStr)) targetDeployers.set(resStr, new Set());
+                targetDeployers.get(resStr)!.add(rName);
+            }
+        }
+    }
+}
+
+for (const [targetName, repoSet] of Array.from(targetDeployers.entries()).sort()) {
+    const repos = Array.from(repoSet).sort();
+    if (repos.length >= 2) {
+        for (const r of repos.slice(0, 10)) {
+            pushEdge('shared_target', r, `env:${targetName}`, `Shared deployment target (${repos.length} repos)`);
+        }
+    }
+}
+
+const limitedEdges = crossEdges.slice(0, 28);
+const serializedTopology = JSON.stringify({ edges: limitedEdges })
+    .replace(/<\//g, '<\\/')
+    .replace(/<!--/g, '<\\!--');
+---
+
+<section class="m3-card-elevated m3-cross-topo-card" data-cross-topo-root="true" data-zoom-container="true">
+    <script type="application/json" data-cross-topo-payload="true" set:html={serializedTopology} />
+
+    <header class="m3-diagram-toolbar">
+        <div class="m3-section-header">
+            <span class="material-symbols-outlined" aria-hidden="true">hub</span>
+            <h4>Cross-Repository Topology &amp; Shared Dependencies</h4>
+        </div>
+
+        <div class="m3-zoom-controls" role="group" aria-label="Cross-repository topology controls">
+            <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
+                <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
+            </button>
+            <span class="m3-zoom-pct" data-zoom-label="true">100%</span>
+            <button type="button" class="m3-zoom-btn" data-zoom-action="in" title="Zoom in">
+                <span class="material-symbols-outlined" aria-hidden="true">zoom_in</span>
+            </button>
+            <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
+                <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+            </button>
+            <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+            </button>
+            <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+                <span class="material-symbols-outlined" aria-hidden="true">image</span>
+            </button>
+        </div>
+    </header>
+
+    {limitedEdges.length === 0 ? (
+        <p class="m3-cross-empty">
+            No cross-workflow <code>workflow_call</code>/<code>workflow_run</code> triggers, shared workspace dependencies, or shared deployment targets detected in current <code>exports/latest/</code>.
+        </p>
+    ) : (
+        <>
+            <div class="m3-diagram-viewport">
+                <div class="m3-diagram-canvas" data-cross-topo-canvas="true" data-zoom-target="true">
+                    <p class="m3-diagram-loading">Rendering cross-repository topology...</p>
+                </div>
+            </div>
+
+            <div class="m3-cross-edges-grid">
+                {limitedEdges.slice(0, 12).map((edge) => (
+                    <article class="m3-cross-edge-pill">
+                        <span class="m3-chip m3-chip-tonal-tertiary m3-cross-kind">{edge.kind}</span>
+                        <code class="m3-cross-path">
+                            {edge.source} → {edge.target}
+                        </code>
+                        <span class="m3-cross-detail">{edge.detail}</span>
+                    </article>
+                ))}
+            </div>
+        </>
+    )}
+</section>
+
+<script>
+    import {
+        applyResponsiveSvgStyle,
+        bindDiagramExportButtons,
+        bindDiagramZoom,
+        renderMermaidSvg,
+        safeId,
+        safeLabel,
+    } from '../lib/mermaid-client';
+
+    function buildCrossTopologyGraph(edges: Array<{ kind: string; source: string; target: string }>): string {
+        const lines = ['flowchart TD'];
+        const declared = new Set<string>();
+        edges.forEach((edge, idx) => {
+            const sId = `n_${safeId(edge.source)}`;
+            const tId = `n_${safeId(edge.target)}`;
+            if (!declared.has(sId)) {
+                declared.add(sId);
+                lines.push(`  ${sId}["${safeLabel(edge.source)}"]`);
+            }
+            if (!declared.has(tId)) {
+                declared.add(tId);
+                lines.push(`  ${tId}["${safeLabel(edge.target)}"]`);
+            }
+            if (idx < 28) {
+                lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);
+            }
+        });
+        return lines.join('\n');
+    }
+
+    async function renderCrossTopology(): Promise<void> {
+        const roots = document.querySelectorAll<HTMLElement>('[data-cross-topo-root="true"]');
+        for (const root of roots) {
+            const payloadEl = root.querySelector<HTMLScriptElement>('[data-cross-topo-payload]');
+            const canvas = root.querySelector<HTMLElement>('[data-cross-topo-canvas]');
+            if (!payloadEl || !canvas) continue;
+
+            let edges: any[] = [];
+            try {
+                const parsed = JSON.parse(payloadEl.textContent || '{}');
+                edges = Array.isArray(parsed.edges) ? parsed.edges : [];
+            } catch {
+                edges = [];
+            }
+            if (edges.length === 0) continue;
+
+            const graphDef = buildCrossTopologyGraph(edges);
+            canvas.dataset.diagramSource = graphDef;
+            try {
+                const svg = await renderMermaidSvg('cross-topo', graphDef);
+                canvas.innerHTML = svg;
+                applyResponsiveSvgStyle(canvas.querySelector('svg'));
+            } catch (err) {
+                console.error('CrossRepoTopology Mermaid render failed:', err);
+            }
+
+            bindDiagramExportButtons(root, {
+                getSvgContainer: () => canvas,
+                getSource: () => canvas.dataset.diagramSource || graphDef,
+                filenameBase: 'cross-repo-topology',
+            });
+        }
+        bindDiagramZoom();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCrossTopology);
+    document.addEventListener('astro:page-load', renderCrossTopology);
+</script>
+
+<style>
+    .m3-cross-topo-card {
+        margin-top: 1.5rem;
+        padding: 1.25rem;
+    }
+
+    .m3-cross-empty {
+        margin: 0 !important;
+        font-size: 0.9rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-cross-edges-grid {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 0.65rem;
+    }
+
+    .m3-cross-edge-pill {
+        padding: 0.7rem 0.85rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .m3-cross-kind {
+        width: fit-content;
+        height: 1.5rem;
+        font-size: 0.72rem;
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-cross-path {
+        font-size: 0.78rem;
+        word-break: break-word;
+    }
+
+    .m3-cross-detail {
+        font-size: 0.76rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+</style>

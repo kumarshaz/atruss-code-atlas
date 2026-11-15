@@ -1,0 +1,188 @@
+{
+  "org": "kumarshaz",
+  "repository": "atruss-code-atlas",
+  "sha": "57dd5638aa381e3cc2338e713752117eaad9eebd",
+  "analyzed_at": "2026-11-15T01:41:19Z",
+  "workflows": [
+    {
+      "id": "benchmark.yml",
+      "path": ".github/workflows/benchmark.yml",
+      "name": "Scheduled Public GitHub Benchmark",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "benchmark",
+          "name": "benchmark",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "benchmark": 0.0
+        },
+        "pagerank": {
+          "benchmark": 1.0
+        },
+        "downstream_impact": {
+          "benchmark": []
+        },
+        "critical_nodes": [
+          "benchmark"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "deploy-pages.yml",
+      "path": ".github/workflows/deploy-pages.yml",
+      "name": "Deploy Material UI to GitHub Pages",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "deploy": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "deploy": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "deploy"
+          ],
+          "deploy": []
+        },
+        "critical_nodes": [
+          "deploy",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "tests.yml",
+      "path": ".github/workflows/tests.yml",
+      "name": "CI Suite",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint-and-unit",
+          "name": "lint-and-unit",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "web-check",
+          "name": "web-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "integration-and-e2e",
+          "name": "integration-and-e2e",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "lint-and-unit"
+          ]
+        },
+        {
+          "id": "agent-workflow-eval",
+          "name": "agent-workflow-eval",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "integration-and-e2e"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "agent-workflow-eval": 0.0,
+          "integration-and-e2e": 0.166667,
+          "lint-and-unit": 0.0,
+          "web-check": 0.0
+        },
+        "pagerank": {
+          "agent-workflow-eval": 0.400545,
+          "integration-and-e2e": 0.28805,
+          "lint-and-unit": 0.155703,
+          "web-check": 0.155703
+        },
+        "downstream_impact": {
+          "agent-workflow-eval": [],
+          "integration-and-e2e": [
+            "agent-workflow-eval"
+          ],
+          "lint-and-unit": [
+            "agent-workflow-eval",
+            "integration-and-e2e"
+          ],
+          "web-check": []
+        },
+        "critical_nodes": [
+          "integration-and-e2e",
+          "agent-workflow-eval",
+          "lint-and-unit",
+          "web-check"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": []
+    }
+  ]
+}

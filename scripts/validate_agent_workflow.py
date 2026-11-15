@@ -45,7 +45,11 @@ from src.cli.commands.analyze_pipeline import (  # noqa: E402
     execute_pipeline_analysis,
 )
 from src.cli.commands.discover import execute_discovery  # noqa: E402
+from src.core.exporters.llms_exporter import build_llms_txt  # noqa: E402
+from src.core.exporters.sarif_exporter import build_sarif_report  # noqa: E402
+from src.core.exporters.sbom_exporter import build_cyclonedx_sbom  # noqa: E402
 from src.core.services.report_generator import generate_arc42_markdown  # noqa: E402
+from src.models.artifacts import PortableArtifact  # noqa: E402
 
 REQUIRED_DISCOVERY_FIELDS = {
     "Organization",
@@ -117,7 +121,7 @@ def _run_gate_1_traceability(spec_dir: Path, repo_root: Path) -> GateResult:
     # Verify concrete backticked repo file paths referenced in plan.md exist on disk
     candidate_paths = set(
         re.findall(
-            r"`((?:src|manifests|scripts|tests|web)/[A-Za-z0-9_./-]+\.(?:py|yaml|yml|json|md|astro|toml))`",
+            r"`((?:src|manifests|scripts|tests|web)/[A-Za-z0-9_./-]+\.(?:py|yaml|yml|json|md|mdx|astro|ts|css|mjs|toml))`",
             plan_text,
         )
     )
@@ -367,6 +371,57 @@ def _validate_pipeline_payload(data: Any, label: str) -> list[str]:
     return errs
 
 
+def _validate_horizon2_dir(
+    latest: Path,
+    prefix: str,
+    *,
+    require_present: bool,
+) -> tuple[list[str], list[str]]:
+    errs: list[str] = []
+    ok_files: list[str] = []
+
+    sbom_dir = latest / "sbom"
+    sbom_files = sorted(sbom_dir.glob("*.cdx.json")) if sbom_dir.is_dir() else []
+    if require_present and not sbom_files:
+        errs.append(f"{prefix} missing latest/sbom/*.cdx.json")
+    for sf in sbom_files:
+        sdata = json.loads(sf.read_text(encoding="utf-8"))
+        if sdata.get("bomFormat") != "CycloneDX" or sdata.get("specVersion") != "1.6":
+            errs.append(f"{prefix}:sbom/{sf.name} invalid CycloneDX v1.6 header")
+        ok_files.append(f"{prefix}:sbom/{sf.name}")
+
+    sarif_dir = latest / "sarif"
+    sarif_files = sorted(sarif_dir.glob("*.sarif.json")) if sarif_dir.is_dir() else []
+    if require_present and not sarif_files:
+        errs.append(f"{prefix} missing latest/sarif/*.sarif.json")
+    for sf in sarif_files:
+        sdata = json.loads(sf.read_text(encoding="utf-8"))
+        if sdata.get("version") != "2.1.0" or not isinstance(sdata.get("runs"), list):
+            errs.append(f"{prefix}:sarif/{sf.name} invalid SARIF v2.1.0 schema")
+        ok_files.append(f"{prefix}:sarif/{sf.name}")
+
+    llms_dir = latest / "llms"
+    if require_present or llms_dir.is_dir():
+        for fname in ("llms.txt", "llms-full.txt"):
+            fpath = llms_dir / fname
+            if not fpath.exists() or not fpath.read_text(encoding="utf-8").strip():
+                errs.append(f"{prefix} missing or empty llms/{fname}")
+            else:
+                ok_files.append(f"{prefix}:llms/{fname}")
+
+    hist_file = latest / "catalog-history.json"
+    if require_present or hist_file.exists():
+        if not hist_file.exists():
+            errs.append(f"{prefix} missing latest/catalog-history.json")
+        else:
+            hdata = json.loads(hist_file.read_text(encoding="utf-8"))
+            if not isinstance(hdata.get("snapshots"), list):
+                errs.append(f"{prefix}:catalog-history.json missing 'snapshots' list")
+            ok_files.append(f"{prefix}:catalog-history.json")
+
+    return errs, ok_files
+
+
 def _run_gate_4_astro_contracts(exports_dir: Path) -> GateResult:
     errors: list[str] = []
     validated_files: list[str] = []
@@ -455,9 +510,12 @@ def _run_gate_4_astro_contracts(exports_dir: Path) -> GateResult:
         asyncio.run(_run_pipeline())
 
         sample_repo = tmp_path / "atlas-sample"
-        sample_repo.mkdir()
+        (sample_repo / ".github" / "workflows").mkdir(parents=True)
         (sample_repo / "pyproject.toml").write_text(
             "[project]\nname='atlas-sample'\n", encoding="utf-8"
+        )
+        (sample_repo / "requirements.txt").write_text(
+            "fastapi>=0.110.0\nuvicorn==0.29.0\n", encoding="utf-8"
         )
         (sample_repo / "app.py").write_text(
             "from fastapi import FastAPI\n"
@@ -466,11 +524,19 @@ def _run_gate_4_astro_contracts(exports_dir: Path) -> GateResult:
             "def health(): return 'ok'\n",
             encoding="utf-8",
         )
+        (sample_repo / ".github" / "workflows" / "ci.yml").write_text(wf_yaml, encoding="utf-8")
 
         runner = CliRunner()
         res = runner.invoke(
             analyze_code_app,
-            ["--path", str(sample_repo), "--exports-dir", str(sandbox_exports)],
+            [
+                "--path",
+                str(sample_repo),
+                "--exports-dir",
+                str(sandbox_exports),
+                "--format",
+                "sarif",
+            ],
         )
         if res.exit_code != 0:
             errors.append(f"Sandbox analyze-code failed: {res.output}")
@@ -519,11 +585,23 @@ def _run_gate_4_astro_contracts(exports_dir: Path) -> GateResult:
                     "Sandbox Arc42 markdown missing YAML frontmatter 'title:' or Mermaid block"
                 )
             art_json = json.loads(analysis_file.read_text(encoding="utf-8"))
-            for key in ("repository", "sha", "ecosystem", "architecture_components", "metrics"):
+            for key in (
+                "repository",
+                "sha",
+                "ecosystem",
+                "architecture_components",
+                "metrics",
+                "scorecard",
+                "dependencies",
+            ):
                 if key not in art_json:
                     errors.append(f"Sandbox analysis JSON missing '{key}'")
             validated_files.append("sandbox:reports/local-atlas-sample-report.md")
             validated_files.append("sandbox:reports/local-atlas-sample-analysis.json")
+
+        h2_errs, h2_files = _validate_horizon2_dir(latest, "sandbox", require_present=True)
+        errors.extend(h2_errs)
+        validated_files.extend(h2_files)
 
     # 2. Validate existing workspace exports/latest files if present
     ws_latest = exports_dir / "latest"
@@ -554,6 +632,12 @@ def _run_gate_4_astro_contracts(exports_dir: Path) -> GateResult:
             )
         validated_files.append(f"workspace:reports/{mf.name}")
 
+    ws_h2_errs, ws_h2_files = _validate_horizon2_dir(
+        ws_latest, "workspace", require_present=False
+    )
+    errors.extend(ws_h2_errs)
+    validated_files.extend(ws_h2_files)
+
     passed = len(errors) == 0 and len(validated_files) > 0
     return GateResult(
         gate="Gate 4: Python-to-Astro Schema Contract",
@@ -569,11 +653,13 @@ def _digest(payload: str) -> str:
 
 def _run_gate_5_determinism() -> GateResult:
     with tempfile.TemporaryDirectory() as tmp:
-        repo = Path(tmp) / "det-repo"
+        tmp_root = Path(tmp)
+        repo = tmp_root / "det-repo"
         (repo / ".github" / "workflows").mkdir(parents=True)
         (repo / "services").mkdir(parents=True)
 
         (repo / "pyproject.toml").write_text("[project]\nname='det-repo'\n", encoding="utf-8")
+        (repo / "requirements.txt").write_text("fastapi>=0.110.0\n", encoding="utf-8")
         (repo / "services" / "api.py").write_text(
             "from fastapi import APIRouter\n"
             "router = APIRouter()\n"
@@ -589,7 +675,7 @@ def _run_gate_5_determinism() -> GateResult:
         )
 
         hashes: list[dict[str, str]] = []
-        for _ in range(2):
+        for idx in range(2):
             code_res = orchestrate_full_analysis(repo)
             pipe_art = _analyze_repo_workflows(repo, "det-repo")
             md = generate_arc42_markdown(
@@ -599,12 +685,62 @@ def _run_gate_5_determinism() -> GateResult:
                 ecosystem=code_res.ecosystem,
                 framework=code_res.framework,
                 sha="deterministic000",
+                scorecard=code_res.scorecard,
+                dependencies=code_res.dependencies,
+                vulnerabilities=code_res.vulnerabilities,
+                fitness_violations=code_res.fitness_violations,
+                code_to_cloud_edges=code_res.code_to_cloud_edges,
+                workspace_packages=code_res.workspace_packages,
+            )
+            portable = PortableArtifact(
+                repository="det-repo",
+                sha="deterministic000",
+                ecosystem=code_res.ecosystem,
+                metrics=code_res.metrics,
+                pipelines=code_res.pipelines,
+                architecture_components=code_res.components,
+                scorecard=code_res.scorecard,
+                dependencies=code_res.dependencies,
+                vulnerabilities=code_res.vulnerabilities,
+                secrets=code_res.secrets,
+                fitness_violations=code_res.fitness_violations,
+                code_to_cloud_edges=code_res.code_to_cloud_edges,
+                workspace_packages=code_res.workspace_packages,
+                observability=code_res.observability,
+            )
+            sbom_dict = build_cyclonedx_sbom(
+                "det-repo",
+                "deterministic000",
+                code_res.dependencies,
+                code_res.vulnerabilities,
+            )
+            sarif_dict = build_sarif_report(portable, repo_name="det-repo")
+
+            det_latest = tmp_root / f"det_latest_{idx}"
+            (det_latest / "reports").mkdir(parents=True, exist_ok=True)
+            (det_latest / "sbom").mkdir(parents=True, exist_ok=True)
+            (det_latest / "reports" / "local-det-repo-analysis.json").write_text(
+                portable.model_dump_json(indent=2), encoding="utf-8"
+            )
+            (det_latest / "sbom" / "local-det-repo.cdx.json").write_text(
+                json.dumps(sbom_dict, indent=2), encoding="utf-8"
+            )
+            llms_text = build_llms_txt(det_latest)
+
+            scorecard_json = (
+                code_res.scorecard.model_dump_json(indent=2)
+                if code_res.scorecard is not None
+                else "{}"
             )
             hashes.append({
                 "components_sha256": _digest(json.dumps(code_res.components, sort_keys=True)),
                 "metrics_sha256": _digest(json.dumps(code_res.metrics, sort_keys=True)),
                 "pipeline_sha256": _digest(pipe_art.model_dump_json(indent=2)),
                 "markdown_sha256": _digest(md),
+                "scorecard_sha256": _digest(scorecard_json),
+                "sbom_sha256": _digest(json.dumps(sbom_dict, sort_keys=True)),
+                "sarif_sha256": _digest(json.dumps(sarif_dict, sort_keys=True)),
+                "llms_sha256": _digest(llms_text),
             })
 
     mismatches = [k for k in hashes[0] if hashes[0][k] != hashes[1][k]]
@@ -612,9 +748,11 @@ def _run_gate_5_determinism() -> GateResult:
     return GateResult(
         gate="Gate 5: SHA-256 Determinism Check",
         passed=passed,
-        summary="All 4 artifact SHA-256 digests matched across repeated runs"
-        if passed
-        else f"Digest mismatches: {', '.join(mismatches)}",
+        summary=(
+            f"All {len(hashes[0])} artifact SHA-256 digests matched across repeated runs"
+            if passed
+            else f"Digest mismatches: {', '.join(mismatches)}"
+        ),
         details={"run_1": hashes[0], "run_2": hashes[1], "mismatches": mismatches},
     )
 

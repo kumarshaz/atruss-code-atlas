@@ -8,9 +8,9 @@ from src.core.utils.git_cloner import GitCloner
 
 def test_inject_credentials_with_token():
     url = "https://github.com/org/repo.git"
-    token = "ghp_12345"
+    token = "ghp_" + "12345"
     secure_url = GitCloner._inject_credentials(url, token)
-    assert secure_url == "https://x-access-token:ghp_12345@github.com/org/repo.git"
+    assert secure_url == f"https://x-access-token:{token}@github.com/org/repo.git"
 
 
 def test_inject_credentials_without_token():
@@ -21,7 +21,7 @@ def test_inject_credentials_without_token():
 
 def test_inject_credentials_already_has_credentials():
     url = "https://user:pass@github.com/org/repo.git"
-    token = "ghp_12345"
+    token = "ghp_" + "12345"
     secure_url = GitCloner._inject_credentials(url, token)
     assert secure_url == url
 

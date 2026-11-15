@@ -1,6 +1,8 @@
+import json
 import shutil
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 STANDARD_EXPORT_MODULES = (
     "repos",
@@ -9,6 +11,10 @@ STANDARD_EXPORT_MODULES = (
     "environments",
     "relationships",
     "reports",
+    "sbom",
+    "sarif",
+    "drift",
+    "llms",
 )
 
 
@@ -76,3 +82,35 @@ class ExportManager:
                     shutil.copytree(item, dst_mod / item.name, dirs_exist_ok=True)
 
         return latest_dir
+
+    def append_catalog_history(self, snapshot: dict[str, Any]) -> Path:
+        """
+        Append or update a longitudinal catalog history snapshot in
+        `{base_dir}/latest/catalog-history.json` sorted deterministically by timestamp.
+        """
+        latest_dir = self.root_dir / "latest"
+        latest_dir.mkdir(parents=True, exist_ok=True)
+        history_path = latest_dir / "catalog-history.json"
+
+        history: list[dict[str, Any]] = []
+        if history_path.exists():
+            try:
+                loaded = json.loads(history_path.read_text(encoding="utf-8"))
+                if isinstance(loaded, dict) and isinstance(loaded.get("snapshots"), list):
+                    history = loaded["snapshots"]
+                elif isinstance(loaded, list):
+                    history = loaded
+            except json.JSONDecodeError:
+                history = []
+
+        ts = str(snapshot.get("timestamp") or self.timestamp)
+        entry = {"timestamp": ts, **{k: v for k, v in snapshot.items() if k != "timestamp"}}
+        deduped = [item for item in history if str(item.get("timestamp")) != ts]
+        deduped.append(entry)
+        deduped.sort(key=lambda item: str(item.get("timestamp", "")))
+
+        payload = {"snapshots": deduped[-50:]}
+        serialized = json.dumps(payload, indent=2)
+        history_path.write_text(serialized, encoding="utf-8")
+        (self.base_path / "catalog-history.json").write_text(serialized, encoding="utf-8")
+        return history_path

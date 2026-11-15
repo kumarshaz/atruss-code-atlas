@@ -1,0 +1,1329 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import EmptyStatePrompt from './EmptyStatePrompt.astro';
+
+interface Props {
+    repo_name: string;
+    org: string;
+}
+
+const { repo_name, org } = Astro.props;
+
+let analysisJson: any = null;
+try {
+    const reportDirs = [
+        path.resolve(process.cwd(), '../exports/latest/reports'),
+        path.resolve(process.cwd(), 'src/data/latest/reports'),
+    ];
+    const safeOrg = String(org || 'local').replace(/\//g, '_');
+    for (const dir of reportDirs) {
+        const candidates = [
+            path.join(dir, `${org}-${repo_name}-analysis.json`),
+            path.join(dir, `${safeOrg}-${repo_name}-analysis.json`),
+            path.join(dir, `local-${repo_name}-analysis.json`),
+            path.join(dir, `${repo_name}-analysis.json`),
+        ];
+        for (const candidate of candidates) {
+            if (fs.existsSync(candidate)) {
+                analysisJson = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+                break;
+            }
+        }
+        if (analysisJson) break;
+    }
+} catch (e) {
+    console.error('ScorecardHeatmap failed to load analysis JSON:', e);
+}
+
+let historySnapshots: any[] = [];
+try {
+    const historyCandidates = [
+        path.resolve(process.cwd(), '../exports/latest/catalog-history.json'),
+        path.resolve(process.cwd(), 'src/data/latest/catalog-history.json'),
+    ];
+    for (const hPath of historyCandidates) {
+        if (fs.existsSync(hPath)) {
+            const loaded = JSON.parse(fs.readFileSync(hPath, 'utf8'));
+            historySnapshots = Array.isArray(loaded?.snapshots)
+                ? loaded.snapshots
+                : Array.isArray(loaded)
+                  ? loaded
+                  : [];
+            break;
+        }
+    }
+} catch (e) {
+    console.error('ScorecardHeatmap failed to load catalog-history.json:', e);
+}
+
+const metrics = analysisJson?.metrics || {};
+const scorecard =
+    analysisJson?.scorecard && typeof analysisJson.scorecard === 'object'
+        ? analysisJson.scorecard
+        : null;
+
+const DIMENSION_ORDER = [
+    'code_quality',
+    'security',
+    'maintainability',
+    'test_coverage',
+    'dependency_health',
+    'pipeline_health',
+];
+
+const getGradeTone = (grade: string) => {
+    const g = String(grade || 'F').trim().toUpperCase();
+    if (g === 'A') return { badge: 'm3-grade-a', bar: 'var(--md-sys-color-success)' };
+    if (g === 'B') return { badge: 'm3-grade-b', bar: 'var(--md-sys-color-primary)' };
+    if (g === 'C') return { badge: 'm3-grade-c', bar: 'var(--md-sys-color-warning)' };
+    if (g === 'D') return { badge: 'm3-grade-d', bar: 'var(--md-sys-color-tertiary)' };
+    return { badge: 'm3-grade-f', bar: 'var(--md-sys-color-error)' };
+};
+
+const getSeverityClass = (severity: string) => {
+    const s = String(severity || 'MEDIUM').trim().toUpperCase();
+    if (s === 'CRITICAL' || s === 'HIGH') return 'm3-chip-tonal-error';
+    if (s === 'MEDIUM') return 'm3-chip-tonal-warning';
+    return 'm3-chip-tonal-secondary';
+};
+
+const getReachabilityClass = (reachability: string) => {
+    const r = String(reachability || '').trim().toUpperCase();
+    if (r.includes('UNREACHABLE') || r.includes('DORMANT')) return 'm3-chip-tonal-secondary';
+    if (r.includes('TRANSITIVE')) return 'm3-chip-tonal-warning';
+    return 'm3-chip-tonal-error';
+};
+
+const orderedDimensions: Array<{ key: string; data: any }> = [];
+if (scorecard?.dimensions && typeof scorecard.dimensions === 'object') {
+    const dims = scorecard.dimensions as Record<string, any>;
+    const seen = new Set<string>();
+    for (const k of DIMENSION_ORDER) {
+        if (dims[k]) {
+            orderedDimensions.push({ key: k, data: dims[k] });
+            seen.add(k);
+        }
+    }
+    for (const k of Object.keys(dims)) {
+        if (!seen.has(k) && dims[k]) {
+            orderedDimensions.push({ key: k, data: dims[k] });
+        }
+    }
+}
+
+// Extract sparkline points from catalog-history.json snapshots
+interface SparkPoint {
+    score: number;
+    timestamp: string;
+    source: 'repo' | 'portfolio';
+}
+
+const fullRepoKey = `${org}/${repo_name}`.toLowerCase();
+const shortRepoKey = repo_name.toLowerCase();
+const sparkPoints: SparkPoint[] = [];
+
+for (const snap of historySnapshots) {
+    if (!snap || typeof snap !== 'object') continue;
+    const reposMap = snap.repos && typeof snap.repos === 'object' ? snap.repos : null;
+    let matchedScore: number | null = null;
+    let source: 'repo' | 'portfolio' = 'portfolio';
+
+    if (reposMap) {
+        for (const [k, v] of Object.entries(reposMap)) {
+            const kLow = k.toLowerCase();
+            if (
+                (kLow === fullRepoKey || kLow === shortRepoKey || kLow.endsWith(`/${shortRepoKey}`)) &&
+                v &&
+                typeof (v as any).overall_score === 'number'
+            ) {
+                matchedScore = Number((v as any).overall_score);
+                source = 'repo';
+                break;
+            }
+        }
+    }
+
+    if (matchedScore === null && typeof snap.average_overall_score === 'number') {
+        matchedScore = Number(snap.average_overall_score);
+        source = 'portfolio';
+    }
+
+    if (matchedScore !== null && !Number.isNaN(matchedScore)) {
+        sparkPoints.push({
+            score: Math.max(0, Math.min(100, matchedScore)),
+            timestamp: String(snap.timestamp || ''),
+            source,
+        });
+    }
+}
+
+const SVG_W = 320;
+const SVG_H = 76;
+const PAD_X = 12;
+const PAD_Y = 10;
+
+const sparkCoords = sparkPoints.map((pt, idx) => {
+    const x =
+        sparkPoints.length <= 1
+            ? SVG_W / 2
+            : PAD_X + (idx / (sparkPoints.length - 1)) * (SVG_W - PAD_X * 2);
+    const y = PAD_Y + ((100 - pt.score) / 100) * (SVG_H - PAD_Y * 2);
+    return { ...pt, x: Number(x.toFixed(1)), y: Number(y.toFixed(1)) };
+});
+
+const sparkPolyline = sparkCoords.map((p) => `${p.x},${p.y}`).join(' ');
+const sparkAreaPoints =
+    sparkCoords.length >= 2
+        ? `${sparkCoords[0].x},${SVG_H - PAD_Y} ${sparkPolyline} ${sparkCoords[sparkCoords.length - 1].x},${SVG_H - PAD_Y}`
+        : '';
+const sparkGradientId = `spark-${`${org}-${repo_name}`.replace(/[^a-zA-Z0-9_-]/g, '-').toLowerCase()}`;
+
+// Module complexity heatmap
+const rawFileComplexities = Array.isArray(metrics.file_complexities) ? metrics.file_complexities : [];
+const sortedHeatmapTiles = [...rawFileComplexities]
+    .sort(
+        (a: any, b: any) =>
+            Number(b?.cognitive || 0) - Number(a?.cognitive || 0) ||
+            Number(b?.cyclomatic || 0) - Number(a?.cyclomatic || 0) ||
+            Number(b?.loc || 0) - Number(a?.loc || 0)
+    )
+    .slice(0, 24);
+
+const getHeatmapTier = (fc: any) => {
+    const cog = Number(fc?.cognitive || 0);
+    const cc = Number(fc?.cyclomatic || 0);
+    if (cog >= 40 || cc >= 30) return 'critical';
+    if (cog >= 20 || cc >= 15) return 'elevated';
+    if (cog >= 8 || cc >= 6) return 'moderate';
+    return 'low';
+};
+
+const deadCodeSymbols = Array.isArray(metrics.dead_code_symbols)
+    ? metrics.dead_code_symbols.slice(0, 12)
+    : [];
+
+// Architectural Fitness Violations
+const fitnessViolations = Array.isArray(analysisJson?.fitness_violations)
+    ? analysisJson.fitness_violations
+    : [];
+const fitnessPassed =
+    metrics.fitness_passed !== undefined
+        ? Boolean(metrics.fitness_passed)
+        : fitnessViolations.length === 0;
+
+// Dependencies & OSV Vulnerabilities
+const dependencies = Array.isArray(analysisJson?.dependencies) ? analysisJson.dependencies : [];
+const outdatedDepsCount = dependencies.filter((d: any) => Boolean(d?.is_outdated)).length;
+const vulnerabilities = Array.isArray(analysisJson?.vulnerabilities)
+    ? analysisJson.vulnerabilities
+    : [];
+
+// STRICTLY project ONLY redacted fields for secrets — never touch any unredacted field
+const rawSecrets = Array.isArray(analysisJson?.secrets) ? analysisJson.secrets : [];
+const redactedSecrets = rawSecrets.map((s: any) => ({
+    rule_id: String(s?.rule_id || 'ATRUSS-SEC-001'),
+    severity: String(s?.severity || 'HIGH'),
+    file_source: String(s?.file_source || ''),
+    start_line: Number(s?.start_line || 1),
+    redacted_snippet: String(s?.redacted_snippet || '[REDACTED]'),
+    message: String(s?.message || ''),
+}));
+
+// Code-to-Cloud & Workspace Packages
+const codeToCloudEdges = Array.isArray(analysisJson?.code_to_cloud_edges)
+    ? analysisJson.code_to_cloud_edges
+    : [];
+const workspacePackages = Array.isArray(analysisJson?.workspace_packages)
+    ? analysisJson.workspace_packages
+    : [];
+
+const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir exports';
+---
+
+{!analysisJson ? (
+    <EmptyStatePrompt phase="Horizon 2 Scorecard & Security" command={analyzeCmd} />
+) : !scorecard ? (
+    <div class="m3-scorecard-shell">
+        <section class="m3-card-filled m3-notice-banner" role="status">
+            <div class="m3-notice-icon m3-chip-tonal-warning">
+                <span class="material-symbols-outlined" aria-hidden="true">analytics</span>
+            </div>
+            <div class="m3-notice-body">
+                <h3>Horizon 2 Scorecard Pending</h3>
+                <p>
+                    Baseline structural metrics are loaded for <strong>{org}/{repo_name}</strong>,
+                    but a 6-Dimension Scorecard &amp; Security scan has not been exported yet. Run
+                    the Horizon 2 analyzer to populate grades, OSV CVEs, secret redaction, and
+                    complexity heatmaps:
+                </p>
+                <div class="m3-command-row">
+                    <pre class="m3-command-box"><code>{analyzeCmd}</code></pre>
+                    <button
+                        type="button"
+                        class="m3-btn-tonal m3-copy-cmd-btn"
+                        data-copy-command={analyzeCmd}
+                        aria-label="Copy Horizon 2 CLI command"
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
+                        <span class="m3-copy-label">Copy</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="m3-card-elevated m3-baseline-card">
+            <header class="m3-section-header">
+                <span class="material-symbols-outlined" aria-hidden="true">monitoring</span>
+                <h4>Available Baseline Code Metrics</h4>
+            </header>
+            <div class="m3-baseline-grid">
+                <div class="m3-baseline-stat">
+                    <span class="m3-stat-label">files_analyzed</span>
+                    <strong class="m3-stat-value">{metrics.files_analyzed ?? '—'}</strong>
+                </div>
+                <div class="m3-baseline-stat">
+                    <span class="m3-stat-label">loc</span>
+                    <strong class="m3-stat-value">{metrics.loc ?? '—'}</strong>
+                </div>
+                <div class="m3-baseline-stat">
+                    <span class="m3-stat-label">sloc</span>
+                    <strong class="m3-stat-value">{metrics.sloc ?? '—'}</strong>
+                </div>
+                <div class="m3-baseline-stat">
+                    <span class="m3-stat-label">avg_cyclomatic_complexity</span>
+                    <strong class="m3-stat-value">{metrics.avg_cyclomatic_complexity ?? '—'}</strong>
+                </div>
+                <div class="m3-baseline-stat">
+                    <span class="m3-stat-label">coverage_percent</span>
+                    <strong class="m3-stat-value">
+                        {metrics.coverage_percent !== undefined && metrics.coverage_percent !== null
+                            ? `${metrics.coverage_percent}%`
+                            : 'N/A'}
+                    </strong>
+                </div>
+            </div>
+        </section>
+    </div>
+) : (
+    <div class="m3-scorecard-shell">
+        <section class="m3-card-elevated m3-scorecard-hero">
+            <div class="m3-scorecard-overall">
+                <div
+                    class={`m3-scorecard-grade ${getGradeTone(scorecard.overall_grade).badge}`}
+                    aria-label={`Overall grade ${scorecard.overall_grade}`}
+                >
+                    {scorecard.overall_grade || '?'}
+                </div>
+                <div class="m3-scorecard-overall-meta">
+                    <span class="m3-stat-label">6-Dimension Overall Score</span>
+                    <div class="m3-scorecard-score-line">
+                        <strong class="m3-scorecard-score-num">
+                            {Number(scorecard.overall_score ?? 0).toFixed(1)}
+                        </strong>
+                        <span class="m3-scorecard-score-max">/ 100</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m3-scorecard-kpis">
+                <div class="m3-scorecard-kpi">
+                    <span class="m3-stat-label">Technical Debt</span>
+                    <strong class="m3-stat-value">
+                        {Number(scorecard.technical_debt_score ?? 0).toFixed(1)}
+                    </strong>
+                </div>
+                <div class="m3-scorecard-kpi">
+                    <span class="m3-stat-label">Remediation Effort</span>
+                    <strong class="m3-stat-value">
+                        {Number(scorecard.remediation_hours ?? 0).toFixed(1)}h
+                    </strong>
+                </div>
+                <div class="m3-scorecard-kpi">
+                    <span class="m3-stat-label">Dependencies</span>
+                    <strong class="m3-stat-value">{dependencies.length}</strong>
+                </div>
+                <div class="m3-scorecard-kpi">
+                    <span class="m3-stat-label">OSV Findings</span>
+                    <strong class="m3-stat-value">{vulnerabilities.length}</strong>
+                </div>
+            </div>
+
+            <div class="m3-sparkline-box">
+                <div class="m3-sparkline-header">
+                    <span class="m3-stat-label">
+                        Score Trend ({sparkPoints.some((p) => p.source === 'repo') ? 'Repository' : 'Portfolio Average'})
+                    </span>
+                    <span class="m3-sparkline-count">{sparkCoords.length} snapshot(s)</span>
+                </div>
+                {sparkCoords.length >= 2 ? (
+                    <svg
+                        class="m3-sparkline-svg"
+                        viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+                        role="img"
+                        aria-label="Repository scorecard trend sparkline"
+                    >
+                        <defs>
+                            <linearGradient id={sparkGradientId} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--md-sys-color-primary)" stop-opacity="0.35" />
+                                <stop offset="100%" stop-color="var(--md-sys-color-primary)" stop-opacity="0.02" />
+                            </linearGradient>
+                        </defs>
+                        <line
+                            x1={PAD_X}
+                            y1={SVG_H - PAD_Y}
+                            x2={SVG_W - PAD_X}
+                            y2={SVG_H - PAD_Y}
+                            class="m3-sparkline-axis"
+                        />
+                        <polygon points={sparkAreaPoints} fill={`url(#${sparkGradientId})`} />
+                        <polyline points={sparkPolyline} class="m3-sparkline-line" />
+                        {sparkCoords.map((pt) => (
+                            <circle cx={pt.x} cy={pt.y} r="3.2" class="m3-sparkline-dot">
+                                <title>{`${pt.timestamp || 'Snapshot'}: ${pt.score.toFixed(1)}/100`}</title>
+                            </circle>
+                        ))}
+                    </svg>
+                ) : sparkCoords.length === 1 ? (
+                    <div class="m3-sparkline-single">
+                        <svg
+                            class="m3-sparkline-svg"
+                            viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+                            role="img"
+                            aria-label="Single snapshot score marker"
+                        >
+                            <line
+                                x1={PAD_X}
+                                y1={sparkCoords[0].y}
+                                x2={SVG_W - PAD_X}
+                                y2={sparkCoords[0].y}
+                                class="m3-sparkline-axis"
+                            />
+                            <circle cx={sparkCoords[0].x} cy={sparkCoords[0].y} r="4.5" class="m3-sparkline-dot">
+                                <title>{`${sparkCoords[0].timestamp || 'Snapshot'}: ${sparkCoords[0].score.toFixed(1)}/100`}</title>
+                            </circle>
+                        </svg>
+                        <span class="m3-sparkline-caption">
+                            Baseline snapshot: {sparkCoords[0].score.toFixed(1)} / 100
+                        </span>
+                    </div>
+                ) : (
+                    <p class="m3-sparkline-empty">
+                        No longitudinal snapshots in <code>catalog-history.json</code> yet.
+                    </p>
+                )}
+            </div>
+        </section>
+
+        <section class="m3-scorecard-dims-section">
+            <header class="m3-section-header m3-section-mb">
+                <span class="material-symbols-outlined" aria-hidden="true">radar</span>
+                <h4>6-Dimension Scorecard Breakdown</h4>
+            </header>
+            <div class="m3-scorecard-dims-grid">
+                {orderedDimensions.map(({ key, data }) => {
+                    const dimScore = Number(data?.score ?? 0);
+                    const pct = Math.max(0, Math.min(100, dimScore));
+                    const weightPct = Math.round(Number(data?.weight ?? 0) * 100);
+                    const tone = getGradeTone(data?.grade);
+                    return (
+                        <article class="m3-card-elevated m3-scorecard-dim-card" data-dimension={key}>
+                            <div class="m3-dim-top">
+                                <div>
+                                    <h5 class="m3-dim-title">{data?.name || key}</h5>
+                                    <span class="m3-dim-weight">Weight {weightPct}%</span>
+                                </div>
+                                <span class={`m3-dim-grade ${tone.badge}`}>{data?.grade || '?'}</span>
+                            </div>
+                            <div class="m3-dim-score-row">
+                                <div class="m3-dim-track" aria-hidden="true">
+                                    <div
+                                        class="m3-dim-bar"
+                                        style={`width: ${pct}%; background-color: ${tone.bar};`}
+                                    />
+                                </div>
+                                <span class="m3-dim-num">{dimScore.toFixed(1)}</span>
+                            </div>
+                            {data?.details && <p class="m3-dim-details">{data.details}</p>}
+                        </article>
+                    );
+                })}
+            </div>
+        </section>
+
+        <section class="m3-card-elevated m3-heatmap-section">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">grid_view</span>
+                    <h4>Module Complexity &amp; Quality Heatmap</h4>
+                </div>
+                <div class="m3-heatmap-summary-chips">
+                    <span class="m3-chip">
+                        Duplication: <strong>{Number(metrics.duplication_pct ?? 0).toFixed(2)}%</strong>
+                    </span>
+                    <span class={`m3-chip ${Number(metrics.dead_code_count ?? 0) > 0 ? 'm3-chip-tonal-warning' : 'm3-chip-tonal-success'}`}>
+                        Dead Code: <strong>{metrics.dead_code_count ?? 0}</strong>
+                    </span>
+                </div>
+            </header>
+
+            {sortedHeatmapTiles.length > 0 ? (
+                <div class="m3-heatmap-grid">
+                    {sortedHeatmapTiles.map((fc: any) => {
+                        const tier = getHeatmapTier(fc);
+                        const filePath = String(fc?.file || 'unknown');
+                        const baseName = filePath.split('/').pop() || filePath;
+                        return (
+                            <article
+                                class={`m3-heatmap-tile m3-heatmap-${tier}`}
+                                title={`${filePath} — LOC: ${fc?.loc ?? 0}, CC: ${fc?.cyclomatic ?? 0}, Cognitive: ${fc?.cognitive ?? 0}`}
+                            >
+                                <div class="m3-heatmap-file">{baseName}</div>
+                                <div class="m3-heatmap-path">{filePath}</div>
+                                <div class="m3-heatmap-metrics">
+                                    <span>LOC: <strong>{fc?.loc ?? 0}</strong></span>
+                                    <span>CC: <strong>{fc?.cyclomatic ?? 0}</strong></span>
+                                    <span>Cog: <strong>{fc?.cognitive ?? 0}</strong></span>
+                                </div>
+                            </article>
+                        );
+                    })}
+                </div>
+            ) : (
+                <p class="m3-empty-note">No per-file complexity hotspots recorded in this report.</p>
+            )}
+
+            {deadCodeSymbols.length > 0 && (
+                <div class="m3-deadcode-preview">
+                    <h5>Unreferenced / Dead Code Symbols Preview ({metrics.dead_code_count ?? deadCodeSymbols.length})</h5>
+                    <div class="m3-deadcode-list">
+                        {deadCodeSymbols.map((sym: any) => (
+                            <span class="m3-chip m3-deadcode-chip">
+                                <code>{sym.name}</code>
+                                <span class="m3-deadcode-loc">
+                                    {sym.file}:{sym.line}
+                                </span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </section>
+
+        <section class="m3-card-elevated m3-fitness-section">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">rule</span>
+                    <h4>Architectural Fitness Rules</h4>
+                </div>
+                <span class={`m3-chip ${fitnessPassed ? 'm3-chip-tonal-success' : 'm3-chip-tonal-error'}`}>
+                    <span class="material-symbols-outlined" aria-hidden="true">
+                        {fitnessPassed ? 'check_circle' : 'gpp_bad'}
+                    </span>
+                    {fitnessPassed ? 'Fitness Passed' : `${fitnessViolations.length} Violation(s)`}
+                </span>
+            </header>
+
+            {fitnessViolations.length === 0 ? (
+                <p class="m3-empty-note">All architectural boundary, cycle, and complexity thresholds passed.</p>
+            ) : (
+                <div class="m3-findings-stack">
+                    {fitnessViolations.slice(0, 30).map((fv: any) => (
+                        <article class="m3-finding-row">
+                            <div class="m3-finding-head">
+                                <span class={`m3-chip ${getSeverityClass(fv.severity)}`}>
+                                    {String(fv.severity || 'HIGH').toUpperCase()}
+                                </span>
+                                <code class="m3-rule-id">{fv.rule_id}</code>
+                                <span class="m3-finding-type">{fv.type}</span>
+                                {fv.file_source && (
+                                    <code class="m3-file-loc">
+                                        {fv.file_source}:{fv.start_line || 1}
+                                    </code>
+                                )}
+                            </div>
+                            <p class="m3-finding-msg">{fv.message}</p>
+                            <div class="m3-finding-edge">
+                                <span>{fv.source_component}</span>
+                                {fv.source_layer && <span class="m3-layer-tag">({fv.source_layer})</span>}
+                                <span aria-hidden="true">→</span>
+                                <span>{fv.target_component}</span>
+                                {fv.target_layer && <span class="m3-layer-tag">({fv.target_layer})</span>}
+                            </div>
+                        </article>
+                    ))}
+                </div>
+            )}
+        </section>
+
+        <section class="m3-card-elevated m3-supplychain-section">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">shield</span>
+                    <h4>Supply-Chain Dependencies &amp; OSV Vulnerabilities</h4>
+                </div>
+                <div class="m3-heatmap-summary-chips">
+                    <span class="m3-chip m3-chip-tonal-primary">
+                        {dependencies.length} Dependencies
+                    </span>
+                    {outdatedDepsCount > 0 && (
+                        <span class="m3-chip m3-chip-tonal-warning">
+                            {outdatedDepsCount} Outdated
+                        </span>
+                    )}
+                    <span class={`m3-chip ${vulnerabilities.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}>
+                        {vulnerabilities.length} OSV Vulnerabilities
+                    </span>
+                </div>
+            </header>
+
+            {vulnerabilities.length === 0 ? (
+                <p class="m3-empty-note">No known OSV vulnerabilities detected across {dependencies.length} parsed dependencies.</p>
+            ) : (
+                <div class="m3-table-surface">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Advisory</th>
+                                <th>Package</th>
+                                <th>Installed / Fixed</th>
+                                <th>Reachability</th>
+                                <th>Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {vulnerabilities.slice(0, 40).map((v: any) => (
+                                <tr>
+                                    <td>
+                                        <span class={`m3-chip ${getSeverityClass(v.severity)}`}>
+                                            {String(v.severity || 'MEDIUM').toUpperCase()}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <code>{v.id}</code>
+                                    </td>
+                                    <td>
+                                        <strong title={v.purl || ''}>{v.package}</strong>
+                                        {v.manifest_file && (
+                                            <div class="m3-table-sub">
+                                                <code>{v.manifest_file}:{v.line || 1}</code>
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td class="m3-mono-cell">
+                                        {v.installed_version || '—'} → {v.fixed_version || 'No fix'}
+                                    </td>
+                                    <td>
+                                        <span class={`m3-chip ${getReachabilityClass(v.reachability)}`}>
+                                            {v.reachability || 'UNKNOWN'}
+                                        </span>
+                                    </td>
+                                    <td class="m3-vuln-summary">{v.summary || '—'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </section>
+
+        <section class="m3-card-elevated m3-secrets-section">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">key_off</span>
+                    <h4>Redacted Secret Findings</h4>
+                </div>
+                <span class={`m3-chip ${redactedSecrets.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}>
+                    {redactedSecrets.length} Finding(s)
+                </span>
+            </header>
+
+            {redactedSecrets.length === 0 ? (
+                <p class="m3-empty-note">No hardcoded secret patterns detected.</p>
+            ) : (
+                <div class="m3-findings-stack">
+                    {redactedSecrets.map((sec: any) => (
+                        <article class="m3-finding-row">
+                            <div class="m3-finding-head">
+                                <span class={`m3-chip ${getSeverityClass(sec.severity)}`}>
+                                    {sec.severity.toUpperCase()}
+                                </span>
+                                <code class="m3-rule-id">{sec.rule_id}</code>
+                                <code class="m3-file-loc">
+                                    {sec.file_source}:{sec.start_line}
+                                </code>
+                            </div>
+                            {sec.message && <p class="m3-finding-msg">{sec.message}</p>}
+                            <pre class="m3-redacted-snippet"><code>{sec.redacted_snippet}</code></pre>
+                        </article>
+                    ))}
+                </div>
+            )}
+        </section>
+
+        <section class="m3-card-elevated m3-traceability-section">
+            <header class="m3-diagram-toolbar">
+                <div class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">cloud_sync</span>
+                    <h4>Code-to-Cloud &amp; Workspace Packages</h4>
+                </div>
+                <div class="m3-heatmap-summary-chips">
+                    <span class="m3-chip m3-chip-tonal-secondary">
+                        {workspacePackages.length} Workspace Package(s)
+                    </span>
+                    <span class="m3-chip m3-chip-tonal-primary">
+                        {codeToCloudEdges.length} Code-to-Cloud Edge(s)
+                    </span>
+                </div>
+            </header>
+
+            <div class="m3-trace-columns">
+                <div class="m3-trace-col">
+                    <h5>Workspace Packages</h5>
+                    {workspacePackages.length === 0 ? (
+                        <p class="m3-empty-note">Single-package repository or no monorepo workspace manifests.</p>
+                    ) : (
+                        <div class="m3-workspace-list">
+                            {workspacePackages.slice(0, 24).map((pkg: any) => (
+                                <article class="m3-workspace-card">
+                                    <div class="m3-workspace-top">
+                                        <strong>{pkg.name}</strong>
+                                        <span class="m3-chip">{pkg.manager || pkg.ecosystem}</span>
+                                    </div>
+                                    <code class="m3-workspace-path">{pkg.path}</code>
+                                    {Array.isArray(pkg.internal_dependencies) && pkg.internal_dependencies.length > 0 && (
+                                        <div class="m3-workspace-deps">
+                                            Internal deps: {pkg.internal_dependencies.join(', ')}
+                                        </div>
+                                    )}
+                                </article>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div class="m3-trace-col">
+                    <h5>Code-to-Cloud Traceability Links</h5>
+                    {codeToCloudEdges.length === 0 ? (
+                        <p class="m3-empty-note">No Code-to-Cloud container, IaC, or deploy environment edges detected.</p>
+                    ) : (
+                        <div class="m3-c2c-list">
+                            {codeToCloudEdges.slice(0, 30).map((edge: any) => (
+                                <div class="m3-c2c-row">
+                                    <span class="m3-c2c-node">
+                                        <strong>{edge.source}</strong>
+                                        <small>({edge.source_type})</small>
+                                    </span>
+                                    <span class="m3-chip m3-chip-tonal-tertiary m3-c2c-rel">
+                                        {edge.relationship}
+                                    </span>
+                                    <span class="m3-c2c-node">
+                                        <strong>{edge.target}</strong>
+                                        <small>({edge.target_type})</small>
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </section>
+    </div>
+)}
+
+<style>
+    .m3-scorecard-shell {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .m3-notice-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.25rem;
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-notice-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .m3-notice-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .m3-notice-body h3 {
+        margin: 0 0 0.375rem !important;
+        font-size: 1.0625rem !important;
+    }
+
+    .m3-notice-body p {
+        margin: 0 0 0.875rem !important;
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.9rem;
+    }
+
+    .m3-command-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .m3-command-box {
+        flex: 1 1 260px;
+        margin: 0 !important;
+        padding: 0.65rem 0.9rem !important;
+        background-color: var(--md-sys-color-surface-container-lowest) !important;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: var(--md-sys-shape-corner-medium);
+        overflow-x: auto;
+    }
+
+    .m3-baseline-card,
+    .m3-scorecard-hero,
+    .m3-heatmap-section,
+    .m3-fitness-section,
+    .m3-supplychain-section,
+    .m3-secrets-section,
+    .m3-traceability-section {
+        padding: 1.25rem;
+    }
+
+    .m3-scorecard-hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        align-items: center;
+    }
+
+    @media (min-width: 900px) {
+        .m3-scorecard-hero {
+            grid-template-columns: auto 1fr minmax(220px, 320px);
+        }
+    }
+
+    .m3-scorecard-overall {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .m3-scorecard-grade,
+    .m3-dim-grade {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--md-ref-typeface-brand);
+        font-weight: 800;
+        border-radius: var(--md-sys-shape-corner-medium);
+    }
+
+    .m3-scorecard-grade {
+        width: 3.75rem;
+        height: 3.75rem;
+        font-size: 1.75rem;
+        border-radius: var(--md-sys-shape-corner-large);
+    }
+
+    .m3-dim-grade {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.95rem;
+    }
+
+    .m3-grade-a {
+        background-color: var(--md-sys-color-success-container);
+        color: var(--md-sys-color-on-success-container);
+    }
+
+    .m3-grade-b {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+    }
+
+    .m3-grade-c {
+        background-color: var(--md-sys-color-warning-container);
+        color: var(--md-sys-color-on-warning-container);
+    }
+
+    .m3-grade-d {
+        background-color: var(--md-sys-color-tertiary-container);
+        color: var(--md-sys-color-on-tertiary-container);
+    }
+
+    .m3-grade-f {
+        background-color: var(--md-sys-color-error-container);
+        color: var(--md-sys-color-on-error-container);
+    }
+
+    .m3-scorecard-score-line {
+        display: flex;
+        align-items: baseline;
+        gap: 0.3rem;
+    }
+
+    .m3-scorecard-score-num {
+        font-size: 1.75rem;
+        font-weight: 700;
+        font-family: var(--md-ref-typeface-mono);
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-scorecard-score-max {
+        font-size: 0.875rem;
+        color: var(--md-sys-color-on-surface-variant);
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-scorecard-kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+        gap: 0.65rem;
+    }
+
+    .m3-scorecard-kpi {
+        padding: 0.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .m3-sparkline-box {
+        padding: 0.75rem 0.9rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .m3-sparkline-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .m3-sparkline-count,
+    .m3-sparkline-caption,
+    .m3-sparkline-empty {
+        font-size: 0.75rem;
+        color: var(--md-sys-color-on-surface-variant);
+        margin: 0 !important;
+    }
+
+    .m3-sparkline-svg {
+        width: 100%;
+        height: 76px;
+        display: block;
+    }
+
+    .m3-sparkline-axis {
+        stroke: var(--md-sys-color-outline-variant);
+        stroke-width: 1;
+        stroke-dasharray: 3 3;
+    }
+
+    .m3-sparkline-line {
+        fill: none;
+        stroke: var(--md-sys-color-primary);
+        stroke-width: 2.25;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .m3-sparkline-dot {
+        fill: var(--md-sys-color-primary);
+        stroke: var(--md-sys-color-surface);
+        stroke-width: 1.5;
+    }
+
+    .m3-scorecard-dims-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.875rem;
+    }
+
+    .m3-scorecard-dim-card {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+
+    .m3-dim-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .m3-dim-title {
+        margin: 0 !important;
+        font-size: 0.9375rem !important;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-dim-weight {
+        font-size: 0.75rem;
+        color: var(--md-sys-color-on-surface-variant);
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-dim-score-row {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+    }
+
+    .m3-dim-track {
+        flex: 1;
+        height: 0.45rem;
+        border-radius: var(--md-sys-shape-corner-full);
+        background-color: var(--md-sys-color-surface-container-highest);
+        overflow: hidden;
+    }
+
+    .m3-dim-bar {
+        height: 100%;
+        border-radius: var(--md-sys-shape-corner-full);
+    }
+
+    .m3-dim-num {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        min-width: 2.5rem;
+        text-align: right;
+    }
+
+    .m3-dim-details {
+        margin: 0 !important;
+        font-size: 0.8rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-heatmap-summary-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .m3-heatmap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+        gap: 0.65rem;
+    }
+
+    .m3-heatmap-tile {
+        padding: 0.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-left-width: 4px;
+        background-color: var(--md-sys-color-surface-container);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .m3-heatmap-low {
+        border-left-color: var(--md-sys-color-success);
+    }
+
+    .m3-heatmap-moderate {
+        border-left-color: var(--md-sys-color-primary);
+    }
+
+    .m3-heatmap-elevated {
+        border-left-color: var(--md-sys-color-warning);
+    }
+
+    .m3-heatmap-critical {
+        border-left-color: var(--md-sys-color-error);
+        background-color: var(--md-sys-color-error-container);
+        color: var(--md-sys-color-on-error-container);
+    }
+
+    .m3-heatmap-file {
+        font-weight: 600;
+        font-size: 0.85rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .m3-heatmap-path {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.7rem;
+        color: var(--md-sys-color-on-surface-variant);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .m3-heatmap-critical .m3-heatmap-path {
+        color: var(--md-sys-color-on-error-container);
+        opacity: 0.85;
+    }
+
+    .m3-heatmap-metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 0.25rem;
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.74rem;
+    }
+
+    .m3-baseline-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .m3-baseline-stat {
+        padding: 0.875rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .m3-stat-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface-variant);
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-stat-value {
+        font-size: 1.375rem;
+        font-weight: 700;
+        color: var(--md-sys-color-on-surface);
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-section-mb {
+        margin-bottom: 0.875rem;
+    }
+
+    .m3-empty-note {
+        margin: 0.25rem 0 0 !important;
+        font-size: 0.875rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-deadcode-preview {
+        margin-top: 1rem;
+        padding-top: 0.875rem;
+        border-top: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-deadcode-preview h5 {
+        margin: 0 0 0.625rem !important;
+        font-size: 0.875rem !important;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-deadcode-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .m3-deadcode-chip {
+        height: auto;
+        padding: 0.3rem 0.65rem;
+    }
+
+    .m3-deadcode-loc {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.72rem;
+        opacity: 0.8;
+    }
+
+    .m3-findings-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+
+    .m3-finding-row {
+        padding: 0.875rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .m3-finding-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .m3-rule-id,
+    .m3-file-loc {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.75rem;
+    }
+
+    .m3-finding-type {
+        font-weight: 600;
+        font-size: 0.8125rem;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-finding-msg {
+        margin: 0 !important;
+        font-size: 0.875rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-finding-edge {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.75rem;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-layer-tag {
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-redacted-snippet {
+        margin: 0.25rem 0 0 !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: var(--md-sys-shape-corner-small);
+        background-color: var(--md-sys-color-surface-container-lowest) !important;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        font-size: 0.78rem;
+        overflow-x: auto;
+    }
+
+    .m3-table-sub {
+        font-size: 0.72rem;
+        color: var(--md-sys-color-on-surface-variant);
+        margin-top: 0.2rem;
+    }
+
+    .m3-mono-cell {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .m3-vuln-summary {
+        font-size: 0.825rem;
+        color: var(--md-sys-color-on-surface-variant);
+        min-width: 180px;
+    }
+
+    .m3-trace-columns {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    @media (min-width: 780px) {
+        .m3-trace-columns {
+            grid-template-columns: 1fr 1.35fr;
+        }
+    }
+
+    .m3-trace-col h5 {
+        margin: 0 0 0.625rem !important;
+        font-size: 0.9rem !important;
+        color: var(--md-sys-color-on-surface);
+    }
+
+    .m3-workspace-list,
+    .m3-c2c-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .m3-workspace-card {
+        padding: 0.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .m3-workspace-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .m3-workspace-path {
+        font-size: 0.75rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-workspace-deps {
+        font-size: 0.78rem;
+        color: var(--md-sys-color-primary);
+    }
+
+    .m3-c2c-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 0.75rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-c2c-node {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.3rem;
+        font-size: 0.8125rem;
+    }
+
+    .m3-c2c-node small {
+        color: var(--md-sys-color-on-surface-variant);
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.7rem;
+    }
+
+    .m3-c2c-rel {
+        height: 1.5rem;
+        font-size: 0.7rem;
+        font-family: var(--md-ref-typeface-mono);
+    }
+</style>

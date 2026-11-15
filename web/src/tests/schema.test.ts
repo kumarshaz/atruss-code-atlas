@@ -42,5 +42,48 @@ function testExportsLatestContracts() {
   );
 }
 
+function testHorizon2OptionalExportSchemas() {
+  const latestDir = path.resolve(process.cwd(), '../exports/latest');
+
+  const sbomDir = path.join(latestDir, 'sbom');
+  if (fs.existsSync(sbomDir)) {
+    const sbomFiles = fs.readdirSync(sbomDir).filter((f) => f.endsWith('.cdx.json'));
+    for (const file of sbomFiles) {
+      const sbom = JSON.parse(fs.readFileSync(path.join(sbomDir, file), 'utf8'));
+      assert.equal(sbom.bomFormat, 'CycloneDX', `${file} must have bomFormat=CycloneDX`);
+      assert.equal(sbom.specVersion, '1.6', `${file} must have specVersion=1.6`);
+    }
+  }
+
+  const sarifDir = path.join(latestDir, 'sarif');
+  if (fs.existsSync(sarifDir)) {
+    const sarifFiles = fs.readdirSync(sarifDir).filter((f) => f.endsWith('.sarif.json'));
+    for (const file of sarifFiles) {
+      const sarif = JSON.parse(fs.readFileSync(path.join(sarifDir, file), 'utf8'));
+      assert.equal(sarif.version, '2.1.0', `${file} must have SARIF version=2.1.0`);
+      assert.ok(Array.isArray(sarif.runs), `${file} must contain runs array`);
+    }
+  }
+
+  const historyPath = path.join(latestDir, 'catalog-history.json');
+  if (fs.existsSync(historyPath)) {
+    const history = JSON.parse(fs.readFileSync(historyPath, 'utf8'));
+    assert.ok(Array.isArray(history.snapshots), 'catalog-history.json must contain snapshots array');
+  }
+
+  const llmsDir = path.join(latestDir, 'llms');
+  if (fs.existsSync(llmsDir)) {
+    const llmsTxt = path.join(llmsDir, 'llms.txt');
+    const llmsFullTxt = path.join(llmsDir, 'llms-full.txt');
+    if (fs.existsSync(llmsTxt)) {
+      assert.ok(fs.readFileSync(llmsTxt, 'utf8').trim().length > 0, 'llms.txt must be non-empty');
+    }
+    if (fs.existsSync(llmsFullTxt)) {
+      assert.ok(fs.readFileSync(llmsFullTxt, 'utf8').trim().length > 0, 'llms-full.txt must be non-empty');
+    }
+  }
+}
+
 testExportsLatestContracts();
-console.log('Astro data contract & schema checks passed.');
+testHorizon2OptionalExportSchemas();
+console.log('Astro data contract & Horizon 2 schema checks passed.');

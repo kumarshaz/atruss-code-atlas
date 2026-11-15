@@ -1,6 +1,6 @@
 {
-  "evaluated_at": "2026-11-14T19:47:10.247633+00:00",
-  "spec_dir": "specs/006-core-unification-and-eval",
+  "evaluated_at": "2026-11-15T01:41:44.328499+00:00",
+  "spec_dir": "specs/009-unified-atlas-spec",
   "grade": "A",
   "passed_gates": 5,
   "total_gates": 5,
@@ -9,7 +9,7 @@
     {
       "gate": "Gate 1: Spec-Plan-Task Traceability",
       "passed": true,
-      "summary": "Mapped 10/10 FRs across 20 tasks (20/20 checked); missing targets=0",
+      "summary": "Mapped 30/30 FRs across 30 tasks (30/30 checked); missing targets=0",
       "details": {
         "spec_frs": [
           "FR-001",
@@ -21,7 +21,27 @@
           "FR-007",
           "FR-008",
           "FR-009",
-          "FR-010"
+          "FR-010",
+          "FR-011",
+          "FR-012",
+          "FR-013",
+          "FR-014",
+          "FR-015",
+          "FR-016",
+          "FR-017",
+          "FR-018",
+          "FR-019",
+          "FR-020",
+          "FR-021",
+          "FR-022",
+          "FR-023",
+          "FR-024",
+          "FR-025",
+          "FR-026",
+          "FR-027",
+          "FR-028",
+          "FR-029",
+          "FR-030"
         ],
         "mapped_frs": [
           "FR-001",
@@ -33,27 +53,92 @@
           "FR-007",
           "FR-008",
           "FR-009",
-          "FR-010"
+          "FR-010",
+          "FR-011",
+          "FR-012",
+          "FR-013",
+          "FR-014",
+          "FR-015",
+          "FR-016",
+          "FR-017",
+          "FR-018",
+          "FR-019",
+          "FR-020",
+          "FR-021",
+          "FR-022",
+          "FR-023",
+          "FR-024",
+          "FR-025",
+          "FR-026",
+          "FR-027",
+          "FR-028",
+          "FR-029",
+          "FR-030"
         ],
         "unmapped_frs": [],
         "spec_scs": [
           "SC-001",
           "SC-002",
           "SC-003",
-          "SC-004"
+          "SC-004",
+          "SC-005",
+          "SC-006",
+          "SC-007",
+          "SC-008",
+          "SC-009",
+          "SC-010"
         ],
         "mapped_scs": [
           "SC-001",
-          "SC-004"
+          "SC-002",
+          "SC-003",
+          "SC-004",
+          "SC-005",
+          "SC-006",
+          "SC-007",
+          "SC-008",
+          "SC-009",
+          "SC-010"
         ],
-        "total_tasks": 20,
-        "checked_tasks": 20,
+        "total_tasks": 30,
+        "checked_tasks": 30,
         "verified_plan_targets": [
+          "manifests/architecture-rules.yaml",
           "manifests/ecosystems.yaml",
+          "manifests/pipeline-rules.yaml",
+          "scripts/generate-report-stubs.py",
           "scripts/validate_agent_workflow.py",
-          "src/analyzers/classification.py",
+          "src/analyzers/code/fitness_engine.py",
+          "src/analyzers/code/treesitter_engine.py",
+          "src/analyzers/dependencies/osv_client.py",
+          "src/analyzers/dependencies/secret_scanner.py",
+          "src/analyzers/drift.py",
+          "src/analyzers/observability.py",
+          "src/analyzers/pipeline/dag_builder.py",
+          "src/analyzers/pipeline/heuristics.py",
+          "src/analyzers/pipeline/parser.py",
+          "src/analyzers/scorecard.py",
+          "src/analyzers/traceability.py",
+          "src/cli/commands/analyze_code.py",
+          "src/cli/commands/analyze_pipeline.py",
+          "src/cli/commands/check.py",
+          "src/cli/commands/diff.py",
+          "src/cli/commands/discover.py",
+          "src/cli/commands/mcp_server.py",
           "src/core/auth.py",
-          "web/src/components/PipelineView.astro"
+          "src/core/exporters/llms_exporter.py",
+          "src/core/exporters/sarif_exporter.py",
+          "src/core/exporters/sbom_exporter.py",
+          "src/core/services/report_generator.py",
+          "src/core/utils/git_cloner.py",
+          "web/astro.config.mjs",
+          "web/package.json",
+          "web/src/components/CrossRepoTopology.astro",
+          "web/src/components/PipelineView.astro",
+          "web/src/components/ScorecardHeatmap.astro",
+          "web/src/content/docs/index.mdx",
+          "web/src/lib/mermaid-client.ts",
+          "web/src/styles/material-theme.css"
         ],
         "missing_plan_targets": []
       }
@@ -61,19 +146,19 @@
     {
       "gate": "Gate 2: AST Anti-Stub & Anti-Skip Audit",
       "passed": true,
-      "summary": "Scanned 71 Python files under src/ & tests/; violations=0",
+      "summary": "Scanned 94 Python files under src/ & tests/; violations=0",
       "details": {
-        "files_scanned": 71,
+        "files_scanned": 94,
         "violations": []
       }
     },
     {
       "gate": "Gate 3: Full Pytest Execution (0-Skip)",
       "passed": true,
-      "summary": "exit=0, passed=62, failed=0, errors=0, skipped=0, warnings=0",
+      "summary": "exit=0, passed=124, failed=0, errors=0, skipped=0, warnings=0",
       "details": {
         "returncode": 0,
-        "passed": 62,
+        "passed": 124,
         "failed": 0,
         "errors": 0,
         "skipped": 0,
@@ -83,7 +168,7 @@
     {
       "gate": "Gate 4: Python-to-Astro Schema Contract",
       "passed": true,
-      "summary": "Validated 206 contract artifacts; errors=0",
+      "summary": "Validated 218 contract artifacts; errors=0",
       "details": {
         "validated_files": [
           "sandbox:repos/repositories.json",
@@ -91,6 +176,11 @@
           "sandbox:relationships/pipeline_topology.json",
           "sandbox:reports/local-atlas-sample-report.md",
           "sandbox:reports/local-atlas-sample-analysis.json",
+          "sandbox:sbom/local-atlas-sample.cdx.json",
+          "sandbox:sarif/local-atlas-sample.sarif.json",
+          "sandbox:llms/llms.txt",
+          "sandbox:llms/llms-full.txt",
+          "sandbox:catalog-history.json",
           "workspace:repos/repositories.json",
           "workspace:pipelines/2dust-v2rayN-pipeline.json",
           "workspace:pipelines/App-vNext-Polly-pipeline.json",
@@ -141,6 +231,7 @@
           "workspace:pipelines/jellyfin-jellyfin-pipeline.json",
           "workspace:pipelines/jetlinks-jetlinks-community-pipeline.json",
           "workspace:pipelines/kgrzybek-modular-monolith-with-ddd-pipeline.json",
+          "workspace:pipelines/kumarshaz-atruss-code-atlas-pipeline.json",
           "workspace:pipelines/lihengming-spring-boot-api-project-seed-pipeline.json",
           "workspace:pipelines/linlinjava-litemall-pipeline.json",
           "workspace:pipelines/macrozheng-mall-pipeline.json",
@@ -241,6 +332,7 @@
           "workspace:reports/jellyfin-jellyfin-report.md",
           "workspace:reports/jetlinks-jetlinks-community-report.md",
           "workspace:reports/kgrzybek-modular-monolith-with-ddd-report.md",
+          "workspace:reports/kumarshaz-atruss-code-atlas-report.md",
           "workspace:reports/lihengming-spring-boot-api-project-seed-report.md",
           "workspace:reports/linlinjava-litemall-report.md",
           "workspace:reports/macrozheng-mall-report.md",
@@ -291,7 +383,12 @@
           "workspace:reports/xyflow-xyflow-report.md",
           "workspace:reports/yt-dlp-yt-dlp-report.md",
           "workspace:reports/yudaocode-SpringBoot-Labs-report.md",
-          "workspace:reports/zfile-dev-zfile-report.md"
+          "workspace:reports/zfile-dev-zfile-report.md",
+          "workspace:sbom/kumarshaz-atruss-code-atlas.cdx.json",
+          "workspace:sarif/kumarshaz-atruss-code-atlas.sarif.json",
+          "workspace:llms/llms.txt",
+          "workspace:llms/llms-full.txt",
+          "workspace:catalog-history.json"
         ],
         "errors": []
       }
@@ -299,19 +396,27 @@
     {
       "gate": "Gate 5: SHA-256 Determinism Check",
       "passed": true,
-      "summary": "All 4 artifact SHA-256 digests matched across repeated runs",
+      "summary": "All 8 artifact SHA-256 digests matched across repeated runs",
       "details": {
         "run_1": {
           "components_sha256": "5e13ab35914ce6924aba62bcbe3d947e4cdc023e2b37fc423c01f79b8a4cd049",
-          "metrics_sha256": "15ffb5c227948f95895f01c29807029d4f1fa733379fc6202c87c421654cb8bc",
-          "pipeline_sha256": "78f471017f1aef71350aecd2c42350a82c17541c70f5900740ca44615d2dd3bb",
-          "markdown_sha256": "60fda51c5d00844a55cbe8b5c072442c6094c91b74df3b64d11e75399502c939"
+          "metrics_sha256": "27bb0fb2ac23bf6eb5b6ed7db01feb48bd2830edb270ecc4a6a183cab9b7ea47",
+          "pipeline_sha256": "fdea022039f91492e02fdd1bfe0687b9f9458228b59515a1e1daa080d5afbc8a",
+          "markdown_sha256": "6d06ab9a15b3cbe9578fb35dfd98e148ad63f3084edf72a0015afe2fe05a3c85",
+          "scorecard_sha256": "98ce2de36ac54a4d364e8e8421c04291a34f94251abe772e6cb085e7871874cb",
+          "sbom_sha256": "d138e51bef6b2d5c7a03fd53254148aac16db6c837aded46be2cd31a641a36fe",
+          "sarif_sha256": "8d9556483034a1331d8f419cc9285ce98ca28f59bba376e10332a29d73856137",
+          "llms_sha256": "99673e7066cabd119d641ee7206f32d880e1555d37ff5979ea5f4d4ca0ea00aa"
         },
         "run_2": {
           "components_sha256": "5e13ab35914ce6924aba62bcbe3d947e4cdc023e2b37fc423c01f79b8a4cd049",
-          "metrics_sha256": "15ffb5c227948f95895f01c29807029d4f1fa733379fc6202c87c421654cb8bc",
-          "pipeline_sha256": "78f471017f1aef71350aecd2c42350a82c17541c70f5900740ca44615d2dd3bb",
-          "markdown_sha256": "60fda51c5d00844a55cbe8b5c072442c6094c91b74df3b64d11e75399502c939"
+          "metrics_sha256": "27bb0fb2ac23bf6eb5b6ed7db01feb48bd2830edb270ecc4a6a183cab9b7ea47",
+          "pipeline_sha256": "fdea022039f91492e02fdd1bfe0687b9f9458228b59515a1e1daa080d5afbc8a",
+          "markdown_sha256": "6d06ab9a15b3cbe9578fb35dfd98e148ad63f3084edf72a0015afe2fe05a3c85",
+          "scorecard_sha256": "98ce2de36ac54a4d364e8e8421c04291a34f94251abe772e6cb085e7871874cb",
+          "sbom_sha256": "d138e51bef6b2d5c7a03fd53254148aac16db6c837aded46be2cd31a641a36fe",
+          "sarif_sha256": "8d9556483034a1331d8f419cc9285ce98ca28f59bba376e10332a29d73856137",
+          "llms_sha256": "99673e7066cabd119d641ee7206f32d880e1555d37ff5979ea5f4d4ca0ea00aa"
         },
         "mismatches": []
       }

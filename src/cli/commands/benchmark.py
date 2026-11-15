@@ -22,8 +22,11 @@ from src.cli.commands.analyze_code import _analyze_repo_code, _get_git_sha
 from src.cli.commands.analyze_pipeline import _analyze_workflows_from_contents
 from src.core.auth import setup_secure_logging
 from src.core.exporters.discovery_exporter import DiscoveryArchiver
+from src.core.exporters.llms_exporter import export_llms_context
 from src.core.exporters.markdown_exporter import MarkdownArchiver
 from src.core.exporters.pipeline_exporter import TopologyArchiver
+from src.core.exporters.sarif_exporter import export_sarif_report
+from src.core.exporters.sbom_exporter import export_cyclonedx_sbom
 from src.core.http_client import GitHubClient
 from src.core.utils.export_manager import ExportManager
 from src.core.utils.git_cloner import GitCloner
@@ -505,6 +508,8 @@ def _analyze_cloned_repo_sync(
     code_artifact: PortableArtifact | None = None
     try:
         code_artifact = _analyze_repo_code(repo_path, entry.full_name)
+        if code_artifact is not None and code_artifact.sha == "unknown" and sha != "unknown":
+            code_artifact = code_artifact.model_copy(update={"sha": sha})
     except Exception as exc:
         stage_error = stage_error or str(exc)
         stage_failed = stage_failed or "analyze-code"
@@ -751,7 +756,7 @@ def _clear_latest_artifact_dirs(exports_root: Path) -> None:
     latest = exports_root / "latest"
     if not latest.exists():
         return
-    for sub in ("repos", "pipelines", "relationships", "reports"):
+    for sub in ("repos", "pipelines", "relationships", "reports", "sbom", "sarif", "llms"):
         target = latest / sub
         if target.exists() and target.is_dir():
             shutil.rmtree(target)
@@ -851,11 +856,58 @@ async def execute_benchmark(
                 filename=f"{safe_prefix}-report.md",
                 include_frontmatter=True,
             )
+            export_cyclonedx_sbom(
+                art.repository,
+                art.sha,
+                art.dependencies,
+                art.vulnerabilities,
+                output_path=manager.get_path("sbom", f"{safe_prefix}.cdx.json"),
+            )
+            export_sarif_report(
+                art,
+                output_path=manager.get_path("sarif", f"{safe_prefix}.sarif.json"),
+                repo_name=art.repository,
+            )
 
     DiscoveryArchiver(manager).export(discovery_items)
     topo_archiver.export(all_nodes, all_runs)
     MarkdownArchiver(manager).export(all_nodes, all_runs)
     latest_dir = manager.publish_to_latest()
+    export_llms_context(latest_dir, output_dir=manager.base_path / "llms")
+    manager.publish_to_latest(modules=["llms"])
+    scored_arts = [
+        o["code_artifact"]
+        for o in outcomes
+        if o.get("code_artifact") is not None and o["code_artifact"].scorecard is not None
+    ]
+    avg_sc = (
+        round(
+            sum(a.scorecard.overall_score for a in scored_arts if a.scorecard) / len(scored_arts),
+            2,
+        )
+        if scored_arts
+        else 0.0
+    )
+    repos_sc_summary = {
+        a.repository: {
+            "overall_score": a.scorecard.overall_score if a.scorecard else 0.0,
+            "overall_grade": a.scorecard.overall_grade if a.scorecard else "N/A",
+            "technical_debt_score": a.scorecard.technical_debt_score if a.scorecard else 0.0,
+            "vulnerabilities_count": len(a.vulnerabilities),
+            "fitness_violations_count": len(a.fitness_violations),
+            "secrets_count": len(a.secrets),
+        }
+        for a in scored_arts
+    }
+    manager.append_catalog_history({
+        "command": "benchmark",
+        "repo_count": len(results),
+        "average_overall_score": avg_sc,
+        "total_vulnerabilities": sum(len(a.vulnerabilities) for a in scored_arts),
+        "total_fitness_violations": sum(len(a.fitness_violations) for a in scored_arts),
+        "total_secrets": sum(len(a.secrets) for a in scored_arts),
+        "repos": repos_sc_summary,
+    })
 
     total = len(results)
     completed = sum(1 for r in results if r.status == "passed")

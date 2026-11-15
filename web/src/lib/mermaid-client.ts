@@ -18,7 +18,7 @@ export function safeLabel(raw: string): string {
 }
 
 /** Configure Mermaid with theme-aware dark/light styling and safe size caps. */
-export function configureMermaid(): void {
+export function configureMermaid(htmlLabels = true): void {
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     mermaid.initialize({
         startOnLoad: false,
@@ -26,7 +26,7 @@ export function configureMermaid(): void {
         maxTextSize: 200000,
         flowchart: {
             useMaxWidth: true,
-            htmlLabels: true,
+            htmlLabels,
             nodeSpacing: 28,
             rankSpacing: 44,
         },
@@ -34,10 +34,15 @@ export function configureMermaid(): void {
 }
 
 /** Render a Mermaid definition string into SVG markup using the active theme. */
-export async function renderMermaidSvg(prefix: string, graphDef: string): Promise<string> {
-    configureMermaid();
+export async function renderMermaidSvg(
+    prefix: string,
+    graphDef: string,
+    htmlLabels = true
+): Promise<string> {
+    configureMermaid(htmlLabels);
     const renderId = `${safeId(prefix)}-${Math.random().toString(36).slice(2, 10)}`;
     const { svg } = await mermaid.render(renderId, graphDef);
+    if (!htmlLabels) configureMermaid(true);
     return svg;
 }
 
@@ -120,6 +125,170 @@ export function bindDiagramZoom(scope: ParentNode = document): void {
                 else scale = 1;
                 update();
             });
+        });
+    });
+}
+
+function triggerDownload(blob: Blob, filename: string): void {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function serializeSvgElement(svgEl: SVGSVGElement): { xml: string; width: number; height: number } {
+    const clone = svgEl.cloneNode(true) as SVGSVGElement;
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+
+    let width = 1200;
+    let height = 800;
+    const vbAttr = (svgEl.getAttribute('viewBox') || '').trim();
+    const vbParts = vbAttr.split(/[\s,]+/).map(Number);
+    if (vbParts.length === 4 && Number.isFinite(vbParts[2]) && vbParts[2] > 0 && Number.isFinite(vbParts[3]) && vbParts[3] > 0) {
+        width = Math.ceil(vbParts[2]);
+        height = Math.ceil(vbParts[3]);
+    } else {
+        const rect = svgEl.getBoundingClientRect();
+        if (rect.width > 16 && rect.height > 16) {
+            width = Math.ceil(rect.width);
+            height = Math.ceil(rect.height);
+        }
+    }
+
+    clone.setAttribute('width', String(width));
+    clone.setAttribute('height', String(height));
+    clone.style.maxWidth = 'none';
+
+    const serializer = new XMLSerializer();
+    return { xml: serializer.serializeToString(clone), width, height };
+}
+
+/** Download the rendered `<svg>` element inside a diagram container as an SVG file. */
+export function downloadSvgFromElement(containerEl: Element | null, filename: string): boolean {
+    if (!containerEl) return false;
+    const svgEl = containerEl.querySelector<SVGSVGElement>('svg');
+    if (!svgEl) return false;
+
+    const { xml } = serializeSvgElement(svgEl);
+    const safeName = filename.endsWith('.svg') ? filename : `${filename}.svg`;
+    triggerDownload(new Blob([xml], { type: 'image/svg+xml;charset=utf-8' }), safeName);
+    return true;
+}
+
+/** Export a rendered diagram SVG as a 2x high-DPI PNG, falling back cleanly if tainted by foreignObject. */
+export async function exportSvgToPng(
+    containerEl: Element | null,
+    filename: string,
+    diagramSource?: string,
+    scale = 2
+): Promise<boolean> {
+    if (!containerEl) return false;
+    const liveSvg = containerEl.querySelector<SVGSVGElement>('svg');
+    if (!liveSvg) return false;
+
+    let targetSvg: SVGSVGElement = liveSvg;
+    let tempHost: HTMLDivElement | null = null;
+
+    if (liveSvg.querySelector('foreignObject') && diagramSource) {
+        try {
+            const cleanMarkup = await renderMermaidSvg('png-export', diagramSource, false);
+            tempHost = document.createElement('div');
+            tempHost.style.position = 'fixed';
+            tempHost.style.left = '-99999px';
+            tempHost.style.top = '0';
+            tempHost.innerHTML = cleanMarkup;
+            document.body.appendChild(tempHost);
+            const cleanSvg = tempHost.querySelector<SVGSVGElement>('svg');
+            if (cleanSvg) targetSvg = cleanSvg;
+        } catch (err) {
+            console.warn('Re-render without htmlLabels failed during PNG export:', err);
+        }
+    }
+
+    try {
+        const { xml, width, height } = serializeSvgElement(targetSvg);
+        const safeName = filename.endsWith('.png') ? filename : `${filename}.png`;
+        const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(xml)}`;
+
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = (ev) => reject(ev);
+            img.src = dataUrl;
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.min(8192, Math.round(width * scale)));
+        canvas.height = Math.max(1, Math.min(8192, Math.round(height * scale)));
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return false;
+
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const computedBg = getComputedStyle(document.documentElement)
+            .getPropertyValue('--md-sys-color-surface-container-lowest')
+            .trim();
+        ctx.fillStyle = computedBg || (isLight ? '#ffffff' : '#0a0e14');
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const pngBlob = await new Promise<Blob | null>((resolve) => {
+            try {
+                canvas.toBlob((blob) => resolve(blob), 'image/png');
+            } catch {
+                resolve(null);
+            }
+        });
+
+        if (pngBlob) {
+            triggerDownload(pngBlob, safeName);
+            return true;
+        }
+
+        // SecurityError taint fallback: try DataURL or fallback to SVG download
+        try {
+            const pngUrl = canvas.toDataURL('image/png');
+            const res = await fetch(pngUrl);
+            triggerDownload(await res.blob(), safeName);
+            return true;
+        } catch {
+            return downloadSvgFromElement(containerEl, filename.replace(/\.png$/i, ''));
+        }
+    } catch (err) {
+        console.warn('PNG rasterization failed, falling back to SVG:', err);
+        return downloadSvgFromElement(containerEl, filename.replace(/\.png$/i, ''));
+    } finally {
+        if (tempHost) tempHost.remove();
+    }
+}
+
+export interface DiagramExportOptions {
+    getSvgContainer: () => Element | null;
+    getSource?: () => string | undefined;
+    filenameBase: string;
+}
+
+/** Bind SVG and PNG download buttons (`[data-export-format]`) within a diagram card. */
+export function bindDiagramExportButtons(scope: ParentNode, opts: DiagramExportOptions): void {
+    scope.querySelectorAll<HTMLButtonElement>('[data-export-format]').forEach((btn) => {
+        if (btn.dataset.exportBound === 'true') return;
+        btn.dataset.exportBound = 'true';
+
+        btn.addEventListener('click', async () => {
+            const fmt = (btn.dataset.exportFormat || 'svg').toLowerCase();
+            const container = opts.getSvgContainer();
+            if (!container) return;
+
+            if (fmt === 'png') {
+                await exportSvgToPng(container, opts.filenameBase, opts.getSource?.());
+            } else {
+                downloadSvgFromElement(container, opts.filenameBase);
+            }
         });
     });
 }

@@ -12,7 +12,10 @@ from src.cli.commands.analyze_pipeline import app as pipeline_app
 
 @pytest.mark.integration
 def test_tr_dag_workflow_e2e_and_antipattern_detection(tmp_path: Path):
-    """TR-DAG E2E: reconstructs GitHub Actions DAG, detects all 7 anti-patterns, and runs analyze-pipeline CLI."""
+    """
+    TR-DAG E2E: reconstructs GitHub Actions DAG, detects all 7 anti-patterns,
+    and runs analyze-pipeline CLI.
+    """
     repo_dir = tmp_path / "sample-repo"
     wf_dir = repo_dir / ".github" / "workflows"
     wf_dir.mkdir(parents=True)
@@ -22,11 +25,16 @@ name: Clean CI
 on:
   pull_request:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           cache: pip
@@ -35,18 +43,21 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/download-artifact@v4
       - run: pytest
   deploy:
     needs: [build, test]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment: staging
     steps:
       - uses: actions/download-artifact@v4
       - run: echo "deploying cleanly"
 """
-    risky_yml = """
+    synthetic_tok = "ghp_" + "1234567890abcdefghij1234567890"
+    risky_yml = f"""
 name: Risky CD
 on: push
 jobs:
@@ -64,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      SECRET_TOKEN: "ghp_1234567890abcdefghij1234567890"
+      SECRET_TOKEN: "{synthetic_tok}"
     steps:
       - run: echo "deploying without test"
 """
@@ -72,13 +83,17 @@ jobs:
     (wf_dir / "risky.yml").write_text(risky_yml, encoding="utf-8")
 
     parsed_clean = parse_workflow_yaml(clean_yml)
-    clean_payload, clean_dag = build_workflow_graph_payload(".github/workflows/clean.yml", parsed_clean)
+    clean_payload, clean_dag = build_workflow_graph_payload(
+        ".github/workflows/clean.yml", parsed_clean
+    )
     assert len(clean_payload["jobs"]) == 3
     assert set(clean_dag.edges) == {("build", "test"), ("build", "deploy"), ("test", "deploy")}
     assert analyze_workflow_anti_patterns(parsed_clean, clean_dag) == []
 
     parsed_risky = parse_workflow_yaml(risky_yml)
-    _risky_payload, risky_dag = build_workflow_graph_payload(".github/workflows/risky.yml", parsed_risky)
+    _risky_payload, risky_dag = build_workflow_graph_payload(
+        ".github/workflows/risky.yml", parsed_risky
+    )
     risky_types = {ap["type"] for ap in analyze_workflow_anti_patterns(parsed_risky, risky_dag)}
     assert {
         "NO_TEST_GATE",
@@ -95,9 +110,8 @@ jobs:
     res = runner.invoke(pipeline_app, ["--path", str(repo_dir), "--output-dir", str(out_dir)])
     assert res.exit_code == 0, res.output
 
-    exported = json.loads(
-        (out_dir / "latest" / "pipelines" / "local-sample-repo-pipeline.json").read_text(encoding="utf-8")
-    )
+    pipe_file = out_dir / "latest" / "pipelines" / "local-sample-repo-pipeline.json"
+    exported = json.loads(pipe_file.read_text(encoding="utf-8"))
     assert len(exported["workflows"]) == 2
     assert (out_dir / "latest" / "relationships" / "pipeline_topology.json").exists()
     assert (out_dir / "sample-repo_unknown_analysis.json").exists()

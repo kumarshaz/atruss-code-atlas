@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "copy-data": "mkdir -p src/data/latest src/content/docs/reports/ && rm -rf src/data/latest/* src/content/docs/reports/* && cp -R ../exports/latest/* src/data/latest/ 2>/dev/null || true; PY_BIN=$([ -x ../.venv/bin/python3 ] && echo ../.venv/bin/python3 || echo python3); $PY_BIN ../scripts/generate-report-stubs.py --discovery ../exports/latest/repos/repositories.json --output src/content/docs/reports/ || echo 'Stub generation skipped'",
+    "copy-data": "mkdir -p src/data/latest src/content/docs/reports/ public && rm -rf src/data/latest/* src/content/docs/reports/* && cp -R ../exports/latest/* src/data/latest/ 2>/dev/null || true; (cp ../exports/latest/llms/llms*.txt public/ 2>/dev/null || true); PY_BIN=$([ -x ../.venv/bin/python3 ] && echo ../.venv/bin/python3 || echo python3); $PY_BIN ../scripts/generate-report-stubs.py --discovery ../exports/latest/repos/repositories.json --output src/content/docs/reports/ || echo 'Stub generation skipped'",
     "dev": "npm run copy-data && astro dev",
     "start": "astro dev",
     "build": "npm run copy-data && astro build",

@@ -19,7 +19,9 @@ def _b64(text: str) -> str:
 @pytest.mark.integration
 @pytest.mark.asyncio
 async def test_tr_con_golden_contracts_discovery_pipeline_and_code(tmp_path: Path):
-    """TR-CON E2E: validates full golden schemas across discovery (27-col), Astro pipeline JSON, and Arc42 MD."""
+    """
+    TR-CON E2E: validates golden schemas across discovery (27-col), Astro pipeline, and Arc42 MD.
+    """
     workflow_yml = (
         "name: CI\n"
         "on:\n"
@@ -133,7 +135,8 @@ async def test_tr_con_golden_contracts_discovery_pipeline_and_code(tmp_path: Pat
     (local_repo / "src").mkdir(parents=True)
     (local_repo / "pyproject.toml").write_text("[project]\nname='pet-api'\n", encoding="utf-8")
     (local_repo / "src" / "main.py").write_text(
-        "from fastapi import FastAPI\napp = FastAPI()\n@app.get('/pets')\ndef list_pets(): return []\n",
+        "from fastapi import FastAPI\napp = FastAPI()\n"
+        "@app.get('/pets')\ndef list_pets(): return []\n",
         encoding="utf-8",
     )
     code_artifact = _analyze_repo_code(local_repo, "acme/pet-api")

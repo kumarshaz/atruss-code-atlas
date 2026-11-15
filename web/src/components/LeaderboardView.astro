@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import OrgComparisonTable from './OrgComparisonTable.astro';
+import CrossRepoTopology from './CrossRepoTopology.astro';
 
 interface Repo {
     Organization: string;
@@ -17,6 +18,10 @@ interface OrgMaturityScore {
     repos_with_docker: number;
     pipeline_coverage_pct: number;
     maturity_score: number;
+    avg_scorecard?: number | null;
+    avg_grade?: string | null;
+    open_cves?: number | null;
+    fitness_alerts?: number | null;
 }
 
 let repos: Repo[] = [];
@@ -47,15 +52,24 @@ const pipelineDirs = [
     path.resolve(process.cwd(), '../exports/latest/pipelines'),
     path.resolve(process.cwd(), 'src/data/latest/pipelines'),
 ];
+const reportDirs = [
+    path.resolve(process.cwd(), '../exports/latest/reports'),
+    path.resolve(process.cwd(), 'src/data/latest/reports'),
+];
 
 const getAntiPatternCount = (org: string, repo: string) => {
     try {
         let pData: any = null;
         for (const basePath of pipelineDirs) {
             const orgRepoPath = path.join(basePath, `${org}-${repo}-pipeline.json`);
+            const localRepoPath = path.join(basePath, `local-${repo}-pipeline.json`);
             const plainRepoPath = path.join(basePath, `${repo}-pipeline.json`);
             if (fs.existsSync(orgRepoPath)) {
                 pData = JSON.parse(fs.readFileSync(orgRepoPath, 'utf8'));
+                break;
+            }
+            if (fs.existsSync(localRepoPath)) {
+                pData = JSON.parse(fs.readFileSync(localRepoPath, 'utf8'));
                 break;
             }
             if (fs.existsSync(plainRepoPath)) {
@@ -75,6 +89,36 @@ const getAntiPatternCount = (org: string, repo: string) => {
     } catch {
         return -1;
     }
+};
+
+const getAnalysisJson = (org: string, repo: string): any => {
+    try {
+        const safeOrg = String(org || 'local').replace(/\//g, '_');
+        for (const basePath of reportDirs) {
+            const candidates = [
+                path.join(basePath, `${org}-${repo}-analysis.json`),
+                path.join(basePath, `${safeOrg}-${repo}-analysis.json`),
+                path.join(basePath, `local-${repo}-analysis.json`),
+                path.join(basePath, `${repo}-analysis.json`),
+            ];
+            for (const c of candidates) {
+                if (fs.existsSync(c)) {
+                    return JSON.parse(fs.readFileSync(c, 'utf8'));
+                }
+            }
+        }
+    } catch {
+        return null;
+    }
+    return null;
+};
+
+const gradeFromScore = (score: number): string => {
+    if (score >= 90) return 'A';
+    if (score >= 80) return 'B';
+    if (score >= 70) return 'C';
+    if (score >= 60) return 'D';
+    return 'F';
 };
 
 const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) => {
@@ -105,6 +149,31 @@ const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) 
         score = 0;
     }
 
+    let scorecardSum = 0;
+    let scorecardCount = 0;
+    let cveCount = 0;
+    let fitnessCount = 0;
+    let h2Analyzed = 0;
+
+    orgRepos.forEach((r) => {
+        const aj = getAnalysisJson(org, r.RepositoryName);
+        if (!aj) return;
+        if (aj.scorecard && typeof aj.scorecard.overall_score === 'number') {
+            scorecardSum += Number(aj.scorecard.overall_score);
+            scorecardCount++;
+        }
+        if (Array.isArray(aj.vulnerabilities)) {
+            cveCount += aj.vulnerabilities.length;
+            h2Analyzed++;
+        }
+        if (Array.isArray(aj.fitness_violations)) {
+            fitnessCount += aj.fitness_violations.length;
+            h2Analyzed++;
+        }
+    });
+
+    const avg_scorecard = scorecardCount > 0 ? Math.round(scorecardSum / scorecardCount) : null;
+
     return {
         org,
         total_repos,
@@ -112,6 +181,10 @@ const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) 
         repos_with_docker,
         pipeline_coverage_pct,
         maturity_score: Math.min(100, Math.max(0, score)),
+        avg_scorecard,
+        avg_grade: avg_scorecard !== null ? gradeFromScore(avg_scorecard) : null,
+        open_cves: h2Analyzed > 0 ? cveCount : null,
+        fitness_alerts: h2Analyzed > 0 ? fitnessCount : null,
     };
 });
 
@@ -129,13 +202,14 @@ const avgMaturity =
         </div>
         <h2>Engineering Maturity Leaderboard</h2>
         <p>
-            Weighted index combining CI/CD pipeline adoption (60%) and clean anti-pattern
-            compliance (40%) across {scores.length} organization(s). Average score:{' '}
-            <strong>{avgMaturity} / 100</strong>.
+            Weighted index combining CI/CD pipeline adoption (60%), clean anti-pattern
+            compliance (40%), and 6-D architecture scorecards across {scores.length}{' '}
+            organization(s). Average score: <strong>{avgMaturity} / 100</strong>.
         </p>
     </section>
 
     <OrgComparisonTable orgs={scores} />
+    <CrossRepoTopology />
 </div>
 
 <style>

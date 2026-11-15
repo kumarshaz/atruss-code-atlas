@@ -6,14 +6,21 @@ from pathlib import Path
 from typing import Any
 
 import httpx
+import networkx as nx
 import typer
 
-from src.analyzers.pipeline.dag_builder import build_workflow_graph_payload
+from src.analyzers.pipeline.dag_builder import (
+    build_cross_workflow_dag,
+    build_workflow_graph_payload,
+    compute_blast_radius,
+)
 from src.analyzers.pipeline.heuristics import analyze_workflow_anti_patterns
 from src.analyzers.pipeline.parser import discover_local_workflows, parse_workflow_yaml
 from src.core.auth import setup_secure_logging
+from src.core.exporters.llms_exporter import export_llms_context
 from src.core.exporters.markdown_exporter import MarkdownArchiver
 from src.core.exporters.pipeline_exporter import TopologyArchiver
+from src.core.exporters.sarif_exporter import export_sarif_report
 from src.core.http_client import GitHubClient
 from src.core.utils.export_manager import ExportManager
 from src.core.utils.git_cloner import GitCloner
@@ -23,6 +30,34 @@ from src.models.artifacts import PipelineWorkflow, PortableArtifact
 from src.models.topology import TopologyNode, WorkflowRun
 
 app = typer.Typer()
+
+_FROM_DISCOVERY_OPT = typer.Option(
+    None, "--from-discovery", help="Path to discovery JSON"
+)
+_REPOS_FILE_OPT = typer.Option(
+    None, "--repos-file", help="Path to text file containing newline-separated org/repo targets"
+)
+_REPO_PATH_OPT = typer.Option(
+    None, "--path", help="Local repository path to analyze"
+)
+_OUTPUT_DIR_OPT = typer.Option(
+    None, "--output-dir", help="Directory to save outputs (defaults to 'exports')"
+)
+_TOKEN_OPT = typer.Option(
+    None, "--token", envvar="GH_TOKEN", help="GitHub Personal Access Token (Optional)"
+)
+_USE_CLONE_OPT = typer.Option(
+    False, "--clone", help="Force shallow git clone instead of GitHub API tree fetch"
+)
+_POLICY_OPT = typer.Option(
+    None, "--policy", help="Custom pipeline-rules.yaml policy manifest path"
+)
+_FORMAT_OPT = typer.Option(
+    "json", "--format", help="Output format: json or sarif"
+)
+_BLAST_RADIUS_OPT = typer.Option(
+    None, "--blast-radius", help="Target job ID or workflow path for pipeline blast-radius analysis"
+)
 
 
 def _get_git_sha(repo_dir: Path) -> str:
@@ -61,6 +96,8 @@ def _analyze_workflows_from_contents(
     repo_name: str,
     sha: str,
     workflow_entries: list[tuple[str, str]],
+    *,
+    policy_path: Path | str | None = None,
 ) -> tuple[list[PipelineWorkflow], list[dict[str, Any]], list[TopologyNode], list[WorkflowRun]]:
     """
     Parse workflow YAML strings into PortableArtifact workflows, Astro pipeline dicts,
@@ -79,7 +116,13 @@ def _analyze_workflows_from_contents(
             continue
 
         wf_payload, dag = build_workflow_graph_payload(wf_path, parsed)
-        anti_patterns = analyze_workflow_anti_patterns(parsed, dag)
+        anti_patterns = analyze_workflow_anti_patterns(
+            parsed,
+            dag,
+            file_source=wf_path,
+            raw_yaml=content,
+            policy_path=policy_path,
+        )
         findings_strs = [
             f"[{ap['severity']}] {ap['type']}: {ap['message']}" for ap in anti_patterns
         ]
@@ -89,11 +132,14 @@ def _analyze_workflows_from_contents(
         artifact_workflows.append(
             PipelineWorkflow(
                 id=wf_payload["id"],
+                path=wf_payload["path"],
                 name=wf_payload["name"],
                 triggers=wf_payload["triggers"],
                 jobs=raw_jobs,
                 job_nodes=wf_payload["jobs"],
                 dag_metrics=wf_payload["dag_metrics"],
+                cross_workflow_edges=wf_payload.get("cross_workflow_edges", []),
+                blast_radius=wf_payload.get("blast_radius", {}),
                 findings=findings_strs,
                 anti_patterns=anti_patterns,
             )
@@ -102,6 +148,7 @@ def _analyze_workflows_from_contents(
         astro_workflows.append(
             {
                 "id": wf_payload["id"],
+                "path": wf_payload["path"],
                 "name": wf_payload["name"],
                 "triggers": wf_payload["triggers"],
                 "jobs": [
@@ -114,6 +161,9 @@ def _analyze_workflows_from_contents(
                     }
                     for j in wf_payload["jobs"]
                 ],
+                "dag_metrics": wf_payload["dag_metrics"],
+                "cross_workflow_edges": wf_payload.get("cross_workflow_edges", []),
+                "blast_radius": wf_payload.get("blast_radius", {}),
                 "anti_patterns": anti_patterns,
             }
         )
@@ -157,11 +207,30 @@ def _analyze_workflows_from_contents(
             )
         )
 
+    if astro_workflows:
+        _cross_g, resolved_cross_edges = build_cross_workflow_dag(astro_workflows)
+        for art_wf, astro_wf in zip(artifact_workflows, astro_workflows, strict=True):
+            wf_key = str(astro_wf.get("path") or astro_wf.get("id") or "")
+            owned_edges = [
+                edge
+                for edge in resolved_cross_edges
+                if (
+                    (edge["edge_type"] == "workflow_run" and edge["target_workflow"] == wf_key)
+                    or (edge["edge_type"] != "workflow_run" and edge["source_workflow"] == wf_key)
+                )
+            ]
+            art_wf.cross_workflow_edges = owned_edges
+            astro_wf["cross_workflow_edges"] = owned_edges
+
     return artifact_workflows, astro_workflows, topo_nodes, wf_runs
 
 
 def _analyze_repo_workflows(
-    repo_dir: Path, repo_name: str, org: str | None = None
+    repo_dir: Path,
+    repo_name: str,
+    org: str | None = None,
+    *,
+    policy_path: Path | str | None = None,
 ) -> PortableArtifact:
     """
     Analyze all `.github/workflows/*.{yml,yaml}` files inside a cloned or local repository.
@@ -169,7 +238,12 @@ def _analyze_repo_workflows(
     """
     sha = _get_git_sha(repo_dir)
     workflow_entries = discover_local_workflows(repo_dir)
-    artifact_wfs, _, _, _ = _analyze_workflows_from_contents(repo_name, sha, workflow_entries)
+    artifact_wfs, _, _, _ = _analyze_workflows_from_contents(
+        repo_name,
+        sha,
+        workflow_entries,
+        policy_path=policy_path,
+    )
 
     return PortableArtifact(
         repository=repo_name,
@@ -179,6 +253,40 @@ def _analyze_repo_workflows(
         pipelines=artifact_wfs,
         architecture_components=[],
     )
+
+
+def _compute_pipeline_target_blast_radius(
+    astro_workflows: list[dict[str, Any]],
+    target_node: str,
+) -> dict[str, Any]:
+    """Compute blast-radius impact across workflow-level or job-level DAGs."""
+    cross_g, _ = build_cross_workflow_dag(astro_workflows)
+    if target_node in cross_g:
+        return {"scope": "cross_workflow", **compute_blast_radius(cross_g, target_node=target_node)}
+
+    job_g = nx.DiGraph()
+    for wf in astro_workflows:
+        raw_jobs = wf.get("jobs", [])
+        if not isinstance(raw_jobs, list):
+            continue
+        for job in raw_jobs:
+            if not isinstance(job, dict) or not job.get("id"):
+                continue
+            jid = str(job["id"])
+            if jid not in job_g:
+                job_g.add_node(jid, **{k: v for k, v in job.items() if k != "id"})
+        for job in raw_jobs:
+            if not isinstance(job, dict) or not job.get("id"):
+                continue
+            jid = str(job["id"])
+            needs = job.get("needs", [])
+            if isinstance(needs, str):
+                needs = [needs]
+            for dep in needs if isinstance(needs, list) else []:
+                dep_s = str(dep)
+                if dep_s in job_g:
+                    job_g.add_edge(dep_s, jid)
+    return {"scope": "job_dag", **compute_blast_radius(job_g, target_node=target_node)}
 
 
 def _normalize_discovery_items(payload: Any) -> list[dict[str, Any]]:
@@ -247,6 +355,9 @@ async def execute_pipeline_analysis(
     token: str | None = None,
     transport: httpx.AsyncBaseTransport | None = None,
     use_clone: bool = False,
+    policy_path: Path | str | None = None,
+    output_format: str = "json",
+    blast_radius: str | None = None,
 ) -> ExportManager:
     log_path = Path(output_dir) / "logs" / "pipeline_analysis.log"
     logger = setup_secure_logging(log_path, token)
@@ -263,6 +374,9 @@ async def execute_pipeline_analysis(
     archiver = TopologyArchiver(manager)
     all_nodes: list[TopologyNode] = []
     all_runs: list[WorkflowRun] = []
+    all_astro_wfs: list[dict[str, Any]] = []
+    published_modules = ["pipelines", "relationships", "reports"]
+    fmt = output_format.strip().lower()
 
     async with GitHubClient(token=token, logger=logger, transport=transport) as client:
         for repo in repos:
@@ -285,17 +399,52 @@ async def execute_pipeline_analysis(
                         sha = _get_git_sha(cloned_path)
                         wf_entries = discover_local_workflows(cloned_path)
 
-            _, astro_wfs, nodes, runs = _analyze_workflows_from_contents(
-                repo["full_name"], sha, wf_entries
+            art_wfs, astro_wfs, nodes, runs = _analyze_workflows_from_contents(
+                repo["full_name"],
+                sha,
+                wf_entries,
+                policy_path=policy_path,
             )
             archiver.export_repo_pipeline(org=org, repo=repo_name, sha=sha, workflows=astro_wfs)
             all_nodes.extend(nodes)
             all_runs.extend(runs)
+            all_astro_wfs.extend(astro_wfs)
+
+            if fmt == "sarif":
+                safe_org = org.replace("/", "_") if org else "local"
+                safe_repo = repo_name.split("/")[-1].replace("/", "_")
+                sarif_art = PortableArtifact(
+                    repository=repo["full_name"],
+                    sha=sha,
+                    ecosystem="GITHUB_ACTIONS",
+                    metrics={"workflow_count": len(art_wfs)},
+                    pipelines=art_wfs,
+                    architecture_components=[],
+                )
+                export_sarif_report(
+                    sarif_art,
+                    output_path=manager.get_path("sarif", f"{safe_org}-{safe_repo}.sarif.json"),
+                    repo_name=sarif_art.repository,
+                )
+                if "sarif" not in published_modules:
+                    published_modules.append("sarif")
+
+    if blast_radius:
+        blast_summary = _compute_pipeline_target_blast_radius(all_astro_wfs, blast_radius)
+        typer.echo(json.dumps(blast_summary, indent=2))
 
     archiver.export(all_nodes, all_runs)
     md_archiver = MarkdownArchiver(manager)
     md_archiver.export(all_nodes, all_runs)
-    manager.publish_to_latest(modules=["pipelines", "relationships", "reports"])
+    latest_dir = manager.publish_to_latest(modules=published_modules)
+    export_llms_context(latest_dir, output_dir=manager.base_path / "llms")
+    manager.publish_to_latest(modules=["llms"])
+    manager.append_catalog_history({
+        "command": "analyze-pipeline",
+        "repo_count": len(repos),
+        "workflow_count": len(all_astro_wfs),
+        "antipattern_count": sum(len(w.get("anti_patterns", [])) for w in all_astro_wfs),
+    })
 
     logger.info(f"Completed mapping topologies natively to {manager.base_path}")
     return manager
@@ -303,29 +452,28 @@ async def execute_pipeline_analysis(
 
 @app.command("analyze-pipeline")
 def analyze_pipeline(
-    from_discovery: str | None = typer.Option(
-        None, "--from-discovery", help="Path to discovery JSON"
-    ),
-    repos_file: str | None = typer.Option(
-        None, "--repos-file", help="Path to text file containing newline-separated org/repo targets"
-    ),
-    repo_path: str | None = typer.Option(
-        None, "--path", help="Local repository path to analyze"
-    ),
-    output_dir: str | None = typer.Option(
-        None, "--output-dir", help="Directory to save outputs (defaults to 'exports')"
-    ),
-    token: str | None = typer.Option(
-        None, "--token", envvar="GH_TOKEN", help="GitHub Personal Access Token (Optional)"
-    ),
-    use_clone: bool = typer.Option(
-        False, "--clone", help="Force shallow git clone instead of GitHub API tree fetch"
-    ),
+    from_discovery: str | None = _FROM_DISCOVERY_OPT,
+    repos_file: str | None = _REPOS_FILE_OPT,
+    repo_path: str | None = _REPO_PATH_OPT,
+    output_dir: str | None = _OUTPUT_DIR_OPT,
+    token: str | None = _TOKEN_OPT,
+    use_clone: bool = _USE_CLONE_OPT,
+    policy: Path | None = _POLICY_OPT,
+    output_format: str = _FORMAT_OPT,
+    blast_radius: str | None = _BLAST_RADIUS_OPT,
 ):
     """
     Analyze GitHub Actions workflows into DAGs, anti-patterns,
     per-repo Astro JSONs, and aggregate topology exports.
     """
+    fmt = output_format.strip().lower()
+    if fmt not in {"json", "sarif"}:
+        typer.echo(
+            f"Error: Invalid --format '{output_format}'. Expected json or sarif.",
+            err=True,
+        )
+        raise typer.Exit(2)
+
     if not from_discovery and not repos_file and not repo_path:
         typer.echo(
             "Error: Must provide --from-discovery, --repos-file, or --path",
@@ -344,6 +492,9 @@ def analyze_pipeline(
                 output_dir=target_out,
                 token=token,
                 use_clone=use_clone,
+                policy_path=policy,
+                output_format=fmt,
+                blast_radius=blast_radius,
             )
         )
         return
@@ -351,6 +502,8 @@ def analyze_pipeline(
     artifacts: list[PortableArtifact] = []
     all_nodes: list[TopologyNode] = []
     all_runs: list[WorkflowRun] = []
+    all_astro_wfs: list[dict[str, Any]] = []
+    published_modules = ["pipelines", "relationships", "reports"]
 
     resolved_export_dir = output_dir or "exports"
     manager = ExportManager(base_dir=resolved_export_dir)
@@ -381,7 +534,11 @@ def analyze_pipeline(
             with GitCloner.clone_temporarily(clone_url, token) as cloned_dir:
                 if cloned_dir:
                     cloned_path = Path(cloned_dir)
-                    artifact = _analyze_repo_workflows(cloned_path, repo_label)
+                    artifact = (
+                        _analyze_repo_workflows(cloned_path, repo_label, policy_path=policy)
+                        if policy is not None
+                        else _analyze_repo_workflows(cloned_path, repo_label)
+                    )
                     artifacts.append(artifact)
 
                     org_part, short_name = (
@@ -389,36 +546,83 @@ def analyze_pipeline(
                     )
                     wf_entries = discover_local_workflows(cloned_path)
                     _, astro_wfs, nodes, runs = _analyze_workflows_from_contents(
-                        repo_label, artifact.sha, wf_entries
+                        repo_label,
+                        artifact.sha,
+                        wf_entries,
+                        policy_path=policy,
                     )
                     archiver.export_repo_pipeline(
                         org=org_part, repo=short_name, sha=artifact.sha, workflows=astro_wfs
                     )
                     all_nodes.extend(nodes)
                     all_runs.extend(runs)
+                    all_astro_wfs.extend(astro_wfs)
+
+                    if fmt == "sarif":
+                        safe_org = org_part.replace("/", "_") if org_part else "local"
+                        safe_short = short_name.replace("/", "_")
+                        sarif_file = manager.get_path(
+                            "sarif", f"{safe_org}-{safe_short}.sarif.json"
+                        )
+                        export_sarif_report(
+                            artifact,
+                            output_path=sarif_file,
+                            repo_name=artifact.repository,
+                        )
+                        if "sarif" not in published_modules:
+                            published_modules.append("sarif")
 
     elif repo_path:
-        local_dir = Path(repo_path)
+        local_dir = Path(repo_path).resolve()
         if not local_dir.exists():
             typer.echo(f"Error: Local path not found: {repo_path}", err=True)
             raise typer.Exit(1)
         repo_label = local_dir.name
-        artifact = _analyze_repo_workflows(local_dir, repo_label)
+        artifact = (
+            _analyze_repo_workflows(local_dir, repo_label, policy_path=policy)
+            if policy is not None
+            else _analyze_repo_workflows(local_dir, repo_label)
+        )
         artifacts.append(artifact)
 
         wf_entries = discover_local_workflows(local_dir)
         _, astro_wfs, nodes, runs = _analyze_workflows_from_contents(
-            repo_label, artifact.sha, wf_entries
+            repo_label,
+            artifact.sha,
+            wf_entries,
+            policy_path=policy,
         )
         archiver.export_repo_pipeline(
             org="local", repo=repo_label, sha=artifact.sha, workflows=astro_wfs
         )
         all_nodes.extend(nodes)
         all_runs.extend(runs)
+        all_astro_wfs.extend(astro_wfs)
+
+        if fmt == "sarif":
+            export_sarif_report(
+                artifact,
+                output_path=manager.get_path("sarif", f"local-{repo_label}.sarif.json"),
+                repo_name=artifact.repository,
+            )
+            if "sarif" not in published_modules:
+                published_modules.append("sarif")
+
+    if blast_radius:
+        blast_summary = _compute_pipeline_target_blast_radius(all_astro_wfs, blast_radius)
+        typer.echo(json.dumps(blast_summary, indent=2))
 
     archiver.export(all_nodes, all_runs)
     MarkdownArchiver(manager).export(all_nodes, all_runs)
-    manager.publish_to_latest(modules=["pipelines", "relationships", "reports"])
+    latest_dir = manager.publish_to_latest(modules=published_modules)
+    export_llms_context(latest_dir, output_dir=manager.base_path / "llms")
+    manager.publish_to_latest(modules=["llms"])
+    manager.append_catalog_history({
+        "command": "analyze-pipeline",
+        "repo_count": len(artifacts),
+        "workflow_count": len(all_astro_wfs),
+        "antipattern_count": sum(len(w.get("anti_patterns", [])) for w in all_astro_wfs),
+    })
 
     if output_dir:
         json_exporter = JSONExporter(output_dir)
@@ -426,4 +630,6 @@ def analyze_pipeline(
         for art in artifacts:
             json_exporter.export(art)
             md_exporter.export(art)
+            if fmt == "sarif":
+                export_sarif_report(art, output_dir=Path(output_dir), repo_name=art.repository)
         typer.echo(f"Reports saved to {output_dir}")

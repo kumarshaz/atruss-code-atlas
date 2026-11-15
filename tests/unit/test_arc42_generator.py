@@ -56,13 +56,20 @@ def test_python_ast_with_metrics(tmp_path: Path):
     )
     (tmp_path / "routes.py").write_text(
         "from fastapi import APIRouter\n"
+        "from unittest.mock import patch\n"
         "from models import PetModel\n"
         "router = APIRouter()\n\n"
         "@router.get('/pets')\n"
         "def list_pets(flag: bool = False):\n"
         "    if flag:\n"
         "        return []\n"
-        "    return [PetModel.__name__]\n",
+        "    return [PetModel.__name__]\n\n"
+        "@router.patch('/pets')\n"
+        "def update_pet():\n"
+        "    return {}\n\n"
+        "@patch('models.PetModel')\n"
+        "def helper_with_mock(_mock_pet):\n"
+        "    return None\n",
         encoding="utf-8",
     )
 
@@ -70,6 +77,8 @@ def test_python_ast_with_metrics(tmp_path: Path):
     names = {c["name"]: c for c in components}
     assert "PetModel" in names and names["PetModel"]["type"] == "DATA_ACCESS_LAYER"
     assert "list_pets" in names and names["list_pets"]["type"] == "API_ROUTE"
+    assert "update_pet" in names and names["update_pet"]["type"] == "API_ROUTE"
+    assert "helper_with_mock" not in names
     assert "PetModel" in names["list_pets"]["dependencies"]
     assert metrics["files_analyzed"] == 2
     assert metrics["loc"] > 0

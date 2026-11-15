@@ -1,12 +1,14 @@
-import json
 import csv
+import json
 from pathlib import Path
+
 from src.core.utils.export_manager import ExportManager
 from src.models.discovery import DiscoveryManifestItem
 
+
 def test_dynamic_csv_and_json_columns(tmp_path: Path):
     """
-    T007: Tests that dynamic key/value bindings operate seamlessly 
+    T007: Tests that dynamic key/value bindings operate seamlessly
     from the domain model directly to structural formats.
     """
     from src.core.exporters.discovery_exporter import DiscoveryArchiver
@@ -35,13 +37,13 @@ def test_dynamic_csv_and_json_columns(tmp_path: Path):
     assert json_path.exists()
 
     # JSON Validation
-    with open(json_path, "r", encoding="utf-8") as f:
+    with open(json_path, encoding="utf-8") as f:
         data = json.load(f)
         assert data["count"] == 1
         assert data["items"][0]["RepositoryName"] == "test-repo"
 
     # CSV Validation
-    with open(csv_path, "r", encoding="utf-8", newline="") as f:
+    with open(csv_path, encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
         assert len(rows) == 1
@@ -64,13 +66,13 @@ def test_zero_length_structural_dumps(tmp_path: Path):
     assert csv_path.exists()
     assert json_path.exists()
 
-    with open(json_path, "r", encoding="utf-8") as f:
+    with open(json_path, encoding="utf-8") as f:
         data = json.load(f)
         assert data["count"] == 0
         assert data["items"] == []
 
     # CSV should still just have headers matching standard payload or fallback
-    with open(csv_path, "r", encoding="utf-8", newline="") as f:
+    with open(csv_path, encoding="utf-8", newline="") as f:
         # If no items, headers might drop or default
         reader = csv.reader(f)
         lines = list(reader)

@@ -73,8 +73,20 @@ def test_repo_pipeline_astro_contract_and_latest_sync(tmp_path: Path):
             "name": "CI",
             "triggers": ["push"],
             "jobs": [
-                {"id": "test", "name": "Test", "runner": "ubuntu-latest", "steps_count": 3, "needs": []},
-                {"id": "deploy", "name": "Deploy", "runner": "ubuntu-latest", "steps_count": 2, "needs": ["test"]},
+                {
+                    "id": "test",
+                    "name": "Test",
+                    "runner": "ubuntu-latest",
+                    "steps_count": 3,
+                    "needs": [],
+                },
+                {
+                    "id": "deploy",
+                    "name": "Deploy",
+                    "runner": "ubuntu-latest",
+                    "steps_count": 2,
+                    "needs": ["test"],
+                },
             ],
             "anti_patterns": [],
         }
