@@ -41,9 +41,16 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-wrangler
 
 ```mermaid
 graph TD;
-    mattermost_plugin_wrangler_e2e["mattermost-plugin-wrangler-e2e : MODULE"]
-    webapp["webapp : MODULE"]
-    Client["Client : SERVICE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    mattermost_plugin_wrangler_e2e["mattermost-plugin-wrangler-e2e : MODULE"]:::atlasJob
+    webapp["webapp : MODULE"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
 ```
 
 ## Component Details
@@ -111,16 +118,20 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_e2e_playwright["e2e/playwright"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_e2e_playwright["e2e/playwright"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
-        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_yml_playwright["e2e.yml#playwright"]
+        job_e2e_yml_playwright["e2e.yml#playwright"]:::atlasJob
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_e2e_playwright -->|BUILT_BY| job_e2e_yml_playwright
@@ -138,21 +149,28 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-wrangler"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-wrangler"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
-    0_dist["dist"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
+    0_dist["dist"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph CodeQL_1["CodeQL"]
     direction TB
-    1_analyze["analyze"]
+    1_analyze["analyze"]:::atlasJob
   end
   pipeline_root --> 1_analyze
   subgraph e2e_2["e2e"]
     direction TB
-    2_playwright["playwright"]
+    2_playwright["playwright"]:::atlasJob
   end
   pipeline_root --> 2_playwright
 ```

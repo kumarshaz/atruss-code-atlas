@@ -40,22 +40,29 @@ description: Arc42 and Pipeline report for triggerdotdev/examples
 
 ```mermaid
 graph TD;
-    repo_root(["triggerdotdev/examples (56 components)"])
-    dir_0_clickhouse_chat_agent["clickhouse-chat-agent (11)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["triggerdotdev/examples (56 components)"]):::atlasRoot
+    dir_0_clickhouse_chat_agent["clickhouse-chat-agent (11)"]:::atlasCategory
     repo_root --> dir_0_clickhouse_chat_agent
-    sub_0_0_src["src (10)"]
+    sub_0_0_src["src (10)"]:::atlasWorkflow
     dir_0_clickhouse_chat_agent --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_clickhouse_chat_agent --> sub_0_1__module_root_
-    dir_1_batch_llm_evaluator["batch-llm-evaluator (8)"]
+    dir_1_batch_llm_evaluator["batch-llm-evaluator (8)"]:::atlasCategory
     repo_root --> dir_1_batch_llm_evaluator
-    dir_2_claude_thinking_chatbot["claude-thinking-chatbot (8)"]
+    dir_2_claude_thinking_chatbot["claude-thinking-chatbot (8)"]:::atlasCategory
     repo_root --> dir_2_claude_thinking_chatbot
-    dir_3_cursor_cli_demo["cursor-cli-demo (8)"]
+    dir_3_cursor_cli_demo["cursor-cli-demo (8)"]:::atlasCategory
     repo_root --> dir_3_cursor_cli_demo
-    dir_4_claude_agent_github_wiki["claude-agent-github-wiki (6)"]
+    dir_4_claude_agent_github_wiki["claude-agent-github-wiki (6)"]:::atlasCategory
     repo_root --> dir_4_claude_agent_github_wiki
-    dir_other_modules["+7 more modules (15)"]
+    dir_other_modules["+7 more modules (15)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -180,5 +187,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

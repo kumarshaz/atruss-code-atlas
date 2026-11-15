@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for directus/vue-split-panel
 
 ```mermaid
 graph TD;
-    _directus_vue_split_panel["@directus/vue-split-panel : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _directus_vue_split_panel["@directus/vue-split-panel : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -109,15 +116,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_docs["docs"]
+        mod_docs["docs"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_docs_yml_build["deploy-docs.yml#build"]
-        job_deploy_docs_yml_deploy["deploy-docs.yml#deploy"]
+        job_deploy_docs_yml_build["deploy-docs.yml#build"]:::atlasJob
+        job_deploy_docs_yml_deploy["deploy-docs.yml#deploy"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_deploy_docs_yml_build -->|DEPLOYS_TO| env_github_pages
     job_deploy_docs_yml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -133,17 +144,34 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["directus/vue-split-panel (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["directus/vue-split-panel (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]
+  wf_0_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_PR_Conventional_Commit_Validation
-  wf_3_Unit_Test["Unit Test (1 jobs)"]
+  job_0_validate_pr_title["validate-pr-title"]:::atlasJob
+  wf_0_PR_Conventional_Commit_Validation --> job_0_validate_pr_title
+  wf_3_Unit_Test["Unit Test (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_3_Unit_Test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+  job_3_test["test"]:::atlasJob
+  wf_3_Unit_Test --> job_3_test
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_1_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]
+  wf_1_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_1_Deploy_to_GitHub_Pages
-  wf_2_Release["Release (1 jobs)"]
+  job_1_build["build"]:::atlasJob
+  job_1_deploy["deploy"]:::atlasJob
+  wf_1_Deploy_to_GitHub_Pages --> job_1_build
+  job_1_build --> job_1_deploy
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_2_Release
+  job_2_release["release"]:::atlasJob
+  wf_2_Release --> job_2_release
 ```

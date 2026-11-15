@@ -41,32 +41,39 @@ description: Arc42 and Pipeline report for drone-runners/drone-runner-kube
 
 ```mermaid
 graph TD;
-    repo_root(["drone-runners/drone-runner-kube (67 components)"])
-    dir_0_engine["engine (47)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["drone-runners/drone-runner-kube (67 components)"]):::atlasRoot
+    dir_0_engine["engine (47)"]:::atlasCategory
     repo_root --> dir_0_engine
-    sub_0_0_compiler["compiler (15)"]
+    sub_0_0_compiler["compiler (15)"]:::atlasWorkflow
     dir_0_engine --> sub_0_0_compiler
-    sub_0_1__module_root_["(module root) (9)"]
+    sub_0_1__module_root_["(module root) (9)"]:::atlasWorkflow
     dir_0_engine --> sub_0_1__module_root_
-    sub_0_2_policy["policy (7)"]
+    sub_0_2_policy["policy (7)"]:::atlasWorkflow
     dir_0_engine --> sub_0_2_policy
-    sub_0_more["+5 more submodules (16)"]
+    sub_0_more["+5 more submodules (16)"]:::atlasMore
     dir_0_engine --> sub_0_more
-    dir_1_internal["internal (12)"]
+    dir_1_internal["internal (12)"]:::atlasCategory
     repo_root --> dir_1_internal
-    sub_1_0_docker["docker (3)"]
+    sub_1_0_docker["docker (3)"]:::atlasWorkflow
     dir_1_internal --> sub_1_0_docker
-    sub_1_1_mock["mock (3)"]
+    sub_1_1_mock["mock (3)"]:::atlasWorkflow
     dir_1_internal --> sub_1_1_mock
-    sub_1_2_encoder["encoder (2)"]
+    sub_1_2_encoder["encoder (2)"]:::atlasWorkflow
     dir_1_internal --> sub_1_2_encoder
-    sub_1_more["+3 more submodules (4)"]
+    sub_1_more["+3 more submodules (4)"]:::atlasMore
     dir_1_internal --> sub_1_more
-    dir_2_command["command (6)"]
+    dir_2_command["command (6)"]:::atlasCategory
     repo_root --> dir_2_command
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_docker["docker (1)"]
+    dir_4_docker["docker (1)"]:::atlasCategory
     repo_root --> dir_4_docker
 ```
 
@@ -191,14 +198,18 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_docker["docker"]
-        mod_docker_placeholder["docker/placeholder"]
+        mod_docker["docker"]:::atlasCategory
+        mod_docker_placeholder["docker/placeholder"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_Dockerfile_linux_amd64["docker/Dockerfile.linux.amd64"]
-        art_docker_Dockerfile_linux_arm64["docker/Dockerfile.linux.arm64"]
-        art_docker_placeholder_Dockerfile["docker/placeholder/Dockerfile"]
+        art_docker_Dockerfile_linux_amd64["docker/Dockerfile.linux.amd64"]:::atlasWorkflow
+        art_docker_Dockerfile_linux_arm64["docker/Dockerfile.linux.arm64"]:::atlasWorkflow
+        art_docker_placeholder_Dockerfile["docker/placeholder/Dockerfile"]:::atlasWorkflow
     end
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_linux_amd64
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_linux_arm64
@@ -216,5 +227,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

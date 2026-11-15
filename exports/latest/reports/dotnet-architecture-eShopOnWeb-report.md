@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for dotnet-architecture/eShopOnWeb
 
 ```mermaid
 graph TD;
-    repo_root(["dotnet-architecture/eShopOnWeb (38 components)"])
-    dir_0_src["src (34)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["dotnet-architecture/eShopOnWeb (38 components)"]):::atlasRoot
+    dir_0_src["src (34)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_Web["Web (11)"]
+    sub_0_0_Web["Web (11)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_Web
-    sub_0_1_PublicApi["PublicApi (8)"]
+    sub_0_1_PublicApi["PublicApi (8)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_PublicApi
-    sub_0_2_Infrastructure["Infrastructure (6)"]
+    sub_0_2_Infrastructure["Infrastructure (6)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_Infrastructure
-    sub_0_more["+3 more submodules (9)"]
+    sub_0_more["+3 more submodules (9)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_tests["tests (4)"]
+    dir_1_tests["tests (4)"]:::atlasCategory
     repo_root --> dir_1_tests
     dir_1_tests -.->|"3 deps"| sub_0_0_Web
     sub_0_0_Web -.->|"3 deps"| sub_0_more
@@ -165,19 +172,23 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_8334e582_72ab_481a_a988_4f2995829874["8334e582-72ab-481a-a988-4f2995829874"]
-        mod_src_PublicApi["src/PublicApi"]
-        mod_src_Web["src/Web"]
+        mod_8334e582_72ab_481a_a988_4f2995829874["8334e582-72ab-481a-a988-4f2995829874"]:::atlasCategory
+        mod_src_PublicApi["src/PublicApi"]:::atlasCategory
+        mod_src_Web["src/Web"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_override_yml["docker-compose.override.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_infra_core_host_appservice_bicep["infra/core/host/appservice.bicep"]
-        art_infra_core_host_appserviceplan_bicep["infra/core/host/appserviceplan.bicep"]
-        art_infra_main_bicep["infra/main.bicep"]
-        art_src_PublicApi_Dockerfile["src/PublicApi/Dockerfile"]
-        art_src_Web_Dockerfile["src/Web/Dockerfile"]
+        art_docker_compose_override_yml["docker-compose.override.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_infra_core_host_appservice_bicep["infra/core/host/appservice.bicep"]:::atlasWorkflow
+        art_infra_core_host_appserviceplan_bicep["infra/core/host/appserviceplan.bicep"]:::atlasWorkflow
+        art_infra_main_bicep["infra/main.bicep"]:::atlasWorkflow
+        art_src_PublicApi_Dockerfile["src/PublicApi/Dockerfile"]:::atlasWorkflow
+        art_src_Web_Dockerfile["src/Web/Dockerfile"]:::atlasWorkflow
     end
     mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_override_yml
     mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_yml
@@ -211,15 +222,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["dotnet-architecture/eShopOnWeb"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["dotnet-architecture/eShopOnWeb"]):::atlasRoot
   subgraph eShopOnWeb_Build_and_Test_0["eShopOnWeb Build and Test"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph eShopOnWeb___Code_Index_1["eShopOnWeb - Code Index"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
 ```

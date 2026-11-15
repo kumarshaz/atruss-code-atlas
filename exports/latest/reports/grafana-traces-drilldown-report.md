@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for grafana/traces-drilldown
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/traces-drilldown (54 components)"])
-    dir_0_src["src (50)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/traces-drilldown (54 components)"]):::atlasRoot
+    dir_0_src["src (50)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_components["components (32)"]
+    sub_0_0_components["components (32)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_components
-    sub_0_1_featureFlags["featureFlags (6)"]
+    sub_0_1_featureFlags["featureFlags (6)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_featureFlags
-    sub_0_2_pages["pages (5)"]
+    sub_0_2_pages["pages (5)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_pages
-    sub_0_more["+3 more submodules (7)"]
+    sub_0_more["+3 more submodules (7)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_devenv["devenv (3)"]
+    dir_1_devenv["devenv (3)"]:::atlasCategory
     repo_root --> dir_1_devenv
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     sub_0_0_components -.->|"4 deps"| sub_0_1_featureFlags
     sub_0_2_pages -.->|"1 dep"| sub_0_more
@@ -179,16 +186,20 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__config[".config"]
-        mod_c23dc9ab_5e4c_4234_b7ca_5d39a9c02b2d["c23dc9ab-5e4c-4234-b7ca-5d39a9c02b2d"]
-        mod_devenv["devenv"]
+        mod__config[".config"]:::atlasCategory
+        mod_c23dc9ab_5e4c_4234_b7ca_5d39a9c02b2d["c23dc9ab-5e4c-4234-b7ca-5d39a9c02b2d"]:::atlasCategory
+        mod_devenv["devenv"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__config_Dockerfile[".config/Dockerfile"]
-        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]
-        art_devenv_docker_compose_e2e_yaml["devenv/docker-compose.e2e.yaml"]
-        art_devenv_docker_compose_yaml["devenv/docker-compose.yaml"]
+        art__config_Dockerfile[".config/Dockerfile"]:::atlasWorkflow
+        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]:::atlasWorkflow
+        art_devenv_docker_compose_e2e_yaml["devenv/docker-compose.e2e.yaml"]:::atlasWorkflow
+        art_devenv_docker_compose_yaml["devenv/docker-compose.yaml"]:::atlasWorkflow
     end
     mod__config -->|PACKAGED_BY| art__config_Dockerfile
     mod__config -->|PACKAGED_BY| art__config_docker_compose_base_yaml
@@ -210,13 +221,62 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/traces-drilldown (13 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/traces-drilldown (13 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  wf_0_Bundle_Stats["Bundle Stats (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Bundle_Stats
+  job_0_compare["compare"]:::atlasJob
+  wf_0_Bundle_Stats --> job_0_compare
+  wf_1_Bundle_Types["Bundle Types (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Bundle_Types
+  job_1_bundle_types["bundle-types"]:::atlasJob
+  wf_1_Bundle_Types --> job_1_bundle_types
+  wf_4_Create_Plugin_Update["Create Plugin Update (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Create_Plugin_Update
+  job_4_release["release"]:::atlasJob
+  wf_4_Create_Plugin_Update --> job_4_release
+  wf_6_Crowdin_Download_Action["Crowdin Download Action (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_6_Crowdin_Download_Action
+  job_6_download_sources_from_crowdin["download-sources-from-crowdin"]:::atlasJob
+  wf_6_Crowdin_Download_Action --> job_6_download_sources_from_crowdin
+  grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_3_Plugins_Platform___CI___CD["Plugins Platform - CI / CD (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_3_Plugins_Platform___CI___CD
+  job_3_ci["ci"]:::atlasJob
+  wf_3_Plugins_Platform___CI___CD --> job_3_ci
+  wf_9_Latest_Grafana_API_compatibility_check["Latest Grafana API compatibility check (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_9_Latest_Grafana_API_compatibility_check
+  job_9_compatibilitycheck["compatibilitycheck"]:::atlasJob
+  wf_9_Latest_Grafana_API_compatibility_check --> job_9_compatibilitycheck
+  wf_10_PR_Title_Validation["PR Title Validation (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_10_PR_Title_Validation
+  job_10_check_title["check-title"]:::atlasJob
+  wf_10_PR_Title_Validation --> job_10_check_title
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_2_Plugins_Platform_Publish___CD["Plugins Platform Publish - CD (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_2_Plugins_Platform_Publish___CD
+  job_2_cd["cd"]:::atlasJob
+  wf_2_Plugins_Platform_Publish___CD --> job_2_cd
+  wf_11_Release_Please["Release Please (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_11_Release_Please
+  job_11_release_please["release-please"]:::atlasJob
+  wf_11_Release_Please --> job_11_release_please
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_12_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_12_Close_stale_issues_and_PRs
+  job_12_stale["stale"]:::atlasJob
+  wf_12_Close_stale_issues_and_PRs --> job_12_stale
+  wf_more["+3 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

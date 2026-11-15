@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for bitwarden/passwordless-dotnet
 
 ```mermaid
 graph TD;
-    Passwordless_AspNetIdentity_Example["Passwordless.AspNetIdentity.Example : MODULE"]
-    Passwordless_Example["Passwordless.Example : MODULE"]
-    Passwordless_MultiTenancy_Example["Passwordless.MultiTenancy.Example : MODULE"]
-    Passwordless["Passwordless : MODULE"]
-    Passwordless_AspNetCore["Passwordless.AspNetCore : MODULE"]
-    Passwordless_AspNetCore_Tests["Passwordless.AspNetCore.Tests : MODULE"]
-    Passwordless_AspNetCore_Tests_Dummy["Passwordless.AspNetCore.Tests.Dummy : MODULE"]
-    Passwordless_Tests["Passwordless.Tests : MODULE"]
-    Passwordless_Tests_Infra["Passwordless.Tests.Infra : MODULE"]
-    GET_AccessDenied["GET_AccessDenied : API_ROUTE"]
-    POST_stepup["POST_stepup : API_ROUTE"]
-    StepUpAuthorizationHandler["StepUpAuthorizationHandler : SERVICE"]
-    PasswordlessController["PasswordlessController : API_ROUTE"]
-    MultiTenancyController["MultiTenancyController : API_ROUTE"]
-    PasswordlessHttpHandler["PasswordlessHttpHandler : SERVICE"]
-    PasswordlessService["PasswordlessService : SERVICE"]
-    PasswordlessDbContext["PasswordlessDbContext : DATA_ACCESS_LAYER"]
-    repo_root(["bitwarden/passwordless-dotnet"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Passwordless_AspNetIdentity_Example["Passwordless.AspNetIdentity.Example : MODULE"]:::atlasJob
+    Passwordless_Example["Passwordless.Example : MODULE"]:::atlasJob
+    Passwordless_MultiTenancy_Example["Passwordless.MultiTenancy.Example : MODULE"]:::atlasJob
+    Passwordless["Passwordless : MODULE"]:::atlasJob
+    Passwordless_AspNetCore["Passwordless.AspNetCore : MODULE"]:::atlasJob
+    Passwordless_AspNetCore_Tests["Passwordless.AspNetCore.Tests : MODULE"]:::atlasJob
+    Passwordless_AspNetCore_Tests_Dummy["Passwordless.AspNetCore.Tests.Dummy : MODULE"]:::atlasJob
+    Passwordless_Tests["Passwordless.Tests : MODULE"]:::atlasJob
+    Passwordless_Tests_Infra["Passwordless.Tests.Infra : MODULE"]:::atlasJob
+    GET_AccessDenied["GET_AccessDenied : API_ROUTE"]:::atlasJob
+    POST_stepup["POST_stepup : API_ROUTE"]:::atlasJob
+    StepUpAuthorizationHandler["StepUpAuthorizationHandler : SERVICE"]:::atlasJob
+    PasswordlessController["PasswordlessController : API_ROUTE"]:::atlasJob
+    MultiTenancyController["MultiTenancyController : API_ROUTE"]:::atlasJob
+    PasswordlessHttpHandler["PasswordlessHttpHandler : SERVICE"]:::atlasJob
+    PasswordlessService["PasswordlessService : SERVICE"]:::atlasJob
+    PasswordlessDbContext["PasswordlessDbContext : DATA_ACCESS_LAYER"]:::atlasJob
+    repo_root(["bitwarden/passwordless-dotnet"]):::atlasRoot
     repo_root --> MultiTenancyController
     repo_root --> PasswordlessController
     repo_root --> PasswordlessDbContext
@@ -159,19 +166,26 @@ graph TD;
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Main_0["Main"]
     direction TB
-    0_version["version"]
-    0_format["format"]
-    0_test["test"]
-    0_pack["pack"]
+    0_version["version"]:::atlasJob
+    0_format["format"]:::atlasJob
+    0_test["test"]:::atlasJob
+    0_pack["pack"]:::atlasJob
     0_version --> 0_pack
-    0_deploy["deploy"]
+    0_deploy["deploy"]:::atlasJob
     0_version --> 0_deploy
     0_format --> 0_deploy
     0_test --> 0_deploy
     0_pack --> 0_deploy
-    wf_entry_0(["Trigger: Main"])
+    wf_entry_0(["Trigger: Main"]):::atlasWorkflow
     wf_entry_0 --> 0_version
     wf_entry_0 --> 0_format
     wf_entry_0 --> 0_test

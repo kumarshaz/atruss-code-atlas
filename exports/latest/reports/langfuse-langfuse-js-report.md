@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for langfuse/langfuse-js
 
 ```mermaid
 graph TD;
-    repo_root(["langfuse/langfuse-js (154 components)"])
-    dir_0_packages["packages (152)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["langfuse/langfuse-js (154 components)"]):::atlasRoot
+    dir_0_packages["packages (152)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_core["core (138)"]
+    sub_0_0_core["core (138)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_core
-    sub_0_1_client["client (5)"]
+    sub_0_1_client["client (5)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_client
-    sub_0_2_browser["browser (2)"]
+    sub_0_2_browser["browser (2)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_browser
-    sub_0_more["+5 more submodules (7)"]
+    sub_0_more["+5 more submodules (7)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_tests["tests (1)"]
+    dir_2_tests["tests (1)"]:::atlasCategory
     repo_root --> dir_2_tests
 ```
 
@@ -199,15 +206,19 @@ Showing top 60 representative components out of 154 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_tests["tests"]
+        mod_tests["tests"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_test_e2e["ci.yml#test-e2e"]
-        job_release_yml_release_js_sdk["release.yml#release-js-sdk"]
+        job_ci_yml_test_e2e["ci.yml#test-e2e"]:::atlasJob
+        job_release_yml_release_js_sdk["release.yml#release-js-sdk"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_protected_branches["protected branches"]
+        env_protected_branches["protected branches"]:::atlasTarget
     end
     job_release_yml_release_js_sdk -->|DEPLOYS_TO| env_protected_branches
     mod_tests -->|BUILT_BY| job_ci_yml_test_e2e
@@ -221,13 +232,52 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-js (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-js (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 6 jobs)"]
+  wf_1_CLA_gate["CLA gate (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CLA_gate
+  job_1_evaluate["evaluate"]:::atlasJob
+  wf_1_CLA_gate --> job_1_evaluate
+  wf_2_Claude_Review_on_Maintainer_PRs["Claude Review on Maintainer PRs (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Claude_Review_on_Maintainer_PRs
+  job_2_comment["comment"]:::atlasJob
+  wf_2_Claude_Review_on_Maintainer_PRs --> job_2_comment
+  wf_5_Validate_PR_Title["Validate PR Title (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Validate_PR_Title
+  job_5_validate_pr_title["validate-pr-title"]:::atlasJob
+  wf_5_Validate_PR_Title --> job_5_validate_pr_title
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_0_CI["CI (5 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_0_CI
+  job_0_test_unit["test-unit"]:::atlasJob
+  job_0_test_integration["test-integration"]:::atlasJob
+  job_0_test_e2e["test-e2e"]:::atlasJob
+  wf_0_CI --> job_0_test_unit
+  wf_0_CI --> job_0_test_integration
+  wf_0_CI --> job_0_test_e2e
+  wf_6_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_6_Check_GitHub_Actions
+  job_6_zizmor["zizmor"]:::atlasJob
+  wf_6_Check_GitHub_Actions --> job_6_zizmor
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_4_Release_JS_TS_SDK["Release JS/TS SDK (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_4_Release_JS_TS_SDK
+  job_4_release_js_sdk["release-js-sdk"]:::atlasJob
+  wf_4_Release_JS_TS_SDK --> job_4_release_js_sdk
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_3_CodeQL
+  job_3_analyze["analyze"]:::atlasJob
+  wf_3_CodeQL --> job_3_analyze
 ```

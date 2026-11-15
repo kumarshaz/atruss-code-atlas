@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for supabase/agent-skills
 
 ```mermaid
 graph TD;
-    supabase_agent_skills["supabase-agent-skills : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    supabase_agent_skills["supabase-agent-skills : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,12 +114,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0967575c_2dcc_47df_8754_43d89b09b23f["0967575c-2dcc-47df-8754-43d89b09b23f"]
+        mod_0967575c_2dcc_47df_8754_43d89b09b23f["0967575c-2dcc-47df-8754-43d89b09b23f"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_test["ci.yml#test"]
-        job_release_yml_release["release.yml#release"]
+        job_ci_yml_test["ci.yml#test"]:::atlasJob
+        job_release_yml_release["release.yml#release"]:::atlasJob
     end
     mod_0967575c_2dcc_47df_8754_43d89b09b23f -->|BUILT_BY| job_ci_yml_test
     mod_0967575c_2dcc_47df_8754_43d89b09b23f -->|DEPLOYED_BY| job_release_yml_release
@@ -126,15 +137,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/agent-skills"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/agent-skills"]):::atlasRoot
   subgraph Skills_CI_0["Skills CI"]
     direction TB
-    0_test["test"]
+    0_test["test"]:::atlasJob
   end
   pipeline_root --> 0_test
   subgraph Release_Please_1["Release Please"]
     direction TB
-    1_release["release"]
+    1_release["release"]:::atlasJob
   end
   pipeline_root --> 1_release
 ```

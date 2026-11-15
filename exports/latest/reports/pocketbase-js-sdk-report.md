@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for pocketbase/js-sdk
 
 ```mermaid
 graph TD;
-    pocketbase["pocketbase : MODULE"]
-    Client["Client : SERVICE"]
-    BackupService["BackupService : SERVICE"]
-    BaseService["BaseService : SERVICE"]
-    BatchService["BatchService : SERVICE"]
-    SubBatchService["SubBatchService : SERVICE"]
-    CollectionService["CollectionService : SERVICE"]
-    CronService["CronService : SERVICE"]
-    CrudService["CrudService : SERVICE"]
-    FileService["FileService : SERVICE"]
-    HealthService["HealthService : SERVICE"]
-    LogService["LogService : SERVICE"]
-    RealtimeService["RealtimeService : SERVICE"]
-    RecordService["RecordService : SERVICE"]
-    SQLService["SQLService : SERVICE"]
-    SettingsService["SettingsService : SERVICE"]
-    AsyncAuthStore["AsyncAuthStore : SERVICE"]
-    BaseAuthStore["BaseAuthStore : SERVICE"]
-    LocalAuthStore["LocalAuthStore : SERVICE"]
-    repo_root(["pocketbase/js-sdk"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    pocketbase["pocketbase : MODULE"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
+    BackupService["BackupService : SERVICE"]:::atlasJob
+    BaseService["BaseService : SERVICE"]:::atlasJob
+    BatchService["BatchService : SERVICE"]:::atlasJob
+    SubBatchService["SubBatchService : SERVICE"]:::atlasJob
+    CollectionService["CollectionService : SERVICE"]:::atlasJob
+    CronService["CronService : SERVICE"]:::atlasJob
+    CrudService["CrudService : SERVICE"]:::atlasJob
+    FileService["FileService : SERVICE"]:::atlasJob
+    HealthService["HealthService : SERVICE"]:::atlasJob
+    LogService["LogService : SERVICE"]:::atlasJob
+    RealtimeService["RealtimeService : SERVICE"]:::atlasJob
+    RecordService["RecordService : SERVICE"]:::atlasJob
+    SQLService["SQLService : SERVICE"]:::atlasJob
+    SettingsService["SettingsService : SERVICE"]:::atlasJob
+    AsyncAuthStore["AsyncAuthStore : SERVICE"]:::atlasJob
+    BaseAuthStore["BaseAuthStore : SERVICE"]:::atlasJob
+    LocalAuthStore["LocalAuthStore : SERVICE"]:::atlasJob
+    repo_root(["pocketbase/js-sdk"]):::atlasRoot
     repo_root --> AsyncAuthStore
     repo_root --> BackupService
     repo_root --> BaseAuthStore
@@ -149,5 +156,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

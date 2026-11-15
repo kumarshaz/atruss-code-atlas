@@ -41,14 +41,21 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-boards
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-plugin-boards (95 components)"])
-    dir_0_webapp["webapp (93)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-plugin-boards (95 components)"]):::atlasRoot
+    dir_0_webapp["webapp (93)"]:::atlasCategory
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (92)"]
+    sub_0_0_src["src (92)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_1__module_root_
-    dir_1_e2e["e2e (2)"]
+    dir_1_e2e["e2e (2)"]:::atlasCategory
     repo_root --> dir_1_e2e
     sub_0_0_src -.->|"2 deps"| dir_1_e2e
 ```
@@ -194,18 +201,22 @@ Showing top 60 representative components out of 95 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_e2e["e2e"]
-        mod_webapp["webapp"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_webapp["webapp"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_dist_fips["ci.yml#dist-fips"]
-        job_ci_yml_e2e["ci.yml#e2e"]
-        job_ci_yml_webapp_test["ci.yml#webapp-test"]
+        job_ci_yml_dist_fips["ci.yml#dist-fips"]:::atlasJob
+        job_ci_yml_e2e["ci.yml#e2e"]:::atlasJob
+        job_ci_yml_webapp_test["ci.yml#webapp-test"]:::atlasJob
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_e2e -->|BUILT_BY| job_ci_yml_e2e
@@ -225,11 +236,48 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-boards (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-boards (6 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_0_Check_in_tests["Check-in tests (5 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Check_in_tests
+  job_0_webapp_test["webapp-test"]:::atlasJob
+  job_0_server_test["server-test"]:::atlasJob
+  job_0_dist["dist"]:::atlasJob
+  wf_0_Check_in_tests --> job_0_webapp_test
+  wf_0_Check_in_tests --> job_0_server_test
+  wf_0_Check_in_tests --> job_0_dist
+  wf_2_golangci_lint["golangci-lint (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_golangci_lint
+  job_2_down_migrations["down-migrations"]:::atlasJob
+  job_2_golangci["golangci"]:::atlasJob
+  wf_2_golangci_lint --> job_2_down_migrations
+  wf_2_golangci_lint --> job_2_golangci
+  wf_4_PR_Test_Analysis["PR Test Analysis (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_PR_Test_Analysis
+  job_4_analyze["analyze"]:::atlasJob
+  wf_4_PR_Test_Analysis --> job_4_analyze
+  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Security___Governance
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+  wf_1_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_1_CodeQL
+  job_1_analyze["analyze"]:::atlasJob
+  wf_1_CodeQL --> job_1_analyze
+  wf_5_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_5_Scorecards_supply_chain_security
+  job_5_analysis["analysis"]:::atlasJob
+  wf_5_Scorecards_supply_chain_security --> job_5_analysis
+  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
+  wf_3_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_3_PR_Test_Analysis_Override
+  job_3_override["override"]:::atlasJob
+  wf_3_PR_Test_Analysis_Override --> job_3_override
 ```

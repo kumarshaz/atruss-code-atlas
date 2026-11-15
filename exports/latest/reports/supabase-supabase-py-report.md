@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for supabase/supabase-py
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/supabase-py (106 components)"])
-    dir_0_src_auth["src/auth (44)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/supabase-py (106 components)"]):::atlasRoot
+    dir_0_src_auth["src/auth (44)"]:::atlasCategory
     repo_root --> dir_0_src_auth
-    dir_1_src_storage["src/storage (35)"]
+    dir_1_src_storage["src/storage (35)"]:::atlasCategory
     repo_root --> dir_1_src_storage
-    dir_2_src_realtime["src/realtime (25)"]
+    dir_2_src_realtime["src/realtime (25)"]:::atlasCategory
     repo_root --> dir_2_src_realtime
-    sub_2_0_src["src (22)"]
+    sub_2_0_src["src (22)"]:::atlasWorkflow
     dir_2_src_realtime --> sub_2_0_src
-    sub_2_1_tests["tests (3)"]
+    sub_2_1_tests["tests (3)"]:::atlasWorkflow
     dir_2_src_realtime --> sub_2_1_tests
-    dir_3_src_postgrest["src/postgrest (1)"]
+    dir_3_src_postgrest["src/postgrest (1)"]:::atlasCategory
     repo_root --> dir_3_src_postgrest
-    dir_4_src_utils["src/utils (1)"]
+    dir_4_src_utils["src/utils (1)"]:::atlasCategory
     repo_root --> dir_4_src_utils
     sub_2_1_tests -.->|"15 deps"| sub_2_0_src
 ```
@@ -205,11 +212,15 @@ Showing top 60 representative components out of 106 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_publish["ci.yml#publish"]
+        job_ci_yml_publish["ci.yml#publish"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_pypi["pypi"]
+        env_pypi["pypi"]:::atlasTarget
     end
     job_ci_yml_publish -->|DEPLOYS_TO| env_pypi
 ```
@@ -221,11 +232,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/supabase-py (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/supabase-py (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 11 jobs)"]
+  wf_2_PR_Title_is_Conventional["PR Title is Conventional (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_PR_Title_is_Conventional
+  job_2_main["main"]:::atlasJob
+  wf_2_PR_Title_is_Conventional --> job_2_main
+  wf_3_Reject_External_PRs_to_main["Reject External PRs to main (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Reject_External_PRs_to_main
+  job_3_reject["reject"]:::atlasJob
+  wf_3_Reject_External_PRs_to_main --> job_3_reject
+  wf_6_Validate_SDK_Compliance["Validate SDK Compliance (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Validate_SDK_Compliance
+  job_6_validate["validate"]:::atlasJob
+  wf_6_Validate_SDK_Compliance --> job_6_validate
+  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 11 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_CI_CD["CI/CD (9 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_0_CI_CD
+  job_0_changes["changes"]:::atlasJob
+  job_0_lint["lint"]:::atlasJob
+  job_0_import_without_httpx["import-without-httpx"]:::atlasJob
+  wf_0_CI_CD --> job_0_changes
+  wf_0_CI_CD --> job_0_lint
+  wf_0_CI_CD --> job_0_import_without_httpx
+  wf_1_Generated_code["Generated code (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_1_Generated_code
+  job_1_check_sync["check-sync"]:::atlasJob
+  wf_1_Generated_code --> job_1_check_sync
+  wf_5_Sync_SDK_Compliance_Matrix["Sync SDK Compliance Matrix (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_Sync_SDK_Compliance_Matrix
+  job_5_sync["sync"]:::atlasJob
+  wf_5_Sync_SDK_Compliance_Matrix --> job_5_sync
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_4_Stale_Issues___PRs["Stale Issues & PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_4_Stale_Issues___PRs
+  job_4_mark_stale["mark_stale"]:::atlasJob
+  wf_4_Stale_Issues___PRs --> job_4_mark_stale
 ```

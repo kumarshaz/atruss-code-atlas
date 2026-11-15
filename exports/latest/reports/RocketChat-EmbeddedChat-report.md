@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for RocketChat/EmbeddedChat
 
 ```mermaid
 graph TD;
-    repo_root(["RocketChat/EmbeddedChat (129 components)"])
-    dir_0_packages["packages (128)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["RocketChat/EmbeddedChat (129 components)"]):::atlasRoot
+    dir_0_packages["packages (128)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_ui_elements["ui-elements (61)"]
+    sub_0_0_ui_elements["ui-elements (61)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_ui_elements
-    sub_0_1_react["react (29)"]
+    sub_0_1_react["react (29)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_react
-    sub_0_2_ui_kit["ui-kit (10)"]
+    sub_0_2_ui_kit["ui-kit (10)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_ui_kit
-    sub_0_more["+10 more submodules (28)"]
+    sub_0_more["+10 more submodules (28)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_react -.->|"396 deps"| sub_0_0_ui_elements
     sub_0_1_react -.->|"126 deps"| sub_0_more
@@ -245,23 +252,27 @@ Showing top 60 representative components out of 129 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_docs["packages/docs"]
-        mod_packages_e2e_react["packages/e2e-react"]
-        mod_packages_layout_editor["packages/layout_editor"]
-        mod_packages_react["packages/react"]
-        mod_packages_ui_elements["packages/ui-elements"]
+        mod_packages_docs["packages/docs"]:::atlasCategory
+        mod_packages_e2e_react["packages/e2e-react"]:::atlasCategory
+        mod_packages_layout_editor["packages/layout_editor"]:::atlasCategory
+        mod_packages_react["packages/react"]:::atlasCategory
+        mod_packages_ui_elements["packages/ui-elements"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_packages_react_docker_compose_yml["packages/react/docker-compose.yml"]
+        art_packages_react_docker_compose_yml["packages/react/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_pr_yml_build["build-pr.yml#build"]
-        job_deploy_yml_build_and_deploy["deploy.yml#build-and-deploy"]
-        job_playwright_yml_test["playwright.yml#test"]
+        job_build_pr_yml_build["build-pr.yml#build"]:::atlasJob
+        job_deploy_yml_build_and_deploy["deploy.yml#build-and-deploy"]:::atlasJob
+        job_playwright_yml_test["playwright.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_deploy_yml_build_and_deploy -->|DEPLOYS_TO| env_github_pages
     mod_packages_docs -->|BUILT_BY| job_build_pr_yml_build
@@ -297,9 +308,40 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["RocketChat/EmbeddedChat (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["RocketChat/EmbeddedChat (6 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_Build_and_Lint["Build and Lint (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Build_and_Lint
+  job_0_build_and_lint["build-and-lint"]:::atlasJob
+  wf_0_Build_and_Lint --> job_0_build_and_lint
+  wf_1_Build_PR_Preview["Build PR-Preview (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Build_PR_Preview
+  job_1_build["build"]:::atlasJob
+  wf_1_Build_PR_Preview --> job_1_build
+  wf_4_Playwright_Tests["Playwright Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Playwright_Tests
+  job_4_test["test"]:::atlasJob
+  wf_4_Playwright_Tests --> job_4_test
+  wf_5_Pull_Request_Cleanup["Pull Request Cleanup (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Pull_Request_Cleanup
+  job_5_cleanup["cleanup"]:::atlasJob
+  wf_5_Pull_Request_Cleanup --> job_5_cleanup
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
+  wf_2_Deploy_PR_Preview["Deploy PR-Preview (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_Deploy_PR_Preview
+  job_2_deploy["deploy"]:::atlasJob
+  wf_2_Deploy_PR_Preview --> job_2_deploy
+  wf_3_Build_and_Publish["Build and Publish (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Build_and_Publish
+  job_3_build_and_deploy["build-and-deploy"]:::atlasJob
+  wf_3_Build_and_Publish --> job_3_build_and_deploy
 ```

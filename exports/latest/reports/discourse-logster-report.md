@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for discourse/logster
 
 ```mermaid
 graph TD;
-    repo_root(["discourse/logster (55 components)"])
-    dir_0_lib["lib (22)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["discourse/logster (55 components)"]):::atlasRoot
+    dir_0_lib["lib (22)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0_logster["logster (20)"]
+    sub_0_0_logster["logster (20)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0_logster
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1__module_root_
-    sub_0_2_examples["examples (1)"]
+    sub_0_2_examples["examples (1)"]:::atlasWorkflow
     dir_0_lib --> sub_0_2_examples
-    dir_1_test["test (22)"]
+    dir_1_test["test (22)"]:::atlasCategory
     repo_root --> dir_1_test
-    sub_1_0_logster["logster (13)"]
+    sub_1_0_logster["logster (13)"]:::atlasWorkflow
     dir_1_test --> sub_1_0_logster
-    sub_1_1__module_root_["(module root) (4)"]
+    sub_1_1__module_root_["(module root) (4)"]:::atlasWorkflow
     dir_1_test --> sub_1_1__module_root_
-    sub_1_2_dummy["dummy (3)"]
+    sub_1_2_dummy["dummy (3)"]:::atlasWorkflow
     dir_1_test --> sub_1_2_dummy
-    sub_1_more["+2 more submodules (2)"]
+    sub_1_more["+2 more submodules (2)"]:::atlasMore
     dir_1_test --> sub_1_more
-    dir_2_website["website (5)"]
+    dir_2_website["website (5)"]:::atlasCategory
     repo_root --> dir_2_website
-    dir_3_client_app["client-app (4)"]
+    dir_3_client_app["client-app (4)"]:::atlasCategory
     repo_root --> dir_3_client_app
-    dir_4__root_["(root) (2)"]
+    dir_4__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_4__root_
 ```
 
@@ -186,17 +193,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_client_app["client-app"]
-        mod_website["website"]
+        mod_client_app["client-app"]:::atlasCategory
+        mod_website["website"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_backend["ci.yml#backend"]
-        job_ci_yml_frontend["ci.yml#frontend"]
-        job_ci_yml_linting["ci.yml#linting"]
-        job_ci_yml_publish["ci.yml#publish"]
-        job_ci_yml_rack["ci.yml#rack"]
-        job_ci_yml_website["ci.yml#website"]
+        job_ci_yml_backend["ci.yml#backend"]:::atlasJob
+        job_ci_yml_frontend["ci.yml#frontend"]:::atlasJob
+        job_ci_yml_linting["ci.yml#linting"]:::atlasJob
+        job_ci_yml_publish["ci.yml#publish"]:::atlasJob
+        job_ci_yml_rack["ci.yml#rack"]:::atlasJob
+        job_ci_yml_website["ci.yml#website"]:::atlasJob
     end
     mod_client_app -->|BUILT_BY| job_ci_yml_backend
     mod_client_app -->|BUILT_BY| job_ci_yml_frontend
@@ -218,20 +229,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_backend["backend"]
-    0_rack["rack"]
-    0_frontend["frontend"]
-    0_website["website"]
-    0_linting["linting"]
-    0_publish["publish"]
+    0_backend["backend"]:::atlasJob
+    0_rack["rack"]:::atlasJob
+    0_frontend["frontend"]:::atlasJob
+    0_website["website"]:::atlasJob
+    0_linting["linting"]:::atlasJob
+    0_publish["publish"]:::atlasJob
     0_backend --> 0_publish
     0_rack --> 0_publish
     0_frontend --> 0_publish
     0_website --> 0_publish
     0_linting --> 0_publish
-    wf_entry_0(["Trigger: CI"])
+    wf_entry_0(["Trigger: CI"]):::atlasWorkflow
     wf_entry_0 --> 0_backend
     wf_entry_0 --> 0_rack
     wf_entry_0 --> 0_frontend

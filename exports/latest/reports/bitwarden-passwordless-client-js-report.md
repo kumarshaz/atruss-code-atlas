@@ -41,13 +41,20 @@ description: Arc42 and Pipeline report for bitwarden/passwordless-client-js
 
 ```mermaid
 graph TD;
-    passwordless_client_js_simple_example["passwordless-client-js-simple-example : MODULE"]
-    _passwordlessdev_passwordless_client["@passwordlessdev/passwordless-client : MODULE"]
-    POST_users_register["POST_users_register : API_ROUTE"]
-    POST_users_login["POST_users_login : API_ROUTE"]
-    UserRepository["UserRepository : DATA_ACCESS_LAYER"]
-    Client["Client : SERVICE"]
-    repo_root(["bitwarden/passwordless-client-js"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    passwordless_client_js_simple_example["passwordless-client-js-simple-example : MODULE"]:::atlasJob
+    _passwordlessdev_passwordless_client["@passwordlessdev/passwordless-client : MODULE"]:::atlasJob
+    POST_users_register["POST_users_register : API_ROUTE"]:::atlasJob
+    POST_users_login["POST_users_login : API_ROUTE"]:::atlasJob
+    UserRepository["UserRepository : DATA_ACCESS_LAYER"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
+    repo_root(["bitwarden/passwordless-client-js"]):::atlasRoot
     repo_root --> Client
     repo_root --> _passwordlessdev_passwordless_client
     repo_root --> passwordless_client_js_simple_example
@@ -128,10 +135,17 @@ graph TD;
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Main_0["Main"]
     direction TB
-    0_format["format"]
-    0_deploy["deploy"]
+    0_format["format"]:::atlasJob
+    0_deploy["deploy"]:::atlasJob
     0_format --> 0_deploy
   end
 ```

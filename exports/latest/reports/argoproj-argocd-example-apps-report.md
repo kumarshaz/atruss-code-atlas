@@ -40,22 +40,29 @@ description: Arc42 and Pipeline report for argoproj/argocd-example-apps
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argocd-example-apps (54 components)"])
-    dir_0_sock_shop["sock-shop (30)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argocd-example-apps (54 components)"]):::atlasRoot
+    dir_0_sock_shop["sock-shop (30)"]:::atlasCategory
     repo_root --> dir_0_sock_shop
-    sub_0_0_base["base (29)"]
+    sub_0_0_base["base (29)"]:::atlasWorkflow
     dir_0_sock_shop --> sub_0_0_base
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_sock_shop --> sub_0_1__module_root_
-    dir_1_helm_guestbook["helm-guestbook (5)"]
+    dir_1_helm_guestbook["helm-guestbook (5)"]:::atlasCategory
     repo_root --> dir_1_helm_guestbook
-    dir_2_blue_green["blue-green (4)"]
+    dir_2_blue_green["blue-green (4)"]:::atlasCategory
     repo_root --> dir_2_blue_green
-    dir_3_apps["apps (3)"]
+    dir_3_apps["apps (3)"]:::atlasCategory
     repo_root --> dir_3_apps
-    dir_4_helm_dependency["helm-dependency (3)"]
+    dir_4_helm_dependency["helm-dependency (3)"]:::atlasCategory
     repo_root --> dir_4_helm_dependency
-    dir_other_modules["+3 more modules (9)"]
+    dir_other_modules["+3 more modules (9)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -135,5 +142,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

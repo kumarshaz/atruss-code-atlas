@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for dani-garcia/vaultwarden
 
 ```mermaid
 graph TD;
-    repo_root(["dani-garcia/vaultwarden (67 components)"])
-    dir_0_src["src (63)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["dani-garcia/vaultwarden (67 components)"]):::atlasRoot
+    dir_0_src["src (63)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_api["api (25)"]
+    sub_0_0_api["api (25)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_api
-    sub_0_1_db["db (24)"]
+    sub_0_1_db["db (24)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_db
-    sub_0_2__module_root_["(module root) (12)"]
+    sub_0_2__module_root_["(module root) (12)"]:::atlasWorkflow
     dir_0_src --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]
+    sub_0_more["+1 more submodules (2)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_docker["docker (1)"]
+    dir_2_docker["docker (1)"]:::atlasCategory
     repo_root --> dir_2_docker
-    dir_3_macros["macros (1)"]
+    dir_3_macros["macros (1)"]:::atlasCategory
     repo_root --> dir_3_macros
-    dir_4_playwright["playwright (1)"]
+    dir_4_playwright["playwright (1)"]:::atlasCategory
     repo_root --> dir_4_playwright
 ```
 
@@ -198,33 +205,37 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_docker["docker"]
-        mod_f87e7a9e_5cce_4c6c_abba_628962386f02["f87e7a9e-5cce-4c6c-abba-628962386f02"]
-        mod_macros["macros"]
-        mod_playwright["playwright"]
-        mod_playwright_compose_keycloak["playwright/compose/keycloak"]
-        mod_playwright_compose_playwright["playwright/compose/playwright"]
-        mod_playwright_compose_warden["playwright/compose/warden"]
+        mod_docker["docker"]:::atlasCategory
+        mod_f87e7a9e_5cce_4c6c_abba_628962386f02["f87e7a9e-5cce-4c6c-abba-628962386f02"]:::atlasCategory
+        mod_macros["macros"]:::atlasCategory
+        mod_playwright["playwright"]:::atlasCategory
+        mod_playwright_compose_keycloak["playwright/compose/keycloak"]:::atlasCategory
+        mod_playwright_compose_playwright["playwright/compose/playwright"]:::atlasCategory
+        mod_playwright_compose_warden["playwright/compose/warden"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_Dockerfile_alpine["docker/Dockerfile.alpine"]
-        art_docker_Dockerfile_debian["docker/Dockerfile.debian"]
-        art_docker_Dockerfile_j2["docker/Dockerfile.j2"]
-        art_playwright_compose_keycloak_Dockerfile["playwright/compose/keycloak/Dockerfile"]
-        art_playwright_compose_playwright_Dockerfile["playwright/compose/playwright/Dockerfile"]
-        art_playwright_compose_warden_Dockerfile["playwright/compose/warden/Dockerfile"]
-        art_playwright_docker_compose_yml["playwright/docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_Dockerfile_alpine["docker/Dockerfile.alpine"]:::atlasWorkflow
+        art_docker_Dockerfile_debian["docker/Dockerfile.debian"]:::atlasWorkflow
+        art_docker_Dockerfile_j2["docker/Dockerfile.j2"]:::atlasWorkflow
+        art_playwright_compose_keycloak_Dockerfile["playwright/compose/keycloak/Dockerfile"]:::atlasWorkflow
+        art_playwright_compose_playwright_Dockerfile["playwright/compose/playwright/Dockerfile"]:::atlasWorkflow
+        art_playwright_compose_warden_Dockerfile["playwright/compose/warden/Dockerfile"]:::atlasWorkflow
+        art_playwright_docker_compose_yml["playwright/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_check_templates_yml_docker_templates["check-templates.yml#docker-templates"]
-        job_hadolint_yml_hadolint["hadolint.yml#hadolint"]
-        job_release_yml_docker_build["release.yml#docker-build"]
-        job_release_yml_merge_manifests["release.yml#merge-manifests"]
+        job_check_templates_yml_docker_templates["check-templates.yml#docker-templates"]:::atlasJob
+        job_hadolint_yml_hadolint["hadolint.yml#hadolint"]:::atlasJob
+        job_release_yml_docker_build["release.yml#docker-build"]:::atlasJob
+        job_release_yml_merge_manifests["release.yml#merge-manifests"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_release["release"]
+        env_release["release"]:::atlasTarget
     end
     job_release_yml_docker_build -->|DEPLOYS_TO| env_release
     job_release_yml_merge_manifests -->|DEPLOYS_TO| env_release
@@ -315,13 +326,58 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["dani-garcia/vaultwarden (9 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["dani-garcia/vaultwarden (9 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+  wf_0_Build["Build (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Build
+  job_0_build["build"]:::atlasJob
+  wf_0_Build --> job_0_build
+  wf_1_Check_templates["Check templates (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Check_templates
+  job_1_docker_templates["docker-templates"]:::atlasJob
+  wf_1_Check_templates --> job_1_docker_templates
+  wf_2_Hadolint["Hadolint (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Hadolint
+  job_2_hadolint["hadolint"]:::atlasJob
+  wf_2_Hadolint --> job_2_hadolint
+  wf_7_Code_Spell_Checking["Code Spell Checking (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Code_Spell_Checking
+  job_7_typos["typos"]:::atlasJob
+  wf_7_Code_Spell_Checking --> job_7_typos
+  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  wf_4_Cleanup["Cleanup (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_4_Cleanup
+  job_4_releasecache_cleanup["releasecache-cleanup"]:::atlasJob
+  wf_4_Cleanup --> job_4_releasecache_cleanup
+  wf_5_SDK_live_tests["SDK live tests (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_SDK_live_tests
+  job_5_sdk_live_tests["sdk-live-tests"]:::atlasJob
+  wf_5_SDK_live_tests --> job_5_sdk_live_tests
+  wf_6_Trivy["Trivy (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_6_Trivy
+  job_6_trivy_scan["trivy-scan"]:::atlasJob
+  wf_6_Trivy --> job_6_trivy_scan
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_3_Release["Release (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_3_Release
+  job_3_docker_build["docker-build"]:::atlasJob
+  job_3_merge_manifests["merge-manifests"]:::atlasJob
+  wf_3_Release --> job_3_docker_build
+  job_3_docker_build --> job_3_merge_manifests
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_8_Security_Analysis_with_zizmor["Security Analysis with zizmor (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_8_Security_Analysis_with_zizmor
+  job_8_zizmor["zizmor"]:::atlasJob
+  wf_8_Security_Analysis_with_zizmor --> job_8_zizmor
 ```

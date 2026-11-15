@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for laurent22/joplin
 
 ```mermaid
 graph TD;
-    repo_root(["laurent22/joplin (475 components)"])
-    dir_0_packages["packages (470)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["laurent22/joplin (475 components)"]):::atlasRoot
+    dir_0_packages["packages (470)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_onenote_converter["onenote-converter (170)"]
+    sub_0_0_onenote_converter["onenote-converter (170)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_onenote_converter
-    sub_0_1_server["server (113)"]
+    sub_0_1_server["server (113)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_server
-    sub_0_2_app_cli["app-cli (58)"]
+    sub_0_2_app_cli["app-cli (58)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_app_cli
-    sub_0_more["+25 more submodules (129)"]
+    sub_0_more["+25 more submodules (129)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1__yarn[".yarn (2)"]
+    dir_1__yarn[".yarn (2)"]:::atlasCategory
     repo_root --> dir_1__yarn
-    dir_2_Assets["Assets (2)"]
+    dir_2_Assets["Assets (2)"]:::atlasCategory
     repo_root --> dir_2_Assets
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     sub_0_1_server -.->|"328 deps"| sub_0_more
     sub_0_more -.->|"14 deps"| sub_0_1_server
@@ -263,50 +270,54 @@ Showing top 60 representative components out of 475 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__oss_scanner[".oss-scanner"]
-        mod_5f0a67fd_2707_4b33_9a6d_30f58fb69552["5f0a67fd-2707-4b33-9a6d-30f58fb69552"]
-        mod_Assets_TinyMCE_JoplinLists_src_main_ts["Assets/TinyMCE/JoplinLists/src/main/ts"]
-        mod_packages_app_cli["packages/app-cli"]
-        mod_packages_app_desktop["packages/app-desktop"]
-        mod_packages_app_mobile["packages/app-mobile"]
-        mod_packages_app_mobile_android["packages/app-mobile/android"]
-        mod_packages_app_mobile_android_app["packages/app-mobile/android/app"]
-        mod_packages_fork_htmlparser2["packages/fork-htmlparser2"]
-        mod_packages_fork_sax["packages/fork-sax"]
-        mod_packages_fork_uslug["packages/fork-uslug"]
-        mod_packages_generator_joplin_generators_app_templates_script_publish["packages/generator-joplin/generators/app/templates/script/publish"]
-        mod_packages_htmlpack["packages/htmlpack"]
-        mod_packages_lib["packages/lib"]
-        mod_packages_onenote_converter["packages/onenote-converter"]
-        mod_packages_onenote_converter_parser["packages/onenote-converter/parser"]
-        mod_packages_onenote_converter_renderer["packages/onenote-converter/renderer"]
-        mod_packages_renderer["packages/renderer"]
-        mod_packages_server["packages/server"]
-        mod_packages_tools["packages/tools"]
-        mod_packages_transcribe["packages/transcribe"]
-        mod_packages_turndown["packages/turndown"]
-        mod_packages_turndown_plugin_gfm["packages/turndown-plugin-gfm"]
-        mod_packages_utils["packages/utils"]
+        mod__oss_scanner[".oss-scanner"]:::atlasCategory
+        mod_5f0a67fd_2707_4b33_9a6d_30f58fb69552["5f0a67fd-2707-4b33-9a6d-30f58fb69552"]:::atlasCategory
+        mod_Assets_TinyMCE_JoplinLists_src_main_ts["Assets/TinyMCE/JoplinLists/src/main/ts"]:::atlasCategory
+        mod_packages_app_cli["packages/app-cli"]:::atlasCategory
+        mod_packages_app_desktop["packages/app-desktop"]:::atlasCategory
+        mod_packages_app_mobile["packages/app-mobile"]:::atlasCategory
+        mod_packages_app_mobile_android["packages/app-mobile/android"]:::atlasCategory
+        mod_packages_app_mobile_android_app["packages/app-mobile/android/app"]:::atlasCategory
+        mod_packages_fork_htmlparser2["packages/fork-htmlparser2"]:::atlasCategory
+        mod_packages_fork_sax["packages/fork-sax"]:::atlasCategory
+        mod_packages_fork_uslug["packages/fork-uslug"]:::atlasCategory
+        mod_packages_generator_joplin_generators_app_templates_script_publish["packages/generator-joplin/generators/app/templates/script/publish"]:::atlasCategory
+        mod_packages_htmlpack["packages/htmlpack"]:::atlasCategory
+        mod_packages_lib["packages/lib"]:::atlasCategory
+        mod_packages_onenote_converter["packages/onenote-converter"]:::atlasCategory
+        mod_packages_onenote_converter_parser["packages/onenote-converter/parser"]:::atlasCategory
+        mod_packages_onenote_converter_renderer["packages/onenote-converter/renderer"]:::atlasCategory
+        mod_packages_renderer["packages/renderer"]:::atlasCategory
+        mod_packages_server["packages/server"]:::atlasCategory
+        mod_packages_tools["packages/tools"]:::atlasCategory
+        mod_packages_transcribe["packages/transcribe"]:::atlasCategory
+        mod_packages_turndown["packages/turndown"]:::atlasCategory
+        mod_packages_turndown_plugin_gfm["packages/turndown-plugin-gfm"]:::atlasCategory
+        mod_packages_utils["packages/utils"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__oss_scanner_Dockerfile[".oss-scanner/Dockerfile"]
-        art__oss_scanner_Dockerfile_dockerignore[".oss-scanner/Dockerfile.dockerignore"]
-        art_Dockerfile_server["Dockerfile.server"]
-        art_Dockerfile_transcribe["Dockerfile.transcribe"]
-        art_Dockerfile_transcribe_gpu["Dockerfile.transcribe.gpu"]
-        art_docker_compose_db_dev_yml["docker-compose.db-dev.yml"]
-        art_docker_compose_server_dev_yml["docker-compose.server-dev.yml"]
-        art_docker_compose_server_yml["docker-compose.server.yml"]
-        art_docker_compose_transcribe_yml["docker-compose.transcribe.yml"]
+        art__oss_scanner_Dockerfile[".oss-scanner/Dockerfile"]:::atlasWorkflow
+        art__oss_scanner_Dockerfile_dockerignore[".oss-scanner/Dockerfile.dockerignore"]:::atlasWorkflow
+        art_Dockerfile_server["Dockerfile.server"]:::atlasWorkflow
+        art_Dockerfile_transcribe["Dockerfile.transcribe"]:::atlasWorkflow
+        art_Dockerfile_transcribe_gpu["Dockerfile.transcribe.gpu"]:::atlasWorkflow
+        art_docker_compose_db_dev_yml["docker-compose.db-dev.yml"]:::atlasWorkflow
+        art_docker_compose_server_dev_yml["docker-compose.server-dev.yml"]:::atlasWorkflow
+        art_docker_compose_server_yml["docker-compose.server.yml"]:::atlasWorkflow
+        art_docker_compose_transcribe_yml["docker-compose.transcribe.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_android_yml_AssembleRelease["build-android.yml#AssembleRelease"]
-        job_build_macos_m1_yml_Main["build-macos-m1.yml#Main"]
-        job_github_actions_main_yml_ServerDockerImage["github-actions-main.yml#ServerDockerImage"]
-        job_publish_sub_packages_yml_Publish["publish-sub-packages.yml#Publish"]
-        job_ui_tests_yml_Main["ui-tests.yml#Main"]
-        job_ui_tests_yml_Mobile["ui-tests.yml#Mobile"]
+        job_build_android_yml_AssembleRelease["build-android.yml#AssembleRelease"]:::atlasJob
+        job_build_macos_m1_yml_Main["build-macos-m1.yml#Main"]:::atlasJob
+        job_github_actions_main_yml_ServerDockerImage["github-actions-main.yml#ServerDockerImage"]:::atlasJob
+        job_publish_sub_packages_yml_Publish["publish-sub-packages.yml#Publish"]:::atlasJob
+        job_ui_tests_yml_Main["ui-tests.yml#Main"]:::atlasJob
+        job_ui_tests_yml_Mobile["ui-tests.yml#Mobile"]:::atlasJob
     end
     mod__oss_scanner -->|PACKAGED_BY| art__oss_scanner_Dockerfile
     mod__oss_scanner -->|PACKAGED_BY| art__oss_scanner_Dockerfile_dockerignore
@@ -428,15 +439,68 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["laurent22/joplin (11 workflows)"])
-  grp_0_CI___Verification["CI & Verification (7 workflows · 9 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["laurent22/joplin (11 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (7 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+  wf_2_Build_macOS_M1["Build macOS M1 (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Build_macOS_M1
+  job_2_Main["Main"]:::atlasJob
+  wf_2_Build_macOS_M1 --> job_2_Main
+  wf_3_Check_pull_request_title["Check pull request title (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Check_pull_request_title
+  job_3_main["main"]:::atlasJob
+  wf_3_Check_pull_request_title --> job_3_main
+  wf_4_CLA_Assistant["CLA Assistant (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_CLA_Assistant
+  job_4_CLAAssistant["CLAAssistant"]:::atlasJob
+  wf_4_CLA_Assistant --> job_4_CLAAssistant
+  wf_7_Delete_CodeRabbit_PR_Comments["Delete CodeRabbit PR Comments (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Delete_CodeRabbit_PR_Comments
+  job_7_delete_coderabbit_comments["delete-coderabbit-comments"]:::atlasJob
+  wf_7_Delete_CodeRabbit_PR_Comments --> job_7_delete_coderabbit_comments
+  wf_8_Joplin_Continuous_Integration["Joplin Continuous Integration (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_8_Joplin_Continuous_Integration
+  job_8_Main["Main"]:::atlasJob
+  job_8_ServerDockerImage["ServerDockerImage"]:::atlasJob
+  wf_8_Joplin_Continuous_Integration --> job_8_Main
+  wf_8_Joplin_Continuous_Integration --> job_8_ServerDockerImage
+  wf_10_Joplin_UI_tests["Joplin UI tests (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_10_Joplin_UI_tests
+  job_10_Main["Main"]:::atlasJob
+  job_10_Mobile["Mobile"]:::atlasJob
+  wf_10_Joplin_UI_tests --> job_10_Main
+  wf_10_Joplin_UI_tests --> job_10_Mobile
+  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_6_comment_on_failure["comment-on-failure (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_6_comment_on_failure
+  job_6_comment_failure["comment-failure"]:::atlasJob
+  wf_6_comment_on_failure --> job_6_comment_failure
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_9_Publish_npm_packages["Publish npm packages (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_9_Publish_npm_packages
+  job_9_Publish["Publish"]:::atlasJob
+  wf_9_Publish_npm_packages --> job_9_Publish
+  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_automerge["automerge (1 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_0_automerge
+  job_0_automerge["automerge"]:::atlasJob
+  wf_0_automerge --> job_0_automerge
+  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_5_Close_stale_issues["Close stale issues (1 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_5_Close_stale_issues
+  job_5_ProcessStaleIssues["ProcessStaleIssues"]:::atlasJob
+  wf_5_Close_stale_issues --> job_5_ProcessStaleIssues
+  wf_more["+1 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for TryGhost/ActivityPub
 
 ```mermaid
 graph TD;
-    repo_root(["TryGhost/ActivityPub (66 components)"])
-    dir_0_src["src (63)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["TryGhost/ActivityPub (66 components)"]):::atlasRoot
+    dir_0_src["src (63)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_http["http (24)"]
+    sub_0_0_http["http (24)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_http
-    sub_0_1__module_root_["(module root) (12)"]
+    sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
     dir_0_src --> sub_0_1__module_root_
-    sub_0_2_activitypub["activitypub (5)"]
+    sub_0_2_activitypub["activitypub (5)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_activitypub
-    sub_0_more["+13 more submodules (22)"]
+    sub_0_more["+13 more submodules (22)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_jobs["jobs (2)"]
+    dir_1_jobs["jobs (2)"]:::atlasCategory
     repo_root --> dir_1_jobs
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -192,40 +199,44 @@ Showing top 60 representative components out of 66 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_c644d53b_2645_4fe6_a7b2_e81f6f51c7e8["c644d53b-2645-4fe6-a7b2-e81f6f51c7e8"]
-        mod_dev_fake_gcs["dev/fake-gcs"]
-        mod_dev_nginx["dev/nginx"]
-        mod_jobs___template__["jobs/__template__"]
-        mod_jobs_reconcile_account_topics["jobs/reconcile-account-topics"]
-        mod_migrate["migrate"]
+        mod_c644d53b_2645_4fe6_a7b2_e81f6f51c7e8["c644d53b-2645-4fe6-a7b2-e81f6f51c7e8"]:::atlasCategory
+        mod_dev_fake_gcs["dev/fake-gcs"]:::atlasCategory
+        mod_dev_nginx["dev/nginx"]:::atlasCategory
+        mod_jobs___template__["jobs/__template__"]:::atlasCategory
+        mod_jobs_reconcile_account_topics["jobs/reconcile-account-topics"]:::atlasCategory
+        mod_migrate["migrate"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_dev_fake_gcs_Dockerfile["dev/fake-gcs/Dockerfile"]
-        art_dev_nginx_Dockerfile["dev/nginx/Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_jobs___template___Dockerfile["jobs/__template__/Dockerfile"]
-        art_jobs___template___docker_compose_yml["jobs/__template__/docker-compose.yml"]
-        art_jobs_reconcile_account_topics_Dockerfile["jobs/reconcile-account-topics/Dockerfile"]
-        art_jobs_reconcile_account_topics_docker_compose_yml["jobs/reconcile-account-topics/docker-compose.yml"]
-        art_migrate_Dockerfile["migrate/Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_dev_fake_gcs_Dockerfile["dev/fake-gcs/Dockerfile"]:::atlasWorkflow
+        art_dev_nginx_Dockerfile["dev/nginx/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_jobs___template___Dockerfile["jobs/__template__/Dockerfile"]:::atlasWorkflow
+        art_jobs___template___docker_compose_yml["jobs/__template__/docker-compose.yml"]:::atlasWorkflow
+        art_jobs_reconcile_account_topics_Dockerfile["jobs/reconcile-account-topics/Dockerfile"]:::atlasWorkflow
+        art_jobs_reconcile_account_topics_docker_compose_yml["jobs/reconcile-account-topics/docker-compose.yml"]:::atlasWorkflow
+        art_migrate_Dockerfile["migrate/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build_main_images["build.yml#build-main-images"]
-        job_build_yml_build_reconcile_account_topics_job["build.yml#build-reconcile-account-topics-job"]
-        job_build_yml_check_node_version["build.yml#check-node-version"]
-        job_deploy_pr_yml_deploy_pr["deploy-pr.yml#deploy-pr"]
-        job_deploy_yml_deploy_production_migrations["deploy.yml#deploy-production-migrations"]
-        job_deploy_yml_deploy_production_services["deploy.yml#deploy-production-services"]
-        job_deploy_yml_deploy_staging_migrations["deploy.yml#deploy-staging-migrations"]
-        job_deploy_yml_deploy_staging_services["deploy.yml#deploy-staging-services"]
-        job_ephemeral_staging_teardown_yml_destroy_pr["ephemeral-staging-teardown.yml#destroy-pr"]
-        job_test_yml_vitest["test.yml#vitest"]
+        job_build_yml_build_main_images["build.yml#build-main-images"]:::atlasJob
+        job_build_yml_build_reconcile_account_topics_job["build.yml#build-reconcile-account-topics-job"]:::atlasJob
+        job_build_yml_check_node_version["build.yml#check-node-version"]:::atlasJob
+        job_deploy_pr_yml_deploy_pr["deploy-pr.yml#deploy-pr"]:::atlasJob
+        job_deploy_yml_deploy_production_migrations["deploy.yml#deploy-production-migrations"]:::atlasJob
+        job_deploy_yml_deploy_production_services["deploy.yml#deploy-production-services"]:::atlasJob
+        job_deploy_yml_deploy_staging_migrations["deploy.yml#deploy-staging-migrations"]:::atlasJob
+        job_deploy_yml_deploy_staging_services["deploy.yml#deploy-staging-services"]:::atlasJob
+        job_ephemeral_staging_teardown_yml_destroy_pr["ephemeral-staging-teardown.yml#destroy-pr"]:::atlasJob
+        job_test_yml_vitest["test.yml#vitest"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_gcp["gcp"]
-        env_staging["staging"]
+        env_gcp["gcp"]:::atlasTarget
+        env_staging["staging"]:::atlasTarget
     end
     job_deploy_pr_yml_deploy_pr -->|DEPLOYS_TO| env_gcp
     job_deploy_pr_yml_deploy_pr -->|DEPLOYS_TO| env_staging
@@ -289,11 +300,64 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/ActivityPub (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/ActivityPub (8 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+  wf_0_Build["Build (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Build
+  job_0_lint["lint"]:::atlasJob
+  job_0_check_lockfile["check-lockfile"]:::atlasJob
+  job_0_check_node_version["check-node-version"]:::atlasJob
+  wf_0_Build --> job_0_lint
+  wf_0_Build --> job_0_check_lockfile
+  wf_0_Build --> job_0_check_node_version
+  wf_5_Push["Push (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Push
+  job_5_push_main_images["push-main-images"]:::atlasJob
+  wf_5_Push --> job_5_push_main_images
+  wf_7_Test["Test (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Test
+  job_7_vitest["vitest"]:::atlasJob
+  job_7_e2e["e2e"]:::atlasJob
+  wf_7_Test --> job_7_vitest
+  wf_7_Test --> job_7_e2e
+  grp_1_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 7 jobs)"]
+  wf_2_Deploy_PR["Deploy PR (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_Deploy_PR
+  job_2_deploy_pr["deploy-pr"]:::atlasJob
+  wf_2_Deploy_PR --> job_2_deploy_pr
+  wf_3_Deploy["Deploy (4 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Deploy
+  job_3_deploy_staging_migrations["deploy-staging-migrations"]:::atlasJob
+  job_3_deploy_staging_services["deploy-staging-services"]:::atlasJob
+  job_3_deploy_production_migrations["deploy-production-migrations"]:::atlasJob
+  wf_3_Deploy --> job_3_deploy_staging_migrations
+  job_3_deploy_staging_migrations --> job_3_deploy_staging_services
+  job_3_deploy_staging_services --> job_3_deploy_production_migrations
+  wf_4_Ephemeral_Staging_Tear_Down["Ephemeral Staging Tear Down (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Ephemeral_Staging_Tear_Down
+  job_4_destroy_pr["destroy-pr"]:::atlasJob
+  wf_4_Ephemeral_Staging_Tear_Down --> job_4_destroy_pr
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_1_CICD["CICD (6 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_1_CICD
+  job_1_build["build"]:::atlasJob
+  job_1_test["test"]:::atlasJob
+  job_1_push["push"]:::atlasJob
+  wf_1_CICD --> job_1_build
+  job_1_build --> job_1_test
+  job_1_build --> job_1_push
+  wf_6_Renovate["Renovate (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_6_Renovate
+  job_6_renovate["renovate"]:::atlasJob
+  wf_6_Renovate --> job_6_renovate
 ```

@@ -40,22 +40,29 @@ description: Arc42 and Pipeline report for umami-software/zen
 
 ```mermaid
 graph TD;
-    repo_root(["umami-software/zen (293 components)"])
-    dir_0_packages["packages (252)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["umami-software/zen (293 components)"]):::atlasRoot
+    dir_0_packages["packages (252)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_react_zen_src["react-zen/src (251)"]
+    sub_0_0_react_zen_src["react-zen/src (251)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_react_zen_src
-    sub_0_1_react_zen["react-zen (1)"]
+    sub_0_1_react_zen["react-zen (1)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_react_zen
-    dir_1_apps["apps (40)"]
+    dir_1_apps["apps (40)"]:::atlasCategory
     repo_root --> dir_1_apps
-    sub_1_0_docs_app["docs/app (37)"]
+    sub_1_0_docs_app["docs/app (37)"]:::atlasWorkflow
     dir_1_apps --> sub_1_0_docs_app
-    sub_1_1_docs_content["docs/content (2)"]
+    sub_1_1_docs_content["docs/content (2)"]:::atlasWorkflow
     dir_1_apps --> sub_1_1_docs_content
-    sub_1_2_docs["docs (1)"]
+    sub_1_2_docs["docs (1)"]:::atlasWorkflow
     dir_1_apps --> sub_1_2_docs
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     sub_0_0_react_zen_src -.->|"14 deps"| sub_1_0_docs_app
     sub_1_1_docs_content -.->|"1 dep"| sub_1_0_docs_app
@@ -235,5 +242,12 @@ Showing top 60 representative components out of 293 across 3 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

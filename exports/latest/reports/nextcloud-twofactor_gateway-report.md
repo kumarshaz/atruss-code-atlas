@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for nextcloud/twofactor_gateway
 
 ```mermaid
 graph TD;
-    repo_root(["nextcloud/twofactor_gateway (237 components)"])
-    dir_0_lib["lib (151)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["nextcloud/twofactor_gateway (237 components)"]):::atlasRoot
+    dir_0_lib["lib (151)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0_Provider["Provider (105)"]
+    sub_0_0_Provider["Provider (105)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0_Provider
-    sub_0_1_Service["Service (18)"]
+    sub_0_1_Service["Service (18)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1_Service
-    sub_0_2_Command["Command (7)"]
+    sub_0_2_Command["Command (7)"]:::atlasWorkflow
     dir_0_lib --> sub_0_2_Command
-    sub_0_more["+9 more submodules (21)"]
+    sub_0_more["+9 more submodules (21)"]:::atlasMore
     dir_0_lib --> sub_0_more
-    dir_1_tests["tests (77)"]
+    dir_1_tests["tests (77)"]:::atlasCategory
     repo_root --> dir_1_tests
-    sub_1_0_php["php (74)"]
+    sub_1_0_php["php (74)"]:::atlasWorkflow
     dir_1_tests --> sub_1_0_php
-    sub_1_1_stubs["stubs (2)"]
+    sub_1_1_stubs["stubs (2)"]:::atlasWorkflow
     dir_1_tests --> sub_1_1_stubs
-    sub_1_2_integration["integration (1)"]
+    sub_1_2_integration["integration (1)"]:::atlasWorkflow
     dir_1_tests --> sub_1_2_integration
-    dir_2_templates["templates (6)"]
+    dir_2_templates["templates (6)"]:::atlasCategory
     repo_root --> dir_2_templates
-    dir_3__root_["(root) (2)"]
+    dir_3__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_composer["composer (1)"]
+    dir_4_composer["composer (1)"]:::atlasCategory
     repo_root --> dir_4_composer
 ```
 
@@ -196,11 +203,76 @@ Showing top 60 representative components out of 237 across 5 module group(s):
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/twofactor_gateway (19 workflows)"])
-  grp_0_CI___Verification["CI & Verification (16 workflows · 34 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/twofactor_gateway (19 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (16 workflows · 34 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_3_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Lint_eslint
+  job_3_changes["changes"]:::atlasJob
+  job_3_lint["lint"]:::atlasJob
+  job_3_summary["summary"]:::atlasJob
+  wf_3_Lint_eslint --> job_3_changes
+  job_3_changes --> job_3_lint
+  job_3_changes --> job_3_summary
+  job_3_lint --> job_3_summary
+  wf_6_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Lint_php
+  job_6_matrix["matrix"]:::atlasJob
+  job_6_php_lint["php-lint"]:::atlasJob
+  job_6_summary["summary"]:::atlasJob
+  wf_6_Lint_php --> job_6_matrix
+  job_6_matrix --> job_6_php_lint
+  job_6_php_lint --> job_6_summary
+  wf_8_Node["Node (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_8_Node
+  job_8_changes["changes"]:::atlasJob
+  job_8_build["build"]:::atlasJob
+  job_8_summary["summary"]:::atlasJob
+  wf_8_Node --> job_8_changes
+  job_8_changes --> job_8_build
+  job_8_changes --> job_8_summary
+  job_8_build --> job_8_summary
+  wf_12_PHPUnit_MySQL["PHPUnit MySQL (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_12_PHPUnit_MySQL
+  job_12_matrix["matrix"]:::atlasJob
+  job_12_changes["changes"]:::atlasJob
+  job_12_phpunit_mysql["phpunit-mysql"]:::atlasJob
+  wf_12_PHPUnit_MySQL --> job_12_matrix
+  wf_12_PHPUnit_MySQL --> job_12_changes
+  job_12_changes --> job_12_phpunit_mysql
+  job_12_matrix --> job_12_phpunit_mysql
+  wf_13_PHPUnit_PostgreSQL["PHPUnit PostgreSQL (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_13_PHPUnit_PostgreSQL
+  job_13_matrix["matrix"]:::atlasJob
+  job_13_changes["changes"]:::atlasJob
+  job_13_phpunit_pgsql["phpunit-pgsql"]:::atlasJob
+  wf_13_PHPUnit_PostgreSQL --> job_13_matrix
+  wf_13_PHPUnit_PostgreSQL --> job_13_changes
+  job_13_changes --> job_13_phpunit_pgsql
+  job_13_matrix --> job_13_phpunit_pgsql
+  wf_14_PHPUnit_Coverage["PHPUnit Coverage (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_14_PHPUnit_Coverage
+  job_14_matrix["matrix"]:::atlasJob
+  wf_14_PHPUnit_Coverage --> job_14_matrix
+  wf_15_PHPUnit_SQLite["PHPUnit SQLite (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_15_PHPUnit_SQLite
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_0_Build_and_publish_app_release
+  wf_17_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_17_Notify_release_relay_on_release
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_2_Dependabot["Dependabot (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_2_Dependabot
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

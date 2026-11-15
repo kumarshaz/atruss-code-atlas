@@ -40,9 +40,16 @@ description: Arc42 and Pipeline report for bitwarden/sm-action
 
 ```mermaid
 graph TD;
-    ci["ci : module"]
-    config["config : module"]
-    main["main : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ci["ci : module"]:::atlasJob
+    config["config : module"]:::atlasJob
+    main["main : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -106,13 +113,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_37955e16_dfa3_4091_9da1_f38bb5b3e420["37955e16-dfa3-4091-9da1-f38bb5b3e420"]
+        mod_37955e16_dfa3_4091_9da1_f38bb5b3e420["37955e16-dfa3-4091-9da1-f38bb5b3e420"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_test_yml_build["build-test.yml#build"]
-        job_lint_yml_lint["lint.yml#lint"]
-        job_version_bump_yml_bump_version["version-bump.yml#bump_version"]
+        job_build_test_yml_build["build-test.yml#build"]:::atlasJob
+        job_lint_yml_lint["lint.yml#lint"]:::atlasJob
+        job_version_bump_yml_bump_version["version-bump.yml#bump_version"]:::atlasJob
     end
     mod_37955e16_dfa3_4091_9da1_f38bb5b3e420 -->|BUILT_BY| job_build_test_yml_build
     mod_37955e16_dfa3_4091_9da1_f38bb5b3e420 -->|BUILT_BY| job_lint_yml_lint
@@ -128,20 +139,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/sm-action"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/sm-action"]):::atlasRoot
   subgraph Build___Test_0["Build & Test"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph Lint_1["Lint"]
     direction TB
-    1_lint["lint"]
+    1_lint["lint"]:::atlasJob
   end
   pipeline_root --> 1_lint
   subgraph Version_Bump_2["Version Bump"]
     direction TB
-    2_bump_version["bump_version"]
+    2_bump_version["bump_version"]:::atlasJob
   end
   pipeline_root --> 2_bump_version
 ```

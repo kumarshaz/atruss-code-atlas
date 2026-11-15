@@ -41,16 +41,23 @@ description: Arc42 and Pipeline report for mastodon/mastodon
 
 ```mermaid
 graph TD;
-    repo_root(["mastodon/mastodon (255 components)"])
-    dir_0_app["app (250)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mastodon/mastodon (255 components)"]):::atlasRoot
+    dir_0_app["app (250)"]:::atlasCategory
     repo_root --> dir_0_app
-    sub_0_0_controllers["controllers (244)"]
+    sub_0_0_controllers["controllers (244)"]:::atlasWorkflow
     dir_0_app --> sub_0_0_controllers
-    sub_0_1_chewy["chewy (6)"]
+    sub_0_1_chewy["chewy (6)"]:::atlasWorkflow
     dir_0_app --> sub_0_1_chewy
-    dir_1_streaming["streaming (4)"]
+    dir_1_streaming["streaming (4)"]:::atlasCategory
     repo_root --> dir_1_streaming
-    dir_2__devcontainer[".devcontainer (1)"]
+    dir_2__devcontainer[".devcontainer (1)"]:::atlasCategory
     repo_root --> dir_2__devcontainer
 ```
 
@@ -193,21 +200,25 @@ Showing top 60 representative components out of 255 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_70293a41_3f23_45a7_8cdf_ea568d8d99f3["70293a41-3f23-45a7-8cdf-ea568d8d99f3"]
-        mod_streaming["streaming"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_70293a41_3f23_45a7_8cdf_ea568d8d99f3["70293a41-3f23-45a7-8cdf-ea568d8d99f3"]:::atlasCategory
+        mod_streaming["streaming"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_____inputs_file_to_build___["${{ inputs.file_to_build }}"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_streaming_Dockerfile["streaming/Dockerfile"]
+        art_____inputs_file_to_build___["${{ inputs.file_to_build }}"]:::atlasWorkflow
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_streaming_Dockerfile["streaming/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_container_image_yml_build_image["build-container-image.yml#build-image"]
-        job_test_ruby_yml_test_e2e["test-ruby.yml#test-e2e"]
+        job_build_container_image_yml_build_image["build-container-image.yml#build-image"]:::atlasJob
+        job_test_ruby_yml_test_e2e["test-ruby.yml#test-e2e"]:::atlasJob
     end
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
     mod_70293a41_3f23_45a7_8cdf_ea568d8d99f3 -->|BUILT_BY| job_build_container_image_yml_build_image
@@ -235,13 +246,74 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mastodon/mastodon (22 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 21 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mastodon/mastodon (22 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (13 workflows · 21 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 7 jobs)"]
+  wf_2_Build_container_image_for_PR["Build container image for PR (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Build_container_image_for_PR
+  job_2_compute_suffix["compute-suffix"]:::atlasJob
+  job_2_build_image["build-image"]:::atlasJob
+  job_2_build_image_streaming["build-image-streaming"]:::atlasJob
+  wf_2_Build_container_image_for_PR --> job_2_compute_suffix
+  job_2_compute_suffix --> job_2_build_image
+  job_2_compute_suffix --> job_2_build_image_streaming
+  wf_7_Chromatic["Chromatic (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Chromatic
+  job_7_pathcheck["pathcheck"]:::atlasJob
+  job_7_chromatic["chromatic"]:::atlasJob
+  wf_7_Chromatic --> job_7_pathcheck
+  job_7_pathcheck --> job_7_chromatic
+  wf_21_Ruby_Testing["Ruby Testing (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_21_Ruby_Testing
+  job_21_build["build"]:::atlasJob
+  job_21_test["test"]:::atlasJob
+  job_21_test_e2e["test-e2e"]:::atlasJob
+  wf_21_Ruby_Testing --> job_21_build
+  job_21_build --> job_21_test
+  job_21_build --> job_21_test_e2e
+  grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]
+  wf_1_Build_nightly_container_image["Build nightly container image (3 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_1_Build_nightly_container_image
+  job_1_compute_suffix["compute-suffix"]:::atlasJob
+  job_1_build_image["build-image"]:::atlasJob
+  job_1_build_image_streaming["build-image-streaming"]:::atlasJob
+  wf_1_Build_nightly_container_image --> job_1_compute_suffix
+  job_1_compute_suffix --> job_1_build_image
+  job_1_compute_suffix --> job_1_build_image_streaming
+  wf_9_Crowdin___Download_translations__stable_branches_["Crowdin / Download translations (stable branches) (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_9_Crowdin___Download_translations__stable_branches_
+  job_9_download_translations_stable["download-translations-stable"]:::atlasJob
+  wf_9_Crowdin___Download_translations__stable_branches_ --> job_9_download_translations_stable
+  wf_10_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_10_Crowdin___Download_translations
+  job_10_download_translations["download-translations"]:::atlasJob
+  wf_10_Crowdin___Download_translations --> job_10_download_translations
+  grp_2_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+  wf_4_Build_security_nightly_container_image["Build security nightly container image (3 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_4_Build_security_nightly_container_image
+  job_4_compute_suffix["compute-suffix"]:::atlasJob
+  job_4_build_image["build-image"]:::atlasJob
+  job_4_build_image_streaming["build-image-streaming"]:::atlasJob
+  wf_4_Build_security_nightly_container_image --> job_4_compute_suffix
+  job_4_compute_suffix --> job_4_build_image
+  job_4_compute_suffix --> job_4_build_image_streaming
+  wf_5_Bundler_Audit["Bundler Audit (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_5_Bundler_Audit
+  wf_8_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_8_CodeQL
+  grp_3_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Release___Deploy
+  wf_3_Build_container_release_images["Build container release images (3 jobs)"]:::atlasWorkflow
+  grp_3_Release___Deploy --> wf_3_Build_container_release_images
+  wf_more["+12 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

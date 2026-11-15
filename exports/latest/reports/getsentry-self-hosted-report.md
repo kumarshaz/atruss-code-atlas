@@ -41,9 +41,16 @@ description: Arc42 and Pipeline report for getsentry/self-hosted
 
 ```mermaid
 graph TD;
-    docker_compose_test["docker-compose.test : module"]
-    sentry_self_hosted_integration_test_nodejs["sentry-self-hosted-integration-test-nodejs : MODULE"]
-    config_example["config.example : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    docker_compose_test["docker-compose.test : module"]:::atlasJob
+    sentry_self_hosted_integration_test_nodejs["sentry-self-hosted-integration-test-nodejs : MODULE"]:::atlasJob
+    config_example["config.example : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -114,29 +121,33 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__integration_test_custom_ca_roots["_integration-test/custom-ca-roots"]
-        mod_clickhouse["clickhouse"]
-        mod_cron["cron"]
-        mod_e812dfff_95b8_4b5a_87f0_e9f284e5f7b5["e812dfff-95b8-4b5a-87f0-e9f284e5f7b5"]
-        mod_sentry["sentry"]
-        mod_workstation_postinstall["workstation/postinstall"]
-        mod_workstation_preinstall["workstation/preinstall"]
+        mod__integration_test_custom_ca_roots["_integration-test/custom-ca-roots"]:::atlasCategory
+        mod_clickhouse["clickhouse"]:::atlasCategory
+        mod_cron["cron"]:::atlasCategory
+        mod_e812dfff_95b8_4b5a_87f0_e9f284e5f7b5["e812dfff-95b8-4b5a-87f0-e9f284e5f7b5"]:::atlasCategory
+        mod_sentry["sentry"]:::atlasCategory
+        mod_workstation_postinstall["workstation/postinstall"]:::atlasCategory
+        mod_workstation_preinstall["workstation/preinstall"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__integration_test_custom_ca_roots_docker_compose_test_yml["_integration-test/custom-ca-roots/docker-compose.test.yml"]
-        art_clickhouse_Dockerfile["clickhouse/Dockerfile"]
-        art_cron_Dockerfile["cron/Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_sentry_Dockerfile["sentry/Dockerfile"]
-        art_workstation_postinstall_Dockerfile["workstation/postinstall/Dockerfile"]
-        art_workstation_preinstall_Dockerfile["workstation/preinstall/Dockerfile"]
+        art__integration_test_custom_ca_roots_docker_compose_test_yml["_integration-test/custom-ca-roots/docker-compose.test.yml"]:::atlasWorkflow
+        art_clickhouse_Dockerfile["clickhouse/Dockerfile"]:::atlasWorkflow
+        art_cron_Dockerfile["cron/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_sentry_Dockerfile["sentry/Dockerfile"]:::atlasWorkflow
+        art_workstation_postinstall_Dockerfile["workstation/postinstall/Dockerfile"]:::atlasWorkflow
+        art_workstation_preinstall_Dockerfile["workstation/preinstall/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_fast_revert_yml_revert["fast-revert.yml#revert"]
+        job_fast_revert_yml_revert["fast-revert.yml#revert"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_fast_revert["fast-revert"]
+        env_fast_revert["fast-revert"]:::atlasTarget
     end
     job_fast_revert_yml_revert -->|DEPLOYS_TO| env_fast_revert
     mod__integration_test_custom_ca_roots -->|PACKAGED_BY| art__integration_test_custom_ca_roots_docker_compose_test_yml
@@ -170,13 +181,54 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/self-hosted (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/self-hosted (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+  wf_0_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Enforce_License_Compliance
+  job_0_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+  wf_0_Enforce_License_Compliance --> job_0_enforce_license_compliance
+  wf_3_pre_commit["pre-commit (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_pre_commit
+  job_3_pre_commit["pre-commit"]:::atlasJob
+  wf_3_pre_commit --> job_3_pre_commit
+  wf_5_ShellCheck["ShellCheck (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_ShellCheck
+  job_5_shellcheck["shellcheck"]:::atlasJob
+  wf_5_ShellCheck --> job_5_shellcheck
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  wf_1_fast_revert_yml["fast-revert.yml (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_1_fast_revert_yml
+  job_1_revert["revert"]:::atlasJob
+  wf_1_fast_revert_yml --> job_1_revert
+  wf_6_Test["Test (3 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_6_Test
+  job_6_unit_test["unit-test"]:::atlasJob
+  job_6_integration_test["integration-test"]:::atlasJob
+  job_6_integration_test_errors_only["integration-test-errors-only"]:::atlasJob
+  wf_6_Test --> job_6_unit_test
+  wf_6_Test --> job_6_integration_test
+  wf_6_Test --> job_6_integration_test_errors_only
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_4_Release["Release (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_4_Release
+  job_4_release["release"]:::atlasJob
+  job_4_dogfood_release["dogfood-release"]:::atlasJob
+  wf_4_Release --> job_4_release
+  job_4_release --> job_4_dogfood_release
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_2_Lock_closed_issues_PRs["Lock closed issues/PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_2_Lock_closed_issues_PRs
+  job_2_lock["lock"]:::atlasJob
+  wf_2_Lock_closed_issues_PRs --> job_2_lock
 ```

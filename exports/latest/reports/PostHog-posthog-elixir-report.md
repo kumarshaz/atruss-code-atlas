@@ -41,38 +41,45 @@ description: Arc42 and Pipeline report for PostHog/posthog-elixir
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/posthog-elixir (92 components)"])
-    dir_0_test["test (42)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/posthog-elixir (92 components)"]):::atlasRoot
+    dir_0_test["test (42)"]:::atlasCategory
     repo_root --> dir_0_test
-    sub_0_0_posthog["posthog (33)"]
+    sub_0_0_posthog["posthog (33)"]:::atlasWorkflow
     dir_0_test --> sub_0_0_posthog
-    sub_0_1_support["support (4)"]
+    sub_0_1_support["support (4)"]:::atlasWorkflow
     dir_0_test --> sub_0_1_support
-    sub_0_2__module_root_["(module root) (3)"]
+    sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
     dir_0_test --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]
+    sub_0_more["+1 more submodules (2)"]:::atlasMore
     dir_0_test --> sub_0_more
-    dir_1_lib["lib (34)"]
+    dir_1_lib["lib (34)"]:::atlasCategory
     repo_root --> dir_1_lib
-    sub_1_0_posthog["posthog (31)"]
+    sub_1_0_posthog["posthog (31)"]:::atlasWorkflow
     dir_1_lib --> sub_1_0_posthog
-    sub_1_1_mix["mix (2)"]
+    sub_1_1_mix["mix (2)"]:::atlasWorkflow
     dir_1_lib --> sub_1_1_mix
-    sub_1_2__module_root_["(module root) (1)"]
+    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_1_lib --> sub_1_2__module_root_
-    dir_2_sdk_compliance_adapter["sdk_compliance_adapter (9)"]
+    dir_2_sdk_compliance_adapter["sdk_compliance_adapter (9)"]:::atlasCategory
     repo_root --> dir_2_sdk_compliance_adapter
-    sub_2_0_lib["lib (5)"]
+    sub_2_0_lib["lib (5)"]:::atlasWorkflow
     dir_2_sdk_compliance_adapter --> sub_2_0_lib
-    sub_2_1_test["test (2)"]
+    sub_2_1_test["test (2)"]:::atlasWorkflow
     dir_2_sdk_compliance_adapter --> sub_2_1_test
-    sub_2_2__module_root_["(module root) (1)"]
+    sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_2_sdk_compliance_adapter --> sub_2_2__module_root_
-    sub_2_more["+1 more submodules (1)"]
+    sub_2_more["+1 more submodules (1)"]:::atlasMore
     dir_2_sdk_compliance_adapter --> sub_2_more
-    dir_3_config["config (4)"]
+    dir_3_config["config (4)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4__root_["(root) (3)"]
+    dir_4__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_4__root_
 ```
 
@@ -186,19 +193,23 @@ Showing top 60 representative components out of 92 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_sdk_compliance_adapter["sdk_compliance_adapter"]
+        mod_sdk_compliance_adapter["sdk_compliance_adapter"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]
-        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]
+        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]:::atlasWorkflow
+        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_release["release.yml#release"]
-        job_sdk_compliance_yml_adapter_tests["sdk-compliance.yml#adapter-tests"]
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_sdk_compliance_yml_adapter_tests["sdk-compliance.yml#adapter-tests"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_Release["Release"]
+        env_Release["Release"]:::atlasTarget
     end
     job_release_yml_release -->|DEPLOYS_TO| env_Release
     mod_sdk_compliance_adapter -->|BUILT_BY| job_sdk_compliance_yml_adapter_tests
@@ -216,11 +227,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/posthog-elixir (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 9 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/posthog-elixir (8 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
+  wf_0_Call_Feature_Flags_Project_Workflow["Call Feature Flags Project Workflow (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Call_Feature_Flags_Project_Workflow
+  job_0_call_flags_project["call-flags-project"]:::atlasJob
+  wf_0_Call_Feature_Flags_Project_Workflow --> job_0_call_flags_project
+  wf_1_CI["CI (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI
+  job_1_test["test"]:::atlasJob
+  job_1_format["format"]:::atlasJob
+  job_1_credo["credo"]:::atlasJob
+  wf_1_CI --> job_1_test
+  wf_1_CI --> job_1_format
+  wf_1_CI --> job_1_credo
+  wf_3_Lint_PR["Lint PR (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Lint_PR
+  job_3_lint_pr["lint-pr"]:::atlasJob
+  wf_3_Lint_PR --> job_3_lint_pr
+  wf_6_SDK_Compliance_Tests["SDK Compliance Tests (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_SDK_Compliance_Tests
+  job_6_adapter_tests["adapter-tests"]:::atlasJob
+  job_6_compliance["compliance"]:::atlasJob
+  wf_6_SDK_Compliance_Tests --> job_6_adapter_tests
+  wf_6_SDK_Compliance_Tests --> job_6_compliance
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_4_Release_failure_notification["Release failure notification (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Release_failure_notification
+  job_4_notify_failed["notify-failed"]:::atlasJob
+  wf_4_Release_failure_notification --> job_4_notify_failed
+  wf_5_Release["Release (5 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_5_Release
+  job_5_check_changesets["check-changesets"]:::atlasJob
+  job_5_notify_approval_needed["notify-approval-needed"]:::atlasJob
+  job_5_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+  wf_5_Release --> job_5_check_changesets
+  job_5_check_changesets --> job_5_notify_approval_needed
+  job_5_notify_approval_needed --> job_5_preserve_slack_thread
+  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_2_CodeQL_Advanced
+  job_2_analyze["analyze"]:::atlasJob
+  wf_2_CodeQL_Advanced --> job_2_analyze
+  wf_7_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_7_Handle_stale_issues_and_PRs
+  job_7_stale["stale"]:::atlasJob
+  wf_7_Handle_stale_issues_and_PRs --> job_7_stale
 ```

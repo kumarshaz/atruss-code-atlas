@@ -40,12 +40,19 @@ description: Arc42 and Pipeline report for langfuse/langfuse-workshop
 
 ```mermaid
 graph TD;
-    langfuse_dad_it_support_workshop["langfuse-dad-it-support-workshop : MODULE"]
-    App["App : UI_COMPONENT"]
-    GET_api_health["GET_api_health : API_ROUTE"]
-    GET_api_support_context["GET_api_support-context : API_ROUTE"]
-    POST_api_chat["POST_api_chat : API_ROUTE"]
-    repo_root(["langfuse/langfuse-workshop"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    langfuse_dad_it_support_workshop["langfuse-dad-it-support-workshop : MODULE"]:::atlasJob
+    App["App : UI_COMPONENT"]:::atlasJob
+    GET_api_health["GET_api_health : API_ROUTE"]:::atlasJob
+    GET_api_support_context["GET_api_support-context : API_ROUTE"]:::atlasJob
+    POST_api_chat["POST_api_chat : API_ROUTE"]:::atlasJob
+    repo_root(["langfuse/langfuse-workshop"]):::atlasRoot
     repo_root --> App
     repo_root --> GET_api_health
     repo_root --> GET_api_support_context
@@ -121,11 +128,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_29107077_ffa9_4641_9d79_bca4abeae059["29107077-ffa9-4641-9d79-bca4abeae059"]
+        mod_29107077_ffa9_4641_9d79_bca4abeae059["29107077-ffa9-4641-9d79-bca4abeae059"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_sync_checkpoints_yml_sync["sync-checkpoints.yml#sync"]
+        job_sync_checkpoints_yml_sync["sync-checkpoints.yml#sync"]:::atlasJob
     end
     mod_29107077_ffa9_4641_9d79_bca4abeae059 -->|BUILT_BY| job_sync_checkpoints_yml_sync
 ```
@@ -137,8 +148,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Sync_checkpoint_tags_0["Sync checkpoint tags"]
     direction TB
-    0_sync["sync"]
+    0_sync["sync"]:::atlasJob
   end
 ```

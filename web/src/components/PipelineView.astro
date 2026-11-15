@@ -118,76 +118,6 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     >
         <script type="application/json" data-pipeline-payload set:html={serializedPayload} />
 
-        <div class="m3-pipeline-chips">
-            <span class="m3-chip m3-chip-tonal-primary">
-                <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
-                {workflows.length} Workflow(s)
-            </span>
-            <span class="m3-chip m3-chip-tonal-secondary">
-                <span class="material-symbols-outlined" aria-hidden="true">work_outline</span>
-                {totalJobs} Job(s)
-            </span>
-            <span
-                class={`m3-chip ${antiPatterns.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}
-            >
-                <span class="material-symbols-outlined" aria-hidden="true">
-                    {antiPatterns.length > 0 ? 'warning' : 'verified'}
-                </span>
-                {antiPatterns.length} Anti-Pattern(s)
-            </span>
-            {crossWorkflowEdges.length > 0 && (
-                <span class="m3-chip m3-chip-tonal-tertiary">
-                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
-                    {crossWorkflowEdges.length} Cross-Workflow Edge(s)
-                </span>
-            )}
-            <span class="m3-chip">
-                <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
-                {pipelineData.analyzed_at
-                    ? new Date(pipelineData.analyzed_at).toLocaleString()
-                    : 'Unknown'}
-            </span>
-        </div>
-
-        {antiPatterns.length > 0 && (
-            <section class="m3-card-elevated m3-findings-card">
-                <header class="m3-section-header">
-                    <span class="material-symbols-outlined" aria-hidden="true">policy_alert</span>
-                    <h4>Pipeline Anti-Patterns Detected</h4>
-                </header>
-                <div class="m3-findings-list">
-                    {antiPatterns.map((ap) => (
-                        <AntiPatternBadge
-                            type={ap.type || 'UNKNOWN_PATTERN'}
-                            severity={ap.severity || 'LOW'}
-                            message={`[${ap.workflowName}] ${ap.message || ''}`}
-                        />
-                    ))}
-                </div>
-            </section>
-        )}
-
-        {crossWorkflowEdges.length > 0 && (
-            <section class="m3-card-elevated m3-findings-card">
-                <header class="m3-section-header">
-                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
-                    <h4>Cross-Workflow Triggers &amp; Reusable Calls</h4>
-                </header>
-                <div class="m3-cross-wf-grid">
-                    {crossWorkflowEdges.slice(0, 20).map((edge) => (
-                        <article class="m3-cross-wf-item">
-                            <span class="m3-chip m3-chip-tonal-tertiary m3-cross-wf-type">
-                                {edge.edge_type || 'workflow_call'}
-                            </span>
-                            <code>
-                                {edge.source_workflow || edge.workflowName} → {edge.target_workflow}
-                            </code>
-                        </article>
-                    ))}
-                </div>
-            </section>
-        )}
-
         <section class="m3-card-elevated m3-diagram-card" data-zoom-container="true">
             <header class="m3-diagram-toolbar">
                 <div class="m3-section-header">
@@ -268,6 +198,76 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                 </div>
             </div>
         </section>
+
+        <div class="m3-pipeline-chips">
+            <span class="m3-chip m3-chip-tonal-primary">
+                <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+                {workflows.length} Workflow(s)
+            </span>
+            <span class="m3-chip m3-chip-tonal-secondary">
+                <span class="material-symbols-outlined" aria-hidden="true">work_outline</span>
+                {totalJobs} Job(s)
+            </span>
+            <span
+                class={`m3-chip ${antiPatterns.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">
+                    {antiPatterns.length > 0 ? 'warning' : 'verified'}
+                </span>
+                {antiPatterns.length} Anti-Pattern(s)
+            </span>
+            {crossWorkflowEdges.length > 0 && (
+                <span class="m3-chip m3-chip-tonal-tertiary">
+                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
+                    {crossWorkflowEdges.length} Cross-Workflow Edge(s)
+                </span>
+            )}
+            <span class="m3-chip">
+                <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+                {pipelineData.analyzed_at
+                    ? new Date(pipelineData.analyzed_at).toLocaleString()
+                    : 'Unknown'}
+            </span>
+        </div>
+
+        {antiPatterns.length > 0 && (
+            <section class="m3-card-elevated m3-findings-card">
+                <header class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">policy_alert</span>
+                    <h4>Pipeline Anti-Patterns Detected</h4>
+                </header>
+                <div class="m3-findings-list">
+                    {antiPatterns.map((ap) => (
+                        <AntiPatternBadge
+                            type={ap.type || 'UNKNOWN_PATTERN'}
+                            severity={ap.severity || 'LOW'}
+                            message={`[${ap.workflowName}] ${ap.message || ''}`}
+                        />
+                    ))}
+                </div>
+            </section>
+        )}
+
+        {crossWorkflowEdges.length > 0 && (
+            <section class="m3-card-elevated m3-findings-card">
+                <header class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
+                    <h4>Cross-Workflow Triggers &amp; Reusable Calls</h4>
+                </header>
+                <div class="m3-cross-wf-grid">
+                    {crossWorkflowEdges.slice(0, 20).map((edge) => (
+                        <article class="m3-cross-wf-item">
+                            <span class="m3-chip m3-chip-tonal-tertiary m3-cross-wf-type">
+                                {edge.edge_type || 'workflow_call'}
+                            </span>
+                            <code>
+                                {edge.source_workflow || edge.workflowName} → {edge.target_workflow}
+                            </code>
+                        </article>
+                    ))}
+                </div>
+            </section>
+        )}
     </div>
 )}
 
@@ -276,6 +276,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         applyResponsiveSvgStyle,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        getMermaidClassDefs,
         renderMermaidSvg,
         safeId,
         safeLabel,
@@ -285,15 +286,15 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         payload: any,
         filterCategory?: string
     ): { graphDef: string; catNames: string[] } {
-        const lines = ['flowchart TD'];
+        const lines = ['flowchart TD', ...getMermaidClassDefs()];
         const wfs = Array.isArray(payload?.workflows) ? payload.workflows : [];
         if (wfs.length === 0) {
-            lines.push('  empty["No Workflows Detected"]');
+            lines.push('  empty["No Workflows Detected"]:::atlasMore');
             return { graphDef: lines.join('\n'), catNames: [] };
         }
 
         const rootLabel = `${safeLabel(payload.repoLabel)} (${wfs.length} workflows)`;
-        lines.push(`  repo_root(["${rootLabel}"])`);
+        lines.push(`  repo_root(["${rootLabel}"]):::atlasRoot`);
 
         const categories = new Map<string, any[]>();
         for (const wf of wfs) {
@@ -308,7 +309,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         const catNames = sortedCats.map(([catName]) => catName);
 
         if (sortedCats.length === 0) {
-            lines.push('  empty["No Matching Workflows"]');
+            lines.push('  empty["No Matching Workflows"]:::atlasMore');
             lines.push('  repo_root --> empty');
             return { graphDef: lines.join('\n'), catNames };
         }
@@ -322,7 +323,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                     0
                 );
                 lines.push(
-                    `  ${catId}["${safeLabel(catName)} (${items.length} workflows · ${totalJobsInCat} jobs)"]`
+                    `  ${catId}["${safeLabel(catName)} (${items.length} workflows · ${totalJobsInCat} jobs)"]:::atlasCategory`
                 );
                 lines.push(`  repo_root --> ${catId}`);
             });
@@ -332,13 +333,14 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         const emitWorkflowNode = (wf: any, parentNodeId: string) => {
             const wfId = `wf_${wf.index}_node`;
             const alertTag = wf.antiPatternCount > 0 ? ` · ${wf.antiPatternCount} alerts` : '';
-            lines.push(`  ${wfId}["${safeLabel(wf.name)} (${wf.jobs.length} jobs${alertTag})"]`);
+            const cls = wf.antiPatternCount > 0 ? ':::atlasAlert' : ':::atlasWorkflow';
+            lines.push(`  ${wfId}["${safeLabel(wf.name)} (${wf.jobs.length} jobs${alertTag})"]${cls}`);
             lines.push(`  ${parentNodeId} --> ${wfId}`);
         };
 
         sortedCats.forEach(([catName, items], cIdx) => {
             const catId = `cat_${cIdx}_node`;
-            lines.push(`  ${catId}["${safeLabel(catName)} (${items.length})"]`);
+            lines.push(`  ${catId}["${safeLabel(catName)} (${items.length})"]:::atlasCategory`);
             lines.push(`  repo_root --> ${catId}`);
 
             const slice = items.slice(0, 12);
@@ -350,7 +352,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                 for (let i = 0; i < slice.length; i += 3) {
                     const batch = slice.slice(i, i + 3);
                     const batchId = `cat_${cIdx}_batch_${i}`;
-                    lines.push(`  ${batchId}("Workflows ${i + 1}-${i + batch.length}")`);
+                    lines.push(`  ${batchId}("Workflows ${i + 1}-${i + batch.length}"):::atlasStage`);
                     lines.push(`  ${prevBatchId} --> ${batchId}`);
                     batch.forEach((wf: any) => emitWorkflowNode(wf, batchId));
                     prevBatchId = batchId;
@@ -360,7 +362,9 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             if (items.length > slice.length) {
                 const rem = items.length - slice.length;
                 const moreId = `more_${cIdx}`;
-                lines.push(`  ${moreId}["+${rem} more in ${safeLabel(catName)} (use dropdown)"]`);
+                lines.push(
+                    `  ${moreId}["+${rem} more in ${safeLabel(catName)} (use dropdown)"]:::atlasMore`
+                );
                 lines.push(`  ${catId} --> ${moreId}`);
             }
         });
@@ -369,9 +373,9 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     }
 
     function buildWorkflowGraph(wf: any): string {
-        const lines = ['flowchart TD'];
+        const lines = ['flowchart TD', ...getMermaidClassDefs()];
         if (!wf) {
-            lines.push('  empty["Workflow Not Found"]');
+            lines.push('  empty["Workflow Not Found"]:::atlasMore');
             return lines.join('\n');
         }
 
@@ -379,11 +383,11 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             Array.isArray(wf.triggers) && wf.triggers.length > 0
                 ? wf.triggers.slice(0, 3).join(', ')
                 : 'manual / default';
-        lines.push(`  wf_trigger(["${safeLabel(wf.name)} · on: ${safeLabel(trigLabel)}"])`);
+        lines.push(`  wf_trigger(["${safeLabel(wf.name)} · on: ${safeLabel(trigLabel)}"]):::atlasRoot`);
 
         const jobs = Array.isArray(wf.jobs) ? wf.jobs : [];
         if (jobs.length === 0) {
-            lines.push('  no_jobs["No Jobs Defined"]');
+            lines.push('  no_jobs["No Jobs Defined"]:::atlasMore');
             lines.push('  wf_trigger --> no_jobs');
             return lines.join('\n');
         }
@@ -396,7 +400,9 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             const jobId = `job_${safeId(job.id)}`;
             declared.add(jobId);
             const stepsInfo = job.steps > 0 ? `, ${job.steps} steps` : '';
-            lines.push(`  ${jobId}["${safeLabel(job.name)} (${safeLabel(job.runner)}${stepsInfo})"]`);
+            lines.push(
+                `  ${jobId}["${safeLabel(job.name)} (${safeLabel(job.runner)}${stepsInfo})"]:::atlasJob`
+            );
         }
 
         for (const job of limitedJobs) {
@@ -427,7 +433,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             for (let i = 0; i < rootJobs.length; i += chunkSize) {
                 const chunk = rootJobs.slice(i, i + chunkSize);
                 const stageId = `stage_${tierIdx++}`;
-                lines.push(`  ${stageId}(["Stage ${tierIdx} (${chunk.length} jobs)"])`);
+                lines.push(`  ${stageId}(["Stage ${tierIdx} (${chunk.length} jobs)"]):::atlasStage`);
                 lines.push(`  ${prevGroupId} --> ${stageId}`);
                 for (const rj of chunk) {
                     lines.push(`  ${stageId} --> ${rj}`);
@@ -437,7 +443,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         }
 
         if (jobs.length > limitedJobs.length) {
-            lines.push(`  jobs_more["+${jobs.length - limitedJobs.length} more jobs"]`);
+            lines.push(`  jobs_more["+${jobs.length - limitedJobs.length} more jobs"]:::atlasMore`);
             lines.push(`  wf_trigger --> jobs_more`);
         }
 

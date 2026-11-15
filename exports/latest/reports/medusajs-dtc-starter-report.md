@@ -40,14 +40,21 @@ description: Arc42 and Pipeline report for medusajs/dtc-starter
 
 ```mermaid
 graph TD;
-    repo_root(["medusajs/dtc-starter (48 components)"])
-    dir_0_apps["apps (47)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["medusajs/dtc-starter (48 components)"]):::atlasRoot
+    dir_0_apps["apps (47)"]:::atlasCategory
     repo_root --> dir_0_apps
-    sub_0_0_storefront["storefront (44)"]
+    sub_0_0_storefront["storefront (44)"]:::atlasWorkflow
     dir_0_apps --> sub_0_0_storefront
-    sub_0_1_backend["backend (3)"]
+    sub_0_1_backend["backend (3)"]:::atlasWorkflow
     dir_0_apps --> sub_0_1_backend
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -168,8 +175,15 @@ graph TD;
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Update_Medusa_0["Update Medusa"]
     direction TB
-    0_update["update"]
+    0_update["update"]:::atlasJob
   end
 ```

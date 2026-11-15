@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for TryGhost/migrate
 
 ```mermaid
 graph TD;
-    repo_root(["TryGhost/migrate (40 components)"])
-    dir_0_packages["packages (39)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["TryGhost/migrate (40 components)"]):::atlasRoot
+    dir_0_packages["packages (39)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_listr_smart_renderer["listr-smart-renderer (1)"]
+    sub_0_0_listr_smart_renderer["listr-smart-renderer (1)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_listr_smart_renderer
-    sub_0_1_mg_assetscraper_db["mg-assetscraper-db (1)"]
+    sub_0_1_mg_assetscraper_db["mg-assetscraper-db (1)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_mg_assetscraper_db
-    sub_0_2_mg_beehiiv["mg-beehiiv (1)"]
+    sub_0_2_mg_beehiiv["mg-beehiiv (1)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_mg_beehiiv
-    sub_0_more["+36 more submodules (36)"]
+    sub_0_more["+36 more submodules (36)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -202,17 +209,24 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/migrate"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/migrate"]):::atlasRoot
   subgraph Publish_0["Publish"]
     direction TB
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
   end
   pipeline_root --> 0_publish
   subgraph Test_1["Test"]
     direction TB
-    1_lint["lint"]
-    1_build["build"]
-    1_required_checks_pass["required-checks-pass"]
+    1_lint["lint"]:::atlasJob
+    1_build["build"]:::atlasJob
+    1_required_checks_pass["required-checks-pass"]:::atlasJob
     1_build --> 1_required_checks_pass
     1_lint --> 1_required_checks_pass
   end

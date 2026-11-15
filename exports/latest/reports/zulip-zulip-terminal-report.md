@@ -54,12 +54,16 @@ description: Arc42 and Pipeline report for zulip/zulip-terminal
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_docker["docker"]
+        mod_docker["docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_Dockerfile_alpine["docker/Dockerfile.alpine"]
-        art_docker_Dockerfile_buster["docker/Dockerfile.buster"]
+        art_docker_Dockerfile_alpine["docker/Dockerfile.alpine"]:::atlasWorkflow
+        art_docker_Dockerfile_buster["docker/Dockerfile.buster"]:::atlasWorkflow
     end
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_alpine
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_buster
@@ -73,24 +77,31 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/zulip-terminal"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/zulip-terminal"]):::atlasRoot
   subgraph GitHub_CodeQL_0["GitHub CodeQL"]
     direction TB
-    0_analyse["analyse"]
+    0_analyse["analyse"]:::atlasJob
   end
   pipeline_root --> 0_analyse
   subgraph Linting___tests_1["Linting & tests"]
     direction TB
-    1_mypy["mypy"]
-    1_ruff["ruff"]
-    1_isort["isort"]
-    1_black["black"]
-    1_spellcheck["spellcheck"]
-    1_hotkeys["hotkeys"]
-    1_docstrings["docstrings"]
-    1_gitlint["gitlint"]
-    1_base_pytest["base_pytest"]
-    1_isolated_commits["isolated-commits"]
+    1_mypy["mypy"]:::atlasJob
+    1_ruff["ruff"]:::atlasJob
+    1_isort["isort"]:::atlasJob
+    1_black["black"]:::atlasJob
+    1_spellcheck["spellcheck"]:::atlasJob
+    1_hotkeys["hotkeys"]:::atlasJob
+    1_docstrings["docstrings"]:::atlasJob
+    1_gitlint["gitlint"]:::atlasJob
+    1_base_pytest["base_pytest"]:::atlasJob
+    1_isolated_commits["isolated-commits"]:::atlasJob
     1_mypy --> 1_isolated_commits
     1_ruff --> 1_isolated_commits
     1_isort --> 1_isolated_commits
@@ -100,9 +111,9 @@ graph TD;
     1_docstrings --> 1_isolated_commits
     1_base_pytest --> 1_isolated_commits
     1_gitlint --> 1_isolated_commits
-    1_pytest_on_other_platforms["pytest-on-other-platforms"]
+    1_pytest_on_other_platforms["pytest-on-other-platforms"]:::atlasJob
     1_isolated_commits --> 1_pytest_on_other_platforms
-    wf_entry_1(["Trigger: Linting & tests"])
+    wf_entry_1(["Trigger: Linting & tests"]):::atlasWorkflow
     wf_entry_1 --> 1_mypy
     wf_entry_1 --> 1_ruff
     wf_entry_1 --> 1_isort

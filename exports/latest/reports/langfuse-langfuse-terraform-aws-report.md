@@ -40,31 +40,38 @@ description: Arc42 and Pipeline report for langfuse/langfuse-terraform-aws
 
 ```mermaid
 graph TD;
-    agent_sandbox["agent_sandbox : module"]
-    ai_features["ai_features : module"]
-    clickhouse["clickhouse : module"]
-    code_based_eval_executor["code_based_eval_executor : module"]
-    efs["efs : module"]
-    eks["eks : module"]
-    ingress["ingress : module"]
-    langfuse["langfuse : module"]
-    locals["locals : module"]
-    outputs["outputs : module"]
-    postgresql["postgresql : module"]
-    redis["redis : module"]
-    s3["s3 : module"]
-    tls_certificate["tls-certificate : module"]
-    variables["variables : module"]
-    versions["versions : module"]
-    vpc["vpc : module"]
-    vpc_isolated_execution["vpc_isolated_execution : module"]
-    ci["ci : module"]
-    release["release : module"]
-    update_langfuse_versions["update-langfuse-versions : module"]
-    external_clickhouse["external-clickhouse : module"]
-    external_dns["external-dns : module"]
-    quickstart["quickstart : module"]
-    repo_root(["langfuse/langfuse-terraform-aws"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    agent_sandbox["agent_sandbox : module"]:::atlasJob
+    ai_features["ai_features : module"]:::atlasJob
+    clickhouse["clickhouse : module"]:::atlasJob
+    code_based_eval_executor["code_based_eval_executor : module"]:::atlasJob
+    efs["efs : module"]:::atlasJob
+    eks["eks : module"]:::atlasJob
+    ingress["ingress : module"]:::atlasJob
+    langfuse["langfuse : module"]:::atlasJob
+    locals["locals : module"]:::atlasJob
+    outputs["outputs : module"]:::atlasJob
+    postgresql["postgresql : module"]:::atlasJob
+    redis["redis : module"]:::atlasJob
+    s3["s3 : module"]:::atlasJob
+    tls_certificate["tls-certificate : module"]:::atlasJob
+    variables["variables : module"]:::atlasJob
+    versions["versions : module"]:::atlasJob
+    vpc["vpc : module"]:::atlasJob
+    vpc_isolated_execution["vpc_isolated_execution : module"]:::atlasJob
+    ci["ci : module"]:::atlasJob
+    release["release : module"]:::atlasJob
+    update_langfuse_versions["update-langfuse-versions : module"]:::atlasJob
+    external_clickhouse["external-clickhouse : module"]:::atlasJob
+    external_dns["external-dns : module"]:::atlasJob
+    quickstart["quickstart : module"]:::atlasJob
+    repo_root(["langfuse/langfuse-terraform-aws"]):::atlasRoot
     repo_root --> agent_sandbox
     repo_root --> ai_features
     repo_root --> ci
@@ -136,14 +143,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_variables_tf["variables.tf"]
+        art_variables_tf["variables.tf"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_update_langfuse_versions_yml_update["update-langfuse-versions.yml#update"]
+        job_update_langfuse_versions_yml_update["update-langfuse-versions.yml#update"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_update_langfuse_versions_yml_update -->|DEPLOYS_TO| env_kubernetes
     art_variables_tf -->|BUILT_BY| job_update_langfuse_versions_yml_update
@@ -157,24 +168,31 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-terraform-aws"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-terraform-aws"]):::atlasRoot
   subgraph CI_0["CI"]
     direction TB
-    0_fmt["fmt"]
-    0_discover["discover"]
-    0_validate["validate"]
+    0_fmt["fmt"]:::atlasJob
+    0_discover["discover"]:::atlasJob
+    0_validate["validate"]:::atlasJob
     0_discover --> 0_validate
   end
   pipeline_root --> 0_fmt
   subgraph Release_1["Release"]
     direction TB
-    1_prepare["prepare"]
-    1_release["release"]
+    1_prepare["prepare"]:::atlasJob
+    1_release["release"]:::atlasJob
   end
   pipeline_root --> 1_prepare
   subgraph Update_Langfuse_versions_2["Update Langfuse versions"]
     direction TB
-    2_update["update"]
+    2_update["update"]:::atlasJob
   end
   pipeline_root --> 2_update
 ```

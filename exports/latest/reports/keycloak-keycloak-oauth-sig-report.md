@@ -40,10 +40,17 @@ description: Arc42 and Pipeline report for keycloak/keycloak-oauth-sig
 
 ```mermaid
 graph TD;
-    main["main : module"]
-    config_override_example["config.override.example : module"]
-    config["config : module"]
-    docker_compose["docker-compose : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    main["main : module"]:::atlasJob
+    config_override_example["config.override.example : module"]:::atlasJob
+    config["config : module"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -124,40 +131,44 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_conformance_tests_env["conformance-tests-env"]
-        mod_conformance_tests_env_common_api_gateway_nginx["conformance-tests-env/common/api-gateway-nginx"]
-        mod_conformance_tests_env_common_load_balancer["conformance-tests-env/common/load-balancer"]
-        mod_conformance_tests_env_conformance_suite_conformance_suite["conformance-tests-env/conformance-suite/conformance-suite"]
-        mod_conformance_tests_env_conformance_suite_test_runner["conformance-tests-env/conformance-suite/test-runner"]
-        mod_conformance_tests_env_spec_entities_consent_server["conformance-tests-env/spec/entities/consent-server"]
-        mod_conformance_tests_env_spec_entities_dpop_proof_signature_verify_server["conformance-tests-env/spec/entities/dpop-proof-signature-verify-server"]
-        mod_conformance_tests_env_spec_entities_resource_server["conformance-tests-env/spec/entities/resource-server"]
-        mod_conformance_tests_env_test_target_keycloak_entities_auth_entity_server["conformance-tests-env/test-target/keycloak/entities/auth_entity_server"]
-        mod_conformance_tests_env_test_target_keycloak_entities_client_private_keys["conformance-tests-env/test-target/keycloak/entities/client_private_keys"]
-        mod_conformance_tests_env_test_target_keycloak_entities_oid4vc_crl_server["conformance-tests-env/test-target/keycloak/entities/oid4vc_crl_server"]
-        mod_conformance_tests_env_test_target_keycloak_keycloak["conformance-tests-env/test-target/keycloak/keycloak"]
-        mod_oid4vci_deployment["oid4vci-deployment"]
+        mod_conformance_tests_env["conformance-tests-env"]:::atlasCategory
+        mod_conformance_tests_env_common_api_gateway_nginx["conformance-tests-env/common/api-gateway-nginx"]:::atlasCategory
+        mod_conformance_tests_env_common_load_balancer["conformance-tests-env/common/load-balancer"]:::atlasCategory
+        mod_conformance_tests_env_conformance_suite_conformance_suite["conformance-tests-env/conformance-suite/conformance-suite"]:::atlasCategory
+        mod_conformance_tests_env_conformance_suite_test_runner["conformance-tests-env/conformance-suite/test-runner"]:::atlasCategory
+        mod_conformance_tests_env_spec_entities_consent_server["conformance-tests-env/spec/entities/consent-server"]:::atlasCategory
+        mod_conformance_tests_env_spec_entities_dpop_proof_signature_verify_server["conformance-tests-env/spec/entities/dpop-proof-signature-verify-server"]:::atlasCategory
+        mod_conformance_tests_env_spec_entities_resource_server["conformance-tests-env/spec/entities/resource-server"]:::atlasCategory
+        mod_conformance_tests_env_test_target_keycloak_entities_auth_entity_server["conformance-tests-env/test-target/keycloak/entities/auth_entity_server"]:::atlasCategory
+        mod_conformance_tests_env_test_target_keycloak_entities_client_private_keys["conformance-tests-env/test-target/keycloak/entities/client_private_keys"]:::atlasCategory
+        mod_conformance_tests_env_test_target_keycloak_entities_oid4vc_crl_server["conformance-tests-env/test-target/keycloak/entities/oid4vc_crl_server"]:::atlasCategory
+        mod_conformance_tests_env_test_target_keycloak_keycloak["conformance-tests-env/test-target/keycloak/keycloak"]:::atlasCategory
+        mod_oid4vci_deployment["oid4vci-deployment"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_conformance_tests_env_common_api_gateway_nginx_Dockerfile["conformance-tests-env/common/api-gateway-nginx/Dockerfile"]
-        art_conformance_tests_env_common_load_balancer_Dockerfile["conformance-tests-env/common/load-balancer/Dockerfile"]
-        art_conformance_tests_env_conformance_suite_conformance_suite_Dockerfile["conformance-tests-env/conformance-suite/conformance-suite/Dockerfile"]
-        art_conformance_tests_env_conformance_suite_test_runner_Dockerfile["conformance-tests-env/conformance-suite/test-runner/Dockerfile"]
-        art_conformance_tests_env_docker_compose_yml["conformance-tests-env/docker-compose.yml"]
-        art_conformance_tests_env_spec_entities_consent_server_Dockerfile["conformance-tests-env/spec/entities/consent-server/Dockerfile"]
-        art_conformance_tests_env_spec_entities_dpop_proof_signature_verify_server_Dockerfile["conformance-tests-env/spec/entities/dpop-proof-signature-verify-server/Dockerfile"]
-        art_conformance_tests_env_spec_entities_resource_server_Dockerfile["conformance-tests-env/spec/entities/resource-server/Dockerfile"]
-        art_conformance_tests_env_test_target_keycloak_entities_auth_entity_server_Dockerfile["conformance-tests-env/test-target/keycloak/entities/auth_entity_server/Dockerfile"]
-        art_conformance_tests_env_test_target_keycloak_entities_client_private_keys_Dockerfile["conformance-tests-env/test-target/keycloak/entities/client_private_keys/Dockerfile"]
-        art_conformance_tests_env_test_target_keycloak_entities_oid4vc_crl_server_Dockerfile["conformance-tests-env/test-target/keycloak/entities/oid4vc_crl_server/Dockerfile"]
-        art_conformance_tests_env_test_target_keycloak_keycloak_Dockerfile["conformance-tests-env/test-target/keycloak/keycloak/Dockerfile"]
-        art_oid4vci_deployment_Dockerfile["oid4vci-deployment/Dockerfile"]
-        art_oid4vci_deployment_Dockerfile_cli["oid4vci-deployment/Dockerfile.cli"]
-        art_oid4vci_deployment_docker_compose_yml["oid4vci-deployment/docker-compose.yml"]
+        art_conformance_tests_env_common_api_gateway_nginx_Dockerfile["conformance-tests-env/common/api-gateway-nginx/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_common_load_balancer_Dockerfile["conformance-tests-env/common/load-balancer/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_conformance_suite_conformance_suite_Dockerfile["conformance-tests-env/conformance-suite/conformance-suite/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_conformance_suite_test_runner_Dockerfile["conformance-tests-env/conformance-suite/test-runner/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_docker_compose_yml["conformance-tests-env/docker-compose.yml"]:::atlasWorkflow
+        art_conformance_tests_env_spec_entities_consent_server_Dockerfile["conformance-tests-env/spec/entities/consent-server/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_spec_entities_dpop_proof_signature_verify_server_Dockerfile["conformance-tests-env/spec/entities/dpop-proof-signature-verify-server/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_spec_entities_resource_server_Dockerfile["conformance-tests-env/spec/entities/resource-server/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_test_target_keycloak_entities_auth_entity_server_Dockerfile["conformance-tests-env/test-target/keycloak/entities/auth_entity_server/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_test_target_keycloak_entities_client_private_keys_Dockerfile["conformance-tests-env/test-target/keycloak/entities/client_private_keys/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_test_target_keycloak_entities_oid4vc_crl_server_Dockerfile["conformance-tests-env/test-target/keycloak/entities/oid4vc_crl_server/Dockerfile"]:::atlasWorkflow
+        art_conformance_tests_env_test_target_keycloak_keycloak_Dockerfile["conformance-tests-env/test-target/keycloak/keycloak/Dockerfile"]:::atlasWorkflow
+        art_oid4vci_deployment_Dockerfile["oid4vci-deployment/Dockerfile"]:::atlasWorkflow
+        art_oid4vci_deployment_Dockerfile_cli["oid4vci-deployment/Dockerfile.cli"]:::atlasWorkflow
+        art_oid4vci_deployment_docker_compose_yml["oid4vci-deployment/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_run_conformance_tests_yml_run_conformance_test["run-conformance-tests.yml#run-conformance-test"]
+        job_run_conformance_tests_yml_run_conformance_test["run-conformance-tests.yml#run-conformance-test"]:::atlasJob
     end
     mod_conformance_tests_env -->|BUILT_BY| job_run_conformance_tests_yml_run_conformance_test
     mod_conformance_tests_env -->|PACKAGED_BY| art_conformance_tests_env_docker_compose_yml
@@ -241,10 +252,17 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph run_conformance_tests_0["run-conformance-tests"]
     direction TB
-    0_run_conformance_test["run-conformance-test"]
-    0_evaluate_test_results["evaluate-test-results"]
+    0_run_conformance_test["run-conformance-test"]:::atlasJob
+    0_evaluate_test_results["evaluate-test-results"]:::atlasJob
     0_run_conformance_test --> 0_evaluate_test_results
   end
 ```

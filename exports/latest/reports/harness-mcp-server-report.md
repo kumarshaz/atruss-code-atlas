@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for harness/mcp-server
 
 ```mermaid
 graph TD;
-    harness_mcp_v2["harness-mcp-v2 : MODULE"]
-    StatusPill["StatusPill : UI_COMPONENT"]
-    Card["Card : UI_COMPONENT"]
-    ChartPanel["ChartPanel : UI_COMPONENT"]
-    Dashboard["Dashboard : UI_COMPONENT"]
-    ExecutionCard["ExecutionCard : UI_COMPONENT"]
-    ResultCard["ResultCard : UI_COMPONENT"]
-    GET_health["GET_health : API_ROUTE"]
-    POST_mcp["POST_mcp : API_ROUTE"]
-    GET_mcp["GET_mcp : API_ROUTE"]
-    DELETE_mcp["DELETE_mcp : API_ROUTE"]
-    HarnessClient["HarnessClient : SERVICE"]
-    GET__well_known_oauth_authorization_server["GET_.well-known_oauth-authorization-server : API_ROUTE"]
-    GET_oauth_authorize["GET_oauth_authorize : API_ROUTE"]
-    GET_oauth_upstream_callback["GET_oauth_upstream_callback : API_ROUTE"]
-    GET_oauth_harnessid_callback["GET_oauth_harnessid_callback : API_ROUTE"]
-    POST_oauth_token["POST_oauth_token : API_ROUTE"]
-    GET_probe["GET_probe : API_ROUTE"]
-    GET_trust_proxy["GET_trust proxy : API_ROUTE"]
-    repo_root(["harness/mcp-server"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    harness_mcp_v2["harness-mcp-v2 : MODULE"]:::atlasJob
+    StatusPill["StatusPill : UI_COMPONENT"]:::atlasJob
+    Card["Card : UI_COMPONENT"]:::atlasJob
+    ChartPanel["ChartPanel : UI_COMPONENT"]:::atlasJob
+    Dashboard["Dashboard : UI_COMPONENT"]:::atlasJob
+    ExecutionCard["ExecutionCard : UI_COMPONENT"]:::atlasJob
+    ResultCard["ResultCard : UI_COMPONENT"]:::atlasJob
+    GET_health["GET_health : API_ROUTE"]:::atlasJob
+    POST_mcp["POST_mcp : API_ROUTE"]:::atlasJob
+    GET_mcp["GET_mcp : API_ROUTE"]:::atlasJob
+    DELETE_mcp["DELETE_mcp : API_ROUTE"]:::atlasJob
+    HarnessClient["HarnessClient : SERVICE"]:::atlasJob
+    GET__well_known_oauth_authorization_server["GET_.well-known_oauth-authorization-server : API_ROUTE"]:::atlasJob
+    GET_oauth_authorize["GET_oauth_authorize : API_ROUTE"]:::atlasJob
+    GET_oauth_upstream_callback["GET_oauth_upstream_callback : API_ROUTE"]:::atlasJob
+    GET_oauth_harnessid_callback["GET_oauth_harnessid_callback : API_ROUTE"]:::atlasJob
+    POST_oauth_token["POST_oauth_token : API_ROUTE"]:::atlasJob
+    GET_probe["GET_probe : API_ROUTE"]:::atlasJob
+    GET_trust_proxy["GET_trust proxy : API_ROUTE"]:::atlasJob
+    repo_root(["harness/mcp-server"]):::atlasRoot
     repo_root --> Card
     repo_root --> ChartPanel
     repo_root --> DELETE_mcp
@@ -171,14 +178,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_407ede35_3553_4a95_87c3_653ba7015dbe["407ede35-3553-4a95-87c3-653ba7015dbe"]
+        mod_407ede35_3553_4a95_87c3_653ba7015dbe["407ede35-3553-4a95-87c3-653ba7015dbe"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_container_build["ci.yml#container-build"]
+        job_ci_yml_container_build["ci.yml#container-build"]:::atlasJob
     end
     mod_407ede35_3553_4a95_87c3_653ba7015dbe -->|BUILT_BY| job_ci_yml_container_build
     mod_407ede35_3553_4a95_87c3_653ba7015dbe -->|PACKAGED_BY| art_Dockerfile
@@ -194,19 +205,40 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["harness/mcp-server (4 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["harness/mcp-server (4 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_Sync_Entity_YAML_Schemas["Sync Entity YAML Schemas (1 jobs)"]
+  wf_2_Sync_Entity_YAML_Schemas["Sync Entity YAML Schemas (1 jobs)"]:::atlasWorkflow
   grp_0_Scheduled___Manual --> wf_2_Sync_Entity_YAML_Schemas
-  wf_3_Sync_Harness_Schemas["Sync Harness Schemas (1 jobs)"]
+  job_2_sync_entity_schemas["sync-entity-schemas"]:::atlasJob
+  wf_2_Sync_Entity_YAML_Schemas --> job_2_sync_entity_schemas
+  wf_3_Sync_Harness_Schemas["Sync Harness Schemas (1 jobs)"]:::atlasWorkflow
   grp_0_Scheduled___Manual --> wf_3_Sync_Harness_Schemas
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+  job_3_sync_schemas["sync-schemas"]:::atlasJob
+  wf_3_Sync_Harness_Schemas --> job_3_sync_schemas
+  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (3 jobs)"]
+  wf_0_CI["CI (3 jobs)"]:::atlasWorkflow
   grp_1_CI___Verification --> wf_0_CI
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  job_0_build_and_test["build-and-test"]:::atlasJob
+  job_0_smoke_test["smoke-test"]:::atlasJob
+  job_0_container_build["container-build"]:::atlasJob
+  wf_0_CI --> job_0_build_and_test
+  job_0_build_and_test --> job_0_smoke_test
+  wf_0_CI --> job_0_container_build
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  wf_1_Release["Release (2 jobs)"]
+  wf_1_Release["Release (2 jobs)"]:::atlasWorkflow
   grp_2_Release___Deploy --> wf_1_Release
+  job_1_release["release"]:::atlasJob
+  job_1_mcpb["mcpb"]:::atlasJob
+  wf_1_Release --> job_1_release
+  job_1_release --> job_1_mcpb
 ```

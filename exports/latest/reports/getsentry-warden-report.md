@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for getsentry/warden
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/warden (61 components)"])
-    dir_0_packages["packages (49)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/warden (61 components)"]):::atlasRoot
+    dir_0_packages["packages (49)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_warden_service["warden-service (37)"]
+    sub_0_0_warden_service["warden-service (37)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_warden_service
-    sub_0_1_evals["evals (8)"]
+    sub_0_1_evals["evals (8)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_evals
-    sub_0_2_warden["warden (2)"]
+    sub_0_2_warden["warden (2)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_warden
-    sub_0_more["+2 more submodules (2)"]
+    sub_0_more["+2 more submodules (2)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1_apps["apps (11)"]
+    dir_1_apps["apps (11)"]:::atlasCategory
     repo_root --> dir_1_apps
-    sub_1_0_warden_service_src["warden-service/src (9)"]
+    sub_1_0_warden_service_src["warden-service/src (9)"]:::atlasWorkflow
     dir_1_apps --> sub_1_0_warden_service_src
-    sub_1_1_warden_service["warden-service (1)"]
+    sub_1_1_warden_service["warden-service (1)"]:::atlasWorkflow
     dir_1_apps --> sub_1_1_warden_service
-    sub_1_2_warden_service_api["warden-service/api (1)"]
+    sub_1_2_warden_service_api["warden-service/api (1)"]:::atlasWorkflow
     dir_1_apps --> sub_1_2_warden_service_api
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -206,11 +213,15 @@ Showing top 60 representative components out of 61 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_warden["packages/warden"]
+        mod_packages_warden["packages/warden"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_build["ci.yml#build"]
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
     end
     mod_packages_warden -->|BUILT_BY| job_ci_yml_build
 ```
@@ -222,15 +233,56 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/warden (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/warden (8 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+  wf_0_Action_Bundle["Action Bundle (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Action_Bundle
+  job_0_build["build"]:::atlasJob
+  wf_0_Action_Bundle --> job_0_build
+  wf_1_CI["CI (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI
+  job_1_build["build"]:::atlasJob
+  wf_1_CI --> job_1_build
+  wf_4_Docs["Docs (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Docs
+  job_4_build["build"]:::atlasJob
+  wf_4_Docs --> job_4_build
+  wf_7_Warden["Warden (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Warden
+  job_7_review["review"]:::atlasJob
+  wf_7_Warden --> job_7_review
+  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_3_Commit_Action_Bundle["Commit Action Bundle (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_3_Commit_Action_Bundle
+  job_3_commit["commit"]:::atlasJob
+  wf_3_Commit_Action_Bundle --> job_3_commit
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+  wf_6_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_6_Release
+  job_6_release["release"]:::atlasJob
+  wf_6_Release --> job_6_release
+  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_5_Evals["Evals (2 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_5_Evals
+  job_5_should_run["should-run"]:::atlasJob
+  job_5_evals["evals"]:::atlasJob
+  wf_5_Evals --> job_5_should_run
+  job_5_should_run --> job_5_evals
+  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_2_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_2_CodeQL
+  job_2_analyze["analyze"]:::atlasJob
+  wf_2_CodeQL --> job_2_analyze
 ```

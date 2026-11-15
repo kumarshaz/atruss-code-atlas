@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-google-c
 
 ```mermaid
 graph TD;
-    fake_google["fake-google : MODULE"]
-    mattermost_plugin_google_calendar_e2e["mattermost-plugin-google-calendar-e2e : MODULE"]
-    webapp["webapp : MODULE"]
-    AttendeeSelector["AttendeeSelector : UI_COMPONENT"]
-    ChannelSelector["ChannelSelector : UI_COMPONENT"]
-    DateInput["DateInput : UI_COMPONENT"]
-    Setting["Setting : UI_COMPONENT"]
-    TimeSelector["TimeSelector : UI_COMPONENT"]
-    CreateEventForm["CreateEventForm : UI_COMPONENT"]
-    CreateEventModal["CreateEventModal : UI_COMPONENT"]
-    Z_INDEX_BACKDROP["Z_INDEX_BACKDROP : UI_COMPONENT"]
-    Z_INDEX_TOOLTIP["Z_INDEX_TOOLTIP : UI_COMPONENT"]
-    Z_INDEX_MENU_PORTAL["Z_INDEX_MENU_PORTAL : UI_COMPONENT"]
-    repo_root(["mattermost/mattermost-plugin-google-calendar"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    fake_google["fake-google : MODULE"]:::atlasJob
+    mattermost_plugin_google_calendar_e2e["mattermost-plugin-google-calendar-e2e : MODULE"]:::atlasJob
+    webapp["webapp : MODULE"]:::atlasJob
+    AttendeeSelector["AttendeeSelector : UI_COMPONENT"]:::atlasJob
+    ChannelSelector["ChannelSelector : UI_COMPONENT"]:::atlasJob
+    DateInput["DateInput : UI_COMPONENT"]:::atlasJob
+    Setting["Setting : UI_COMPONENT"]:::atlasJob
+    TimeSelector["TimeSelector : UI_COMPONENT"]:::atlasJob
+    CreateEventForm["CreateEventForm : UI_COMPONENT"]:::atlasJob
+    CreateEventModal["CreateEventModal : UI_COMPONENT"]:::atlasJob
+    Z_INDEX_BACKDROP["Z_INDEX_BACKDROP : UI_COMPONENT"]:::atlasJob
+    Z_INDEX_TOOLTIP["Z_INDEX_TOOLTIP : UI_COMPONENT"]:::atlasJob
+    Z_INDEX_MENU_PORTAL["Z_INDEX_MENU_PORTAL : UI_COMPONENT"]:::atlasJob
+    repo_root(["mattermost/mattermost-plugin-google-calendar"]):::atlasRoot
     repo_root --> AttendeeSelector
     repo_root --> DateInput
     repo_root --> Setting
@@ -146,21 +153,25 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_d2be28cb_9e48_4688_b7f0_ffeac550a650["d2be28cb-9e48-4688-b7f0-ffeac550a650"]
-        mod_e2e_playwright["e2e/playwright"]
-        mod_e2e_playwright_fake_google["e2e/playwright/fake-google"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_d2be28cb_9e48_4688_b7f0_ffeac550a650["d2be28cb-9e48-4688-b7f0-ffeac550a650"]:::atlasCategory
+        mod_e2e_playwright["e2e/playwright"]:::atlasCategory
+        mod_e2e_playwright_fake_google["e2e/playwright/fake-google"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
-        art_e2e_playwright_docker_compose_visual_yml["e2e/playwright/docker-compose.visual.yml"]
-        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_visual_yml["e2e/playwright/docker-compose.visual.yml"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_contract_drift_yml_check["e2e-contract-drift.yml#check"]
-        job_e2e_yml_fake_google["e2e.yml#fake-google"]
-        job_e2e_yml_visual["e2e.yml#visual"]
+        job_e2e_contract_drift_yml_check["e2e-contract-drift.yml#check"]:::atlasJob
+        job_e2e_yml_fake_google["e2e.yml#fake-google"]:::atlasJob
+        job_e2e_yml_visual["e2e.yml#visual"]:::atlasJob
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_d2be28cb_9e48_4688_b7f0_ffeac550a650 -->|BUILT_BY| job_e2e_yml_fake_google
@@ -198,22 +209,29 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-google-calendar"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-google-calendar"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
-    0_dist["dist"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
+    0_dist["dist"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph e2e_contract_drift_1["e2e-contract-drift"]
     direction TB
-    1_check["check"]
+    1_check["check"]:::atlasJob
   end
   pipeline_root --> 1_check
   subgraph e2e_2["e2e"]
     direction TB
-    2_fake_google["fake-google"]
-    2_visual["visual"]
+    2_fake_google["fake-google"]:::atlasJob
+    2_visual["visual"]:::atlasJob
   end
   pipeline_root --> 2_fake_google
 ```

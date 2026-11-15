@@ -40,18 +40,25 @@ description: Arc42 and Pipeline report for argoproj/rollouts-demo
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/rollouts-demo (43 components)"])
-    dir_0_examples["examples (41)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/rollouts-demo (43 components)"]):::atlasRoot
+    dir_0_examples["examples (41)"]:::atlasCategory
     repo_root --> dir_0_examples
-    sub_0_0_istio_subset["istio-subset (8)"]
+    sub_0_0_istio_subset["istio-subset (8)"]:::atlasWorkflow
     dir_0_examples --> sub_0_0_istio_subset
-    sub_0_1_istio["istio (7)"]
+    sub_0_1_istio["istio (7)"]:::atlasWorkflow
     dir_0_examples --> sub_0_1_istio
-    sub_0_2_blue_green["blue-green (6)"]
+    sub_0_2_blue_green["blue-green (6)"]:::atlasWorkflow
     dir_0_examples --> sub_0_2_blue_green
-    sub_0_more["+6 more submodules (20)"]
+    sub_0_more["+6 more submodules (20)"]:::atlasMore
     dir_0_examples --> sub_0_more
-    dir_1__root_["(root) (2)"]
+    dir_1__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -119,14 +126,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_14360f96_ff6a_4e38_a2c9_26945842b540["14360f96-ff6a-4e38-a2c9-26945842b540"]
-        mod_examples_base["examples/base"]
-        mod_load_tester["load-tester"]
+        mod_14360f96_ff6a_4e38_a2c9_26945842b540["14360f96-ff6a-4e38-a2c9-26945842b540"]:::atlasCategory
+        mod_examples_base["examples/base"]:::atlasCategory
+        mod_load_tester["load-tester"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_load_tester_Dockerfile["load-tester/Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_load_tester_Dockerfile["load-tester/Dockerfile"]:::atlasWorkflow
     end
     mod_14360f96_ff6a_4e38_a2c9_26945842b540 -->|PACKAGED_BY| art_Dockerfile
     mod_examples_base -->|PACKAGED_BY| art_load_tester_Dockerfile
@@ -142,5 +153,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

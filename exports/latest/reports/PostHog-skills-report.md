@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for PostHog/skills
 
 ```mermaid
 graph TD;
-    Vocabulary["Vocabulary : DATA_ACCESS_LAYER"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Vocabulary["Vocabulary : DATA_ACCESS_LAYER"]:::atlasJob
 ```
 
 ## Component Details
@@ -72,15 +79,22 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/skills"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/skills"]):::atlasRoot
   subgraph Generate_Marketplace_0["Generate Marketplace"]
     direction TB
-    0_generate_marketplace["generate-marketplace"]
+    0_generate_marketplace["generate-marketplace"]:::atlasJob
   end
   pipeline_root --> 0_generate_marketplace
   subgraph Sync_omnibus_skills_1["Sync omnibus skills"]
     direction TB
-    1_sync_omnibus["sync-omnibus"]
+    1_sync_omnibus["sync-omnibus"]:::atlasJob
   end
   pipeline_root --> 1_sync_omnibus
 ```

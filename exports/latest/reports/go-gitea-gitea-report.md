@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for go-gitea/gitea
 
 ```mermaid
 graph TD;
-    repo_root(["go-gitea/gitea (251 components)"])
-    dir_0_models["models (207)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["go-gitea/gitea (251 components)"]):::atlasRoot
+    dir_0_models["models (207)"]:::atlasCategory
     repo_root --> dir_0_models
-    sub_0_0_issues["issues (46)"]
+    sub_0_0_issues["issues (46)"]:::atlasWorkflow
     dir_0_models --> sub_0_0_issues
-    sub_0_1_migrations["migrations (39)"]
+    sub_0_1_migrations["migrations (39)"]:::atlasWorkflow
     dir_0_models --> sub_0_1_migrations
-    sub_0_2_db["db (25)"]
+    sub_0_2_db["db (25)"]:::atlasWorkflow
     dir_0_models --> sub_0_2_db
-    sub_0_more["+9 more submodules (97)"]
+    sub_0_more["+9 more submodules (97)"]:::atlasMore
     dir_0_models --> sub_0_more
-    dir_1_cmd["cmd (38)"]
+    dir_1_cmd["cmd (38)"]:::atlasCategory
     repo_root --> dir_1_cmd
-    dir_2_contrib["contrib (3)"]
+    dir_2_contrib["contrib (3)"]:::atlasCategory
     repo_root --> dir_2_contrib
-    dir_3__root_["(root) (2)"]
+    dir_3__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_web_src["web_src (1)"]
+    dir_4_web_src["web_src (1)"]:::atlasCategory
     repo_root --> dir_4_web_src
 ```
 
@@ -206,27 +213,31 @@ Showing top 60 representative components out of 251 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_e0014a75_1c46_462d_8ba8_af9a29fd2819["e0014a75-1c46-462d-8ba8-af9a29fd2819"]
+        mod_e0014a75_1c46_462d_8ba8_af9a29fd2819["e0014a75-1c46-462d-8ba8-af9a29fd2819"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_rootless["Dockerfile.rootless"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_rootless["Dockerfile.rootless"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pull_docker_dryrun_yml_rootless["pull-docker-dryrun.yml#rootless"]
-        job_release_nightly_yml_nightly_binary["release-nightly.yml#nightly-binary"]
-        job_release_nightly_yml_nightly_docker_rootful["release-nightly.yml#nightly-docker-rootful"]
-        job_release_nightly_yml_nightly_docker_rootless["release-nightly.yml#nightly-docker-rootless"]
-        job_release_tag_rc_yml_binary["release-tag-rc.yml#binary"]
-        job_release_tag_rc_yml_docker_rootful["release-tag-rc.yml#docker-rootful"]
-        job_release_tag_rc_yml_docker_rootless["release-tag-rc.yml#docker-rootless"]
-        job_release_tag_version_yml_binary["release-tag-version.yml#binary"]
-        job_release_tag_version_yml_docker_rootful["release-tag-version.yml#docker-rootful"]
-        job_release_tag_version_yml_docker_rootless["release-tag-version.yml#docker-rootless"]
+        job_pull_docker_dryrun_yml_rootless["pull-docker-dryrun.yml#rootless"]:::atlasJob
+        job_release_nightly_yml_nightly_binary["release-nightly.yml#nightly-binary"]:::atlasJob
+        job_release_nightly_yml_nightly_docker_rootful["release-nightly.yml#nightly-docker-rootful"]:::atlasJob
+        job_release_nightly_yml_nightly_docker_rootless["release-nightly.yml#nightly-docker-rootless"]:::atlasJob
+        job_release_tag_rc_yml_binary["release-tag-rc.yml#binary"]:::atlasJob
+        job_release_tag_rc_yml_docker_rootful["release-tag-rc.yml#docker-rootful"]:::atlasJob
+        job_release_tag_rc_yml_docker_rootless["release-tag-rc.yml#docker-rootless"]:::atlasJob
+        job_release_tag_version_yml_binary["release-tag-version.yml#binary"]:::atlasJob
+        job_release_tag_version_yml_docker_rootful["release-tag-version.yml#docker-rootful"]:::atlasJob
+        job_release_tag_version_yml_docker_rootless["release-tag-version.yml#docker-rootless"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_release_nightly_yml_nightly_binary -->|DEPLOYS_TO| env_aws
     job_release_tag_rc_yml_binary -->|DEPLOYS_TO| env_aws
@@ -280,15 +291,76 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["go-gitea/gitea (13 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 26 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["go-gitea/gitea (13 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 26 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]
+  wf_5_compliance["compliance (13 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_compliance
+  job_5_files_changed["files-changed"]:::atlasJob
+  job_5_lint_backend["lint-backend"]:::atlasJob
+  job_5_lint_templates["lint-templates"]:::atlasJob
+  wf_5_compliance --> job_5_files_changed
+  job_5_files_changed --> job_5_lint_backend
+  job_5_files_changed --> job_5_lint_templates
+  wf_6_db_tests["db-tests (7 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_db_tests
+  job_6_files_changed["files-changed"]:::atlasJob
+  job_6_test_pgsql["test-pgsql"]:::atlasJob
+  job_6_test_sqlite["test-sqlite"]:::atlasJob
+  wf_6_db_tests --> job_6_files_changed
+  job_6_files_changed --> job_6_test_pgsql
+  job_6_files_changed --> job_6_test_sqlite
+  wf_7_docker_dryrun["docker-dryrun (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_docker_dryrun
+  job_7_files_changed["files-changed"]:::atlasJob
+  job_7_regular["regular"]:::atlasJob
+  job_7_rootless["rootless"]:::atlasJob
+  wf_7_docker_dryrun --> job_7_files_changed
+  job_7_files_changed --> job_7_regular
+  job_7_files_changed --> job_7_rootless
+  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+  wf_10_release_nightly["release-nightly (3 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_10_release_nightly
+  job_10_nightly_binary["nightly-binary"]:::atlasJob
+  job_10_nightly_docker_rootful["nightly-docker-rootful"]:::atlasJob
+  job_10_nightly_docker_rootless["nightly-docker-rootless"]:::atlasJob
+  wf_10_release_nightly --> job_10_nightly_binary
+  wf_10_release_nightly --> job_10_nightly_docker_rootful
+  wf_10_release_nightly --> job_10_nightly_docker_rootless
+  wf_11_release_tag_rc["release-tag-rc (3 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_11_release_tag_rc
+  job_11_binary["binary"]:::atlasJob
+  job_11_docker_rootful["docker-rootful"]:::atlasJob
+  job_11_docker_rootless["docker-rootless"]:::atlasJob
+  wf_11_release_tag_rc --> job_11_binary
+  wf_11_release_tag_rc --> job_11_docker_rootful
+  wf_11_release_tag_rc --> job_11_docker_rootless
+  grp_2_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Automation___Other
-  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+  wf_3_disk_clean["disk-clean (1 jobs)"]:::atlasWorkflow
+  grp_2_Automation___Other --> wf_3_disk_clean
+  job_3_triage["triage"]:::atlasJob
+  wf_3_disk_clean --> job_3_triage
+  wf_4_files_changed["files-changed (1 jobs)"]:::atlasWorkflow
+  grp_2_Automation___Other --> wf_4_files_changed
+  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_cron_licenses["cron-licenses (1 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_0_cron_licenses
+  wf_2_cron_translations["cron-translations (2 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_2_cron_translations
+  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_1_cron_lock["cron-lock (1 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_1_cron_lock
+  wf_more["+3 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

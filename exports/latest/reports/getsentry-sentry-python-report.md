@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for getsentry/sentry-python
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-python (84 components)"])
-    dir_0_tests["tests (81)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-python (84 components)"]):::atlasRoot
+    dir_0_tests["tests (81)"]:::atlasCategory
     repo_root --> dir_0_tests
-    sub_0_0_integrations_sanic["integrations/sanic (11)"]
+    sub_0_0_integrations_sanic["integrations/sanic (11)"]:::atlasWorkflow
     dir_0_tests --> sub_0_0_integrations_sanic
-    sub_0_1_integrations_fastapi["integrations/fastapi (10)"]
+    sub_0_1_integrations_fastapi["integrations/fastapi (10)"]:::atlasWorkflow
     dir_0_tests --> sub_0_1_integrations_fastapi
-    sub_0_2_integrations_flask["integrations/flask (9)"]
+    sub_0_2_integrations_flask["integrations/flask (9)"]:::atlasWorkflow
     dir_0_tests --> sub_0_2_integrations_flask
-    sub_0_more["+13 more submodules (51)"]
+    sub_0_more["+13 more submodules (51)"]:::atlasMore
     dir_0_tests --> sub_0_more
-    dir_1_sentry_sdk["sentry_sdk (3)"]
+    dir_1_sentry_sdk["sentry_sdk (3)"]:::atlasCategory
     repo_root --> dir_1_sentry_sdk
 ```
 
@@ -189,55 +196,59 @@ Showing top 60 representative components out of 84 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_18511f1a_a8c9_425a_819d_2ad127c7da28["18511f1a-a8c9-425a-819d-2ad127c7da28"]
+        mod_18511f1a_a8c9_425a_819d_2ad127c7da28["18511f1a-a8c9-425a-819d-2ad127c7da28"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_changelog_preview_yml_changelog_preview["changelog-preview.yml#changelog-preview"]
-        job_ci_yml_build_lambda_layer["ci.yml#build_lambda_layer"]
-        job_ci_yml_docs["ci.yml#docs"]
-        job_ci_yml_lint["ci.yml#lint"]
-        job_enforce_license_compliance_yml_enforce_license_compliance["enforce-license-compliance.yml#enforce-license-compliance"]
-        job_release_comment_issues_yml_release_comment_issues["release-comment-issues.yml#release-comment-issues"]
-        job_release_yml_release["release.yml#release"]
-        job_test_integrations_agents_yml_test_agents["test-integrations-agents.yml#test-agents"]
-        job_test_integrations_ai_workflow_yml_test_ai_workflow["test-integrations-ai-workflow.yml#test-ai_workflow"]
-        job_test_integrations_ai_yml_test_ai["test-integrations-ai.yml#test-ai"]
-        job_test_integrations_cloud_yml_test_cloud["test-integrations-cloud.yml#test-cloud"]
-        job_test_integrations_common_yml_test_common["test-integrations-common.yml#test-common"]
-        job_test_integrations_dbs_yml_test_dbs["test-integrations-dbs.yml#test-dbs"]
-        job_test_integrations_flags_yml_test_flags["test-integrations-flags.yml#test-flags"]
-        job_test_integrations_gevent_yml_test_gevent["test-integrations-gevent.yml#test-gevent"]
-        job_test_integrations_graphql_yml_test_graphql["test-integrations-graphql.yml#test-graphql"]
-        job_test_integrations_mcp_yml_test_mcp["test-integrations-mcp.yml#test-mcp"]
-        job_test_integrations_misc_yml_test_misc["test-integrations-misc.yml#test-misc"]
-        job_test_integrations_network_yml_test_network["test-integrations-network.yml#test-network"]
-        job_test_integrations_tasks_yml_test_tasks["test-integrations-tasks.yml#test-tasks"]
-        job_test_integrations_web_1_yml_test_web_1["test-integrations-web-1.yml#test-web_1"]
-        job_test_integrations_web_2_yml_test_web_2["test-integrations-web-2.yml#test-web_2"]
-        job_test_yml_agents["test.yml#agents"]
-        job_test_yml_ai["test.yml#ai"]
-        job_test_yml_ai_workflow["test.yml#ai_workflow"]
-        job_test_yml_check_required["test.yml#check-required"]
-        job_test_yml_cloud["test.yml#cloud"]
-        job_test_yml_common["test.yml#common"]
-        job_test_yml_dbs["test.yml#dbs"]
-        job_test_yml_files_changed["test.yml#files-changed"]
-        job_test_yml_flags["test.yml#flags"]
-        job_test_yml_gevent["test.yml#gevent"]
-        job_test_yml_graphql["test.yml#graphql"]
-        job_test_yml_mcp["test.yml#mcp"]
-        job_test_yml_misc["test.yml#misc"]
-        job_test_yml_network["test.yml#network"]
-        job_test_yml_report["test.yml#report"]
-        job_test_yml_tasks["test.yml#tasks"]
-        job_test_yml_web_1["test.yml#web_1"]
-        job_test_yml_web_2["test.yml#web_2"]
-        job_update_tox_yml_update_tox["update-tox.yml#update-tox"]
-        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]
+        job_changelog_preview_yml_changelog_preview["changelog-preview.yml#changelog-preview"]:::atlasJob
+        job_ci_yml_build_lambda_layer["ci.yml#build_lambda_layer"]:::atlasJob
+        job_ci_yml_docs["ci.yml#docs"]:::atlasJob
+        job_ci_yml_lint["ci.yml#lint"]:::atlasJob
+        job_enforce_license_compliance_yml_enforce_license_compliance["enforce-license-compliance.yml#enforce-license-compliance"]:::atlasJob
+        job_release_comment_issues_yml_release_comment_issues["release-comment-issues.yml#release-comment-issues"]:::atlasJob
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_test_integrations_agents_yml_test_agents["test-integrations-agents.yml#test-agents"]:::atlasJob
+        job_test_integrations_ai_workflow_yml_test_ai_workflow["test-integrations-ai-workflow.yml#test-ai_workflow"]:::atlasJob
+        job_test_integrations_ai_yml_test_ai["test-integrations-ai.yml#test-ai"]:::atlasJob
+        job_test_integrations_cloud_yml_test_cloud["test-integrations-cloud.yml#test-cloud"]:::atlasJob
+        job_test_integrations_common_yml_test_common["test-integrations-common.yml#test-common"]:::atlasJob
+        job_test_integrations_dbs_yml_test_dbs["test-integrations-dbs.yml#test-dbs"]:::atlasJob
+        job_test_integrations_flags_yml_test_flags["test-integrations-flags.yml#test-flags"]:::atlasJob
+        job_test_integrations_gevent_yml_test_gevent["test-integrations-gevent.yml#test-gevent"]:::atlasJob
+        job_test_integrations_graphql_yml_test_graphql["test-integrations-graphql.yml#test-graphql"]:::atlasJob
+        job_test_integrations_mcp_yml_test_mcp["test-integrations-mcp.yml#test-mcp"]:::atlasJob
+        job_test_integrations_misc_yml_test_misc["test-integrations-misc.yml#test-misc"]:::atlasJob
+        job_test_integrations_network_yml_test_network["test-integrations-network.yml#test-network"]:::atlasJob
+        job_test_integrations_tasks_yml_test_tasks["test-integrations-tasks.yml#test-tasks"]:::atlasJob
+        job_test_integrations_web_1_yml_test_web_1["test-integrations-web-1.yml#test-web_1"]:::atlasJob
+        job_test_integrations_web_2_yml_test_web_2["test-integrations-web-2.yml#test-web_2"]:::atlasJob
+        job_test_yml_agents["test.yml#agents"]:::atlasJob
+        job_test_yml_ai["test.yml#ai"]:::atlasJob
+        job_test_yml_ai_workflow["test.yml#ai_workflow"]:::atlasJob
+        job_test_yml_check_required["test.yml#check-required"]:::atlasJob
+        job_test_yml_cloud["test.yml#cloud"]:::atlasJob
+        job_test_yml_common["test.yml#common"]:::atlasJob
+        job_test_yml_dbs["test.yml#dbs"]:::atlasJob
+        job_test_yml_files_changed["test.yml#files-changed"]:::atlasJob
+        job_test_yml_flags["test.yml#flags"]:::atlasJob
+        job_test_yml_gevent["test.yml#gevent"]:::atlasJob
+        job_test_yml_graphql["test.yml#graphql"]:::atlasJob
+        job_test_yml_mcp["test.yml#mcp"]:::atlasJob
+        job_test_yml_misc["test.yml#misc"]:::atlasJob
+        job_test_yml_network["test.yml#network"]:::atlasJob
+        job_test_yml_report["test.yml#report"]:::atlasJob
+        job_test_yml_tasks["test.yml#tasks"]:::atlasJob
+        job_test_yml_web_1["test.yml#web_1"]:::atlasJob
+        job_test_yml_web_2["test.yml#web_2"]:::atlasJob
+        job_update_tox_yml_update_tox["update-tox.yml#update-tox"]:::atlasJob
+        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_ci_yml_build_lambda_layer -->|DEPLOYS_TO| env_aws
     mod_18511f1a_a8c9_425a_819d_2ad127c7da28 -->|BUILT_BY| job_changelog_preview_yml_changelog_preview
@@ -330,11 +341,68 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-python (23 workflows)"])
-  grp_0_CI___Verification["CI & Verification (20 workflows · 39 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-python (23 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (20 workflows · 39 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_Changelog_Preview["Changelog Preview (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Changelog_Preview
+  job_0_changelog_preview["changelog-preview"]:::atlasJob
+  wf_0_Changelog_Preview --> job_0_changelog_preview
+  wf_1_CI["CI (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI
+  job_1_lint["lint"]:::atlasJob
+  job_1_build_lambda_layer["build_lambda_layer"]:::atlasJob
+  job_1_docs["docs"]:::atlasJob
+  wf_1_CI --> job_1_lint
+  wf_1_CI --> job_1_build_lambda_layer
+  wf_1_CI --> job_1_docs
+  wf_2_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Enforce_License_Compliance
+  job_2_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+  wf_2_Enforce_License_Compliance --> job_2_enforce_license_compliance
+  wf_5_Test_Agents["Test Agents (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Test_Agents
+  job_5_test_agents["test-agents"]:::atlasJob
+  wf_5_Test_Agents --> job_5_test_agents
+  wf_6_Test_AI_Workflow["Test AI Workflow (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Test_AI_Workflow
+  job_6_test_ai_workflow["test-ai_workflow"]:::atlasJob
+  wf_6_Test_AI_Workflow --> job_6_test_ai_workflow
+  wf_7_Test_AI["Test AI (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Test_AI
+  job_7_test_ai["test-ai"]:::atlasJob
+  wf_7_Test_AI --> job_7_test_ai
+  wf_20_Test["Test (18 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_20_Test
+  job_20_files_changed["files-changed"]:::atlasJob
+  job_20_common["common"]:::atlasJob
+  job_20_mcp["mcp"]:::atlasJob
+  wf_20_Test --> job_20_files_changed
+  job_20_files_changed --> job_20_common
+  job_20_files_changed --> job_20_mcp
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_3_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Automation__Notify_issues_for_release
+  job_3_release_comment_issues["release-comment-issues"]:::atlasJob
+  wf_3_Automation__Notify_issues_for_release --> job_3_release_comment_issues
+  wf_4_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Release
+  job_4_release["release"]:::atlasJob
+  wf_4_Release --> job_4_release
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_21_Update_test_matrix["Update test matrix (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_21_Update_test_matrix
+  job_21_update_tox["update-tox"]:::atlasJob
+  wf_21_Update_test_matrix --> job_21_update_tox
+  wf_more["+13 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

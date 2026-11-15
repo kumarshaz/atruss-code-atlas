@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for grafana/grafana-plugin-sdk-rust
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/grafana-plugin-sdk-rust (33 components)"])
-    dir_0_crates_grafana_plugin_sdk["crates/grafana-plugin-sdk (23)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/grafana-plugin-sdk-rust (33 components)"]):::atlasRoot
+    dir_0_crates_grafana_plugin_sdk["crates/grafana-plugin-sdk (23)"]:::atlasCategory
     repo_root --> dir_0_crates_grafana_plugin_sdk
-    sub_0_0_src["src (21)"]
+    sub_0_0_src["src (21)"]:::atlasWorkflow
     dir_0_crates_grafana_plugin_sdk --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_crates_grafana_plugin_sdk --> sub_0_1__module_root_
-    sub_0_2_examples["examples (1)"]
+    sub_0_2_examples["examples (1)"]:::atlasWorkflow
     dir_0_crates_grafana_plugin_sdk --> sub_0_2_examples
-    dir_1_crates_grafana_plugin_sdk_macros["crates/grafana-plugin-sdk-macros (10)"]
+    dir_1_crates_grafana_plugin_sdk_macros["crates/grafana-plugin-sdk-macros (10)"]:::atlasCategory
     repo_root --> dir_1_crates_grafana_plugin_sdk_macros
-    sub_1_0_tests["tests (9)"]
+    sub_1_0_tests["tests (9)"]:::atlasWorkflow
     dir_1_crates_grafana_plugin_sdk_macros --> sub_1_0_tests
-    sub_1_1_src["src (1)"]
+    sub_1_1_src["src (1)"]:::atlasWorkflow
     dir_1_crates_grafana_plugin_sdk_macros --> sub_1_1_src
 ```
 
@@ -156,20 +163,27 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-plugin-sdk-rust"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-plugin-sdk-rust"]):::atlasRoot
   subgraph Ensure_CHANGELOG_updated_0["Ensure CHANGELOG updated"]
     direction TB
-    0_changelog["changelog"]
+    0_changelog["changelog"]:::atlasJob
   end
   pipeline_root --> 0_changelog
   subgraph Rust_1["Rust"]
     direction TB
-    1_check["check"]
-    1_test["test"]
-    1_fmt["fmt"]
-    1_clippy["clippy"]
-    1_doc["doc"]
-    wf_entry_1(["Trigger: Rust"])
+    1_check["check"]:::atlasJob
+    1_test["test"]:::atlasJob
+    1_fmt["fmt"]:::atlasJob
+    1_clippy["clippy"]:::atlasJob
+    1_doc["doc"]:::atlasJob
+    wf_entry_1(["Trigger: Rust"]):::atlasWorkflow
     wf_entry_1 --> 1_check
     wf_entry_1 --> 1_test
     wf_entry_1 --> 1_fmt
@@ -179,7 +193,7 @@ graph TD;
   pipeline_root --> wf_entry_1
   subgraph rustdoc_2["rustdoc"]
     direction TB
-    2_rustdoc["rustdoc"]
+    2_rustdoc["rustdoc"]:::atlasJob
   end
   pipeline_root --> 2_rustdoc
 ```

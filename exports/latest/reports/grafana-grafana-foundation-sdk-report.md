@@ -41,16 +41,23 @@ description: Arc42 and Pipeline report for grafana/grafana-foundation-sdk
 
 ```mermaid
 graph TD;
-    runtime["runtime : module"]
-    variants["variants : module"]
-    main["main : module"]
-    custompanel["custompanel : module"]
-    customquery["customquery : module"]
-    common["common : module"]
-    discovery["discovery : module"]
-    overview["overview : module"]
-    retrieval["retrieval : module"]
-    repo_root(["grafana/grafana-foundation-sdk"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    runtime["runtime : module"]:::atlasJob
+    variants["variants : module"]:::atlasJob
+    main["main : module"]:::atlasJob
+    custompanel["custompanel : module"]:::atlasJob
+    customquery["customquery : module"]:::atlasJob
+    common["common : module"]:::atlasJob
+    discovery["discovery : module"]:::atlasJob
+    overview["overview : module"]:::atlasJob
+    retrieval["retrieval : module"]:::atlasJob
+    repo_root(["grafana/grafana-foundation-sdk"]):::atlasRoot
     repo_root --> common
     repo_root --> custompanel
     repo_root --> customquery
@@ -143,57 +150,61 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_examples_go_custom_panel["examples/go/custom-panel"]
-        mod_examples_go_custom_query["examples/go/custom-query"]
-        mod_examples_go_grafana_agent_overview["examples/go/grafana-agent-overview"]
-        mod_examples_go_linux_node_overview["examples/go/linux-node-overview"]
-        mod_examples_go_red_method["examples/go/red-method"]
-        mod_examples_java_custom_panel["examples/java/custom-panel"]
-        mod_examples_java_custom_query["examples/java/custom-query"]
-        mod_examples_java_grafana_agent_overview["examples/java/grafana-agent-overview"]
-        mod_examples_java_linux_node_overview["examples/java/linux-node-overview"]
-        mod_examples_java_red_method["examples/java/red-method"]
-        mod_examples_php_custom_panel["examples/php/custom-panel"]
-        mod_examples_php_custom_query["examples/php/custom-query"]
-        mod_examples_php_grafana_agent_overview["examples/php/grafana-agent-overview"]
-        mod_examples_php_linux_node_overview["examples/php/linux-node-overview"]
-        mod_examples_php_red_method["examples/php/red-method"]
-        mod_examples_pulumi_go["examples/pulumi/go"]
-        mod_examples_python_custom_panel["examples/python/custom-panel"]
-        mod_examples_python_custom_query["examples/python/custom-query"]
-        mod_examples_python_grafana_agent_overview["examples/python/grafana-agent-overview"]
-        mod_examples_python_linux_node_overview["examples/python/linux-node-overview"]
-        mod_examples_python_red_method["examples/python/red-method"]
-        mod_examples_typescript_custom_panel["examples/typescript/custom-panel"]
-        mod_examples_typescript_custom_query["examples/typescript/custom-query"]
-        mod_examples_typescript_grafana_agent_overview["examples/typescript/grafana-agent-overview"]
-        mod_examples_typescript_linux_node_overview["examples/typescript/linux-node-overview"]
-        mod_examples_typescript_red_method["examples/typescript/red-method"]
-        mod_go["go"]
-        mod_java["java"]
-        mod_python["python"]
-        mod_scripts_dashboard_converter["scripts/dashboard-converter"]
-        mod_typescript["typescript"]
+        mod_examples_go_custom_panel["examples/go/custom-panel"]:::atlasCategory
+        mod_examples_go_custom_query["examples/go/custom-query"]:::atlasCategory
+        mod_examples_go_grafana_agent_overview["examples/go/grafana-agent-overview"]:::atlasCategory
+        mod_examples_go_linux_node_overview["examples/go/linux-node-overview"]:::atlasCategory
+        mod_examples_go_red_method["examples/go/red-method"]:::atlasCategory
+        mod_examples_java_custom_panel["examples/java/custom-panel"]:::atlasCategory
+        mod_examples_java_custom_query["examples/java/custom-query"]:::atlasCategory
+        mod_examples_java_grafana_agent_overview["examples/java/grafana-agent-overview"]:::atlasCategory
+        mod_examples_java_linux_node_overview["examples/java/linux-node-overview"]:::atlasCategory
+        mod_examples_java_red_method["examples/java/red-method"]:::atlasCategory
+        mod_examples_php_custom_panel["examples/php/custom-panel"]:::atlasCategory
+        mod_examples_php_custom_query["examples/php/custom-query"]:::atlasCategory
+        mod_examples_php_grafana_agent_overview["examples/php/grafana-agent-overview"]:::atlasCategory
+        mod_examples_php_linux_node_overview["examples/php/linux-node-overview"]:::atlasCategory
+        mod_examples_php_red_method["examples/php/red-method"]:::atlasCategory
+        mod_examples_pulumi_go["examples/pulumi/go"]:::atlasCategory
+        mod_examples_python_custom_panel["examples/python/custom-panel"]:::atlasCategory
+        mod_examples_python_custom_query["examples/python/custom-query"]:::atlasCategory
+        mod_examples_python_grafana_agent_overview["examples/python/grafana-agent-overview"]:::atlasCategory
+        mod_examples_python_linux_node_overview["examples/python/linux-node-overview"]:::atlasCategory
+        mod_examples_python_red_method["examples/python/red-method"]:::atlasCategory
+        mod_examples_typescript_custom_panel["examples/typescript/custom-panel"]:::atlasCategory
+        mod_examples_typescript_custom_query["examples/typescript/custom-query"]:::atlasCategory
+        mod_examples_typescript_grafana_agent_overview["examples/typescript/grafana-agent-overview"]:::atlasCategory
+        mod_examples_typescript_linux_node_overview["examples/typescript/linux-node-overview"]:::atlasCategory
+        mod_examples_typescript_red_method["examples/typescript/red-method"]:::atlasCategory
+        mod_go["go"]:::atlasCategory
+        mod_java["java"]:::atlasCategory
+        mod_python["python"]:::atlasCategory
+        mod_scripts_dashboard_converter["scripts/dashboard-converter"]:::atlasCategory
+        mod_typescript["typescript"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_examples_terraform_dashboards_tf["examples/terraform/dashboards.tf"]
-        art_scripts_dashboard_converter_Dockerfile["scripts/dashboard-converter/Dockerfile"]
+        art_examples_terraform_dashboards_tf["examples/terraform/dashboards.tf"]:::atlasWorkflow
+        art_scripts_dashboard_converter_Dockerfile["scripts/dashboard-converter/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_dashboard_converter_yaml_build_and_export_digest["dashboard-converter.yaml#build-and-export-digest"]
-        job_dashboard_converter_yaml_test["dashboard-converter.yaml#test"]
-        job_docs_yaml_build["docs.yaml#build"]
-        job_docs_yaml_deploy["docs.yaml#deploy"]
-        job_java_release_yaml_release["java-release.yaml#release"]
-        job_python_release_yaml_release["python-release.yaml#release"]
-        job_sdk_ci_yaml_diff_preview["sdk-ci.yaml#diff_preview"]
-        job_typescript_release_yaml_release["typescript-release.yaml#release"]
+        job_dashboard_converter_yaml_build_and_export_digest["dashboard-converter.yaml#build-and-export-digest"]:::atlasJob
+        job_dashboard_converter_yaml_test["dashboard-converter.yaml#test"]:::atlasJob
+        job_docs_yaml_build["docs.yaml#build"]:::atlasJob
+        job_docs_yaml_deploy["docs.yaml#deploy"]:::atlasJob
+        job_java_release_yaml_release["java-release.yaml#release"]:::atlasJob
+        job_python_release_yaml_release["python-release.yaml#release"]:::atlasJob
+        job_sdk_ci_yaml_diff_preview["sdk-ci.yaml#diff_preview"]:::atlasJob
+        job_typescript_release_yaml_release["typescript-release.yaml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
-        env_pypi["pypi"]
-        env_typescript["typescript"]
+        env_github_pages["github-pages"]:::atlasTarget
+        env_pypi["pypi"]:::atlasTarget
+        env_typescript["typescript"]:::atlasTarget
     end
     job_docs_yaml_build -->|DEPLOYS_TO| env_github_pages
     job_docs_yaml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -284,11 +295,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-foundation-sdk (8 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (5 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-foundation-sdk (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (5 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]
+  wf_1_Publish_documentation["Publish documentation (2 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_1_Publish_documentation
+  job_1_build["build"]:::atlasJob
+  job_1_deploy["deploy"]:::atlasJob
+  wf_1_Publish_documentation --> job_1_build
+  job_1_build --> job_1_deploy
+  wf_2_Java_Release["Java Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_2_Java_Release
+  job_2_release["release"]:::atlasJob
+  wf_2_Java_Release --> job_2_release
+  wf_3_Python_Release["Python Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_Python_Release
+  job_3_release["release"]:::atlasJob
+  wf_3_Python_Release --> job_3_release
+  wf_4_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Release
+  job_4_release["release"]:::atlasJob
+  wf_4_Release --> job_4_release
+  wf_6_TypeScript_Release["TypeScript Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_6_TypeScript_Release
+  job_6_release["release"]:::atlasJob
+  wf_6_TypeScript_Release --> job_6_release
+  grp_1_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_0_Dashboard_Converter["Dashboard Converter (4 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Dashboard_Converter
+  job_0_test["test"]:::atlasJob
+  job_0_version["version"]:::atlasJob
+  job_0_build_and_export_digest["build-and-export-digest"]:::atlasJob
+  wf_0_Dashboard_Converter --> job_0_test
+  wf_0_Dashboard_Converter --> job_0_version
+  job_0_version --> job_0_build_and_export_digest
+  wf_5_SDK_CI["SDK CI (3 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_5_SDK_CI
+  job_5_run_codegen["run_codegen"]:::atlasJob
+  job_5_run_examples["run_examples"]:::atlasJob
+  job_5_diff_preview["diff_preview"]:::atlasJob
+  wf_5_SDK_CI --> job_5_run_codegen
+  wf_5_SDK_CI --> job_5_run_examples
+  wf_5_SDK_CI --> job_5_diff_preview
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_7_Schema_updates["Schema updates (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_7_Schema_updates
+  job_7_schema_updates["schema_updates"]:::atlasJob
+  wf_7_Schema_updates --> job_7_schema_updates
 ```

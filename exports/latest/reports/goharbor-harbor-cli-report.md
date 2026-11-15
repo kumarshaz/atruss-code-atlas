@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for goharbor/harbor-cli
 
 ```mermaid
 graph TD;
-    repo_root(["goharbor/harbor-cli (254 components)"])
-    dir_0_cmd["cmd (186)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["goharbor/harbor-cli (254 components)"]):::atlasRoot
+    dir_0_cmd["cmd (186)"]:::atlasCategory
     repo_root --> dir_0_cmd
-    sub_0_0_harbor_root["harbor/root (184)"]
+    sub_0_0_harbor_root["harbor/root (184)"]:::atlasWorkflow
     dir_0_cmd --> sub_0_0_harbor_root
-    sub_0_1_harbor["harbor (1)"]
+    sub_0_1_harbor["harbor (1)"]:::atlasWorkflow
     dir_0_cmd --> sub_0_1_harbor
-    sub_0_2_harbor_internal["harbor/internal (1)"]
+    sub_0_2_harbor_internal["harbor/internal (1)"]:::atlasWorkflow
     dir_0_cmd --> sub_0_2_harbor_internal
-    dir_1_pkg["pkg (45)"]
+    dir_1_pkg["pkg (45)"]:::atlasCategory
     repo_root --> dir_1_pkg
-    sub_1_0_api["api (32)"]
+    sub_1_0_api["api (32)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_0_api
-    sub_1_1_config["config (3)"]
+    sub_1_1_config["config (3)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_1_config
-    sub_1_2_errors["errors (3)"]
+    sub_1_2_errors["errors (3)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_2_errors
-    sub_1_more["+5 more submodules (7)"]
+    sub_1_more["+5 more submodules (7)"]:::atlasMore
     dir_1_pkg --> sub_1_more
-    dir_2__dagger[".dagger (16)"]
+    dir_2__dagger[".dagger (16)"]:::atlasCategory
     repo_root --> dir_2__dagger
-    dir_3_test["test (4)"]
+    dir_3_test["test (4)"]:::atlasCategory
     repo_root --> dir_3_test
-    dir_4_doc["doc (3)"]
+    dir_4_doc["doc (3)"]:::atlasCategory
     repo_root --> dir_4_doc
 ```
 
@@ -195,14 +202,18 @@ Showing top 60 representative components out of 254 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_test_harbor["test/harbor"]
+        mod_test_harbor["test/harbor"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_test_harbor_docker_compose_yaml["test/harbor/docker-compose.yaml"]
+        art_test_harbor_docker_compose_yaml["test/harbor/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_default_yaml_e2e_test["default.yaml#e2e-test"]
+        job_default_yaml_e2e_test["default.yaml#e2e-test"]:::atlasJob
     end
     mod_test_harbor -->|BUILT_BY| job_default_yaml_e2e_test
     mod_test_harbor -->|PACKAGED_BY| art_test_harbor_docker_compose_yaml
@@ -218,20 +229,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/harbor-cli"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/harbor-cli"]):::atlasRoot
   subgraph Main_and_Pull_Request_Pipeline_0["Main and Pull Request Pipeline"]
     direction TB
-    0_lint["lint"]
-    0_vulnerability_check["vulnerability-check"]
-    0_test_code["test-code"]
-    0_e2e_test["e2e-test"]
-    0_push_latest_images["push-latest-images"]
+    0_lint["lint"]:::atlasJob
+    0_vulnerability_check["vulnerability-check"]:::atlasJob
+    0_test_code["test-code"]:::atlasJob
+    0_e2e_test["e2e-test"]:::atlasJob
+    0_push_latest_images["push-latest-images"]:::atlasJob
     0_lint --> 0_push_latest_images
     0_test_code --> 0_push_latest_images
-    0_publish_release["publish-release"]
+    0_publish_release["publish-release"]:::atlasJob
     0_lint --> 0_publish_release
     0_test_code --> 0_publish_release
-    wf_entry_0(["Trigger: Main and Pull Request Pipeline"])
+    wf_entry_0(["Trigger: Main and Pull Request Pipeline"]):::atlasWorkflow
     wf_entry_0 --> 0_lint
     wf_entry_0 --> 0_vulnerability_check
     wf_entry_0 --> 0_test_code
@@ -240,7 +258,7 @@ graph TD;
   pipeline_root --> wf_entry_0
   subgraph Pages_Rebuild_1["Pages Rebuild"]
     direction TB
-    1_build_pages["build-pages"]
+    1_build_pages["build-pages"]:::atlasJob
   end
   pipeline_root --> 1_build_pages
 ```

@@ -48,19 +48,36 @@ description: Arc42 and Pipeline report for nextcloud/viewer
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/viewer (4 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/viewer (4 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_Update_workflows["Update workflows (1 jobs)"]
+  wf_2_Update_workflows["Update workflows (1 jobs)"]:::atlasWorkflow
   grp_0_Scheduled___Manual --> wf_2_Update_workflows
-  wf_3_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]
+  job_2_dispatch["dispatch"]:::atlasJob
+  wf_2_Update_workflows --> job_2_dispatch
+  wf_3_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]:::atlasWorkflow
   grp_0_Scheduled___Manual --> wf_3_Update_nextcloud_ocp
-  grp_1_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+  job_3_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
+  wf_3_Update_nextcloud_ocp --> job_3_update_nextcloud_ocp
+  grp_1_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  wf_0_Compile_Command["Compile Command (2 jobs)"]
+  wf_0_Compile_Command["Compile Command (2 jobs)"]:::atlasWorkflow
   grp_1_Automation___Other --> wf_0_Compile_Command
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  job_0_init["init"]:::atlasJob
+  job_0_process["process"]:::atlasJob
+  wf_0_Compile_Command --> job_0_init
+  job_0_init --> job_0_process
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  wf_1_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]
+  wf_1_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]:::atlasWorkflow
   grp_2_Security___Governance --> wf_1_Npm_audit_fix_and_compile
+  job_1_build["build"]:::atlasJob
+  wf_1_Npm_audit_fix_and_compile --> job_1_build
 ```

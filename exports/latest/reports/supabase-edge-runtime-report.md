@@ -41,34 +41,41 @@ description: Arc42 and Pipeline report for supabase/edge-runtime
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/edge-runtime (131 components)"])
-    dir_0_deno["deno (59)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/edge-runtime (131 components)"]):::atlasRoot
+    dir_0_deno["deno (59)"]:::atlasCategory
     repo_root --> dir_0_deno
-    sub_0_0_cache["cache (13)"]
+    sub_0_0_cache["cache (13)"]:::atlasWorkflow
     dir_0_deno --> sub_0_0_cache
-    sub_0_1__module_root_["(module root) (12)"]
+    sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
     dir_0_deno --> sub_0_1__module_root_
-    sub_0_2_util["util (12)"]
+    sub_0_2_util["util (12)"]:::atlasWorkflow
     dir_0_deno --> sub_0_2_util
-    sub_0_more["+5 more submodules (22)"]
+    sub_0_more["+5 more submodules (22)"]:::atlasMore
     dir_0_deno --> sub_0_more
-    dir_1_crates["crates (58)"]
+    dir_1_crates["crates (58)"]:::atlasCategory
     repo_root --> dir_1_crates
-    sub_1_0_base["base (19)"]
+    sub_1_0_base["base (19)"]:::atlasWorkflow
     dir_1_crates --> sub_1_0_base
-    sub_1_1_deno_facade["deno_facade (16)"]
+    sub_1_1_deno_facade["deno_facade (16)"]:::atlasWorkflow
     dir_1_crates --> sub_1_1_deno_facade
-    sub_1_2_fs["fs (11)"]
+    sub_1_2_fs["fs (11)"]:::atlasWorkflow
     dir_1_crates --> sub_1_2_fs
-    sub_1_more["+5 more submodules (12)"]
+    sub_1_more["+5 more submodules (12)"]:::atlasMore
     dir_1_crates --> sub_1_more
-    dir_2_examples["examples (7)"]
+    dir_2_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_2_examples
-    dir_3_cli["cli (5)"]
+    dir_3_cli["cli (5)"]:::atlasCategory
     repo_root --> dir_3_cli
-    dir_4_ext["ext (1)"]
+    dir_4_ext["ext (1)"]:::atlasCategory
     repo_root --> dir_4_ext
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -233,24 +240,28 @@ Showing top 60 representative components out of 131 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_106e1153_bc45_42e2_b80d_c29bf4bc5127["106e1153-bc45-42e2-b80d-c29bf4bc5127"]
-        mod_cli["cli"]
-        mod_crates_base["crates/base"]
-        mod_crates_base_test_cases_commonjs_workspace_cat["crates/base/test_cases/commonjs-workspace/cat"]
-        mod_crates_fs["crates/fs"]
-        mod_deno["deno"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_106e1153_bc45_42e2_b80d_c29bf4bc5127["106e1153-bc45-42e2-b80d-c29bf4bc5127"]:::atlasCategory
+        mod_cli["cli"]:::atlasCategory
+        mod_crates_base["crates/base"]:::atlasCategory
+        mod_crates_base_test_cases_commonjs_workspace_cat["crates/base/test_cases/commonjs-workspace/cat"]:::atlasCategory
+        mod_crates_fs["crates/fs"]:::atlasCategory
+        mod_deno["deno"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_cargo_clippy["ci.yml#cargo-clippy"]
-        job_ci_yml_cargo_fmt["ci.yml#cargo-fmt"]
-        job_ci_yml_cargo_test["ci.yml#cargo-test"]
-        job_release_yml_publish_arm["release.yml#publish_arm"]
+        job_ci_yml_cargo_clippy["ci.yml#cargo-clippy"]:::atlasJob
+        job_ci_yml_cargo_fmt["ci.yml#cargo-fmt"]:::atlasJob
+        job_ci_yml_cargo_test["ci.yml#cargo-test"]:::atlasJob
+        job_release_yml_publish_arm["release.yml#publish_arm"]:::atlasJob
     end
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
     mod_106e1153_bc45_42e2_b80d_c29bf4bc5127 -->|DEPLOYED_BY| job_release_yml_publish_arm
@@ -280,11 +291,52 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/edge-runtime (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/edge-runtime (6 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]
+  wf_0_CI["CI (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_CI
+  job_0_cargo_fmt["cargo-fmt"]:::atlasJob
+  job_0_cargo_clippy["cargo-clippy"]:::atlasJob
+  job_0_cargo_test["cargo-test"]:::atlasJob
+  wf_0_CI --> job_0_cargo_fmt
+  wf_0_CI --> job_0_cargo_clippy
+  wf_0_CI --> job_0_cargo_test
+  wf_1_Integration_Postgres["Integration Postgres (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Integration_Postgres
+  job_1_test["test"]:::atlasJob
+  wf_1_Integration_Postgres --> job_1_test
+  wf_2_Mirror_Image["Mirror Image (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_Mirror_Image
+  job_2_mirror["mirror"]:::atlasJob
+  wf_2_Mirror_Image --> job_2_mirror
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_3_Release_Native["Release Native (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Release_Native
+  job_3_build["build"]:::atlasJob
+  job_3_release["release"]:::atlasJob
+  wf_3_Release_Native --> job_3_build
+  job_3_build --> job_3_release
+  wf_4_Release["Release (5 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Release
+  job_4_release["release"]:::atlasJob
+  job_4_publish_x86["publish_x86"]:::atlasJob
+  job_4_publish_arm["publish_arm"]:::atlasJob
+  wf_4_Release --> job_4_release
+  job_4_release --> job_4_publish_x86
+  job_4_release --> job_4_publish_arm
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_5_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_5_Close_stale_issues_and_PRs
+  job_5_stale["stale"]:::atlasJob
+  wf_5_Close_stale_issues_and_PRs --> job_5_stale
 ```

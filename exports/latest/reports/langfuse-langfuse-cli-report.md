@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for langfuse/langfuse-cli
 
 ```mermaid
 graph TD;
-    _langfuse_cli["@langfuse/cli : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _langfuse_cli["@langfuse/cli : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -87,20 +94,24 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_348a47bb_7e01_46c8_8577_53d321087830["348a47bb-7e01-46c8-8577-53d321087830"]
+        mod_348a47bb_7e01_46c8_8577_53d321087830["348a47bb-7e01-46c8-8577-53d321087830"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_beta_release_yml_beta_version["beta-release.yml#beta-version"]
-        job_beta_release_yml_preparation["beta-release.yml#preparation"]
-        job_beta_release_yml_publish["beta-release.yml#publish"]
-        job_ci_yml_conformance["ci.yml#conformance"]
-        job_release_yml_publish["release.yml#publish"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_beta_release_yml_beta_version["beta-release.yml#beta-version"]:::atlasJob
+        job_beta_release_yml_preparation["beta-release.yml#preparation"]:::atlasJob
+        job_beta_release_yml_publish["beta-release.yml#publish"]:::atlasJob
+        job_ci_yml_conformance["ci.yml#conformance"]:::atlasJob
+        job_release_yml_publish["release.yml#publish"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_npm_publish["npm-publish"]
-        env_npm_publish_beta["npm-publish-beta"]
+        env_npm_publish["npm-publish"]:::atlasTarget
+        env_npm_publish_beta["npm-publish-beta"]:::atlasTarget
     end
     job_beta_release_yml_publish -->|DEPLOYS_TO| env_npm_publish_beta
     job_release_yml_publish -->|DEPLOYS_TO| env_npm_publish
@@ -126,17 +137,36 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-cli (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-cli (4 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  wf_0_Beta_release["Beta release (3 jobs)"]
+  wf_0_Beta_release["Beta release (3 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_0_Beta_release
-  wf_2_Release["Release (1 jobs)"]
+  job_0_beta_version["beta-version"]:::atlasJob
+  job_0_preparation["preparation"]:::atlasJob
+  job_0_publish["publish"]:::atlasJob
+  wf_0_Beta_release --> job_0_beta_version
+  job_0_beta_version --> job_0_preparation
+  job_0_preparation --> job_0_publish
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_2_Release
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  job_2_publish["publish"]:::atlasJob
+  wf_2_Release --> job_2_publish
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_CI["CI (1 jobs)"]
+  wf_1_CI["CI (1 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_1_CI
-  wf_3_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+  job_1_conformance["conformance"]:::atlasJob
+  wf_1_CI --> job_1_conformance
+  wf_3_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_3_Check_GitHub_Actions
+  job_3_zizmor["zizmor"]:::atlasJob
+  wf_3_Check_GitHub_Actions --> job_3_zizmor
 ```

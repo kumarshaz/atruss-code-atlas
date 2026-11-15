@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for bitwarden/passwordless-server
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/passwordless-server (83 components)"])
-    dir_0_src["src (72)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/passwordless-server (83 components)"]):::atlasRoot
+    dir_0_src["src (72)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_Api["Api (29)"]
+    sub_0_0_Api["Api (29)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_Api
-    sub_0_1_AdminConsole["AdminConsole (27)"]
+    sub_0_1_AdminConsole["AdminConsole (27)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_AdminConsole
-    sub_0_2_Service["Service (13)"]
+    sub_0_2_Service["Service (13)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_Service
-    sub_0_more["+1 more submodules (3)"]
+    sub_0_more["+1 more submodules (3)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_tests["tests (8)"]
+    dir_1_tests["tests (8)"]:::atlasCategory
     repo_root --> dir_1_tests
-    dir_2_self_host["self-host (3)"]
+    dir_2_self_host["self-host (3)"]:::atlasCategory
     repo_root --> dir_2_self_host
     sub_0_0_Api -.->|"29 deps"| sub_0_2_Service
     sub_0_0_Api -.->|"19 deps"| sub_0_1_AdminConsole
@@ -216,24 +223,28 @@ Showing top 60 representative components out of 83 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_d997ee34_2c26_479f_a648_3e93d9831c09["d997ee34-2c26-479f-a648-3e93d9831c09"]
-        mod_self_host["self-host"]
-        mod_self_host_examples_traefik_simple_example["self-host/examples/traefik/simple-example"]
-        mod_src_AdminConsole["src/AdminConsole"]
-        mod_src_Api["src/Api"]
-        mod_src_Common["src/Common"]
-        mod_src_Service["src/Service"]
+        mod_d997ee34_2c26_479f_a648_3e93d9831c09["d997ee34-2c26-479f-a648-3e93d9831c09"]:::atlasCategory
+        mod_self_host["self-host"]:::atlasCategory
+        mod_self_host_examples_traefik_simple_example["self-host/examples/traefik/simple-example"]:::atlasCategory
+        mod_src_AdminConsole["src/AdminConsole"]:::atlasCategory
+        mod_src_Api["src/Api"]:::atlasCategory
+        mod_src_Common["src/Common"]:::atlasCategory
+        mod_src_Service["src/Service"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_____matrix_dockerfile___["${{ matrix.dockerfile }}"]
-        art_self_host_Dockerfile["self-host/Dockerfile"]
-        art_self_host_docker_compose_yml["self-host/docker-compose.yml"]
-        art_self_host_examples_traefik_simple_example_docker_compose_yml["self-host/examples/traefik/simple-example/docker-compose.yml"]
+        art_____matrix_dockerfile___["${{ matrix.dockerfile }}"]:::atlasWorkflow
+        art_self_host_Dockerfile["self-host/Dockerfile"]:::atlasWorkflow
+        art_self_host_docker_compose_yml["self-host/docker-compose.yml"]:::atlasWorkflow
+        art_self_host_examples_traefik_simple_example_docker_compose_yml["self-host/examples/traefik/simple-example/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_docker_yml_deploy["docker.yml#deploy"]
-        job_docker_yml_pack["docker.yml#pack"]
+        job_docker_yml_deploy["docker.yml#deploy"]:::atlasJob
+        job_docker_yml_pack["docker.yml#pack"]:::atlasJob
     end
     mod_d997ee34_2c26_479f_a648_3e93d9831c09 -->|BUILT_BY| job_docker_yml_pack
     mod_d997ee34_2c26_479f_a648_3e93d9831c09 -->|DEPLOYED_BY| job_docker_yml_deploy
@@ -265,11 +276,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/passwordless-server (8 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (4 workflows · 12 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/passwordless-server (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (4 workflows · 12 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_Automation___Other["Automation & Other (2 workflows · 3 jobs)"]
+  wf_0_Request_Deploy["Request Deploy (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_0_Request_Deploy
+  job_0_request_deploy["request-deploy"]:::atlasJob
+  wf_0_Request_Deploy --> job_0_request_deploy
+  wf_3_CI["CI (6 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_CI
+  job_3_version["version"]:::atlasJob
+  job_3_validate["validate"]:::atlasJob
+  job_3_pack["pack"]:::atlasJob
+  wf_3_CI --> job_3_version
+  wf_3_CI --> job_3_validate
+  job_3_version --> job_3_pack
+  wf_4_Docker["Docker (4 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Docker
+  job_4_version["version"]:::atlasJob
+  job_4_validate["validate"]:::atlasJob
+  job_4_pack["pack"]:::atlasJob
+  wf_4_Docker --> job_4_version
+  wf_4_Docker --> job_4_validate
+  job_4_version --> job_4_pack
+  wf_5_Migrations["Migrations (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_5_Migrations
+  job_5_script["script"]:::atlasJob
+  wf_5_Migrations --> job_5_script
+  grp_1_Automation___Other["Automation & Other (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  wf_1_Validate["Validate (2 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_1_Validate
+  job_1_format["format"]:::atlasJob
+  job_1_test["test"]:::atlasJob
+  wf_1_Validate --> job_1_format
+  wf_1_Validate --> job_1_test
+  wf_2_Determine_Version["Determine Version (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_2_Determine_Version
+  job_2_version["version"]:::atlasJob
+  wf_2_Determine_Version --> job_2_version
+  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
+  wf_6_Respond["Respond (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_6_Respond
+  job_6_respond["respond"]:::atlasJob
+  wf_6_Respond --> job_6_respond
+  wf_7_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_7_Code_Review
+  job_7_review["review"]:::atlasJob
+  wf_7_Code_Review --> job_7_review
 ```

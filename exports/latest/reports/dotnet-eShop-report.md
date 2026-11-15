@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for dotnet/eShop
 
 ```mermaid
 graph TD;
-    repo_root(["dotnet/eShop (124 components)"])
-    dir_0_src["src (111)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["dotnet/eShop (124 components)"]):::atlasRoot
+    dir_0_src["src (111)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_Ordering_API["Ordering.API (31)"]
+    sub_0_0_Ordering_API["Ordering.API (31)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_Ordering_API
-    sub_0_1_ClientApp["ClientApp (16)"]
+    sub_0_1_ClientApp["ClientApp (16)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_ClientApp
-    sub_0_2_Identity_API["Identity.API (12)"]
+    sub_0_2_Identity_API["Identity.API (12)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_Identity_API
-    sub_0_more["+17 more submodules (52)"]
+    sub_0_more["+17 more submodules (52)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_tests["tests (13)"]
+    dir_1_tests["tests (13)"]:::atlasCategory
     repo_root --> dir_1_tests
-    sub_1_0_ClientApp_UnitTests["ClientApp.UnitTests (4)"]
+    sub_1_0_ClientApp_UnitTests["ClientApp.UnitTests (4)"]:::atlasWorkflow
     dir_1_tests --> sub_1_0_ClientApp_UnitTests
-    sub_1_1_Application_UnitTests["Application.UnitTests (2)"]
+    sub_1_1_Application_UnitTests["Application.UnitTests (2)"]:::atlasWorkflow
     dir_1_tests --> sub_1_1_Application_UnitTests
-    sub_1_2_Basket_FunctionalTests["Basket.FunctionalTests (1)"]
+    sub_1_2_Basket_FunctionalTests["Basket.FunctionalTests (1)"]:::atlasWorkflow
     dir_1_tests --> sub_1_2_Basket_FunctionalTests
-    sub_1_more["+6 more submodules (6)"]
+    sub_1_more["+6 more submodules (6)"]:::atlasMore
     dir_1_tests --> sub_1_more
     sub_0_0_Ordering_API -.->|"33 deps"| sub_0_more
     sub_1_more -.->|"8 deps"| sub_0_more
@@ -213,12 +220,16 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_src_ClientApp["src/ClientApp"]
-        mod_tests_ClientApp_UnitTests["tests/ClientApp.UnitTests"]
+        mod_src_ClientApp["src/ClientApp"]:::atlasCategory
+        mod_tests_ClientApp_UnitTests["tests/ClientApp.UnitTests"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pr_validation_maui_yml_test["pr-validation-maui.yml#test"]
+        job_pr_validation_maui_yml_test["pr-validation-maui.yml#test"]:::atlasJob
     end
     mod_src_ClientApp -->|BUILT_BY| job_pr_validation_maui_yml_test
     mod_tests_ClientApp_UnitTests -->|BUILT_BY| job_pr_validation_maui_yml_test
@@ -232,15 +243,30 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["dotnet/eShop (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["dotnet/eShop (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_Markdownlint["Markdownlint (1 jobs)"]
+  wf_0_Markdownlint["Markdownlint (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_Markdownlint
-  wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]
+  job_0_lint["lint"]:::atlasJob
+  wf_0_Markdownlint --> job_0_lint
+  wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_Playwright_Tests_for_eShop
-  wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]
+  job_1_test["test"]:::atlasJob
+  wf_1_Playwright_Tests_for_eShop --> job_1_test
+  wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_eShop_Pull_Request_Validation____NET_MAUI
-  wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]
+  job_2_test["test"]:::atlasJob
+  wf_2_eShop_Pull_Request_Validation____NET_MAUI --> job_2_test
+  wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_3_eShop_Pull_Request_Validation
+  job_3_test["test"]:::atlasJob
+  wf_3_eShop_Pull_Request_Validation --> job_3_test
 ```

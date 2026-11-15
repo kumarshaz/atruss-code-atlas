@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for nextcloud/twofactor_totp
 
 ```mermaid
 graph TD;
-    twofactor_totp["twofactor_totp : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    twofactor_totp["twofactor_totp : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -110,15 +117,78 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/twofactor_totp (18 workflows)"])
-  grp_0_CI___Verification["CI & Verification (11 workflows · 21 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/twofactor_totp (18 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (11 workflows · 21 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+  wf_3_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Lint_eslint
+  job_3_changes["changes"]:::atlasJob
+  job_3_lint["lint"]:::atlasJob
+  job_3_summary["summary"]:::atlasJob
+  wf_3_Lint_eslint --> job_3_changes
+  job_3_changes --> job_3_lint
+  job_3_changes --> job_3_summary
+  job_3_lint --> job_3_summary
+  wf_6_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Lint_php
+  job_6_matrix["matrix"]:::atlasJob
+  job_6_php_lint["php-lint"]:::atlasJob
+  job_6_summary["summary"]:::atlasJob
+  wf_6_Lint_php --> job_6_matrix
+  job_6_matrix --> job_6_php_lint
+  job_6_php_lint --> job_6_summary
+  wf_10_Build_Javascript["Build Javascript (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_10_Build_Javascript
+  job_10_changes["changes"]:::atlasJob
+  job_10_build["build"]:::atlasJob
+  job_10_summary["summary"]:::atlasJob
+  wf_10_Build_Javascript --> job_10_changes
+  job_10_changes --> job_10_build
+  job_10_changes --> job_10_summary
+  job_10_build --> job_10_summary
+  grp_1_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Security___Governance
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  wf_0_Block_merges_during_freezes["Block merges during freezes (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_0_Block_merges_during_freezes
+  job_0_block_merges_during_freeze["block-merges-during-freeze"]:::atlasJob
+  wf_0_Block_merges_during_freezes --> job_0_block_merges_during_freeze
+  wf_2_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_2_Block_fixup_and_squash_commits
+  job_2_commit_message_check["commit-message-check"]:::atlasJob
+  wf_2_Block_fixup_and_squash_commits --> job_2_commit_message_check
+  wf_9_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_9_Npm_audit_fix_and_compile
+  job_9_build["build"]:::atlasJob
+  wf_9_Npm_audit_fix_and_compile --> job_9_build
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+  wf_12_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_12_Ask_for_feedback_on_PRs
+  job_12_pr_feedback["pr-feedback"]:::atlasJob
+  wf_12_Ask_for_feedback_on_PRs --> job_12_pr_feedback
+  wf_16_Update_workflows["Update workflows (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_16_Update_workflows
+  job_16_dispatch["dispatch"]:::atlasJob
+  wf_16_Update_workflows --> job_16_dispatch
+  grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Automation___Other
-  grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_1_Compile_Command["Compile Command (2 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_1_Compile_Command
+  job_1_init["init"]:::atlasJob
+  job_1_process["process"]:::atlasJob
+  wf_1_Compile_Command --> job_1_init
+  job_1_init --> job_1_process
+  grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Release___Deploy
+  wf_14_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+  grp_4_Release___Deploy --> wf_14_Notify_release_relay_on_release
+  wf_more["+8 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

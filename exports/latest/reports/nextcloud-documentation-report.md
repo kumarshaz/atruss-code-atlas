@@ -93,15 +93,19 @@ description: Arc42 and Pipeline report for nextcloud/documentation
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_docs_yml_prepare_pdf_image["build-docs.yml#prepare-pdf-image"]
-        job_docker_build_yml_build_and_publish["docker-build.yml#build-and-publish"]
+        job_build_docs_yml_prepare_pdf_image["build-docs.yml#prepare-pdf-image"]:::atlasJob
+        job_docker_build_yml_build_and_publish["docker-build.yml#build-and-publish"]:::atlasJob
     end
     mod__devcontainer -->|BUILT_BY| job_build_docs_yml_prepare_pdf_image
     mod__devcontainer -->|DEPLOYED_BY| job_docker_build_yml_build_and_publish
@@ -121,13 +125,74 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/documentation (19 workflows)"])
-  grp_0_CI___Verification["CI & Verification (9 workflows · 18 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/documentation (19 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (9 workflows · 18 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+  wf_1_Build_documentation__reusable_["Build documentation (reusable) (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Build_documentation__reusable_
+  job_1_build_html["build-html"]:::atlasJob
+  job_1_build_epub["build-epub"]:::atlasJob
+  job_1_prepare_pdf_image["prepare-pdf-image"]:::atlasJob
+  wf_1_Build_documentation__reusable_ --> job_1_build_html
+  wf_1_Build_documentation__reusable_ --> job_1_build_epub
+  wf_1_Build_documentation__reusable_ --> job_1_prepare_pdf_image
+  wf_10_Labeling["Labeling (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_10_Labeling
+  job_10_label_by_files["label-by-files"]:::atlasJob
+  job_10_triage_pr["triage-pr"]:::atlasJob
+  job_10_triage_issue["triage-issue"]:::atlasJob
+  wf_10_Labeling --> job_10_label_by_files
+  job_10_label_by_files --> job_10_triage_pr
+  wf_10_Labeling --> job_10_triage_issue
+  wf_14_Build_documentation["Build documentation (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_14_Build_documentation
+  job_14_build["build"]:::atlasJob
+  job_14_link_check["link-check"]:::atlasJob
+  job_14_netlify_preview["netlify-preview"]:::atlasJob
+  wf_14_Build_documentation --> job_14_build
+  job_14_build --> job_14_link_check
+  job_14_build --> job_14_netlify_preview
+  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 7 jobs)"]
+  wf_9_Generate_catalog_templates__POT__files_fetched_automatically_by_transifex["Generate catalog templates (POT) files fetched automatically by transifex (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_9_Generate_catalog_templates__POT__files_fetched_automatically_by_transifex
+  job_9_user_manual["user_manual"]:::atlasJob
+  wf_9_Generate_catalog_templates__POT__files_fetched_automatically_by_transifex --> job_9_user_manual
+  wf_12_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_12_Ask_for_feedback_on_PRs
+  job_12_pr_feedback["pr-feedback"]:::atlasJob
+  wf_12_Ask_for_feedback_on_PRs --> job_12_pr_feedback
+  wf_18_Checkout_File_from_Master["Checkout File from Master (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_18_Checkout_File_from_Master
+  job_18_checkout["checkout"]:::atlasJob
+  wf_18_Checkout_File_from_Master --> job_18_checkout
+  grp_2_Release___Deploy["Release & Deploy (3 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+  wf_5_Deploy_documentation["Deploy documentation (4 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_5_Deploy_documentation
+  job_5_prepare["prepare"]:::atlasJob
+  job_5_build["build"]:::atlasJob
+  job_5_deploy["deploy"]:::atlasJob
+  wf_5_Deploy_documentation --> job_5_prepare
+  job_5_prepare --> job_5_build
+  job_5_build --> job_5_deploy
+  wf_15_Squash_gh_pages_history["Squash gh-pages history (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_15_Squash_gh_pages_history
+  job_15_test["test"]:::atlasJob
+  wf_15_Squash_gh_pages_history --> job_15_test
+  grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_4_Auto_approve_Dependabot_PRs
+  wf_7_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_7_Block_fixup_and_squash_commits
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

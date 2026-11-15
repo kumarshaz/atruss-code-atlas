@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for appwrite/console
 
 ```mermaid
 graph TD;
-    _appwrite_console["@appwrite/console : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _appwrite_console["@appwrite/console : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -112,27 +119,31 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dba78fe4_6a54_448a_a0db_9f036cc62a8f["dba78fe4-6a54-448a-a0db-9f036cc62a8f"]
+        mod_dba78fe4_6a54_448a_a0db_9f036cc62a8f["dba78fe4-6a54-448a-a0db-9f036cc62a8f"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_copilot_setup_steps_yml_copilot_setup_steps["copilot-setup-steps.yml#copilot-setup-steps"]
-        job_dockerize_profiles_yml_dockerize_profiles["dockerize-profiles.yml#dockerize-profiles"]
-        job_e2e_yml_e2e["e2e.yml#e2e"]
-        job_production_yml_build["production.yml#build"]
-        job_production_yml_deploy["production.yml#deploy"]
-        job_publish_yml_publish_cloud_no_regions["publish.yml#publish-cloud-no-regions"]
-        job_publish_yml_publish_self_hosted["publish.yml#publish-self-hosted"]
-        job_staging_yml_build["staging.yml#build"]
-        job_staging_yml_deploy["staging.yml#deploy"]
-        job_stale_yml_stale["stale.yml#stale"]
-        job_tests_yml_build["tests.yml#build"]
+        job_copilot_setup_steps_yml_copilot_setup_steps["copilot-setup-steps.yml#copilot-setup-steps"]:::atlasJob
+        job_dockerize_profiles_yml_dockerize_profiles["dockerize-profiles.yml#dockerize-profiles"]:::atlasJob
+        job_e2e_yml_e2e["e2e.yml#e2e"]:::atlasJob
+        job_production_yml_build["production.yml#build"]:::atlasJob
+        job_production_yml_deploy["production.yml#deploy"]:::atlasJob
+        job_publish_yml_publish_cloud_no_regions["publish.yml#publish-cloud-no-regions"]:::atlasJob
+        job_publish_yml_publish_self_hosted["publish.yml#publish-self-hosted"]:::atlasJob
+        job_staging_yml_build["staging.yml#build"]:::atlasJob
+        job_staging_yml_deploy["staging.yml#deploy"]:::atlasJob
+        job_stale_yml_stale["stale.yml#stale"]:::atlasJob
+        job_tests_yml_build["tests.yml#build"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_staging["staging"]
+        env_staging["staging"]:::atlasTarget
     end
     job_staging_yml_build -->|DEPLOYS_TO| env_staging
     mod_dba78fe4_6a54_448a_a0db_9f036cc62a8f -->|BUILT_BY| job_copilot_setup_steps_yml_copilot_setup_steps
@@ -182,13 +193,58 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["appwrite/console (8 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["appwrite/console (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  wf_3_Production_deployment["Production deployment (2 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_Production_deployment
+  job_3_build["build"]:::atlasJob
+  job_3_deploy["deploy"]:::atlasJob
+  wf_3_Production_deployment --> job_3_build
+  job_3_build --> job_3_deploy
+  wf_4_Publish["Publish (2 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Publish
+  job_4_publish_self_hosted["publish-self-hosted"]:::atlasJob
+  job_4_publish_cloud_no_regions["publish-cloud-no-regions"]:::atlasJob
+  wf_4_Publish --> job_4_publish_self_hosted
+  wf_4_Publish --> job_4_publish_cloud_no_regions
+  wf_5_Staging_deployment["Staging deployment (2 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_5_Staging_deployment
+  job_5_build["build"]:::atlasJob
+  job_5_deploy["deploy"]:::atlasJob
+  wf_5_Staging_deployment --> job_5_build
+  job_5_build --> job_5_deploy
+  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  wf_2_E2E["E2E (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_2_E2E
+  job_2_e2e["e2e"]:::atlasJob
+  wf_2_E2E --> job_2_e2e
+  wf_7_Tests["Tests (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_7_Tests
+  job_7_build["build"]:::atlasJob
+  wf_7_Tests --> job_7_build
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_Copilot_Setup_Steps["Copilot Setup Steps (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_0_Copilot_Setup_Steps
+  job_0_copilot_setup_steps["copilot-setup-steps"]:::atlasJob
+  wf_0_Copilot_Setup_Steps --> job_0_copilot_setup_steps
+  wf_1_Dockerize_Profiles["Dockerize Profiles (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_1_Dockerize_Profiles
+  job_1_dockerize_profiles["dockerize-profiles"]:::atlasJob
+  wf_1_Dockerize_Profiles --> job_1_dockerize_profiles
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_6_Mark_stale_issues["Mark stale issues (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_6_Mark_stale_issues
+  job_6_stale["stale"]:::atlasJob
+  wf_6_Mark_stale_issues --> job_6_stale
 ```

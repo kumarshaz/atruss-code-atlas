@@ -41,12 +41,19 @@ description: Arc42 and Pipeline report for goharbor/harbor
 
 ```mermaid
 graph TD;
-    JaegerExporter["JaegerExporter : SERVICE"]
-    OtelExporter["OtelExporter : SERVICE"]
-    gencert["gencert : CLI_COMMAND"]
-    migrate["migrate : CLI_COMMAND"]
-    prepare["prepare : CLI_COMMAND"]
-    repo_root(["goharbor/harbor"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    JaegerExporter["JaegerExporter : SERVICE"]:::atlasJob
+    OtelExporter["OtelExporter : SERVICE"]:::atlasJob
+    gencert["gencert : CLI_COMMAND"]:::atlasJob
+    migrate["migrate : CLI_COMMAND"]:::atlasJob
+    prepare["prepare : CLI_COMMAND"]:::atlasJob
+    repo_root(["goharbor/harbor"]):::atlasRoot
     repo_root --> JaegerExporter
     repo_root --> OtelExporter
     repo_root --> gencert
@@ -140,90 +147,94 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__oss_scanner[".oss-scanner"]
-        mod_make_photon_common["make/photon/common"]
-        mod_make_photon_core["make/photon/core"]
-        mod_make_photon_db["make/photon/db"]
-        mod_make_photon_exporter["make/photon/exporter"]
-        mod_make_photon_jobservice["make/photon/jobservice"]
-        mod_make_photon_log["make/photon/log"]
-        mod_make_photon_nginx["make/photon/nginx"]
-        mod_make_photon_portal["make/photon/portal"]
-        mod_make_photon_prepare["make/photon/prepare"]
-        mod_make_photon_registry["make/photon/registry"]
-        mod_make_photon_registryctl["make/photon/registryctl"]
-        mod_make_photon_standalone_db_migrator["make/photon/standalone-db-migrator"]
-        mod_make_photon_trivy_adapter["make/photon/trivy-adapter"]
-        mod_make_photon_valkey["make/photon/valkey"]
-        mod_src["src"]
-        mod_src_portal["src/portal"]
-        mod_src_portal_app_swagger_ui["src/portal/app-swagger-ui"]
-        mod_src_portal_docker_build["src/portal/docker-build"]
-        mod_src_portal_server["src/portal/server"]
-        mod_tests["tests"]
-        mod_tests_robot_cases_Group2_Longevity["tests/robot-cases/Group2-Longevity"]
-        mod_tests_test_engine_image["tests/test-engine-image"]
-        mod_tools_migrate_chart["tools/migrate_chart"]
-        mod_tools_mockery["tools/mockery"]
-        mod_tools_spectral["tools/spectral"]
-        mod_tools_swagger["tools/swagger"]
+        mod__oss_scanner[".oss-scanner"]:::atlasCategory
+        mod_make_photon_common["make/photon/common"]:::atlasCategory
+        mod_make_photon_core["make/photon/core"]:::atlasCategory
+        mod_make_photon_db["make/photon/db"]:::atlasCategory
+        mod_make_photon_exporter["make/photon/exporter"]:::atlasCategory
+        mod_make_photon_jobservice["make/photon/jobservice"]:::atlasCategory
+        mod_make_photon_log["make/photon/log"]:::atlasCategory
+        mod_make_photon_nginx["make/photon/nginx"]:::atlasCategory
+        mod_make_photon_portal["make/photon/portal"]:::atlasCategory
+        mod_make_photon_prepare["make/photon/prepare"]:::atlasCategory
+        mod_make_photon_registry["make/photon/registry"]:::atlasCategory
+        mod_make_photon_registryctl["make/photon/registryctl"]:::atlasCategory
+        mod_make_photon_standalone_db_migrator["make/photon/standalone-db-migrator"]:::atlasCategory
+        mod_make_photon_trivy_adapter["make/photon/trivy-adapter"]:::atlasCategory
+        mod_make_photon_valkey["make/photon/valkey"]:::atlasCategory
+        mod_src["src"]:::atlasCategory
+        mod_src_portal["src/portal"]:::atlasCategory
+        mod_src_portal_app_swagger_ui["src/portal/app-swagger-ui"]:::atlasCategory
+        mod_src_portal_docker_build["src/portal/docker-build"]:::atlasCategory
+        mod_src_portal_server["src/portal/server"]:::atlasCategory
+        mod_tests["tests"]:::atlasCategory
+        mod_tests_robot_cases_Group2_Longevity["tests/robot-cases/Group2-Longevity"]:::atlasCategory
+        mod_tests_test_engine_image["tests/test-engine-image"]:::atlasCategory
+        mod_tools_migrate_chart["tools/migrate_chart"]:::atlasCategory
+        mod_tools_mockery["tools/mockery"]:::atlasCategory
+        mod_tools_spectral["tools/spectral"]:::atlasCategory
+        mod_tools_swagger["tools/swagger"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__oss_scanner_Dockerfile[".oss-scanner/Dockerfile"]
-        art_make_photon_common_Dockerfile["make/photon/common/Dockerfile"]
-        art_make_photon_core_Dockerfile["make/photon/core/Dockerfile"]
-        art_make_photon_core_Dockerfile_base["make/photon/core/Dockerfile.base"]
-        art_make_photon_db_Dockerfile["make/photon/db/Dockerfile"]
-        art_make_photon_db_Dockerfile_base["make/photon/db/Dockerfile.base"]
-        art_make_photon_exporter_Dockerfile["make/photon/exporter/Dockerfile"]
-        art_make_photon_exporter_Dockerfile_base["make/photon/exporter/Dockerfile.base"]
-        art_make_photon_jobservice_Dockerfile["make/photon/jobservice/Dockerfile"]
-        art_make_photon_jobservice_Dockerfile_base["make/photon/jobservice/Dockerfile.base"]
-        art_make_photon_log_Dockerfile["make/photon/log/Dockerfile"]
-        art_make_photon_log_Dockerfile_base["make/photon/log/Dockerfile.base"]
-        art_make_photon_nginx_Dockerfile["make/photon/nginx/Dockerfile"]
-        art_make_photon_nginx_Dockerfile_base["make/photon/nginx/Dockerfile.base"]
-        art_make_photon_portal_Dockerfile["make/photon/portal/Dockerfile"]
-        art_make_photon_portal_Dockerfile_base["make/photon/portal/Dockerfile.base"]
-        art_make_photon_prepare_Dockerfile["make/photon/prepare/Dockerfile"]
-        art_make_photon_prepare_Dockerfile_base["make/photon/prepare/Dockerfile.base"]
-        art_make_photon_registry_Dockerfile["make/photon/registry/Dockerfile"]
-        art_make_photon_registry_Dockerfile_base["make/photon/registry/Dockerfile.base"]
-        art_make_photon_registry_Dockerfile_binary["make/photon/registry/Dockerfile.binary"]
-        art_make_photon_registryctl_Dockerfile["make/photon/registryctl/Dockerfile"]
-        art_make_photon_registryctl_Dockerfile_base["make/photon/registryctl/Dockerfile.base"]
-        art_make_photon_standalone_db_migrator_Dockerfile["make/photon/standalone-db-migrator/Dockerfile"]
-        art_make_photon_trivy_adapter_Dockerfile["make/photon/trivy-adapter/Dockerfile"]
-        art_make_photon_trivy_adapter_Dockerfile_base["make/photon/trivy-adapter/Dockerfile.base"]
-        art_make_photon_trivy_adapter_Dockerfile_binary["make/photon/trivy-adapter/Dockerfile.binary"]
-        art_make_photon_valkey_Dockerfile["make/photon/valkey/Dockerfile"]
-        art_make_photon_valkey_Dockerfile_base["make/photon/valkey/Dockerfile.base"]
-        art_src_portal_docker_build_Dockerfile["src/portal/docker-build/Dockerfile"]
-        art_tests_docker_compose_test_yml["tests/docker-compose.test.yml"]
-        art_tests_robot_cases_Group2_Longevity_Dockerfile_longevity["tests/robot-cases/Group2-Longevity/Dockerfile.longevity"]
-        art_tests_test_engine_image_Dockerfile_api_test["tests/test-engine-image/Dockerfile.api_test"]
-        art_tests_test_engine_image_Dockerfile_common["tests/test-engine-image/Dockerfile.common"]
-        art_tests_test_engine_image_Dockerfile_ui_test["tests/test-engine-image/Dockerfile.ui_test"]
-        art_tools_migrate_chart_Dockerfile["tools/migrate_chart/Dockerfile"]
-        art_tools_mockery_Dockerfile["tools/mockery/Dockerfile"]
-        art_tools_spectral_Dockerfile["tools/spectral/Dockerfile"]
-        art_tools_swagger_Dockerfile["tools/swagger/Dockerfile"]
+        art__oss_scanner_Dockerfile[".oss-scanner/Dockerfile"]:::atlasWorkflow
+        art_make_photon_common_Dockerfile["make/photon/common/Dockerfile"]:::atlasWorkflow
+        art_make_photon_core_Dockerfile["make/photon/core/Dockerfile"]:::atlasWorkflow
+        art_make_photon_core_Dockerfile_base["make/photon/core/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_db_Dockerfile["make/photon/db/Dockerfile"]:::atlasWorkflow
+        art_make_photon_db_Dockerfile_base["make/photon/db/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_exporter_Dockerfile["make/photon/exporter/Dockerfile"]:::atlasWorkflow
+        art_make_photon_exporter_Dockerfile_base["make/photon/exporter/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_jobservice_Dockerfile["make/photon/jobservice/Dockerfile"]:::atlasWorkflow
+        art_make_photon_jobservice_Dockerfile_base["make/photon/jobservice/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_log_Dockerfile["make/photon/log/Dockerfile"]:::atlasWorkflow
+        art_make_photon_log_Dockerfile_base["make/photon/log/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_nginx_Dockerfile["make/photon/nginx/Dockerfile"]:::atlasWorkflow
+        art_make_photon_nginx_Dockerfile_base["make/photon/nginx/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_portal_Dockerfile["make/photon/portal/Dockerfile"]:::atlasWorkflow
+        art_make_photon_portal_Dockerfile_base["make/photon/portal/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_prepare_Dockerfile["make/photon/prepare/Dockerfile"]:::atlasWorkflow
+        art_make_photon_prepare_Dockerfile_base["make/photon/prepare/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_registry_Dockerfile["make/photon/registry/Dockerfile"]:::atlasWorkflow
+        art_make_photon_registry_Dockerfile_base["make/photon/registry/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_registry_Dockerfile_binary["make/photon/registry/Dockerfile.binary"]:::atlasWorkflow
+        art_make_photon_registryctl_Dockerfile["make/photon/registryctl/Dockerfile"]:::atlasWorkflow
+        art_make_photon_registryctl_Dockerfile_base["make/photon/registryctl/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_standalone_db_migrator_Dockerfile["make/photon/standalone-db-migrator/Dockerfile"]:::atlasWorkflow
+        art_make_photon_trivy_adapter_Dockerfile["make/photon/trivy-adapter/Dockerfile"]:::atlasWorkflow
+        art_make_photon_trivy_adapter_Dockerfile_base["make/photon/trivy-adapter/Dockerfile.base"]:::atlasWorkflow
+        art_make_photon_trivy_adapter_Dockerfile_binary["make/photon/trivy-adapter/Dockerfile.binary"]:::atlasWorkflow
+        art_make_photon_valkey_Dockerfile["make/photon/valkey/Dockerfile"]:::atlasWorkflow
+        art_make_photon_valkey_Dockerfile_base["make/photon/valkey/Dockerfile.base"]:::atlasWorkflow
+        art_src_portal_docker_build_Dockerfile["src/portal/docker-build/Dockerfile"]:::atlasWorkflow
+        art_tests_docker_compose_test_yml["tests/docker-compose.test.yml"]:::atlasWorkflow
+        art_tests_robot_cases_Group2_Longevity_Dockerfile_longevity["tests/robot-cases/Group2-Longevity/Dockerfile.longevity"]:::atlasWorkflow
+        art_tests_test_engine_image_Dockerfile_api_test["tests/test-engine-image/Dockerfile.api_test"]:::atlasWorkflow
+        art_tests_test_engine_image_Dockerfile_common["tests/test-engine-image/Dockerfile.common"]:::atlasWorkflow
+        art_tests_test_engine_image_Dockerfile_ui_test["tests/test-engine-image/Dockerfile.ui_test"]:::atlasWorkflow
+        art_tools_migrate_chart_Dockerfile["tools/migrate_chart/Dockerfile"]:::atlasWorkflow
+        art_tools_mockery_Dockerfile["tools/mockery/Dockerfile"]:::atlasWorkflow
+        art_tools_spectral_Dockerfile["tools/spectral/Dockerfile"]:::atlasWorkflow
+        art_tools_swagger_Dockerfile["tools/swagger/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_CI_yml_APITEST_DB["CI.yml#APITEST_DB"]
-        job_CI_yml_APITEST_DB_PROXY_CACHE["CI.yml#APITEST_DB_PROXY_CACHE"]
-        job_CI_yml_APITEST_LDAP["CI.yml#APITEST_LDAP"]
-        job_CI_yml_OFFLINE["CI.yml#OFFLINE"]
-        job_CI_yml_UI_UT["CI.yml#UI_UT"]
-        job_CI_yml_UTTEST["CI.yml#UTTEST"]
-        job_build_package_yml_BUILD_BASE_IMAGE["build-package.yml#BUILD_BASE_IMAGE"]
-        job_build_package_yml_BUILD_PACKAGE["build-package.yml#BUILD_PACKAGE"]
-        job_conformance_test_yml_CONFORMANCE_TEST["conformance_test.yml#CONFORMANCE_TEST"]
-        job_publish_release_yml_release["publish_release.yml#release"]
+        job_CI_yml_APITEST_DB["CI.yml#APITEST_DB"]:::atlasJob
+        job_CI_yml_APITEST_DB_PROXY_CACHE["CI.yml#APITEST_DB_PROXY_CACHE"]:::atlasJob
+        job_CI_yml_APITEST_LDAP["CI.yml#APITEST_LDAP"]:::atlasJob
+        job_CI_yml_OFFLINE["CI.yml#OFFLINE"]:::atlasJob
+        job_CI_yml_UI_UT["CI.yml#UI_UT"]:::atlasJob
+        job_CI_yml_UTTEST["CI.yml#UTTEST"]:::atlasJob
+        job_build_package_yml_BUILD_BASE_IMAGE["build-package.yml#BUILD_BASE_IMAGE"]:::atlasJob
+        job_build_package_yml_BUILD_PACKAGE["build-package.yml#BUILD_PACKAGE"]:::atlasJob
+        job_conformance_test_yml_CONFORMANCE_TEST["conformance_test.yml#CONFORMANCE_TEST"]:::atlasJob
+        job_publish_release_yml_release["publish_release.yml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_conformance_test_yml_CONFORMANCE_TEST -->|DEPLOYS_TO| env_aws
     job_publish_release_yml_release -->|DEPLOYS_TO| env_aws
@@ -413,13 +424,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/harbor (11 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/harbor (11 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+  wf_0_CI["CI (6 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_CI
+  job_0_UTTEST["UTTEST"]:::atlasJob
+  job_0_APITEST_DB["APITEST_DB"]:::atlasJob
+  job_0_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
+  wf_0_CI --> job_0_UTTEST
+  wf_0_CI --> job_0_APITEST_DB
+  wf_0_CI --> job_0_APITEST_DB_PROXY_CACHE
+  wf_1_API_Schema_Check["API Schema Check (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_API_Schema_Check
+  job_1_check["check"]:::atlasJob
+  wf_1_API_Schema_Check --> job_1_check
+  wf_3_Build_Package_Workflow["Build Package Workflow (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Build_Package_Workflow
+  job_3_BUILD_BASE_IMAGE["BUILD_BASE_IMAGE"]:::atlasJob
+  job_3_BUILD_PACKAGE["BUILD_PACKAGE"]:::atlasJob
+  job_3_CREATE_MANIFEST["CREATE_MANIFEST"]:::atlasJob
+  wf_3_Build_Package_Workflow --> job_3_BUILD_BASE_IMAGE
+  job_3_BUILD_BASE_IMAGE --> job_3_BUILD_PACKAGE
+  job_3_BUILD_BASE_IMAGE --> job_3_CREATE_MANIFEST
+  job_3_BUILD_PACKAGE --> job_3_CREATE_MANIFEST
+  wf_9_CI["CI (6 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_CI
+  job_9_UTTEST["UTTEST"]:::atlasJob
+  job_9_APITEST_DB["APITEST_DB"]:::atlasJob
+  job_9_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
+  wf_9_CI --> job_9_UTTEST
+  wf_9_CI --> job_9_APITEST_DB
+  wf_9_CI --> job_9_APITEST_DB_PROXY_CACHE
+  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_4_Code_scanning___action["Code scanning - action (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_4_Code_scanning___action
+  job_4_CodeQL_Build["CodeQL-Build"]:::atlasJob
+  wf_4_Code_scanning___action --> job_4_CodeQL_Build
+  wf_5_CONFORMANCE_TEST["CONFORMANCE_TEST (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_CONFORMANCE_TEST
+  job_5_CONFORMANCE_TEST["CONFORMANCE_TEST"]:::atlasJob
+  wf_5_CONFORMANCE_TEST --> job_5_CONFORMANCE_TEST
+  wf_8_Trivy_Nightly_Scan["Trivy Nightly Scan (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_8_Trivy_Nightly_Scan
+  job_8_nightly_scan["nightly-scan"]:::atlasJob
+  wf_8_Trivy_Nightly_Scan --> job_8_nightly_scan
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_7_Release_Note_Label_Check["Release Note Label Check (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_7_Release_Note_Label_Check
+  job_7_check_label["check-label"]:::atlasJob
+  wf_7_Release_Note_Label_Check --> job_7_check_label
+  wf_10_Publish_Release["Publish Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_10_Publish_Release
+  job_10_release["release"]:::atlasJob
+  wf_10_Publish_Release --> job_10_release
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_6_Housekeeping___Close_stale_issues_and_PRs["Housekeeping - Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_6_Housekeeping___Close_stale_issues_and_PRs
+  job_6_stale["stale"]:::atlasJob
+  wf_6_Housekeeping___Close_stale_issues_and_PRs --> job_6_stale
+  wf_more["+1 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

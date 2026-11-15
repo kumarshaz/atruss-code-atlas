@@ -41,38 +41,45 @@ description: Arc42 and Pipeline report for plausible/analytics
 
 ```mermaid
 graph TD;
-    repo_root(["plausible/analytics (459 components)"])
-    dir_0_assets["assets (204)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["plausible/analytics (459 components)"]):::atlasRoot
+    dir_0_assets["assets (204)"]:::atlasCategory
     repo_root --> dir_0_assets
-    sub_0_0_js["js (201)"]
+    sub_0_0_js["js (201)"]:::atlasWorkflow
     dir_0_assets --> sub_0_0_js
-    sub_0_1_test_utils["test-utils (2)"]
+    sub_0_1_test_utils["test-utils (2)"]:::atlasWorkflow
     dir_0_assets --> sub_0_1_test_utils
-    sub_0_2__module_root_["(module root) (1)"]
+    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_assets --> sub_0_2__module_root_
-    dir_1_lib["lib (130)"]
+    dir_1_lib["lib (130)"]:::atlasCategory
     repo_root --> dir_1_lib
-    sub_1_0_plausible["plausible (116)"]
+    sub_1_0_plausible["plausible (116)"]:::atlasWorkflow
     dir_1_lib --> sub_1_0_plausible
-    sub_1_1_mix["mix (7)"]
+    sub_1_1_mix["mix (7)"]:::atlasWorkflow
     dir_1_lib --> sub_1_1_mix
-    sub_1_2__module_root_["(module root) (5)"]
+    sub_1_2__module_root_["(module root) (5)"]:::atlasWorkflow
     dir_1_lib --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (2)"]
+    sub_1_more["+1 more submodules (2)"]:::atlasMore
     dir_1_lib --> sub_1_more
-    dir_2_extra["extra (105)"]
+    dir_2_extra["extra (105)"]:::atlasCategory
     repo_root --> dir_2_extra
-    sub_2_0_lib_plausible["lib/plausible (60)"]
+    sub_2_0_lib_plausible["lib/plausible (60)"]:::atlasWorkflow
     dir_2_extra --> sub_2_0_lib_plausible
-    sub_2_1_lib_plausible_web["lib/plausible_web (44)"]
+    sub_2_1_lib_plausible_web["lib/plausible_web (44)"]:::atlasWorkflow
     dir_2_extra --> sub_2_1_lib_plausible_web
-    sub_2_2_lib["lib (1)"]
+    sub_2_2_lib["lib (1)"]:::atlasWorkflow
     dir_2_extra --> sub_2_2_lib
-    dir_3_config["config (10)"]
+    dir_3_config["config (10)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4__root_["(root) (5)"]
+    dir_4__root_["(root) (5)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+2 more modules (5)"]
+    dir_other_modules["+2 more modules (5)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_1_test_utils -.->|"14 deps"| sub_0_0_js
 ```
@@ -244,27 +251,31 @@ Showing top 60 representative components out of 459 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a["7d260fe6-fa1b-4363-bd35-7b34918a3c9a"]
-        mod_assets["assets"]
-        mod_e2e["e2e"]
-        mod_tracker["tracker"]
-        mod_tracker_npm_package["tracker/npm_package"]
+        mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a["7d260fe6-fa1b-4363-bd35-7b34918a3c9a"]:::atlasCategory
+        mod_assets["assets"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_tracker["tracker"]:::atlasCategory
+        mod_tracker_npm_package["tracker/npm_package"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_test_e2e_main_tf["test/e2e/main.tf"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_test_e2e_main_tf["test/e2e/main.tf"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_elixir_yml_build["elixir.yml#build"]
-        job_elixir_yml_e2e["elixir.yml#e2e"]
-        job_elixir_yml_merge_sharded_e2e_test_report["elixir.yml#merge-sharded-e2e-test-report"]
-        job_elixir_yml_static["elixir.yml#static"]
-        job_node_yml_build["node.yml#build"]
-        job_tracker_script_npm_release_yml_tracker_release_npm["tracker-script-npm-release.yml#tracker-release-npm"]
-        job_tracker_script_update_yml_tracker_script_update["tracker-script-update.yml#tracker-script-update"]
-        job_tracker_yml_merge_sharded_test_report["tracker.yml#merge-sharded-test-report"]
-        job_tracker_yml_test["tracker.yml#test"]
+        job_elixir_yml_build["elixir.yml#build"]:::atlasJob
+        job_elixir_yml_e2e["elixir.yml#e2e"]:::atlasJob
+        job_elixir_yml_merge_sharded_e2e_test_report["elixir.yml#merge-sharded-e2e-test-report"]:::atlasJob
+        job_elixir_yml_static["elixir.yml#static"]:::atlasJob
+        job_node_yml_build["node.yml#build"]:::atlasJob
+        job_tracker_script_npm_release_yml_tracker_release_npm["tracker-script-npm-release.yml#tracker-release-npm"]:::atlasJob
+        job_tracker_script_update_yml_tracker_script_update["tracker-script-update.yml#tracker-script-update"]:::atlasJob
+        job_tracker_yml_merge_sharded_test_report["tracker.yml#merge-sharded-test-report"]:::atlasJob
+        job_tracker_yml_test["tracker.yml#test"]:::atlasJob
     end
     mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a -->|PACKAGED_BY| art_Dockerfile
     mod_assets -->|BUILT_BY| job_elixir_yml_e2e
@@ -310,13 +321,70 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["plausible/analytics (15 workflows)"])
-  grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["plausible/analytics (15 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_All_checks_pass["All checks pass (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_All_checks_pass
+  job_0_enforce_all_checks["enforce-all-checks"]:::atlasJob
+  wf_0_All_checks_pass --> job_0_enforce_all_checks
+  wf_1_Build_Private_Images_GHCR["Build Private Images GHCR (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Build_Private_Images_GHCR
+  job_1_build["build"]:::atlasJob
+  wf_1_Build_Private_Images_GHCR --> job_1_build
+  wf_2_Build_Public_Images_GHCR["Build Public Images GHCR (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Build_Public_Images_GHCR
+  job_2_build["build"]:::atlasJob
+  job_2_push["push"]:::atlasJob
+  wf_2_Build_Public_Images_GHCR --> job_2_build
+  job_2_build --> job_2_push
+  wf_3_Add_preview_environment_URL_to_PR["Add preview environment URL to PR (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Add_preview_environment_URL_to_PR
+  job_3_comment["comment"]:::atlasJob
+  wf_3_Add_preview_environment_URL_to_PR --> job_3_comment
+  wf_4_Elixir_CI["Elixir CI (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Elixir_CI
+  job_4_build["build"]:::atlasJob
+  job_4_e2e["e2e"]:::atlasJob
+  job_4_merge_sharded_e2e_test_report["merge-sharded-e2e-test-report"]:::atlasJob
+  wf_4_Elixir_CI --> job_4_build
+  wf_4_Elixir_CI --> job_4_e2e
+  job_4_e2e --> job_4_merge_sharded_e2e_test_report
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+  wf_9_Publish_Elixir_documentation["Publish Elixir documentation (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_9_Publish_Elixir_documentation
+  job_9_build["build"]:::atlasJob
+  wf_9_Publish_Elixir_documentation --> job_9_build
+  wf_11_Tracker__publish_NPM_release["Tracker: publish NPM release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_11_Tracker__publish_NPM_release
+  job_11_tracker_release_npm["tracker-release-npm"]:::atlasJob
+  wf_11_Tracker__publish_NPM_release --> job_11_tracker_release_npm
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_6_IANA_registry_check["IANA registry check (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_6_IANA_registry_check
+  job_6_check_iana_registries["check-iana-registries"]:::atlasJob
+  wf_6_IANA_registry_check --> job_6_check_iana_registries
+  wf_13_Tracker_CI["Tracker CI (2 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_13_Tracker_CI
+  job_13_test["test"]:::atlasJob
+  job_13_merge_sharded_test_report["merge-sharded-test-report"]:::atlasJob
+  wf_13_Tracker_CI --> job_13_test
+  job_13_test --> job_13_merge_sharded_test_report
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_5_Hex_audit["Hex audit (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_5_Hex_audit
+  job_5_audit["audit"]:::atlasJob
+  wf_5_Hex_audit --> job_5_audit
+  wf_more["+5 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,40 +41,47 @@ description: Arc42 and Pipeline report for RocketChat/helm-charts
 
 ```mermaid
 graph TD;
-    repo_root(["RocketChat/helm-charts (77 components)"])
-    dir_0_rocketchat["rocketchat (30)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["RocketChat/helm-charts (77 components)"]):::atlasRoot
+    dir_0_rocketchat["rocketchat (30)"]:::atlasCategory
     repo_root --> dir_0_rocketchat
-    sub_0_0_templates["templates (26)"]
+    sub_0_0_templates["templates (26)"]:::atlasWorkflow
     dir_0_rocketchat --> sub_0_0_templates
-    sub_0_1__module_root_["(module root) (2)"]
+    sub_0_1__module_root_["(module root) (2)"]:::atlasWorkflow
     dir_0_rocketchat --> sub_0_1__module_root_
-    sub_0_2_tests["tests (2)"]
+    sub_0_2_tests["tests (2)"]:::atlasWorkflow
     dir_0_rocketchat --> sub_0_2_tests
-    dir_1_rocketchat_voip["rocketchat-voip (15)"]
+    dir_1_rocketchat_voip["rocketchat-voip (15)"]:::atlasCategory
     repo_root --> dir_1_rocketchat_voip
-    sub_1_0_templates["templates (12)"]
+    sub_1_0_templates["templates (12)"]:::atlasWorkflow
     dir_1_rocketchat_voip --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (3)"]
+    sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
     dir_1_rocketchat_voip --> sub_1_1__module_root_
-    dir_2_rocketchat_livekit["rocketchat-livekit (14)"]
+    dir_2_rocketchat_livekit["rocketchat-livekit (14)"]:::atlasCategory
     repo_root --> dir_2_rocketchat_livekit
-    sub_2_0_templates["templates (9)"]
+    sub_2_0_templates["templates (9)"]:::atlasWorkflow
     dir_2_rocketchat_livekit --> sub_2_0_templates
-    sub_2_1__module_root_["(module root) (4)"]
+    sub_2_1__module_root_["(module root) (4)"]:::atlasWorkflow
     dir_2_rocketchat_livekit --> sub_2_1__module_root_
-    sub_2_2_tests["tests (1)"]
+    sub_2_2_tests["tests (1)"]:::atlasWorkflow
     dir_2_rocketchat_livekit --> sub_2_2_tests
-    dir_3_monitoring["monitoring (13)"]
+    dir_3_monitoring["monitoring (13)"]:::atlasCategory
     repo_root --> dir_3_monitoring
-    sub_3_0_templates["templates (8)"]
+    sub_3_0_templates["templates (8)"]:::atlasWorkflow
     dir_3_monitoring --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]
+    sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
     dir_3_monitoring --> sub_3_1__module_root_
-    sub_3_2_config["config (2)"]
+    sub_3_2_config["config (2)"]:::atlasWorkflow
     dir_3_monitoring --> sub_3_2_config
-    sub_3_more["+1 more submodules (1)"]
+    sub_3_more["+1 more submodules (1)"]:::atlasMore
     dir_3_monitoring --> sub_3_more
-    dir_4_mock["mock (5)"]
+    dir_4_mock["mock (5)"]:::atlasCategory
     repo_root --> dir_4_mock
 ```
 
@@ -168,23 +175,27 @@ Showing top 60 representative components out of 77 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_mock["mock"]
-        mod_monitoring["monitoring"]
-        mod_rocketchat["rocketchat"]
-        mod_rocketchat_livekit["rocketchat-livekit"]
-        mod_rocketchat_voip["rocketchat-voip"]
+        mod_mock["mock"]:::atlasCategory
+        mod_monitoring["monitoring"]:::atlasCategory
+        mod_rocketchat["rocketchat"]:::atlasCategory
+        mod_rocketchat_livekit["rocketchat-livekit"]:::atlasCategory
+        mod_rocketchat_voip["rocketchat-voip"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_mock_Dockerfile["mock/Dockerfile"]
+        art_mock_Dockerfile["mock/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_release["release.yml#release"]
-        job_test_yml_detect_changes["test.yml#detect-changes"]
-        job_test_yml_mock["test.yml#mock"]
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_test_yml_detect_changes["test.yml#detect-changes"]:::atlasJob
+        job_test_yml_mock["test.yml#mock"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_release_yml_release -->|DEPLOYS_TO| env_kubernetes
     mod_mock -->|BUILT_BY| job_test_yml_detect_changes
@@ -218,17 +229,43 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["RocketChat/helm-charts (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["RocketChat/helm-charts (4 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  wf_0_Test_and_or_release_helm_chart["Test and/or release helm chart (3 jobs)"]
+  wf_0_Test_and_or_release_helm_chart["Test and/or release helm chart (3 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_0_Test_and_or_release_helm_chart
-  wf_1_New_chart_release["New chart release (2 jobs)"]
+  job_0_set_versions["set-versions"]:::atlasJob
+  job_0_can_chart_run["can-chart-run"]:::atlasJob
+  job_0_update_release["update-release"]:::atlasJob
+  wf_0_Test_and_or_release_helm_chart --> job_0_set_versions
+  job_0_set_versions --> job_0_can_chart_run
+  job_0_can_chart_run --> job_0_update_release
+  job_0_set_versions --> job_0_update_release
+  wf_1_New_chart_release["New chart release (2 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_1_New_chart_release
-  wf_2_Release_helm_chart["Release helm chart (1 jobs)"]
+  job_1_config["config"]:::atlasJob
+  job_1_run["run"]:::atlasJob
+  wf_1_New_chart_release --> job_1_config
+  job_1_config --> job_1_run
+  wf_2_Release_helm_chart["Release helm chart (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_2_Release_helm_chart
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]
+  job_2_release["release"]:::atlasJob
+  wf_2_Release_helm_chart --> job_2_release
+  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_3_Test_helm_chart["Test helm chart (5 jobs)"]
+  wf_3_Test_helm_chart["Test helm chart (5 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_3_Test_helm_chart
+  job_3_setup_docker["setup-docker"]:::atlasJob
+  job_3_setup_k3d["setup-k3d"]:::atlasJob
+  job_3_detect_changes["detect-changes"]:::atlasJob
+  wf_3_Test_helm_chart --> job_3_setup_docker
+  wf_3_Test_helm_chart --> job_3_setup_k3d
+  wf_3_Test_helm_chart --> job_3_detect_changes
 ```

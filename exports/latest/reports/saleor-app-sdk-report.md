@@ -41,14 +41,21 @@ description: Arc42 and Pipeline report for saleor/app-sdk
 
 ```mermaid
 graph TD;
-    _saleor_app_sdk["@saleor/app-sdk : MODULE"]
-    DynamoAPLRepository["DynamoAPLRepository : DATA_ACCESS_LAYER"]
-    MemoryAPLRepository["MemoryAPLRepository : DATA_ACCESS_LAYER"]
-    AppContext["AppContext : UI_COMPONENT"]
-    AppBridgeProvider["AppBridgeProvider : UI_COMPONENT"]
-    ProductDetailsWidgetPage["ProductDetailsWidgetPage : UI_COMPONENT"]
-    RoutePropagator["RoutePropagator : UI_COMPONENT"]
-    repo_root(["saleor/app-sdk"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _saleor_app_sdk["@saleor/app-sdk : MODULE"]:::atlasJob
+    DynamoAPLRepository["DynamoAPLRepository : DATA_ACCESS_LAYER"]:::atlasJob
+    MemoryAPLRepository["MemoryAPLRepository : DATA_ACCESS_LAYER"]:::atlasJob
+    AppContext["AppContext : UI_COMPONENT"]:::atlasJob
+    AppBridgeProvider["AppBridgeProvider : UI_COMPONENT"]:::atlasJob
+    ProductDetailsWidgetPage["ProductDetailsWidgetPage : UI_COMPONENT"]:::atlasJob
+    RoutePropagator["RoutePropagator : UI_COMPONENT"]:::atlasJob
+    repo_root(["saleor/app-sdk"]):::atlasRoot
     repo_root --> _saleor_app_sdk
     DynamoAPLRepository --> MemoryAPLRepository
     MemoryAPLRepository --> DynamoAPLRepository
@@ -133,15 +140,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_4e591fe9_cb12_4f6a_950a_d386f78fe746["4e591fe9-cb12-4f6a-950a-d386f78fe746"]
+        mod_4e591fe9_cb12_4f6a_950a_d386f78fe746["4e591fe9-cb12-4f6a-950a-d386f78fe746"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_assign_pr_yml_assign_creator["assign-pr.yml#assign_creator"]
-        job_main_yml_build["main.yml#build"]
-        job_main_yml_lint["main.yml#lint"]
-        job_main_yml_test["main.yml#test"]
-        job_prepare_release_yml_release["prepare-release.yml#release"]
+        job_assign_pr_yml_assign_creator["assign-pr.yml#assign_creator"]:::atlasJob
+        job_main_yml_build["main.yml#build"]:::atlasJob
+        job_main_yml_lint["main.yml#lint"]:::atlasJob
+        job_main_yml_test["main.yml#test"]:::atlasJob
+        job_prepare_release_yml_release["prepare-release.yml#release"]:::atlasJob
     end
     mod_4e591fe9_cb12_4f6a_950a_d386f78fe746 -->|BUILT_BY| job_assign_pr_yml_assign_creator
     mod_4e591fe9_cb12_4f6a_950a_d386f78fe746 -->|BUILT_BY| job_main_yml_build
@@ -161,18 +172,25 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/app-sdk"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/app-sdk"]):::atlasRoot
   subgraph Assign_PR_to_creator_0["Assign PR to creator"]
     direction TB
-    0_assign_creator["assign_creator"]
+    0_assign_creator["assign_creator"]:::atlasJob
   end
   pipeline_root --> 0_assign_creator
   subgraph QA_1["QA"]
     direction TB
-    1_lint["lint"]
-    1_test["test"]
-    1_build["build"]
-    wf_entry_1(["Trigger: QA"])
+    1_lint["lint"]:::atlasJob
+    1_test["test"]:::atlasJob
+    1_build["build"]:::atlasJob
+    wf_entry_1(["Trigger: QA"]):::atlasWorkflow
     wf_entry_1 --> 1_lint
     wf_entry_1 --> 1_test
     wf_entry_1 --> 1_build
@@ -180,7 +198,7 @@ graph TD;
   pipeline_root --> wf_entry_1
   subgraph Open_release_2["Open release"]
     direction TB
-    2_release["release"]
+    2_release["release"]:::atlasJob
   end
   pipeline_root --> 2_release
 ```

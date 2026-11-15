@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for bitwarden/agent-access
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/agent-access (76 components)"])
-    dir_0_crates["crates (69)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/agent-access (76 components)"]):::atlasRoot
+    dir_0_crates["crates (69)"]:::atlasCategory
     repo_root --> dir_0_crates
-    sub_0_0_ap_cli["ap-cli (17)"]
+    sub_0_0_ap_cli["ap-cli (17)"]:::atlasWorkflow
     dir_0_crates --> sub_0_0_ap_cli
-    sub_0_1_ap_client["ap-client (13)"]
+    sub_0_1_ap_client["ap-client (13)"]:::atlasWorkflow
     dir_0_crates --> sub_0_1_ap_client
-    sub_0_2_ap_noise["ap-noise (12)"]
+    sub_0_2_ap_noise["ap-noise (12)"]:::atlasWorkflow
     dir_0_crates --> sub_0_2_ap_noise
-    sub_0_more["+6 more submodules (27)"]
+    sub_0_more["+6 more submodules (27)"]:::atlasMore
     dir_0_crates --> sub_0_more
-    dir_1_examples["examples (7)"]
+    dir_1_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_1_examples
 ```
 
@@ -193,17 +200,21 @@ Showing top 60 representative components out of 76 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_examples_js_wasm["examples/js-wasm"]
-        mod_examples_rust_listener["examples/rust-listener"]
-        mod_examples_rust_remote["examples/rust-remote"]
+        mod_examples_js_wasm["examples/js-wasm"]:::atlasCategory
+        mod_examples_rust_listener["examples/rust-listener"]:::atlasCategory
+        mod_examples_rust_remote["examples/rust-remote"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_examples["ci.yml#examples"]
-        job_release_yml_publish_crates["release.yml#publish-crates"]
+        job_ci_yml_examples["ci.yml#examples"]:::atlasJob
+        job_release_yml_publish_crates["release.yml#publish-crates"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_crates_io["crates-io"]
+        env_crates_io["crates-io"]:::atlasTarget
     end
     job_release_yml_publish_crates -->|DEPLOYS_TO| env_crates_io
     mod_examples_js_wasm -->|BUILT_BY| job_ci_yml_examples
@@ -221,19 +232,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/agent-access (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/agent-access (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_2_Respond["Respond (1 jobs)"]
+  wf_2_Respond["Respond (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Respond
-  wf_3_Code_Review["Code Review (1 jobs)"]
+  job_2_respond["respond"]:::atlasJob
+  wf_2_Respond --> job_2_respond
+  wf_3_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_3_Code_Review
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+  job_3_review["review"]:::atlasJob
+  wf_3_Code_Review --> job_3_review
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_1_Release["Release (3 jobs)"]
+  wf_1_Release["Release (3 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_1_Release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]
+  job_1_build["build"]:::atlasJob
+  job_1_release["release"]:::atlasJob
+  job_1_publish_crates["publish-crates"]:::atlasJob
+  wf_1_Release --> job_1_build
+  job_1_build --> job_1_release
+  job_1_build --> job_1_publish_crates
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_CI["CI (5 jobs)"]
+  wf_0_CI["CI (5 jobs)"]:::atlasWorkflow
   grp_2_Scheduled___Manual --> wf_0_CI
+  job_0_fmt["fmt"]:::atlasJob
+  job_0_clippy["clippy"]:::atlasJob
+  job_0_build["build"]:::atlasJob
+  wf_0_CI --> job_0_fmt
+  wf_0_CI --> job_0_clippy
+  wf_0_CI --> job_0_build
 ```

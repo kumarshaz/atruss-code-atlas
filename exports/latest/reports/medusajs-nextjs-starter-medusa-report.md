@@ -40,25 +40,32 @@ description: Arc42 and Pipeline report for medusajs/nextjs-starter-medusa
 
 ```mermaid
 graph TD;
-    medusa_next["medusa-next : MODULE"]
-    RootLayout["RootLayout : UI_COMPONENT"]
-    NotFound["NotFound : UI_COMPONENT"]
-    CheckoutLayout["CheckoutLayout : UI_COMPONENT"]
-    Loading["Loading : UI_COMPONENT"]
-    Login["Login : UI_COMPONENT"]
-    PRODUCT_LIMIT["PRODUCT_LIMIT : UI_COMPONENT"]
-    ModalProvider["ModalProvider : UI_COMPONENT"]
-    TransferRequestForm["TransferRequestForm : UI_COMPONENT"]
-    CategoryTemplate["CategoryTemplate : UI_COMPONENT"]
-    StripeCardContainer["StripeCardContainer : UI_COMPONENT"]
-    StripeContext["StripeContext : UI_COMPONENT"]
-    SubmitButton["SubmitButton : UI_COMPONENT"]
-    CollectionTemplate["CollectionTemplate : UI_COMPONENT"]
-    ProductActions["ProductActions : UI_COMPONENT"]
-    ProductPrice["ProductPrice : UI_COMPONENT"]
-    ShippingPriceNudge["ShippingPriceNudge : UI_COMPONENT"]
-    Pagination["Pagination : UI_COMPONENT"]
-    repo_root(["medusajs/nextjs-starter-medusa"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    medusa_next["medusa-next : MODULE"]:::atlasJob
+    RootLayout["RootLayout : UI_COMPONENT"]:::atlasJob
+    NotFound["NotFound : UI_COMPONENT"]:::atlasJob
+    CheckoutLayout["CheckoutLayout : UI_COMPONENT"]:::atlasJob
+    Loading["Loading : UI_COMPONENT"]:::atlasJob
+    Login["Login : UI_COMPONENT"]:::atlasJob
+    PRODUCT_LIMIT["PRODUCT_LIMIT : UI_COMPONENT"]:::atlasJob
+    ModalProvider["ModalProvider : UI_COMPONENT"]:::atlasJob
+    TransferRequestForm["TransferRequestForm : UI_COMPONENT"]:::atlasJob
+    CategoryTemplate["CategoryTemplate : UI_COMPONENT"]:::atlasJob
+    StripeCardContainer["StripeCardContainer : UI_COMPONENT"]:::atlasJob
+    StripeContext["StripeContext : UI_COMPONENT"]:::atlasJob
+    SubmitButton["SubmitButton : UI_COMPONENT"]:::atlasJob
+    CollectionTemplate["CollectionTemplate : UI_COMPONENT"]:::atlasJob
+    ProductActions["ProductActions : UI_COMPONENT"]:::atlasJob
+    ProductPrice["ProductPrice : UI_COMPONENT"]:::atlasJob
+    ShippingPriceNudge["ShippingPriceNudge : UI_COMPONENT"]:::atlasJob
+    Pagination["Pagination : UI_COMPONENT"]:::atlasJob
+    repo_root(["medusajs/nextjs-starter-medusa"]):::atlasRoot
     repo_root --> CategoryTemplate
     repo_root --> CheckoutLayout
     repo_root --> CollectionTemplate
@@ -166,5 +173,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

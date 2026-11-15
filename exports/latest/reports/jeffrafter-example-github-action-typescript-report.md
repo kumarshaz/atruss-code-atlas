@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for jeffrafter/example-github-action-type
 
 ```mermaid
 graph TD;
-    n_08f85adc_90db_4dc5_810e_417d1e0e3742["08f85adc-90db-4dc5-810e-417d1e0e3742 : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    n_08f85adc_90db_4dc5_810e_417d1e0e3742["08f85adc-90db-4dc5-810e-417d1e0e3742 : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,12 +114,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_08f85adc_90db_4dc5_810e_417d1e0e3742["08f85adc-90db-4dc5-810e-417d1e0e3742"]
+        mod_08f85adc_90db_4dc5_810e_417d1e0e3742["08f85adc-90db-4dc5-810e-417d1e0e3742"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_debug_workflow_yml_build["debug-workflow.yml#build"]
-        job_thanks_workflow_yml_build["thanks-workflow.yml#build"]
+        job_debug_workflow_yml_build["debug-workflow.yml#build"]:::atlasJob
+        job_thanks_workflow_yml_build["thanks-workflow.yml#build"]:::atlasJob
     end
     mod_08f85adc_90db_4dc5_810e_417d1e0e3742 -->|BUILT_BY| job_debug_workflow_yml_build
     mod_08f85adc_90db_4dc5_810e_417d1e0e3742 -->|BUILT_BY| job_thanks_workflow_yml_build
@@ -126,15 +137,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["jeffrafter/example-github-action-typescript"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["jeffrafter/example-github-action-typescript"]):::atlasRoot
   subgraph Debug_workflow_0["Debug workflow"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph Thanks_workflow_1["Thanks workflow"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
 ```

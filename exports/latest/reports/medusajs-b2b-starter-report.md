@@ -41,14 +41,21 @@ description: Arc42 and Pipeline report for medusajs/b2b-starter
 
 ```mermaid
 graph TD;
-    repo_root(["medusajs/b2b-starter (151 components)"])
-    dir_0_apps["apps (150)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["medusajs/b2b-starter (151 components)"]):::atlasRoot
+    dir_0_apps["apps (150)"]:::atlasCategory
     repo_root --> dir_0_apps
-    sub_0_0_backend["backend (93)"]
+    sub_0_0_backend["backend (93)"]:::atlasWorkflow
     dir_0_apps --> sub_0_0_backend
-    sub_0_1_storefront["storefront (57)"]
+    sub_0_1_storefront["storefront (57)"]:::atlasWorkflow
     dir_0_apps --> sub_0_1_storefront
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_0_backend -.->|"42 deps"| sub_0_1_storefront
 ```
@@ -188,8 +195,15 @@ Showing top 60 representative components out of 151 across 2 module group(s):
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Update_Medusa_0["Update Medusa"]
     direction TB
-    0_update["update"]
+    0_update["update"]:::atlasJob
   end
 ```

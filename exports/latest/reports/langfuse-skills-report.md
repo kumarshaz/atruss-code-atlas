@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for langfuse/skills
 
 ```mermaid
 graph TD;
-    halo_skill_publishing["halo-skill-publishing : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    halo_skill_publishing["halo-skill-publishing : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -75,17 +82,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_halo_skill_publishing["halo-skill-publishing"]
+        mod_halo_skill_publishing["halo-skill-publishing"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_sync_halo_skills_yml_prepare["sync-halo-skills.yml#prepare"]
-        job_sync_halo_skills_yml_publish_eu["sync-halo-skills.yml#publish-eu"]
-        job_sync_halo_skills_yml_publish_hipaa["sync-halo-skills.yml#publish-hipaa"]
-        job_sync_halo_skills_yml_publish_jp["sync-halo-skills.yml#publish-jp"]
-        job_sync_halo_skills_yml_publish_staging["sync-halo-skills.yml#publish-staging"]
-        job_sync_halo_skills_yml_publish_us["sync-halo-skills.yml#publish-us"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_sync_halo_skills_yml_prepare["sync-halo-skills.yml#prepare"]:::atlasJob
+        job_sync_halo_skills_yml_publish_eu["sync-halo-skills.yml#publish-eu"]:::atlasJob
+        job_sync_halo_skills_yml_publish_hipaa["sync-halo-skills.yml#publish-hipaa"]:::atlasJob
+        job_sync_halo_skills_yml_publish_jp["sync-halo-skills.yml#publish-jp"]:::atlasJob
+        job_sync_halo_skills_yml_publish_staging["sync-halo-skills.yml#publish-staging"]:::atlasJob
+        job_sync_halo_skills_yml_publish_us["sync-halo-skills.yml#publish-us"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     mod_halo_skill_publishing -->|BUILT_BY| job_sync_halo_skills_yml_prepare
     mod_halo_skill_publishing -->|BUILT_BY| job_zizmor_yml_zizmor
@@ -109,25 +120,32 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/skills"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/skills"]):::atlasRoot
   subgraph Sync_Halo_skills_0["Sync Halo skills"]
     direction TB
-    0_prepare["prepare"]
-    0_publish_staging["publish-staging"]
+    0_prepare["prepare"]:::atlasJob
+    0_publish_staging["publish-staging"]:::atlasJob
     0_prepare --> 0_publish_staging
-    0_publish_eu["publish-eu"]
+    0_publish_eu["publish-eu"]:::atlasJob
     0_prepare --> 0_publish_eu
-    0_publish_us["publish-us"]
+    0_publish_us["publish-us"]:::atlasJob
     0_prepare --> 0_publish_us
-    0_publish_jp["publish-jp"]
+    0_publish_jp["publish-jp"]:::atlasJob
     0_prepare --> 0_publish_jp
-    0_publish_hipaa["publish-hipaa"]
+    0_publish_hipaa["publish-hipaa"]:::atlasJob
     0_prepare --> 0_publish_hipaa
   end
   pipeline_root --> 0_prepare
   subgraph Check_GitHub_Actions_1["Check GitHub Actions"]
     direction TB
-    1_zizmor["zizmor"]
+    1_zizmor["zizmor"]:::atlasJob
   end
   pipeline_root --> 1_zizmor
 ```

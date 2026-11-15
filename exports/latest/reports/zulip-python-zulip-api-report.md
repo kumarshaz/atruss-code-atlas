@@ -41,17 +41,24 @@ description: Arc42 and Pipeline report for zulip/python-zulip-api
 
 ```mermaid
 graph TD;
-    send_message["send_message : CLI_COMMAND"]
-    upload_file["upload_file : CLI_COMMAND"]
-    update_message["update_message : CLI_COMMAND"]
-    delete_message["delete_message : CLI_COMMAND"]
-    add_reaction["add_reaction : CLI_COMMAND"]
-    remove_reaction["remove_reaction : CLI_COMMAND"]
-    get_message_history["get_message_history : CLI_COMMAND"]
-    mark_all_as_read["mark_all_as_read : CLI_COMMAND"]
-    get_subscriptions["get_subscriptions : CLI_COMMAND"]
-    handle_bot["handle_bot : API_ROUTE"]
-    repo_root(["zulip/python-zulip-api"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    send_message["send_message : CLI_COMMAND"]:::atlasJob
+    upload_file["upload_file : CLI_COMMAND"]:::atlasJob
+    update_message["update_message : CLI_COMMAND"]:::atlasJob
+    delete_message["delete_message : CLI_COMMAND"]:::atlasJob
+    add_reaction["add_reaction : CLI_COMMAND"]:::atlasJob
+    remove_reaction["remove_reaction : CLI_COMMAND"]:::atlasJob
+    get_message_history["get_message_history : CLI_COMMAND"]:::atlasJob
+    mark_all_as_read["mark_all_as_read : CLI_COMMAND"]:::atlasJob
+    get_subscriptions["get_subscriptions : CLI_COMMAND"]:::atlasJob
+    handle_bot["handle_bot : API_ROUTE"]:::atlasJob
+    repo_root(["zulip/python-zulip-api"]):::atlasRoot
     repo_root --> add_reaction
     repo_root --> delete_message
     repo_root --> get_message_history
@@ -144,14 +151,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_zulip["zulip"]
-        mod_zulip_bots["zulip_bots"]
+        mod_zulip["zulip"]:::atlasCategory
+        mod_zulip_bots["zulip_bots"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_zulip_ci_yml_tests["zulip-ci.yml#tests"]
-        job_zulip_tests_yml_static_analysis["zulip-tests.yml#static-analysis"]
-        job_zulip_tests_yml_test["zulip-tests.yml#test"]
+        job_zulip_ci_yml_tests["zulip-ci.yml#tests"]:::atlasJob
+        job_zulip_tests_yml_static_analysis["zulip-tests.yml#static-analysis"]:::atlasJob
+        job_zulip_tests_yml_test["zulip-tests.yml#test"]:::atlasJob
     end
     mod_zulip -->|BUILT_BY| job_zulip_ci_yml_tests
     mod_zulip -->|BUILT_BY| job_zulip_tests_yml_static_analysis
@@ -169,16 +180,23 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/python-zulip-api"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/python-zulip-api"]):::atlasRoot
   subgraph Zulip_server_CI_0["Zulip server CI"]
     direction TB
-    0_tests["tests"]
+    0_tests["tests"]:::atlasJob
   end
   pipeline_root --> 0_tests
   subgraph build_1["build"]
     direction TB
-    1_static_analysis["static-analysis"]
-    1_test["test"]
+    1_static_analysis["static-analysis"]:::atlasJob
+    1_test["test"]:::atlasJob
   end
   pipeline_root --> 1_static_analysis
 ```

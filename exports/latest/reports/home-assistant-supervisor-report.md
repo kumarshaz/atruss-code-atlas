@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for home-assistant/supervisor
 
 ```mermaid
 graph TD;
-    repo_root(["home-assistant/supervisor (27 components)"])
-    dir_0_supervisor["supervisor (17)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["home-assistant/supervisor (27 components)"]):::atlasRoot
+    dir_0_supervisor["supervisor (17)"]:::atlasCategory
     repo_root --> dir_0_supervisor
-    sub_0_0_host["host (3)"]
+    sub_0_0_host["host (3)"]:::atlasWorkflow
     dir_0_supervisor --> sub_0_0_host
-    sub_0_1_services["services (3)"]
+    sub_0_1_services["services (3)"]:::atlasWorkflow
     dir_0_supervisor --> sub_0_1_services
-    sub_0_2_dbus["dbus (2)"]
+    sub_0_2_dbus["dbus (2)"]:::atlasWorkflow
     dir_0_supervisor --> sub_0_2_dbus
-    sub_0_more["+8 more submodules (9)"]
+    sub_0_more["+8 more submodules (9)"]:::atlasMore
     dir_0_supervisor --> sub_0_more
-    dir_1_tests["tests (10)"]
+    dir_1_tests["tests (10)"]:::atlasCategory
     repo_root --> dir_1_tests
-    sub_1_0_fixtures["fixtures (6)"]
+    sub_1_0_fixtures["fixtures (6)"]:::atlasWorkflow
     dir_1_tests --> sub_1_0_fixtures
-    sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]
+    sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]:::atlasWorkflow
     dir_1_tests --> sub_1_1_dbus_service_mocks
-    sub_1_2_dbus["dbus (1)"]
+    sub_1_2_dbus["dbus (1)"]:::atlasWorkflow
     dir_1_tests --> sub_1_2_dbus
     sub_0_0_host -.->|"1 dep"| sub_0_1_services
     sub_0_2_dbus -.->|"1 dep"| sub_0_0_host
@@ -157,5 +164,61 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/supervisor (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 7 jobs)"]:::atlasCategory
+  pipeline_root --> grp_0_Release___Deploy
+  wf_0_Build_supervisor["Build supervisor (5 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_0_Build_supervisor
+  job_0_init["init"]:::atlasJob
+  job_0_build["build"]:::atlasJob
+  job_0_manifest["manifest"]:::atlasJob
+  wf_0_Build_supervisor --> job_0_init
+  job_0_init --> job_0_build
+  job_0_init --> job_0_manifest
+  job_0_build --> job_0_manifest
+  wf_4_Release_Drafter["Release Drafter (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Release_Drafter
+  job_4_update_release_draft["update_release_draft"]:::atlasJob
+  wf_4_Release_Drafter --> job_4_update_release_draft
+  wf_6_Sentry_Release["Sentry Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_6_Sentry_Release
+  job_6_createSentryRelease["createSentryRelease"]:::atlasJob
+  wf_6_Sentry_Release --> job_6_createSentryRelease
+  grp_1_CI___Verification["CI & Verification (2 workflows · 15 jobs)"]:::atlasCategory
+  pipeline_root --> grp_1_CI___Verification
+  wf_1_Check_PR["Check PR (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_1_Check_PR
+  job_1_init["init"]:::atlasJob
+  wf_1_Check_PR --> job_1_init
+  wf_2_CI["CI (14 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_2_CI
+  job_2_prepare["prepare"]:::atlasJob
+  job_2_lint_ruff_format["lint-ruff-format"]:::atlasJob
+  job_2_lint_ruff["lint-ruff"]:::atlasJob
+  wf_2_CI --> job_2_prepare
+  job_2_prepare --> job_2_lint_ruff_format
+  job_2_prepare --> job_2_lint_ruff
+  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
+  pipeline_root --> grp_2_Security___Governance
+  wf_3_Lock["Lock (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_3_Lock
+  job_3_lock["lock"]:::atlasJob
+  wf_3_Lock --> job_3_lock
+  wf_7_Stale["Stale (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_7_Stale
+  job_7_stale["stale"]:::atlasJob
+  wf_7_Stale --> job_7_stale
+  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
+  pipeline_root --> grp_3_Automation___Other
+  wf_5_Restrict_task_creation["Restrict task creation (1 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_5_Restrict_task_creation
+  job_5_check_authorization["check-authorization"]:::atlasJob
+  wf_5_Restrict_task_creation --> job_5_check_authorization
 ```

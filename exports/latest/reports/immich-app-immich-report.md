@@ -41,36 +41,43 @@ description: Arc42 and Pipeline report for immich-app/immich
 
 ```mermaid
 graph TD;
-    repo_root(["immich-app/immich (238 components)"])
-    dir_0_server["server (180)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["immich-app/immich (238 components)"]):::atlasRoot
+    dir_0_server["server (180)"]:::atlasCategory
     repo_root --> dir_0_server
-    sub_0_0_src["src (179)"]
+    sub_0_0_src["src (179)"]:::atlasWorkflow
     dir_0_server --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_server --> sub_0_1__module_root_
-    dir_1_native["native (23)"]
+    dir_1_native["native (23)"]:::atlasCategory
     repo_root --> dir_1_native
-    sub_1_0_crates_codecs["crates/codecs (10)"]
+    sub_1_0_crates_codecs["crates/codecs (10)"]:::atlasWorkflow
     dir_1_native --> sub_1_0_crates_codecs
-    sub_1_1_crates_native_core_ffi["crates/native_core_ffi (8)"]
+    sub_1_1_crates_native_core_ffi["crates/native_core_ffi (8)"]:::atlasWorkflow
     dir_1_native --> sub_1_1_crates_native_core_ffi
-    sub_1_2_crates_native_core["crates/native_core (5)"]
+    sub_1_2_crates_native_core["crates/native_core (5)"]:::atlasWorkflow
     dir_1_native --> sub_1_2_crates_native_core
-    dir_2_packages["packages (9)"]
+    dir_2_packages["packages (9)"]:::atlasCategory
     repo_root --> dir_2_packages
-    sub_2_0_scripts["scripts (4)"]
+    sub_2_0_scripts["scripts (4)"]:::atlasWorkflow
     dir_2_packages --> sub_2_0_scripts
-    sub_2_1_cli["cli (1)"]
+    sub_2_1_cli["cli (1)"]:::atlasWorkflow
     dir_2_packages --> sub_2_1_cli
-    sub_2_2_e2e_auth_server["e2e-auth-server (1)"]
+    sub_2_2_e2e_auth_server["e2e-auth-server (1)"]:::atlasWorkflow
     dir_2_packages --> sub_2_2_e2e_auth_server
-    sub_2_more["+3 more submodules (3)"]
+    sub_2_more["+3 more submodules (3)"]:::atlasMore
     dir_2_packages --> sub_2_more
-    dir_3_docker["docker (7)"]
+    dir_3_docker["docker (7)"]:::atlasCategory
     repo_root --> dir_3_docker
-    dir_4_machine_learning["machine-learning (7)"]
+    dir_4_machine_learning["machine-learning (7)"]:::atlasCategory
     repo_root --> dir_4_machine_learning
-    dir_other_modules["+6 more modules (12)"]
+    dir_other_modules["+6 more modules (12)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -267,89 +274,93 @@ Showing top 60 representative components out of 238 across 11 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github[".github"]
-        mod_docker["docker"]
-        mod_docs["docs"]
-        mod_e2e["e2e"]
-        mod_machine_learning["machine-learning"]
-        mod_mobile_android["mobile/android"]
-        mod_mobile_android_app["mobile/android/app"]
-        mod_mobile_ios["mobile/ios"]
-        mod_native["native"]
-        mod_packages_cli["packages/cli"]
-        mod_packages_e2e_auth_server["packages/e2e-auth-server"]
-        mod_packages_plugin_core["packages/plugin-core"]
-        mod_packages_plugin_sdk["packages/plugin-sdk"]
-        mod_packages_sdk["packages/sdk"]
-        mod_server["server"]
-        mod_web["web"]
-        mod_web_test["web/test"]
+        mod__github[".github"]:::atlasCategory
+        mod_docker["docker"]:::atlasCategory
+        mod_docs["docs"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_machine_learning["machine-learning"]:::atlasCategory
+        mod_mobile_android["mobile/android"]:::atlasCategory
+        mod_mobile_android_app["mobile/android/app"]:::atlasCategory
+        mod_mobile_ios["mobile/ios"]:::atlasCategory
+        mod_native["native"]:::atlasCategory
+        mod_packages_cli["packages/cli"]:::atlasCategory
+        mod_packages_e2e_auth_server["packages/e2e-auth-server"]:::atlasCategory
+        mod_packages_plugin_core["packages/plugin-core"]:::atlasCategory
+        mod_packages_plugin_sdk["packages/plugin-sdk"]:::atlasCategory
+        mod_packages_sdk["packages/sdk"]:::atlasCategory
+        mod_server["server"]:::atlasCategory
+        mod_web["web"]:::atlasCategory
+        mod_web_test["web/test"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_deployment_modules_cloudflare_docs_release_config_tf["deployment/modules/cloudflare/docs-release/config.tf"]
-        art_deployment_modules_cloudflare_docs_release_domain_tf["deployment/modules/cloudflare/docs-release/domain.tf"]
-        art_deployment_modules_cloudflare_docs_release_providers_tf["deployment/modules/cloudflare/docs-release/providers.tf"]
-        art_deployment_modules_cloudflare_docs_release_remote_state_tf["deployment/modules/cloudflare/docs-release/remote-state.tf"]
-        art_deployment_modules_cloudflare_docs_release_variables_tf["deployment/modules/cloudflare/docs-release/variables.tf"]
-        art_deployment_modules_cloudflare_docs_config_tf["deployment/modules/cloudflare/docs/config.tf"]
-        art_deployment_modules_cloudflare_docs_domain_tf["deployment/modules/cloudflare/docs/domain.tf"]
-        art_deployment_modules_cloudflare_docs_locals_tf["deployment/modules/cloudflare/docs/locals.tf"]
-        art_deployment_modules_cloudflare_docs_providers_tf["deployment/modules/cloudflare/docs/providers.tf"]
-        art_deployment_modules_cloudflare_docs_remote_state_tf["deployment/modules/cloudflare/docs/remote-state.tf"]
-        art_deployment_modules_cloudflare_docs_variables_tf["deployment/modules/cloudflare/docs/variables.tf"]
-        art_docker_docker_compose_dev_yml["docker/docker-compose.dev.yml"]
-        art_docker_docker_compose_prod_yml["docker/docker-compose.prod.yml"]
-        art_docker_docker_compose_rootless_yml["docker/docker-compose.rootless.yml"]
-        art_docker_docker_compose_yml["docker/docker-compose.yml"]
-        art_e2e_docker_compose_dev_yml["e2e/docker-compose.dev.yml"]
-        art_e2e_docker_compose_yml["e2e/docker-compose.yml"]
-        art_machine_learning_Dockerfile["machine-learning/Dockerfile"]
-        art_packages_cli_Dockerfile["packages/cli/Dockerfile"]
-        art_packages_e2e_auth_server_Dockerfile["packages/e2e-auth-server/Dockerfile"]
-        art_server_Dockerfile["server/Dockerfile"]
-        art_server_Dockerfile_dev["server/Dockerfile.dev"]
+        art_deployment_modules_cloudflare_docs_release_config_tf["deployment/modules/cloudflare/docs-release/config.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_release_domain_tf["deployment/modules/cloudflare/docs-release/domain.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_release_providers_tf["deployment/modules/cloudflare/docs-release/providers.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_release_remote_state_tf["deployment/modules/cloudflare/docs-release/remote-state.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_release_variables_tf["deployment/modules/cloudflare/docs-release/variables.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_config_tf["deployment/modules/cloudflare/docs/config.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_domain_tf["deployment/modules/cloudflare/docs/domain.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_locals_tf["deployment/modules/cloudflare/docs/locals.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_providers_tf["deployment/modules/cloudflare/docs/providers.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_remote_state_tf["deployment/modules/cloudflare/docs/remote-state.tf"]:::atlasWorkflow
+        art_deployment_modules_cloudflare_docs_variables_tf["deployment/modules/cloudflare/docs/variables.tf"]:::atlasWorkflow
+        art_docker_docker_compose_dev_yml["docker/docker-compose.dev.yml"]:::atlasWorkflow
+        art_docker_docker_compose_prod_yml["docker/docker-compose.prod.yml"]:::atlasWorkflow
+        art_docker_docker_compose_rootless_yml["docker/docker-compose.rootless.yml"]:::atlasWorkflow
+        art_docker_docker_compose_yml["docker/docker-compose.yml"]:::atlasWorkflow
+        art_e2e_docker_compose_dev_yml["e2e/docker-compose.dev.yml"]:::atlasWorkflow
+        art_e2e_docker_compose_yml["e2e/docker-compose.yml"]:::atlasWorkflow
+        art_machine_learning_Dockerfile["machine-learning/Dockerfile"]:::atlasWorkflow
+        art_packages_cli_Dockerfile["packages/cli/Dockerfile"]:::atlasWorkflow
+        art_packages_e2e_auth_server_Dockerfile["packages/e2e-auth-server/Dockerfile"]:::atlasWorkflow
+        art_server_Dockerfile["server/Dockerfile"]:::atlasWorkflow
+        art_server_Dockerfile_dev["server/Dockerfile.dev"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_auto_close_yml_close_template["auto-close.yml#close_template"]
-        job_auto_close_yml_close_translations["auto-close.yml#close_translations"]
-        job_auto_close_yml_parse_template["auto-close.yml#parse_template"]
-        job_build_mobile_yml_build_sign_android["build-mobile.yml#build-sign-android"]
-        job_build_mobile_yml_build_sign_ios["build-mobile.yml#build-sign-ios"]
-        job_check_openapi_yml_check_mobile_patches["check-openapi.yml#check-mobile-patches"]
-        job_cli_yml_docker["cli.yml#docker"]
-        job_cli_yml_publish["cli.yml#publish"]
-        job_docker_yml_mirror["docker.yml#mirror"]
-        job_docker_yml_retag_ml["docker.yml#retag_ml"]
-        job_docker_yml_retag_server["docker.yml#retag_server"]
-        job_docs_build_yml_build["docs-build.yml#build"]
-        job_docs_deploy_yml_deploy["docs-deploy.yml#deploy"]
-        job_docs_destroy_yml_deploy["docs-destroy.yml#deploy"]
-        job_draft_release_yml_draft_release["draft-release.yml#draft_release"]
-        job_draft_release_yml_publish["draft-release.yml#publish"]
-        job_draft_release_yml_tag["draft-release.yml#tag"]
-        job_merge_translations_yml_merge["merge-translations.yml#merge"]
-        job_migration_order_yml_migration_order["migration-order.yml#migration-order"]
-        job_prepare_release_yml_bump_version["prepare-release.yml#bump_version"]
-        job_static_analysis_yml_mobile_dart_analyze["static_analysis.yml#mobile-dart-analyze"]
-        job_test_yml_cli_unit_tests["test.yml#cli-unit-tests"]
-        job_test_yml_cli_unit_tests_win["test.yml#cli-unit-tests-win"]
-        job_test_yml_e2e_tests_lint["test.yml#e2e-tests-lint"]
-        job_test_yml_e2e_tests_ml["test.yml#e2e-tests-ml"]
-        job_test_yml_e2e_tests_server_cli["test.yml#e2e-tests-server-cli"]
-        job_test_yml_e2e_tests_web["test.yml#e2e-tests-web"]
-        job_test_yml_github_files_formatting["test.yml#github-files-formatting"]
-        job_test_yml_ml_unit_tests["test.yml#ml-unit-tests"]
-        job_test_yml_native_tests["test.yml#native-tests"]
-        job_test_yml_server_medium_tests["test.yml#server-medium-tests"]
-        job_test_yml_server_unit_tests["test.yml#server-unit-tests"]
-        job_test_yml_sql_schema_up_to_date["test.yml#sql-schema-up-to-date"]
-        job_test_yml_web_lint["test.yml#web-lint"]
-        job_test_yml_web_medium_tests["test.yml#web-medium-tests"]
-        job_test_yml_web_unit_tests["test.yml#web-unit-tests"]
+        job_auto_close_yml_close_template["auto-close.yml#close_template"]:::atlasJob
+        job_auto_close_yml_close_translations["auto-close.yml#close_translations"]:::atlasJob
+        job_auto_close_yml_parse_template["auto-close.yml#parse_template"]:::atlasJob
+        job_build_mobile_yml_build_sign_android["build-mobile.yml#build-sign-android"]:::atlasJob
+        job_build_mobile_yml_build_sign_ios["build-mobile.yml#build-sign-ios"]:::atlasJob
+        job_check_openapi_yml_check_mobile_patches["check-openapi.yml#check-mobile-patches"]:::atlasJob
+        job_cli_yml_docker["cli.yml#docker"]:::atlasJob
+        job_cli_yml_publish["cli.yml#publish"]:::atlasJob
+        job_docker_yml_mirror["docker.yml#mirror"]:::atlasJob
+        job_docker_yml_retag_ml["docker.yml#retag_ml"]:::atlasJob
+        job_docker_yml_retag_server["docker.yml#retag_server"]:::atlasJob
+        job_docs_build_yml_build["docs-build.yml#build"]:::atlasJob
+        job_docs_deploy_yml_deploy["docs-deploy.yml#deploy"]:::atlasJob
+        job_docs_destroy_yml_deploy["docs-destroy.yml#deploy"]:::atlasJob
+        job_draft_release_yml_draft_release["draft-release.yml#draft_release"]:::atlasJob
+        job_draft_release_yml_publish["draft-release.yml#publish"]:::atlasJob
+        job_draft_release_yml_tag["draft-release.yml#tag"]:::atlasJob
+        job_merge_translations_yml_merge["merge-translations.yml#merge"]:::atlasJob
+        job_migration_order_yml_migration_order["migration-order.yml#migration-order"]:::atlasJob
+        job_prepare_release_yml_bump_version["prepare-release.yml#bump_version"]:::atlasJob
+        job_static_analysis_yml_mobile_dart_analyze["static_analysis.yml#mobile-dart-analyze"]:::atlasJob
+        job_test_yml_cli_unit_tests["test.yml#cli-unit-tests"]:::atlasJob
+        job_test_yml_cli_unit_tests_win["test.yml#cli-unit-tests-win"]:::atlasJob
+        job_test_yml_e2e_tests_lint["test.yml#e2e-tests-lint"]:::atlasJob
+        job_test_yml_e2e_tests_ml["test.yml#e2e-tests-ml"]:::atlasJob
+        job_test_yml_e2e_tests_server_cli["test.yml#e2e-tests-server-cli"]:::atlasJob
+        job_test_yml_e2e_tests_web["test.yml#e2e-tests-web"]:::atlasJob
+        job_test_yml_github_files_formatting["test.yml#github-files-formatting"]:::atlasJob
+        job_test_yml_ml_unit_tests["test.yml#ml-unit-tests"]:::atlasJob
+        job_test_yml_native_tests["test.yml#native-tests"]:::atlasJob
+        job_test_yml_server_medium_tests["test.yml#server-medium-tests"]:::atlasJob
+        job_test_yml_server_unit_tests["test.yml#server-unit-tests"]:::atlasJob
+        job_test_yml_sql_schema_up_to_date["test.yml#sql-schema-up-to-date"]:::atlasJob
+        job_test_yml_web_lint["test.yml#web-lint"]:::atlasJob
+        job_test_yml_web_medium_tests["test.yml#web-medium-tests"]:::atlasJob
+        job_test_yml_web_unit_tests["test.yml#web-unit-tests"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_release["release"]
+        env_release["release"]:::atlasTarget
     end
     job_draft_release_yml_publish -->|DEPLOYS_TO| env_release
     mod__github -->|BUILT_BY| job_auto_close_yml_close_template
@@ -558,15 +569,76 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["immich-app/immich (27 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 22 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["immich-app/immich (27 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (13 workflows · 22 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (8 workflows · 22 jobs)"]
+  wf_0_Auto_close_PRs["Auto-close PRs (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Auto_close_PRs
+  job_0_parse_template["parse_template"]:::atlasJob
+  job_0_close_template["close_template"]:::atlasJob
+  job_0_close_llm["close_llm"]:::atlasJob
+  wf_0_Auto_close_PRs --> job_0_parse_template
+  job_0_parse_template --> job_0_close_template
+  wf_0_Auto_close_PRs --> job_0_close_llm
+  wf_2_Build_Mobile["Build Mobile (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Build_Mobile
+  job_2_pre_job["pre-job"]:::atlasJob
+  job_2_build_sign_android["build-sign-android"]:::atlasJob
+  job_2_build_sign_ios["build-sign-ios"]:::atlasJob
+  wf_2_Build_Mobile --> job_2_pre_job
+  job_2_pre_job --> job_2_build_sign_android
+  job_2_pre_job --> job_2_build_sign_ios
+  wf_26_Weblate_checks["Weblate checks (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_26_Weblate_checks
+  job_26_pre_job["pre-job"]:::atlasJob
+  job_26_enforce_lock["enforce-lock"]:::atlasJob
+  job_26_success_check_lock["success-check-lock"]:::atlasJob
+  wf_26_Weblate_checks --> job_26_pre_job
+  job_26_pre_job --> job_26_enforce_lock
+  job_26_enforce_lock --> job_26_success_check_lock
+  grp_1_Release___Deploy["Release & Deploy (8 workflows · 22 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 27 jobs)"]
+  wf_5_CLI_Build["CLI Build (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_5_CLI_Build
+  job_5_publish["publish"]:::atlasJob
+  job_5_docker["docker"]:::atlasJob
+  wf_5_CLI_Build --> job_5_publish
+  job_5_publish --> job_5_docker
+  wf_8_Docker["Docker (8 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_8_Docker
+  job_8_pre_job["pre-job"]:::atlasJob
+  job_8_retag_ml["retag_ml"]:::atlasJob
+  job_8_retag_server["retag_server"]:::atlasJob
+  wf_8_Docker --> job_8_pre_job
+  job_8_pre_job --> job_8_retag_ml
+  job_8_pre_job --> job_8_retag_server
+  wf_12_Draft_new_release["Draft new release (4 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_12_Draft_new_release
+  job_12_tag["tag"]:::atlasJob
+  job_12_build_mobile["build_mobile"]:::atlasJob
+  wf_12_Draft_new_release --> job_12_tag
+  job_12_tag --> job_12_build_mobile
+  grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 27 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Automation___Other["Automation & Other (1 workflows · 4 jobs)"]
+  wf_4_Check_OpenAPI["Check OpenAPI (2 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_4_Check_OpenAPI
+  wf_25_Test["Test (22 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_25_Test
+  grp_3_Automation___Other["Automation & Other (1 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Automation___Other
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_6_Close_likely_duplicates["Close likely duplicates (4 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_6_Close_likely_duplicates
+  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_7_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_7_CodeQL
+  wf_more["+17 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

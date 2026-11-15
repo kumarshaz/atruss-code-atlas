@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for saleor/storefront
 
 ```mermaid
 graph TD;
-    repo_root(["saleor/storefront (313 components)"])
-    dir_0_src["src (312)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["saleor/storefront (313 components)"]):::atlasRoot
+    dir_0_src["src (312)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_ui["ui (173)"]
+    sub_0_0_ui["ui (173)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_ui
-    sub_0_1_checkout["checkout (91)"]
+    sub_0_1_checkout["checkout (91)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_checkout
-    sub_0_2_app["app (42)"]
+    sub_0_2_app["app (42)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_app
-    sub_0_more["+2 more submodules (6)"]
+    sub_0_more["+2 more submodules (6)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_checkout -.->|"1 dep"| sub_0_0_ui
 ```
@@ -192,20 +199,24 @@ Showing top 60 representative components out of 313 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_185fb09e_36a0_4d21_8249_ec0195dbedf1["185fb09e-36a0-4d21-8249-ec0195dbedf1"]
+        mod_185fb09e_36a0_4d21_8249_ec0195dbedf1["185fb09e-36a0-4d21-8249-ec0195dbedf1"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_agent_skills_yml_restore["agent-skills.yml#restore"]
-        job_build_yml_build["build.yml#build"]
-        job_check_licenses_yaml_default["check-licenses.yaml#default"]
-        job_e2e_preview_yml_e2e["e2e-preview.yml#e2e"]
-        job_lint_yml_lint["lint.yml#lint"]
-        job_update_types_yml_check_saleor_release["update_types.yml#check_saleor_release"]
+        job_agent_skills_yml_restore["agent-skills.yml#restore"]:::atlasJob
+        job_build_yml_build["build.yml#build"]:::atlasJob
+        job_check_licenses_yaml_default["check-licenses.yaml#default"]:::atlasJob
+        job_e2e_preview_yml_e2e["e2e-preview.yml#e2e"]:::atlasJob
+        job_lint_yml_lint["lint.yml#lint"]:::atlasJob
+        job_update_types_yml_check_saleor_release["update_types.yml#check_saleor_release"]:::atlasJob
     end
     mod_185fb09e_36a0_4d21_8249_ec0195dbedf1 -->|BUILT_BY| job_agent_skills_yml_restore
     mod_185fb09e_36a0_4d21_8249_ec0195dbedf1 -->|BUILT_BY| job_build_yml_build
@@ -235,11 +246,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/storefront (6 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/storefront (6 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  wf_3_E2E__Vercel_preview_["E2E (Vercel preview) (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_E2E__Vercel_preview_
+  job_3_e2e["e2e"]:::atlasJob
+  wf_3_E2E__Vercel_preview_ --> job_3_e2e
+  wf_4_Lint_on_deployment["Lint on deployment (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Lint_on_deployment
+  job_4_lint["lint"]:::atlasJob
+  wf_4_Lint_on_deployment --> job_4_lint
+  wf_5_Check_Saleor_release_and_update_types["Check Saleor release and update types (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_5_Check_Saleor_release_and_update_types
+  job_5_check_saleor_release["check_saleor_release"]:::atlasJob
+  wf_5_Check_Saleor_release_and_update_types --> job_5_check_saleor_release
+  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_1_Build["Build (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_1_Build
+  job_1_build["build"]:::atlasJob
+  wf_1_Build --> job_1_build
+  wf_2_Check_Licenses["Check Licenses (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_2_Check_Licenses
+  job_2_default["default"]:::atlasJob
+  wf_2_Check_Licenses --> job_2_default
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_0_Agent_skills["Agent skills (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_0_Agent_skills
+  job_0_restore["restore"]:::atlasJob
+  wf_0_Agent_skills --> job_0_restore
 ```

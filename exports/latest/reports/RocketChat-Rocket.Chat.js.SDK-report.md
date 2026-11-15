@@ -41,10 +41,17 @@ description: Arc42 and Pipeline report for RocketChat/Rocket.Chat.js.SDK
 
 ```mermaid
 graph TD;
-    _rocket_chat_sdk["@rocket.chat/sdk : MODULE"]
-    Client["Client : SERVICE"]
-    RocketChatClient["RocketChatClient : SERVICE"]
-    FakeClient["FakeClient : SERVICE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _rocket_chat_sdk["@rocket.chat/sdk : MODULE"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
+    RocketChatClient["RocketChatClient : SERVICE"]:::atlasJob
+    FakeClient["FakeClient : SERVICE"]:::atlasJob
     FakeClient --> Client
 ```
 
@@ -114,11 +121,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_8827baeb_7c68_4d85_a843_c01c0114dce3["8827baeb-7c68-4d85-a843-c01c0114dce3"]
+        mod_8827baeb_7c68_4d85_a843_c01c0114dce3["8827baeb-7c68-4d85-a843-c01c0114dce3"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_checks["ci.yml#checks"]
+        job_ci_yml_checks["ci.yml#checks"]:::atlasJob
     end
     mod_8827baeb_7c68_4d85_a843_c01c0114dce3 -->|BUILT_BY| job_ci_yml_checks
 ```
@@ -130,8 +141,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_checks["checks"]
+    0_checks["checks"]:::atlasJob
   end
 ```

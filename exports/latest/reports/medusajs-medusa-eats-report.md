@@ -40,18 +40,25 @@ description: Arc42 and Pipeline report for medusajs/medusa-eats
 
 ```mermaid
 graph TD;
-    repo_root(["medusajs/medusa-eats (61 components)"])
-    dir_0_frontend["frontend (34)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["medusajs/medusa-eats (61 components)"]):::atlasRoot
+    dir_0_frontend["frontend (34)"]:::atlasCategory
     repo_root --> dir_0_frontend
-    sub_0_0_src["src (33)"]
+    sub_0_0_src["src (33)"]:::atlasWorkflow
     dir_0_frontend --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_frontend --> sub_0_1__module_root_
-    dir_1_backend["backend (27)"]
+    dir_1_backend["backend (27)"]:::atlasCategory
     repo_root --> dir_1_backend
-    sub_1_0_src["src (26)"]
+    sub_1_0_src["src (26)"]:::atlasWorkflow
     dir_1_backend --> sub_1_0_src
-    sub_1_1__module_root_["(module root) (1)"]
+    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_1_backend --> sub_1_1__module_root_
 ```
 
@@ -184,5 +191,12 @@ Showing top 60 representative components out of 61 across 2 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

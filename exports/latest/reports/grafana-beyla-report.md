@@ -41,52 +41,59 @@ description: Arc42 and Pipeline report for grafana/beyla
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/beyla (208 components)"])
-    dir_0_pkg["pkg (133)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/beyla (208 components)"]):::atlasRoot
+    dir_0_pkg["pkg (133)"]:::atlasCategory
     repo_root --> dir_0_pkg
-    sub_0_0_internal["internal (37)"]
+    sub_0_0_internal["internal (37)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_0_internal
-    sub_0_1_webhook["webhook (32)"]
+    sub_0_1_webhook["webhook (32)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_1_webhook
-    sub_0_2_export["export (30)"]
+    sub_0_2_export["export (30)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_2_export
-    sub_0_more["+7 more submodules (34)"]
+    sub_0_more["+7 more submodules (34)"]:::atlasMore
     dir_0_pkg --> sub_0_more
-    dir_1_internal["internal (32)"]
+    dir_1_internal["internal (32)"]:::atlasCategory
     repo_root --> dir_1_internal
-    sub_1_0_test_integration["test/integration (14)"]
+    sub_1_0_test_integration["test/integration (14)"]:::atlasWorkflow
     dir_1_internal --> sub_1_0_test_integration
-    sub_1_1_test_beyla_extensions["test/beyla_extensions (11)"]
+    sub_1_1_test_beyla_extensions["test/beyla_extensions (11)"]:::atlasWorkflow
     dir_1_internal --> sub_1_1_test_beyla_extensions
-    sub_1_2_test_tools["test/tools (7)"]
+    sub_1_2_test_tools["test/tools (7)"]:::atlasWorkflow
     dir_1_internal --> sub_1_2_test_tools
-    dir_2_charts["charts (21)"]
+    dir_2_charts["charts (21)"]:::atlasCategory
     repo_root --> dir_2_charts
-    sub_2_0_beyla_templates["beyla/templates (11)"]
+    sub_2_0_beyla_templates["beyla/templates (11)"]:::atlasWorkflow
     dir_2_charts --> sub_2_0_beyla_templates
-    sub_2_1_beyla_tests["beyla/tests (8)"]
+    sub_2_1_beyla_tests["beyla/tests (8)"]:::atlasWorkflow
     dir_2_charts --> sub_2_1_beyla_tests
-    sub_2_2_beyla["beyla (2)"]
+    sub_2_2_beyla["beyla (2)"]:::atlasWorkflow
     dir_2_charts --> sub_2_2_beyla
-    dir_3_cmd["cmd (11)"]
+    dir_3_cmd["cmd (11)"]:::atlasCategory
     repo_root --> dir_3_cmd
-    sub_3_0_beyla["beyla (7)"]
+    sub_3_0_beyla["beyla (7)"]:::atlasWorkflow
     dir_3_cmd --> sub_3_0_beyla
-    sub_3_1_beyla_schema["beyla-schema (2)"]
+    sub_3_1_beyla_schema["beyla-schema (2)"]:::atlasWorkflow
     dir_3_cmd --> sub_3_1_beyla_schema
-    sub_3_2_k8s_cache["k8s-cache (2)"]
+    sub_3_2_k8s_cache["k8s-cache (2)"]:::atlasWorkflow
     dir_3_cmd --> sub_3_2_k8s_cache
-    dir_4_examples["examples (9)"]
+    dir_4_examples["examples (9)"]:::atlasCategory
     repo_root --> dir_4_examples
-    sub_4_0_greeting_apps["greeting-apps (5)"]
+    sub_4_0_greeting_apps["greeting-apps (5)"]:::atlasWorkflow
     dir_4_examples --> sub_4_0_greeting_apps
-    sub_4_1_quickstart["quickstart (2)"]
+    sub_4_1_quickstart["quickstart (2)"]:::atlasWorkflow
     dir_4_examples --> sub_4_1_quickstart
-    sub_4_2_example_http_service["example-http-service (1)"]
+    sub_4_2_example_http_service["example-http-service (1)"]:::atlasWorkflow
     dir_4_examples --> sub_4_2_example_http_service
-    sub_4_more["+1 more submodules (1)"]
+    sub_4_more["+1 more submodules (1)"]:::atlasMore
     dir_4_examples --> sub_4_more
-    dir_other_modules["+1 more modules (2)"]
+    dir_other_modules["+1 more modules (2)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -221,68 +228,72 @@ Showing top 60 representative components out of 208 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_5c9bbf92_9a55_49eb_80f6_8c9baecc7cbc["5c9bbf92-9a55-49eb-80f6-8c9baecc7cbc"]
-        mod_charts_beyla["charts/beyla"]
-        mod_examples_greeting_apps["examples/greeting-apps"]
-        mod_examples_quickstart_nodejs["examples/quickstart/nodejs"]
-        mod_internal_test_beyla_extensions_components_beyla["internal/test/beyla_extensions/components/beyla"]
-        mod_internal_test_beyla_extensions_components_beyla_k8s_cache["internal/test/beyla_extensions/components/beyla-k8s-cache"]
-        mod_internal_test_beyla_extensions_components_mongo["internal/test/beyla_extensions/components/mongo"]
-        mod_internal_test_integration_components_beyla["internal/test/integration/components/beyla"]
-        mod_internal_test_integration_components_local_process["internal/test/integration/components/local-process"]
-        mod_internal_test_integration_components_openai["internal/test/integration/components/openai"]
-        mod_internal_test_integration_components_openai_mock_server["internal/test/integration/components/openai/mock-server"]
-        mod_internal_test_integration_components_survey["internal/test/integration/components/survey"]
-        mod_pkg_webhook_image["pkg/webhook/image"]
-        mod_pkg_webhook_image_node_js["pkg/webhook/image/node.js"]
-        mod_pkg_webhook_image_ruby["pkg/webhook/image/ruby"]
-        mod_scripts_obi_configbridge["scripts/obi-configbridge"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_5c9bbf92_9a55_49eb_80f6_8c9baecc7cbc["5c9bbf92-9a55-49eb-80f6-8c9baecc7cbc"]:::atlasCategory
+        mod_charts_beyla["charts/beyla"]:::atlasCategory
+        mod_examples_greeting_apps["examples/greeting-apps"]:::atlasCategory
+        mod_examples_quickstart_nodejs["examples/quickstart/nodejs"]:::atlasCategory
+        mod_internal_test_beyla_extensions_components_beyla["internal/test/beyla_extensions/components/beyla"]:::atlasCategory
+        mod_internal_test_beyla_extensions_components_beyla_k8s_cache["internal/test/beyla_extensions/components/beyla-k8s-cache"]:::atlasCategory
+        mod_internal_test_beyla_extensions_components_mongo["internal/test/beyla_extensions/components/mongo"]:::atlasCategory
+        mod_internal_test_integration_components_beyla["internal/test/integration/components/beyla"]:::atlasCategory
+        mod_internal_test_integration_components_local_process["internal/test/integration/components/local-process"]:::atlasCategory
+        mod_internal_test_integration_components_openai["internal/test/integration/components/openai"]:::atlasCategory
+        mod_internal_test_integration_components_openai_mock_server["internal/test/integration/components/openai/mock-server"]:::atlasCategory
+        mod_internal_test_integration_components_survey["internal/test/integration/components/survey"]:::atlasCategory
+        mod_pkg_webhook_image["pkg/webhook/image"]:::atlasCategory
+        mod_pkg_webhook_image_node_js["pkg/webhook/image/node.js"]:::atlasCategory
+        mod_pkg_webhook_image_ruby["pkg/webhook/image/ruby"]:::atlasCategory
+        mod_scripts_obi_configbridge["scripts/obi-configbridge"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_____matrix_file___["${{ matrix.file }}"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
-        art_examples_greeting_apps_docker_compose_yaml["examples/greeting-apps/docker-compose.yaml"]
-        art_examples_k8s_unprivileged_yaml["examples/k8s/unprivileged.yaml"]
-        art_internal_test_beyla_extensions_components_beyla_k8s_cache_Dockerfile["internal/test/beyla_extensions/components/beyla-k8s-cache/Dockerfile"]
-        art_internal_test_beyla_extensions_components_beyla_Dockerfile["internal/test/beyla_extensions/components/beyla/Dockerfile"]
-        art_internal_test_beyla_extensions_components_mongo_Dockerfile["internal/test/beyla_extensions/components/mongo/Dockerfile"]
-        art_internal_test_beyla_extensions_docker_compose_client_promscrape_yml["internal/test/beyla_extensions/docker-compose-client-promscrape.yml"]
-        art_internal_test_beyla_extensions_docker_compose_python_sql_yml["internal/test/beyla_extensions/docker-compose-python-sql.yml"]
-        art_internal_test_beyla_extensions_k8s_manifests_06_beyla_all_processes_yml["internal/test/beyla_extensions/k8s/manifests/06-beyla-all-processes.yml"]
-        art_internal_test_beyla_extensions_k8s_manifests_06_beyla_daemonset_topology_extern_yml["internal/test/beyla_extensions/k8s/manifests/06-beyla-daemonset-topology-extern.yml"]
-        art_internal_test_integration_components_beyla_Dockerfile["internal/test/integration/components/beyla/Dockerfile"]
-        art_internal_test_integration_components_local_process_Dockerfile["internal/test/integration/components/local-process/Dockerfile"]
-        art_internal_test_integration_components_openai_Dockerfile["internal/test/integration/components/openai/Dockerfile"]
-        art_internal_test_integration_components_openai_mock_server_Dockerfile["internal/test/integration/components/openai/mock-server/Dockerfile"]
-        art_internal_test_integration_components_survey_Dockerfile["internal/test/integration/components/survey/Dockerfile"]
-        art_internal_test_integration_compose_docker_compose_instrument_all_local_yml["internal/test/integration/compose/docker-compose-instrument-all-local.yml"]
-        art_internal_test_integration_compose_docker_compose_process_yml["internal/test/integration/compose/docker-compose-process.yml"]
-        art_internal_test_integration_compose_docker_compose_sigil_yml["internal/test/integration/compose/docker-compose-sigil.yml"]
-        art_internal_test_integration_compose_docker_compose_survey_options_yml["internal/test/integration/compose/docker-compose-survey-options.yml"]
-        art_internal_test_integration_compose_docker_compose_webhook_yml["internal/test/integration/compose/docker-compose-webhook.yml"]
-        art_pkg_webhook_image_Dockerfile["pkg/webhook/image/Dockerfile"]
+        art_____matrix_file___["${{ matrix.file }}"]:::atlasWorkflow
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_examples_greeting_apps_docker_compose_yaml["examples/greeting-apps/docker-compose.yaml"]:::atlasWorkflow
+        art_examples_k8s_unprivileged_yaml["examples/k8s/unprivileged.yaml"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_components_beyla_k8s_cache_Dockerfile["internal/test/beyla_extensions/components/beyla-k8s-cache/Dockerfile"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_components_beyla_Dockerfile["internal/test/beyla_extensions/components/beyla/Dockerfile"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_components_mongo_Dockerfile["internal/test/beyla_extensions/components/mongo/Dockerfile"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_docker_compose_client_promscrape_yml["internal/test/beyla_extensions/docker-compose-client-promscrape.yml"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_docker_compose_python_sql_yml["internal/test/beyla_extensions/docker-compose-python-sql.yml"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_k8s_manifests_06_beyla_all_processes_yml["internal/test/beyla_extensions/k8s/manifests/06-beyla-all-processes.yml"]:::atlasWorkflow
+        art_internal_test_beyla_extensions_k8s_manifests_06_beyla_daemonset_topology_extern_yml["internal/test/beyla_extensions/k8s/manifests/06-beyla-daemonset-topology-extern.yml"]:::atlasWorkflow
+        art_internal_test_integration_components_beyla_Dockerfile["internal/test/integration/components/beyla/Dockerfile"]:::atlasWorkflow
+        art_internal_test_integration_components_local_process_Dockerfile["internal/test/integration/components/local-process/Dockerfile"]:::atlasWorkflow
+        art_internal_test_integration_components_openai_Dockerfile["internal/test/integration/components/openai/Dockerfile"]:::atlasWorkflow
+        art_internal_test_integration_components_openai_mock_server_Dockerfile["internal/test/integration/components/openai/mock-server/Dockerfile"]:::atlasWorkflow
+        art_internal_test_integration_components_survey_Dockerfile["internal/test/integration/components/survey/Dockerfile"]:::atlasWorkflow
+        art_internal_test_integration_compose_docker_compose_instrument_all_local_yml["internal/test/integration/compose/docker-compose-instrument-all-local.yml"]:::atlasWorkflow
+        art_internal_test_integration_compose_docker_compose_process_yml["internal/test/integration/compose/docker-compose-process.yml"]:::atlasWorkflow
+        art_internal_test_integration_compose_docker_compose_sigil_yml["internal/test/integration/compose/docker-compose-sigil.yml"]:::atlasWorkflow
+        art_internal_test_integration_compose_docker_compose_survey_options_yml["internal/test/integration/compose/docker-compose-survey-options.yml"]:::atlasWorkflow
+        art_internal_test_integration_compose_docker_compose_webhook_yml["internal/test/integration/compose/docker-compose-webhook.yml"]:::atlasWorkflow
+        art_pkg_webhook_image_Dockerfile["pkg/webhook/image/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_alloy_beyla_image_yml_build["build-alloy-beyla-image.yml#build"]
-        job_helm_chart_bump_yml_bump_chart["helm-chart-bump.yml#bump-chart"]
-        job_helm_test_yml_lint_helm_chart["helm-test.yml#lint-helm-chart"]
-        job_helm_test_yml_run_integration_tests["helm-test.yml#run-integration-tests"]
-        job_promote_patch_to_stable_yml_promote["promote-patch-to-stable.yml#promote"]
-        job_publish_gar_main_yml_build["publish_gar_main.yml#build"]
-        job_publish_gar_pre_release_yml_build["publish_gar_pre_release.yml#build"]
-        job_publish_gar_release_yml_build["publish_gar_release.yml#build"]
-        job_publish_inject_sdk_image_yml_build["publish_inject_sdk_image.yml#build"]
-        job_pull_request_beyla_integration_tests_yml_test["pull_request_beyla_integration_tests.yml#test"]
-        job_pull_request_integration_tests_yml_test["pull_request_integration_tests.yml#test"]
-        job_pull_request_test_docker_build_yml_build["pull_request_test_docker_build.yml#build"]
-        job_workflow_integration_tests_vm_yml_prep["workflow_integration_tests_vm.yml#prep"]
+        job_build_alloy_beyla_image_yml_build["build-alloy-beyla-image.yml#build"]:::atlasJob
+        job_helm_chart_bump_yml_bump_chart["helm-chart-bump.yml#bump-chart"]:::atlasJob
+        job_helm_test_yml_lint_helm_chart["helm-test.yml#lint-helm-chart"]:::atlasJob
+        job_helm_test_yml_run_integration_tests["helm-test.yml#run-integration-tests"]:::atlasJob
+        job_promote_patch_to_stable_yml_promote["promote-patch-to-stable.yml#promote"]:::atlasJob
+        job_publish_gar_main_yml_build["publish_gar_main.yml#build"]:::atlasJob
+        job_publish_gar_pre_release_yml_build["publish_gar_pre_release.yml#build"]:::atlasJob
+        job_publish_gar_release_yml_build["publish_gar_release.yml#build"]:::atlasJob
+        job_publish_inject_sdk_image_yml_build["publish_inject_sdk_image.yml#build"]:::atlasJob
+        job_pull_request_beyla_integration_tests_yml_test["pull_request_beyla_integration_tests.yml#test"]:::atlasJob
+        job_pull_request_integration_tests_yml_test["pull_request_integration_tests.yml#test"]:::atlasJob
+        job_pull_request_test_docker_build_yml_build["pull_request_test_docker_build.yml#build"]:::atlasJob
+        job_workflow_integration_tests_vm_yml_prep["workflow_integration_tests_vm.yml#prep"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_helm_chart_bump_yml_bump_chart -->|DEPLOYS_TO| env_kubernetes
     job_helm_test_yml_lint_helm_chart -->|DEPLOYS_TO| env_kubernetes
@@ -457,11 +468,74 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/beyla (31 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 31 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/beyla (31 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (13 workflows · 31 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (12 workflows · 24 jobs)"]
+  wf_0_Fix_OBI_submodule_CI["Fix OBI submodule CI (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Fix_OBI_submodule_CI
+  job_0_wait_for_ci["wait-for-ci"]:::atlasJob
+  job_0_triage["triage"]:::atlasJob
+  job_0_plan["plan"]:::atlasJob
+  wf_0_Fix_OBI_submodule_CI --> job_0_wait_for_ci
+  job_0_wait_for_ci --> job_0_triage
+  job_0_triage --> job_0_plan
+  wf_14_Pull_request_checks["Pull request checks (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_14_Pull_request_checks
+  job_14_generate["generate"]:::atlasJob
+  job_14_lint["lint"]:::atlasJob
+  job_14_lint_dashboard["lint-dashboard"]:::atlasJob
+  wf_14_Pull_request_checks --> job_14_generate
+  job_14_generate --> job_14_lint
+  wf_14_Pull_request_checks --> job_14_lint_dashboard
+  wf_21_PR_OATS_test["PR OATS test (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_21_PR_OATS_test
+  job_21_test_matrix["test-matrix"]:::atlasJob
+  job_21_finalizer_unit_tests["finalizer-unit-tests"]:::atlasJob
+  job_21_test["test"]:::atlasJob
+  wf_21_PR_OATS_test --> job_21_test_matrix
+  wf_21_PR_OATS_test --> job_21_finalizer_unit_tests
+  job_21_test_matrix --> job_21_test
+  wf_28_CI_Supervisor__Rerun_flaky_failures["CI Supervisor: Rerun flaky failures (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_28_CI_Supervisor__Rerun_flaky_failures
+  job_28_evaluate_and_rerun["evaluate-and-rerun"]:::atlasJob
+  job_28_add_agent_label["add-agent-label"]:::atlasJob
+  job_28_handle_ci_completion["handle-ci-completion"]:::atlasJob
+  wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_evaluate_and_rerun
+  job_28_evaluate_and_rerun --> job_28_add_agent_label
+  job_28_handle_ci_completion --> job_28_add_agent_label
+  wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_handle_ci_completion
+  grp_1_Release___Deploy["Release & Deploy (12 workflows · 24 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (6 workflows · 10 jobs)"]
+  wf_9_Promote_patch_to_stable_release["Promote patch to stable release (5 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_9_Promote_patch_to_stable_release
+  job_9_validate["validate"]:::atlasJob
+  job_9_promote["promote"]:::atlasJob
+  job_9_bump_helm_chart["bump-helm-chart"]:::atlasJob
+  wf_9_Promote_patch_to_stable_release --> job_9_validate
+  job_9_validate --> job_9_promote
+  job_9_validate --> job_9_bump_helm_chart
+  job_9_promote --> job_9_bump_helm_chart
+  wf_13_Publish_inject_sdk_image["Publish inject-sdk-image (3 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_13_Publish_inject_sdk_image
+  job_13_resolve_version["resolve-version"]:::atlasJob
+  wf_13_Publish_inject_sdk_image --> job_13_resolve_version
+  wf_24_Release_binaries["Release binaries (5 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_24_Release_binaries
+  grp_2_Scheduled___Manual["Scheduled & Manual (6 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_3_Build_alloy_beyla_image["Build alloy-beyla image (2 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_3_Build_alloy_beyla_image
+  wf_6_Bump_Helm_chart_version["Bump Helm chart version (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_6_Bump_Helm_chart_version
+  wf_8_Helm_Test["Helm Test (4 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_8_Helm_Test
+  wf_more["+21 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

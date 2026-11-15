@@ -41,9 +41,16 @@ description: Arc42 and Pipeline report for keycloak/keycloak-js
 
 ```mermaid
 graph TD;
-    keycloak_js["keycloak-js : MODULE"]
-    keycloak_js_test["keycloak-js-test : MODULE"]
-    GET_adapter_config_json["GET_adapter-config.json : API_ROUTE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    keycloak_js["keycloak-js : MODULE"]:::atlasJob
+    keycloak_js_test["keycloak-js-test : MODULE"]:::atlasJob
+    GET_adapter_config_json["GET_adapter-config.json : API_ROUTE"]:::atlasJob
 ```
 
 ## Component Details
@@ -116,12 +123,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_test["test"]
+        mod_test["test"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_main_yml_test_integration["main.yml#test-integration"]
-        job_x_release_yml_release_impl["x-release.yml#release-impl"]
+        job_main_yml_test_integration["main.yml#test-integration"]:::atlasJob
+        job_x_release_yml_release_impl["x-release.yml#release-impl"]:::atlasJob
     end
     mod_test -->|BUILT_BY| job_main_yml_test_integration
     mod_test -->|DEPLOYED_BY| job_x_release_yml_release_impl
@@ -135,17 +146,34 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/keycloak-js (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/keycloak-js (4 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  wf_1_Release_Nightly["Release Nightly (1 jobs)"]
+  wf_1_Release_Nightly["Release Nightly (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_1_Release_Nightly
-  wf_2_Release["Release (1 jobs)"]
+  job_1_release_nightly["release-nightly"]:::atlasJob
+  wf_1_Release_Nightly --> job_1_release_nightly
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_2_Release
-  wf_3_X_Release["X Release (1 jobs)"]
+  job_2_release["release"]:::atlasJob
+  wf_2_Release --> job_2_release
+  wf_3_X_Release["X Release (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_3_X_Release
-  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
+  job_3_release_impl["release-impl"]:::atlasJob
+  wf_3_X_Release --> job_3_release_impl
+  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (2 jobs)"]
+  wf_0_CI["CI (2 jobs)"]:::atlasWorkflow
   grp_1_CI___Verification --> wf_0_CI
+  job_0_build_guides["build-guides"]:::atlasJob
+  job_0_test_integration["test-integration"]:::atlasJob
+  wf_0_CI --> job_0_build_guides
+  wf_0_CI --> job_0_test_integration
 ```

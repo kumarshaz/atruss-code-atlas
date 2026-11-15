@@ -41,44 +41,51 @@ description: Arc42 and Pipeline report for apache/fluss
 
 ```mermaid
 graph TD;
-    repo_root(["apache/fluss (437 components)"])
-    dir_0_fluss_rust["fluss-rust (290)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["apache/fluss (437 components)"]):::atlasRoot
+    dir_0_fluss_rust["fluss-rust (290)"]:::atlasCategory
     repo_root --> dir_0_fluss_rust
-    sub_0_0_crates["crates (218)"]
+    sub_0_0_crates["crates (218)"]:::atlasWorkflow
     dir_0_fluss_rust --> sub_0_0_crates
-    sub_0_1_bindings["bindings (71)"]
+    sub_0_1_bindings["bindings (71)"]:::atlasWorkflow
     dir_0_fluss_rust --> sub_0_1_bindings
-    sub_0_2_website["website (1)"]
+    sub_0_2_website["website (1)"]:::atlasWorkflow
     dir_0_fluss_rust --> sub_0_2_website
-    dir_1_fluss_gateway["fluss-gateway (30)"]
+    dir_1_fluss_gateway["fluss-gateway (30)"]:::atlasCategory
     repo_root --> dir_1_fluss_gateway
-    sub_1_0_src["src (26)"]
+    sub_1_0_src["src (26)"]:::atlasWorkflow
     dir_1_fluss_gateway --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]
+    sub_1_1_tests["tests (4)"]:::atlasWorkflow
     dir_1_fluss_gateway --> sub_1_1_tests
-    dir_2_helm["helm (30)"]
+    dir_2_helm["helm (30)"]:::atlasCategory
     repo_root --> dir_2_helm
-    sub_2_0_tests["tests (17)"]
+    sub_2_0_tests["tests (17)"]:::atlasWorkflow
     dir_2_helm --> sub_2_0_tests
-    sub_2_1_templates["templates (11)"]
+    sub_2_1_templates["templates (11)"]:::atlasWorkflow
     dir_2_helm --> sub_2_1_templates
-    sub_2_2__module_root_["(module root) (2)"]
+    sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
     dir_2_helm --> sub_2_2__module_root_
-    dir_3_website["website (24)"]
+    dir_3_website["website (24)"]:::atlasCategory
     repo_root --> dir_3_website
-    sub_3_0_src["src (23)"]
+    sub_3_0_src["src (23)"]:::atlasWorkflow
     dir_3_website --> sub_3_0_src
-    sub_3_1__module_root_["(module root) (1)"]
+    sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_3_website --> sub_3_1__module_root_
-    dir_4_devkit["devkit (11)"]
+    dir_4_devkit["devkit (11)"]:::atlasCategory
     repo_root --> dir_4_devkit
-    sub_4_0_compose["compose (5)"]
+    sub_4_0_compose["compose (5)"]:::atlasWorkflow
     dir_4_devkit --> sub_4_0_compose
-    sub_4_1_profiles["profiles (5)"]
+    sub_4_1_profiles["profiles (5)"]:::atlasWorkflow
     dir_4_devkit --> sub_4_1_profiles
-    sub_4_2__module_root_["(module root) (1)"]
+    sub_4_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_4_devkit --> sub_4_2__module_root_
-    dir_other_modules["+19 more modules (52)"]
+    dir_other_modules["+19 more modules (52)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -225,98 +232,102 @@ Showing top 60 representative components out of 437 across 24 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_4ba4c261_57d3_4b0d_bd2b_e6148ff2ce7e["4ba4c261-57d3-4b0d-bd2b-e6148ff2ce7e"]
-        mod_devkit["devkit"]
-        mod_docker_fluss["docker/fluss"]
-        mod_docker_fluss_gateway["docker/fluss-gateway"]
-        mod_docker_quickstart_flink["docker/quickstart-flink"]
-        mod_fluss_client["fluss-client"]
-        mod_fluss_common["fluss-common"]
-        mod_fluss_dist["fluss-dist"]
-        mod_fluss_gateway["fluss-gateway"]
-        mod_fluss_lake["fluss-lake"]
-        mod_fluss_metrics["fluss-metrics"]
-        mod_fluss_rpc["fluss-rpc"]
-        mod_fluss_rust["fluss-rust"]
-        mod_fluss_rust_bindings_cpp["fluss-rust/bindings/cpp"]
-        mod_fluss_rust_bindings_elixir["fluss-rust/bindings/elixir"]
-        mod_fluss_rust_bindings_python["fluss-rust/bindings/python"]
-        mod_fluss_rust_crates_fluss["fluss-rust/crates/fluss"]
-        mod_fluss_rust_crates_fluss_gen["fluss-rust/crates/fluss/gen"]
-        mod_fluss_rust_website["fluss-rust/website"]
-        mod_fluss_server["fluss-server"]
-        mod_fluss_test_utils["fluss-test-utils"]
-        mod_fluss_trino["fluss-trino"]
-        mod_helm["helm"]
-        mod_tools_ci_fluss_ci_tools["tools/ci/fluss-ci-tools"]
-        mod_website["website"]
+        mod_4ba4c261_57d3_4b0d_bd2b_e6148ff2ce7e["4ba4c261-57d3-4b0d-bd2b-e6148ff2ce7e"]:::atlasCategory
+        mod_devkit["devkit"]:::atlasCategory
+        mod_docker_fluss["docker/fluss"]:::atlasCategory
+        mod_docker_fluss_gateway["docker/fluss-gateway"]:::atlasCategory
+        mod_docker_quickstart_flink["docker/quickstart-flink"]:::atlasCategory
+        mod_fluss_client["fluss-client"]:::atlasCategory
+        mod_fluss_common["fluss-common"]:::atlasCategory
+        mod_fluss_dist["fluss-dist"]:::atlasCategory
+        mod_fluss_gateway["fluss-gateway"]:::atlasCategory
+        mod_fluss_lake["fluss-lake"]:::atlasCategory
+        mod_fluss_metrics["fluss-metrics"]:::atlasCategory
+        mod_fluss_rpc["fluss-rpc"]:::atlasCategory
+        mod_fluss_rust["fluss-rust"]:::atlasCategory
+        mod_fluss_rust_bindings_cpp["fluss-rust/bindings/cpp"]:::atlasCategory
+        mod_fluss_rust_bindings_elixir["fluss-rust/bindings/elixir"]:::atlasCategory
+        mod_fluss_rust_bindings_python["fluss-rust/bindings/python"]:::atlasCategory
+        mod_fluss_rust_crates_fluss["fluss-rust/crates/fluss"]:::atlasCategory
+        mod_fluss_rust_crates_fluss_gen["fluss-rust/crates/fluss/gen"]:::atlasCategory
+        mod_fluss_rust_website["fluss-rust/website"]:::atlasCategory
+        mod_fluss_server["fluss-server"]:::atlasCategory
+        mod_fluss_test_utils["fluss-test-utils"]:::atlasCategory
+        mod_fluss_trino["fluss-trino"]:::atlasCategory
+        mod_helm["helm"]:::atlasCategory
+        mod_tools_ci_fluss_ci_tools["tools/ci/fluss-ci-tools"]:::atlasCategory
+        mod_website["website"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_devkit_docker_compose_yml["devkit/docker-compose.yml"]
-        art_docker_fluss_gateway_Dockerfile["docker/fluss-gateway/Dockerfile"]
-        art_docker_fluss_gateway_Dockerfile_build["docker/fluss-gateway/Dockerfile.build"]
-        art_docker_fluss_Dockerfile["docker/fluss/Dockerfile"]
-        art_docker_quickstart_flink_Dockerfile["docker/quickstart-flink/Dockerfile"]
-        art_helm_Chart_yaml["helm/Chart.yaml"]
-        art_helm_templates_configmap_jaas_template_yaml["helm/templates/configmap-jaas-template.yaml"]
-        art_helm_templates_configmap_yaml["helm/templates/configmap.yaml"]
-        art_helm_templates_pdb_coordinator_yaml["helm/templates/pdb-coordinator.yaml"]
-        art_helm_templates_pdb_tablet_yaml["helm/templates/pdb-tablet.yaml"]
-        art_helm_templates_serviceaccount_yaml["helm/templates/serviceaccount.yaml"]
-        art_helm_templates_sts_coordinator_yaml["helm/templates/sts-coordinator.yaml"]
-        art_helm_templates_sts_tablet_yaml["helm/templates/sts-tablet.yaml"]
-        art_helm_templates_svc_coordinator_yaml["helm/templates/svc-coordinator.yaml"]
-        art_helm_templates_svc_metrics_coordinator_yaml["helm/templates/svc-metrics-coordinator.yaml"]
-        art_helm_templates_svc_metrics_tablet_yaml["helm/templates/svc-metrics-tablet.yaml"]
-        art_helm_templates_svc_tablet_yaml["helm/templates/svc-tablet.yaml"]
-        art_helm_tests_annotations_test_yaml["helm/tests/annotations_test.yaml"]
-        art_helm_tests_env_test_yaml["helm/tests/env_test.yaml"]
-        art_helm_tests_extra_volumes_test_yaml["helm/tests/extra_volumes_test.yaml"]
-        art_helm_tests_imagepullsecrets_test_yaml["helm/tests/imagepullsecrets_test.yaml"]
-        art_helm_tests_listeners_test_yaml["helm/tests/listeners_test.yaml"]
-        art_helm_tests_metrics_test_yaml["helm/tests/metrics_test.yaml"]
-        art_helm_tests_naming_test_yaml["helm/tests/naming_test.yaml"]
-        art_helm_tests_pod_metadata_and_pdb_test_yaml["helm/tests/pod_metadata_and_pdb_test.yaml"]
-        art_helm_tests_readiness_probe_test_yaml["helm/tests/readiness_probe_test.yaml"]
-        art_helm_tests_resources_test_yaml["helm/tests/resources_test.yaml"]
-        art_helm_tests_sasl_existing_secret_test_yaml["helm/tests/sasl_existing_secret_test.yaml"]
-        art_helm_tests_scheduling_test_yaml["helm/tests/scheduling_test.yaml"]
-        art_helm_tests_secrets_test_yaml["helm/tests/secrets_test.yaml"]
-        art_helm_tests_secrets_validate_test_yaml["helm/tests/secrets_validate_test.yaml"]
-        art_helm_tests_security_test_yaml["helm/tests/security_test.yaml"]
-        art_helm_tests_services_test_yaml["helm/tests/services_test.yaml"]
-        art_helm_tests_validate_test_yaml["helm/tests/validate_test.yaml"]
-        art_helm_values_yaml["helm/values.yaml"]
+        art_devkit_docker_compose_yml["devkit/docker-compose.yml"]:::atlasWorkflow
+        art_docker_fluss_gateway_Dockerfile["docker/fluss-gateway/Dockerfile"]:::atlasWorkflow
+        art_docker_fluss_gateway_Dockerfile_build["docker/fluss-gateway/Dockerfile.build"]:::atlasWorkflow
+        art_docker_fluss_Dockerfile["docker/fluss/Dockerfile"]:::atlasWorkflow
+        art_docker_quickstart_flink_Dockerfile["docker/quickstart-flink/Dockerfile"]:::atlasWorkflow
+        art_helm_Chart_yaml["helm/Chart.yaml"]:::atlasWorkflow
+        art_helm_templates_configmap_jaas_template_yaml["helm/templates/configmap-jaas-template.yaml"]:::atlasWorkflow
+        art_helm_templates_configmap_yaml["helm/templates/configmap.yaml"]:::atlasWorkflow
+        art_helm_templates_pdb_coordinator_yaml["helm/templates/pdb-coordinator.yaml"]:::atlasWorkflow
+        art_helm_templates_pdb_tablet_yaml["helm/templates/pdb-tablet.yaml"]:::atlasWorkflow
+        art_helm_templates_serviceaccount_yaml["helm/templates/serviceaccount.yaml"]:::atlasWorkflow
+        art_helm_templates_sts_coordinator_yaml["helm/templates/sts-coordinator.yaml"]:::atlasWorkflow
+        art_helm_templates_sts_tablet_yaml["helm/templates/sts-tablet.yaml"]:::atlasWorkflow
+        art_helm_templates_svc_coordinator_yaml["helm/templates/svc-coordinator.yaml"]:::atlasWorkflow
+        art_helm_templates_svc_metrics_coordinator_yaml["helm/templates/svc-metrics-coordinator.yaml"]:::atlasWorkflow
+        art_helm_templates_svc_metrics_tablet_yaml["helm/templates/svc-metrics-tablet.yaml"]:::atlasWorkflow
+        art_helm_templates_svc_tablet_yaml["helm/templates/svc-tablet.yaml"]:::atlasWorkflow
+        art_helm_tests_annotations_test_yaml["helm/tests/annotations_test.yaml"]:::atlasWorkflow
+        art_helm_tests_env_test_yaml["helm/tests/env_test.yaml"]:::atlasWorkflow
+        art_helm_tests_extra_volumes_test_yaml["helm/tests/extra_volumes_test.yaml"]:::atlasWorkflow
+        art_helm_tests_imagepullsecrets_test_yaml["helm/tests/imagepullsecrets_test.yaml"]:::atlasWorkflow
+        art_helm_tests_listeners_test_yaml["helm/tests/listeners_test.yaml"]:::atlasWorkflow
+        art_helm_tests_metrics_test_yaml["helm/tests/metrics_test.yaml"]:::atlasWorkflow
+        art_helm_tests_naming_test_yaml["helm/tests/naming_test.yaml"]:::atlasWorkflow
+        art_helm_tests_pod_metadata_and_pdb_test_yaml["helm/tests/pod_metadata_and_pdb_test.yaml"]:::atlasWorkflow
+        art_helm_tests_readiness_probe_test_yaml["helm/tests/readiness_probe_test.yaml"]:::atlasWorkflow
+        art_helm_tests_resources_test_yaml["helm/tests/resources_test.yaml"]:::atlasWorkflow
+        art_helm_tests_sasl_existing_secret_test_yaml["helm/tests/sasl_existing_secret_test.yaml"]:::atlasWorkflow
+        art_helm_tests_scheduling_test_yaml["helm/tests/scheduling_test.yaml"]:::atlasWorkflow
+        art_helm_tests_secrets_test_yaml["helm/tests/secrets_test.yaml"]:::atlasWorkflow
+        art_helm_tests_secrets_validate_test_yaml["helm/tests/secrets_validate_test.yaml"]:::atlasWorkflow
+        art_helm_tests_security_test_yaml["helm/tests/security_test.yaml"]:::atlasWorkflow
+        art_helm_tests_services_test_yaml["helm/tests/services_test.yaml"]:::atlasWorkflow
+        art_helm_tests_validate_test_yaml["helm/tests/validate_test.yaml"]:::atlasWorkflow
+        art_helm_values_yaml["helm/values.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_trino_yaml_build["ci-trino.yaml#build"]
-        job_client_integration_yml_build_server_image["client-integration.yml#build-server-image"]
-        job_client_integration_yml_cpp_integration["client-integration.yml#cpp-integration"]
-        job_client_integration_yml_detect_changes["client-integration.yml#detect-changes"]
-        job_client_integration_yml_elixir_integration["client-integration.yml#elixir-integration"]
-        job_client_integration_yml_gateway_integration["client-integration.yml#gateway-integration"]
-        job_client_integration_yml_python_integration["client-integration.yml#python-integration"]
-        job_client_integration_yml_python_stubtest["client-integration.yml#python-stubtest"]
-        job_client_integration_yml_rust_integration["client-integration.yml#rust-integration"]
-        job_devkit_smoke_yaml_smoke["devkit-smoke.yaml#smoke"]
-        job_docs_check_yaml_test_deploy["docs-check.yaml#test-deploy"]
-        job_docs_deploy_yaml_deploy["docs-deploy.yaml#deploy"]
-        job_gateway_ci_yml_check_license_and_formatting["gateway-ci.yml#check-license-and-formatting"]
-        job_gateway_ci_yml_container_smoke_test["gateway-ci.yml#container-smoke-test"]
-        job_helm_chart_yaml_test_helm_chart["helm-chart.yaml#test-helm-chart"]
-        job_license_check_yml_build["license-check.yml#build"]
-        job_python_release_yml_release["python-release.yml#release"]
-        job_python_release_yml_sdist["python-release.yml#sdist"]
-        job_python_release_yml_wheels["python-release.yml#wheels"]
-        job_rust_build_and_test_yml_lake_msrv["rust-build-and-test.yml#lake-msrv"]
-        job_rust_build_and_test_yml_proto_up_to_date["rust-build-and-test.yml#proto-up-to-date"]
-        job_rust_docs_check_yml_check_documentation["rust-docs-check.yml#check-documentation"]
-        job_rust_license_and_format_yml_check_license_and_formatting["rust-license-and-format.yml#check-license-and-formatting"]
+        job_ci_trino_yaml_build["ci-trino.yaml#build"]:::atlasJob
+        job_client_integration_yml_build_server_image["client-integration.yml#build-server-image"]:::atlasJob
+        job_client_integration_yml_cpp_integration["client-integration.yml#cpp-integration"]:::atlasJob
+        job_client_integration_yml_detect_changes["client-integration.yml#detect-changes"]:::atlasJob
+        job_client_integration_yml_elixir_integration["client-integration.yml#elixir-integration"]:::atlasJob
+        job_client_integration_yml_gateway_integration["client-integration.yml#gateway-integration"]:::atlasJob
+        job_client_integration_yml_python_integration["client-integration.yml#python-integration"]:::atlasJob
+        job_client_integration_yml_python_stubtest["client-integration.yml#python-stubtest"]:::atlasJob
+        job_client_integration_yml_rust_integration["client-integration.yml#rust-integration"]:::atlasJob
+        job_devkit_smoke_yaml_smoke["devkit-smoke.yaml#smoke"]:::atlasJob
+        job_docs_check_yaml_test_deploy["docs-check.yaml#test-deploy"]:::atlasJob
+        job_docs_deploy_yaml_deploy["docs-deploy.yaml#deploy"]:::atlasJob
+        job_gateway_ci_yml_check_license_and_formatting["gateway-ci.yml#check-license-and-formatting"]:::atlasJob
+        job_gateway_ci_yml_container_smoke_test["gateway-ci.yml#container-smoke-test"]:::atlasJob
+        job_helm_chart_yaml_test_helm_chart["helm-chart.yaml#test-helm-chart"]:::atlasJob
+        job_license_check_yml_build["license-check.yml#build"]:::atlasJob
+        job_python_release_yml_release["python-release.yml#release"]:::atlasJob
+        job_python_release_yml_sdist["python-release.yml#sdist"]:::atlasJob
+        job_python_release_yml_wheels["python-release.yml#wheels"]:::atlasJob
+        job_rust_build_and_test_yml_lake_msrv["rust-build-and-test.yml#lake-msrv"]:::atlasJob
+        job_rust_build_and_test_yml_proto_up_to_date["rust-build-and-test.yml#proto-up-to-date"]:::atlasJob
+        job_rust_docs_check_yml_check_documentation["rust-docs-check.yml#check-documentation"]:::atlasJob
+        job_rust_license_and_format_yml_check_license_and_formatting["rust-license-and-format.yml#check-license-and-formatting"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_helm_chart_yaml_test_helm_chart -->|DEPLOYS_TO| env_azure
     job_helm_chart_yaml_test_helm_chart -->|DEPLOYS_TO| env_kubernetes
@@ -550,13 +561,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/fluss (19 workflows)"])
-  grp_0_CI___Verification["CI & Verification (9 workflows · 10 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/fluss (19 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (9 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (6 workflows · 18 jobs)"]
+  wf_1_CI_Template["CI Template (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI_Template
+  job_1_build["build"]:::atlasJob
+  wf_1_CI_Template --> job_1_build
+  wf_3_CI["CI (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_CI
+  job_3_compile_on_jdk8["compile-on-jdk8"]:::atlasJob
+  job_3_build_on_jdk11["build-on-jdk11"]:::atlasJob
+  wf_3_CI --> job_3_compile_on_jdk8
+  wf_3_CI --> job_3_build_on_jdk11
+  wf_6_Check_Documentation["Check Documentation (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Check_Documentation
+  job_6_test_deploy["test-deploy"]:::atlasJob
+  wf_6_Check_Documentation --> job_6_test_deploy
+  grp_1_Scheduled___Manual["Scheduled & Manual (6 workflows · 18 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 7 jobs)"]
+  wf_4_Client_Integration["Client Integration (8 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_4_Client_Integration
+  job_4_detect_changes["detect-changes"]:::atlasJob
+  job_4_build_server_image["build-server-image"]:::atlasJob
+  job_4_rust_integration["rust-integration"]:::atlasJob
+  wf_4_Client_Integration --> job_4_detect_changes
+  job_4_detect_changes --> job_4_build_server_image
+  job_4_detect_changes --> job_4_rust_integration
+  job_4_build_server_image --> job_4_rust_integration
+  wf_8_Gateway_CI["Gateway CI (4 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_8_Gateway_CI
+  job_8_build_and_unit_test["build-and-unit-test"]:::atlasJob
+  job_8_msrv["msrv"]:::atlasJob
+  job_8_check_license_and_formatting["check-license-and-formatting"]:::atlasJob
+  wf_8_Gateway_CI --> job_8_build_and_unit_test
+  wf_8_Gateway_CI --> job_8_msrv
+  wf_8_Gateway_CI --> job_8_check_license_and_formatting
+  wf_14_Rust_Build_and_Tests["Rust Build and Tests (3 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_14_Rust_Build_and_Tests
+  job_14_build_and_unit_test["build-and-unit-test"]:::atlasJob
+  job_14_lake_msrv["lake-msrv"]:::atlasJob
+  job_14_proto_up_to_date["proto-up-to-date"]:::atlasJob
+  wf_14_Rust_Build_and_Tests --> job_14_build_and_unit_test
+  wf_14_Rust_Build_and_Tests --> job_14_lake_msrv
+  wf_14_Rust_Build_and_Tests --> job_14_proto_up_to_date
+  grp_2_Release___Deploy["Release & Deploy (3 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_7_Deploy_Documentation["Deploy Documentation (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_7_Deploy_Documentation
+  job_7_deploy["deploy"]:::atlasJob
+  wf_7_Deploy_Documentation --> job_7_deploy
+  wf_13_Release_Python["Release Python (5 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_13_Release_Python
+  job_13_version_check["version-check"]:::atlasJob
+  job_13_sdist["sdist"]:::atlasJob
+  wf_13_Release_Python --> job_13_version_check
+  job_13_version_check --> job_13_sdist
+  wf_17_Release_Rust["Release Rust (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_17_Release_Rust
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_12_Process_Stale_Pull_Requests["Process Stale Pull Requests (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_12_Process_Stale_Pull_Requests
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

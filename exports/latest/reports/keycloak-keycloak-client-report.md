@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for keycloak/keycloak-client
 
 ```mermaid
 graph TD;
-    keycloak_admin_client["keycloak-admin-client : MODULE"]
-    keycloak_admin_client_jackson3["keycloak-admin-client-jackson3 : MODULE"]
-    keycloak_authz_client["keycloak-authz-client : MODULE"]
-    keycloak_client_common_synced["keycloak-client-common-synced : MODULE"]
-    keycloak_client_common_synced_jackson3["keycloak-client-common-synced-jackson3 : MODULE"]
-    keycloak_client_guides["keycloak-client-guides : MODULE"]
-    keycloak_client_guides_maven_plugin["keycloak-client-guides-maven-plugin : MODULE"]
-    keycloak_client_docs_parent["keycloak-client-docs-parent : MODULE"]
-    keycloak_policy_enforcer["keycloak-policy-enforcer : MODULE"]
-    keycloak_client_parent["keycloak-client-parent : MODULE"]
-    keycloak_admin_client_testsuite["keycloak-admin-client-testsuite : MODULE"]
-    keycloak_autz_client_testsuite["keycloak-autz-client-testsuite : MODULE"]
-    keycloak_client_testsuite_framework["keycloak-client-testsuite-framework : MODULE"]
-    keycloak_client_testsuite_parent["keycloak-client-testsuite-parent : MODULE"]
-    keycloak_client_testsuite_providers["keycloak-client-testsuite-providers : MODULE"]
-    repo_root(["keycloak/keycloak-client"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    keycloak_admin_client["keycloak-admin-client : MODULE"]:::atlasJob
+    keycloak_admin_client_jackson3["keycloak-admin-client-jackson3 : MODULE"]:::atlasJob
+    keycloak_authz_client["keycloak-authz-client : MODULE"]:::atlasJob
+    keycloak_client_common_synced["keycloak-client-common-synced : MODULE"]:::atlasJob
+    keycloak_client_common_synced_jackson3["keycloak-client-common-synced-jackson3 : MODULE"]:::atlasJob
+    keycloak_client_guides["keycloak-client-guides : MODULE"]:::atlasJob
+    keycloak_client_guides_maven_plugin["keycloak-client-guides-maven-plugin : MODULE"]:::atlasJob
+    keycloak_client_docs_parent["keycloak-client-docs-parent : MODULE"]:::atlasJob
+    keycloak_policy_enforcer["keycloak-policy-enforcer : MODULE"]:::atlasJob
+    keycloak_client_parent["keycloak-client-parent : MODULE"]:::atlasJob
+    keycloak_admin_client_testsuite["keycloak-admin-client-testsuite : MODULE"]:::atlasJob
+    keycloak_autz_client_testsuite["keycloak-autz-client-testsuite : MODULE"]:::atlasJob
+    keycloak_client_testsuite_framework["keycloak-client-testsuite-framework : MODULE"]:::atlasJob
+    keycloak_client_testsuite_parent["keycloak-client-testsuite-parent : MODULE"]:::atlasJob
+    keycloak_client_testsuite_providers["keycloak-client-testsuite-providers : MODULE"]:::atlasJob
+    repo_root(["keycloak/keycloak-client"]):::atlasRoot
     repo_root --> keycloak_admin_client
     repo_root --> keycloak_admin_client_jackson3
     repo_root --> keycloak_admin_client_testsuite
@@ -157,23 +164,27 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_admin_client["admin-client"]
-        mod_admin_client_jackson3["admin-client-jackson3"]
-        mod_authz_client["authz-client"]
-        mod_client_common_synced["client-common-synced"]
-        mod_client_common_synced_jackson3["client-common-synced-jackson3"]
-        mod_testsuite["testsuite"]
-        mod_testsuite_admin_client_tests["testsuite/admin-client-tests"]
-        mod_testsuite_authz_tests["testsuite/authz-tests"]
-        mod_testsuite_providers["testsuite/providers"]
+        mod_admin_client["admin-client"]:::atlasCategory
+        mod_admin_client_jackson3["admin-client-jackson3"]:::atlasCategory
+        mod_authz_client["authz-client"]:::atlasCategory
+        mod_client_common_synced["client-common-synced"]:::atlasCategory
+        mod_client_common_synced_jackson3["client-common-synced-jackson3"]:::atlasCategory
+        mod_testsuite["testsuite"]:::atlasCategory
+        mod_testsuite_admin_client_tests["testsuite/admin-client-tests"]:::atlasCategory
+        mod_testsuite_authz_tests["testsuite/authz-tests"]:::atlasCategory
+        mod_testsuite_providers["testsuite/providers"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_run_tests_yml_client_tests_jackson3["run-tests.yml#client-tests-jackson3"]
-        job_run_tests_yml_client_tests_java_11["run-tests.yml#client-tests-java-11"]
-        job_run_tests_yml_client_tests_srv_26["run-tests.yml#client-tests-srv-26"]
-        job_run_tests_yml_client_tests_srv_nightly["run-tests.yml#client-tests-srv-nightly"]
-        job_sync_and_send_pr_yml_sync["sync-and-send-pr.yml#sync"]
+        job_run_tests_yml_client_tests_jackson3["run-tests.yml#client-tests-jackson3"]:::atlasJob
+        job_run_tests_yml_client_tests_java_11["run-tests.yml#client-tests-java-11"]:::atlasJob
+        job_run_tests_yml_client_tests_srv_26["run-tests.yml#client-tests-srv-26"]:::atlasJob
+        job_run_tests_yml_client_tests_srv_nightly["run-tests.yml#client-tests-srv-nightly"]:::atlasJob
+        job_sync_and_send_pr_yml_sync["sync-and-send-pr.yml#sync"]:::atlasJob
     end
     mod_admin_client -->|BUILT_BY| job_run_tests_yml_client_tests_jackson3
     mod_admin_client -->|BUILT_BY| job_run_tests_yml_client_tests_java_11
@@ -233,11 +244,54 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/keycloak-client (7 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/keycloak-client (7 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_Keycloak_Client_CI["Keycloak Client CI (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Keycloak_Client_CI
+  job_0_build["build"]:::atlasJob
+  job_0_client_tests["client-tests"]:::atlasJob
+  wf_0_Keycloak_Client_CI --> job_0_build
+  job_0_build --> job_0_client_tests
+  wf_4_Scheduled_nightly_workflows["Scheduled nightly workflows (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Scheduled_nightly_workflows
+  job_4_run_ci["run-ci"]:::atlasJob
+  wf_4_Scheduled_nightly_workflows --> job_4_run_ci
+  wf_5_Keycloak_client_sync_nightly["Keycloak client sync nightly (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Keycloak_client_sync_nightly
+  job_5_build["build"]:::atlasJob
+  job_5_client_tests["client-tests"]:::atlasJob
+  wf_5_Keycloak_client_sync_nightly --> job_5_build
+  job_5_build --> job_5_client_tests
+  wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes["Sync with Keycloak Server and send PR with changes (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes
+  job_6_sync["sync"]:::atlasJob
+  wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes --> job_6_sync
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (1 workflows · 4 jobs)"]
+  wf_1_Keycloak_Client_Nightly_Release["Keycloak Client Nightly Release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_1_Keycloak_Client_Nightly_Release
+  job_1_release["release"]:::atlasJob
+  wf_1_Keycloak_Client_Nightly_Release --> job_1_release
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_Release
+  job_2_release["release"]:::atlasJob
+  wf_2_Release --> job_2_release
+  grp_2_CI___Verification["CI & Verification (1 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
+  wf_3_Keycloak_Client_Tests["Keycloak Client Tests (4 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_3_Keycloak_Client_Tests
+  job_3_client_tests_srv_26["client-tests-srv-26"]:::atlasJob
+  job_3_client_tests_srv_nightly["client-tests-srv-nightly"]:::atlasJob
+  job_3_client_tests_jackson3["client-tests-jackson3"]:::atlasJob
+  wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_26
+  wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_nightly
+  wf_3_Keycloak_Client_Tests --> job_3_client_tests_jackson3
 ```

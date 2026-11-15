@@ -41,50 +41,57 @@ description: Arc42 and Pipeline report for mattermost/mattermost-operator
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-operator (179 components)"])
-    dir_0_pkg["pkg (86)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-operator (179 components)"]):::atlasRoot
+    dir_0_pkg["pkg (86)"]:::atlasCategory
     repo_root --> dir_0_pkg
-    sub_0_0_client["client (44)"]
+    sub_0_0_client["client (44)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_0_client
-    sub_0_1_mattermost["mattermost (17)"]
+    sub_0_1_mattermost["mattermost (17)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_1_mattermost
-    sub_0_2_database["database (12)"]
+    sub_0_2_database["database (12)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_2_database
-    sub_0_more["+3 more submodules (13)"]
+    sub_0_more["+3 more submodules (13)"]:::atlasMore
     dir_0_pkg --> sub_0_more
-    dir_1_config["config (26)"]
+    dir_1_config["config (26)"]:::atlasCategory
     repo_root --> dir_1_config
-    sub_1_0_rbac["rbac (9)"]
+    sub_1_0_rbac["rbac (9)"]:::atlasWorkflow
     dir_1_config --> sub_1_0_rbac
-    sub_1_1_crd["crd (7)"]
+    sub_1_1_crd["crd (7)"]:::atlasWorkflow
     dir_1_config --> sub_1_1_crd
-    sub_1_2_samples["samples (4)"]
+    sub_1_2_samples["samples (4)"]:::atlasWorkflow
     dir_1_config --> sub_1_2_samples
-    sub_1_more["+3 more submodules (6)"]
+    sub_1_more["+3 more submodules (6)"]:::atlasMore
     dir_1_config --> sub_1_more
-    dir_2_controllers["controllers (25)"]
+    dir_2_controllers["controllers (25)"]:::atlasCategory
     repo_root --> dir_2_controllers
-    sub_2_0_mattermost_clusterinstallation["mattermost/clusterinstallation (14)"]
+    sub_2_0_mattermost_clusterinstallation["mattermost/clusterinstallation (14)"]:::atlasWorkflow
     dir_2_controllers --> sub_2_0_mattermost_clusterinstallation
-    sub_2_1_mattermost_mattermost["mattermost/mattermost (8)"]
+    sub_2_1_mattermost_mattermost["mattermost/mattermost (8)"]:::atlasWorkflow
     dir_2_controllers --> sub_2_1_mattermost_mattermost
-    sub_2_2_mattermost_mattermostrestoredb["mattermost/mattermostrestoredb (3)"]
+    sub_2_2_mattermost_mattermostrestoredb["mattermost/mattermostrestoredb (3)"]:::atlasWorkflow
     dir_2_controllers --> sub_2_2_mattermost_mattermostrestoredb
-    dir_3_apis["apis (22)"]
+    dir_3_apis["apis (22)"]:::atlasCategory
     repo_root --> dir_3_apis
-    sub_3_0_mattermost_v1beta1["mattermost/v1beta1 (13)"]
+    sub_3_0_mattermost_v1beta1["mattermost/v1beta1 (13)"]:::atlasWorkflow
     dir_3_apis --> sub_3_0_mattermost_v1beta1
-    sub_3_1_mattermost_v1alpha1["mattermost/v1alpha1 (9)"]
+    sub_3_1_mattermost_v1alpha1["mattermost/v1alpha1 (9)"]:::atlasWorkflow
     dir_3_apis --> sub_3_1_mattermost_v1alpha1
-    dir_4_test["test (14)"]
+    dir_4_test["test (14)"]:::atlasCategory
     repo_root --> dir_4_test
-    sub_4_0_e2e_external["e2e-external (8)"]
+    sub_4_0_e2e_external["e2e-external (8)"]:::atlasWorkflow
     dir_4_test --> sub_4_0_e2e_external
-    sub_4_1_e2e["e2e (5)"]
+    sub_4_1_e2e["e2e (5)"]:::atlasWorkflow
     dir_4_test --> sub_4_1_e2e
-    sub_4_2__module_root_["(module root) (1)"]
+    sub_4_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_4_test --> sub_4_2__module_root_
-    dir_other_modules["+3 more modules (6)"]
+    dir_other_modules["+3 more modules (6)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -218,16 +225,20 @@ Showing top 60 representative components out of 179 across 8 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_3ae77945_13db_442b_8d1e_4873ce08a29e["3ae77945-13db-442b-8d1e-4873ce08a29e"]
-        mod_config_crd["config/crd"]
+        mod_3ae77945_13db_442b_8d1e_4873ce08a29e["3ae77945-13db-442b-8d1e-4873ce08a29e"]:::atlasCategory
+        mod_config_crd["config/crd"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_fips["Dockerfile.fips"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_fips["Dockerfile.fips"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_test["ci.yml#test"]
+        job_ci_yml_test["ci.yml#test"]:::atlasJob
     end
     mod_3ae77945_13db_442b_8d1e_4873ce08a29e -->|PACKAGED_BY| art_Dockerfile
     mod_3ae77945_13db_442b_8d1e_4873ce08a29e -->|PACKAGED_BY| art_Dockerfile_fips
@@ -243,17 +254,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-operator (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-operator (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_cd["cd (3 jobs)"]
+  wf_0_cd["cd (3 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_cd
-  wf_1_ci["ci (4 jobs)"]
+  job_0_build["build"]:::atlasJob
+  job_0_build_fips["build-fips"]:::atlasJob
+  job_0_anchore_scan["anchore-scan"]:::atlasJob
+  wf_0_cd --> job_0_build
+  wf_0_cd --> job_0_build_fips
+  job_0_build --> job_0_anchore_scan
+  job_0_build_fips --> job_0_anchore_scan
+  wf_1_ci["ci (4 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_ci
-  wf_2_CleanDocker["CleanDocker (1 jobs)"]
+  job_1_lint["lint"]:::atlasJob
+  job_1_test["test"]:::atlasJob
+  job_1_build["build"]:::atlasJob
+  wf_1_ci --> job_1_lint
+  wf_1_ci --> job_1_test
+  job_1_lint --> job_1_build
+  job_1_test --> job_1_build
+  wf_2_CleanDocker["CleanDocker (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_CleanDocker
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  job_2_clean_docker["clean-docker"]:::atlasJob
+  wf_2_CleanDocker --> job_2_clean_docker
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_3_notify_release["notify-release (1 jobs)"]
+  wf_3_notify_release["notify-release (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_notify_release
+  job_3_notify["notify"]:::atlasJob
+  wf_3_notify_release --> job_3_notify
 ```

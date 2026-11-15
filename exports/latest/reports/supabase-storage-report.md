@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for supabase/storage
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/storage (130 components)"])
-    dir_0_src["src (124)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/storage (130 components)"]):::atlasRoot
+    dir_0_src["src (124)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_http["http (94)"]
+    sub_0_0_http["http (94)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_http
-    sub_0_1_storage["storage (16)"]
+    sub_0_1_storage["storage (16)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_storage
-    sub_0_2__module_root_["(module root) (6)"]
+    sub_0_2__module_root_["(module root) (6)"]:::atlasWorkflow
     dir_0_src --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (8)"]
+    sub_0_more["+2 more submodules (8)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_rust["rust (4)"]
+    dir_1_rust["rust (4)"]:::atlasCategory
     repo_root --> dir_1_rust
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_acceptance["acceptance (1)"]
+    dir_3_acceptance["acceptance (1)"]:::atlasCategory
     repo_root --> dir_3_acceptance
     sub_0_more -.->|"4 deps"| sub_0_1_storage
     sub_0_0_http -.->|"3 deps"| dir_3_acceptance
@@ -208,34 +215,38 @@ Showing top 60 representative components out of 130 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__docker_pgbouncer[".docker/pgbouncer"]
-        mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca["8e685e6d-26e5-4755-a944-1f2cc7ce4bca"]
-        mod_acceptance["acceptance"]
-        mod_rust["rust"]
+        mod__docker_pgbouncer[".docker/pgbouncer"]:::atlasCategory
+        mod_8e685e6d_26e5_4755_a944_1f2cc7ce4bca["8e685e6d-26e5-4755-a944-1f2cc7ce4bca"]:::atlasCategory
+        mod_acceptance["acceptance"]:::atlasCategory
+        mod_rust["rust"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__docker_docker_compose_infra_multigres_override_yml[".docker/docker-compose-infra-multigres-override.yml"]
-        art__docker_docker_compose_infra_oriole_override_yml[".docker/docker-compose-infra-oriole-override.yml"]
-        art__docker_docker_compose_infra_oriole_pgvector_override_yml[".docker/docker-compose-infra-oriole-pgvector-override.yml"]
-        art__docker_docker_compose_infra_yml[".docker/docker-compose-infra.yml"]
-        art__docker_docker_compose_monitoring_yml[".docker/docker-compose-monitoring.yml"]
-        art__docker_pgbouncer_Dockerfile[".docker/pgbouncer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_multi_tenant_yml["docker-compose-multi-tenant.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art__docker_docker_compose_infra_multigres_override_yml[".docker/docker-compose-infra-multigres-override.yml"]:::atlasWorkflow
+        art__docker_docker_compose_infra_oriole_override_yml[".docker/docker-compose-infra-oriole-override.yml"]:::atlasWorkflow
+        art__docker_docker_compose_infra_oriole_pgvector_override_yml[".docker/docker-compose-infra-oriole-pgvector-override.yml"]:::atlasWorkflow
+        art__docker_docker_compose_infra_yml[".docker/docker-compose-infra.yml"]:::atlasWorkflow
+        art__docker_docker_compose_monitoring_yml[".docker/docker-compose-monitoring.yml"]:::atlasWorkflow
+        art__docker_pgbouncer_Dockerfile[".docker/pgbouncer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_multi_tenant_yml["docker-compose-multi-tenant.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_acceptance_yml_acceptance_local["acceptance.yml#acceptance_local"]
-        job_acceptance_yml_acceptance_remote["acceptance.yml#acceptance_remote"]
-        job_docs_yml_build_docs["docs.yml#build-docs"]
-        job_docs_yml_deploy["docs.yml#deploy"]
-        job_release_yml_publish_pgbouncer["release.yml#publish_pgbouncer"]
-        job_rust_yml_test["rust.yml#test"]
+        job_acceptance_yml_acceptance_local["acceptance.yml#acceptance_local"]:::atlasJob
+        job_acceptance_yml_acceptance_remote["acceptance.yml#acceptance_remote"]:::atlasJob
+        job_docs_yml_build_docs["docs.yml#build-docs"]:::atlasJob
+        job_docs_yml_deploy["docs.yml#deploy"]:::atlasJob
+        job_release_yml_publish_pgbouncer["release.yml#publish_pgbouncer"]:::atlasJob
+        job_rust_yml_test["rust.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_____inputs_acceptance_environment___["${{ inputs.acceptance_environment }}"]
-        env_github_pages["github-pages"]
+        env_____inputs_acceptance_environment___["${{ inputs.acceptance_environment }}"]:::atlasTarget
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_acceptance_yml_acceptance_remote -->|DEPLOYS_TO| env_____inputs_acceptance_environment___
     job_docs_yml_build_docs -->|DEPLOYS_TO| env_github_pages
@@ -309,11 +320,64 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/storage (8 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 14 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/storage (8 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 14 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]
+  wf_0_Acceptance["Acceptance (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Acceptance
+  job_0_node_version["node_version"]:::atlasJob
+  job_0_acceptance_local["acceptance_local"]:::atlasJob
+  job_0_acceptance_remote["acceptance_remote"]:::atlasJob
+  wf_0_Acceptance --> job_0_node_version
+  job_0_node_version --> job_0_acceptance_local
+  job_0_node_version --> job_0_acceptance_remote
+  wf_1_CI["CI (7 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_CI
+  job_1_lint_build["lint_build"]:::atlasJob
+  job_1_test_unit["test_unit"]:::atlasJob
+  job_1_test_postgres_versions["test_postgres_versions"]:::atlasJob
+  wf_1_CI --> job_1_lint_build
+  job_1_lint_build --> job_1_test_unit
+  job_1_lint_build --> job_1_test_postgres_versions
+  wf_3_Docs["Docs (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Docs
+  job_3_build_docs["build-docs"]:::atlasJob
+  job_3_deploy["deploy"]:::atlasJob
+  wf_3_Docs --> job_3_build_docs
+  job_3_build_docs --> job_3_deploy
+  wf_4_Mirror_Image["Mirror Image (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Mirror_Image
+  job_4_mirror["mirror"]:::atlasJob
+  wf_4_Mirror_Image --> job_4_mirror
+  wf_7_Rust["Rust (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_7_Rust
+  job_7_test["test"]:::atlasJob
+  wf_7_Rust --> job_7_test
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+  wf_2_Update_Cli_Repository["Update Cli Repository (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_Update_Cli_Repository
+  job_2_update_remote_repo["update-remote-repo"]:::atlasJob
+  wf_2_Update_Cli_Repository --> job_2_update_remote_repo
+  wf_6_Release["Release (4 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_6_Release
+  job_6_release["release"]:::atlasJob
+  job_6_publish["publish"]:::atlasJob
+  job_6_publish_pgbouncer["publish_pgbouncer"]:::atlasJob
+  wf_6_Release --> job_6_release
+  job_6_release --> job_6_publish
+  job_6_release --> job_6_publish_pgbouncer
+  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
+  wf_5_PR_title["PR title (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_5_PR_title
+  job_5_lint["lint"]:::atlasJob
+  wf_5_PR_title --> job_5_lint
 ```

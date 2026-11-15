@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for umami-software/umami
 
 ```mermaid
 graph TD;
-    repo_root(["umami-software/umami (595 components)"])
-    dir_0_src["src (588)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["umami-software/umami (595 components)"]):::atlasRoot
+    dir_0_src["src (588)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_app["app (471)"]
+    sub_0_0_app["app (471)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_app
-    sub_0_1_components["components (115)"]
+    sub_0_1_components["components (115)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_components
-    sub_0_2_lib["lib (2)"]
+    sub_0_2_lib["lib (2)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_lib
-    dir_1_packages["packages (4)"]
+    dir_1_packages["packages (4)"]:::atlasCategory
     repo_root --> dir_1_packages
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_scripts["scripts (1)"]
+    dir_3_scripts["scripts (1)"]:::atlasCategory
     repo_root --> dir_3_scripts
-    dir_4_tests["tests (1)"]
+    dir_4_tests["tests (1)"]:::atlasCategory
     repo_root --> dir_4_tests
     sub_0_0_app -.->|"5 deps"| sub_0_1_components
 ```
@@ -208,19 +215,23 @@ Showing top 60 representative components out of 595 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dab63c58_8946_4403_99d0_662136976d46["dab63c58-8946-4403-99d0-662136976d46"]
-        mod_packages_api_client["packages/api-client"]
-        mod_packages_mcp["packages/mcp"]
-        mod_tests_api["tests/api"]
+        mod_dab63c58_8946_4403_99d0_662136976d46["dab63c58-8946-4403-99d0-662136976d46"]:::atlasCategory
+        mod_packages_api_client["packages/api-client"]:::atlasCategory
+        mod_packages_mcp["packages/mcp"]:::atlasCategory
+        mod_tests_api["tests/api"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_test_yml["docker-compose.test.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_test_yml["docker-compose.test.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_cd_yml_build["cd.yml#build"]
+        job_cd_yml_build["cd.yml#build"]:::atlasJob
     end
     mod_dab63c58_8946_4403_99d0_662136976d46 -->|DEPLOYED_BY| job_cd_yml_build
     mod_dab63c58_8946_4403_99d0_662136976d46 -->|PACKAGED_BY| art_Dockerfile
@@ -250,21 +261,38 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["umami-software/umami (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["umami-software/umami (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_Create_docker_images__cloud_["Create docker images (cloud) (1 jobs)"]
+  wf_0_Create_docker_images__cloud_["Create docker images (cloud) (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_Create_docker_images__cloud_
-  wf_2_Node_js_CI["Node.js CI (1 jobs)"]
+  job_0_build["build"]:::atlasJob
+  wf_0_Create_docker_images__cloud_ --> job_0_build
+  wf_2_Node_js_CI["Node.js CI (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Node_js_CI
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  job_2_build["build"]:::atlasJob
+  wf_2_Node_js_CI --> job_2_build
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Create_docker_images["Create docker images (1 jobs)"]
+  wf_1_Create_docker_images["Create docker images (1 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_1_Create_docker_images
-  wf_3_Gitleaks["Gitleaks (1 jobs)"]
+  job_1_build["build"]:::atlasJob
+  wf_1_Create_docker_images --> job_1_build
+  wf_3_Gitleaks["Gitleaks (1 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_3_Gitleaks
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  job_3_scan["scan"]:::atlasJob
+  wf_3_Gitleaks --> job_3_scan
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  wf_4_Close_stale_issues["Close stale issues (1 jobs)"]
+  wf_4_Close_stale_issues["Close stale issues (1 jobs)"]:::atlasWorkflow
   grp_2_Security___Governance --> wf_4_Close_stale_issues
+  job_4_stale["stale"]:::atlasJob
+  wf_4_Close_stale_issues --> job_4_stale
 ```

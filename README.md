@@ -8,6 +8,7 @@ Atruss Code Atlas is a fast, lightweight CLI and static **Material Design 3 (Ast
 - **Master PRD v2.0 (Consolidated + Top 10 Roadmap)**: [`docs/atruss-code-atlas-prd.md`](./docs/atruss-code-atlas-prd.md) *(Baseline v1.0 preserved at [`docs/atruss-code-atlas-prd-baseline.md`](./docs/atruss-code-atlas-prd-baseline.md))*
 - **Unified SpecKit Specification (`FR-001`–`FR-030`)**: [`docs/atruss-code-atlas-unified-spec.md`](./docs/atruss-code-atlas-unified-spec.md) & [`specs/009-unified-atlas-spec/spec.md`](./specs/009-unified-atlas-spec/spec.md)
 - **Agentic SDLC Playbook (SpecKit vs. Antigravity Native)**: [`docs/agentic-sdlc-guide.md`](./docs/agentic-sdlc-guide.md)
+- **Agentic SDLC Research & Update Plan (QRSPI & Harness Engineering)**: [`docs/agentic-sdlc-research-and-update-plan.md`](./docs/agentic-sdlc-research-and-update-plan.md)
 
 ---
 
@@ -242,3 +243,19 @@ Atruss Code Atlas includes a zero-backend **Astro v5 + Starlight** web applicati
 2. **The Output Bridge**: `scripts/generate-report-stubs.py` converts `./exports/latest/` artifacts into 4-tab Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture` | `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, client-side SVG/PNG diagram downloads, and Print/PDF layout support.
 3. **The Consumer**: Running `npm run copy-data` inside `./web` synchronizes `./exports/latest/` into `web/src/data/latest/`, copies `llms*.txt` into `web/public/`, and generates the MDX report routes.
 4. **Static Output**: Run `npm run build` in `./web` (or `ASTRO_BASE=/atruss-code-atlas npm run build` for GitHub Pages subpath hosting). The output in `web/dist/` is pure static HTML/CSS/JS ready for GitHub Pages, S3, or internal enterprise hosting.
+
+---
+
+## How Atruss Code Atlas Was Built: QRSPI, Harness Engineering & Multi-Agent Swarms
+
+Atruss Code Atlas was engineered as a living case study in **Specification-Driven Development (`SDD`)** and **Harness Engineering**—documented in full in [`docs/agentic-sdlc-guide.md`](./docs/agentic-sdlc-guide.md) and [`docs/agentic-sdlc-research-and-update-plan.md`](./docs/agentic-sdlc-research-and-update-plan.md):
+
+1. **From `RPI` to `QRSPI` (*Question -> Research -> Spec -> Plan -> Implement*)**:
+   - Early iterations (`001`–`006A`) used SpecKit's `Spec -> Plan -> Tasks` loop; Horizon 2 (`006B`–`009`+) evolved into **QRSPI**, inserting an explicit **Question** phase (human-in-the-loop alignment via `/grill-me` / interactive clarification) before **Research** and **Spec** lock-in so architectural trade-offs are resolved before code is written.
+2. **Harness Engineering (*Feed-Forward Guides + Feedback Sensors*)**:
+   - **Feed-Forward Guides** keep agents deterministic: [`specs/009-unified-atlas-spec/`](./specs/009-unified-atlas-spec/), [`manifests/ecosystems.yaml`](./manifests/ecosystems.yaml), [`manifests/architecture-rules.yaml`](./manifests/architecture-rules.yaml), and [`manifests/pipeline-rules.yaml`](./manifests/pipeline-rules.yaml).
+   - **Feedback Sensors** catch drift automatically: the **5-Gate Agentic Workflow Validator** ([`scripts/validate_agent_workflow.py`](./scripts/validate_agent_workflow.py)), `ruff`, `pytest`, and Astro `npm test && npm run build`.
+3. **Multi-Repo & 10-Ecosystem Scope via Antigravity Subagents & GitHub Native Flows**:
+   - The **372-repository production corpus** ([`tests/fixtures/popular_100_corpus.json`](./tests/fixtures/popular_100_corpus.json)) across **10 ecosystems** and **multi-repository project topologies** (split server/client/helm/operator repos) was implemented by orchestrating parallel Antigravity subagents (`invoke_subagent`) across specialized domain lanes (Polyglot AST & Fitness, Pipeline & Security, SBOM/OSV, Scorecard/Traceability/MCP, Astro M3 UI, and Harness Verification).
+   - Every branch push and PR runs natively in GitHub Actions: [`.github/workflows/tests.yml`](./.github/workflows/tests.yml) enforces lint, unit, Astro portal dual-builds, integration tests, and the 5-Gate validator, while [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) publishes the static portal to GitHub Pages.
+

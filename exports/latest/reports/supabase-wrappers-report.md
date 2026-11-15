@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for supabase/wrappers
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/wrappers (144 components)"])
-    dir_0_wrappers["wrappers (95)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/wrappers (144 components)"]):::atlasRoot
+    dir_0_wrappers["wrappers (95)"]:::atlasCategory
     repo_root --> dir_0_wrappers
-    sub_0_0_src["src (87)"]
+    sub_0_0_src["src (87)"]:::atlasWorkflow
     dir_0_wrappers --> sub_0_0_src
-    sub_0_1_dockerfiles["dockerfiles (4)"]
+    sub_0_1_dockerfiles["dockerfiles (4)"]:::atlasWorkflow
     dir_0_wrappers --> sub_0_1_dockerfiles
-    sub_0_2__ci[".ci (3)"]
+    sub_0_2__ci[".ci (3)"]:::atlasWorkflow
     dir_0_wrappers --> sub_0_2__ci
-    sub_0_more["+1 more submodules (1)"]
+    sub_0_more["+1 more submodules (1)"]:::atlasMore
     dir_0_wrappers --> sub_0_more
-    dir_1_wasm_wrappers["wasm-wrappers (34)"]
+    dir_1_wasm_wrappers["wasm-wrappers (34)"]:::atlasCategory
     repo_root --> dir_1_wasm_wrappers
-    sub_1_0_fdw_openapi_fdw["fdw/openapi_fdw (17)"]
+    sub_1_0_fdw_openapi_fdw["fdw/openapi_fdw (17)"]:::atlasWorkflow
     dir_1_wasm_wrappers --> sub_1_0_fdw_openapi_fdw
-    sub_1_1_fdw_slack_fdw["fdw/slack_fdw (3)"]
+    sub_1_1_fdw_slack_fdw["fdw/slack_fdw (3)"]:::atlasWorkflow
     dir_1_wasm_wrappers --> sub_1_1_fdw_slack_fdw
-    sub_1_2_fdw_shopify_fdw["fdw/shopify_fdw (2)"]
+    sub_1_2_fdw_shopify_fdw["fdw/shopify_fdw (2)"]:::atlasWorkflow
     dir_1_wasm_wrappers --> sub_1_2_fdw_shopify_fdw
-    sub_1_more["+12 more submodules (12)"]
+    sub_1_more["+12 more submodules (12)"]:::atlasMore
     dir_1_wasm_wrappers --> sub_1_more
-    dir_2_supabase_wrappers["supabase-wrappers (14)"]
+    dir_2_supabase_wrappers["supabase-wrappers (14)"]:::atlasCategory
     repo_root --> dir_2_supabase_wrappers
-    dir_3_supabase_wrappers_macros["supabase-wrappers-macros (1)"]
+    dir_3_supabase_wrappers_macros["supabase-wrappers-macros (1)"]:::atlasCategory
     repo_root --> dir_3_supabase_wrappers_macros
 ```
 
@@ -224,49 +231,53 @@ Showing top 60 representative components out of 144 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_supabase_wrappers["supabase-wrappers"]
-        mod_supabase_wrappers_macros["supabase-wrappers-macros"]
-        mod_wasm_wrappers_fdw_openapi_fdw_test["wasm-wrappers/fdw/openapi_fdw/test"]
-        mod_wrappers["wrappers"]
-        mod_wrappers__ci["wrappers/.ci"]
-        mod_wrappers_dockerfiles_airtable["wrappers/dockerfiles/airtable"]
-        mod_wrappers_dockerfiles_auth0["wrappers/dockerfiles/auth0"]
-        mod_wrappers_dockerfiles_bigquery["wrappers/dockerfiles/bigquery"]
-        mod_wrappers_dockerfiles_logflare["wrappers/dockerfiles/logflare"]
-        mod_wrappers_dockerfiles_notion["wrappers/dockerfiles/notion"]
-        mod_wrappers_dockerfiles_s3["wrappers/dockerfiles/s3"]
-        mod_wrappers_dockerfiles_s3vectors["wrappers/dockerfiles/s3vectors"]
-        mod_wrappers_dockerfiles_wasm["wrappers/dockerfiles/wasm"]
+        mod_supabase_wrappers["supabase-wrappers"]:::atlasCategory
+        mod_supabase_wrappers_macros["supabase-wrappers-macros"]:::atlasCategory
+        mod_wasm_wrappers_fdw_openapi_fdw_test["wasm-wrappers/fdw/openapi_fdw/test"]:::atlasCategory
+        mod_wrappers["wrappers"]:::atlasCategory
+        mod_wrappers__ci["wrappers/.ci"]:::atlasCategory
+        mod_wrappers_dockerfiles_airtable["wrappers/dockerfiles/airtable"]:::atlasCategory
+        mod_wrappers_dockerfiles_auth0["wrappers/dockerfiles/auth0"]:::atlasCategory
+        mod_wrappers_dockerfiles_bigquery["wrappers/dockerfiles/bigquery"]:::atlasCategory
+        mod_wrappers_dockerfiles_logflare["wrappers/dockerfiles/logflare"]:::atlasCategory
+        mod_wrappers_dockerfiles_notion["wrappers/dockerfiles/notion"]:::atlasCategory
+        mod_wrappers_dockerfiles_s3["wrappers/dockerfiles/s3"]:::atlasCategory
+        mod_wrappers_dockerfiles_s3vectors["wrappers/dockerfiles/s3vectors"]:::atlasCategory
+        mod_wrappers_dockerfiles_wasm["wrappers/dockerfiles/wasm"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_wasm_wrappers_fdw_openapi_fdw_test_docker_compose_yml["wasm-wrappers/fdw/openapi_fdw/test/docker-compose.yml"]
-        art_wrappers__ci_docker_compose_native_yaml["wrappers/.ci/docker-compose-native.yaml"]
-        art_wrappers__ci_docker_compose_wasm_yaml["wrappers/.ci/docker-compose-wasm.yaml"]
-        art_wrappers__ci_docker_compose_yaml["wrappers/.ci/docker-compose.yaml"]
-        art_wrappers_dockerfiles_airtable_Dockerfile["wrappers/dockerfiles/airtable/Dockerfile"]
-        art_wrappers_dockerfiles_auth0_Dockerfile["wrappers/dockerfiles/auth0/Dockerfile"]
-        art_wrappers_dockerfiles_bigquery_Dockerfile["wrappers/dockerfiles/bigquery/Dockerfile"]
-        art_wrappers_dockerfiles_logflare_Dockerfile["wrappers/dockerfiles/logflare/Dockerfile"]
-        art_wrappers_dockerfiles_notion_Dockerfile["wrappers/dockerfiles/notion/Dockerfile"]
-        art_wrappers_dockerfiles_s3_Dockerfile["wrappers/dockerfiles/s3/Dockerfile"]
-        art_wrappers_dockerfiles_s3vectors_Dockerfile["wrappers/dockerfiles/s3vectors/Dockerfile"]
-        art_wrappers_dockerfiles_wasm_Dockerfile["wrappers/dockerfiles/wasm/Dockerfile"]
+        art_wasm_wrappers_fdw_openapi_fdw_test_docker_compose_yml["wasm-wrappers/fdw/openapi_fdw/test/docker-compose.yml"]:::atlasWorkflow
+        art_wrappers__ci_docker_compose_native_yaml["wrappers/.ci/docker-compose-native.yaml"]:::atlasWorkflow
+        art_wrappers__ci_docker_compose_wasm_yaml["wrappers/.ci/docker-compose-wasm.yaml"]:::atlasWorkflow
+        art_wrappers__ci_docker_compose_yaml["wrappers/.ci/docker-compose.yaml"]:::atlasWorkflow
+        art_wrappers_dockerfiles_airtable_Dockerfile["wrappers/dockerfiles/airtable/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_auth0_Dockerfile["wrappers/dockerfiles/auth0/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_bigquery_Dockerfile["wrappers/dockerfiles/bigquery/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_logflare_Dockerfile["wrappers/dockerfiles/logflare/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_notion_Dockerfile["wrappers/dockerfiles/notion/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_s3_Dockerfile["wrappers/dockerfiles/s3/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_s3vectors_Dockerfile["wrappers/dockerfiles/s3vectors/Dockerfile"]:::atlasWorkflow
+        art_wrappers_dockerfiles_wasm_Dockerfile["wrappers/dockerfiles/wasm/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_coverage_yml_code_coverage["coverage.yml#code-coverage"]
-        job_docs_yml_deploy_docs["docs.yml#deploy-docs"]
-        job_publish_crates_io_yml_publish_to_crates_io["publish-crates-io.yml#publish-to-crates-io"]
-        job_release_yml_build_linux_gnu["release.yml#build-linux-gnu"]
-        job_release_wasm_fdw_yml_release["release_wasm_fdw.yml#release"]
-        job_test_supabase_wrappers_yml_test["test_supabase_wrappers.yml#test"]
-        job_test_wrappers_yml_changes["test_wrappers.yml#changes"]
-        job_test_wrappers_yml_test_native["test_wrappers.yml#test_native"]
-        job_test_wrappers_yml_test_upgrade["test_wrappers.yml#test_upgrade"]
-        job_test_wrappers_yml_test_wasm["test_wrappers.yml#test_wasm"]
+        job_coverage_yml_code_coverage["coverage.yml#code-coverage"]:::atlasJob
+        job_docs_yml_deploy_docs["docs.yml#deploy-docs"]:::atlasJob
+        job_publish_crates_io_yml_publish_to_crates_io["publish-crates-io.yml#publish-to-crates-io"]:::atlasJob
+        job_release_yml_build_linux_gnu["release.yml#build-linux-gnu"]:::atlasJob
+        job_release_wasm_fdw_yml_release["release_wasm_fdw.yml#release"]:::atlasJob
+        job_test_supabase_wrappers_yml_test["test_supabase_wrappers.yml#test"]:::atlasJob
+        job_test_wrappers_yml_changes["test_wrappers.yml#changes"]:::atlasJob
+        job_test_wrappers_yml_test_native["test_wrappers.yml#test_native"]:::atlasJob
+        job_test_wrappers_yml_test_upgrade["test_wrappers.yml#test_upgrade"]:::atlasJob
+        job_test_wrappers_yml_test_wasm["test_wrappers.yml#test_wasm"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_release["release"]
+        env_release["release"]:::atlasTarget
     end
     job_publish_crates_io_yml_publish_to_crates_io -->|DEPLOYS_TO| env_release
     mod_supabase_wrappers -->|BUILT_BY| job_coverage_yml_code_coverage
@@ -372,9 +383,56 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/wrappers (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/wrappers (8 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 6 jobs)"]
+  wf_0_Code_Coverage["Code Coverage (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Code_Coverage
+  job_0_code_coverage["code-coverage"]:::atlasJob
+  wf_0_Code_Coverage --> job_0_code_coverage
+  wf_5_Test_Docs["Test Docs (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Test_Docs
+  job_5_test_docs["test_docs"]:::atlasJob
+  wf_5_Test_Docs --> job_5_test_docs
+  wf_6_Test_Wrappers["Test Wrappers (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Test_Wrappers
+  job_6_test["test"]:::atlasJob
+  wf_6_Test_Wrappers --> job_6_test
+  wf_7_Test_Wrappers["Test Wrappers (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Test_Wrappers
+  job_7_changes["changes"]:::atlasJob
+  job_7_test_native["test_native"]:::atlasJob
+  job_7_test_wasm["test_wasm"]:::atlasJob
+  wf_7_Test_Wrappers --> job_7_changes
+  job_7_changes --> job_7_test_native
+  job_7_changes --> job_7_test_wasm
+  grp_1_Release___Deploy["Release & Deploy (4 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
+  wf_1_Deploy_docs["Deploy docs (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_1_Deploy_docs
+  job_1_deploy_docs["deploy-docs"]:::atlasJob
+  wf_1_Deploy_docs --> job_1_deploy_docs
+  wf_2_Publish_to_crates_io["Publish to crates.io (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_Publish_to_crates_io
+  job_2_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
+  wf_2_Publish_to_crates_io --> job_2_publish_to_crates_io
+  wf_3_Release["Release (3 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Release
+  job_3_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
+  job_3_release["release"]:::atlasJob
+  job_3_build_linux_gnu["build-linux-gnu"]:::atlasJob
+  wf_3_Release --> job_3_publish_to_crates_io
+  wf_3_Release --> job_3_release
+  job_3_release --> job_3_build_linux_gnu
+  wf_4_Wasm_FDW_Release["Wasm FDW Release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Wasm_FDW_Release
+  job_4_release["release"]:::atlasJob
+  wf_4_Wasm_FDW_Release --> job_4_release
 ```

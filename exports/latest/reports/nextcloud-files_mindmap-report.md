@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for nextcloud/files_mindmap
 
 ```mermaid
 graph TD;
-    files_mindmap["files_mindmap : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    files_mindmap["files_mindmap : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -109,21 +116,25 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_78312536_d854_443a_a6ca_c44ef2d834c1["78312536-d854-443a-a6ca-c44ef2d834c1"]
+        mod_78312536_d854_443a_a6ca_c44ef2d834c1["78312536-d854-443a-a6ca-c44ef2d834c1"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ai_policy_yml_check_ai_trailers["ai-policy.yml#check-ai-trailers"]
-        job_appstore_build_publish_yml_build_and_publish["appstore-build-publish.yml#build_and_publish"]
-        job_lint_eslint_yml_changes["lint-eslint.yml#changes"]
-        job_lint_eslint_yml_lint["lint-eslint.yml#lint"]
-        job_lint_eslint_yml_summary["lint-eslint.yml#summary"]
-        job_node_test_yml_changes["node-test.yml#changes"]
-        job_node_test_yml_summary["node-test.yml#summary"]
-        job_node_test_yml_test["node-test.yml#test"]
-        job_npm_audit_fix_yml_build["npm-audit-fix.yml#build"]
-        job_pr_feedback_yml_pr_feedback["pr-feedback.yml#pr-feedback"]
-        job_release_relay_yml_notify["release-relay.yml#notify"]
+        job_ai_policy_yml_check_ai_trailers["ai-policy.yml#check-ai-trailers"]:::atlasJob
+        job_appstore_build_publish_yml_build_and_publish["appstore-build-publish.yml#build_and_publish"]:::atlasJob
+        job_lint_eslint_yml_changes["lint-eslint.yml#changes"]:::atlasJob
+        job_lint_eslint_yml_lint["lint-eslint.yml#lint"]:::atlasJob
+        job_lint_eslint_yml_summary["lint-eslint.yml#summary"]:::atlasJob
+        job_node_test_yml_changes["node-test.yml#changes"]:::atlasJob
+        job_node_test_yml_summary["node-test.yml#summary"]:::atlasJob
+        job_node_test_yml_test["node-test.yml#test"]:::atlasJob
+        job_npm_audit_fix_yml_build["npm-audit-fix.yml#build"]:::atlasJob
+        job_pr_feedback_yml_pr_feedback["pr-feedback.yml#pr-feedback"]:::atlasJob
+        job_release_relay_yml_notify["release-relay.yml#notify"]:::atlasJob
     end
     mod_78312536_d854_443a_a6ca_c44ef2d834c1 -->|BUILT_BY| job_ai_policy_yml_check_ai_trailers
     mod_78312536_d854_443a_a6ca_c44ef2d834c1 -->|BUILT_BY| job_lint_eslint_yml_changes
@@ -155,13 +166,58 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/files_mindmap (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 7 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/files_mindmap (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_AI_Policy["AI Policy (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_AI_Policy
+  job_0_check_ai_trailers["check-ai-trailers"]:::atlasJob
+  wf_0_AI_Policy --> job_0_check_ai_trailers
+  wf_2_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Lint_eslint
+  job_2_changes["changes"]:::atlasJob
+  job_2_lint["lint"]:::atlasJob
+  job_2_summary["summary"]:::atlasJob
+  wf_2_Lint_eslint --> job_2_changes
+  job_2_changes --> job_2_lint
+  job_2_changes --> job_2_summary
+  job_2_lint --> job_2_summary
+  wf_3_Node_tests["Node tests (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Node_tests
+  job_3_changes["changes"]:::atlasJob
+  job_3_test["test"]:::atlasJob
+  job_3_summary["summary"]:::atlasJob
+  wf_3_Node_tests --> job_3_changes
+  job_3_changes --> job_3_test
+  job_3_changes --> job_3_summary
+  job_3_test --> job_3_summary
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_1_Build_and_publish_app_release
+  job_1_build_and_publish["build_and_publish"]:::atlasJob
+  wf_1_Build_and_publish_app_release --> job_1_build_and_publish
+  wf_6_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_6_Notify_release_relay_on_release
+  job_6_notify["notify"]:::atlasJob
+  wf_6_Notify_release_relay_on_release --> job_6_notify
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_5_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_5_Ask_for_feedback_on_PRs
+  job_5_pr_feedback["pr-feedback"]:::atlasJob
+  wf_5_Ask_for_feedback_on_PRs --> job_5_pr_feedback
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_4_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_4_Npm_audit_fix_and_compile
+  job_4_build["build"]:::atlasJob
+  wf_4_Npm_audit_fix_and_compile --> job_4_build
 ```

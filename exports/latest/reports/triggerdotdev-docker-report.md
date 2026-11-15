@@ -40,9 +40,16 @@ description: Arc42 and Pipeline report for triggerdotdev/docker
 
 ```mermaid
 graph TD;
-    docker_compose_webapp["docker-compose.webapp : module"]
-    docker_compose_worker["docker-compose.worker : module"]
-    docker_compose["docker-compose : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    docker_compose_webapp["docker-compose.webapp : module"]:::atlasJob
+    docker_compose_worker["docker-compose.worker : module"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -69,13 +76,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_5ea2e1c6_4545_45a5_9f74_f0565cafcf88["5ea2e1c6-4545-45a5-9f74-f0565cafcf88"]
+        mod_5ea2e1c6_4545_45a5_9f74_f0565cafcf88["5ea2e1c6-4545-45a5-9f74-f0565cafcf88"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_webapp_yml["docker-compose.webapp.yml"]
-        art_docker_compose_worker_yml["docker-compose.worker.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_docker_compose_webapp_yml["docker-compose.webapp.yml"]:::atlasWorkflow
+        art_docker_compose_worker_yml["docker-compose.worker.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     mod_5ea2e1c6_4545_45a5_9f74_f0565cafcf88 -->|PACKAGED_BY| art_docker_compose_webapp_yml
     mod_5ea2e1c6_4545_45a5_9f74_f0565cafcf88 -->|PACKAGED_BY| art_docker_compose_worker_yml
@@ -91,5 +102,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

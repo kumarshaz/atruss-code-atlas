@@ -40,9 +40,16 @@ description: Arc42 and Pipeline report for medusajs/docker-medusa
 
 ```mermaid
 graph TD;
-    docker_compose_override["docker-compose.override : module"]
-    docker_compose_prod["docker-compose.prod : module"]
-    docker_compose["docker-compose : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    docker_compose_override["docker-compose.override : module"]:::atlasJob
+    docker_compose_prod["docker-compose.prod : module"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -69,22 +76,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_7c4d8431_5762_4afb_aef1_c01b387eb837["7c4d8431-5762-4afb-aef1-c01b387eb837"]
-        mod_admin["admin"]
-        mod_backend["backend"]
-        mod_storefront["storefront"]
+        mod_7c4d8431_5762_4afb_aef1_c01b387eb837["7c4d8431-5762-4afb-aef1-c01b387eb837"]:::atlasCategory
+        mod_admin["admin"]:::atlasCategory
+        mod_backend["backend"]:::atlasCategory
+        mod_storefront["storefront"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_admin_Dockerfile["admin/Dockerfile"]
-        art_admin_Dockerfile_prod["admin/Dockerfile.prod"]
-        art_backend_Dockerfile["backend/Dockerfile"]
-        art_backend_Dockerfile_prod["backend/Dockerfile.prod"]
-        art_docker_compose_override_yml["docker-compose.override.yml"]
-        art_docker_compose_prod_yml["docker-compose.prod.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_storefront_Dockerfile["storefront/Dockerfile"]
-        art_storefront_Dockerfile_prod["storefront/Dockerfile.prod"]
+        art_admin_Dockerfile["admin/Dockerfile"]:::atlasWorkflow
+        art_admin_Dockerfile_prod["admin/Dockerfile.prod"]:::atlasWorkflow
+        art_backend_Dockerfile["backend/Dockerfile"]:::atlasWorkflow
+        art_backend_Dockerfile_prod["backend/Dockerfile.prod"]:::atlasWorkflow
+        art_docker_compose_override_yml["docker-compose.override.yml"]:::atlasWorkflow
+        art_docker_compose_prod_yml["docker-compose.prod.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_storefront_Dockerfile["storefront/Dockerfile"]:::atlasWorkflow
+        art_storefront_Dockerfile_prod["storefront/Dockerfile.prod"]:::atlasWorkflow
     end
     mod_7c4d8431_5762_4afb_aef1_c01b387eb837 -->|PACKAGED_BY| art_docker_compose_override_yml
     mod_7c4d8431_5762_4afb_aef1_c01b387eb837 -->|PACKAGED_BY| art_docker_compose_prod_yml
@@ -130,5 +141,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

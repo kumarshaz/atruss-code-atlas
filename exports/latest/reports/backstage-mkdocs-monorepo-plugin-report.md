@@ -65,18 +65,22 @@ description: Arc42 and Pipeline report for backstage/mkdocs-monorepo-plugin
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_fd8d19b3_8747_4dac_b3da_fe56b3c0195d["fd8d19b3-8747-4dac-b3da-fe56b3c0195d"]
+        mod_fd8d19b3_8747_4dac_b3da_fe56b3c0195d["fd8d19b3-8747-4dac-b3da-fe56b3c0195d"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_yml_build_docs["deploy.yml#build-docs"]
-        job_deploy_yml_publish_docs["deploy.yml#publish-docs"]
-        job_deploy_yml_publish_pypi["deploy.yml#publish-pypi"]
-        job_deploy_yml_test["deploy.yml#test"]
-        job_test_yml_test["test.yml#test"]
+        job_deploy_yml_build_docs["deploy.yml#build-docs"]:::atlasJob
+        job_deploy_yml_publish_docs["deploy.yml#publish-docs"]:::atlasJob
+        job_deploy_yml_publish_pypi["deploy.yml#publish-pypi"]:::atlasJob
+        job_deploy_yml_test["deploy.yml#test"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_deploy_yml_build_docs -->|DEPLOYS_TO| env_github_pages
     job_deploy_yml_publish_docs -->|DEPLOYS_TO| env_github_pages
@@ -100,20 +104,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["backstage/mkdocs-monorepo-plugin"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["backstage/mkdocs-monorepo-plugin"]):::atlasRoot
   subgraph Build__Test___Deploy_0["Build, Test & Deploy"]
     direction TB
-    0_test["test"]
-    0_build_docs["build-docs"]
-    0_publish_docs["publish-docs"]
+    0_test["test"]:::atlasJob
+    0_build_docs["build-docs"]:::atlasJob
+    0_publish_docs["publish-docs"]:::atlasJob
     0_build_docs --> 0_publish_docs
-    0_publish_pypi["publish-pypi"]
+    0_publish_pypi["publish-pypi"]:::atlasJob
     0_test --> 0_publish_pypi
   end
   pipeline_root --> 0_test
   subgraph Tests_1["Tests"]
     direction TB
-    1_test["test"]
+    1_test["test"]:::atlasJob
   end
   pipeline_root --> 1_test
 ```

@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for directus/rstore
 
 ```mermaid
 graph TD;
-    repo_root(["directus/rstore (34 components)"])
-    dir_0_packages["packages (33)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["directus/rstore (34 components)"]):::atlasRoot
+    dir_0_packages["packages (33)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_nuxt["nuxt (5)"]
+    sub_0_0_nuxt["nuxt (5)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_nuxt
-    sub_0_1_nuxt_drizzle["nuxt-drizzle (4)"]
+    sub_0_1_nuxt_drizzle["nuxt-drizzle (4)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_nuxt_drizzle
-    sub_0_2_nuxt_monospace["nuxt-monospace (3)"]
+    sub_0_2_nuxt_monospace["nuxt-monospace (3)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_nuxt_monospace
-    sub_0_more["+18 more submodules (21)"]
+    sub_0_more["+18 more submodules (21)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -177,15 +184,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_nuxt_drizzle_src_runtime_server["packages/nuxt-drizzle/src/runtime/server"]
-        mod_packages_nuxt_src_runtime_server["packages/nuxt/src/runtime/server"]
-        mod_packages_playground_drizzle_server["packages/playground-drizzle/server"]
-        mod_packages_playground_nuxt_directus["packages/playground-nuxt-directus"]
-        mod_packages_playground_server["packages/playground/server"]
+        mod_packages_nuxt_drizzle_src_runtime_server["packages/nuxt-drizzle/src/runtime/server"]:::atlasCategory
+        mod_packages_nuxt_src_runtime_server["packages/nuxt/src/runtime/server"]:::atlasCategory
+        mod_packages_playground_drizzle_server["packages/playground-drizzle/server"]:::atlasCategory
+        mod_packages_playground_nuxt_directus["packages/playground-nuxt-directus"]:::atlasCategory
+        mod_packages_playground_server["packages/playground/server"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_packages_playground_nuxt_directus_docker_compose_e2e_yml["packages/playground-nuxt-directus/docker-compose.e2e.yml"]
+        art_packages_playground_nuxt_directus_docker_compose_e2e_yml["packages/playground-nuxt-directus/docker-compose.e2e.yml"]:::atlasWorkflow
     end
     mod_packages_nuxt_drizzle_src_runtime_server -->|PACKAGED_BY| art_packages_playground_nuxt_directus_docker_compose_e2e_yml
     mod_packages_nuxt_src_runtime_server -->|PACKAGED_BY| art_packages_playground_nuxt_directus_docker_compose_e2e_yml
@@ -205,17 +216,36 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["directus/rstore (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["directus/rstore (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_ci["ci (6 jobs)"]
+  wf_0_ci["ci (6 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_ci
-  wf_2_Check_PR_title["Check PR title (1 jobs)"]
+  job_0_lint["lint"]:::atlasJob
+  job_0_typecheck["typecheck"]:::atlasJob
+  job_0_unit_test["unit-test"]:::atlasJob
+  wf_0_ci --> job_0_lint
+  wf_0_ci --> job_0_typecheck
+  wf_0_ci --> job_0_unit_test
+  wf_2_Check_PR_title["Check PR title (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Check_PR_title
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  job_2_check_title["check-title"]:::atlasJob
+  wf_2_Check_PR_title --> job_2_check_title
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_1_Publish_Nightlies["Publish Nightlies (1 jobs)"]
+  wf_1_Publish_Nightlies["Publish Nightlies (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_1_Publish_Nightlies
-  wf_3_Create_release["Create release (1 jobs)"]
+  job_1_build["build"]:::atlasJob
+  wf_1_Publish_Nightlies --> job_1_build
+  wf_3_Create_release["Create release (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_Create_release
+  job_3_build["build"]:::atlasJob
+  wf_3_Create_release --> job_3_build
 ```

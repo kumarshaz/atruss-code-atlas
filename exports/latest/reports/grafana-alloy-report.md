@@ -41,48 +41,55 @@ description: Arc42 and Pipeline report for grafana/alloy
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/alloy (351 components)"])
-    dir_0_internal["internal (142)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/alloy (351 components)"]):::atlasRoot
+    dir_0_internal["internal (142)"]:::atlasCategory
     repo_root --> dir_0_internal
-    sub_0_0_component["component (102)"]
+    sub_0_0_component["component (102)"]:::atlasWorkflow
     dir_0_internal --> sub_0_0_component
-    sub_0_1_alloycli["alloycli (19)"]
+    sub_0_1_alloycli["alloycli (19)"]:::atlasWorkflow
     dir_0_internal --> sub_0_1_alloycli
-    sub_0_2_cmd["cmd (13)"]
+    sub_0_2_cmd["cmd (13)"]:::atlasWorkflow
     dir_0_internal --> sub_0_2_cmd
-    sub_0_more["+3 more submodules (8)"]
+    sub_0_more["+3 more submodules (8)"]:::atlasMore
     dir_0_internal --> sub_0_more
-    dir_1_integration_tests["integration-tests (97)"]
+    dir_1_integration_tests["integration-tests (97)"]:::atlasCategory
     repo_root --> dir_1_integration_tests
-    sub_1_0_k8s["k8s (68)"]
+    sub_1_0_k8s["k8s (68)"]:::atlasWorkflow
     dir_1_integration_tests --> sub_1_0_k8s
-    sub_1_1_docker["docker (23)"]
+    sub_1_1_docker["docker (23)"]:::atlasWorkflow
     dir_1_integration_tests --> sub_1_1_docker
-    sub_1_2_windows_service["windows-service (5)"]
+    sub_1_2_windows_service["windows-service (5)"]:::atlasWorkflow
     dir_1_integration_tests --> sub_1_2_windows_service
-    sub_1_more["+1 more submodules (1)"]
+    sub_1_more["+1 more submodules (1)"]:::atlasMore
     dir_1_integration_tests --> sub_1_more
-    dir_2_operations["operations (82)"]
+    dir_2_operations["operations (82)"]:::atlasCategory
     repo_root --> dir_2_operations
-    sub_2_0_helm_charts_alloy_ci["helm/charts/alloy/ci (59)"]
+    sub_2_0_helm_charts_alloy_ci["helm/charts/alloy/ci (59)"]:::atlasWorkflow
     dir_2_operations --> sub_2_0_helm_charts_alloy_ci
-    sub_2_1_helm_charts_alloy_templates["helm/charts/alloy/templates (19)"]
+    sub_2_1_helm_charts_alloy_templates["helm/charts/alloy/templates (19)"]:::atlasWorkflow
     dir_2_operations --> sub_2_1_helm_charts_alloy_templates
-    sub_2_2_helm_charts_alloy["helm/charts/alloy (2)"]
+    sub_2_2_helm_charts_alloy["helm/charts/alloy (2)"]:::atlasWorkflow
     dir_2_operations --> sub_2_2_helm_charts_alloy
-    sub_2_more["+1 more submodules (2)"]
+    sub_2_more["+1 more submodules (2)"]:::atlasMore
     dir_2_operations --> sub_2_more
-    dir_3_collector["collector (12)"]
+    dir_3_collector["collector (12)"]:::atlasCategory
     repo_root --> dir_3_collector
-    sub_3_0__module_root_["(module root) (9)"]
+    sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
     dir_3_collector --> sub_3_0__module_root_
-    sub_3_1_otelsupervisor["otelsupervisor (2)"]
+    sub_3_1_otelsupervisor["otelsupervisor (2)"]:::atlasWorkflow
     dir_3_collector --> sub_3_1_otelsupervisor
-    sub_3_2_generator["generator (1)"]
+    sub_3_2_generator["generator (1)"]:::atlasWorkflow
     dir_3_collector --> sub_3_2_generator
-    dir_4_extension["extension (7)"]
+    dir_4_extension["extension (7)"]:::atlasCategory
     repo_root --> dir_4_extension
-    dir_other_modules["+5 more modules (11)"]
+    dir_other_modules["+5 more modules (11)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -233,119 +240,123 @@ Showing top 60 representative components out of 351 across 10 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_56815150_8027_43e4_8c55_4cf5f2f07153["56815150-8027-43e4-8c55-4cf5f2f07153"]
-        mod_build_tools_build_image["build-tools/build-image"]
-        mod_build_tools_release_please_runner["build-tools/release-please-runner"]
-        mod_collector["collector"]
-        mod_docs_developer_updating_otel_k6_trace_gen["docs/developer/updating-otel/k6-trace-gen"]
-        mod_example_docker_compose_images_grizzly["example/docker-compose/images/grizzly"]
-        mod_example_docker_compose_images_jb["example/docker-compose/images/jb"]
-        mod_integration_tests_docker["integration-tests/docker"]
-        mod_integration_tests_docker_tests_beyla_java["integration-tests/docker/tests/beyla-java"]
-        mod_integration_tests_docker_tests_loki_azure_event_hubs["integration-tests/docker/tests/loki-azure-event-hubs"]
-        mod_integration_tests_docker_tests_loki_docker["integration-tests/docker/tests/loki-docker"]
-        mod_integration_tests_docker_tests_oracledb["integration-tests/docker/tests/oracledb"]
-        mod_integration_tests_k8s_fixtures_otel_gen["integration-tests/k8s/fixtures/otel-gen"]
-        mod_integration_tests_k8s_fixtures_prom_gen["integration-tests/k8s/fixtures/prom-gen"]
-        mod_internal_web_ui["internal/web/ui"]
-        mod_operations_helm_charts_alloy["operations/helm/charts/alloy"]
-        mod_packaging_homebrew_formula_gen["packaging/homebrew/formula-gen"]
-        mod_syntax["syntax"]
-        mod_tools["tools"]
+        mod_56815150_8027_43e4_8c55_4cf5f2f07153["56815150-8027-43e4-8c55-4cf5f2f07153"]:::atlasCategory
+        mod_build_tools_build_image["build-tools/build-image"]:::atlasCategory
+        mod_build_tools_release_please_runner["build-tools/release-please-runner"]:::atlasCategory
+        mod_collector["collector"]:::atlasCategory
+        mod_docs_developer_updating_otel_k6_trace_gen["docs/developer/updating-otel/k6-trace-gen"]:::atlasCategory
+        mod_example_docker_compose_images_grizzly["example/docker-compose/images/grizzly"]:::atlasCategory
+        mod_example_docker_compose_images_jb["example/docker-compose/images/jb"]:::atlasCategory
+        mod_integration_tests_docker["integration-tests/docker"]:::atlasCategory
+        mod_integration_tests_docker_tests_beyla_java["integration-tests/docker/tests/beyla-java"]:::atlasCategory
+        mod_integration_tests_docker_tests_loki_azure_event_hubs["integration-tests/docker/tests/loki-azure-event-hubs"]:::atlasCategory
+        mod_integration_tests_docker_tests_loki_docker["integration-tests/docker/tests/loki-docker"]:::atlasCategory
+        mod_integration_tests_docker_tests_oracledb["integration-tests/docker/tests/oracledb"]:::atlasCategory
+        mod_integration_tests_k8s_fixtures_otel_gen["integration-tests/k8s/fixtures/otel-gen"]:::atlasCategory
+        mod_integration_tests_k8s_fixtures_prom_gen["integration-tests/k8s/fixtures/prom-gen"]:::atlasCategory
+        mod_internal_web_ui["internal/web/ui"]:::atlasCategory
+        mod_operations_helm_charts_alloy["operations/helm/charts/alloy"]:::atlasCategory
+        mod_packaging_homebrew_formula_gen["packaging/homebrew/formula-gen"]:::atlasCategory
+        mod_syntax["syntax"]:::atlasCategory
+        mod_tools["tools"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_chisel["Dockerfile.chisel"]
-        art_Dockerfile_windows["Dockerfile.windows"]
-        art_build_tools_build_image_Dockerfile["build-tools/build-image/Dockerfile"]
-        art_docs_developer_updating_otel_k6_trace_gen_docker_compose_yaml["docs/developer/updating-otel/k6-trace-gen/docker-compose.yaml"]
-        art_example_docker_compose_images_grizzly_Dockerfile["example/docker-compose/images/grizzly/Dockerfile"]
-        art_example_docker_compose_images_jb_Dockerfile["example/docker-compose/images/jb/Dockerfile"]
-        art_integration_tests_docker_docker_compose_yaml["integration-tests/docker/docker-compose.yaml"]
-        art_integration_tests_docker_tests_beyla_java_docker_compose_yaml["integration-tests/docker/tests/beyla-java/docker-compose.yaml"]
-        art_integration_tests_docker_tests_loki_azure_event_hubs_docker_compose_yaml["integration-tests/docker/tests/loki-azure-event-hubs/docker-compose.yaml"]
-        art_integration_tests_docker_tests_loki_docker_Dockerfile["integration-tests/docker/tests/loki-docker/Dockerfile"]
-        art_integration_tests_docker_tests_oracledb_Dockerfile_alloy["integration-tests/docker/tests/oracledb/Dockerfile.alloy"]
-        art_integration_tests_k8s_deps_manifests_alloy_otel_yaml["integration-tests/k8s/deps/manifests/alloy-otel.yaml"]
-        art_integration_tests_k8s_deps_manifests_kafka_gen_yaml["integration-tests/k8s/deps/manifests/kafka-gen.yaml"]
-        art_integration_tests_k8s_deps_manifests_log_gen_yaml["integration-tests/k8s/deps/manifests/log-gen.yaml"]
-        art_integration_tests_k8s_deps_manifests_loki_yaml["integration-tests/k8s/deps/manifests/loki.yaml"]
-        art_integration_tests_k8s_deps_manifests_mimir_yaml["integration-tests/k8s/deps/manifests/mimir.yaml"]
-        art_integration_tests_k8s_deps_manifests_mssql_yaml["integration-tests/k8s/deps/manifests/mssql.yaml"]
-        art_integration_tests_k8s_deps_manifests_mysql_yaml["integration-tests/k8s/deps/manifests/mysql.yaml"]
-        art_integration_tests_k8s_deps_manifests_nginx_proxy_yaml["integration-tests/k8s/deps/manifests/nginx-proxy.yaml"]
-        art_integration_tests_k8s_deps_manifests_otel_gen_yaml["integration-tests/k8s/deps/manifests/otel-gen.yaml"]
-        art_integration_tests_k8s_deps_manifests_postgres_yaml["integration-tests/k8s/deps/manifests/postgres.yaml"]
-        art_integration_tests_k8s_deps_manifests_prom_gen_yaml["integration-tests/k8s/deps/manifests/prom-gen.yaml"]
-        art_integration_tests_k8s_fixtures_otel_gen_Dockerfile["integration-tests/k8s/fixtures/otel-gen/Dockerfile"]
-        art_integration_tests_k8s_fixtures_prom_gen_Dockerfile["integration-tests/k8s/fixtures/prom-gen/Dockerfile"]
-        art_integration_tests_k8s_tests_alloyengine_extension_config_collector_yaml["integration-tests/k8s/tests/alloyengine-extension/config/collector.yaml"]
-        art_integration_tests_k8s_tests_beyla_ebpf_config_alloy_values_yaml["integration-tests/k8s/tests/beyla-ebpf/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_database_observability_mysql_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-mysql/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_database_observability_postgres_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-postgres/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_database_observability_sql_server_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-sql-server/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_database_observability_sql_server_config_seed_yaml["integration-tests/k8s/tests/database-observability-sql-server/config/seed.yaml"]
-        art_integration_tests_k8s_tests_graphql_config_alloy_values_yaml["integration-tests/k8s/tests/graphql/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_api_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-api/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_file_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-file/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_gcplog_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-gcplog/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_kafka_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-kafka/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_kubernetes_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-kubernetes/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_podlogs_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_loki_source_podlogs_config_podlogs_a_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/podlogs-a.yaml"]
-        art_integration_tests_k8s_tests_loki_source_podlogs_config_podlogs_bc_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/podlogs-bc.yaml"]
-        art_integration_tests_k8s_tests_metamonitor_alloy_config_alloy_values_yaml["integration-tests/k8s/tests/metamonitor-alloy/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_metamonitor_otel_config_collector_yaml["integration-tests/k8s/tests/metamonitor-otel/config/collector.yaml"]
-        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_config_alloy_values_yaml["integration-tests/k8s/tests/mimir-alerts-kubernetes/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_config_workloads_yaml["integration-tests/k8s/tests/mimir-alerts-kubernetes/config/workloads.yaml"]
-        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_expected_expected_1_yml["integration-tests/k8s/tests/mimir-alerts-kubernetes/expected/expected_1.yml"]
-        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_expected_expected_2_yml["integration-tests/k8s/tests/mimir-alerts-kubernetes/expected/expected_2.yml"]
-        art_integration_tests_k8s_tests_otelcol_default_engine_config_alloy_values_yaml["integration-tests/k8s/tests/otelcol-default-engine/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_otelcol_entrypoint_config_collector_yaml["integration-tests/k8s/tests/otelcol-entrypoint/config/collector.yaml"]
-        art_integration_tests_k8s_tests_otelcol_receiver_kafka_azure_config_alloy_values_yaml["integration-tests/k8s/tests/otelcol-receiver-kafka-azure/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_cadvisor_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-cadvisor/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_kafka_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-kafka/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_mssql_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-mssql/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_redis_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-redis/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_snmp_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-snmp/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_exporter_unix_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-unix/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_operator_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-operator/config/alloy-values.yaml"]
-        art_integration_tests_k8s_tests_prometheus_operator_config_workloads_yaml["integration-tests/k8s/tests/prometheus-operator/config/workloads.yaml"]
-        art_integration_tests_k8s_tests_prometheus_write_paths_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-write-paths/config/alloy-values.yaml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_chisel["Dockerfile.chisel"]:::atlasWorkflow
+        art_Dockerfile_windows["Dockerfile.windows"]:::atlasWorkflow
+        art_build_tools_build_image_Dockerfile["build-tools/build-image/Dockerfile"]:::atlasWorkflow
+        art_docs_developer_updating_otel_k6_trace_gen_docker_compose_yaml["docs/developer/updating-otel/k6-trace-gen/docker-compose.yaml"]:::atlasWorkflow
+        art_example_docker_compose_images_grizzly_Dockerfile["example/docker-compose/images/grizzly/Dockerfile"]:::atlasWorkflow
+        art_example_docker_compose_images_jb_Dockerfile["example/docker-compose/images/jb/Dockerfile"]:::atlasWorkflow
+        art_integration_tests_docker_docker_compose_yaml["integration-tests/docker/docker-compose.yaml"]:::atlasWorkflow
+        art_integration_tests_docker_tests_beyla_java_docker_compose_yaml["integration-tests/docker/tests/beyla-java/docker-compose.yaml"]:::atlasWorkflow
+        art_integration_tests_docker_tests_loki_azure_event_hubs_docker_compose_yaml["integration-tests/docker/tests/loki-azure-event-hubs/docker-compose.yaml"]:::atlasWorkflow
+        art_integration_tests_docker_tests_loki_docker_Dockerfile["integration-tests/docker/tests/loki-docker/Dockerfile"]:::atlasWorkflow
+        art_integration_tests_docker_tests_oracledb_Dockerfile_alloy["integration-tests/docker/tests/oracledb/Dockerfile.alloy"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_alloy_otel_yaml["integration-tests/k8s/deps/manifests/alloy-otel.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_kafka_gen_yaml["integration-tests/k8s/deps/manifests/kafka-gen.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_log_gen_yaml["integration-tests/k8s/deps/manifests/log-gen.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_loki_yaml["integration-tests/k8s/deps/manifests/loki.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_mimir_yaml["integration-tests/k8s/deps/manifests/mimir.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_mssql_yaml["integration-tests/k8s/deps/manifests/mssql.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_mysql_yaml["integration-tests/k8s/deps/manifests/mysql.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_nginx_proxy_yaml["integration-tests/k8s/deps/manifests/nginx-proxy.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_otel_gen_yaml["integration-tests/k8s/deps/manifests/otel-gen.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_postgres_yaml["integration-tests/k8s/deps/manifests/postgres.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_deps_manifests_prom_gen_yaml["integration-tests/k8s/deps/manifests/prom-gen.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_fixtures_otel_gen_Dockerfile["integration-tests/k8s/fixtures/otel-gen/Dockerfile"]:::atlasWorkflow
+        art_integration_tests_k8s_fixtures_prom_gen_Dockerfile["integration-tests/k8s/fixtures/prom-gen/Dockerfile"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_alloyengine_extension_config_collector_yaml["integration-tests/k8s/tests/alloyengine-extension/config/collector.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_beyla_ebpf_config_alloy_values_yaml["integration-tests/k8s/tests/beyla-ebpf/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_database_observability_mysql_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-mysql/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_database_observability_postgres_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-postgres/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_database_observability_sql_server_config_alloy_values_yaml["integration-tests/k8s/tests/database-observability-sql-server/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_database_observability_sql_server_config_seed_yaml["integration-tests/k8s/tests/database-observability-sql-server/config/seed.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_graphql_config_alloy_values_yaml["integration-tests/k8s/tests/graphql/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_api_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-api/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_file_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-file/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_gcplog_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-gcplog/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_kafka_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-kafka/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_kubernetes_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-kubernetes/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_podlogs_config_alloy_values_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_podlogs_config_podlogs_a_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/podlogs-a.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_loki_source_podlogs_config_podlogs_bc_yaml["integration-tests/k8s/tests/loki-source-podlogs/config/podlogs-bc.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_metamonitor_alloy_config_alloy_values_yaml["integration-tests/k8s/tests/metamonitor-alloy/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_metamonitor_otel_config_collector_yaml["integration-tests/k8s/tests/metamonitor-otel/config/collector.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_config_alloy_values_yaml["integration-tests/k8s/tests/mimir-alerts-kubernetes/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_config_workloads_yaml["integration-tests/k8s/tests/mimir-alerts-kubernetes/config/workloads.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_expected_expected_1_yml["integration-tests/k8s/tests/mimir-alerts-kubernetes/expected/expected_1.yml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_mimir_alerts_kubernetes_expected_expected_2_yml["integration-tests/k8s/tests/mimir-alerts-kubernetes/expected/expected_2.yml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_otelcol_default_engine_config_alloy_values_yaml["integration-tests/k8s/tests/otelcol-default-engine/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_otelcol_entrypoint_config_collector_yaml["integration-tests/k8s/tests/otelcol-entrypoint/config/collector.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_otelcol_receiver_kafka_azure_config_alloy_values_yaml["integration-tests/k8s/tests/otelcol-receiver-kafka-azure/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_cadvisor_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-cadvisor/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_kafka_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-kafka/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_mssql_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-mssql/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_redis_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-redis/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_snmp_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-snmp/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_exporter_unix_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-exporter-unix/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_operator_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-operator/config/alloy-values.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_operator_config_workloads_yaml["integration-tests/k8s/tests/prometheus-operator/config/workloads.yaml"]:::atlasWorkflow
+        art_integration_tests_k8s_tests_prometheus_write_paths_config_alloy_values_yaml["integration-tests/k8s/tests/prometheus-write-paths/config/alloy-values.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ai_dependency_review_yml_analyze_dependencies["ai-dependency-review.yml#analyze-dependencies"]
-        job_benchmark_pr_yml_benchmark["benchmark-pr.yml#benchmark"]
-        job_bump_formula_pr_yml_homebrew_grafana["bump-formula-pr.yml#homebrew-grafana"]
-        job_check_generate_otel_collector_distro_yml_check["check-generate-otel-collector-distro.yml#check"]
-        job_check_linux_build_image_yml_check_linux_build_image["check-linux-build-image.yml#check-linux-build-image"]
-        job_create_build_image_yml_linux_build_image["create_build_image.yml#linux_build_image"]
-        job_docker_images_yml_linux["docker-images.yml#linux"]
-        job_docker_images_yml_windows["docker-images.yml#windows"]
-        job_helm_install_yml_install["helm-install.yml#install"]
-        job_helm_release_yml_release["helm-release.yml#release"]
-        job_helm_release_yml_setup["helm-release.yml#setup"]
-        job_helm_test_yml_lint["helm-test.yml#lint"]
-        job_helm_test_yml_regenerate_docs["helm-test.yml#regenerate-docs"]
-        job_helm_test_yml_regenerate_tests["helm-test.yml#regenerate-tests"]
-        job_lint_yml_lint_ui["lint.yml#lint_ui"]
-        job_publish_alloy_devel_yml_update_deployment_tools["publish-alloy-devel.yml#update_deployment_tools"]
-        job_release_announce_yml_announce_release["release-announce.yml#announce-release"]
-        job_release_backport_yml_backport["release-backport.yml#backport"]
-        job_release_create_branch_yml_create_branch["release-create-branch.yml#create-branch"]
-        job_release_create_rc_yml_create_rc["release-create-rc.yml#create-rc"]
-        job_release_enrich_release_notes_yml_enrich_release["release-enrich-release-notes.yml#enrich-release"]
-        job_release_please_yml_regenerate_release_please_prs["release-please.yml#regenerate-release-please-prs"]
-        job_release_please_yml_release_please["release-please.yml#release-please"]
-        job_release_publish_alloy_artifacts_yml_sign_alloy_windows["release-publish-alloy-artifacts.yml#sign_alloy_windows"]
-        job_release_publish_alloy_artifacts_yml_sign_alloy_windows_installer["release-publish-alloy-artifacts.yml#sign_alloy_windows_installer"]
-        job_test_mac_yml_cross_compile_mac_to_linux_nocgo["test_mac.yml#cross-compile-mac-to-linux-nocgo"]
+        job_ai_dependency_review_yml_analyze_dependencies["ai-dependency-review.yml#analyze-dependencies"]:::atlasJob
+        job_benchmark_pr_yml_benchmark["benchmark-pr.yml#benchmark"]:::atlasJob
+        job_bump_formula_pr_yml_homebrew_grafana["bump-formula-pr.yml#homebrew-grafana"]:::atlasJob
+        job_check_generate_otel_collector_distro_yml_check["check-generate-otel-collector-distro.yml#check"]:::atlasJob
+        job_check_linux_build_image_yml_check_linux_build_image["check-linux-build-image.yml#check-linux-build-image"]:::atlasJob
+        job_create_build_image_yml_linux_build_image["create_build_image.yml#linux_build_image"]:::atlasJob
+        job_docker_images_yml_linux["docker-images.yml#linux"]:::atlasJob
+        job_docker_images_yml_windows["docker-images.yml#windows"]:::atlasJob
+        job_helm_install_yml_install["helm-install.yml#install"]:::atlasJob
+        job_helm_release_yml_release["helm-release.yml#release"]:::atlasJob
+        job_helm_release_yml_setup["helm-release.yml#setup"]:::atlasJob
+        job_helm_test_yml_lint["helm-test.yml#lint"]:::atlasJob
+        job_helm_test_yml_regenerate_docs["helm-test.yml#regenerate-docs"]:::atlasJob
+        job_helm_test_yml_regenerate_tests["helm-test.yml#regenerate-tests"]:::atlasJob
+        job_lint_yml_lint_ui["lint.yml#lint_ui"]:::atlasJob
+        job_publish_alloy_devel_yml_update_deployment_tools["publish-alloy-devel.yml#update_deployment_tools"]:::atlasJob
+        job_release_announce_yml_announce_release["release-announce.yml#announce-release"]:::atlasJob
+        job_release_backport_yml_backport["release-backport.yml#backport"]:::atlasJob
+        job_release_create_branch_yml_create_branch["release-create-branch.yml#create-branch"]:::atlasJob
+        job_release_create_rc_yml_create_rc["release-create-rc.yml#create-rc"]:::atlasJob
+        job_release_enrich_release_notes_yml_enrich_release["release-enrich-release-notes.yml#enrich-release"]:::atlasJob
+        job_release_please_yml_regenerate_release_please_prs["release-please.yml#regenerate-release-please-prs"]:::atlasJob
+        job_release_please_yml_release_please["release-please.yml#release-please"]:::atlasJob
+        job_release_publish_alloy_artifacts_yml_sign_alloy_windows["release-publish-alloy-artifacts.yml#sign_alloy_windows"]:::atlasJob
+        job_release_publish_alloy_artifacts_yml_sign_alloy_windows_installer["release-publish-alloy-artifacts.yml#sign_alloy_windows_installer"]:::atlasJob
+        job_test_mac_yml_cross_compile_mac_to_linux_nocgo["test_mac.yml#cross-compile-mac-to-linux-nocgo"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_azure_trusted_signing["azure-trusted-signing"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_azure_trusted_signing["azure-trusted-signing"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_helm_install_yml_install -->|DEPLOYS_TO| env_azure
     job_helm_install_yml_install -->|DEPLOYS_TO| env_kubernetes
@@ -551,15 +562,76 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/alloy (61 workflows)"])
-  grp_0_CI___Verification["CI & Verification (27 workflows · 51 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/alloy (61 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (27 workflows · 51 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (22 workflows · 43 jobs)"]
+  wf_5_Build["Build (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Build
+  job_5_build_linux["build_linux"]:::atlasJob
+  job_5_build_linux_boringcrypto["build_linux_boringcrypto"]:::atlasJob
+  job_5_build_mac["build_mac"]:::atlasJob
+  wf_5_Build --> job_5_build_linux
+  wf_5_Build --> job_5_build_linux_boringcrypto
+  wf_5_Build --> job_5_build_mac
+  wf_13_Check_Linux_container["Check Linux container (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_13_Check_Linux_container
+  job_13_check_linux_container["check-linux-container"]:::atlasJob
+  job_13_check_linux_boringcrypto_container["check-linux-boringcrypto-container"]:::atlasJob
+  job_13_check_linux_distroless_container["check-linux-distroless-container"]:::atlasJob
+  wf_13_Check_Linux_container --> job_13_check_linux_container
+  wf_13_Check_Linux_container --> job_13_check_linux_boringcrypto_container
+  wf_13_Check_Linux_container --> job_13_check_linux_distroless_container
+  wf_52_Runtime_tests["Runtime tests (7 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_52_Runtime_tests
+  job_52_detect_chart_changes["detect_chart_changes"]:::atlasJob
+  job_52_build_standard["build_standard"]:::atlasJob
+  job_52_build_distroless["build_distroless"]:::atlasJob
+  wf_52_Runtime_tests --> job_52_detect_chart_changes
+  job_52_detect_chart_changes --> job_52_build_standard
+  wf_52_Runtime_tests --> job_52_build_distroless
+  grp_1_Release___Deploy["Release & Deploy (22 workflows · 43 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (8 workflows · 8 jobs)"]
+  wf_34_Publish_alloy_devel_containers["Publish alloy-devel containers (6 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_34_Publish_alloy_devel_containers
+  job_34_publish_linux_container["publish_linux_container"]:::atlasJob
+  job_34_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
+  job_34_publish_linux_distroless_container["publish_linux_distroless_container"]:::atlasJob
+  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_container
+  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_boringcrypto_container
+  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_distroless_container
+  wf_48_Publish_Alloy_release_artifacts["Publish Alloy release artifacts (11 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_48_Publish_Alloy_release_artifacts
+  job_48_validate["validate"]:::atlasJob
+  job_48_publish_linux_container["publish_linux_container"]:::atlasJob
+  job_48_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
+  wf_48_Publish_Alloy_release_artifacts --> job_48_validate
+  job_48_validate --> job_48_publish_linux_container
+  job_48_validate --> job_48_publish_linux_boringcrypto_container
+  grp_2_Scheduled___Manual["Scheduled & Manual (8 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]
+  wf_18_Check_Dependencies["Check Dependencies (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_18_Check_Dependencies
+  job_18_check["check"]:::atlasJob
+  wf_18_Check_Dependencies --> job_18_check
+  wf_32_Check_whether_issues_or_PRs_need_attention["Check whether issues or PRs need attention (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_32_Check_whether_issues_or_PRs_need_attention
+  grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Automation___Other
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_2_Apply_labels_on_a_new_issue["Apply labels on a new issue (1 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_2_Apply_labels_on_a_new_issue
+  wf_25_Install_Helm_chart["Install Helm chart (1 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_25_Install_Helm_chart
+  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_3_Lock_closed_issues_and_PRs["Lock closed issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_3_Lock_closed_issues_and_PRs
+  wf_more["+51 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

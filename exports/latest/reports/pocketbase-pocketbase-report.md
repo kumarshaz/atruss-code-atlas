@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for pocketbase/pocketbase
 
 ```mermaid
 graph TD;
-    repo_root(["pocketbase/pocketbase (251 components)"])
-    dir_0_core["core (139)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["pocketbase/pocketbase (251 components)"]):::atlasRoot
+    dir_0_core["core (139)"]:::atlasCategory
     repo_root --> dir_0_core
-    sub_0_0__module_root_["(module root) (129)"]
+    sub_0_0__module_root_["(module root) (129)"]:::atlasWorkflow
     dir_0_core --> sub_0_0__module_root_
-    sub_0_1_validators["validators (10)"]
+    sub_0_1_validators["validators (10)"]:::atlasWorkflow
     dir_0_core --> sub_0_1_validators
-    dir_1_apis["apis (78)"]
+    dir_1_apis["apis (78)"]:::atlasCategory
     repo_root --> dir_1_apis
-    dir_2_forms["forms (8)"]
+    dir_2_forms["forms (8)"]:::atlasCategory
     repo_root --> dir_2_forms
-    dir_3_migrations["migrations (8)"]
+    dir_3_migrations["migrations (8)"]:::atlasCategory
     repo_root --> dir_3_migrations
-    dir_4_mails["mails (5)"]
+    dir_4_mails["mails (5)"]:::atlasCategory
     repo_root --> dir_4_mails
-    dir_other_modules["+5 more modules (13)"]
+    dir_other_modules["+5 more modules (13)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -240,11 +247,15 @@ Showing top 60 representative components out of 251 across 10 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_ui["ui"]
+        mod_ui["ui"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yaml_goreleaser["release.yaml#goreleaser"]
+        job_release_yaml_goreleaser["release.yaml#goreleaser"]:::atlasJob
     end
     mod_ui -->|DEPLOYED_BY| job_release_yaml_goreleaser
 ```
@@ -256,8 +267,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph basebuild_0["basebuild"]
     direction TB
-    0_goreleaser["goreleaser"]
+    0_goreleaser["goreleaser"]:::atlasJob
   end
 ```

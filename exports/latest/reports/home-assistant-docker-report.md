@@ -56,13 +56,17 @@ description: Arc42 and Pipeline report for home-assistant/docker
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_b0372cf2_d160_41e2_a0e8_2256080e7d36["b0372cf2-d160-41e2-a0e8-2256080e7d36"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_b0372cf2_d160_41e2_a0e8_2256080e7d36["b0372cf2-d160-41e2-a0e8-2256080e7d36"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
     mod_b0372cf2_d160_41e2_a0e8_2256080e7d36 -->|PACKAGED_BY| art_Dockerfile
@@ -76,17 +80,37 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/docker (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/docker (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_1_hadolint["hadolint (1 jobs)"]
+  wf_1_hadolint["hadolint (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_hadolint
-  wf_3_Shellcheck["Shellcheck (1 jobs)"]
+  job_1_golangci["golangci"]:::atlasJob
+  wf_1_hadolint --> job_1_golangci
+  wf_3_Shellcheck["Shellcheck (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_3_Shellcheck
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+  job_3_shellcheck["shellcheck"]:::atlasJob
+  wf_3_Shellcheck --> job_3_shellcheck
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_base_images["Build base images (3 jobs)"]
+  wf_0_Build_base_images["Build base images (3 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_0_Build_base_images
-  wf_2_Release_Drafter["Release Drafter (1 jobs)"]
+  job_0_init["init"]:::atlasJob
+  job_0_build["build"]:::atlasJob
+  job_0_manifest["manifest"]:::atlasJob
+  wf_0_Build_base_images --> job_0_init
+  job_0_init --> job_0_build
+  job_0_init --> job_0_manifest
+  job_0_build --> job_0_manifest
+  wf_2_Release_Drafter["Release Drafter (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_2_Release_Drafter
+  job_2_update_release_draft["update_release_draft"]:::atlasJob
+  wf_2_Release_Drafter --> job_2_update_release_draft
 ```

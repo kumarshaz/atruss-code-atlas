@@ -41,23 +41,30 @@ description: Arc42 and Pipeline report for TryGhost/SDK
 
 ```mermaid
 graph TD;
-    n_03602c6f_e01b_471b_9fb0_7b6ff7e2d10e["03602c6f-e01b-471b-9fb0-7b6ff7e2d10e : MODULE"]
-    _tryghost_admin_api["@tryghost/admin-api : MODULE"]
-    _tryghost_color_utils["@tryghost/color-utils : MODULE"]
-    _tryghost_config_url_helpers["@tryghost/config-url-helpers : MODULE"]
-    _tryghost_content_api["@tryghost/content-api : MODULE"]
-    _tryghost_custom_fonts["@tryghost/custom-fonts : MODULE"]
-    _tryghost_helpers["@tryghost/helpers : MODULE"]
-    _tryghost_helpers_gatsby["@tryghost/helpers-gatsby : MODULE"]
-    _tryghost_html_to_plaintext["@tryghost/html-to-plaintext : MODULE"]
-    _tryghost_referrer_parser["@tryghost/referrer-parser : MODULE"]
-    _tryghost_release_utils["@tryghost/release-utils : MODULE"]
-    _tryghost_schema_org["@tryghost/schema-org : MODULE"]
-    _tryghost_social_urls["@tryghost/social-urls : MODULE"]
-    _tryghost_string["@tryghost/string : MODULE"]
-    _tryghost_timezone_data["@tryghost/timezone-data : MODULE"]
-    _tryghost_url_utils["@tryghost/url-utils : MODULE"]
-    repo_root(["TryGhost/SDK"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    n_03602c6f_e01b_471b_9fb0_7b6ff7e2d10e["03602c6f-e01b-471b-9fb0-7b6ff7e2d10e : MODULE"]:::atlasJob
+    _tryghost_admin_api["@tryghost/admin-api : MODULE"]:::atlasJob
+    _tryghost_color_utils["@tryghost/color-utils : MODULE"]:::atlasJob
+    _tryghost_config_url_helpers["@tryghost/config-url-helpers : MODULE"]:::atlasJob
+    _tryghost_content_api["@tryghost/content-api : MODULE"]:::atlasJob
+    _tryghost_custom_fonts["@tryghost/custom-fonts : MODULE"]:::atlasJob
+    _tryghost_helpers["@tryghost/helpers : MODULE"]:::atlasJob
+    _tryghost_helpers_gatsby["@tryghost/helpers-gatsby : MODULE"]:::atlasJob
+    _tryghost_html_to_plaintext["@tryghost/html-to-plaintext : MODULE"]:::atlasJob
+    _tryghost_referrer_parser["@tryghost/referrer-parser : MODULE"]:::atlasJob
+    _tryghost_release_utils["@tryghost/release-utils : MODULE"]:::atlasJob
+    _tryghost_schema_org["@tryghost/schema-org : MODULE"]:::atlasJob
+    _tryghost_social_urls["@tryghost/social-urls : MODULE"]:::atlasJob
+    _tryghost_string["@tryghost/string : MODULE"]:::atlasJob
+    _tryghost_timezone_data["@tryghost/timezone-data : MODULE"]:::atlasJob
+    _tryghost_url_utils["@tryghost/url-utils : MODULE"]:::atlasJob
+    repo_root(["TryGhost/SDK"]):::atlasRoot
     repo_root --> _tryghost_admin_api
     repo_root --> _tryghost_color_utils
     repo_root --> _tryghost_config_url_helpers
@@ -174,16 +181,23 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/SDK"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/SDK"]):::atlasRoot
   subgraph Publish_0["Publish"]
     direction TB
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
   end
   pipeline_root --> 0_publish
   subgraph Test_1["Test"]
     direction TB
-    1_build["build"]
-    1_required["required"]
+    1_build["build"]:::atlasJob
+    1_required["required"]:::atlasJob
     1_build --> 1_required
   end
   pipeline_root --> 1_build

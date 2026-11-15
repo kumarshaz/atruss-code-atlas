@@ -41,42 +41,49 @@ description: Arc42 and Pipeline report for discourse/discourse-activity-pub
 
 ```mermaid
 graph TD;
-    repo_root(["discourse/discourse-activity-pub (250 components)"])
-    dir_0_spec["spec (87)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["discourse/discourse-activity-pub (250 components)"]):::atlasRoot
+    dir_0_spec["spec (87)"]:::atlasCategory
     repo_root --> dir_0_spec
-    sub_0_0_lib["lib (41)"]
+    sub_0_0_lib["lib (41)"]:::atlasWorkflow
     dir_0_spec --> sub_0_0_lib
-    sub_0_1_requests["requests (22)"]
+    sub_0_1_requests["requests (22)"]:::atlasWorkflow
     dir_0_spec --> sub_0_1_requests
-    sub_0_2_fabricators["fabricators (9)"]
+    sub_0_2_fabricators["fabricators (9)"]:::atlasWorkflow
     dir_0_spec --> sub_0_2_fabricators
-    sub_0_more["+6 more submodules (15)"]
+    sub_0_more["+6 more submodules (15)"]:::atlasMore
     dir_0_spec --> sub_0_more
-    dir_1_app["app (80)"]
+    dir_1_app["app (80)"]:::atlasCategory
     repo_root --> dir_1_app
-    sub_1_0_serializers["serializers (33)"]
+    sub_1_0_serializers["serializers (33)"]:::atlasWorkflow
     dir_1_app --> sub_1_0_serializers
-    sub_1_1_models["models (22)"]
+    sub_1_1_models["models (22)"]:::atlasWorkflow
     dir_1_app --> sub_1_1_models
-    sub_1_2_controllers["controllers (20)"]
+    sub_1_2_controllers["controllers (20)"]:::atlasWorkflow
     dir_1_app --> sub_1_2_controllers
-    sub_1_more["+1 more submodules (5)"]
+    sub_1_more["+1 more submodules (5)"]:::atlasMore
     dir_1_app --> sub_1_more
-    dir_2_lib["lib (57)"]
+    dir_2_lib["lib (57)"]:::atlasCategory
     repo_root --> dir_2_lib
-    sub_2_0_discourse_activity_pub_a_p["discourse_activity_pub/a_p (30)"]
+    sub_2_0_discourse_activity_pub_a_p["discourse_activity_pub/a_p (30)"]:::atlasWorkflow
     dir_2_lib --> sub_2_0_discourse_activity_pub_a_p
-    sub_2_1_discourse_activity_pub["discourse_activity_pub (20)"]
+    sub_2_1_discourse_activity_pub["discourse_activity_pub (20)"]:::atlasWorkflow
     dir_2_lib --> sub_2_1_discourse_activity_pub
-    sub_2_2_discourse_activity_pub_bulk["discourse_activity_pub/bulk (4)"]
+    sub_2_2_discourse_activity_pub_bulk["discourse_activity_pub/bulk (4)"]:::atlasWorkflow
     dir_2_lib --> sub_2_2_discourse_activity_pub_bulk
-    sub_2_more["+3 more submodules (3)"]
+    sub_2_more["+3 more submodules (3)"]:::atlasMore
     dir_2_lib --> sub_2_more
-    dir_3_db["db (24)"]
+    dir_3_db["db (24)"]:::atlasCategory
     repo_root --> dir_3_db
-    dir_4__root_["(root) (1)"]
+    dir_4__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -208,12 +215,16 @@ Showing top 60 representative components out of 250 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2e7ecc81_bc41_41e2_8140_dc4b6cbb95e2["2e7ecc81-bc41-41e2-8140-dc4b6cbb95e2"]
+        mod_2e7ecc81_bc41_41e2_8140_dc4b6cbb95e2["2e7ecc81-bc41-41e2-8140-dc4b6cbb95e2"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_d_compat_branch_yml_ci["d-compat-branch.yml#ci"]
-        job_discourse_plugin_yml_ci["discourse-plugin.yml#ci"]
+        job_d_compat_branch_yml_ci["d-compat-branch.yml#ci"]:::atlasJob
+        job_discourse_plugin_yml_ci["discourse-plugin.yml#ci"]:::atlasJob
     end
     mod_2e7ecc81_bc41_41e2_8140_dc4b6cbb95e2 -->|BUILT_BY| job_d_compat_branch_yml_ci
     mod_2e7ecc81_bc41_41e2_8140_dc4b6cbb95e2 -->|BUILT_BY| job_discourse_plugin_yml_ci
@@ -227,15 +238,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["discourse/discourse-activity-pub"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["discourse/discourse-activity-pub"]):::atlasRoot
   subgraph Create_new_d_compat_branch_0["Create new d-compat branch"]
     direction TB
-    0_ci["ci"]
+    0_ci["ci"]:::atlasJob
   end
   pipeline_root --> 0_ci
   subgraph Discourse_Plugin_1["Discourse Plugin"]
     direction TB
-    1_ci["ci"]
+    1_ci["ci"]:::atlasJob
   end
   pipeline_root --> 1_ci
 ```

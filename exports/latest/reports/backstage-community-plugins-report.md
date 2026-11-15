@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for backstage/community-plugins
 
 ```mermaid
 graph TD;
-    repo_root(["backstage/community-plugins (437 components)"])
-    dir_0_workspaces["workspaces (436)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["backstage/community-plugins (437 components)"]):::atlasRoot
+    dir_0_workspaces["workspaces (436)"]:::atlasCategory
     repo_root --> dir_0_workspaces
-    sub_0_0_github["github (11)"]
+    sub_0_0_github["github (11)"]:::atlasWorkflow
     dir_0_workspaces --> sub_0_0_github
-    sub_0_1_tech_insights["tech-insights (11)"]
+    sub_0_1_tech_insights["tech-insights (11)"]:::atlasWorkflow
     dir_0_workspaces --> sub_0_1_tech_insights
-    sub_0_2_announcements["announcements (10)"]
+    sub_0_2_announcements["announcements (10)"]:::atlasWorkflow
     dir_0_workspaces --> sub_0_2_announcements
-    sub_0_more["+109 more submodules (404)"]
+    sub_0_more["+109 more submodules (404)"]:::atlasMore
     dir_0_workspaces --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -150,5 +157,74 @@ Showing top 60 representative components out of 437 across 2 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["backstage/community-plugins (21 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 11 jobs)"]:::atlasCategory
+  pipeline_root --> grp_0_Scheduled___Manual
+  wf_1_Auto_label_aged_Renovate_PRs["Auto-label aged Renovate PRs (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Auto_label_aged_Renovate_PRs
+  job_1_label_aged_prs["label-aged-prs"]:::atlasJob
+  wf_1_Auto_label_aged_Renovate_PRs --> job_1_label_aged_prs
+  wf_2_Auto_Version_Bump_Scheduler["Auto Version Bump Scheduler (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_Auto_Version_Bump_Scheduler
+  job_2_check_and_schedule["check-and-schedule"]:::atlasJob
+  job_2_trigger_auto_version_bump["trigger-auto-version-bump"]:::atlasJob
+  wf_2_Auto_Version_Bump_Scheduler --> job_2_check_and_schedule
+  job_2_check_and_schedule --> job_2_trigger_auto_version_bump
+  wf_3_Auto_Version_Bump["Auto Version Bump (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Auto_Version_Bump
+  job_3_prepare["prepare"]:::atlasJob
+  job_3_batch_dispatch["batch-dispatch"]:::atlasJob
+  wf_3_Auto_Version_Bump --> job_3_prepare
+  job_3_prepare --> job_3_batch_dispatch
+  grp_1_CI___Verification["CI & Verification (6 workflows · 11 jobs)"]:::atlasCategory
+  pipeline_root --> grp_1_CI___Verification
+  wf_0_Add_Workspace_Label_to_Issues_and_PRs["Add Workspace Label to Issues and PRs (2 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Add_Workspace_Label_to_Issues_and_PRs
+  job_0_triage_issues["triage-issues"]:::atlasJob
+  job_0_label_prs["label-prs"]:::atlasJob
+  wf_0_Add_Workspace_Label_to_Issues_and_PRs --> job_0_triage_issues
+  wf_0_Add_Workspace_Label_to_Issues_and_PRs --> job_0_label_prs
+  wf_7_CI["CI (4 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_7_CI
+  job_7_find_changed_workspaces["find-changed-workspaces"]:::atlasJob
+  job_7_ci["ci"]:::atlasJob
+  job_7_verify["verify"]:::atlasJob
+  wf_7_CI --> job_7_find_changed_workspaces
+  job_7_find_changed_workspaces --> job_7_ci
+  job_7_find_changed_workspaces --> job_7_verify
+  wf_8_Coverage_Baseline["Coverage Baseline (2 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_8_Coverage_Baseline
+  job_8_detect_workspaces["detect-workspaces"]:::atlasJob
+  job_8_coverage["coverage"]:::atlasJob
+  wf_8_Coverage_Baseline --> job_8_detect_workspaces
+  job_8_detect_workspaces --> job_8_coverage
+  grp_2_Release___Deploy["Release & Deploy (4 workflows · 8 jobs)"]:::atlasCategory
+  pipeline_root --> grp_2_Release___Deploy
+  wf_14_Release_all_workspaces["Release all workspaces (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_14_Release_all_workspaces
+  job_14_find_changed_workspaces["find-changed-workspaces"]:::atlasJob
+  job_14_maybe_release_workspace["maybe-release-workspace"]:::atlasJob
+  wf_14_Release_all_workspaces --> job_14_find_changed_workspaces
+  job_14_find_changed_workspaces --> job_14_maybe_release_workspace
+  wf_16_Prior_Version_Release_Workspace["Prior Version Release Workspace (3 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_16_Prior_Version_Release_Workspace
+  job_16_check_merged_pr["check-merged-pr"]:::atlasJob
+  job_16_changesets_pr["changesets-pr"]:::atlasJob
+  wf_16_Prior_Version_Release_Workspace --> job_16_check_merged_pr
+  job_16_check_merged_pr --> job_16_changesets_pr
+  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
+  pipeline_root --> grp_3_Security___Governance
+  wf_4_Automate_staleness["Automate staleness (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_4_Automate_staleness
+  wf_6_Automate_Renovate_and_Dependabot_changeset["Automate Renovate and Dependabot changeset (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_6_Automate_Renovate_and_Dependabot_changeset
+  wf_more["+11 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

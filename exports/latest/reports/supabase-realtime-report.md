@@ -41,34 +41,41 @@ description: Arc42 and Pipeline report for supabase/realtime
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/realtime (253 components)"])
-    dir_0_lib["lib (212)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/realtime (253 components)"]):::atlasRoot
+    dir_0_lib["lib (212)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0_realtime["realtime (198)"]
+    sub_0_0_realtime["realtime (198)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0_realtime
-    sub_0_1_extensions["extensions (10)"]
+    sub_0_1_extensions["extensions (10)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1_extensions
-    sub_0_2__module_root_["(module root) (2)"]
+    sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
     dir_0_lib --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]
+    sub_0_more["+1 more submodules (2)"]:::atlasMore
     dir_0_lib --> sub_0_more
-    dir_1_forum["forum (21)"]
+    dir_1_forum["forum (21)"]:::atlasCategory
     repo_root --> dir_1_forum
-    sub_1_0_lib["lib (11)"]
+    sub_1_0_lib["lib (11)"]:::atlasWorkflow
     dir_1_forum --> sub_1_0_lib
-    sub_1_1_test["test (7)"]
+    sub_1_1_test["test (7)"]:::atlasWorkflow
     dir_1_forum --> sub_1_1_test
-    sub_1_2__module_root_["(module root) (2)"]
+    sub_1_2__module_root_["(module root) (2)"]:::atlasWorkflow
     dir_1_forum --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (1)"]
+    sub_1_more["+1 more submodules (1)"]:::atlasMore
     dir_1_forum --> sub_1_more
-    dir_2_dev["dev (7)"]
+    dir_2_dev["dev (7)"]:::atlasCategory
     repo_root --> dir_2_dev
-    dir_3_config["config (5)"]
+    dir_3_config["config (5)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4__root_["(root) (4)"]
+    dir_4__root_["(root) (4)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+3 more modules (4)"]
+    dir_other_modules["+3 more modules (4)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -219,34 +226,38 @@ Showing top 60 representative components out of 253 across 8 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_assets["assets"]
-        mod_cb50dfc3_144a_4cf2_a9c4_107bbc50aa3b["cb50dfc3-144a-4cf2-a9c4-107bbc50aa3b"]
-        mod_forum["forum"]
-        mod_policy_eval["policy_eval"]
-        mod_rollcall["rollcall"]
-        mod_test_e2e["test/e2e"]
-        mod_test_e2e_stack["test/e2e/stack"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_assets["assets"]:::atlasCategory
+        mod_cb50dfc3_144a_4cf2_a9c4_107bbc50aa3b["cb50dfc3-144a-4cf2-a9c4-107bbc50aa3b"]:::atlasCategory
+        mod_forum["forum"]:::atlasCategory
+        mod_policy_eval["policy_eval"]:::atlasCategory
+        mod_rollcall["rollcall"]:::atlasCategory
+        mod_test_e2e["test/e2e"]:::atlasCategory
+        mod_test_e2e_stack["test/e2e/stack"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
-        art_test_e2e_docker_compose_yml["test/e2e/docker-compose.yml"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_test_e2e_docker_compose_yml["test/e2e/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_tests_yml_e2e["e2e_tests.yml#e2e"]
-        job_e2e_tests_yml_e2e_supabase_cli["e2e_tests.yml#e2e-supabase-cli"]
-        job_fix_nix_hash_yml_fix_nix_hash["fix-nix-hash.yml#fix-nix-hash"]
-        job_fix_nix_hash_yml_push_nix_hash["fix-nix-hash.yml#push-nix-hash"]
-        job_lint_yml_assets["lint.yml#assets"]
-        job_manual_prod_build_yml_docker_arm_release["manual_prod_build.yml#docker_arm_release"]
-        job_packaging_yml_docker_arm_build["packaging.yml#docker_arm_build"]
-        job_packaging_yml_docker_x86_build["packaging.yml#docker_x86_build"]
-        job_prod_build_yml_docker_arm_release["prod_build.yml#docker_arm_release"]
-        job_prod_build_yml_docker_x86_release["prod_build.yml#docker_x86_release"]
-        job_tests_yml_assets_tests["tests.yml#assets_tests"]
-        job_update_supabase_js_yml_update_supabase_js["update-supabase-js.yml#update-supabase-js"]
+        job_e2e_tests_yml_e2e["e2e_tests.yml#e2e"]:::atlasJob
+        job_e2e_tests_yml_e2e_supabase_cli["e2e_tests.yml#e2e-supabase-cli"]:::atlasJob
+        job_fix_nix_hash_yml_fix_nix_hash["fix-nix-hash.yml#fix-nix-hash"]:::atlasJob
+        job_fix_nix_hash_yml_push_nix_hash["fix-nix-hash.yml#push-nix-hash"]:::atlasJob
+        job_lint_yml_assets["lint.yml#assets"]:::atlasJob
+        job_manual_prod_build_yml_docker_arm_release["manual_prod_build.yml#docker_arm_release"]:::atlasJob
+        job_packaging_yml_docker_arm_build["packaging.yml#docker_arm_build"]:::atlasJob
+        job_packaging_yml_docker_x86_build["packaging.yml#docker_x86_build"]:::atlasJob
+        job_prod_build_yml_docker_arm_release["prod_build.yml#docker_arm_release"]:::atlasJob
+        job_prod_build_yml_docker_x86_release["prod_build.yml#docker_x86_release"]:::atlasJob
+        job_tests_yml_assets_tests["tests.yml#assets_tests"]:::atlasJob
+        job_update_supabase_js_yml_update_supabase_js["update-supabase-js.yml#update-supabase-js"]:::atlasJob
     end
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
     mod_assets -->|BUILT_BY| job_lint_yml_assets
@@ -320,15 +331,76 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/realtime (22 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 30 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/realtime (22 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (13 workflows · 30 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (6 workflows · 9 jobs)"]
+  wf_8_Lint["Lint (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_8_Lint
+  job_8_lint["lint"]:::atlasJob
+  job_8_assets["assets"]:::atlasJob
+  job_8_actionlint["actionlint"]:::atlasJob
+  wf_8_Lint --> job_8_lint
+  wf_8_Lint --> job_8_assets
+  wf_8_Lint --> job_8_actionlint
+  wf_11_Packaging["Packaging (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_11_Packaging
+  job_11_docker_x86_build["docker_x86_build"]:::atlasJob
+  job_11_docker_arm_build["docker_arm_build"]:::atlasJob
+  job_11_nix_build["nix_build"]:::atlasJob
+  wf_11_Packaging --> job_11_docker_x86_build
+  wf_11_Packaging --> job_11_docker_arm_build
+  wf_11_Packaging --> job_11_nix_build
+  wf_13_Build_Production["Build Production (6 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_13_Build_Production
+  job_13_release["release"]:::atlasJob
+  job_13_docker_x86_release["docker_x86_release"]:::atlasJob
+  job_13_docker_arm_release["docker_arm_release"]:::atlasJob
+  wf_13_Build_Production --> job_13_release
+  job_13_release --> job_13_docker_x86_release
+  job_13_release --> job_13_docker_arm_release
+  wf_18_Tests["Tests (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_18_Tests
+  job_18_tests["tests"]:::atlasJob
+  job_18_assets_tests["assets_tests"]:::atlasJob
+  job_18_coverage["coverage"]:::atlasJob
+  wf_18_Tests --> job_18_tests
+  wf_18_Tests --> job_18_assets_tests
+  job_18_tests --> job_18_coverage
+  grp_1_Scheduled___Manual["Scheduled & Manual (6 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+  wf_0_Bump_DB_images["Bump DB images (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_0_Bump_DB_images
+  job_0_bump["bump"]:::atlasJob
+  wf_0_Bump_DB_images --> job_0_bump
+  wf_5_Flaky_Test_Digest["Flaky Test Digest (2 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_Flaky_Test_Digest
+  job_5_collect["collect"]:::atlasJob
+  job_5_notify["notify"]:::atlasJob
+  wf_5_Flaky_Test_Digest --> job_5_collect
+  job_5_collect --> job_5_notify
+  wf_9_Manual_Build_Production["Manual Build Production (3 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_9_Manual_Build_Production
+  job_9_docker_x86_release["docker_x86_release"]:::atlasJob
+  wf_9_Manual_Build_Production --> job_9_docker_x86_release
+  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Automation___Other
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_17_Reusable_Slack_Notification["Reusable Slack Notification (1 jobs)"]:::atlasWorkflow
+  grp_2_Automation___Other --> wf_17_Reusable_Slack_Notification
+  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Release___Deploy
-  grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]
+  wf_2_Dispatch_Deploy["Dispatch Deploy (1 jobs)"]:::atlasWorkflow
+  grp_3_Release___Deploy --> wf_2_Dispatch_Deploy
+  grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_15_Security_Advisories["Security Advisories (2 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_15_Security_Advisories
+  wf_more["+12 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

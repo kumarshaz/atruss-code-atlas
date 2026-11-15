@@ -41,32 +41,39 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-php (251 components)"])
-    dir_0_src["src (174)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-php (251 components)"]):::atlasRoot
+    dir_0_src["src (174)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0__module_root_["(module root) (28)"]
+    sub_0_0__module_root_["(module root) (28)"]:::atlasWorkflow
     dir_0_src --> sub_0_0__module_root_
-    sub_0_1_Serializer["Serializer (20)"]
+    sub_0_1_Serializer["Serializer (20)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_Serializer
-    sub_0_2_DataCollection["DataCollection (18)"]
+    sub_0_2_DataCollection["DataCollection (18)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_DataCollection
-    sub_0_more["+19 more submodules (108)"]
+    sub_0_more["+19 more submodules (108)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_tests["tests (74)"]
+    dir_1_tests["tests (74)"]:::atlasCategory
     repo_root --> dir_1_tests
-    sub_1_0__module_root_["(module root) (29)"]
+    sub_1_0__module_root_["(module root) (29)"]:::atlasWorkflow
     dir_1_tests --> sub_1_0__module_root_
-    sub_1_1_DataCollection["DataCollection (14)"]
+    sub_1_1_DataCollection["DataCollection (14)"]:::atlasWorkflow
     dir_1_tests --> sub_1_1_DataCollection
-    sub_1_2_Integration["Integration (9)"]
+    sub_1_2_Integration["Integration (9)"]:::atlasWorkflow
     dir_1_tests --> sub_1_2_Integration
-    sub_1_more["+6 more submodules (22)"]
+    sub_1_more["+6 more submodules (22)"]:::atlasMore
     dir_1_tests --> sub_1_more
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_decision_model_linter["decision-model-linter (1)"]
+    dir_3_decision_model_linter["decision-model-linter (1)"]:::atlasCategory
     repo_root --> dir_3_decision_model_linter
-    dir_4_stubs["stubs (1)"]
+    dir_4_stubs["stubs (1)"]:::atlasCategory
     repo_root --> dir_4_stubs
 ```
 
@@ -188,11 +195,15 @@ Showing top 60 representative components out of 251 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_decision_model_linter["decision-model-linter"]
+        mod_decision_model_linter["decision-model-linter"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_decision_model_lint_yml_lint["decision-model-lint.yml#lint"]
+        job_decision_model_lint_yml_lint["decision-model-lint.yml#lint"]:::atlasJob
     end
     mod_decision_model_linter -->|BUILT_BY| job_decision_model_lint_yml_lint
 ```
@@ -204,9 +215,48 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-php (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-php (6 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_0_Backward_compatibility["Backward compatibility (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Backward_compatibility
+  job_0_roave_bc_check["roave-bc-check"]:::atlasJob
+  wf_0_Backward_compatibility --> job_0_roave_bc_check
+  wf_1_CI["CI (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI
+  job_1_tests["tests"]:::atlasJob
+  job_1_opentelemetry_tests["opentelemetry-tests"]:::atlasJob
+  job_1_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
+  wf_1_CI --> job_1_tests
+  wf_1_CI --> job_1_opentelemetry_tests
+  wf_1_CI --> job_1_runtime_tests_frankenphp
+  wf_2_Decision_model_lint["Decision model lint (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Decision_model_lint
+  job_2_lint["lint"]:::atlasJob
+  wf_2_Decision_model_lint --> job_2_lint
+  wf_4_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Code_style_and_static_analysis
+  job_4_php_cs_fixer["php-cs-fixer"]:::atlasJob
+  job_4_phpstan["phpstan"]:::atlasJob
+  job_4_mago["mago"]:::atlasJob
+  wf_4_Code_style_and_static_analysis --> job_4_php_cs_fixer
+  wf_4_Code_style_and_static_analysis --> job_4_phpstan
+  wf_4_Code_style_and_static_analysis --> job_4_mago
+  wf_5_Validate_PR["Validate PR (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Validate_PR
+  job_5_validate_pr["validate-pr"]:::atlasJob
+  wf_5_Validate_PR --> job_5_validate_pr
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
+  wf_3_Prepare_Release["Prepare Release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Prepare_Release
+  job_3_release["release"]:::atlasJob
+  wf_3_Prepare_Release --> job_3_release
 ```

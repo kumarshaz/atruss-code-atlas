@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for PostHog/charts-clickhouse
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/charts-clickhouse (137 components)"])
-    dir_0_charts["charts (136)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/charts-clickhouse (137 components)"]):::atlasRoot
+    dir_0_charts["charts (136)"]:::atlasCategory
     repo_root --> dir_0_charts
-    sub_0_0_posthog_tests["posthog/tests (67)"]
+    sub_0_0_posthog_tests["posthog/tests (67)"]:::atlasWorkflow
     dir_0_charts --> sub_0_0_posthog_tests
-    sub_0_1_posthog_templates["posthog/templates (64)"]
+    sub_0_1_posthog_templates["posthog/templates (64)"]:::atlasWorkflow
     dir_0_charts --> sub_0_1_posthog_templates
-    sub_0_2_posthog_crds["posthog/crds (3)"]
+    sub_0_2_posthog_crds["posthog/crds (3)"]:::atlasWorkflow
     dir_0_charts --> sub_0_2_posthog_crds
-    sub_0_more["+1 more submodules (2)"]
+    sub_0_more["+1 more submodules (2)"]:::atlasMore
     dir_0_charts --> sub_0_more
-    dir_1__devcontainer[".devcontainer (1)"]
+    dir_1__devcontainer[".devcontainer (1)"]:::atlasCategory
     repo_root --> dir_1__devcontainer
 ```
 
@@ -161,31 +168,35 @@ Showing top 60 representative components out of 137 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_charts_posthog["charts/posthog"]
-        mod_ci_kubetest["ci/kubetest"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_charts_posthog["charts/posthog"]:::atlasCategory
+        mod_ci_kubetest["ci/kubetest"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pr_deploy_cleanup_yaml_cleanup["pr-deploy-cleanup.yaml#cleanup"]
-        job_pr_deploy_yaml_deploy["pr-deploy.yaml#deploy"]
-        job_release_chart_yml_release["release-chart.yml#release"]
-        job_test_amazon_web_services_install_yaml_aws_install["test-amazon-web-services-install.yaml#aws-install"]
-        job_test_digitalocean_install_yaml_do_install["test-digitalocean-install.yaml#do-install"]
-        job_test_google_cloud_platform_install_yaml_gcp_install["test-google-cloud-platform-install.yaml#gcp-install"]
-        job_test_k6_yaml_test_chart["test-k6.yaml#test-chart"]
-        job_test_kubetest_yaml_test_kubetest["test-kubetest.yaml#test-kubetest"]
-        job_test_kubetest_yaml_test_kubetest_prep["test-kubetest.yaml#test-kubetest-prep"]
-        job_test_lint_helm_yaml_helm_lint["test-lint-helm.yaml#helm-lint"]
-        job_test_lint_kubetest_yaml_kubetest["test-lint-kubetest.yaml#kubetest"]
-        job_test_unit_helm_yaml_helm_unittest["test-unit-helm.yaml#helm-unittest"]
+        job_pr_deploy_cleanup_yaml_cleanup["pr-deploy-cleanup.yaml#cleanup"]:::atlasJob
+        job_pr_deploy_yaml_deploy["pr-deploy.yaml#deploy"]:::atlasJob
+        job_release_chart_yml_release["release-chart.yml#release"]:::atlasJob
+        job_test_amazon_web_services_install_yaml_aws_install["test-amazon-web-services-install.yaml#aws-install"]:::atlasJob
+        job_test_digitalocean_install_yaml_do_install["test-digitalocean-install.yaml#do-install"]:::atlasJob
+        job_test_google_cloud_platform_install_yaml_gcp_install["test-google-cloud-platform-install.yaml#gcp-install"]:::atlasJob
+        job_test_k6_yaml_test_chart["test-k6.yaml#test-chart"]:::atlasJob
+        job_test_kubetest_yaml_test_kubetest["test-kubetest.yaml#test-kubetest"]:::atlasJob
+        job_test_kubetest_yaml_test_kubetest_prep["test-kubetest.yaml#test-kubetest-prep"]:::atlasJob
+        job_test_lint_helm_yaml_helm_lint["test-lint-helm.yaml#helm-lint"]:::atlasJob
+        job_test_lint_kubetest_yaml_kubetest["test-lint-kubetest.yaml#kubetest"]:::atlasJob
+        job_test_unit_helm_yaml_helm_unittest["test-unit-helm.yaml#helm-unittest"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_pr_deploy_cleanup_yaml_cleanup -->|DEPLOYS_TO| env_kubernetes
     job_pr_deploy_yaml_deploy -->|DEPLOYS_TO| env_kubernetes
@@ -241,11 +252,62 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/charts-clickhouse (15 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 11 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/charts-clickhouse (15 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 11 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  wf_8_e2e___kubetest["e2e - kubetest (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_8_e2e___kubetest
+  job_8_test_kubetest_prep["test-kubetest-prep"]:::atlasJob
+  job_8_test_kubetest["test-kubetest"]:::atlasJob
+  wf_8_e2e___kubetest --> job_8_test_kubetest_prep
+  job_8_test_kubetest_prep --> job_8_test_kubetest
+  wf_9_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_9_Lint_test
+  job_9_eslint["eslint"]:::atlasJob
+  wf_9_Lint_test --> job_9_eslint
+  wf_10_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_10_Lint_test
+  job_10_github_workflows_lint["github-workflows-lint"]:::atlasJob
+  wf_10_Lint_test --> job_10_github_workflows_lint
+  wf_11_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_11_Lint_test
+  job_11_helm_lint["helm-lint"]:::atlasJob
+  wf_11_Lint_test --> job_11_helm_lint
+  wf_12_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_12_Lint_test
+  job_12_kubetest["kubetest"]:::atlasJob
+  wf_12_Lint_test --> job_12_kubetest
+  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  wf_1_pr_deploy_cleanup_yaml["pr-deploy-cleanup.yaml (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_1_pr_deploy_cleanup_yaml
+  job_1_cleanup["cleanup"]:::atlasJob
+  wf_1_pr_deploy_cleanup_yaml --> job_1_cleanup
+  wf_2_PR___Preview_Deploy["PR - Preview Deploy (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_2_PR___Preview_Deploy
+  job_2_deploy["deploy"]:::atlasJob
+  wf_2_PR___Preview_Deploy --> job_2_deploy
+  wf_3_Release_Chart["Release Chart (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Release_Chart
+  job_3_release["release"]:::atlasJob
+  wf_3_Release_Chart --> job_3_release
+  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
+  wf_0_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_0_Codespell
+  job_0_codespell["codespell"]:::atlasJob
+  wf_0_Codespell --> job_0_codespell
+  wf_14_Update_docs["Update docs (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_14_Update_docs
+  job_14_update_readme["update-readme"]:::atlasJob
+  wf_14_Update_docs --> job_14_update_readme
+  wf_more["+5 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

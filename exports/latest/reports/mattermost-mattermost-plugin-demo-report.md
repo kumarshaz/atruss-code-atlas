@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-demo
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-plugin-demo (156 components)"])
-    dir_0_webapp_src["webapp/src (155)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-plugin-demo (156 components)"]):::atlasRoot
+    dir_0_webapp_src["webapp/src (155)"]:::atlasCategory
     repo_root --> dir_0_webapp_src
-    sub_0_0_components_right_hand_sidebar["components/right_hand_sidebar (133)"]
+    sub_0_0_components_right_hand_sidebar["components/right_hand_sidebar (133)"]:::atlasWorkflow
     dir_0_webapp_src --> sub_0_0_components_right_hand_sidebar
-    sub_0_1_components_sample_flow["components/sample_flow (9)"]
+    sub_0_1_components_sample_flow["components/sample_flow (9)"]:::atlasWorkflow
     dir_0_webapp_src --> sub_0_1_components_sample_flow
-    sub_0_2_components["components (4)"]
+    sub_0_2_components["components (4)"]:::atlasWorkflow
     dir_0_webapp_src --> sub_0_2_components
-    sub_0_more["+6 more submodules (9)"]
+    sub_0_more["+6 more submodules (9)"]:::atlasMore
     dir_0_webapp_src --> sub_0_more
-    dir_1_webapp["webapp (1)"]
+    dir_1_webapp["webapp (1)"]:::atlasCategory
     repo_root --> dir_1_webapp
     sub_0_1_components_sample_flow -.->|"3 deps"| sub_0_more
     sub_0_0_components_right_hand_sidebar -.->|"2 deps"| sub_0_more
@@ -188,15 +195,22 @@ Showing top 60 representative components out of 156 across 2 module group(s):
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-demo"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-demo"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph e2e_1["e2e"]
     direction TB
-    1_deploy_test["deploy-test"]
+    1_deploy_test["deploy-test"]:::atlasJob
   end
   pipeline_root --> 1_deploy_test
 ```

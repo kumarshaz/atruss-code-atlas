@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for supabase/dbdev
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/dbdev (26 components)"])
-    dir_0_cli["cli (14)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/dbdev (26 components)"]):::atlasRoot
+    dir_0_cli["cli (14)"]:::atlasCategory
     repo_root --> dir_0_cli
-    sub_0_0_src["src (7)"]
+    sub_0_0_src["src (7)"]:::atlasWorkflow
     dir_0_cli --> sub_0_0_src
-    sub_0_1_src_commands["src/commands (7)"]
+    sub_0_1_src_commands["src/commands (7)"]:::atlasWorkflow
     dir_0_cli --> sub_0_1_src_commands
-    dir_1_website["website (11)"]
+    dir_1_website["website (11)"]:::atlasCategory
     repo_root --> dir_1_website
-    sub_1_0_components["components (5)"]
+    sub_1_0_components["components (5)"]:::atlasWorkflow
     dir_1_website --> sub_1_0_components
-    sub_1_1_app["app (3)"]
+    sub_1_1_app["app (3)"]:::atlasWorkflow
     dir_1_website --> sub_1_1_app
-    sub_1_2_lib["lib (2)"]
+    sub_1_2_lib["lib (2)"]:::atlasWorkflow
     dir_1_website --> sub_1_2_lib
-    sub_1_more["+1 more submodules (1)"]
+    sub_1_more["+1 more submodules (1)"]:::atlasMore
     dir_1_website --> sub_1_more
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -155,22 +162,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_cli["cli"]
-        mod_website["website"]
+        mod_cli["cli"]:::atlasCategory
+        mod_website["website"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_cli_Cargo_toml["cli/Cargo.toml"]
-        art_website_coverage_lcov_info["website/coverage/lcov.info"]
+        art_cli_Cargo_toml["cli/Cargo.toml"]:::atlasWorkflow
+        art_website_coverage_lcov_info["website/coverage/lcov.info"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_cli_yaml_build["cli.yaml#build"]
-        job_release_cli_yaml_build_linux["release-cli.yaml#build-linux"]
-        job_release_cli_yaml_build_macos["release-cli.yaml#build-macos"]
-        job_release_cli_yaml_build_windows["release-cli.yaml#build-windows"]
-        job_release_cli_yaml_create_release["release-cli.yaml#create-release"]
-        job_update_supabase_js_yml_update_supabase_js["update-supabase-js.yml#update-supabase-js"]
-        job_website_tests_yaml_test["website-tests.yaml#test"]
+        job_cli_yaml_build["cli.yaml#build"]:::atlasJob
+        job_release_cli_yaml_build_linux["release-cli.yaml#build-linux"]:::atlasJob
+        job_release_cli_yaml_build_macos["release-cli.yaml#build-macos"]:::atlasJob
+        job_release_cli_yaml_build_windows["release-cli.yaml#build-windows"]:::atlasJob
+        job_release_cli_yaml_create_release["release-cli.yaml#create-release"]:::atlasJob
+        job_update_supabase_js_yml_update_supabase_js["update-supabase-js.yml#update-supabase-js"]:::atlasJob
+        job_website_tests_yaml_test["website-tests.yaml#test"]:::atlasJob
     end
     mod_cli -->|BUILT_BY| job_cli_yaml_build
     mod_cli -->|DEPLOYED_BY| job_release_cli_yaml_build_linux
@@ -198,11 +209,64 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/dbdev (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/dbdev (10 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
+  wf_0_CLI["CLI (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_CLI
+  job_0_build["build"]:::atlasJob
+  wf_0_CLI --> job_0_build
+  wf_2_pgTAP_Tests["pgTAP Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_pgTAP_Tests
+  job_2_build["build"]:::atlasJob
+  wf_2_pgTAP_Tests --> job_2_build
+  wf_3_pre_commit_hooks["pre-commit hooks (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_pre_commit_hooks
+  job_3_build["build"]:::atlasJob
+  wf_3_pre_commit_hooks --> job_3_build
+  wf_4_Check_Website_Code_Formatting_with_Prettier["Check Website Code Formatting with Prettier (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Check_Website_Code_Formatting_with_Prettier
+  job_4_check_prettier["check-prettier"]:::atlasJob
+  wf_4_Check_Website_Code_Formatting_with_Prettier --> job_4_check_prettier
+  wf_9_Website_Tests["Website Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_Website_Tests
+  job_9_test["test"]:::atlasJob
+  wf_9_Website_Tests --> job_9_test
+  grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_1_Release_CLI_on_Homebrew_and_Scoop["Release CLI on Homebrew and Scoop (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_1_Release_CLI_on_Homebrew_and_Scoop
+  job_1_call_release_homebrew_tap["call-release-homebrew-tap"]:::atlasJob
+  job_1_call_release_scoop_bucket["call-release-scoop-bucket"]:::atlasJob
+  wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_homebrew_tap
+  wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_scoop_bucket
+  wf_5_Release_CLI["Release CLI (6 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_5_Release_CLI
+  job_5_create_release["create-release"]:::atlasJob
+  job_5_build_linux["build-linux"]:::atlasJob
+  job_5_build_macos["build-macos"]:::atlasJob
+  wf_5_Release_CLI --> job_5_create_release
+  job_5_create_release --> job_5_build_linux
+  job_5_create_release --> job_5_build_macos
+  wf_6_Release_Homebrew_Tap["Release Homebrew Tap (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_6_Release_Homebrew_Tap
+  job_6_release["release"]:::atlasJob
+  wf_6_Release_Homebrew_Tap --> job_6_release
+  wf_7_Release_Scoop_Bucket["Release Scoop Bucket (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_7_Release_Scoop_Bucket
+  job_7_release["release"]:::atlasJob
+  wf_7_Release_Scoop_Bucket --> job_7_release
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
+  wf_8_Update__supabase_supabase_js["Update @supabase/supabase-js (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_8_Update__supabase_supabase_js
+  job_8_update_supabase_js["update-supabase-js"]:::atlasJob
+  wf_8_Update__supabase_supabase_js --> job_8_update_supabase_js
 ```

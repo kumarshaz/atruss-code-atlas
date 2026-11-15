@@ -41,17 +41,24 @@ description: Arc42 and Pipeline report for zulip/docker-zulip
 
 ```mermaid
 graph TD;
-    e3dc750f_1c88_433b_811f_ede708058c9c["e3dc750f-1c88-433b-811f-ede708058c9c : MODULE"]
-    compose["compose : module"]
-    self_signed["self-signed : module"]
-    with_loadbalancer_ips["with-loadbalancer-ips : module"]
-    link_settings["link-settings : module"]
-    new_hostname["new-hostname : module"]
-    no_envs["no-envs : module"]
-    low_memory["low-memory : module"]
-    multiprocess["multiprocess : module"]
-    multithreaded["multithreaded : module"]
-    repo_root(["zulip/docker-zulip"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    e3dc750f_1c88_433b_811f_ede708058c9c["e3dc750f-1c88-433b-811f-ede708058c9c : MODULE"]:::atlasJob
+    compose["compose : module"]:::atlasJob
+    self_signed["self-signed : module"]:::atlasJob
+    with_loadbalancer_ips["with-loadbalancer-ips : module"]:::atlasJob
+    link_settings["link-settings : module"]:::atlasJob
+    new_hostname["new-hostname : module"]:::atlasJob
+    no_envs["no-envs : module"]:::atlasJob
+    low_memory["low-memory : module"]:::atlasJob
+    multiprocess["multiprocess : module"]:::atlasJob
+    multithreaded["multithreaded : module"]:::atlasJob
+    repo_root(["zulip/docker-zulip"]):::atlasRoot
     repo_root --> compose
     repo_root --> e3dc750f_1c88_433b_811f_ede708058c9c
     repo_root --> link_settings
@@ -141,62 +148,66 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_ci_certbot["ci/certbot"]
-        mod_ci_config["ci/config"]
-        mod_ci_memory["ci/memory"]
-        mod_ci_settings["ci/settings"]
-        mod_docs["docs"]
-        mod_e3dc750f_1c88_433b_811f_ede708058c9c["e3dc750f-1c88-433b-811f-ede708058c9c"]
-        mod_helm_zulip["helm/zulip"]
+        mod_ci_certbot["ci/certbot"]:::atlasCategory
+        mod_ci_config["ci/config"]:::atlasCategory
+        mod_ci_memory["ci/memory"]:::atlasCategory
+        mod_ci_settings["ci/settings"]:::atlasCategory
+        mod_docs["docs"]:::atlasCategory
+        mod_e3dc750f_1c88_433b_811f_ede708058c9c["e3dc750f-1c88-433b-811f-ede708058c9c"]:::atlasCategory
+        mod_helm_zulip["helm/zulip"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__github_workflows_dockerfile_yaml[".github/workflows/dockerfile.yaml"]
-        art_Dockerfile["Dockerfile"]
-        art_helm_zulip_Chart_yaml["helm/zulip/Chart.yaml"]
-        art_helm_zulip_ci_certificates_values_yaml["helm/zulip/ci/certificates-values.yaml"]
-        art_helm_zulip_ci_existing_pvc_values_yaml["helm/zulip/ci/existing-pvc-values.yaml"]
-        art_helm_zulip_ci_existing_secrets_values_yaml["helm/zulip/ci/existing-secrets-values.yaml"]
-        art_helm_zulip_ci_external_services_values_yaml["helm/zulip/ci/external-services-values.yaml"]
-        art_helm_zulip_ci_external_valuefrom_values_yaml["helm/zulip/ci/external-valuefrom-values.yaml"]
-        art_helm_zulip_ci_extra_objects_values_yaml["helm/zulip/ci/extra-objects-values.yaml"]
-        art_helm_zulip_ci_ingress_values_yaml["helm/zulip/ci/ingress-values.yaml"]
-        art_helm_zulip_ci_loadbalancer_values_yaml["helm/zulip/ci/loadbalancer-values.yaml"]
-        art_helm_zulip_ci_metadata_values_yaml["helm/zulip/ci/metadata-values.yaml"]
-        art_helm_zulip_ci_persistence_values_yaml["helm/zulip/ci/persistence-values.yaml"]
-        art_helm_zulip_ci_post_setup_values_yaml["helm/zulip/ci/post-setup-values.yaml"]
-        art_helm_zulip_ci_serviceaccount_values_yaml["helm/zulip/ci/serviceaccount-values.yaml"]
-        art_helm_zulip_ci_sidecar_values_yaml["helm/zulip/ci/sidecar-values.yaml"]
-        art_helm_zulip_ci_simple_values_yaml["helm/zulip/ci/simple-values.yaml"]
-        art_helm_zulip_ci_valuefrom_values_yaml["helm/zulip/ci/valuefrom-values.yaml"]
-        art_helm_zulip_templates_cm_post_setup_scripts_yaml["helm/zulip/templates/cm-post-setup-scripts.yaml"]
-        art_helm_zulip_templates_extra_objects_yaml["helm/zulip/templates/extra-objects.yaml"]
-        art_helm_zulip_templates_ingress_yaml["helm/zulip/templates/ingress.yaml"]
-        art_helm_zulip_templates_pvc_yaml["helm/zulip/templates/pvc.yaml"]
-        art_helm_zulip_templates_service_yaml["helm/zulip/templates/service.yaml"]
-        art_helm_zulip_templates_serviceaccount_yaml["helm/zulip/templates/serviceaccount.yaml"]
-        art_helm_zulip_templates_statefulset_yaml["helm/zulip/templates/statefulset.yaml"]
-        art_helm_zulip_tests_configmap_test_yaml["helm/zulip/tests/configmap_test.yaml"]
-        art_helm_zulip_tests_extra_objects_test_yaml["helm/zulip/tests/extra_objects_test.yaml"]
-        art_helm_zulip_tests_ingress_test_yaml["helm/zulip/tests/ingress_test.yaml"]
-        art_helm_zulip_tests_pvc_test_yaml["helm/zulip/tests/pvc_test.yaml"]
-        art_helm_zulip_tests_service_test_yaml["helm/zulip/tests/service_test.yaml"]
-        art_helm_zulip_tests_serviceaccount_test_yaml["helm/zulip/tests/serviceaccount_test.yaml"]
-        art_helm_zulip_tests_statefulset_test_yaml["helm/zulip/tests/statefulset_test.yaml"]
-        art_helm_zulip_tests_subchart_propagation_test_yaml["helm/zulip/tests/subchart_propagation_test.yaml"]
-        art_helm_zulip_values_yaml["helm/zulip/values.yaml"]
+        art__github_workflows_dockerfile_yaml[".github/workflows/dockerfile.yaml"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_helm_zulip_Chart_yaml["helm/zulip/Chart.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_certificates_values_yaml["helm/zulip/ci/certificates-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_existing_pvc_values_yaml["helm/zulip/ci/existing-pvc-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_existing_secrets_values_yaml["helm/zulip/ci/existing-secrets-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_external_services_values_yaml["helm/zulip/ci/external-services-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_external_valuefrom_values_yaml["helm/zulip/ci/external-valuefrom-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_extra_objects_values_yaml["helm/zulip/ci/extra-objects-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_ingress_values_yaml["helm/zulip/ci/ingress-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_loadbalancer_values_yaml["helm/zulip/ci/loadbalancer-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_metadata_values_yaml["helm/zulip/ci/metadata-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_persistence_values_yaml["helm/zulip/ci/persistence-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_post_setup_values_yaml["helm/zulip/ci/post-setup-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_serviceaccount_values_yaml["helm/zulip/ci/serviceaccount-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_sidecar_values_yaml["helm/zulip/ci/sidecar-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_simple_values_yaml["helm/zulip/ci/simple-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_ci_valuefrom_values_yaml["helm/zulip/ci/valuefrom-values.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_cm_post_setup_scripts_yaml["helm/zulip/templates/cm-post-setup-scripts.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_extra_objects_yaml["helm/zulip/templates/extra-objects.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_ingress_yaml["helm/zulip/templates/ingress.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_pvc_yaml["helm/zulip/templates/pvc.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_service_yaml["helm/zulip/templates/service.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_serviceaccount_yaml["helm/zulip/templates/serviceaccount.yaml"]:::atlasWorkflow
+        art_helm_zulip_templates_statefulset_yaml["helm/zulip/templates/statefulset.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_configmap_test_yaml["helm/zulip/tests/configmap_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_extra_objects_test_yaml["helm/zulip/tests/extra_objects_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_ingress_test_yaml["helm/zulip/tests/ingress_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_pvc_test_yaml["helm/zulip/tests/pvc_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_service_test_yaml["helm/zulip/tests/service_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_serviceaccount_test_yaml["helm/zulip/tests/serviceaccount_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_statefulset_test_yaml["helm/zulip/tests/statefulset_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_tests_subchart_propagation_test_yaml["helm/zulip/tests/subchart_propagation_test.yaml"]:::atlasWorkflow
+        art_helm_zulip_values_yaml["helm/zulip/values.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_dockerfile_build_yaml_build["dockerfile-build.yaml#build"]
-        job_dockerfile_yaml_build["dockerfile.yaml#build"]
-        job_dockerfile_yaml_helm_docs["dockerfile.yaml#helm-docs"]
-        job_dockerfile_yaml_helm_lint["dockerfile.yaml#helm-lint"]
-        job_dockerfile_yaml_helm_test["dockerfile.yaml#helm-test"]
-        job_helm_push_yaml_push["helm-push.yaml#push"]
+        job_dockerfile_build_yaml_build["dockerfile-build.yaml#build"]:::atlasJob
+        job_dockerfile_yaml_build["dockerfile.yaml#build"]:::atlasJob
+        job_dockerfile_yaml_helm_docs["dockerfile.yaml#helm-docs"]:::atlasJob
+        job_dockerfile_yaml_helm_lint["dockerfile.yaml#helm-lint"]:::atlasJob
+        job_dockerfile_yaml_helm_test["dockerfile.yaml#helm-test"]:::atlasJob
+        job_helm_push_yaml_push["helm-push.yaml#push"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_dockerfile_yaml_helm_lint -->|DEPLOYS_TO| env_azure
     job_dockerfile_yaml_helm_lint -->|DEPLOYS_TO| env_kubernetes
@@ -352,9 +363,52 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/docker-zulip (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 14 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/docker-zulip (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (6 workflows · 14 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server["Build and push images to ghcr.io/zulip/zulip-server (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server
+  job_0_build["build"]:::atlasJob
+  job_0_merge["merge"]:::atlasJob
+  job_0_release["release"]:::atlasJob
+  wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server --> job_0_build
+  job_0_build --> job_0_merge
+  job_0_merge --> job_0_release
+  wf_1_Dockerfile_lint_and_build["Dockerfile lint and build (7 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Dockerfile_lint_and_build
+  job_1_lint["lint"]:::atlasJob
+  job_1_build["build"]:::atlasJob
+  job_1_helm_docs["helm-docs"]:::atlasJob
+  wf_1_Dockerfile_lint_and_build --> job_1_lint
+  job_1_lint --> job_1_build
+  wf_1_Dockerfile_lint_and_build --> job_1_helm_docs
+  wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip["Push Helm chart to ghcr.io/zulip/helm-charts/zulip (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip
+  job_2_push["push"]:::atlasJob
+  wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip --> job_2_push
+  wf_3_Lint_markdown_files_prettier["Lint markdown files prettier (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Lint_markdown_files_prettier
+  job_3_prettier["prettier"]:::atlasJob
+  wf_3_Lint_markdown_files_prettier --> job_3_prettier
+  wf_4_Shell_check_and_lint["Shell check and lint (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Shell_check_and_lint
+  job_4_shellcheck["shellcheck"]:::atlasJob
+  wf_4_Shell_check_and_lint --> job_4_shellcheck
+  wf_5_Spelling["Spelling (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Spelling
+  job_5_spelling["spelling"]:::atlasJob
+  wf_5_Spelling --> job_5_spelling
+  grp_1_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Security___Governance
+  wf_6_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_6_GitHub_Actions_Security_Analysis_with_zizmor
+  job_6_zizmor["zizmor"]:::atlasJob
+  wf_6_GitHub_Actions_Security_Analysis_with_zizmor --> job_6_zizmor
 ```

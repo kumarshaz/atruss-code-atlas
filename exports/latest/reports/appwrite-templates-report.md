@@ -41,23 +41,30 @@ description: Arc42 and Pipeline report for appwrite/templates
 
 ```mermaid
 graph TD;
-    markdown_table_workflow["markdown-table-workflow : MODULE"]
-    starter_template["starter-template : MODULE"]
-    sync_with_meilisearch["sync-with-meilisearch : MODULE"]
-    sync_with_qdrant["sync-with-qdrant : MODULE"]
-    AppwriteService["AppwriteService : SERVICE"]
-    whatsapp_with_vonage["whatsapp-with-vonage : MODULE"]
-    StarterTemplate["StarterTemplate : MODULE"]
-    Handler["Handler : SERVICE"]
-    discord["discord : module"]
-    main["main : module"]
-    utils["utils : module"]
-    setup["setup : module"]
-    discord_bot["discord-bot : MODULE"]
-    github_issue_bot_template["github-issue-bot-template : MODULE"]
-    GithubService["GithubService : SERVICE"]
-    postgres_with_drizzle["postgres-with-drizzle : MODULE"]
-    repo_root(["appwrite/templates"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    markdown_table_workflow["markdown-table-workflow : MODULE"]:::atlasJob
+    starter_template["starter-template : MODULE"]:::atlasJob
+    sync_with_meilisearch["sync-with-meilisearch : MODULE"]:::atlasJob
+    sync_with_qdrant["sync-with-qdrant : MODULE"]:::atlasJob
+    AppwriteService["AppwriteService : SERVICE"]:::atlasJob
+    whatsapp_with_vonage["whatsapp-with-vonage : MODULE"]:::atlasJob
+    StarterTemplate["StarterTemplate : MODULE"]:::atlasJob
+    Handler["Handler : SERVICE"]:::atlasJob
+    discord["discord : module"]:::atlasJob
+    main["main : module"]:::atlasJob
+    utils["utils : module"]:::atlasJob
+    setup["setup : module"]:::atlasJob
+    discord_bot["discord-bot : MODULE"]:::atlasJob
+    github_issue_bot_template["github-issue-bot-template : MODULE"]:::atlasJob
+    GithubService["GithubService : SERVICE"]:::atlasJob
+    postgres_with_drizzle["postgres-with-drizzle : MODULE"]:::atlasJob
+    repo_root(["appwrite/templates"]):::atlasRoot
     repo_root --> AppwriteService
     repo_root --> GithubService
     repo_root --> Handler
@@ -158,13 +165,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github_workflows_markdown_table_workflow[".github/workflows/markdown-table-workflow"]
-        mod_python_mcp_server["python/mcp-server"]
+        mod__github_workflows_markdown_table_workflow[".github/workflows/markdown-table-workflow"]:::atlasCategory
+        mod_python_mcp_server["python/mcp-server"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_python["build.yml#python"]
-        job_markdown_table_workflow_yml_readme_generator["markdown-table-workflow.yml#readme-generator"]
+        job_build_yml_python["build.yml#python"]:::atlasJob
+        job_markdown_table_workflow_yml_readme_generator["markdown-table-workflow.yml#readme-generator"]:::atlasJob
     end
     mod__github_workflows_markdown_table_workflow -->|BUILT_BY| job_markdown_table_workflow_yml_readme_generator
     mod_python_mcp_server -->|BUILT_BY| job_build_yml_python
@@ -178,17 +189,38 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["appwrite/templates (3 workflows)"])
-  grp_0_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["appwrite/templates (3 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_2_Generate_README_markdown_table["Generate README markdown table (1 jobs)"]
+  wf_2_Generate_README_markdown_table["Generate README markdown table (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Generate_README_markdown_table
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]
+  job_2_readme_generator["readme-generator"]:::atlasJob
+  wf_2_Generate_README_markdown_table --> job_2_readme_generator
+  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Template_builds["Template builds (10 jobs)"]
+  wf_1_Template_builds["Template builds (10 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_1_Template_builds
-  grp_2_Security___Governance["Security & Governance (1 workflows · 10 jobs)"]
+  job_1_node["node"]:::atlasJob
+  job_1_bun["bun"]:::atlasJob
+  job_1_python["python"]:::atlasJob
+  wf_1_Template_builds --> job_1_node
+  wf_1_Template_builds --> job_1_bun
+  wf_1_Template_builds --> job_1_python
+  grp_2_Security___Governance["Security & Governance (1 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  wf_0_Dependency_audit["Dependency audit (10 jobs)"]
+  wf_0_Dependency_audit["Dependency audit (10 jobs)"]:::atlasWorkflow
   grp_2_Security___Governance --> wf_0_Dependency_audit
+  job_0_npm["npm"]:::atlasJob
+  job_0_bun["bun"]:::atlasJob
+  job_0_php["php"]:::atlasJob
+  wf_0_Dependency_audit --> job_0_npm
+  wf_0_Dependency_audit --> job_0_bun
+  wf_0_Dependency_audit --> job_0_php
 ```

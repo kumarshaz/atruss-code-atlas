@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-agents
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-plugin-agents (437 components)"])
-    dir_0_webapp["webapp (168)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-plugin-agents (437 components)"]):::atlasRoot
+    dir_0_webapp["webapp (168)"]:::atlasCategory
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (163)"]
+    sub_0_0_src["src (163)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_0_src
-    sub_0_1_tests["tests (2)"]
+    sub_0_1_tests["tests (2)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_1_tests
-    sub_0_2__module_root_["(module root) (1)"]
+    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (2)"]
+    sub_0_more["+2 more submodules (2)"]:::atlasMore
     dir_0_webapp --> sub_0_more
-    dir_1_api["api (80)"]
+    dir_1_api["api (80)"]:::atlasCategory
     repo_root --> dir_1_api
-    dir_2_bifrost["bifrost (45)"]
+    dir_2_bifrost["bifrost (45)"]:::atlasCategory
     repo_root --> dir_2_bifrost
-    dir_3_conversations["conversations (32)"]
+    dir_3_conversations["conversations (32)"]:::atlasCategory
     repo_root --> dir_3_conversations
-    dir_4_config["config (20)"]
+    dir_4_config["config (20)"]:::atlasCategory
     repo_root --> dir_4_config
-    dir_other_modules["+11 more modules (92)"]
+    dir_other_modules["+11 more modules (92)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -219,27 +226,31 @@ Showing top 60 representative components out of 437 across 16 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dev["dev"]
-        mod_e2e["e2e"]
-        mod_webapp["webapp"]
+        mod_dev["dev"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_webapp["webapp"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_dev_docker_compose_otel_yml["dev/docker-compose.otel.yml"]
+        art_dev_docker_compose_otel_yml["dev/docker-compose.otel.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_e2e["ci.yml#e2e"]
-        job_ci_yml_eval_changes["ci.yml#eval-changes"]
-        job_ci_yml_upload_s3_pr["ci.yml#upload-s3-pr"]
-        job_ci_yml_verify_no_drift["ci.yml#verify-no-drift"]
-        job_editor_contract_drift_yml_live_host_probe["editor-contract-drift.yml#live-host-probe"]
-        job_mcp_registry_yml_publish["mcp-registry.yml#publish"]
-        job_mcp_registry_yml_validate["mcp-registry.yml#validate"]
-        job_nightly_evals_yml_publish["nightly-evals.yml#publish"]
+        job_ci_yml_e2e["ci.yml#e2e"]:::atlasJob
+        job_ci_yml_eval_changes["ci.yml#eval-changes"]:::atlasJob
+        job_ci_yml_upload_s3_pr["ci.yml#upload-s3-pr"]:::atlasJob
+        job_ci_yml_verify_no_drift["ci.yml#verify-no-drift"]:::atlasJob
+        job_editor_contract_drift_yml_live_host_probe["editor-contract-drift.yml#live-host-probe"]:::atlasJob
+        job_mcp_registry_yml_publish["mcp-registry.yml#publish"]:::atlasJob
+        job_mcp_registry_yml_validate["mcp-registry.yml#validate"]:::atlasJob
+        job_nightly_evals_yml_publish["nightly-evals.yml#publish"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
-        env_mcp_registry["mcp-registry"]
+        env_aws["aws"]:::atlasTarget
+        env_mcp_registry["mcp-registry"]:::atlasTarget
     end
     job_ci_yml_upload_s3_pr -->|DEPLOYS_TO| env_aws
     job_mcp_registry_yml_publish -->|DEPLOYS_TO| env_mcp_registry
@@ -279,13 +290,68 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-agents (10 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-agents (10 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (3 workflows · 14 jobs)"]
+  wf_2_editor_contract_drift["editor-contract-drift (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_editor_contract_drift
+  job_2_live_host_probe["live-host-probe"]:::atlasJob
+  wf_2_editor_contract_drift --> job_2_live_host_probe
+  wf_4_mcp_registry["mcp-registry (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_mcp_registry
+  job_4_validate["validate"]:::atlasJob
+  job_4_publish["publish"]:::atlasJob
+  wf_4_mcp_registry --> job_4_validate
+  job_4_validate --> job_4_publish
+  wf_5_nightly_evals["nightly-evals (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_nightly_evals
+  job_5_evals["evals"]:::atlasJob
+  job_5_publish["publish"]:::atlasJob
+  wf_5_nightly_evals --> job_5_evals
+  job_5_evals --> job_5_publish
+  wf_7_PR_Test_Analysis["PR Test Analysis (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_7_PR_Test_Analysis
+  job_7_analyze["analyze"]:::atlasJob
+  wf_7_PR_Test_Analysis --> job_7_analyze
+  grp_1_CI___Verification["CI & Verification (3 workflows · 14 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_ci["ci (12 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_ci
+  job_0_e2e_build_artifact["e2e-build-artifact"]:::atlasJob
+  job_0_e2e["e2e"]:::atlasJob
+  job_0_plugin_tests["plugin-tests"]:::atlasJob
+  wf_0_ci --> job_0_e2e_build_artifact
+  job_0_e2e_build_artifact --> job_0_e2e
+  wf_0_ci --> job_0_plugin_tests
+  wf_1_Claude_Code["Claude Code (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_1_Claude_Code
+  job_1_claude["claude"]:::atlasJob
+  wf_1_Claude_Code --> job_1_claude
+  wf_6_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_6_PR_Test_Analysis_Override
+  job_6_override["override"]:::atlasJob
+  wf_6_PR_Test_Analysis_Override --> job_6_override
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+  wf_8_release_notes_preview["release-notes-preview (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_release_notes_preview
+  job_8_preview["preview"]:::atlasJob
+  wf_8_release_notes_preview --> job_8_preview
+  wf_9_release_notes["release-notes (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_9_release_notes
+  job_9_notes["notes"]:::atlasJob
+  wf_9_release_notes --> job_9_notes
+  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Automation___Other
+  wf_3_evals["evals (1 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_3_evals
+  job_3_evals["evals"]:::atlasJob
+  wf_3_evals --> job_3_evals
 ```

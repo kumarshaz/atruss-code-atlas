@@ -40,20 +40,27 @@ description: Arc42 and Pipeline report for mastodon/joinmastodon
 
 ```mermaid
 graph TD;
-    repo_root(["mastodon/joinmastodon (27 components)"])
-    dir_0_components["components (21)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mastodon/joinmastodon (27 components)"]):::atlasRoot
+    dir_0_components["components (21)"]:::atlasCategory
     repo_root --> dir_0_components
-    sub_0_0__module_root_["(module root) (17)"]
+    sub_0_0__module_root_["(module root) (17)"]:::atlasWorkflow
     dir_0_components --> sub_0_0__module_root_
-    sub_0_1_donate["donate (4)"]
+    sub_0_1_donate["donate (4)"]:::atlasWorkflow
     dir_0_components --> sub_0_1_donate
-    dir_1_pages["pages (3)"]
+    dir_1_pages["pages (3)"]:::atlasCategory
     repo_root --> dir_1_pages
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_data["data (1)"]
+    dir_3_data["data (1)"]:::atlasCategory
     repo_root --> dir_3_data
-    dir_4_donate["donate (1)"]
+    dir_4_donate["donate (1)"]:::atlasCategory
     repo_root --> dir_4_donate
     dir_1_pages -.->|"7 deps"| sub_0_1_donate
     sub_0_1_donate -.->|"4 deps"| sub_0_0__module_root_
@@ -153,18 +160,22 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_b989623f_5d3a_4f3d_a637_76d357d216a4["b989623f-5d3a-4f3d-a637-76d357d216a4"]
+        mod_b989623f_5d3a_4f3d_a637_76d357d216a4["b989623f-5d3a-4f3d-a637-76d357d216a4"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_crowdin_download_yml_download_translations["crowdin-download.yml#download-translations"]
-        job_crowdin_upload_yml_upload_translations["crowdin-upload.yml#upload-translations"]
-        job_lint_yml_lint["lint.yml#lint"]
-        job_release_staging_yml_build_and_push_image["release-staging.yml#build-and-push-image"]
-        job_release_yml_build_and_push_image["release.yml#build-and-push-image"]
+        job_crowdin_download_yml_download_translations["crowdin-download.yml#download-translations"]:::atlasJob
+        job_crowdin_upload_yml_upload_translations["crowdin-upload.yml#upload-translations"]:::atlasJob
+        job_lint_yml_lint["lint.yml#lint"]:::atlasJob
+        job_release_staging_yml_build_and_push_image["release-staging.yml#build-and-push-image"]:::atlasJob
+        job_release_yml_build_and_push_image["release.yml#build-and-push-image"]:::atlasJob
     end
     mod_b989623f_5d3a_4f3d_a637_76d357d216a4 -->|BUILT_BY| job_crowdin_download_yml_download_translations
     mod_b989623f_5d3a_4f3d_a637_76d357d216a4 -->|BUILT_BY| job_crowdin_upload_yml_upload_translations
@@ -190,21 +201,38 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mastodon/joinmastodon (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mastodon/joinmastodon (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_1_Crowdin___Upload_translations["Crowdin / Upload translations (1 jobs)"]
+  wf_1_Crowdin___Upload_translations["Crowdin / Upload translations (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_Crowdin___Upload_translations
-  wf_2_Lint_files["Lint files (1 jobs)"]
+  job_1_upload_translations["upload-translations"]:::atlasJob
+  wf_1_Crowdin___Upload_translations --> job_1_upload_translations
+  wf_2_Lint_files["Lint files (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Lint_files
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  job_2_lint["lint"]:::atlasJob
+  wf_2_Lint_files --> job_2_lint
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_3_Release_Docker_image_to_staging["Release Docker image to staging (1 jobs)"]
+  wf_3_Release_Docker_image_to_staging["Release Docker image to staging (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_Release_Docker_image_to_staging
-  wf_4_Release_Docker_image["Release Docker image (1 jobs)"]
+  job_3_build_and_push_image["build-and-push-image"]:::atlasJob
+  wf_3_Release_Docker_image_to_staging --> job_3_build_and_push_image
+  wf_4_Release_Docker_image["Release Docker image (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_4_Release_Docker_image
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  job_4_build_and_push_image["build-and-push-image"]:::atlasJob
+  wf_4_Release_Docker_image --> job_4_build_and_push_image
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]
+  wf_0_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]:::atlasWorkflow
   grp_2_Scheduled___Manual --> wf_0_Crowdin___Download_translations
+  job_0_download_translations["download-translations"]:::atlasJob
+  wf_0_Crowdin___Download_translations --> job_0_download_translations
 ```

@@ -41,34 +41,41 @@ description: Arc42 and Pipeline report for argoproj/argo-events
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argo-events (281 components)"])
-    dir_0_pkg["pkg (235)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argo-events (281 components)"]):::atlasRoot
+    dir_0_pkg["pkg (235)"]:::atlasCategory
     repo_root --> dir_0_pkg
-    sub_0_0_eventsources["eventsources (134)"]
+    sub_0_0_eventsources["eventsources (134)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_0_eventsources
-    sub_0_1_apis["apis (37)"]
+    sub_0_1_apis["apis (37)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_1_apis
-    sub_0_2_eventbus["eventbus (35)"]
+    sub_0_2_eventbus["eventbus (35)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_2_eventbus
-    sub_0_more["+1 more submodules (29)"]
+    sub_0_more["+1 more submodules (29)"]:::atlasMore
     dir_0_pkg --> sub_0_more
-    dir_1_manifests["manifests (27)"]
+    dir_1_manifests["manifests (27)"]:::atlasCategory
     repo_root --> dir_1_manifests
-    sub_1_0_base["base (9)"]
+    sub_1_0_base["base (9)"]:::atlasWorkflow
     dir_1_manifests --> sub_1_0_base
-    sub_1_1_cluster_install["cluster-install (7)"]
+    sub_1_1_cluster_install["cluster-install (7)"]:::atlasWorkflow
     dir_1_manifests --> sub_1_1_cluster_install
-    sub_1_2_extensions["extensions (7)"]
+    sub_1_2_extensions["extensions (7)"]:::atlasWorkflow
     dir_1_manifests --> sub_1_2_extensions
-    sub_1_more["+1 more submodules (4)"]
+    sub_1_more["+1 more submodules (4)"]:::atlasMore
     dir_1_manifests --> sub_1_more
-    dir_2_cmd["cmd (8)"]
+    dir_2_cmd["cmd (8)"]:::atlasCategory
     repo_root --> dir_2_cmd
-    dir_3_hack["hack (6)"]
+    dir_3_hack["hack (6)"]:::atlasCategory
     repo_root --> dir_3_hack
-    dir_4_test["test (4)"]
+    dir_4_test["test (4)"]:::atlasCategory
     repo_root --> dir_4_test
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -200,16 +207,20 @@ Showing top 60 representative components out of 281 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_35ff4ba7_313e_42eb_aa2c_9290e3ae3b46["35ff4ba7-313e-42eb-aa2c-9290e3ae3b46"]
-        mod_manifests_base["manifests/base"]
-        mod_third_party_nats_streaming_docker_amd64["third_party/nats-streaming-docker/amd64"]
-        mod_third_party_prometheus_nats_exporter_docker_amd64["third_party/prometheus-nats-exporter-docker/amd64"]
+        mod_35ff4ba7_313e_42eb_aa2c_9290e3ae3b46["35ff4ba7-313e-42eb-aa2c-9290e3ae3b46"]:::atlasCategory
+        mod_manifests_base["manifests/base"]:::atlasCategory
+        mod_third_party_nats_streaming_docker_amd64["third_party/nats-streaming-docker/amd64"]:::atlasCategory
+        mod_third_party_prometheus_nats_exporter_docker_amd64["third_party/prometheus-nats-exporter-docker/amd64"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_third_party_nats_streaming_docker_amd64_Dockerfile["third_party/nats-streaming-docker/amd64/Dockerfile"]
-        art_third_party_prometheus_nats_exporter_docker_amd64_Dockerfile["third_party/prometheus-nats-exporter-docker/amd64/Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_third_party_nats_streaming_docker_amd64_Dockerfile["third_party/nats-streaming-docker/amd64/Dockerfile"]:::atlasWorkflow
+        art_third_party_prometheus_nats_exporter_docker_amd64_Dockerfile["third_party/prometheus-nats-exporter-docker/amd64/Dockerfile"]:::atlasWorkflow
     end
     mod_35ff4ba7_313e_42eb_aa2c_9290e3ae3b46 -->|PACKAGED_BY| art_Dockerfile
     mod_manifests_base -->|PACKAGED_BY| art_Dockerfile
@@ -231,13 +242,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["argoproj/argo-events (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["argoproj/argo-events (8 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]
+  wf_0_Changelog["Changelog (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Changelog
+  job_0_generate_changelog["generate_changelog"]:::atlasJob
+  wf_0_Changelog --> job_0_generate_changelog
+  wf_1_test["test (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_test
+  job_1_codegen["codegen"]:::atlasJob
+  job_1_unit_tests["unit-tests"]:::atlasJob
+  job_1_lint["lint"]:::atlasJob
+  wf_1_test --> job_1_codegen
+  wf_1_test --> job_1_unit_tests
+  wf_1_test --> job_1_lint
+  wf_5_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Detect_and_Trigger_Retest
+  job_5_retest["retest"]:::atlasJob
+  wf_5_Detect_and_Trigger_Retest --> job_5_retest
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_3_gh_pages["gh-pages (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_gh_pages
+  job_3_deploy["deploy"]:::atlasJob
+  wf_3_gh_pages --> job_3_deploy
+  wf_4_release["release (4 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_release
+  job_4_build_binaries["build-binaries"]:::atlasJob
+  job_4_build_push_linux_multi["build-push-linux-multi"]:::atlasJob
+  job_4_bom["bom"]:::atlasJob
+  wf_4_release --> job_4_build_binaries
+  job_4_build_binaries --> job_4_build_push_linux_multi
+  job_4_build_push_linux_multi --> job_4_bom
+  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_2_Approve_and_enable_auto_merge_for_dependabot
+  job_2_review["review"]:::atlasJob
+  wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
+  wf_7_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_7_Close_stale_issues_and_PRs
+  job_7_stale["stale"]:::atlasJob
+  wf_7_Close_stale_issues_and_PRs --> job_7_stale
+  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
+  wf_6_Snyk["Snyk (1 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_6_Snyk
+  job_6_golang["golang"]:::atlasJob
+  wf_6_Snyk --> job_6_golang
 ```

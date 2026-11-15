@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for getsentry/sentry-react-native
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-react-native (133 components)"])
-    dir_0_packages["packages (99)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-react-native (133 components)"]):::atlasRoot
+    dir_0_packages["packages (99)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_core["core (98)"]
+    sub_0_0_core["core (98)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_core
-    sub_0_1_expo_upload_sourcemaps["expo-upload-sourcemaps (1)"]
+    sub_0_1_expo_upload_sourcemaps["expo-upload-sourcemaps (1)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_expo_upload_sourcemaps
-    dir_1_samples["samples (29)"]
+    dir_1_samples["samples (29)"]:::atlasCategory
     repo_root --> dir_1_samples
-    sub_1_0_expo["expo (12)"]
+    sub_1_0_expo["expo (12)"]:::atlasWorkflow
     dir_1_samples --> sub_1_0_expo
-    sub_1_1_react_native["react-native (9)"]
+    sub_1_1_react_native["react-native (9)"]:::atlasWorkflow
     dir_1_samples --> sub_1_1_react_native
-    sub_1_2_react_native_macos["react-native-macos (4)"]
+    sub_1_2_react_native_macos["react-native-macos (4)"]:::atlasWorkflow
     dir_1_samples --> sub_1_2_react_native_macos
-    sub_1_more["+2 more submodules (4)"]
+    sub_1_more["+2 more submodules (4)"]:::atlasMore
     dir_1_samples --> sub_1_more
-    dir_2_dev_packages["dev-packages (4)"]
+    dir_2_dev_packages["dev-packages (4)"]:::atlasCategory
     repo_root --> dir_2_dev_packages
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     sub_1_1_react_native -.->|"2 deps"| sub_0_0_core
 ```
@@ -218,35 +225,39 @@ Showing top 60 representative components out of 133 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dev_packages_e2e_tests["dev-packages/e2e-tests"]
-        mod_dev_packages_type_check["dev-packages/type-check"]
-        mod_packages_core["packages/core"]
-        mod_packages_core_RNSentryAndroidTester["packages/core/RNSentryAndroidTester"]
-        mod_packages_expo_upload_sourcemaps["packages/expo-upload-sourcemaps"]
-        mod_samples_expo["samples/expo"]
-        mod_samples_react_native["samples/react-native"]
-        mod_samples_react_native_macos["samples/react-native-macos"]
-        mod_samples_react_native_tvos["samples/react-native-tvos"]
-        mod_samples_react_native_visionos["samples/react-native-visionos"]
+        mod_dev_packages_e2e_tests["dev-packages/e2e-tests"]:::atlasCategory
+        mod_dev_packages_type_check["dev-packages/type-check"]:::atlasCategory
+        mod_packages_core["packages/core"]:::atlasCategory
+        mod_packages_core_RNSentryAndroidTester["packages/core/RNSentryAndroidTester"]:::atlasCategory
+        mod_packages_expo_upload_sourcemaps["packages/expo-upload-sourcemaps"]:::atlasCategory
+        mod_samples_expo["samples/expo"]:::atlasCategory
+        mod_samples_react_native["samples/react-native"]:::atlasCategory
+        mod_samples_react_native_macos["samples/react-native-macos"]:::atlasCategory
+        mod_samples_react_native_tvos["samples/react-native-tvos"]:::atlasCategory
+        mod_samples_react_native_visionos["samples/react-native-visionos"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_buildandtest_yml_job_api_report["buildandtest.yml#job_api_report"]
-        job_buildandtest_yml_job_bundle["buildandtest.yml#job_bundle"]
-        job_buildandtest_yml_job_type_check["buildandtest.yml#job_type_check"]
-        job_detect_changes_yml_changes["detect-changes.yml#changes"]
-        job_e2e_v2_yml_react_native_build["e2e-v2.yml#react-native-build"]
-        job_e2e_v2_yml_react_native_test["e2e-v2.yml#react-native-test"]
-        job_native_tests_yml_test_android["native-tests.yml#test-android"]
-        job_native_tests_yml_test_ios["native-tests.yml#test-ios"]
-        job_sample_application_expo_yml_build_android["sample-application-expo.yml#build-android"]
-        job_sample_application_expo_yml_build_ios["sample-application-expo.yml#build-ios"]
-        job_sample_application_expo_yml_build_web["sample-application-expo.yml#build-web"]
-        job_sample_application_yml_build_macos["sample-application.yml#build-macos"]
-        job_sample_application_yml_build_tvos["sample-application.yml#build-tvos"]
-        job_sample_application_yml_build_visionos["sample-application.yml#build-visionos"]
-        job_spm_application_yml_build_ios["spm-application.yml#build-ios"]
-        job_testflight_yml_upload_to_testflight["testflight.yml#upload_to_testflight"]
+        job_buildandtest_yml_job_api_report["buildandtest.yml#job_api_report"]:::atlasJob
+        job_buildandtest_yml_job_bundle["buildandtest.yml#job_bundle"]:::atlasJob
+        job_buildandtest_yml_job_type_check["buildandtest.yml#job_type_check"]:::atlasJob
+        job_detect_changes_yml_changes["detect-changes.yml#changes"]:::atlasJob
+        job_e2e_v2_yml_react_native_build["e2e-v2.yml#react-native-build"]:::atlasJob
+        job_e2e_v2_yml_react_native_test["e2e-v2.yml#react-native-test"]:::atlasJob
+        job_native_tests_yml_test_android["native-tests.yml#test-android"]:::atlasJob
+        job_native_tests_yml_test_ios["native-tests.yml#test-ios"]:::atlasJob
+        job_sample_application_expo_yml_build_android["sample-application-expo.yml#build-android"]:::atlasJob
+        job_sample_application_expo_yml_build_ios["sample-application-expo.yml#build-ios"]:::atlasJob
+        job_sample_application_expo_yml_build_web["sample-application-expo.yml#build-web"]:::atlasJob
+        job_sample_application_yml_build_macos["sample-application.yml#build-macos"]:::atlasJob
+        job_sample_application_yml_build_tvos["sample-application.yml#build-tvos"]:::atlasJob
+        job_sample_application_yml_build_visionos["sample-application.yml#build-visionos"]:::atlasJob
+        job_spm_application_yml_build_ios["spm-application.yml#build-ios"]:::atlasJob
+        job_testflight_yml_upload_to_testflight["testflight.yml#upload_to_testflight"]:::atlasJob
     end
     mod_dev_packages_e2e_tests -->|BUILT_BY| job_e2e_v2_yml_react_native_build
     mod_dev_packages_e2e_tests -->|BUILT_BY| job_e2e_v2_yml_react_native_test
@@ -290,15 +301,76 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-react-native (24 workflows)"])
-  grp_0_CI___Verification["CI & Verification (17 workflows · 59 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-react-native (24 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (17 workflows · 59 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+  wf_1_Build___Test["Build & Test (11 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Build___Test
+  job_1_diff_check["diff_check"]:::atlasJob
+  job_1_job_test["job_test"]:::atlasJob
+  job_1_job_native_link_check["job_native_link_check"]:::atlasJob
+  wf_1_Build___Test --> job_1_diff_check
+  job_1_diff_check --> job_1_job_test
+  job_1_diff_check --> job_1_job_native_link_check
+  wf_9_End_to_End_Tests_V2["End-to-End Tests V2 (6 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_End_to_End_Tests_V2
+  job_9_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+  job_9_diff_check["diff_check"]:::atlasJob
+  job_9_detect_changes["detect-changes"]:::atlasJob
+  wf_9_End_to_End_Tests_V2 --> job_9_ready_to_merge_gate
+  job_9_ready_to_merge_gate --> job_9_diff_check
+  job_9_ready_to_merge_gate --> job_9_detect_changes
+  wf_16_Sample_Application["Sample Application (11 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_16_Sample_Application
+  job_16_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+  job_16_diff_check["diff_check"]:::atlasJob
+  job_16_detect_changes["detect-changes"]:::atlasJob
+  wf_16_Sample_Application --> job_16_ready_to_merge_gate
+  job_16_ready_to_merge_gate --> job_16_diff_check
+  job_16_ready_to_merge_gate --> job_16_detect_changes
+  grp_1_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_8_Detect_Changes["Detect Changes (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_8_Detect_Changes
+  job_8_changes["changes"]:::atlasJob
+  wf_8_Detect_Changes --> job_8_changes
+  wf_12_Ready_to_Merge_Workflow["Ready to Merge Workflow (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_12_Ready_to_Merge_Workflow
+  job_12_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+  wf_12_Ready_to_Merge_Workflow --> job_12_ready_to_merge_gate
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 10 jobs)"]
+  wf_13_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_13_Automation__Notify_issues_for_release
+  job_13_release_comment_issues["release-comment-issues"]:::atlasJob
+  wf_13_Automation__Notify_issues_for_release --> job_13_release_comment_issues
+  wf_14_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_14_Release
+  job_14_release["release"]:::atlasJob
+  wf_14_Release --> job_14_release
+  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
-  grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]
+  wf_10_iOS_Crash_Screenshot_No_Freeze["iOS Crash Screenshot No-Freeze (2 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_10_iOS_Crash_Screenshot_No_Freeze
+  job_10_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+  job_10_verify["verify"]:::atlasJob
+  wf_10_iOS_Crash_Screenshot_No_Freeze --> job_10_ready_to_merge_gate
+  job_10_ready_to_merge_gate --> job_10_verify
+  wf_22_Update_Dependencies["Update Dependencies (8 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_22_Update_Dependencies
+  job_22_android["android"]:::atlasJob
+  wf_22_Update_Dependencies --> job_22_android
+  grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Security___Governance
+  wf_6_CodeQL["CodeQL (2 jobs)"]:::atlasWorkflow
+  grp_4_Security___Governance --> wf_6_CodeQL
+  wf_more["+14 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

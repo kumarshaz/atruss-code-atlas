@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for n8n-io/n8n-nodes-starter
 
 ```mermaid
 graph TD;
-    n8n_nodes______["n8n-nodes-<...> : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    n8n_nodes______["n8n-nodes-<...> : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -106,13 +113,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_ae8ff762_937a_4c25_831d_a31788ccc09b["ae8ff762-937a-4c25-831d-a31788ccc09b"]
+        mod_ae8ff762_937a_4c25_831d_a31788ccc09b["ae8ff762-937a-4c25-831d-a31788ccc09b"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_cla_check_yml_cla_check["ci-cla-check.yml#cla-check"]
-        job_ci_yml_build["ci.yml#build"]
-        job_publish_yml_publish["publish.yml#publish"]
+        job_ci_cla_check_yml_cla_check["ci-cla-check.yml#cla-check"]:::atlasJob
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
+        job_publish_yml_publish["publish.yml#publish"]:::atlasJob
     end
     mod_ae8ff762_937a_4c25_831d_a31788ccc09b -->|BUILT_BY| job_ci_cla_check_yml_cla_check
     mod_ae8ff762_937a_4c25_831d_a31788ccc09b -->|BUILT_BY| job_ci_yml_build
@@ -128,20 +139,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["n8n-io/n8n-nodes-starter"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["n8n-io/n8n-nodes-starter"]):::atlasRoot
   subgraph CI__CLA_Check_0["CI: CLA Check"]
     direction TB
-    0_cla_check["cla-check"]
+    0_cla_check["cla-check"]:::atlasJob
   end
   pipeline_root --> 0_cla_check
   subgraph CI_1["CI"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
   subgraph Publish_2["Publish"]
     direction TB
-    2_publish["publish"]
+    2_publish["publish"]:::atlasJob
   end
   pipeline_root --> 2_publish
 ```

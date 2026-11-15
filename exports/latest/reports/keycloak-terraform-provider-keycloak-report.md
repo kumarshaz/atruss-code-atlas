@@ -41,20 +41,27 @@ description: Arc42 and Pipeline report for keycloak/terraform-provider-keycloak
 
 ```mermaid
 graph TD;
-    repo_root(["keycloak/terraform-provider-keycloak (250 components)"])
-    dir_0_provider["provider (125)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["keycloak/terraform-provider-keycloak (250 components)"]):::atlasRoot
+    dir_0_provider["provider (125)"]:::atlasCategory
     repo_root --> dir_0_provider
-    dir_1_keycloak["keycloak (122)"]
+    dir_1_keycloak["keycloak (122)"]:::atlasCategory
     repo_root --> dir_1_keycloak
-    sub_1_0__module_root_["(module root) (118)"]
+    sub_1_0__module_root_["(module root) (118)"]:::atlasWorkflow
     dir_1_keycloak --> sub_1_0__module_root_
-    sub_1_1_types["types (4)"]
+    sub_1_1_types["types (4)"]:::atlasWorkflow
     dir_1_keycloak --> sub_1_1_types
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_helper["helper (1)"]
+    dir_3_helper["helper (1)"]:::atlasCategory
     repo_root --> dir_3_helper
-    dir_4_mutex["mutex (1)"]
+    dir_4_mutex["mutex (1)"]:::atlasCategory
     repo_root --> dir_4_mutex
 ```
 
@@ -198,22 +205,26 @@ Showing top 60 representative components out of 250 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_271086a7_6928_4d0c_806f_34bd0fc65cdd["271086a7-6928-4d0c-806f-34bd0fc65cdd"]
-        mod_custom_user_federation_example["custom-user-federation-example"]
+        mod_271086a7_6928_4d0c_806f_34bd0fc65cdd["271086a7-6928-4d0c-806f-34bd0fc65cdd"]:::atlasCategory
+        mod_custom_user_federation_example["custom-user-federation-example"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_mtls_yml["docker-compose-mtls.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_example_client_authorization_policys_tf["example/client_authorization_policys.tf"]
-        art_example_external_token_exchange_example_tf["example/external_token_exchange_example.tf"]
-        art_example_federated_user_example_tf["example/federated_user_example.tf"]
-        art_example_main_tf["example/main.tf"]
-        art_example_roles_tf["example/roles.tf"]
-        art_example_workflows_tf["example/workflows.tf"]
+        art_docker_compose_mtls_yml["docker-compose-mtls.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_example_client_authorization_policys_tf["example/client_authorization_policys.tf"]:::atlasWorkflow
+        art_example_external_token_exchange_example_tf["example/external_token_exchange_example.tf"]:::atlasWorkflow
+        art_example_federated_user_example_tf["example/federated_user_example.tf"]:::atlasWorkflow
+        art_example_main_tf["example/main.tf"]:::atlasWorkflow
+        art_example_roles_tf["example/roles.tf"]:::atlasWorkflow
+        art_example_workflows_tf["example/workflows.tf"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_test_yml_acceptance["test.yml#acceptance"]
+        job_test_yml_acceptance["test.yml#acceptance"]:::atlasJob
     end
     mod_271086a7_6928_4d0c_806f_34bd0fc65cdd -->|PACKAGED_BY| art_docker_compose_mtls_yml
     mod_271086a7_6928_4d0c_806f_34bd0fc65cdd -->|PACKAGED_BY| art_docker_compose_yml
@@ -243,23 +254,44 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/terraform-provider-keycloak (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/terraform-provider-keycloak (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_1_Go_Dependency_Submission["Go Dependency Submission (1 jobs)"]
+  wf_1_Go_Dependency_Submission["Go Dependency Submission (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_Go_Dependency_Submission
-  wf_4_test["test (2 jobs)"]
+  job_1_go_dependency_submission["go-dependency-submission"]:::atlasJob
+  wf_1_Go_Dependency_Submission --> job_1_go_dependency_submission
+  wf_4_test["test (2 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_4_test
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  job_4_verify["verify"]:::atlasJob
+  job_4_acceptance["acceptance"]:::atlasJob
+  wf_4_test --> job_4_verify
+  job_4_verify --> job_4_acceptance
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_3_release["release (2 jobs)"]
+  wf_3_release["release (2 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  job_3_wait["wait"]:::atlasJob
+  job_3_release["release"]:::atlasJob
+  wf_3_release --> job_3_wait
+  job_3_wait --> job_3_release
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  wf_2_nightly["nightly (1 jobs)"]
+  wf_2_nightly["nightly (1 jobs)"]:::atlasWorkflow
   grp_2_Scheduled___Manual --> wf_2_nightly
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  job_2_nightly["nightly"]:::atlasJob
+  wf_2_nightly --> job_2_nightly
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
-  wf_0_CodeQL["CodeQL (1 jobs)"]
+  wf_0_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
   grp_3_Security___Governance --> wf_0_CodeQL
+  job_0_analyze["analyze"]:::atlasJob
+  wf_0_CodeQL --> job_0_analyze
 ```

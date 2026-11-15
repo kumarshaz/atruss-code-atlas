@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for PostHog/duckgres
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/duckgres (322 components)"])
-    dir_0_controlplane["controlplane (270)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/duckgres (322 components)"]):::atlasRoot
+    dir_0_controlplane["controlplane (270)"]:::atlasCategory
     repo_root --> dir_0_controlplane
-    sub_0_0__module_root_["(module root) (204)"]
+    sub_0_0__module_root_["(module root) (204)"]:::atlasWorkflow
     dir_0_controlplane --> sub_0_0__module_root_
-    sub_0_1_admin["admin (66)"]
+    sub_0_1_admin["admin (66)"]:::atlasWorkflow
     dir_0_controlplane --> sub_0_1_admin
-    dir_1_cmd["cmd (31)"]
+    dir_1_cmd["cmd (31)"]:::atlasCategory
     repo_root --> dir_1_cmd
-    sub_1_0_cache_proxy["cache-proxy (27)"]
+    sub_1_0_cache_proxy["cache-proxy (27)"]:::atlasWorkflow
     dir_1_cmd --> sub_1_0_cache_proxy
-    sub_1_1_duckgres_controlplane["duckgres-controlplane (1)"]
+    sub_1_1_duckgres_controlplane["duckgres-controlplane (1)"]:::atlasWorkflow
     dir_1_cmd --> sub_1_1_duckgres_controlplane
-    sub_1_2_duckgres_perf_publisher["duckgres-perf-publisher (1)"]
+    sub_1_2_duckgres_perf_publisher["duckgres-perf-publisher (1)"]:::atlasWorkflow
     dir_1_cmd --> sub_1_2_duckgres_perf_publisher
-    sub_1_more["+2 more submodules (2)"]
+    sub_1_more["+2 more submodules (2)"]:::atlasMore
     dir_1_cmd --> sub_1_more
-    dir_2_configresolve["configresolve (7)"]
+    dir_2_configresolve["configresolve (7)"]:::atlasCategory
     repo_root --> dir_2_configresolve
-    dir_3__root_["(root) (6)"]
+    dir_3__root_["(root) (6)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_scripts["scripts (6)"]
+    dir_4_scripts["scripts (6)"]:::atlasCategory
     repo_root --> dir_4_scripts
-    dir_other_modules["+1 more modules (2)"]
+    dir_other_modules["+1 more modules (2)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -204,64 +211,68 @@ Showing top 60 representative components out of 322 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_b28807bf_dc5b_4a18_9055_854894d4e803["b28807bf-dc5b-4a18-9055-854894d4e803"]
-        mod_cmd_cache_proxy["cmd/cache-proxy"]
-        mod_controlplane_admin_ui["controlplane/admin/ui"]
-        mod_scripts_client_compat["scripts/client-compat"]
-        mod_scripts_client_compat_clients_dbt["scripts/client-compat/clients/dbt"]
-        mod_scripts_client_compat_clients_harlequin["scripts/client-compat/clients/harlequin"]
-        mod_scripts_client_compat_clients_jdbc["scripts/client-compat/clients/jdbc"]
-        mod_scripts_client_compat_clients_node_postgres["scripts/client-compat/clients/node-postgres"]
-        mod_scripts_client_compat_clients_pgadmin["scripts/client-compat/clients/pgadmin"]
-        mod_scripts_client_compat_clients_pgx["scripts/client-compat/clients/pgx"]
-        mod_scripts_client_compat_clients_psql["scripts/client-compat/clients/psql"]
-        mod_scripts_client_compat_clients_psycopg["scripts/client-compat/clients/psycopg"]
-        mod_scripts_client_compat_clients_sqlalchemy["scripts/client-compat/clients/sqlalchemy"]
-        mod_scripts_client_compat_clients_tokio_postgres["scripts/client-compat/clients/tokio-postgres"]
-        mod_tests_integration["tests/integration"]
-        mod_tests_integration_trino["tests/integration/trino"]
-        mod_tests_mw_dev_scenario["tests/mw-dev/scenario"]
+        mod_b28807bf_dc5b_4a18_9055_854894d4e803["b28807bf-dc5b-4a18-9055-854894d4e803"]:::atlasCategory
+        mod_cmd_cache_proxy["cmd/cache-proxy"]:::atlasCategory
+        mod_controlplane_admin_ui["controlplane/admin/ui"]:::atlasCategory
+        mod_scripts_client_compat["scripts/client-compat"]:::atlasCategory
+        mod_scripts_client_compat_clients_dbt["scripts/client-compat/clients/dbt"]:::atlasCategory
+        mod_scripts_client_compat_clients_harlequin["scripts/client-compat/clients/harlequin"]:::atlasCategory
+        mod_scripts_client_compat_clients_jdbc["scripts/client-compat/clients/jdbc"]:::atlasCategory
+        mod_scripts_client_compat_clients_node_postgres["scripts/client-compat/clients/node-postgres"]:::atlasCategory
+        mod_scripts_client_compat_clients_pgadmin["scripts/client-compat/clients/pgadmin"]:::atlasCategory
+        mod_scripts_client_compat_clients_pgx["scripts/client-compat/clients/pgx"]:::atlasCategory
+        mod_scripts_client_compat_clients_psql["scripts/client-compat/clients/psql"]:::atlasCategory
+        mod_scripts_client_compat_clients_psycopg["scripts/client-compat/clients/psycopg"]:::atlasCategory
+        mod_scripts_client_compat_clients_sqlalchemy["scripts/client-compat/clients/sqlalchemy"]:::atlasCategory
+        mod_scripts_client_compat_clients_tokio_postgres["scripts/client-compat/clients/tokio-postgres"]:::atlasCategory
+        mod_tests_integration["tests/integration"]:::atlasCategory
+        mod_tests_integration_trino["tests/integration/trino"]:::atlasCategory
+        mod_tests_mw_dev_scenario["tests/mw-dev/scenario"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_____inputs_dockerfile___["${{ inputs.dockerfile }}"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_controlplane["Dockerfile.controlplane"]
-        art_Dockerfile_worker["Dockerfile.worker"]
-        art_cmd_cache_proxy_Dockerfile["cmd/cache-proxy/Dockerfile"]
-        art_docker_compose_yaml["docker-compose.yaml"]
-        art_k8s_control_plane_multitenant_local_yaml["k8s/control-plane-multitenant-local.yaml"]
-        art_k8s_kind_control_plane_yaml["k8s/kind/control-plane.yaml"]
-        art_scripts_client_compat_Dockerfile_results["scripts/client-compat/Dockerfile.results"]
-        art_scripts_client_compat_clients_dbt_Dockerfile["scripts/client-compat/clients/dbt/Dockerfile"]
-        art_scripts_client_compat_clients_harlequin_Dockerfile["scripts/client-compat/clients/harlequin/Dockerfile"]
-        art_scripts_client_compat_clients_jdbc_Dockerfile["scripts/client-compat/clients/jdbc/Dockerfile"]
-        art_scripts_client_compat_clients_node_postgres_Dockerfile["scripts/client-compat/clients/node-postgres/Dockerfile"]
-        art_scripts_client_compat_clients_pgadmin_Dockerfile["scripts/client-compat/clients/pgadmin/Dockerfile"]
-        art_scripts_client_compat_clients_pgx_Dockerfile["scripts/client-compat/clients/pgx/Dockerfile"]
-        art_scripts_client_compat_clients_psql_Dockerfile["scripts/client-compat/clients/psql/Dockerfile"]
-        art_scripts_client_compat_clients_psycopg_Dockerfile["scripts/client-compat/clients/psycopg/Dockerfile"]
-        art_scripts_client_compat_clients_sqlalchemy_Dockerfile["scripts/client-compat/clients/sqlalchemy/Dockerfile"]
-        art_scripts_client_compat_clients_tokio_postgres_Dockerfile["scripts/client-compat/clients/tokio-postgres/Dockerfile"]
-        art_scripts_client_compat_docker_compose_yml["scripts/client-compat/docker-compose.yml"]
-        art_tests_integration_docker_compose_yml["tests/integration/docker-compose.yml"]
-        art_tests_integration_trino_Dockerfile["tests/integration/trino/Dockerfile"]
-        art_tests_mw_dev_scenario_Dockerfile["tests/mw-dev/scenario/Dockerfile"]
+        art_____inputs_dockerfile___["${{ inputs.dockerfile }}"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_controlplane["Dockerfile.controlplane"]:::atlasWorkflow
+        art_Dockerfile_worker["Dockerfile.worker"]:::atlasWorkflow
+        art_cmd_cache_proxy_Dockerfile["cmd/cache-proxy/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yaml["docker-compose.yaml"]:::atlasWorkflow
+        art_k8s_control_plane_multitenant_local_yaml["k8s/control-plane-multitenant-local.yaml"]:::atlasWorkflow
+        art_k8s_kind_control_plane_yaml["k8s/kind/control-plane.yaml"]:::atlasWorkflow
+        art_scripts_client_compat_Dockerfile_results["scripts/client-compat/Dockerfile.results"]:::atlasWorkflow
+        art_scripts_client_compat_clients_dbt_Dockerfile["scripts/client-compat/clients/dbt/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_harlequin_Dockerfile["scripts/client-compat/clients/harlequin/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_jdbc_Dockerfile["scripts/client-compat/clients/jdbc/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_node_postgres_Dockerfile["scripts/client-compat/clients/node-postgres/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_pgadmin_Dockerfile["scripts/client-compat/clients/pgadmin/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_pgx_Dockerfile["scripts/client-compat/clients/pgx/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_psql_Dockerfile["scripts/client-compat/clients/psql/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_psycopg_Dockerfile["scripts/client-compat/clients/psycopg/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_sqlalchemy_Dockerfile["scripts/client-compat/clients/sqlalchemy/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_clients_tokio_postgres_Dockerfile["scripts/client-compat/clients/tokio-postgres/Dockerfile"]:::atlasWorkflow
+        art_scripts_client_compat_docker_compose_yml["scripts/client-compat/docker-compose.yml"]:::atlasWorkflow
+        art_tests_integration_docker_compose_yml["tests/integration/docker-compose.yml"]:::atlasWorkflow
+        art_tests_integration_trino_Dockerfile["tests/integration/trino/Dockerfile"]:::atlasWorkflow
+        art_tests_mw_dev_scenario_Dockerfile["tests/mw-dev/scenario/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job__image_build_yml_build["_image-build.yml#build"]
-        job_ci_yml_integration_tests["ci.yml#integration-tests"]
-        job_container_image_cache_proxy_cd_yml_build["container-image-cache-proxy-cd.yml#build"]
-        job_container_image_cd_yml_build["container-image-cd.yml#build"]
-        job_container_image_controlplane_cd_yml_build["container-image-controlplane-cd.yml#build"]
-        job_container_image_worker_cd_yml_build["container-image-worker-cd.yml#build"]
-        job_e2e_mw_dev_yml_e2e_cleanup["e2e-mw-dev.yml#e2e-cleanup"]
-        job_e2e_mw_dev_yml_e2e_teardown["e2e-mw-dev.yml#e2e-teardown"]
-        job_e2e_mw_dev_yml_e2e_lanes["e2e-mw-dev.yml#e2e_lanes"]
-        job_scenario_dev_yml_scenario["scenario-dev.yml#scenario"]
+        job__image_build_yml_build["_image-build.yml#build"]:::atlasJob
+        job_ci_yml_integration_tests["ci.yml#integration-tests"]:::atlasJob
+        job_container_image_cache_proxy_cd_yml_build["container-image-cache-proxy-cd.yml#build"]:::atlasJob
+        job_container_image_cd_yml_build["container-image-cd.yml#build"]:::atlasJob
+        job_container_image_controlplane_cd_yml_build["container-image-controlplane-cd.yml#build"]:::atlasJob
+        job_container_image_worker_cd_yml_build["container-image-worker-cd.yml#build"]:::atlasJob
+        job_e2e_mw_dev_yml_e2e_cleanup["e2e-mw-dev.yml#e2e-cleanup"]:::atlasJob
+        job_e2e_mw_dev_yml_e2e_teardown["e2e-mw-dev.yml#e2e-teardown"]:::atlasJob
+        job_e2e_mw_dev_yml_e2e_lanes["e2e-mw-dev.yml#e2e_lanes"]:::atlasJob
+        job_scenario_dev_yml_scenario["scenario-dev.yml#scenario"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
+        env_azure["azure"]:::atlasTarget
     end
     job_e2e_mw_dev_yml_e2e_cleanup -->|DEPLOYS_TO| env_azure
     job_e2e_mw_dev_yml_e2e_teardown -->|DEPLOYS_TO| env_azure
@@ -382,13 +393,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/duckgres (13 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (8 workflows · 26 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/duckgres (13 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (8 workflows · 26 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  wf_1_CI["CI (9 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_CI
+  job_1_lint["lint"]:::atlasJob
+  job_1_controlplane_no_libduckdb["controlplane-no-libduckdb"]:::atlasJob
+  job_1_unit_tests["unit-tests"]:::atlasJob
+  wf_1_CI --> job_1_lint
+  wf_1_CI --> job_1_controlplane_no_libduckdb
+  wf_1_CI --> job_1_unit_tests
+  wf_4_Container_Image_CD["Container Image CD (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Container_Image_CD
+  job_4_build["build"]:::atlasJob
+  job_4_manifest["manifest"]:::atlasJob
+  wf_4_Container_Image_CD --> job_4_build
+  job_4_build --> job_4_manifest
+  wf_6_Container_Image_Worker_CD__per_DuckDB_version_["Container Image Worker CD (per DuckDB version) (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_6_Container_Image_Worker_CD__per_DuckDB_version_
+  job_6_validate_matrix["validate-matrix"]:::atlasJob
+  job_6_build["build"]:::atlasJob
+  job_6_manifest["manifest"]:::atlasJob
+  wf_6_Container_Image_Worker_CD__per_DuckDB_version_ --> job_6_validate_matrix
+  job_6_validate_matrix --> job_6_build
+  job_6_build --> job_6_manifest
+  wf_7_e2e_mw_dev["e2e-mw-dev (5 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_7_e2e_mw_dev
+  job_7_build["build"]:::atlasJob
+  job_7_e2e_lanes["e2e_lanes"]:::atlasJob
+  job_7_e2e["e2e"]:::atlasJob
+  wf_7_e2e_mw_dev --> job_7_build
+  job_7_build --> job_7_e2e_lanes
+  job_7_e2e_lanes --> job_7_e2e
+  wf_10_scenario_dev["scenario-dev (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_10_scenario_dev
+  job_10_scenario_runner_image["scenario-runner-image"]:::atlasJob
+  job_10_duckgres_image["duckgres-image"]:::atlasJob
+  job_10_scenario["scenario"]:::atlasJob
+  wf_10_scenario_dev --> job_10_scenario_runner_image
+  wf_10_scenario_dev --> job_10_duckgres_image
+  job_10_scenario_runner_image --> job_10_scenario
+  job_10_duckgres_image --> job_10_scenario
+  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+  wf_0__image_build["_image-build (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0__image_build
+  job_0_build["build"]:::atlasJob
+  wf_0__image_build --> job_0_build
+  wf_11_test_impact_plan_comment["test-impact-plan-comment (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_11_test_impact_plan_comment
+  job_11_comment["comment"]:::atlasJob
+  wf_11_test_impact_plan_comment --> job_11_comment
+  wf_12_test_impact_plan["test-impact-plan (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_12_test_impact_plan
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_8_Release_Build["Release Build (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_Release_Build
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_2_CodeQL_Advanced
+  wf_more["+3 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

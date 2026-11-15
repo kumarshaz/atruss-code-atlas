@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for nextcloud/mail
 
 ```mermaid
 graph TD;
-    repo_root(["nextcloud/mail (250 components)"])
-    dir_0_lib["lib (246)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["nextcloud/mail (250 components)"]):::atlasRoot
+    dir_0_lib["lib (246)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0_Db["Db (48)"]
+    sub_0_0_Db["Db (48)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0_Db
-    sub_0_1_Controller["Controller (38)"]
+    sub_0_1_Controller["Controller (38)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1_Controller
-    sub_0_2_Exception["Exception (34)"]
+    sub_0_2_Exception["Exception (34)"]:::atlasWorkflow
     dir_0_lib --> sub_0_2_Exception
-    sub_0_more["+14 more submodules (126)"]
+    sub_0_more["+14 more submodules (126)"]:::atlasMore
     dir_0_lib --> sub_0_more
-    dir_1__root_["(root) (2)"]
+    dir_1__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_appinfo["appinfo (1)"]
+    dir_2_appinfo["appinfo (1)"]:::atlasCategory
     repo_root --> dir_2_appinfo
-    dir_3_composer["composer (1)"]
+    dir_3_composer["composer (1)"]:::atlasCategory
     repo_root --> dir_3_composer
 ```
 
@@ -206,11 +213,15 @@ Showing top 60 representative components out of 250 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_appstore_conventional_build_publish_yml_build_and_publish["appstore-conventional-build-publish.yml#build_and_publish"]
+        job_appstore_conventional_build_publish_yml_build_and_publish["appstore-conventional-build-publish.yml#build_and_publish"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_release["release"]
+        env_release["release"]:::atlasTarget
     end
     job_appstore_conventional_build_publish_yml_build_and_publish -->|DEPLOYS_TO| env_release
 ```
@@ -222,13 +233,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/mail (23 workflows)"])
-  grp_0_CI___Verification["CI & Verification (12 workflows · 26 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/mail (23 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (12 workflows · 26 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Security___Governance["Security & Governance (5 workflows · 6 jobs)"]
+  wf_6_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Lint_eslint
+  job_6_changes["changes"]:::atlasJob
+  job_6_lint["lint"]:::atlasJob
+  job_6_summary["summary"]:::atlasJob
+  wf_6_Lint_eslint --> job_6_changes
+  job_6_changes --> job_6_lint
+  job_6_changes --> job_6_summary
+  job_6_lint --> job_6_summary
+  wf_9_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_Lint_php
+  job_9_matrix["matrix"]:::atlasJob
+  job_9_php_lint["php-lint"]:::atlasJob
+  job_9_summary["summary"]:::atlasJob
+  wf_9_Lint_php --> job_9_matrix
+  job_9_matrix --> job_9_php_lint
+  job_9_php_lint --> job_9_summary
+  wf_21_Test["Test (9 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_21_Test
+  job_21_changes["changes"]:::atlasJob
+  job_21_unit_tests["unit-tests"]:::atlasJob
+  job_21_integration_tests["integration-tests"]:::atlasJob
+  wf_21_Test --> job_21_changes
+  job_21_changes --> job_21_unit_tests
+  job_21_changes --> job_21_integration_tests
+  grp_1_Security___Governance["Security & Governance (5 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Security___Governance
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  wf_3_Block_unconventional_commits["Block unconventional commits (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_3_Block_unconventional_commits
+  job_3_block_unconventional_commits["block-unconventional-commits"]:::atlasJob
+  wf_3_Block_unconventional_commits --> job_3_block_unconventional_commits
+  wf_4_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_4_Block_fixup_and_squash_commits
+  job_4_commit_message_check["commit-message-check"]:::atlasJob
+  wf_4_Block_fixup_and_squash_commits --> job_4_commit_message_check
+  wf_11_Selective_npm_audit_fix["Selective npm audit fix (2 jobs)"]:::atlasWorkflow
+  grp_1_Security___Governance --> wf_11_Selective_npm_audit_fix
+  job_11_matrix["matrix"]:::atlasJob
+  job_11_fix["fix"]:::atlasJob
+  wf_11_Selective_npm_audit_fix --> job_11_matrix
+  job_11_matrix --> job_11_fix
+  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+  wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_1_Build_and_publish_app_release
+  job_1_build_and_publish["build_and_publish"]:::atlasJob
+  wf_1_Build_and_publish_app_release --> job_1_build_and_publish
+  wf_2_Build_and_publish_app_release_conventionally["Build and publish app release conventionally (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_2_Build_and_publish_app_release_conventionally
+  job_2_build_and_publish["build_and_publish"]:::atlasJob
+  wf_2_Build_and_publish_app_release_conventionally --> job_2_build_and_publish
+  grp_3_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
+  wf_15_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_15_Ask_for_feedback_on_PRs
+  job_15_pr_feedback["pr-feedback"]:::atlasJob
+  wf_15_Ask_for_feedback_on_PRs --> job_15_pr_feedback
+  wf_22_Update_public_suffix_list["Update public suffix list (1 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_22_Update_public_suffix_list
+  wf_more["+13 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

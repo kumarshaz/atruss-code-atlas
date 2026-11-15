@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for grafana/ai-sdk
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/ai-sdk (255 components)"])
-    dir_0_ai_gateway["ai-gateway (181)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/ai-sdk (255 components)"]):::atlasRoot
+    dir_0_ai_gateway["ai-gateway (181)"]:::atlasCategory
     repo_root --> dir_0_ai_gateway
-    sub_0_0_pkg["pkg (84)"]
+    sub_0_0_pkg["pkg (84)"]:::atlasWorkflow
     dir_0_ai_gateway --> sub_0_0_pkg
-    sub_0_1_internal["internal (39)"]
+    sub_0_1_internal["internal (39)"]:::atlasWorkflow
     dir_0_ai_gateway --> sub_0_1_internal
-    sub_0_2_providerwire["providerwire (30)"]
+    sub_0_2_providerwire["providerwire (30)"]:::atlasWorkflow
     dir_0_ai_gateway --> sub_0_2_providerwire
-    sub_0_more["+4 more submodules (28)"]
+    sub_0_more["+4 more submodules (28)"]:::atlasMore
     dir_0_ai_gateway --> sub_0_more
-    dir_1__root_["(root) (70)"]
+    dir_1__root_["(root) (70)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_test["test (3)"]
+    dir_2_test["test (3)"]:::atlasCategory
     repo_root --> dir_2_test
-    dir_3_release["release (1)"]
+    dir_3_release["release (1)"]:::atlasCategory
     repo_root --> dir_3_release
 ```
 
@@ -201,31 +208,35 @@ Showing top 60 representative components out of 255 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_4c24d0b1_08c9_4388_9405_dfe82a3640b3["4c24d0b1-08c9-4388-9405-dfe82a3640b3"]
-        mod_ai_gateway["ai-gateway"]
-        mod_ai_gateway__config["ai-gateway/.config"]
-        mod_providers_anthropic["providers/anthropic"]
-        mod_providers_grafana["providers/grafana"]
-        mod_release_tooling["release/tooling"]
-        mod_test_conformance["test/conformance"]
+        mod_4c24d0b1_08c9_4388_9405_dfe82a3640b3["4c24d0b1-08c9-4388-9405-dfe82a3640b3"]:::atlasCategory
+        mod_ai_gateway["ai-gateway"]:::atlasCategory
+        mod_ai_gateway__config["ai-gateway/.config"]:::atlasCategory
+        mod_providers_anthropic["providers/anthropic"]:::atlasCategory
+        mod_providers_grafana["providers/grafana"]:::atlasCategory
+        mod_release_tooling["release/tooling"]:::atlasCategory
+        mod_test_conformance["test/conformance"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_ai_gateway__config_Dockerfile["ai-gateway/.config/Dockerfile"]
-        art_ai_gateway__config_docker_compose_base_yaml["ai-gateway/.config/docker-compose-base.yaml"]
-        art_ai_gateway_docker_compose_e2e_yaml["ai-gateway/docker-compose.e2e.yaml"]
-        art_ai_gateway_docker_compose_yaml["ai-gateway/docker-compose.yaml"]
+        art_ai_gateway__config_Dockerfile["ai-gateway/.config/Dockerfile"]:::atlasWorkflow
+        art_ai_gateway__config_docker_compose_base_yaml["ai-gateway/.config/docker-compose-base.yaml"]:::atlasWorkflow
+        art_ai_gateway_docker_compose_e2e_yaml["ai-gateway/docker-compose.e2e.yaml"]:::atlasWorkflow
+        art_ai_gateway_docker_compose_yaml["ai-gateway/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_build_test["ci.yml#build-test"]
-        job_ci_yml_gateway_test["ci.yml#gateway-test"]
-        job_ci_yml_module_resolution["ci.yml#module-resolution"]
-        job_ci_yml_parity_baseline["ci.yml#parity-baseline"]
-        job_ci_yml_plugin_build["ci.yml#plugin-build"]
-        job_ci_yml_plugin_validation["ci.yml#plugin-validation"]
-        job_publish_ai_gateway_dev_yml_source_ci["publish-ai-gateway-dev.yml#source-ci"]
-        job_publish_ai_gateway_ops_yml_source_ci["publish-ai-gateway-ops.yml#source-ci"]
-        job_release_please_yml_release_please["release-please.yml#release-please"]
+        job_ci_yml_build_test["ci.yml#build-test"]:::atlasJob
+        job_ci_yml_gateway_test["ci.yml#gateway-test"]:::atlasJob
+        job_ci_yml_module_resolution["ci.yml#module-resolution"]:::atlasJob
+        job_ci_yml_parity_baseline["ci.yml#parity-baseline"]:::atlasJob
+        job_ci_yml_plugin_build["ci.yml#plugin-build"]:::atlasJob
+        job_ci_yml_plugin_validation["ci.yml#plugin-validation"]:::atlasJob
+        job_publish_ai_gateway_dev_yml_source_ci["publish-ai-gateway-dev.yml#source-ci"]:::atlasJob
+        job_publish_ai_gateway_ops_yml_source_ci["publish-ai-gateway-ops.yml#source-ci"]:::atlasJob
+        job_release_please_yml_release_please["release-please.yml#release-please"]:::atlasJob
     end
     mod_4c24d0b1_08c9_4388_9405_dfe82a3640b3 -->|PACKAGED_BY| art_ai_gateway__config_docker_compose_base_yaml
     mod_ai_gateway -->|BUILT_BY| job_ci_yml_gateway_test
@@ -283,9 +294,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/ai-sdk (8 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (5 workflows · 9 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/ai-sdk (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (5 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (3 workflows · 15 jobs)"]
+  wf_3_Publish_AI_Gateway_plugin__dev_["Publish AI Gateway plugin (dev) (3 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_Publish_AI_Gateway_plugin__dev_
+  job_3_source_ci["source-ci"]:::atlasJob
+  job_3_publish["publish"]:::atlasJob
+  job_3_update_plugin_version["update-plugin-version"]:::atlasJob
+  wf_3_Publish_AI_Gateway_plugin__dev_ --> job_3_source_ci
+  job_3_source_ci --> job_3_publish
+  job_3_publish --> job_3_update_plugin_version
+  wf_4_Publish_AI_Gateway_plugin__ops_["Publish AI Gateway plugin (ops) (3 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Publish_AI_Gateway_plugin__ops_
+  job_4_source_ci["source-ci"]:::atlasJob
+  job_4_publish["publish"]:::atlasJob
+  job_4_update_plugin_version["update-plugin-version"]:::atlasJob
+  wf_4_Publish_AI_Gateway_plugin__ops_ --> job_4_source_ci
+  job_4_source_ci --> job_4_publish
+  job_4_publish --> job_4_update_plugin_version
+  wf_5_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_5_Release
+  job_5_release_please["release-please"]:::atlasJob
+  wf_5_Release --> job_5_release_please
+  wf_6_Release_readiness["Release readiness (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_6_Release_readiness
+  job_6_release_readiness["release-readiness"]:::atlasJob
+  wf_6_Release_readiness --> job_6_release_readiness
+  wf_7_Release_verification["Release verification (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_7_Release_verification
+  job_7_verify_published_library["verify-published-library"]:::atlasJob
+  wf_7_Release_verification --> job_7_verify_published_library
+  grp_1_CI___Verification["CI & Verification (3 workflows · 15 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
+  wf_0_Build___Test["Build & Test (13 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Build___Test
+  job_0_changes["changes"]:::atlasJob
+  job_0_ci["ci"]:::atlasJob
+  job_0_build_test["build-test"]:::atlasJob
+  wf_0_Build___Test --> job_0_changes
+  job_0_build_test --> job_0_ci
+  job_0_changes --> job_0_build_test
+  wf_1_Conventional_commits["Conventional commits (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_1_Conventional_commits
+  job_1_check["check"]:::atlasJob
+  wf_1_Conventional_commits --> job_1_check
+  wf_2_OpenSpec["OpenSpec (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_2_OpenSpec
+  job_2_check["check"]:::atlasJob
+  wf_2_OpenSpec --> job_2_check
 ```

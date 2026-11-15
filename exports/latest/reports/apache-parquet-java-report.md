@@ -41,25 +41,32 @@ description: Arc42 and Pipeline report for apache/parquet-java
 
 ```mermaid
 graph TD;
-    parquet_arrow["parquet-arrow : MODULE"]
-    parquet_avro["parquet-avro : MODULE"]
-    parquet_benchmarks["parquet-benchmarks : MODULE"]
-    parquet_cli["parquet-cli : MODULE"]
-    parquet_column["parquet-column : MODULE"]
-    parquet_common["parquet-common : MODULE"]
-    parquet_encoding["parquet-encoding : MODULE"]
-    parquet_format_structures["parquet-format-structures : MODULE"]
-    parquet_generator["parquet-generator : MODULE"]
-    parquet_hadoop["parquet-hadoop : MODULE"]
-    parquet_hadoop_bundle["parquet-hadoop-bundle : MODULE"]
-    parquet_jackson["parquet-jackson : MODULE"]
-    parquet_encoding_vector["parquet-encoding-vector : MODULE"]
-    parquet_plugins_benchmarks["parquet-plugins-benchmarks : MODULE"]
-    parquet_protobuf["parquet-protobuf : MODULE"]
-    parquet_thrift["parquet-thrift : MODULE"]
-    parquet_variant["parquet-variant : MODULE"]
-    parquet["parquet : MODULE"]
-    repo_root(["apache/parquet-java"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    parquet_arrow["parquet-arrow : MODULE"]:::atlasJob
+    parquet_avro["parquet-avro : MODULE"]:::atlasJob
+    parquet_benchmarks["parquet-benchmarks : MODULE"]:::atlasJob
+    parquet_cli["parquet-cli : MODULE"]:::atlasJob
+    parquet_column["parquet-column : MODULE"]:::atlasJob
+    parquet_common["parquet-common : MODULE"]:::atlasJob
+    parquet_encoding["parquet-encoding : MODULE"]:::atlasJob
+    parquet_format_structures["parquet-format-structures : MODULE"]:::atlasJob
+    parquet_generator["parquet-generator : MODULE"]:::atlasJob
+    parquet_hadoop["parquet-hadoop : MODULE"]:::atlasJob
+    parquet_hadoop_bundle["parquet-hadoop-bundle : MODULE"]:::atlasJob
+    parquet_jackson["parquet-jackson : MODULE"]:::atlasJob
+    parquet_encoding_vector["parquet-encoding-vector : MODULE"]:::atlasJob
+    parquet_plugins_benchmarks["parquet-plugins-benchmarks : MODULE"]:::atlasJob
+    parquet_protobuf["parquet-protobuf : MODULE"]:::atlasJob
+    parquet_thrift["parquet-thrift : MODULE"]:::atlasJob
+    parquet_variant["parquet-variant : MODULE"]:::atlasJob
+    parquet["parquet : MODULE"]:::atlasJob
+    repo_root(["apache/parquet-java"]):::atlasRoot
     repo_root --> parquet
     repo_root --> parquet_arrow
     repo_root --> parquet_avro
@@ -162,17 +169,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dev_docker["dev/docker"]
-        mod_parquet_encoding["parquet-encoding"]
-        mod_parquet_plugins_parquet_encoding_vector["parquet-plugins/parquet-encoding-vector"]
-        mod_parquet_plugins_parquet_plugins_benchmarks["parquet-plugins/parquet-plugins-benchmarks"]
+        mod_dev_docker["dev/docker"]:::atlasCategory
+        mod_parquet_encoding["parquet-encoding"]:::atlasCategory
+        mod_parquet_plugins_parquet_encoding_vector["parquet-plugins/parquet-encoding-vector"]:::atlasCategory
+        mod_parquet_plugins_parquet_plugins_benchmarks["parquet-plugins/parquet-plugins-benchmarks"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_dev_docker_Dockerfile["dev/docker/Dockerfile"]
+        art_dev_docker_Dockerfile["dev/docker/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_vector_plugins_yml_build["vector-plugins.yml#build"]
+        job_vector_plugins_yml_build["vector-plugins.yml#build"]:::atlasJob
     end
     mod_dev_docker -->|PACKAGED_BY| art_dev_docker_Dockerfile
     mod_parquet_encoding -->|BUILT_BY| job_vector_plugins_yml_build
@@ -190,11 +201,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/parquet-java (8 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (4 workflows · 4 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/parquet-java (8 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  wf_1_Test_Release_Scripts["Test Release Scripts (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_1_Test_Release_Scripts
+  job_1_bats["bats"]:::atlasJob
+  wf_1_Test_Release_Scripts --> job_1_bats
+  wf_2_Release___Cancel_RC["Release - Cancel RC (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_2_Release___Cancel_RC
+  job_2_cancel_rc["cancel-rc"]:::atlasJob
+  wf_2_Release___Cancel_RC --> job_2_cancel_rc
+  wf_3_Release___Prepare_RC["Release - Prepare RC (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_3_Release___Prepare_RC
+  job_3_prepare_rc["prepare-rc"]:::atlasJob
+  wf_3_Release___Prepare_RC --> job_3_prepare_rc
+  wf_4_Release___Publish_After_Vote["Release - Publish After Vote (1 jobs)"]:::atlasWorkflow
+  grp_0_Release___Deploy --> wf_4_Release___Publish_After_Vote
+  job_4_publish_release["publish-release"]:::atlasJob
+  wf_4_Release___Publish_After_Vote --> job_4_publish_release
+  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_0_CI_Hadoop_3["CI Hadoop 3 (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_CI_Hadoop_3
+  job_0_build["build"]:::atlasJob
+  wf_0_CI_Hadoop_3 --> job_0_build
+  wf_6_Vector_plugins["Vector-plugins (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_6_Vector_plugins
+  job_6_build["build"]:::atlasJob
+  wf_6_Vector_plugins --> job_6_build
+  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_5_Stale_pull_requests["Stale pull requests (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_5_Stale_pull_requests
+  job_5_stale["stale"]:::atlasJob
+  wf_5_Stale_pull_requests --> job_5_stale
+  wf_7_GitHub_Actions_Security_Analysis_with_zizmor__["GitHub Actions Security Analysis with zizmor 🌈 (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_7_GitHub_Actions_Security_Analysis_with_zizmor__
+  job_7_zizmor["zizmor"]:::atlasJob
+  wf_7_GitHub_Actions_Security_Analysis_with_zizmor__ --> job_7_zizmor
 ```

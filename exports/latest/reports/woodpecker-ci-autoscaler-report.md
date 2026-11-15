@@ -41,32 +41,39 @@ description: Arc42 and Pipeline report for woodpecker-ci/autoscaler
 
 ```mermaid
 graph TD;
-    repo_root(["woodpecker-ci/autoscaler (92 components)"])
-    dir_0_providers["providers (53)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["woodpecker-ci/autoscaler (92 components)"]):::atlasRoot
+    dir_0_providers["providers (53)"]:::atlasCategory
     repo_root --> dir_0_providers
-    sub_0_0_hetznercloud["hetznercloud (14)"]
+    sub_0_0_hetznercloud["hetznercloud (14)"]:::atlasWorkflow
     dir_0_providers --> sub_0_0_hetznercloud
-    sub_0_1_aws["aws (11)"]
+    sub_0_1_aws["aws (11)"]:::atlasWorkflow
     dir_0_providers --> sub_0_1_aws
-    sub_0_2_oracle["oracle (11)"]
+    sub_0_2_oracle["oracle (11)"]:::atlasWorkflow
     dir_0_providers --> sub_0_2_oracle
-    sub_0_more["+5 more submodules (17)"]
+    sub_0_more["+5 more submodules (17)"]:::atlasMore
     dir_0_providers --> sub_0_more
-    dir_1_engine["engine (18)"]
+    dir_1_engine["engine (18)"]:::atlasCategory
     repo_root --> dir_1_engine
-    sub_1_0__module_root_["(module root) (14)"]
+    sub_1_0__module_root_["(module root) (14)"]:::atlasWorkflow
     dir_1_engine --> sub_1_0__module_root_
-    sub_1_1_inits["inits (2)"]
+    sub_1_1_inits["inits (2)"]:::atlasWorkflow
     dir_1_engine --> sub_1_1_inits
-    sub_1_2_types["types (2)"]
+    sub_1_2_types["types (2)"]:::atlasWorkflow
     dir_1_engine --> sub_1_2_types
-    dir_2_e2e["e2e (9)"]
+    dir_2_e2e["e2e (9)"]:::atlasCategory
     repo_root --> dir_2_e2e
-    dir_3_utils["utils (6)"]
+    dir_3_utils["utils (6)"]:::atlasCategory
     repo_root --> dir_3_utils
-    dir_4_cmd["cmd (2)"]
+    dir_4_cmd["cmd (2)"]:::atlasCategory
     repo_root --> dir_4_cmd
-    dir_other_modules["+3 more modules (4)"]
+    dir_other_modules["+3 more modules (4)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -203,12 +210,16 @@ Showing top 60 representative components out of 92 across 8 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_docker["docker"]
+        mod_docker["docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_Dockerfile["docker/Dockerfile"]
-        art_docker_Dockerfile_make["docker/Dockerfile.make"]
+        art_docker_Dockerfile["docker/Dockerfile"]:::atlasWorkflow
+        art_docker_Dockerfile_make["docker/Dockerfile.make"]:::atlasWorkflow
     end
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile
     mod_docker -->|PACKAGED_BY| art_docker_Dockerfile_make
@@ -222,5 +233,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

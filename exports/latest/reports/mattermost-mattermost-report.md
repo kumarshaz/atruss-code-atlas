@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for mattermost/mattermost
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost (721 components)"])
-    dir_0_webapp["webapp (446)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost (721 components)"]):::atlasRoot
+    dir_0_webapp["webapp (446)"]:::atlasCategory
     repo_root --> dir_0_webapp
-    sub_0_0_channels["channels (430)"]
+    sub_0_0_channels["channels (430)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_0_channels
-    sub_0_1_platform["platform (15)"]
+    sub_0_1_platform["platform (15)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_1_platform
-    sub_0_2__module_root_["(module root) (1)"]
+    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_webapp --> sub_0_2__module_root_
-    dir_1_server["server (250)"]
+    dir_1_server["server (250)"]:::atlasCategory
     repo_root --> dir_1_server
-    sub_1_0_channels_app["channels/app (131)"]
+    sub_1_0_channels_app["channels/app (131)"]:::atlasWorkflow
     dir_1_server --> sub_1_0_channels_app
-    sub_1_1_channels_api4["channels/api4 (119)"]
+    sub_1_1_channels_api4["channels/api4 (119)"]:::atlasWorkflow
     dir_1_server --> sub_1_1_channels_api4
-    dir_2_e2e_tests["e2e-tests (20)"]
+    dir_2_e2e_tests["e2e-tests (20)"]:::atlasCategory
     repo_root --> dir_2_e2e_tests
-    sub_2_0_cypress["cypress (18)"]
+    sub_2_0_cypress["cypress (18)"]:::atlasWorkflow
     dir_2_e2e_tests --> sub_2_0_cypress
-    sub_2_1_playwright["playwright (2)"]
+    sub_2_1_playwright["playwright (2)"]:::atlasWorkflow
     dir_2_e2e_tests --> sub_2_1_playwright
-    dir_3_tools["tools (3)"]
+    dir_3_tools["tools (3)"]:::atlasCategory
     repo_root --> dir_3_tools
-    dir_4_api["api (2)"]
+    dir_4_api["api (2)"]:::atlasCategory
     repo_root --> dir_4_api
     sub_0_1_platform -.->|"28 deps"| sub_0_0_channels
     sub_0_0_channels -.->|"18 deps"| sub_0_1_platform
@@ -219,60 +226,64 @@ Showing top 60 representative components out of 721 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_api["api"]
-        mod_api_server["api/server"]
-        mod_e2e_tests_cypress["e2e-tests/cypress"]
-        mod_e2e_tests_playwright["e2e-tests/playwright"]
-        mod_server["server"]
-        mod_server_public["server/public"]
-        mod_webapp["webapp"]
-        mod_webapp_channels["webapp/channels"]
-        mod_webapp_platform_client["webapp/platform/client"]
+        mod_api["api"]:::atlasCategory
+        mod_api_server["api/server"]:::atlasCategory
+        mod_e2e_tests_cypress["e2e-tests/cypress"]:::atlasCategory
+        mod_e2e_tests_playwright["e2e-tests/playwright"]:::atlasCategory
+        mod_server["server"]:::atlasCategory
+        mod_server_public["server/public"]:::atlasCategory
+        mod_webapp["webapp"]:::atlasCategory
+        mod_webapp_channels["webapp/channels"]:::atlasCategory
+        mod_webapp_platform_client["webapp/platform/client"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_e2e_tests_cypress_Dockerfile_webhook["e2e-tests/cypress/Dockerfile.webhook"]
-        art_server_docker_compose_makefile_m1_yml["server/docker-compose.makefile.m1.yml"]
-        art_server_docker_compose_makefile_yml["server/docker-compose.makefile.yml"]
-        art_server_docker_compose_yaml["server/docker-compose.yaml"]
+        art_e2e_tests_cypress_Dockerfile_webhook["e2e-tests/cypress/Dockerfile.webhook"]:::atlasWorkflow
+        art_server_docker_compose_makefile_m1_yml["server/docker-compose.makefile.m1.yml"]:::atlasWorkflow
+        art_server_docker_compose_makefile_yml["server/docker-compose.makefile.yml"]:::atlasWorkflow
+        art_server_docker_compose_yaml["server/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_api_yml_build["api.yml#build"]
-        job_codeql_analysis_yml_analyze["codeql-analysis.yml#analyze"]
-        job_docker_push_mirrored_yml_build_docker["docker-push-mirrored.yml#build-docker"]
-        job_e2e_tests_ci_yml_cypress_check["e2e-tests-ci.yml#cypress-check"]
-        job_e2e_tests_ci_yml_playwright_check["e2e-tests-ci.yml#playwright-check"]
-        job_e2e_tests_ci_yml_smoketests["e2e-tests-ci.yml#smoketests"]
-        job_esrupgrade_common_yml_esr_upgrade_diff["esrupgrade-common.yml#esr-upgrade-diff"]
-        job_esrupgrade_common_yml_esr_upgrade_script["esrupgrade-common.yml#esr-upgrade-script"]
-        job_esrupgrade_common_yml_esr_upgrade_server["esrupgrade-common.yml#esr-upgrade-server"]
-        job_migration_yml_test["migration.yml#test"]
-        job_mmctl_test_template_yml_test["mmctl-test-template.yml#test"]
-        job_performance_benchmarks_yml_cypress_run["performance-benchmarks.yml#cypress-run"]
-        job_server_ci_artifacts_yml_build_docker["server-ci-artifacts.yml#build-docker"]
-        job_server_ci_artifacts_yml_upload_artifacts["server-ci-artifacts.yml#upload-artifacts"]
-        job_server_ci_template_yml_build_mattermost_server["server-ci-template.yml#build-mattermost-server"]
-        job_server_ci_template_yml_check_app_layers["server-ci-template.yml#check-app-layers"]
-        job_server_ci_template_yml_check_email_templates["server-ci-template.yml#check-email-templates"]
-        job_server_ci_template_yml_check_gen_serialized["server-ci-template.yml#check-gen-serialized"]
-        job_server_ci_template_yml_check_go_mod_tidy["server-ci-template.yml#check-go-mod-tidy"]
-        job_server_ci_template_yml_check_mattermost_vet["server-ci-template.yml#check-mattermost-vet"]
-        job_server_ci_template_yml_check_mattermost_vet_api["server-ci-template.yml#check-mattermost-vet-api"]
-        job_server_ci_template_yml_check_migrations["server-ci-template.yml#check-migrations"]
-        job_server_ci_template_yml_check_mmctl_docs["server-ci-template.yml#check-mmctl-docs"]
-        job_server_ci_template_yml_check_mocks["server-ci-template.yml#check-mocks"]
-        job_server_ci_template_yml_check_store_layers["server-ci-template.yml#check-store-layers"]
-        job_server_ci_template_yml_golangci["server-ci-template.yml#golangci"]
-        job_server_test_template_yml_test["server-test-template.yml#test"]
-        job_tag_public_module_yaml_tag_public_module["tag-public-module.yaml#tag-public-module"]
-        job_webapp_ci_template_yml_build["webapp-ci-template.yml#build"]
-        job_webapp_ci_template_yml_check_i18n["webapp-ci-template.yml#check-i18n"]
-        job_webapp_ci_template_yml_check_lint["webapp-ci-template.yml#check-lint"]
-        job_webapp_ci_template_yml_check_types["webapp-ci-template.yml#check-types"]
-        job_webapp_ci_template_yml_test["webapp-ci-template.yml#test"]
+        job_api_yml_build["api.yml#build"]:::atlasJob
+        job_codeql_analysis_yml_analyze["codeql-analysis.yml#analyze"]:::atlasJob
+        job_docker_push_mirrored_yml_build_docker["docker-push-mirrored.yml#build-docker"]:::atlasJob
+        job_e2e_tests_ci_yml_cypress_check["e2e-tests-ci.yml#cypress-check"]:::atlasJob
+        job_e2e_tests_ci_yml_playwright_check["e2e-tests-ci.yml#playwright-check"]:::atlasJob
+        job_e2e_tests_ci_yml_smoketests["e2e-tests-ci.yml#smoketests"]:::atlasJob
+        job_esrupgrade_common_yml_esr_upgrade_diff["esrupgrade-common.yml#esr-upgrade-diff"]:::atlasJob
+        job_esrupgrade_common_yml_esr_upgrade_script["esrupgrade-common.yml#esr-upgrade-script"]:::atlasJob
+        job_esrupgrade_common_yml_esr_upgrade_server["esrupgrade-common.yml#esr-upgrade-server"]:::atlasJob
+        job_migration_yml_test["migration.yml#test"]:::atlasJob
+        job_mmctl_test_template_yml_test["mmctl-test-template.yml#test"]:::atlasJob
+        job_performance_benchmarks_yml_cypress_run["performance-benchmarks.yml#cypress-run"]:::atlasJob
+        job_server_ci_artifacts_yml_build_docker["server-ci-artifacts.yml#build-docker"]:::atlasJob
+        job_server_ci_artifacts_yml_upload_artifacts["server-ci-artifacts.yml#upload-artifacts"]:::atlasJob
+        job_server_ci_template_yml_build_mattermost_server["server-ci-template.yml#build-mattermost-server"]:::atlasJob
+        job_server_ci_template_yml_check_app_layers["server-ci-template.yml#check-app-layers"]:::atlasJob
+        job_server_ci_template_yml_check_email_templates["server-ci-template.yml#check-email-templates"]:::atlasJob
+        job_server_ci_template_yml_check_gen_serialized["server-ci-template.yml#check-gen-serialized"]:::atlasJob
+        job_server_ci_template_yml_check_go_mod_tidy["server-ci-template.yml#check-go-mod-tidy"]:::atlasJob
+        job_server_ci_template_yml_check_mattermost_vet["server-ci-template.yml#check-mattermost-vet"]:::atlasJob
+        job_server_ci_template_yml_check_mattermost_vet_api["server-ci-template.yml#check-mattermost-vet-api"]:::atlasJob
+        job_server_ci_template_yml_check_migrations["server-ci-template.yml#check-migrations"]:::atlasJob
+        job_server_ci_template_yml_check_mmctl_docs["server-ci-template.yml#check-mmctl-docs"]:::atlasJob
+        job_server_ci_template_yml_check_mocks["server-ci-template.yml#check-mocks"]:::atlasJob
+        job_server_ci_template_yml_check_store_layers["server-ci-template.yml#check-store-layers"]:::atlasJob
+        job_server_ci_template_yml_golangci["server-ci-template.yml#golangci"]:::atlasJob
+        job_server_test_template_yml_test["server-test-template.yml#test"]:::atlasJob
+        job_tag_public_module_yaml_tag_public_module["tag-public-module.yaml#tag-public-module"]:::atlasJob
+        job_webapp_ci_template_yml_build["webapp-ci-template.yml#build"]:::atlasJob
+        job_webapp_ci_template_yml_check_i18n["webapp-ci-template.yml#check-i18n"]:::atlasJob
+        job_webapp_ci_template_yml_check_lint["webapp-ci-template.yml#check-lint"]:::atlasJob
+        job_webapp_ci_template_yml_check_types["webapp-ci-template.yml#check-types"]:::atlasJob
+        job_webapp_ci_template_yml_test["webapp-ci-template.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_server_ci_artifacts_yml_upload_artifacts -->|DEPLOYS_TO| env_aws
     mod_api -->|BUILT_BY| job_api_yml_build
@@ -396,15 +407,77 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost (22 workflows)"])
-  grp_0_CI___Verification["CI & Verification (15 workflows · 41 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost (22 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (15 workflows · 41 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Automation___Other["Automation & Other (3 workflows · 5 jobs)"]
+  wf_12_Server_CI_Artifacts["Server CI Artifacts (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_12_Server_CI_Artifacts
+  job_12_update_initial_status["update-initial-status"]:::atlasJob
+  job_12_upload_artifacts["upload-artifacts"]:::atlasJob
+  job_12_build_docker["build-docker"]:::atlasJob
+  wf_12_Server_CI_Artifacts --> job_12_update_initial_status
+  job_12_update_initial_status --> job_12_upload_artifacts
+  job_12_upload_artifacts --> job_12_build_docker
+  wf_15_Server_CI_Template["Server CI Template (17 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_15_Server_CI_Template
+  job_15_check_mocks["check-mocks"]:::atlasJob
+  job_15_check_go_mod_tidy["check-go-mod-tidy"]:::atlasJob
+  job_15_golangci["golangci"]:::atlasJob
+  wf_15_Server_CI_Template --> job_15_check_mocks
+  wf_15_Server_CI_Template --> job_15_check_go_mod_tidy
+  wf_15_Server_CI_Template --> job_15_golangci
+  wf_20_Web_App_CI_Template["Web App CI Template (5 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_20_Web_App_CI_Template
+  job_20_check_lint["check-lint"]:::atlasJob
+  job_20_check_i18n["check-i18n"]:::atlasJob
+  job_20_check_types["check-types"]:::atlasJob
+  wf_20_Web_App_CI_Template --> job_20_check_lint
+  wf_20_Web_App_CI_Template --> job_20_check_i18n
+  wf_20_Web_App_CI_Template --> job_20_check_types
+  grp_1_Automation___Other["Automation & Other (3 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Automation___Other
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_4_ESR_Upgrade["ESR Upgrade (3 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_4_ESR_Upgrade
+  job_4_esr_upgrade_server["esr-upgrade-server"]:::atlasJob
+  job_4_esr_upgrade_script["esr-upgrade-script"]:::atlasJob
+  job_4_esr_upgrade_diff["esr-upgrade-diff"]:::atlasJob
+  wf_4_ESR_Upgrade --> job_4_esr_upgrade_server
+  wf_4_ESR_Upgrade --> job_4_esr_upgrade_script
+  job_4_esr_upgrade_server --> job_4_esr_upgrade_diff
+  job_4_esr_upgrade_script --> job_4_esr_upgrade_diff
+  wf_11_Sentry_Upload["Sentry Upload (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_11_Sentry_Upload
+  job_11_sentry["sentry"]:::atlasJob
+  wf_11_Sentry_Upload --> job_11_sentry
+  wf_21_Performance_Benchmarks["Performance Benchmarks (1 jobs)"]:::atlasWorkflow
+  grp_1_Automation___Other --> wf_21_Performance_Benchmarks
+  job_21_cypress_run["cypress-run"]:::atlasJob
+  wf_21_Performance_Benchmarks --> job_21_cypress_run
+  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_1_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_1_CodeQL
+  job_1_analyze["analyze"]:::atlasJob
+  wf_1_CodeQL --> job_1_analyze
+  wf_10_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_10_Scorecards_supply_chain_security
+  job_10_analysis["analysis"]:::atlasJob
+  wf_10_Scorecards_supply_chain_security --> job_10_analysis
+  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Release___Deploy
-  grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 6 jobs)"]
+  wf_17_Tag_Public_Module["Tag Public Module (1 jobs)"]:::atlasWorkflow
+  grp_3_Release___Deploy --> wf_17_Tag_Public_Module
+  grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_4_Scheduled___Manual
+  wf_3_E2E_Tests["E2E Tests (6 jobs)"]:::atlasWorkflow
+  grp_4_Scheduled___Manual --> wf_3_E2E_Tests
+  wf_more["+12 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

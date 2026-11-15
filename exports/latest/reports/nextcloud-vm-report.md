@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for nextcloud/vm
 
 ```mermaid
 graph TD;
-    docker_compose["docker-compose : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    docker_compose["docker-compose : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -66,20 +73,24 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_migrate_docker["migrate/docker"]
+        mod_migrate_docker["migrate/docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_migrate_docker_docker_compose_yml["migrate/docker/docker-compose.yml"]
+        art_migrate_docker_docker_compose_yml["migrate/docker/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_check_code_with_shellcheck_yml_shellcheck["check-code-with-shellcheck.yml#shellcheck"]
-        job_dependabot_auto_merge_yml_automerge["dependabot-auto-merge.yml#automerge"]
-        job_install_smoke_test_yml_install["install-smoke-test.yml#install"]
-        job_reviewdog_yml_misspell["reviewdog.yml#misspell"]
-        job_reviewdog_yml_shellcheck["reviewdog.yml#shellcheck"]
-        job_update_copyright_year_yml_update_copyright["update-copyright-year.yml#update-copyright"]
-        job_update_wireguard_major_version_yml_update_wireguard["update-wireguard-major-version.yml#update-wireguard"]
+        job_check_code_with_shellcheck_yml_shellcheck["check-code-with-shellcheck.yml#shellcheck"]:::atlasJob
+        job_dependabot_auto_merge_yml_automerge["dependabot-auto-merge.yml#automerge"]:::atlasJob
+        job_install_smoke_test_yml_install["install-smoke-test.yml#install"]:::atlasJob
+        job_reviewdog_yml_misspell["reviewdog.yml#misspell"]:::atlasJob
+        job_reviewdog_yml_shellcheck["reviewdog.yml#shellcheck"]:::atlasJob
+        job_update_copyright_year_yml_update_copyright["update-copyright-year.yml#update-copyright"]:::atlasJob
+        job_update_wireguard_major_version_yml_update_wireguard["update-wireguard-major-version.yml#update-wireguard"]:::atlasJob
     end
     mod_migrate_docker -->|BUILT_BY| job_check_code_with_shellcheck_yml_shellcheck
     mod_migrate_docker -->|BUILT_BY| job_dependabot_auto_merge_yml_automerge
@@ -105,11 +116,44 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/vm (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/vm (6 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+  wf_2_install_smoke_test["install-smoke-test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_install_smoke_test
+  job_2_install["install"]:::atlasJob
+  wf_2_install_smoke_test --> job_2_install
+  wf_4_Update_Copyright_Year["Update Copyright Year (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Update_Copyright_Year
+  job_4_update_copyright["update-copyright"]:::atlasJob
+  wf_4_Update_Copyright_Year --> job_4_update_copyright
+  wf_5_Update_WireGuard_Major_Version["Update WireGuard Major Version (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Update_WireGuard_Major_Version
+  job_5_update_wireguard["update-wireguard"]:::atlasJob
+  wf_5_Update_WireGuard_Major_Version --> job_5_update_wireguard
+  grp_1_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_0_check_code_with_shellcheck["check-code-with-shellcheck (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_check_code_with_shellcheck
+  job_0_shellcheck["shellcheck"]:::atlasJob
+  wf_0_check_code_with_shellcheck --> job_0_shellcheck
+  wf_3_reviewdog["reviewdog (2 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_3_reviewdog
+  job_3_shellcheck["shellcheck"]:::atlasJob
+  job_3_misspell["misspell"]:::atlasJob
+  wf_3_reviewdog --> job_3_shellcheck
+  wf_3_reviewdog --> job_3_misspell
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_1_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_1_Dependabot_auto_merge
+  job_1_automerge["automerge"]:::atlasJob
+  wf_1_Dependabot_auto_merge --> job_1_automerge
 ```

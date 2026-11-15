@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for TryGhost/Starter
 
 ```mermaid
 graph TD;
-    ghost_starter_theme["ghost-starter-theme : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ghost_starter_theme["ghost-starter-theme : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -89,14 +96,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0699d779_a467_4861_92d1_c2be65609a78["0699d779-a467-4861-92d1-c2be65609a78"]
+        mod_0699d779_a467_4861_92d1_c2be65609a78["0699d779-a467-4861-92d1-c2be65609a78"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_theme_yml_deploy["deploy-theme.yml#deploy"]
-        job_deploy_theme_yml_test["deploy-theme.yml#test"]
-        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]
-        job_test_yml_test["test.yml#test"]
+        job_deploy_theme_yml_deploy["deploy-theme.yml#deploy"]:::atlasJob
+        job_deploy_theme_yml_test["deploy-theme.yml#test"]:::atlasJob
+        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     mod_0699d779_a467_4861_92d1_c2be65609a78 -->|BUILT_BY| job_deploy_theme_yml_test
     mod_0699d779_a467_4861_92d1_c2be65609a78 -->|BUILT_BY| job_test_yml_required_checks_pass
@@ -114,18 +125,25 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/Starter"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/Starter"]):::atlasRoot
   subgraph Deploy_Theme_0["Deploy Theme"]
     direction TB
-    0_test["test"]
-    0_deploy["deploy"]
+    0_test["test"]:::atlasJob
+    0_deploy["deploy"]:::atlasJob
     0_test --> 0_deploy
   end
   pipeline_root --> 0_test
   subgraph Test_1["Test"]
     direction TB
-    1_test["test"]
-    1_required_checks_pass["required-checks-pass"]
+    1_test["test"]:::atlasJob
+    1_required_checks_pass["required-checks-pass"]:::atlasJob
     1_test --> 1_required_checks_pass
   end
   pipeline_root --> 1_test

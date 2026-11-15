@@ -41,32 +41,39 @@ description: Arc42 and Pipeline report for getsentry/sentry-java
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-java (117 components)"])
-    dir_0_sentry_samples["sentry-samples (71)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-java (117 components)"]):::atlasRoot
+    dir_0_sentry_samples["sentry-samples (71)"]:::atlasCategory
     repo_root --> dir_0_sentry_samples
-    sub_0_0_sentry_samples_spring_boot_jakarta["sentry-samples-spring-boot-jakarta (9)"]
+    sub_0_0_sentry_samples_spring_boot_jakarta["sentry-samples-spring-boot-jakarta (9)"]:::atlasWorkflow
     dir_0_sentry_samples --> sub_0_0_sentry_samples_spring_boot_jakarta
-    sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry["sentry-samples-spring-boot-jakarta-opentelemetry (9)"]
+    sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry["sentry-samples-spring-boot-jakarta-opentelemetry (9)"]:::atlasWorkflow
     dir_0_sentry_samples --> sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry
-    sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent["sentry-samples-spring-boot-jakarta-opentelemetry-noagent (9)"]
+    sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent["sentry-samples-spring-boot-jakarta-opentelemetry-noagent (9)"]:::atlasWorkflow
     dir_0_sentry_samples --> sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent
-    sub_0_more["+8 more submodules (44)"]
+    sub_0_more["+8 more submodules (44)"]:::atlasMore
     dir_0_sentry_samples --> sub_0_more
-    dir_1_sentry_spring_jakarta["sentry-spring-jakarta (17)"]
+    dir_1_sentry_spring_jakarta["sentry-spring-jakarta (17)"]:::atlasCategory
     repo_root --> dir_1_sentry_spring_jakarta
-    sub_1_0_src_main["src/main (13)"]
+    sub_1_0_src_main["src/main (13)"]:::atlasWorkflow
     dir_1_sentry_spring_jakarta --> sub_1_0_src_main
-    sub_1_1_src_test["src/test (4)"]
+    sub_1_1_src_test["src/test (4)"]:::atlasWorkflow
     dir_1_sentry_spring_jakarta --> sub_1_1_src_test
-    dir_2_sentry_spring["sentry-spring (16)"]
+    dir_2_sentry_spring["sentry-spring (16)"]:::atlasCategory
     repo_root --> dir_2_sentry_spring
-    sub_2_0_src_main["src/main (12)"]
+    sub_2_0_src_main["src/main (12)"]:::atlasWorkflow
     dir_2_sentry_spring --> sub_2_0_src_main
-    sub_2_1_src_test["src/test (4)"]
+    sub_2_1_src_test["src/test (4)"]:::atlasWorkflow
     dir_2_sentry_spring --> sub_2_1_src_test
-    dir_3_sentry_spring_boot_jakarta["sentry-spring-boot-jakarta (7)"]
+    dir_3_sentry_spring_boot_jakarta["sentry-spring-boot-jakarta (7)"]:::atlasCategory
     repo_root --> dir_3_sentry_spring_boot_jakarta
-    dir_4_sentry_spring_boot["sentry-spring-boot (6)"]
+    dir_4_sentry_spring_boot["sentry-spring-boot (6)"]:::atlasCategory
     repo_root --> dir_4_sentry_spring_boot
     dir_3_sentry_spring_boot_jakarta -.->|"16 deps"| sub_1_0_src_main
     sub_1_1_src_test -.->|"8 deps"| sub_0_0_sentry_samples_spring_boot_jakarta
@@ -201,22 +208,26 @@ Showing top 60 representative components out of 117 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_sentry["sentry"]
-        mod_sentry_android["sentry-android"]
-        mod_sentry_android_core["sentry-android-core"]
-        mod_sentry_android_fragment["sentry-android-fragment"]
-        mod_sentry_android_navigation["sentry-android-navigation"]
-        mod_sentry_android_ndk["sentry-android-ndk"]
-        mod_sentry_android_replay["sentry-android-replay"]
-        mod_sentry_android_sqlite["sentry-android-sqlite"]
-        mod_sentry_android_timber["sentry-android-timber"]
-        mod_sentry_compose["sentry-compose"]
+        mod_sentry["sentry"]:::atlasCategory
+        mod_sentry_android["sentry-android"]:::atlasCategory
+        mod_sentry_android_core["sentry-android-core"]:::atlasCategory
+        mod_sentry_android_fragment["sentry-android-fragment"]:::atlasCategory
+        mod_sentry_android_navigation["sentry-android-navigation"]:::atlasCategory
+        mod_sentry_android_ndk["sentry-android-ndk"]:::atlasCategory
+        mod_sentry_android_replay["sentry-android-replay"]:::atlasCategory
+        mod_sentry_android_sqlite["sentry-android-sqlite"]:::atlasCategory
+        mod_sentry_android_timber["sentry-android-timber"]:::atlasCategory
+        mod_sentry_compose["sentry-compose"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_integration_tests_benchmarks_yml_app_metrics["integration-tests-benchmarks.yml#app-metrics"]
-        job_integration_tests_ui_yml_test["integration-tests-ui.yml#test"]
-        job_system_tests_backend_yml_system_test["system-tests-backend.yml#system-test"]
+        job_integration_tests_benchmarks_yml_app_metrics["integration-tests-benchmarks.yml#app-metrics"]:::atlasJob
+        job_integration_tests_ui_yml_test["integration-tests-ui.yml#test"]:::atlasJob
+        job_system_tests_backend_yml_system_test["system-tests-backend.yml#system-test"]:::atlasJob
     end
     mod_sentry -->|BUILT_BY| job_integration_tests_benchmarks_yml_app_metrics
     mod_sentry -->|BUILT_BY| job_integration_tests_ui_yml_test
@@ -252,13 +263,70 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-java (16 workflows)"])
-  grp_0_CI___Verification["CI & Verification (10 workflows · 12 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-java (16 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (10 workflows · 12 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  wf_0_Add_Platform_Label["Add Platform Label (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Add_Platform_Label
+  job_0_add_label["add_label"]:::atlasJob
+  wf_0_Add_Platform_Label --> job_0_add_label
+  wf_1_AGP_Matrix_Compatibility["AGP Matrix Compatibility (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_AGP_Matrix_Compatibility
+  job_1_agp_matrix_compatibility["agp-matrix-compatibility"]:::atlasJob
+  wf_1_AGP_Matrix_Compatibility --> job_1_agp_matrix_compatibility
+  wf_3_Changes_In_High_Risk_Code["Changes In High Risk Code (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Changes_In_High_Risk_Code
+  job_3_files_changed["files-changed"]:::atlasJob
+  job_3_validate_high_risk_code["validate-high-risk-code"]:::atlasJob
+  wf_3_Changes_In_High_Risk_Code --> job_3_files_changed
+  job_3_files_changed --> job_3_validate_high_risk_code
+  wf_10_UI_Tests_Critical["UI Tests Critical (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_10_UI_Tests_Critical
+  job_10_build["build"]:::atlasJob
+  job_10_run_maestro_tests["run-maestro-tests"]:::atlasJob
+  wf_10_UI_Tests_Critical --> job_10_build
+  job_10_build --> job_10_run_maestro_tests
+  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+  wf_8_Generate_Javadocs["Generate Javadocs (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_8_Generate_Javadocs
+  job_8_build_and_deploy_javadocs["build-and-deploy-javadocs"]:::atlasJob
+  wf_8_Generate_Javadocs --> job_8_build_and_deploy_javadocs
+  wf_12_Build_Release_Artifacts["Build Release Artifacts (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_12_Build_Release_Artifacts
+  job_12_release["release"]:::atlasJob
+  wf_12_Build_Release_Artifacts --> job_12_release
+  wf_13_release["release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_13_release
+  job_13_release["release"]:::atlasJob
+  wf_13_release --> job_13_release
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_9_Integration_Tests___Benchmarks["Integration Tests - Benchmarks (2 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_9_Integration_Tests___Benchmarks
+  job_9_test["test"]:::atlasJob
+  job_9_app_metrics["app-metrics"]:::atlasJob
+  wf_9_Integration_Tests___Benchmarks --> job_9_test
+  wf_9_Integration_Tests___Benchmarks --> job_9_app_metrics
+  wf_15_Update_Dependencies["Update Dependencies (2 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_15_Update_Dependencies
+  job_15_native["native"]:::atlasJob
+  job_15_gradle_wrapper["gradle-wrapper"]:::atlasJob
+  wf_15_Update_Dependencies --> job_15_native
+  wf_15_Update_Dependencies --> job_15_gradle_wrapper
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_4_CodeQL
+  job_4_analyze["analyze"]:::atlasJob
+  wf_4_CodeQL --> job_4_analyze
+  wf_more["+6 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

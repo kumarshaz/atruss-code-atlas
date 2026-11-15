@@ -41,42 +41,49 @@ description: Arc42 and Pipeline report for grafana/mimir
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/mimir (306 components)"])
-    dir_0_pkg["pkg (183)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/mimir (306 components)"]):::atlasRoot
+    dir_0_pkg["pkg (183)"]:::atlasCategory
     repo_root --> dir_0_pkg
-    sub_0_0_compactor["compactor (55)"]
+    sub_0_0_compactor["compactor (55)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_0_compactor
-    sub_0_1_alertmanager["alertmanager (45)"]
+    sub_0_1_alertmanager["alertmanager (45)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_1_alertmanager
-    sub_0_2_blockbuilder["blockbuilder (29)"]
+    sub_0_2_blockbuilder["blockbuilder (29)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_2_blockbuilder
-    sub_0_more["+6 more submodules (54)"]
+    sub_0_more["+6 more submodules (54)"]:::atlasMore
     dir_0_pkg --> sub_0_more
-    dir_1_integration["integration (57)"]
+    dir_1_integration["integration (57)"]:::atlasCategory
     repo_root --> dir_1_integration
-    sub_1_0__module_root_["(module root) (48)"]
+    sub_1_0__module_root_["(module root) (48)"]:::atlasWorkflow
     dir_1_integration --> sub_1_0__module_root_
-    sub_1_1_e2emimir["e2emimir (7)"]
+    sub_1_1_e2emimir["e2emimir (7)"]:::atlasWorkflow
     dir_1_integration --> sub_1_1_e2emimir
-    sub_1_2_ca["ca (1)"]
+    sub_1_2_ca["ca (1)"]:::atlasWorkflow
     dir_1_integration --> sub_1_2_ca
-    sub_1_more["+1 more submodules (1)"]
+    sub_1_more["+1 more submodules (1)"]:::atlasMore
     dir_1_integration --> sub_1_more
-    dir_2_development["development (46)"]
+    dir_2_development["development (46)"]:::atlasCategory
     repo_root --> dir_2_development
-    sub_2_0_mimir_microservices_mode["mimir-microservices-mode (13)"]
+    sub_2_0_mimir_microservices_mode["mimir-microservices-mode (13)"]:::atlasWorkflow
     dir_2_development --> sub_2_0_mimir_microservices_mode
-    sub_2_1_mimir_monolithic_mode["mimir-monolithic-mode (10)"]
+    sub_2_1_mimir_monolithic_mode["mimir-monolithic-mode (10)"]:::atlasWorkflow
     dir_2_development --> sub_2_1_mimir_monolithic_mode
-    sub_2_2_mimir_compartments["mimir-compartments (9)"]
+    sub_2_2_mimir_compartments["mimir-compartments (9)"]:::atlasWorkflow
     dir_2_development --> sub_2_2_mimir_compartments
-    sub_2_more["+2 more submodules (14)"]
+    sub_2_more["+2 more submodules (14)"]:::atlasMore
     dir_2_development --> sub_2_more
-    dir_3_cmd["cmd (7)"]
+    dir_3_cmd["cmd (7)"]:::atlasCategory
     repo_root --> dir_3_cmd
-    dir_4_operations["operations (7)"]
+    dir_4_operations["operations (7)"]:::atlasCategory
     repo_root --> dir_4_operations
-    dir_other_modules["+1 more modules (6)"]
+    dir_other_modules["+1 more modules (6)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -213,5 +220,75 @@ Showing top 60 representative components out of 306 across 6 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/mimir (19 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (11 workflows · 43 jobs)"]:::atlasCategory
+  pipeline_root --> grp_0_CI___Verification
+  wf_9_helm_ci["helm-ci (4 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_helm_ci
+  job_9_call_lint["call-lint"]:::atlasJob
+  job_9_call_lint_test["call-lint-test"]:::atlasJob
+  job_9_prepare["prepare"]:::atlasJob
+  wf_9_helm_ci --> job_9_call_lint
+  wf_9_helm_ci --> job_9_call_lint_test
+  wf_9_helm_ci --> job_9_prepare
+  wf_12_Build_and_Push_mimir_build_image["Build and Push mimir-build-image (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_12_Build_and_Push_mimir_build_image
+  job_12_prepare["prepare"]:::atlasJob
+  job_12_build_push_multiarch["build-push-multiarch"]:::atlasJob
+  job_12_build_and_push["build_and_push"]:::atlasJob
+  wf_12_Build_and_Push_mimir_build_image --> job_12_prepare
+  job_12_prepare --> job_12_build_push_multiarch
+  job_12_prepare --> job_12_build_and_push
+  job_12_build_push_multiarch --> job_12_build_and_push
+  wf_15_ci["ci (24 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_15_ci
+  job_15_prepare["prepare"]:::atlasJob
+  job_15_goversion["goversion"]:::atlasJob
+  job_15_lint["lint"]:::atlasJob
+  wf_15_ci --> job_15_prepare
+  job_15_prepare --> job_15_goversion
+  job_15_prepare --> job_15_lint
+  grp_1_Release___Deploy["Release & Deploy (4 workflows · 4 jobs)"]:::atlasCategory
+  pipeline_root --> grp_1_Release___Deploy
+  wf_5_Deploy_pr_preview__Helm_charts_["Deploy pr preview (Helm charts) (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_5_Deploy_pr_preview__Helm_charts_
+  job_5_deploy_pr_preview["deploy-pr-preview"]:::atlasJob
+  wf_5_Deploy_pr_preview__Helm_charts_ --> job_5_deploy_pr_preview
+  wf_6_Deploy_pr_preview__Mimir_["Deploy pr preview (Mimir) (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_6_Deploy_pr_preview__Mimir_
+  job_6_deploy_pr_preview["deploy-pr-preview"]:::atlasJob
+  wf_6_Deploy_pr_preview__Mimir_ --> job_6_deploy_pr_preview
+  wf_10_helm_release["helm-release (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_10_helm_release
+  job_10_call_update_helm_repo["call-update-helm-repo"]:::atlasJob
+  wf_10_helm_release --> job_10_call_update_helm_repo
+  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
+  pipeline_root --> grp_2_Scheduled___Manual
+  wf_7_Flaky_Tests_Detection["Flaky Tests Detection (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_7_Flaky_Tests_Detection
+  job_7_analyze_flaky_tests["analyze-flaky-tests"]:::atlasJob
+  wf_7_Flaky_Tests_Detection --> job_7_analyze_flaky_tests
+  wf_18_Update_mimir_prometheus_dependency["Update mimir-prometheus dependency (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_18_Update_mimir_prometheus_dependency
+  job_18_update_mimir_prometheus["update-mimir-prometheus"]:::atlasJob
+  wf_18_Update_mimir_prometheus_dependency --> job_18_update_mimir_prometheus
+  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
+  pipeline_root --> grp_3_Security___Governance
+  wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_3_CodeQL
+  job_3_analyze["analyze"]:::atlasJob
+  wf_3_CodeQL --> job_3_analyze
+  wf_14_Label_and_close_stale_PRs["Label and close stale PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_14_Label_and_close_stale_PRs
+  job_14_stale["stale"]:::atlasJob
+  wf_14_Label_and_close_stale_PRs --> job_14_stale
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for spring-projects/spring-petclinic
 
 ```mermaid
 graph TD;
-    spring_petclinic["spring-petclinic : MODULE"]
-    PetClinicApplication["PetClinicApplication : CONFIG"]
-    Owner["Owner : DATA_ACCESS_LAYER"]
-    OwnerController["OwnerController : API_ROUTE"]
-    Pet["Pet : DATA_ACCESS_LAYER"]
-    PetController["PetController : API_ROUTE"]
-    PetType["PetType : DATA_ACCESS_LAYER"]
-    Visit["Visit : DATA_ACCESS_LAYER"]
-    VisitController["VisitController : API_ROUTE"]
-    CacheConfiguration["CacheConfiguration : CONFIG"]
-    CrashController["CrashController : API_ROUTE"]
-    WebConfiguration["WebConfiguration : CONFIG"]
-    WelcomeController["WelcomeController : API_ROUTE"]
-    Specialty["Specialty : DATA_ACCESS_LAYER"]
-    Vet["Vet : DATA_ACCESS_LAYER"]
-    VetController["VetController : API_ROUTE"]
-    MysqlTestApplication["MysqlTestApplication : CONFIG"]
-    repo_root(["spring-projects/spring-petclinic"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    spring_petclinic["spring-petclinic : MODULE"]:::atlasJob
+    PetClinicApplication["PetClinicApplication : CONFIG"]:::atlasJob
+    Owner["Owner : DATA_ACCESS_LAYER"]:::atlasJob
+    OwnerController["OwnerController : API_ROUTE"]:::atlasJob
+    Pet["Pet : DATA_ACCESS_LAYER"]:::atlasJob
+    PetController["PetController : API_ROUTE"]:::atlasJob
+    PetType["PetType : DATA_ACCESS_LAYER"]:::atlasJob
+    Visit["Visit : DATA_ACCESS_LAYER"]:::atlasJob
+    VisitController["VisitController : API_ROUTE"]:::atlasJob
+    CacheConfiguration["CacheConfiguration : CONFIG"]:::atlasJob
+    CrashController["CrashController : API_ROUTE"]:::atlasJob
+    WebConfiguration["WebConfiguration : CONFIG"]:::atlasJob
+    WelcomeController["WelcomeController : API_ROUTE"]:::atlasJob
+    Specialty["Specialty : DATA_ACCESS_LAYER"]:::atlasJob
+    Vet["Vet : DATA_ACCESS_LAYER"]:::atlasJob
+    VetController["VetController : API_ROUTE"]:::atlasJob
+    MysqlTestApplication["MysqlTestApplication : CONFIG"]:::atlasJob
+    repo_root(["spring-projects/spring-petclinic"]):::atlasRoot
     repo_root --> CacheConfiguration
     repo_root --> CrashController
     repo_root --> WebConfiguration
@@ -162,21 +169,25 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_48c3516b_754a_4033_93da_9d0145f0c9d2["48c3516b-754a-4033-93da-9d0145f0c9d2"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_48c3516b_754a_4033_93da_9d0145f0c9d2["48c3516b-754a-4033-93da-9d0145f0c9d2"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_k8s_db_yml["k8s/db.yml"]
-        art_k8s_petclinic_yml["k8s/petclinic.yml"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_k8s_db_yml["k8s/db.yml"]:::atlasWorkflow
+        art_k8s_petclinic_yml["k8s/petclinic.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_and_test_cluster_yml_deploy_and_test_cluster["deploy-and-test-cluster.yml#deploy-and-test-cluster"]
+        job_deploy_and_test_cluster_yml_deploy_and_test_cluster["deploy-and-test-cluster.yml#deploy-and-test-cluster"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_deploy_and_test_cluster_yml_deploy_and_test_cluster -->|DEPLOYS_TO| env_kubernetes
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
@@ -196,20 +207,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["spring-projects/spring-petclinic"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["spring-projects/spring-petclinic"]):::atlasRoot
   subgraph Deploy_and_Test_Cluster_0["Deploy and Test Cluster"]
     direction TB
-    0_deploy_and_test_cluster["deploy-and-test-cluster"]
+    0_deploy_and_test_cluster["deploy-and-test-cluster"]:::atlasJob
   end
   pipeline_root --> 0_deploy_and_test_cluster
   subgraph Java_CI_with_Gradle_1["Java CI with Gradle"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
   subgraph Java_CI_with_Maven_2["Java CI with Maven"]
     direction TB
-    2_build["build"]
+    2_build["build"]:::atlasJob
   end
   pipeline_root --> 2_build
 ```

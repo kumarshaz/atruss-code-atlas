@@ -66,12 +66,16 @@ description: Arc42 and Pipeline report for owncloud/android
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_owncloudApp["owncloudApp"]
+        mod_owncloudApp["owncloudApp"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_apk_yml_build_apk["build-apk.yml#build_apk"]
-        job_validate_source_strings_yml_validate_strings["validate-source-strings.yml#validate-strings"]
+        job_build_apk_yml_build_apk["build-apk.yml#build_apk"]:::atlasJob
+        job_validate_source_strings_yml_validate_strings["validate-source-strings.yml#validate-strings"]:::atlasJob
     end
     mod_owncloudApp -->|BUILT_BY| job_build_apk_yml_build_apk
     mod_owncloudApp -->|BUILT_BY| job_validate_source_strings_yml_validate_strings
@@ -85,9 +89,58 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["owncloud/android (11 workflows)"])
-  grp_0_CI___Verification["CI & Verification (7 workflows · 7 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["owncloud/android (11 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (7 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+  wf_0_Android_Instrumented_Data_Tests["Android Instrumented Data Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Android_Instrumented_Data_Tests
+  job_0_instrumented_tests["instrumented-tests"]:::atlasJob
+  wf_0_Android_Instrumented_Data_Tests --> job_0_instrumented_tests
+  wf_1_Android_Unit_Tests["Android Unit Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Android_Unit_Tests
+  job_1_unit_tests["unit-tests"]:::atlasJob
+  wf_1_Android_Unit_Tests --> job_1_unit_tests
+  wf_3_Calens_Changelog["Calens Changelog (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Calens_Changelog
+  job_3_changelog["changelog"]:::atlasJob
+  wf_3_Calens_Changelog --> job_3_changelog
+  wf_4_Conventional_Commits["Conventional Commits (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Conventional_Commits
+  job_4_validate_commit_names["validate-commit-names"]:::atlasJob
+  wf_4_Conventional_Commits --> job_4_validate_commit_names
+  wf_5_Detekt["Detekt (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Detekt
+  job_5_Detekt["Detekt"]:::atlasJob
+  wf_5_Detekt --> job_5_Detekt
+  wf_9_Validate_Android_source_strings["Validate Android source strings (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_Validate_Android_source_strings
+  job_9_validate_strings["validate-strings"]:::atlasJob
+  wf_9_Validate_Android_source_strings --> job_9_validate_strings
+  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
+  wf_2_Build_apk["Build apk (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_2_Build_apk
+  job_2_build_apk["build_apk"]:::atlasJob
+  wf_2_Build_apk --> job_2_build_apk
+  wf_7_SBOM["SBOM (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_7_SBOM
+  job_7_sbom["sbom"]:::atlasJob
+  wf_7_SBOM --> job_7_sbom
+  wf_8_Update_translations["Update translations (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_8_Update_translations
+  job_8_update_translations["update-translations"]:::atlasJob
+  wf_8_Update_translations --> job_8_update_translations
+  wf_10_Zizmor["Zizmor (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_10_Zizmor
+  job_10_zizmor["zizmor"]:::atlasJob
+  wf_10_Zizmor --> job_10_zizmor
+  wf_more["+1 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

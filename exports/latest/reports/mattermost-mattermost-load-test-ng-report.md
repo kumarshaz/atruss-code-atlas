@@ -41,50 +41,57 @@ description: Arc42 and Pipeline report for mattermost/mattermost-load-test-ng
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-load-test-ng (218 components)"])
-    dir_0_loadtest["loadtest (86)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-load-test-ng (218 components)"]):::atlasRoot
+    dir_0_loadtest["loadtest (86)"]:::atlasCategory
     repo_root --> dir_0_loadtest
-    sub_0_0_control["control (44)"]
+    sub_0_0_control["control (44)"]:::atlasWorkflow
     dir_0_loadtest --> sub_0_0_control
-    sub_0_1_user["user (17)"]
+    sub_0_1_user["user (17)"]:::atlasWorkflow
     dir_0_loadtest --> sub_0_1_user
-    sub_0_2_store["store (9)"]
+    sub_0_2_store["store (9)"]:::atlasWorkflow
     dir_0_loadtest --> sub_0_2_store
-    sub_0_more["+3 more submodules (16)"]
+    sub_0_more["+3 more submodules (16)"]:::atlasMore
     dir_0_loadtest --> sub_0_more
-    dir_1_deployment["deployment (39)"]
+    dir_1_deployment["deployment (39)"]:::atlasCategory
     repo_root --> dir_1_deployment
-    sub_1_0_terraform["terraform (31)"]
+    sub_1_0_terraform["terraform (31)"]:::atlasWorkflow
     dir_1_deployment --> sub_1_0_terraform
-    sub_1_1__module_root_["(module root) (5)"]
+    sub_1_1__module_root_["(module root) (5)"]:::atlasWorkflow
     dir_1_deployment --> sub_1_1__module_root_
-    sub_1_2_opensearch["opensearch (3)"]
+    sub_1_2_opensearch["opensearch (3)"]:::atlasWorkflow
     dir_1_deployment --> sub_1_2_opensearch
-    dir_2_cmd["cmd (30)"]
+    dir_2_cmd["cmd (30)"]:::atlasCategory
     repo_root --> dir_2_cmd
-    sub_2_0_ltctl["ltctl (10)"]
+    sub_2_0_ltctl["ltctl (10)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_0_ltctl
-    sub_2_1_metricswatcher["metricswatcher (6)"]
+    sub_2_1_metricswatcher["metricswatcher (6)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_1_metricswatcher
-    sub_2_2_ltagent["ltagent (3)"]
+    sub_2_2_ltagent["ltagent (3)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_2_ltagent
-    sub_2_more["+7 more submodules (11)"]
+    sub_2_more["+7 more submodules (11)"]:::atlasMore
     dir_2_cmd --> sub_2_more
-    dir_3_coordinator["coordinator (22)"]
+    dir_3_coordinator["coordinator (22)"]:::atlasCategory
     repo_root --> dir_3_coordinator
-    sub_3_0__module_root_["(module root) (9)"]
+    sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
     dir_3_coordinator --> sub_3_0__module_root_
-    sub_3_1_performance["performance (8)"]
+    sub_3_1_performance["performance (8)"]:::atlasWorkflow
     dir_3_coordinator --> sub_3_1_performance
-    sub_3_2_cluster["cluster (5)"]
+    sub_3_2_cluster["cluster (5)"]:::atlasWorkflow
     dir_3_coordinator --> sub_3_2_cluster
-    dir_4_api["api (12)"]
+    dir_4_api["api (12)"]:::atlasCategory
     repo_root --> dir_4_api
-    sub_4_0__module_root_["(module root) (8)"]
+    sub_4_0__module_root_["(module root) (8)"]:::atlasWorkflow
     dir_4_api --> sub_4_0__module_root_
-    sub_4_1_client["client (4)"]
+    sub_4_1_client["client (4)"]:::atlasWorkflow
     dir_4_api --> sub_4_1_client
-    dir_other_modules["+11 more modules (29)"]
+    dir_other_modules["+11 more modules (29)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -226,15 +233,19 @@ Showing top 60 representative components out of 218 across 16 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_adea8e19_16be_4c29_8f7e_6935882dd429["adea8e19-16be-4c29-8f7e-6935882dd429"]
-        mod_browser["browser"]
+        mod_adea8e19_16be_4c29_8f7e_6935882dd429["adea8e19-16be-4c29-8f7e-6935882dd429"]:::atlasCategory
+        mod_browser["browser"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_deployment_terraform_assets_cluster_tf["deployment/terraform/assets/cluster.tf"]
-        art_deployment_terraform_assets_outputs_tf["deployment/terraform/assets/outputs.tf"]
-        art_deployment_terraform_assets_variables_tf["deployment/terraform/assets/variables.tf"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_deployment_terraform_assets_cluster_tf["deployment/terraform/assets/cluster.tf"]:::atlasWorkflow
+        art_deployment_terraform_assets_outputs_tf["deployment/terraform/assets/outputs.tf"]:::atlasWorkflow
+        art_deployment_terraform_assets_variables_tf["deployment/terraform/assets/variables.tf"]:::atlasWorkflow
     end
     mod_adea8e19_16be_4c29_8f7e_6935882dd429 -->|PACKAGED_BY| art_Dockerfile
     mod_browser -->|PACKAGED_BY| art_deployment_terraform_assets_cluster_tf
@@ -252,8 +263,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph ci_0["ci"]
     direction TB
-    0_verify["verify"]
+    0_verify["verify"]:::atlasJob
   end
 ```

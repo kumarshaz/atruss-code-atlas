@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for backstage/demo
 
 ```mermaid
 graph TD;
-    root["root : MODULE"]
-    app["app : MODULE"]
-    backend["backend : MODULE"]
-    _internal_plugin_catalog_backend_module_example_processor["@internal/plugin-catalog-backend-module-example-processor : MODULE"]
-    _internal_plugin_notifications_tester_backend["@internal/plugin-notifications-tester-backend : MODULE"]
-    ApertureLogoFull["ApertureLogoFull : UI_COMPONENT"]
-    ApertureLogoIcon["ApertureLogoIcon : UI_COMPONENT"]
-    SidebarContent["SidebarContent : UI_COMPONENT"]
-    SidebarLogo["SidebarLogo : UI_COMPONENT"]
-    NotificationSettings["NotificationSettings : UI_COMPONENT"]
-    POST_test["POST_test : API_ROUTE"]
-    docker_compose["docker-compose : module"]
-    prometheus["prometheus : module"]
-    dashboards["dashboards : module"]
-    prometheus_datasource["prometheus-datasource : module"]
-    repo_root(["backstage/demo"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    root["root : MODULE"]:::atlasJob
+    app["app : MODULE"]:::atlasJob
+    backend["backend : MODULE"]:::atlasJob
+    _internal_plugin_catalog_backend_module_example_processor["@internal/plugin-catalog-backend-module-example-processor : MODULE"]:::atlasJob
+    _internal_plugin_notifications_tester_backend["@internal/plugin-notifications-tester-backend : MODULE"]:::atlasJob
+    ApertureLogoFull["ApertureLogoFull : UI_COMPONENT"]:::atlasJob
+    ApertureLogoIcon["ApertureLogoIcon : UI_COMPONENT"]:::atlasJob
+    SidebarContent["SidebarContent : UI_COMPONENT"]:::atlasJob
+    SidebarLogo["SidebarLogo : UI_COMPONENT"]:::atlasJob
+    NotificationSettings["NotificationSettings : UI_COMPONENT"]:::atlasJob
+    POST_test["POST_test : API_ROUTE"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
+    prometheus["prometheus : module"]:::atlasJob
+    dashboards["dashboards : module"]:::atlasJob
+    prometheus_datasource["prometheus-datasource : module"]:::atlasJob
+    repo_root(["backstage/demo"]):::atlasRoot
     repo_root --> NotificationSettings
     repo_root --> POST_test
     repo_root --> _internal_plugin_catalog_backend_module_example_processor
@@ -156,22 +163,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_8ab86fc0_d7fd_4ce5_9892_4f044a7c8571["8ab86fc0-d7fd-4ce5-9892-4f044a7c8571"]
-        mod_open_telemetry["open-telemetry"]
-        mod_packages_app["packages/app"]
-        mod_packages_backend["packages/backend"]
+        mod_8ab86fc0_d7fd_4ce5_9892_4f044a7c8571["8ab86fc0-d7fd-4ce5-9892-4f044a7c8571"]:::atlasCategory
+        mod_open_telemetry["open-telemetry"]:::atlasCategory
+        mod_packages_app["packages/app"]:::atlasCategory
+        mod_packages_backend["packages/backend"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_open_telemetry_docker_compose_yaml["open-telemetry/docker-compose.yaml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_open_telemetry_docker_compose_yaml["open-telemetry/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pages_yml_deploy["pages.yml#deploy"]
-        job_pull_yml_build["pull.yml#build"]
+        job_pages_yml_deploy["pages.yml#deploy"]:::atlasJob
+        job_pull_yml_build["pull.yml#build"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_pages_yml_deploy -->|DEPLOYS_TO| env_github_pages
     mod_8ab86fc0_d7fd_4ce5_9892_4f044a7c8571 -->|BUILT_BY| job_pull_yml_build
@@ -193,21 +204,38 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["backstage/demo (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["backstage/demo (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_Main_Master_Build["Main Master Build (1 jobs)"]
+  wf_0_Main_Master_Build["Main Master Build (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_Main_Master_Build
-  wf_1_PR_CI_build["PR CI build (1 jobs)"]
+  job_0_build["build"]:::atlasJob
+  wf_0_Main_Master_Build --> job_0_build
+  wf_1_PR_CI_build["PR CI build (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_PR_CI_build
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  job_1_build["build"]:::atlasJob
+  wf_1_PR_CI_build --> job_1_build
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_2_Publish_Backstage_TechDocs["Publish Backstage TechDocs (1 jobs)"]
+  wf_2_Publish_Backstage_TechDocs["Publish Backstage TechDocs (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_2_Publish_Backstage_TechDocs
-  wf_4_Deploy_static_content_to_Pages["Deploy static content to Pages (1 jobs)"]
+  job_2_publish_techdocs_site["publish-techdocs-site"]:::atlasJob
+  wf_2_Publish_Backstage_TechDocs --> job_2_publish_techdocs_site
+  wf_4_Deploy_static_content_to_Pages["Deploy static content to Pages (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_4_Deploy_static_content_to_Pages
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  job_4_deploy["deploy"]:::atlasJob
+  wf_4_Deploy_static_content_to_Pages --> job_4_deploy
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  wf_3_Version_Bump["Version Bump (1 jobs)"]
+  wf_3_Version_Bump["Version Bump (1 jobs)"]:::atlasWorkflow
   grp_2_Scheduled___Manual --> wf_3_Version_Bump
+  job_3_version_bump["version-bump"]:::atlasJob
+  wf_3_Version_Bump --> job_3_version_bump
 ```

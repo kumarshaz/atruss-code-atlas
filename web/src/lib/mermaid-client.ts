@@ -17,18 +17,93 @@ export function safeLabel(raw: string): string {
         .replace(/>/g, '&gt;');
 }
 
-/** Configure Mermaid with theme-aware dark/light styling and safe size caps. */
+/** Return semantic Mermaid `classDef` lines aligned with the active light/dark theme. */
+export function getMermaidClassDefs(isDark?: boolean): string[] {
+    const dark =
+        typeof isDark === 'boolean'
+            ? isDark
+            : typeof document !== 'undefined' &&
+              document.documentElement.getAttribute('data-theme') !== 'light';
+
+    if (dark) {
+        return [
+            '  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff,font-weight:600',
+            '  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb,font-weight:600',
+            '  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb',
+            '  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb',
+            '  classDef atlasStage fill:#3c4858,stroke:#bbc7db,stroke-width:1px,color:#d7e3f7',
+            '  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6',
+            '  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6',
+            '  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf',
+        ];
+    }
+
+    return [
+        '  classDef atlasRoot fill:#d3e4ff,stroke:#004882,stroke-width:2px,color:#001d36,font-weight:600',
+        '  classDef atlasCategory fill:#FAF9F5,stroke:#C84B20,stroke-width:1.5px,color:#111111,font-weight:600',
+        '  classDef atlasWorkflow fill:#FAF9F5,stroke:#4338ca,stroke-width:1.5px,color:#181c22',
+        '  classDef atlasJob fill:#f1f5f9,stroke:#64748b,stroke-width:1px,color:#181c22',
+        '  classDef atlasStage fill:#e2e8f0,stroke:#475569,stroke-width:1px,color:#1e293b',
+        '  classDef atlasTarget fill:#dcfce7,stroke:#15803d,stroke-width:1.5px,color:#14532d',
+        '  classDef atlasAlert fill:#fee2e2,stroke:#b91c1c,stroke-width:1.5px,color:#7f1d1d',
+        '  classDef atlasMore fill:#E7E5DD,stroke:#64748b,stroke-dasharray:4 4,color:#334155',
+    ];
+}
+
+/** Configure Mermaid with theme-aware dark/light blueprint/M3 styling and safe size caps. */
 export function configureMermaid(htmlLabels = true): void {
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     mermaid.initialize({
         startOnLoad: false,
-        theme: isDark ? 'dark' : 'default',
+        theme: 'base',
+        themeVariables: isDark
+            ? {
+                  fontFamily:
+                      "'Roboto Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+                  fontSize: '13px',
+                  background: '#0f141a',
+                  primaryColor: '#212428',
+                  primaryTextColor: '#dfe3eb',
+                  primaryBorderColor: '#E87A48',
+                  lineColor: '#9A968E',
+                  secondaryColor: '#1b2026',
+                  secondaryTextColor: '#dfe3eb',
+                  secondaryBorderColor: '#43474e',
+                  tertiaryColor: '#191B1E',
+                  tertiaryTextColor: '#c3c6cf',
+                  tertiaryBorderColor: '#43474e',
+                  clusterBkg: '#191B1E',
+                  clusterBorder: '#43474e',
+                  edgeLabelBackground: '#171c22',
+                  nodeTextColor: '#dfe3eb',
+              }
+            : {
+                  fontFamily:
+                      "'Roboto Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+                  fontSize: '13px',
+                  background: '#f8f9ff',
+                  primaryColor: '#FAF9F5',
+                  primaryTextColor: '#111111',
+                  primaryBorderColor: '#C84B20',
+                  lineColor: '#262523',
+                  secondaryColor: '#E7E5DD',
+                  secondaryTextColor: '#181c22',
+                  secondaryBorderColor: '#94a3b8',
+                  tertiaryColor: '#f1f5f9',
+                  tertiaryTextColor: '#181c22',
+                  tertiaryBorderColor: '#cbd5e1',
+                  clusterBkg: '#f1f5f9',
+                  clusterBorder: '#94a3b8',
+                  edgeLabelBackground: '#FAF9F5',
+                  nodeTextColor: '#111111',
+              },
         maxTextSize: 200000,
         flowchart: {
             useMaxWidth: true,
             htmlLabels,
             nodeSpacing: 28,
             rankSpacing: 44,
+            curve: 'basis',
         },
     });
 }

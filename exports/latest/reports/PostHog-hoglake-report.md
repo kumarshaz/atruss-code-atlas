@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for PostHog/hoglake
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/hoglake (57 components)"])
-    dir_0_webui["webui (34)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/hoglake (57 components)"]):::atlasRoot
+    dir_0_webui["webui (34)"]:::atlasCategory
     repo_root --> dir_0_webui
-    sub_0_0_src["src (33)"]
+    sub_0_0_src["src (33)"]:::atlasWorkflow
     dir_0_webui --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_webui --> sub_0_1__module_root_
-    dir_1_pyhoglake_variant_codec["pyhoglake-variant-codec (17)"]
+    dir_1_pyhoglake_variant_codec["pyhoglake-variant-codec (17)"]:::atlasCategory
     repo_root --> dir_1_pyhoglake_variant_codec
-    sub_1_0_src["src (11)"]
+    sub_1_0_src["src (11)"]:::atlasWorkflow
     dir_1_pyhoglake_variant_codec --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]
+    sub_1_1_tests["tests (4)"]:::atlasWorkflow
     dir_1_pyhoglake_variant_codec --> sub_1_1_tests
-    sub_1_2_fuzz["fuzz (2)"]
+    sub_1_2_fuzz["fuzz (2)"]:::atlasWorkflow
     dir_1_pyhoglake_variant_codec --> sub_1_2_fuzz
-    dir_2_millrace["millrace (3)"]
+    dir_2_millrace["millrace (3)"]:::atlasCategory
     repo_root --> dir_2_millrace
-    dir_3_hedgerow["hedgerow (2)"]
+    dir_3_hedgerow["hedgerow (2)"]:::atlasCategory
     repo_root --> dir_3_hedgerow
-    dir_4_ci["ci (1)"]
+    dir_4_ci["ci (1)"]:::atlasCategory
     repo_root --> dir_4_ci
 ```
 
@@ -208,65 +215,69 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_982c8ecb_4a51_4c52_906d_bc6506c36ae0["982c8ecb-4a51-4c52-906d-bc6506c36ae0"]
-        mod_bench["bench"]
-        mod_ci["ci"]
-        mod_hedgerow["hedgerow"]
-        mod_millrace["millrace"]
-        mod_pyhoglake["pyhoglake"]
-        mod_pyhoglake_variant_codec["pyhoglake-variant-codec"]
-        mod_pyhoglake_variant_codec_fuzz["pyhoglake-variant-codec/fuzz"]
-        mod_server["server"]
-        mod_server_trino["server/trino"]
-        mod_webui["webui"]
+        mod_982c8ecb_4a51_4c52_906d_bc6506c36ae0["982c8ecb-4a51-4c52-906d-bc6506c36ae0"]:::atlasCategory
+        mod_bench["bench"]:::atlasCategory
+        mod_ci["ci"]:::atlasCategory
+        mod_hedgerow["hedgerow"]:::atlasCategory
+        mod_millrace["millrace"]:::atlasCategory
+        mod_pyhoglake["pyhoglake"]:::atlasCategory
+        mod_pyhoglake_variant_codec["pyhoglake-variant-codec"]:::atlasCategory
+        mod_pyhoglake_variant_codec_fuzz["pyhoglake-variant-codec/fuzz"]:::atlasCategory
+        mod_server["server"]:::atlasCategory
+        mod_server_trino["server/trino"]:::atlasCategory
+        mod_webui["webui"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_bench_Dockerfile["bench/Dockerfile"]
-        art_ci_docker_compose_live_millrace_yml["ci/docker-compose.live-millrace.yml"]
-        art_millrace_Dockerfile["millrace/Dockerfile"]
-        art_server_Dockerfile["server/Dockerfile"]
-        art_server_docker_compose_yml["server/docker-compose.yml"]
-        art_webui_Dockerfile["webui/Dockerfile"]
+        art_bench_Dockerfile["bench/Dockerfile"]:::atlasWorkflow
+        art_ci_docker_compose_live_millrace_yml["ci/docker-compose.live-millrace.yml"]:::atlasWorkflow
+        art_millrace_Dockerfile["millrace/Dockerfile"]:::atlasWorkflow
+        art_server_Dockerfile["server/Dockerfile"]:::atlasWorkflow
+        art_server_docker_compose_yml["server/docker-compose.yml"]:::atlasWorkflow
+        art_webui_Dockerfile["webui/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_bench_image_yml_image["bench-image.yml#image"]
-        job_bench_image_yml_publish["bench-image.yml#publish"]
-        job_ci_python_yml_codec_version["ci-python.yml#codec-version"]
-        job_ci_python_yml_millrace["ci-python.yml#millrace"]
-        job_ecr_release_yml_publish["ecr-release.yml#publish"]
-        job_fuzz_yml_fuzz["fuzz.yml#fuzz"]
-        job_fuzz_yml_variant_codec["fuzz.yml#variant-codec"]
-        job_migration_chain_yml_migration_chain["migration-chain.yml#migration-chain"]
-        job_millrace_image_yml_image["millrace-image.yml#image"]
-        job_millrace_image_yml_publish["millrace-image.yml#publish"]
-        job_publish_pyhoglake_variant_codec_yml_github_release["publish-pyhoglake-variant-codec.yml#github-release"]
-        job_publish_pyhoglake_variant_codec_yml_publish["publish-pyhoglake-variant-codec.yml#publish"]
-        job_publish_pyhoglake_yml_codec["publish-pyhoglake.yml#codec"]
-        job_publish_pyhoglake_yml_github_release["publish-pyhoglake.yml#github-release"]
-        job_publish_pyhoglake_yml_publish["publish-pyhoglake.yml#publish"]
-        job_pyhoglake_checks_yml_build["pyhoglake-checks.yml#build"]
-        job_pyhoglake_checks_yml_lint["pyhoglake-checks.yml#lint"]
-        job_pyhoglake_checks_yml_pyarrow["pyhoglake-checks.yml#pyarrow"]
-        job_pyhoglake_checks_yml_test["pyhoglake-checks.yml#test"]
-        job_pyhoglake_checks_yml_variant_codec["pyhoglake-checks.yml#variant-codec"]
-        job_python_live_yml_live["python-live.yml#live"]
-        job_python_live_yml_live_millrace["python-live.yml#live-millrace"]
-        job_semgrep_yml_semgrep_general["semgrep.yml#semgrep-general"]
-        job_semgrep_yml_semgrep_jvm["semgrep.yml#semgrep-jvm"]
-        job_semgrep_yml_semgrep_python["semgrep.yml#semgrep-python"]
-        job_server_yml_deploy["server.yml#deploy"]
-        job_server_yml_hoglite_live["server.yml#hoglite-live"]
-        job_server_yml_image["server.yml#image"]
-        job_server_yml_server_test["server.yml#server-test"]
-        job_server_yml_trino_test["server.yml#trino-test"]
-        job_variant_codec_wheels_yml_manylinux["variant-codec-wheels.yml#manylinux"]
-        job_variant_codec_wheels_yml_others["variant-codec-wheels.yml#others"]
-        job_webui_yml_deploy["webui.yml#deploy"]
-        job_webui_yml_webui_test["webui.yml#webui-test"]
+        job_bench_image_yml_image["bench-image.yml#image"]:::atlasJob
+        job_bench_image_yml_publish["bench-image.yml#publish"]:::atlasJob
+        job_ci_python_yml_codec_version["ci-python.yml#codec-version"]:::atlasJob
+        job_ci_python_yml_millrace["ci-python.yml#millrace"]:::atlasJob
+        job_ecr_release_yml_publish["ecr-release.yml#publish"]:::atlasJob
+        job_fuzz_yml_fuzz["fuzz.yml#fuzz"]:::atlasJob
+        job_fuzz_yml_variant_codec["fuzz.yml#variant-codec"]:::atlasJob
+        job_migration_chain_yml_migration_chain["migration-chain.yml#migration-chain"]:::atlasJob
+        job_millrace_image_yml_image["millrace-image.yml#image"]:::atlasJob
+        job_millrace_image_yml_publish["millrace-image.yml#publish"]:::atlasJob
+        job_publish_pyhoglake_variant_codec_yml_github_release["publish-pyhoglake-variant-codec.yml#github-release"]:::atlasJob
+        job_publish_pyhoglake_variant_codec_yml_publish["publish-pyhoglake-variant-codec.yml#publish"]:::atlasJob
+        job_publish_pyhoglake_yml_codec["publish-pyhoglake.yml#codec"]:::atlasJob
+        job_publish_pyhoglake_yml_github_release["publish-pyhoglake.yml#github-release"]:::atlasJob
+        job_publish_pyhoglake_yml_publish["publish-pyhoglake.yml#publish"]:::atlasJob
+        job_pyhoglake_checks_yml_build["pyhoglake-checks.yml#build"]:::atlasJob
+        job_pyhoglake_checks_yml_lint["pyhoglake-checks.yml#lint"]:::atlasJob
+        job_pyhoglake_checks_yml_pyarrow["pyhoglake-checks.yml#pyarrow"]:::atlasJob
+        job_pyhoglake_checks_yml_test["pyhoglake-checks.yml#test"]:::atlasJob
+        job_pyhoglake_checks_yml_variant_codec["pyhoglake-checks.yml#variant-codec"]:::atlasJob
+        job_python_live_yml_live["python-live.yml#live"]:::atlasJob
+        job_python_live_yml_live_millrace["python-live.yml#live-millrace"]:::atlasJob
+        job_semgrep_yml_semgrep_general["semgrep.yml#semgrep-general"]:::atlasJob
+        job_semgrep_yml_semgrep_jvm["semgrep.yml#semgrep-jvm"]:::atlasJob
+        job_semgrep_yml_semgrep_python["semgrep.yml#semgrep-python"]:::atlasJob
+        job_server_yml_deploy["server.yml#deploy"]:::atlasJob
+        job_server_yml_hoglite_live["server.yml#hoglite-live"]:::atlasJob
+        job_server_yml_image["server.yml#image"]:::atlasJob
+        job_server_yml_server_test["server.yml#server-test"]:::atlasJob
+        job_server_yml_trino_test["server.yml#trino-test"]:::atlasJob
+        job_variant_codec_wheels_yml_manylinux["variant-codec-wheels.yml#manylinux"]:::atlasJob
+        job_variant_codec_wheels_yml_others["variant-codec-wheels.yml#others"]:::atlasJob
+        job_webui_yml_deploy["webui.yml#deploy"]:::atlasJob
+        job_webui_yml_webui_test["webui.yml#webui-test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_pypi["pypi"]
+        env_pypi["pypi"]:::atlasTarget
     end
     job_publish_pyhoglake_variant_codec_yml_publish -->|DEPLOYS_TO| env_pypi
     job_publish_pyhoglake_yml_publish -->|DEPLOYS_TO| env_pypi
@@ -444,13 +455,78 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/hoglake (16 workflows)"])
-  grp_0_CI___Verification["CI & Verification (11 workflows · 38 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/hoglake (16 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (11 workflows · 38 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]
+  wf_0_Bench_image["Bench image (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Bench_image
+  job_0_python_live["python-live"]:::atlasJob
+  job_0_image["image"]:::atlasJob
+  job_0_publish["publish"]:::atlasJob
+  wf_0_Bench_image --> job_0_python_live
+  wf_0_Bench_image --> job_0_image
+  job_0_image --> job_0_publish
+  job_0_python_live --> job_0_publish
+  wf_1_CI_python["CI python (7 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI_python
+  job_1_changes["changes"]:::atlasJob
+  job_1_python_checks["python-checks"]:::atlasJob
+  job_1_pyhoglake["pyhoglake"]:::atlasJob
+  wf_1_CI_python --> job_1_changes
+  job_1_changes --> job_1_python_checks
+  job_1_pyhoglake --> job_1_python_checks
+  job_1_changes --> job_1_pyhoglake
+  wf_6_Millrace_image["Millrace image (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Millrace_image
+  job_6_python_live["python-live"]:::atlasJob
+  job_6_image["image"]:::atlasJob
+  job_6_publish["publish"]:::atlasJob
+  wf_6_Millrace_image --> job_6_python_live
+  wf_6_Millrace_image --> job_6_image
+  job_6_image --> job_6_publish
+  job_6_python_live --> job_6_publish
+  wf_9_pyhoglake_checks["pyhoglake checks (6 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_9_pyhoglake_checks
+  job_9_python_live["python-live"]:::atlasJob
+  job_9_lint["lint"]:::atlasJob
+  job_9_test["test"]:::atlasJob
+  wf_9_pyhoglake_checks --> job_9_python_live
+  wf_9_pyhoglake_checks --> job_9_lint
+  wf_9_pyhoglake_checks --> job_9_test
+  wf_12_Server["Server (8 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_12_Server
+  job_12_changes["changes"]:::atlasJob
+  job_12_python_live["python-live"]:::atlasJob
+  job_12_server_checks["server-checks"]:::atlasJob
+  wf_12_Server --> job_12_changes
+  job_12_changes --> job_12_python_live
+  job_12_changes --> job_12_server_checks
+  job_12_python_live --> job_12_server_checks
+  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+  wf_3_ECR_release["ECR release (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_ECR_release
+  job_3_gate["gate"]:::atlasJob
+  wf_3_ECR_release --> job_3_gate
+  wf_7_Publish_pyhoglake_variant_codec["Publish pyhoglake-variant-codec (3 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_7_Publish_pyhoglake_variant_codec
+  wf_8_Publish_pyhoglake["Publish pyhoglake (4 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_8_Publish_pyhoglake
+  grp_2_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Automation___Other
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
+  wf_14_Variant_codec_wheels["Variant codec wheels (2 jobs)"]:::atlasWorkflow
+  grp_2_Automation___Other --> wf_14_Variant_codec_wheels
+  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Scheduled___Manual
+  wf_4_Fuzz_nightly["Fuzz nightly (3 jobs)"]:::atlasWorkflow
+  grp_3_Scheduled___Manual --> wf_4_Fuzz_nightly
+  wf_more["+6 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,28 +41,35 @@ description: Arc42 and Pipeline report for bitwarden/directory-connector
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/directory-connector (72 components)"])
-    dir_0_libs["libs (42)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/directory-connector (72 components)"]):::atlasRoot
+    dir_0_libs["libs (42)"]:::atlasCategory
     repo_root --> dir_0_libs
-    sub_0_0_services["services (27)"]
+    sub_0_0_services["services (27)"]:::atlasWorkflow
     dir_0_libs --> sub_0_0_services
-    sub_0_1_abstractions["abstractions (15)"]
+    sub_0_1_abstractions["abstractions (15)"]:::atlasWorkflow
     dir_0_libs --> sub_0_1_abstractions
-    dir_1_src_gui["src-gui (17)"]
+    dir_1_src_gui["src-gui (17)"]:::atlasCategory
     repo_root --> dir_1_src_gui
-    sub_1_0_services["services (12)"]
+    sub_1_0_services["services (12)"]:::atlasWorkflow
     dir_1_src_gui --> sub_1_0_services
-    sub_1_1_angular["angular (3)"]
+    sub_1_1_angular["angular (3)"]:::atlasWorkflow
     dir_1_src_gui --> sub_1_1_angular
-    sub_1_2_app["app (2)"]
+    sub_1_2_app["app (2)"]:::atlasWorkflow
     dir_1_src_gui --> sub_1_2_app
-    dir_2_native["native (6)"]
+    dir_2_native["native (6)"]:::atlasCategory
     repo_root --> dir_2_native
-    dir_3_src_cli["src-cli (5)"]
+    dir_3_src_cli["src-cli (5)"]:::atlasCategory
     repo_root --> dir_3_src_cli
-    dir_4__root_["(root) (1)"]
+    dir_4__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_0_services -.->|"3 deps"| sub_0_1_abstractions
 ```
@@ -248,19 +255,23 @@ Showing top 60 representative components out of 72 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_106d940b_2cfa_4456_a30d_dbe8b1f6819f["106d940b-2cfa-4456-a30d-dbe8b1f6819f"]
-        mod_native["native"]
+        mod_106d940b_2cfa_4456_a30d_dbe8b1f6819f["106d940b-2cfa-4456-a30d-dbe8b1f6819f"]:::atlasCategory
+        mod_native["native"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_linux_cli["build.yml#linux-cli"]
-        job_build_yml_macos_arm64_cli["build.yml#macos-arm64-cli"]
-        job_build_yml_windows_cli["build.yml#windows-cli"]
-        job_test_yml_rust["test.yml#rust"]
-        job_test_yml_testing["test.yml#testing"]
+        job_build_yml_linux_cli["build.yml#linux-cli"]:::atlasJob
+        job_build_yml_macos_arm64_cli["build.yml#macos-arm64-cli"]:::atlasJob
+        job_build_yml_windows_cli["build.yml#windows-cli"]:::atlasJob
+        job_test_yml_rust["test.yml#rust"]:::atlasJob
+        job_test_yml_testing["test.yml#testing"]:::atlasJob
     end
     mod_106d940b_2cfa_4456_a30d_dbe8b1f6819f -->|PACKAGED_BY| art_docker_compose_yml
     mod_native -->|BUILT_BY| job_build_yml_linux_cli
@@ -282,9 +293,68 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/directory-connector (11 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 14 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/directory-connector (11 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 14 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (5 workflows · 7 jobs)"]
+  wf_1_Build_PR["Build PR (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Build_PR
+  job_1_build["build"]:::atlasJob
+  wf_1_Build_PR --> job_1_build
+  wf_3_Build["Build (8 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Build
+  job_3_setup["setup"]:::atlasJob
+  job_3_linux_cli["linux-cli"]:::atlasJob
+  job_3_macos_arm64_cli["macos-arm64-cli"]:::atlasJob
+  wf_3_Build --> job_3_setup
+  job_3_setup --> job_3_linux_cli
+  job_3_setup --> job_3_macos_arm64_cli
+  wf_5_Integration_Testing["Integration Testing (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Integration_Testing
+  job_5_testing["testing"]:::atlasJob
+  wf_5_Integration_Testing --> job_5_testing
+  wf_6_Lint["Lint (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_6_Lint
+  job_6_lint["lint"]:::atlasJob
+  wf_6_Lint --> job_6_lint
+  wf_9_Testing["Testing (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_9_Testing
+  job_9_testing["testing"]:::atlasJob
+  job_9_rust["rust"]:::atlasJob
+  wf_9_Testing --> job_9_testing
+  wf_9_Testing --> job_9_rust
+  grp_1_CI___Verification["CI & Verification (5 workflows · 7 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
+  wf_0_Label_PR["Label PR (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Label_PR
+  job_0_label["label"]:::atlasJob
+  wf_0_Label_PR --> job_0_label
+  wf_2_Build__Fork_PR_["Build (Fork PR) (3 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_2_Build__Fork_PR_
+  job_2_check_run["check-run"]:::atlasJob
+  job_2_remove_label["remove-label"]:::atlasJob
+  job_2_run_workflow["run-workflow"]:::atlasJob
+  wf_2_Build__Fork_PR_ --> job_2_check_run
+  job_2_check_run --> job_2_remove_label
+  job_2_check_run --> job_2_run_workflow
+  wf_4_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_4_SDLC___Enforce_PR_labels
+  job_4_enforce_label["enforce-label"]:::atlasJob
+  wf_4_SDLC___Enforce_PR_labels --> job_4_enforce_label
+  wf_7_Respond["Respond (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_7_Respond
+  job_7_respond["respond"]:::atlasJob
+  wf_7_Respond --> job_7_respond
+  wf_8_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_8_Code_Review
+  job_8_review["review"]:::atlasJob
+  wf_8_Code_Review --> job_8_review
+  wf_more["+1 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

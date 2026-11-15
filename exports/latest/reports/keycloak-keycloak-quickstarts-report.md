@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for keycloak/keycloak-quickstarts
 
 ```mermaid
 graph TD;
-    repo_root(["keycloak/keycloak-quickstarts (60 components)"])
-    dir_0_extension["extension (31)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["keycloak/keycloak-quickstarts (60 components)"]):::atlasRoot
+    dir_0_extension["extension (31)"]:::atlasCategory
     repo_root --> dir_0_extension
-    sub_0_0_extend_account_console_node["extend-account-console-node (13)"]
+    sub_0_0_extend_account_console_node["extend-account-console-node (13)"]:::atlasWorkflow
     dir_0_extension --> sub_0_0_extend_account_console_node
-    sub_0_1_extend_admin_console_node["extend-admin-console-node (6)"]
+    sub_0_1_extend_admin_console_node["extend-admin-console-node (6)"]:::atlasWorkflow
     dir_0_extension --> sub_0_1_extend_admin_console_node
-    sub_0_2_extend_account_console["extend-account-console (2)"]
+    sub_0_2_extend_account_console["extend-account-console (2)"]:::atlasWorkflow
     dir_0_extension --> sub_0_2_extend_account_console
-    sub_0_more["+9 more submodules (10)"]
+    sub_0_more["+9 more submodules (10)"]:::atlasMore
     dir_0_extension --> sub_0_more
-    dir_1_proxy["proxy (8)"]
+    dir_1_proxy["proxy (8)"]:::atlasCategory
     repo_root --> dir_1_proxy
-    dir_2_device["device (4)"]
+    dir_2_device["device (4)"]:::atlasCategory
     repo_root --> dir_2_device
-    dir_3_nodejs["nodejs (4)"]
+    dir_3_nodejs["nodejs (4)"]:::atlasCategory
     repo_root --> dir_3_nodejs
-    dir_4_spring["spring (4)"]
+    dir_4_spring["spring (4)"]:::atlasCategory
     repo_root --> dir_4_spring
-    dir_other_modules["+5 more modules (9)"]
+    dir_other_modules["+5 more modules (9)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_0_extend_account_console_node -.->|"2 deps"| sub_0_1_extend_admin_console_node
 ```
@@ -197,34 +204,38 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_63699230_50b9_4c62_803d_757d2aa01550["63699230-50b9-4c62-803d-757d2aa01550"]
-        mod_device["device"]
-        mod_ldap_389ds_ppolicy["ldap/389ds-ppolicy"]
-        mod_ldap_openldap_ppolicy["ldap/openldap-ppolicy"]
-        mod_nodejs_resource_server["nodejs/resource-server"]
-        mod_proxy_haproxy_passthrough["proxy/haproxy/passthrough"]
-        mod_proxy_haproxy_reencrypt["proxy/haproxy/reencrypt"]
-        mod_proxy_traefik_passthrough["proxy/traefik/passthrough"]
-        mod_proxy_traefik_reencrypt["proxy/traefik/reencrypt"]
+        mod_63699230_50b9_4c62_803d_757d2aa01550["63699230-50b9-4c62-803d-757d2aa01550"]:::atlasCategory
+        mod_device["device"]:::atlasCategory
+        mod_ldap_389ds_ppolicy["ldap/389ds-ppolicy"]:::atlasCategory
+        mod_ldap_openldap_ppolicy["ldap/openldap-ppolicy"]:::atlasCategory
+        mod_nodejs_resource_server["nodejs/resource-server"]:::atlasCategory
+        mod_proxy_haproxy_passthrough["proxy/haproxy/passthrough"]:::atlasCategory
+        mod_proxy_haproxy_reencrypt["proxy/haproxy/reencrypt"]:::atlasCategory
+        mod_proxy_traefik_passthrough["proxy/traefik/passthrough"]:::atlasCategory
+        mod_proxy_traefik_reencrypt["proxy/traefik/reencrypt"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_ldap_389ds_ppolicy_Dockerfile["ldap/389ds-ppolicy/Dockerfile"]
-        art_ldap_389ds_ppolicy_docker_compose_yml["ldap/389ds-ppolicy/docker-compose.yml"]
-        art_ldap_openldap_ppolicy_Dockerfile["ldap/openldap-ppolicy/Dockerfile"]
-        art_ldap_openldap_ppolicy_docker_compose_yml["ldap/openldap-ppolicy/docker-compose.yml"]
-        art_proxy_haproxy_passthrough_docker_compose_yaml["proxy/haproxy/passthrough/docker-compose.yaml"]
-        art_proxy_haproxy_reencrypt_docker_compose_yaml["proxy/haproxy/reencrypt/docker-compose.yaml"]
-        art_proxy_traefik_passthrough_docker_compose_yaml["proxy/traefik/passthrough/docker-compose.yaml"]
-        art_proxy_traefik_reencrypt_docker_compose_yaml["proxy/traefik/reencrypt/docker-compose.yaml"]
+        art_ldap_389ds_ppolicy_Dockerfile["ldap/389ds-ppolicy/Dockerfile"]:::atlasWorkflow
+        art_ldap_389ds_ppolicy_docker_compose_yml["ldap/389ds-ppolicy/docker-compose.yml"]:::atlasWorkflow
+        art_ldap_openldap_ppolicy_Dockerfile["ldap/openldap-ppolicy/Dockerfile"]:::atlasWorkflow
+        art_ldap_openldap_ppolicy_docker_compose_yml["ldap/openldap-ppolicy/docker-compose.yml"]:::atlasWorkflow
+        art_proxy_haproxy_passthrough_docker_compose_yaml["proxy/haproxy/passthrough/docker-compose.yaml"]:::atlasWorkflow
+        art_proxy_haproxy_reencrypt_docker_compose_yaml["proxy/haproxy/reencrypt/docker-compose.yaml"]:::atlasWorkflow
+        art_proxy_traefik_passthrough_docker_compose_yaml["proxy/traefik/passthrough/docker-compose.yaml"]:::atlasWorkflow
+        art_proxy_traefik_reencrypt_docker_compose_yaml["proxy/traefik/reencrypt/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_update_nodejs_adapter_version_yml_update_nodejs_adapter_version["update-nodejs-adapter-version.yml#update-nodejs-adapter-version"]
-        job_workflow_ci_yml_tests_device["workflow-ci.yml#tests-device"]
-        job_workflow_ci_yml_tests_haproxy_passthrough["workflow-ci.yml#tests-haproxy-passthrough"]
-        job_workflow_ci_yml_tests_haproxy_reencrypt["workflow-ci.yml#tests-haproxy-reencrypt"]
-        job_workflow_ci_yml_tests_traefik_passthrough["workflow-ci.yml#tests-traefik-passthrough"]
-        job_workflow_ci_yml_tests_traefik_reencrypt["workflow-ci.yml#tests-traefik-reencrypt"]
+        job_update_nodejs_adapter_version_yml_update_nodejs_adapter_version["update-nodejs-adapter-version.yml#update-nodejs-adapter-version"]:::atlasJob
+        job_workflow_ci_yml_tests_device["workflow-ci.yml#tests-device"]:::atlasJob
+        job_workflow_ci_yml_tests_haproxy_passthrough["workflow-ci.yml#tests-haproxy-passthrough"]:::atlasJob
+        job_workflow_ci_yml_tests_haproxy_reencrypt["workflow-ci.yml#tests-haproxy-reencrypt"]:::atlasJob
+        job_workflow_ci_yml_tests_traefik_passthrough["workflow-ci.yml#tests-traefik-passthrough"]:::atlasJob
+        job_workflow_ci_yml_tests_traefik_reencrypt["workflow-ci.yml#tests-traefik-reencrypt"]:::atlasJob
     end
     mod_63699230_50b9_4c62_803d_757d2aa01550 -->|PACKAGED_BY| art_ldap_389ds_ppolicy_docker_compose_yml
     mod_63699230_50b9_4c62_803d_757d2aa01550 -->|PACKAGED_BY| art_ldap_openldap_ppolicy_docker_compose_yml
@@ -274,9 +285,46 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/keycloak-quickstarts (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/keycloak-quickstarts (6 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (1 workflows · 10 jobs)"]
+  wf_0_Keycloak_Integration_CI["Keycloak Integration CI (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Keycloak_Integration_CI
+  job_0_call_ci_workflow["call-ci-workflow"]:::atlasJob
+  wf_0_Keycloak_Integration_CI --> job_0_call_ci_workflow
+  wf_1_Keycloak_Integration_CI_Nightly["Keycloak Integration CI Nightly (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Keycloak_Integration_CI_Nightly
+  job_1_call_ci_workflow["call-ci-workflow"]:::atlasJob
+  wf_1_Keycloak_Integration_CI_Nightly --> job_1_call_ci_workflow
+  wf_2_Scheduled_workflows["Scheduled workflows (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_Scheduled_workflows
+  job_2_run_ci["run-ci"]:::atlasJob
+  job_2_run_nightly_ci["run-nightly-ci"]:::atlasJob
+  wf_2_Scheduled_workflows --> job_2_run_ci
+  wf_2_Scheduled_workflows --> job_2_run_nightly_ci
+  wf_3_Update_Keycloak_Client_Version["Update Keycloak Client Version (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Update_Keycloak_Client_Version
+  job_3_update_keycloak_version["update-keycloak-version"]:::atlasJob
+  wf_3_Update_Keycloak_Client_Version --> job_3_update_keycloak_version
+  wf_4_Update_Node_js_Adapter_Version["Update Node.js Adapter Version (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Update_Node_js_Adapter_Version
+  job_4_update_nodejs_adapter_version["update-nodejs-adapter-version"]:::atlasJob
+  wf_4_Update_Node_js_Adapter_Version --> job_4_update_nodejs_adapter_version
+  grp_1_CI___Verification["CI & Verification (1 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
+  wf_5_Reusable_Keycloak_Integration_CI["Reusable Keycloak Integration CI (10 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_5_Reusable_Keycloak_Integration_CI
+  job_5_tests["tests"]:::atlasJob
+  job_5_tests_spring["tests-spring"]:::atlasJob
+  job_5_tests_nodejs["tests-nodejs"]:::atlasJob
+  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests
+  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_spring
+  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_nodejs
 ```

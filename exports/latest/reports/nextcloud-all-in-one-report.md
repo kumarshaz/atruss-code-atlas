@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for nextcloud/all-in-one
 
 ```mermaid
 graph TD;
-    repo_root(["nextcloud/all-in-one (68 components)"])
-    dir_0_php["php (44)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["nextcloud/all-in-one (68 components)"]):::atlasRoot
+    dir_0_php["php (44)"]:::atlasCategory
     repo_root --> dir_0_php
-    sub_0_0_src["src (42)"]
+    sub_0_0_src["src (42)"]:::atlasWorkflow
     dir_0_php --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_php --> sub_0_1__module_root_
-    sub_0_2_public["public (1)"]
+    sub_0_2_public["public (1)"]:::atlasWorkflow
     dir_0_php --> sub_0_2_public
-    dir_1_Containers["Containers (12)"]
+    dir_1_Containers["Containers (12)"]:::atlasCategory
     repo_root --> dir_1_Containers
-    dir_2_app["app (12)"]
+    dir_2_app["app (12)"]:::atlasCategory
     repo_root --> dir_2_app
-    sub_2_0_composer["composer (9)"]
+    sub_2_0_composer["composer (9)"]:::atlasWorkflow
     dir_2_app --> sub_2_0_composer
-    sub_2_1_lib["lib (2)"]
+    sub_2_1_lib["lib (2)"]:::atlasWorkflow
     dir_2_app --> sub_2_1_lib
-    sub_2_2_templates["templates (1)"]
+    sub_2_2_templates["templates (1)"]:::atlasWorkflow
     dir_2_app --> sub_2_2_templates
 ```
 
@@ -172,82 +179,86 @@ Showing top 60 representative components out of 68 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_Containers_alpine["Containers/alpine"]
-        mod_Containers_apache["Containers/apache"]
-        mod_Containers_borgbackup["Containers/borgbackup"]
-        mod_Containers_clamav["Containers/clamav"]
-        mod_Containers_collabora["Containers/collabora"]
-        mod_Containers_docker_socket_proxy["Containers/docker-socket-proxy"]
-        mod_Containers_domaincheck["Containers/domaincheck"]
-        mod_Containers_eurooffice["Containers/eurooffice"]
-        mod_Containers_fulltextsearch["Containers/fulltextsearch"]
-        mod_Containers_harp["Containers/harp"]
-        mod_Containers_imaginary["Containers/imaginary"]
-        mod_Containers_mastercontainer["Containers/mastercontainer"]
-        mod_Containers_nextcloud["Containers/nextcloud"]
-        mod_Containers_notify_push["Containers/notify-push"]
-        mod_Containers_onlyoffice["Containers/onlyoffice"]
-        mod_Containers_postgresql["Containers/postgresql"]
-        mod_Containers_redis["Containers/redis"]
-        mod_Containers_talk["Containers/talk"]
-        mod_Containers_talk_recording["Containers/talk-recording"]
-        mod_Containers_watchtower["Containers/watchtower"]
-        mod_Containers_whiteboard["Containers/whiteboard"]
-        mod_app_composer["app/composer"]
-        mod_nextcloud_aio_helm_chart["nextcloud-aio-helm-chart"]
-        mod_php["php"]
-        mod_php_tests["php/tests"]
-        mod_php_tests_Containers_composer["php/tests/Containers/composer"]
+        mod_Containers_alpine["Containers/alpine"]:::atlasCategory
+        mod_Containers_apache["Containers/apache"]:::atlasCategory
+        mod_Containers_borgbackup["Containers/borgbackup"]:::atlasCategory
+        mod_Containers_clamav["Containers/clamav"]:::atlasCategory
+        mod_Containers_collabora["Containers/collabora"]:::atlasCategory
+        mod_Containers_docker_socket_proxy["Containers/docker-socket-proxy"]:::atlasCategory
+        mod_Containers_domaincheck["Containers/domaincheck"]:::atlasCategory
+        mod_Containers_eurooffice["Containers/eurooffice"]:::atlasCategory
+        mod_Containers_fulltextsearch["Containers/fulltextsearch"]:::atlasCategory
+        mod_Containers_harp["Containers/harp"]:::atlasCategory
+        mod_Containers_imaginary["Containers/imaginary"]:::atlasCategory
+        mod_Containers_mastercontainer["Containers/mastercontainer"]:::atlasCategory
+        mod_Containers_nextcloud["Containers/nextcloud"]:::atlasCategory
+        mod_Containers_notify_push["Containers/notify-push"]:::atlasCategory
+        mod_Containers_onlyoffice["Containers/onlyoffice"]:::atlasCategory
+        mod_Containers_postgresql["Containers/postgresql"]:::atlasCategory
+        mod_Containers_redis["Containers/redis"]:::atlasCategory
+        mod_Containers_talk["Containers/talk"]:::atlasCategory
+        mod_Containers_talk_recording["Containers/talk-recording"]:::atlasCategory
+        mod_Containers_watchtower["Containers/watchtower"]:::atlasCategory
+        mod_Containers_whiteboard["Containers/whiteboard"]:::atlasCategory
+        mod_app_composer["app/composer"]:::atlasCategory
+        mod_nextcloud_aio_helm_chart["nextcloud-aio-helm-chart"]:::atlasCategory
+        mod_php["php"]:::atlasCategory
+        mod_php_tests["php/tests"]:::atlasCategory
+        mod_php_tests_Containers_composer["php/tests/Containers/composer"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Containers_alpine_Dockerfile["Containers/alpine/Dockerfile"]
-        art_Containers_apache_Dockerfile["Containers/apache/Dockerfile"]
-        art_Containers_borgbackup_Dockerfile["Containers/borgbackup/Dockerfile"]
-        art_Containers_clamav_Dockerfile["Containers/clamav/Dockerfile"]
-        art_Containers_collabora_Dockerfile["Containers/collabora/Dockerfile"]
-        art_Containers_docker_socket_proxy_Dockerfile["Containers/docker-socket-proxy/Dockerfile"]
-        art_Containers_domaincheck_Dockerfile["Containers/domaincheck/Dockerfile"]
-        art_Containers_eurooffice_Dockerfile["Containers/eurooffice/Dockerfile"]
-        art_Containers_fulltextsearch_Dockerfile["Containers/fulltextsearch/Dockerfile"]
-        art_Containers_harp_Dockerfile["Containers/harp/Dockerfile"]
-        art_Containers_imaginary_Dockerfile["Containers/imaginary/Dockerfile"]
-        art_Containers_mastercontainer_Dockerfile["Containers/mastercontainer/Dockerfile"]
-        art_Containers_nextcloud_Dockerfile["Containers/nextcloud/Dockerfile"]
-        art_Containers_notify_push_Dockerfile["Containers/notify-push/Dockerfile"]
-        art_Containers_onlyoffice_Dockerfile["Containers/onlyoffice/Dockerfile"]
-        art_Containers_postgresql_Dockerfile["Containers/postgresql/Dockerfile"]
-        art_Containers_redis_Dockerfile["Containers/redis/Dockerfile"]
-        art_Containers_talk_recording_Dockerfile["Containers/talk-recording/Dockerfile"]
-        art_Containers_talk_Dockerfile["Containers/talk/Dockerfile"]
-        art_Containers_watchtower_Dockerfile["Containers/watchtower/Dockerfile"]
-        art_Containers_whiteboard_Dockerfile["Containers/whiteboard/Dockerfile"]
-        art_php_tests_Containers_composer_Dockerfile["php/tests/Containers/composer/Dockerfile"]
+        art_Containers_alpine_Dockerfile["Containers/alpine/Dockerfile"]:::atlasWorkflow
+        art_Containers_apache_Dockerfile["Containers/apache/Dockerfile"]:::atlasWorkflow
+        art_Containers_borgbackup_Dockerfile["Containers/borgbackup/Dockerfile"]:::atlasWorkflow
+        art_Containers_clamav_Dockerfile["Containers/clamav/Dockerfile"]:::atlasWorkflow
+        art_Containers_collabora_Dockerfile["Containers/collabora/Dockerfile"]:::atlasWorkflow
+        art_Containers_docker_socket_proxy_Dockerfile["Containers/docker-socket-proxy/Dockerfile"]:::atlasWorkflow
+        art_Containers_domaincheck_Dockerfile["Containers/domaincheck/Dockerfile"]:::atlasWorkflow
+        art_Containers_eurooffice_Dockerfile["Containers/eurooffice/Dockerfile"]:::atlasWorkflow
+        art_Containers_fulltextsearch_Dockerfile["Containers/fulltextsearch/Dockerfile"]:::atlasWorkflow
+        art_Containers_harp_Dockerfile["Containers/harp/Dockerfile"]:::atlasWorkflow
+        art_Containers_imaginary_Dockerfile["Containers/imaginary/Dockerfile"]:::atlasWorkflow
+        art_Containers_mastercontainer_Dockerfile["Containers/mastercontainer/Dockerfile"]:::atlasWorkflow
+        art_Containers_nextcloud_Dockerfile["Containers/nextcloud/Dockerfile"]:::atlasWorkflow
+        art_Containers_notify_push_Dockerfile["Containers/notify-push/Dockerfile"]:::atlasWorkflow
+        art_Containers_onlyoffice_Dockerfile["Containers/onlyoffice/Dockerfile"]:::atlasWorkflow
+        art_Containers_postgresql_Dockerfile["Containers/postgresql/Dockerfile"]:::atlasWorkflow
+        art_Containers_redis_Dockerfile["Containers/redis/Dockerfile"]:::atlasWorkflow
+        art_Containers_talk_recording_Dockerfile["Containers/talk-recording/Dockerfile"]:::atlasWorkflow
+        art_Containers_talk_Dockerfile["Containers/talk/Dockerfile"]:::atlasWorkflow
+        art_Containers_watchtower_Dockerfile["Containers/watchtower/Dockerfile"]:::atlasWorkflow
+        art_Containers_whiteboard_Dockerfile["Containers/whiteboard/Dockerfile"]:::atlasWorkflow
+        art_php_tests_Containers_composer_Dockerfile["php/tests/Containers/composer/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_collabora_yml_collabora_update["collabora.yml#collabora-update"]
-        job_dependency_updates_yml_dependency_updates["dependency-updates.yml#dependency_updates"]
-        job_desec_api_version_watch_yml_watch["desec-api-version-watch.yml#watch"]
-        job_helm_release_yml_release["helm-release.yml#release"]
-        job_imaginary_update_yml_run_update["imaginary-update.yml#run_update"]
-        job_json_validator_yml_json_validator["json-validator.yml#json-validator"]
-        job_lint_helm_yml_lint_helm["lint-helm.yml#lint-helm"]
-        job_lint_php_yml_php_lint["lint-php.yml#php-lint"]
-        job_lint_php_yml_summary["lint-php.yml#summary"]
-        job_nextcloud_update_yml_run_update_sh["nextcloud-update.yml#run_update_sh"]
-        job_php_deprecation_detector_yml_phpdd["php-deprecation-detector.yml#phpdd"]
-        job_playwright_on_push_yml_test["playwright-on-push.yml#test"]
-        job_playwright_on_workflow_dispatch_yml_test["playwright-on-workflow-dispatch.yml#test"]
-        job_psalm_update_baseline_yml_update_psalm_baseline["psalm-update-baseline.yml#update-psalm-baseline"]
-        job_psalm_yml_static_analysis["psalm.yml#static-analysis"]
-        job_talk_yml_talk_update["talk.yml#talk-update"]
-        job_twig_lint_yml_twig_lint["twig-lint.yml#twig-lint"]
-        job_update_helm_yml_update_helm["update-helm.yml#update-helm"]
-        job_watchtower_update_yml_watchtower_update["watchtower-update.yml#watchtower-update"]
+        job_collabora_yml_collabora_update["collabora.yml#collabora-update"]:::atlasJob
+        job_dependency_updates_yml_dependency_updates["dependency-updates.yml#dependency_updates"]:::atlasJob
+        job_desec_api_version_watch_yml_watch["desec-api-version-watch.yml#watch"]:::atlasJob
+        job_helm_release_yml_release["helm-release.yml#release"]:::atlasJob
+        job_imaginary_update_yml_run_update["imaginary-update.yml#run_update"]:::atlasJob
+        job_json_validator_yml_json_validator["json-validator.yml#json-validator"]:::atlasJob
+        job_lint_helm_yml_lint_helm["lint-helm.yml#lint-helm"]:::atlasJob
+        job_lint_php_yml_php_lint["lint-php.yml#php-lint"]:::atlasJob
+        job_lint_php_yml_summary["lint-php.yml#summary"]:::atlasJob
+        job_nextcloud_update_yml_run_update_sh["nextcloud-update.yml#run_update_sh"]:::atlasJob
+        job_php_deprecation_detector_yml_phpdd["php-deprecation-detector.yml#phpdd"]:::atlasJob
+        job_playwright_on_push_yml_test["playwright-on-push.yml#test"]:::atlasJob
+        job_playwright_on_workflow_dispatch_yml_test["playwright-on-workflow-dispatch.yml#test"]:::atlasJob
+        job_psalm_update_baseline_yml_update_psalm_baseline["psalm-update-baseline.yml#update-psalm-baseline"]:::atlasJob
+        job_psalm_yml_static_analysis["psalm.yml#static-analysis"]:::atlasJob
+        job_talk_yml_talk_update["talk.yml#talk-update"]:::atlasJob
+        job_twig_lint_yml_twig_lint["twig-lint.yml#twig-lint"]:::atlasJob
+        job_update_helm_yml_update_helm["update-helm.yml#update-helm"]:::atlasJob
+        job_watchtower_update_yml_watchtower_update["watchtower-update.yml#watchtower-update"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_helm_release_yml_release -->|DEPLOYS_TO| env_azure
     job_helm_release_yml_release -->|DEPLOYS_TO| env_kubernetes
@@ -422,13 +433,64 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/all-in-one (31 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 16 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/all-in-one (31 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 16 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (11 workflows · 12 jobs)"]
+  wf_11_Lint_Helm_Charts["Lint Helm Charts (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_11_Lint_Helm_Charts
+  job_11_lint_helm["lint-helm"]:::atlasJob
+  wf_11_Lint_Helm_Charts --> job_11_lint_helm
+  wf_18_Playwright_Tests["Playwright Tests (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_18_Playwright_Tests
+  job_18_test["test"]:::atlasJob
+  wf_18_Playwright_Tests --> job_18_test
+  wf_25_Update_Copyright["Update Copyright (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_25_Update_Copyright
+  job_25_update_copyright["update-copyright"]:::atlasJob
+  wf_25_Update_Copyright --> job_25_update_copyright
+  grp_1_CI___Verification["CI & Verification (11 workflows · 12 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  wf_0_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Codespell
+  job_0_codespell["codespell"]:::atlasJob
+  wf_0_Codespell --> job_0_codespell
+  wf_6_Docker_Lint["Docker Lint (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_6_Docker_Lint
+  job_6_docker_lint["docker-lint"]:::atlasJob
+  wf_6_Docker_Lint --> job_6_docker_lint
+  wf_12_Lint_php["Lint php (2 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_12_Lint_php
+  job_12_php_lint["php-lint"]:::atlasJob
+  job_12_summary["summary"]:::atlasJob
+  wf_12_Lint_php --> job_12_php_lint
+  job_12_php_lint --> job_12_summary
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_7_Block_if_prerelease_is_present["Block if prerelease is present (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_7_Block_if_prerelease_is_present
+  job_7_check_latest_release["check-latest-release"]:::atlasJob
+  wf_7_Block_if_prerelease_is_present --> job_7_check_latest_release
+  wf_8_Helm_Chart_Releaser["Helm Chart Releaser (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_Helm_Chart_Releaser
+  job_8_release["release"]:::atlasJob
+  wf_8_Helm_Chart_Releaser --> job_8_release
+  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_3_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_3_Auto_approve_Dependabot_PRs
+  job_3_auto_approve_merge["auto-approve-merge"]:::atlasJob
+  wf_3_Auto_approve_Dependabot_PRs --> job_3_auto_approve_merge
+  wf_14_Lock_Threads["Lock Threads (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_14_Lock_Threads
+  job_14_action["action"]:::atlasJob
+  wf_14_Lock_Threads --> job_14_action
+  wf_more["+21 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

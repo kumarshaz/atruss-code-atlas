@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for home-assistant/services.home-assistan
 
 ```mermaid
 graph TD;
-    n_7381bcf9_5be1_461c_8e8b_68cc9760b5a7["7381bcf9-5be1-461c-8e8b-68cc9760b5a7 : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    n_7381bcf9_5be1_461c_8e8b_68cc9760b5a7["7381bcf9-5be1-461c-8e8b-68cc9760b5a7 : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -87,14 +94,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_7381bcf9_5be1_461c_8e8b_68cc9760b5a7["7381bcf9-5be1-461c-8e8b-68cc9760b5a7"]
+        mod_7381bcf9_5be1_461c_8e8b_68cc9760b5a7["7381bcf9-5be1-461c-8e8b-68cc9760b5a7"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_publish_yaml_publish["publish.yaml#publish"]
-        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]
-        job_test_yaml_build["test.yaml#build"]
-        job_test_yaml_test["test.yaml#test"]
+        job_publish_yaml_publish["publish.yaml#publish"]:::atlasJob
+        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]:::atlasJob
+        job_test_yaml_build["test.yaml#build"]:::atlasJob
+        job_test_yaml_test["test.yaml#test"]:::atlasJob
     end
     mod_7381bcf9_5be1_461c_8e8b_68cc9760b5a7 -->|BUILT_BY| job_test_yaml_build
     mod_7381bcf9_5be1_461c_8e8b_68cc9760b5a7 -->|BUILT_BY| job_test_yaml_test
@@ -112,21 +123,28 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/services.home-assistant.io"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/services.home-assistant.io"]):::atlasRoot
   subgraph Publish_0["Publish"]
     direction TB
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
   end
   pipeline_root --> 0_publish
   subgraph Release_Drafter_1["Release Drafter"]
     direction TB
-    1_update_release_draft["update_release_draft"]
+    1_update_release_draft["update_release_draft"]:::atlasJob
   end
   pipeline_root --> 1_update_release_draft
   subgraph Test_2["Test"]
     direction TB
-    2_build["build"]
-    2_test["test"]
+    2_build["build"]:::atlasJob
+    2_test["test"]:::atlasJob
   end
   pipeline_root --> 2_build
 ```

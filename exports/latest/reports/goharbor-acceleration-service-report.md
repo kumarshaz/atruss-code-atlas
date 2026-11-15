@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for goharbor/acceleration-service
 
 ```mermaid
 graph TD;
-    repo_root(["goharbor/acceleration-service (49 components)"])
-    dir_0_pkg["pkg (47)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["goharbor/acceleration-service (49 components)"]):::atlasRoot
+    dir_0_pkg["pkg (47)"]:::atlasCategory
     repo_root --> dir_0_pkg
-    sub_0_0_driver["driver (10)"]
+    sub_0_0_driver["driver (10)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_0_driver
-    sub_0_1_content["content (8)"]
+    sub_0_1_content["content (8)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_1_content
-    sub_0_2_adapter["adapter (5)"]
+    sub_0_2_adapter["adapter (5)"]:::atlasWorkflow
     dir_0_pkg --> sub_0_2_adapter
-    sub_0_more["+15 more submodules (24)"]
+    sub_0_more["+15 more submodules (24)"]:::atlasMore
     dir_0_pkg --> sub_0_more
-    dir_1_cmd["cmd (2)"]
+    dir_1_cmd["cmd (2)"]:::atlasCategory
     repo_root --> dir_1_cmd
 ```
 
@@ -163,15 +170,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_3d5b7a4f_dcb8_4f89_ad72_9e39349138f0["3d5b7a4f-dcb8-4f89-ad72-9e39349138f0"]
-        mod_script_release["script/release"]
+        mod_3d5b7a4f_dcb8_4f89_ad72_9e39349138f0["3d5b7a4f-dcb8-4f89-ad72-9e39349138f0"]:::atlasCategory
+        mod_script_release["script/release"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_script_release_Dockerfile["script/release/Dockerfile"]
+        art_script_release_Dockerfile["script/release/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_build_image["release.yml#build_image"]
+        job_release_yml_build_image["release.yml#build_image"]:::atlasJob
     end
     mod_3d5b7a4f_dcb8_4f89_ad72_9e39349138f0 -->|BUILT_BY| job_release_yml_build_image
     mod_script_release -->|PACKAGED_BY| art_script_release_Dockerfile
@@ -187,9 +198,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/acceleration-service (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/acceleration-service (6 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 5 jobs)"]
+  wf_0_Concurrent_Test["Concurrent Test (2 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Concurrent_Test
+  job_0_concurrent_test_same["concurrent_test_same"]:::atlasJob
+  job_0_concurrent_test_diff["concurrent_test_diff"]:::atlasJob
+  wf_0_Concurrent_Test --> job_0_concurrent_test_same
+  wf_0_Concurrent_Test --> job_0_concurrent_test_diff
+  wf_1_DCO_Check["DCO Check (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_DCO_Check
+  job_1_dco_check["dco_check"]:::atlasJob
+  wf_1_DCO_Check --> job_1_dco_check
+  wf_2_Integration_Test["Integration Test (3 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Integration_Test
+  job_2_accel_check["accel_check"]:::atlasJob
+  job_2_accel_build["accel_build"]:::atlasJob
+  job_2_integration_test["integration_test"]:::atlasJob
+  wf_2_Integration_Test --> job_2_accel_check
+  wf_2_Integration_Test --> job_2_accel_build
+  job_2_accel_build --> job_2_integration_test
+  wf_4_Unit_Test["Unit Test (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Unit_Test
+  job_4_unit_test["unit_test"]:::atlasJob
+  wf_4_Unit_Test --> job_4_unit_test
+  wf_5_Webhook_Test["Webhook Test (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Webhook_Test
+  job_5_webhook_test["webhook_test"]:::atlasJob
+  wf_5_Webhook_Test --> job_5_webhook_test
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
+  wf_3_Release["Release (5 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Release
+  job_3_build_image["build_image"]:::atlasJob
+  job_3_release_image["release_image"]:::atlasJob
+  job_3_test_image["test_image"]:::atlasJob
+  wf_3_Release --> job_3_build_image
+  job_3_build_image --> job_3_release_image
+  job_3_release_image --> job_3_test_image
 ```

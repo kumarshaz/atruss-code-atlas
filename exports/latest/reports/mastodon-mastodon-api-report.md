@@ -40,18 +40,25 @@ description: Arc42 and Pipeline report for mastodon/mastodon-api
 
 ```mermaid
 graph TD;
-    repo_root(["mastodon/mastodon-api (74 components)"])
-    dir_0_lib["lib (56)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mastodon/mastodon-api (74 components)"]):::atlasRoot
+    dir_0_lib["lib (56)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0_mastodon["mastodon (55)"]
+    sub_0_0_mastodon["mastodon (55)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0_mastodon
-    sub_0_1__module_root_["(module root) (1)"]
+    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1__module_root_
-    dir_1_spec["spec (18)"]
+    dir_1_spec["spec (18)"]:::atlasCategory
     repo_root --> dir_1_spec
-    sub_1_0_mastodon["mastodon (17)"]
+    sub_1_0_mastodon["mastodon (17)"]:::atlasWorkflow
     dir_1_spec --> sub_1_0_mastodon
-    sub_1_1__module_root_["(module root) (1)"]
+    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_1_spec --> sub_1_1__module_root_
 ```
 
@@ -158,11 +165,15 @@ Showing top 60 representative components out of 74 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_c502c201_747f_4532_ad03_5e1675050549["c502c201-747f-4532-ad03-5e1675050549"]
+        mod_c502c201_747f_4532_ad03_5e1675050549["c502c201-747f-4532-ad03-5e1675050549"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_gempush_yml_build["gempush.yml#build"]
+        job_gempush_yml_build["gempush.yml#build"]:::atlasJob
     end
     mod_c502c201_747f_4532_ad03_5e1675050549 -->|DEPLOYED_BY| job_gempush_yml_build
 ```
@@ -174,8 +185,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Ruby_Gem_0["Ruby Gem"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

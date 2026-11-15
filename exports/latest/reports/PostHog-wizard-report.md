@@ -41,26 +41,33 @@ description: Arc42 and Pipeline report for PostHog/wizard
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/wizard (356 components)"])
-    dir_0_src["src (287)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/wizard (356 components)"]):::atlasRoot
+    dir_0_src["src (287)"]:::atlasCategory
     repo_root --> dir_0_src
-    sub_0_0_tui["tui (177)"]
+    sub_0_0_tui["tui (177)"]:::atlasWorkflow
     dir_0_src --> sub_0_0_tui
-    sub_0_1_shared["shared (73)"]
+    sub_0_1_shared["shared (73)"]:::atlasWorkflow
     dir_0_src --> sub_0_1_shared
-    sub_0_2_services["services (18)"]
+    sub_0_2_services["services (18)"]:::atlasWorkflow
     dir_0_src --> sub_0_2_services
-    sub_0_more["+2 more submodules (19)"]
+    sub_0_more["+2 more submodules (19)"]:::atlasMore
     dir_0_src --> sub_0_more
-    dir_1_e2e_tests["e2e-tests (62)"]
+    dir_1_e2e_tests["e2e-tests (62)"]:::atlasCategory
     repo_root --> dir_1_e2e_tests
-    sub_1_0_test_applications["test-applications (61)"]
+    sub_1_0_test_applications["test-applications (61)"]:::atlasWorkflow
     dir_1_e2e_tests --> sub_1_0_test_applications
-    sub_1_1__module_root_["(module root) (1)"]
+    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_1_e2e_tests --> sub_1_1__module_root_
-    dir_2___mocks__["__mocks__ (6)"]
+    dir_2___mocks__["__mocks__ (6)"]:::atlasCategory
     repo_root --> dir_2___mocks__
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     sub_0_0_tui -.->|"1 dep"| sub_0_2_services
 ```
@@ -210,15 +217,19 @@ Showing top 60 representative components out of 356 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_src["src"]
-        mod_src_programs["src/programs"]
-        mod_src_programs_posthog_integration["src/programs/posthog-integration"]
-        mod_src_services["src/services"]
-        mod_src_shared["src/shared"]
+        mod_src["src"]:::atlasCategory
+        mod_src_programs["src/programs"]:::atlasCategory
+        mod_src_programs_posthog_integration["src/programs/posthog-integration"]:::atlasCategory
+        mod_src_services["src/services"]:::atlasCategory
+        mod_src_shared["src/shared"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_job_native_command_security["build.yml#job_native_command_security"]
+        job_build_yml_job_native_command_security["build.yml#job_native_command_security"]:::atlasJob
     end
     mod_src -->|BUILT_BY| job_build_yml_job_native_command_security
     mod_src_programs -->|BUILT_BY| job_build_yml_job_native_command_security
@@ -238,13 +249,66 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/wizard (9 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/wizard (9 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 5 jobs)"]
+  wf_2_MCP_Install["MCP Install (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_MCP_Install
+  job_2_mcp_install["mcp-install"]:::atlasJob
+  wf_2_MCP_Install --> job_2_mcp_install
+  wf_4_Provisioning_Probe["Provisioning Probe (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_Provisioning_Probe
+  job_4_probe["probe"]:::atlasJob
+  wf_4_Provisioning_Probe --> job_4_probe
+  wf_7_Smoke_Test["Smoke Test (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_7_Smoke_Test
+  job_7_smoke_test["smoke-test"]:::atlasJob
+  wf_7_Smoke_Test --> job_7_smoke_test
+  wf_8_Wizard_CI_Trigger["Wizard CI Trigger (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_8_Wizard_CI_Trigger
+  job_8_post_welcome["post-welcome"]:::atlasJob
+  job_8_handle_command["handle-command"]:::atlasJob
+  job_8_handle_snapshots_command["handle-snapshots-command"]:::atlasJob
+  wf_8_Wizard_CI_Trigger --> job_8_post_welcome
+  wf_8_Wizard_CI_Trigger --> job_8_handle_command
+  wf_8_Wizard_CI_Trigger --> job_8_handle_snapshots_command
+  grp_1_CI___Verification["CI & Verification (2 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+  wf_0_Build___Test["Build & Test (4 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_0_Build___Test
+  job_0_job_build["job_build"]:::atlasJob
+  job_0_job_lint["job_lint"]:::atlasJob
+  job_0_job_native_command_security["job_native_command_security"]:::atlasJob
+  wf_0_Build___Test --> job_0_job_build
+  job_0_job_build --> job_0_job_lint
+  wf_0_Build___Test --> job_0_job_native_command_security
+  wf_3_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_3_PR_Conventional_Commit_Validation
+  job_3_validate_pr_title["validate-pr-title"]:::atlasJob
+  wf_3_PR_Conventional_Commit_Validation --> job_3_validate_pr_title
+  grp_2_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+  wf_5_Publish["Publish (2 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_5_Publish
+  job_5_check_package_version["check-package-version"]:::atlasJob
+  job_5_release["release"]:::atlasJob
+  wf_5_Publish --> job_5_check_package_version
+  job_5_check_package_version --> job_5_release
+  wf_6_release_please["release-please (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_6_release_please
+  job_6_release_please["release-please"]:::atlasJob
+  wf_6_release_please --> job_6_release_please
+  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Automation___Other
+  wf_1_Notify_Slack_for_wizard_issues["Notify Slack for wizard issues (1 jobs)"]:::atlasWorkflow
+  grp_3_Automation___Other --> wf_1_Notify_Slack_for_wizard_issues
+  job_1_notify["notify"]:::atlasJob
+  wf_1_Notify_Slack_for_wizard_issues --> job_1_notify
 ```

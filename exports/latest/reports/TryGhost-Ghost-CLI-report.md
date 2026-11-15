@@ -41,10 +41,17 @@ description: Arc42 and Pipeline report for TryGhost/Ghost-CLI
 
 ```mermaid
 graph TD;
-    ghost_cli_mysql["ghost-cli-mysql : MODULE"]
-    ghost_cli_nginx["ghost-cli-nginx : MODULE"]
-    ghost_cli_systemd["ghost-cli-systemd : MODULE"]
-    ghost_cli["ghost-cli : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ghost_cli_mysql["ghost-cli-mysql : MODULE"]:::atlasJob
+    ghost_cli_nginx["ghost-cli-nginx : MODULE"]:::atlasJob
+    ghost_cli_systemd["ghost-cli-systemd : MODULE"]:::atlasJob
+    ghost_cli["ghost-cli : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -126,19 +133,38 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/Ghost-CLI (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/Ghost-CLI (4 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  wf_1_Publish_to_npm["Publish to npm (1 jobs)"]
+  wf_1_Publish_to_npm["Publish to npm (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_1_Publish_to_npm
-  wf_2_Release["Release (1 jobs)"]
+  job_1_publish["publish"]:::atlasJob
+  wf_1_Publish_to_npm --> job_1_publish
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_2_Release
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]
+  job_2_release["release"]:::atlasJob
+  wf_2_Release --> job_2_release
+  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_CI["CI (10 jobs)"]
+  wf_0_CI["CI (10 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_0_CI
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  job_0_unit["unit"]:::atlasJob
+  job_0_local_e2e_linux["local-e2e-linux"]:::atlasJob
+  job_0_migration_mysql_data["migration-mysql-data"]:::atlasJob
+  wf_0_CI --> job_0_unit
+  wf_0_CI --> job_0_local_e2e_linux
+  wf_0_CI --> job_0_migration_mysql_data
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
-  wf_3_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+  wf_3_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
   grp_2_Security___Governance --> wf_3_Close_stale_issues_and_PRs
+  job_3_stale["stale"]:::atlasJob
+  wf_3_Close_stale_issues_and_PRs --> job_3_stale
 ```

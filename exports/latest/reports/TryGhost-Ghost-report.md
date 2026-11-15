@@ -41,52 +41,59 @@ description: Arc42 and Pipeline report for TryGhost/Ghost
 
 ```mermaid
 graph TD;
-    repo_root(["TryGhost/Ghost (2000 components)"])
-    dir_0_apps["apps (1068)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["TryGhost/Ghost (2000 components)"]):::atlasRoot
+    dir_0_apps["apps (1068)"]:::atlasCategory
     repo_root --> dir_0_apps
-    sub_0_0_shade["shade (557)"]
+    sub_0_0_shade["shade (557)"]:::atlasWorkflow
     dir_0_apps --> sub_0_0_shade
-    sub_0_1_admin["admin (378)"]
+    sub_0_1_admin["admin (378)"]:::atlasWorkflow
     dir_0_apps --> sub_0_1_admin
-    sub_0_2_portal["portal (40)"]
+    sub_0_2_portal["portal (40)"]:::atlasWorkflow
     dir_0_apps --> sub_0_2_portal
-    sub_0_more["+7 more submodules (93)"]
+    sub_0_more["+7 more submodules (93)"]:::atlasMore
     dir_0_apps --> sub_0_more
-    dir_1_ghost["ghost (457)"]
+    dir_1_ghost["ghost (457)"]:::atlasCategory
     repo_root --> dir_1_ghost
-    sub_1_0_core["core (430)"]
+    sub_1_0_core["core (430)"]:::atlasWorkflow
     dir_1_ghost --> sub_1_0_core
-    sub_1_1_test["test (26)"]
+    sub_1_1_test["test (26)"]:::atlasWorkflow
     dir_1_ghost --> sub_1_1_test
-    sub_1_2__module_root_["(module root) (1)"]
+    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_1_ghost --> sub_1_2__module_root_
-    dir_2_koenig["koenig (407)"]
+    dir_2_koenig["koenig (407)"]:::atlasCategory
     repo_root --> dir_2_koenig
-    sub_2_0_koenig_lexical["koenig-lexical (391)"]
+    sub_2_0_koenig_lexical["koenig-lexical (391)"]:::atlasWorkflow
     dir_2_koenig --> sub_2_0_koenig_lexical
-    sub_2_1_kg_unsplash_selector["kg-unsplash-selector (5)"]
+    sub_2_1_kg_unsplash_selector["kg-unsplash-selector (5)"]:::atlasWorkflow
     dir_2_koenig --> sub_2_1_kg_unsplash_selector
-    sub_2_2_kg_card_factory["kg-card-factory (1)"]
+    sub_2_2_kg_card_factory["kg-card-factory (1)"]:::atlasWorkflow
     dir_2_koenig --> sub_2_2_kg_card_factory
-    sub_2_more["+10 more submodules (10)"]
+    sub_2_more["+10 more submodules (10)"]:::atlasMore
     dir_2_koenig --> sub_2_more
-    dir_3_e2e["e2e (30)"]
+    dir_3_e2e["e2e (30)"]:::atlasCategory
     repo_root --> dir_3_e2e
-    sub_3_0_helpers["helpers (29)"]
+    sub_3_0_helpers["helpers (29)"]:::atlasWorkflow
     dir_3_e2e --> sub_3_0_helpers
-    sub_3_1__module_root_["(module root) (1)"]
+    sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_3_e2e --> sub_3_1__module_root_
-    dir_4_packages["packages (24)"]
+    dir_4_packages["packages (24)"]:::atlasCategory
     repo_root --> dir_4_packages
-    sub_4_0_adapters["adapters (11)"]
+    sub_4_0_adapters["adapters (11)"]:::atlasWorkflow
     dir_4_packages --> sub_4_0_adapters
-    sub_4_1_limit_service["limit-service (2)"]
+    sub_4_1_limit_service["limit-service (2)"]:::atlasWorkflow
     dir_4_packages --> sub_4_1_limit_service
-    sub_4_2__template["_template (1)"]
+    sub_4_2__template["_template (1)"]:::atlasWorkflow
     dir_4_packages --> sub_4_2__template
-    sub_4_more["+10 more submodules (10)"]
+    sub_4_more["+10 more submodules (10)"]:::atlasMore
     dir_4_packages --> sub_4_more
-    dir_other_modules["+5 more modules (14)"]
+    dir_other_modules["+5 more modules (14)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_0_shade -.->|"1488 deps"| sub_0_1_admin
     sub_0_1_admin -.->|"523 deps"| sub_1_0_core
@@ -320,117 +327,121 @@ Showing top 60 representative components out of 2000 across 10 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github_scripts_i18n_review[".github/scripts/i18n-review"]
-        mod_apps_admin["apps/admin"]
-        mod_apps_admin_toolbar["apps/admin-toolbar"]
-        mod_apps_admin_toolbar_test["apps/admin-toolbar/test"]
-        mod_apps_announcement_bar["apps/announcement-bar"]
-        mod_apps_announcement_bar_test["apps/announcement-bar/test"]
-        mod_apps_comments_ui["apps/comments-ui"]
-        mod_apps_portal["apps/portal"]
-        mod_apps_shade["apps/shade"]
-        mod_apps_signup_form["apps/signup-form"]
-        mod_apps_sodo_search["apps/sodo-search"]
-        mod_apps_sodo_search_test["apps/sodo-search/test"]
-        mod_c4c5c378_0bed_4b3a_a75f_c1f274362df5["c4c5c378-0bed-4b3a-a75f-c1f274362df5"]
-        mod_contracts_app_contracts_test["contracts/app-contracts/test"]
-        mod_contracts_metafield_types_test["contracts/metafield-types/test"]
-        mod_docker_dev_gateway["docker/dev-gateway"]
-        mod_docker_dev_url_testing["docker/dev-url-testing"]
-        mod_docker_fake_mailgun["docker/fake-mailgun"]
-        mod_docker_fake_upgrades["docker/fake-upgrades"]
-        mod_docker_ghost_dev["docker/ghost-dev"]
-        mod_docker_tb_cli["docker/tb-cli"]
-        mod_e2e["e2e"]
-        mod_ghost["ghost"]
-        mod_ghost_scripts["ghost/scripts"]
-        mod_ghost_test["ghost/test"]
-        mod_ghost_test_utils_fixtures_themes_casper["ghost/test/utils/fixtures/themes/casper"]
-        mod_ghost_test_utils_fixtures_themes_source["ghost/test/utils/fixtures/themes/source"]
-        mod_packages__template_test["packages/_template/test"]
-        mod_packages_adapters_cache_base_test["packages/adapters/cache-base/test"]
-        mod_packages_adapters_jobs_base_test["packages/adapters/jobs-base/test"]
-        mod_packages_adapters_redirects_base_test["packages/adapters/redirects-base/test"]
-        mod_packages_adapters_route_settings_base_test["packages/adapters/route-settings-base/test"]
-        mod_packages_adapters_scheduling_base_test["packages/adapters/scheduling-base/test"]
-        mod_packages_adapters_sso_base_test["packages/adapters/sso-base/test"]
-        mod_packages_adapters_storage_base_test["packages/adapters/storage-base/test"]
-        mod_packages_adapters_upgrade_base["packages/adapters/upgrade-base"]
-        mod_packages_adapters_upgrade_base_test["packages/adapters/upgrade-base/test"]
-        mod_packages_admin_api_schema_test["packages/admin-api-schema/test"]
-        mod_packages_api_framework_test["packages/api-framework/test"]
-        mod_packages_app_sdk_test["packages/app-sdk/test"]
-        mod_packages_checkout_test["packages/checkout/test"]
-        mod_packages_i18n["packages/i18n"]
-        mod_packages_i18n_test["packages/i18n/test"]
-        mod_packages_image_transform_test["packages/image-transform/test"]
-        mod_packages_limit_service_test["packages/limit-service/test"]
-        mod_packages_metafield_csv_test["packages/metafield-csv/test"]
-        mod_packages_nql_string_test["packages/nql-string/test"]
-        mod_packages_parse_email_address_test["packages/parse-email-address/test"]
-        mod_tools_scripts["tools/scripts"]
+        mod__github_scripts_i18n_review[".github/scripts/i18n-review"]:::atlasCategory
+        mod_apps_admin["apps/admin"]:::atlasCategory
+        mod_apps_admin_toolbar["apps/admin-toolbar"]:::atlasCategory
+        mod_apps_admin_toolbar_test["apps/admin-toolbar/test"]:::atlasCategory
+        mod_apps_announcement_bar["apps/announcement-bar"]:::atlasCategory
+        mod_apps_announcement_bar_test["apps/announcement-bar/test"]:::atlasCategory
+        mod_apps_comments_ui["apps/comments-ui"]:::atlasCategory
+        mod_apps_portal["apps/portal"]:::atlasCategory
+        mod_apps_shade["apps/shade"]:::atlasCategory
+        mod_apps_signup_form["apps/signup-form"]:::atlasCategory
+        mod_apps_sodo_search["apps/sodo-search"]:::atlasCategory
+        mod_apps_sodo_search_test["apps/sodo-search/test"]:::atlasCategory
+        mod_c4c5c378_0bed_4b3a_a75f_c1f274362df5["c4c5c378-0bed-4b3a-a75f-c1f274362df5"]:::atlasCategory
+        mod_contracts_app_contracts_test["contracts/app-contracts/test"]:::atlasCategory
+        mod_contracts_metafield_types_test["contracts/metafield-types/test"]:::atlasCategory
+        mod_docker_dev_gateway["docker/dev-gateway"]:::atlasCategory
+        mod_docker_dev_url_testing["docker/dev-url-testing"]:::atlasCategory
+        mod_docker_fake_mailgun["docker/fake-mailgun"]:::atlasCategory
+        mod_docker_fake_upgrades["docker/fake-upgrades"]:::atlasCategory
+        mod_docker_ghost_dev["docker/ghost-dev"]:::atlasCategory
+        mod_docker_tb_cli["docker/tb-cli"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_ghost["ghost"]:::atlasCategory
+        mod_ghost_scripts["ghost/scripts"]:::atlasCategory
+        mod_ghost_test["ghost/test"]:::atlasCategory
+        mod_ghost_test_utils_fixtures_themes_casper["ghost/test/utils/fixtures/themes/casper"]:::atlasCategory
+        mod_ghost_test_utils_fixtures_themes_source["ghost/test/utils/fixtures/themes/source"]:::atlasCategory
+        mod_packages__template_test["packages/_template/test"]:::atlasCategory
+        mod_packages_adapters_cache_base_test["packages/adapters/cache-base/test"]:::atlasCategory
+        mod_packages_adapters_jobs_base_test["packages/adapters/jobs-base/test"]:::atlasCategory
+        mod_packages_adapters_redirects_base_test["packages/adapters/redirects-base/test"]:::atlasCategory
+        mod_packages_adapters_route_settings_base_test["packages/adapters/route-settings-base/test"]:::atlasCategory
+        mod_packages_adapters_scheduling_base_test["packages/adapters/scheduling-base/test"]:::atlasCategory
+        mod_packages_adapters_sso_base_test["packages/adapters/sso-base/test"]:::atlasCategory
+        mod_packages_adapters_storage_base_test["packages/adapters/storage-base/test"]:::atlasCategory
+        mod_packages_adapters_upgrade_base["packages/adapters/upgrade-base"]:::atlasCategory
+        mod_packages_adapters_upgrade_base_test["packages/adapters/upgrade-base/test"]:::atlasCategory
+        mod_packages_admin_api_schema_test["packages/admin-api-schema/test"]:::atlasCategory
+        mod_packages_api_framework_test["packages/api-framework/test"]:::atlasCategory
+        mod_packages_app_sdk_test["packages/app-sdk/test"]:::atlasCategory
+        mod_packages_checkout_test["packages/checkout/test"]:::atlasCategory
+        mod_packages_i18n["packages/i18n"]:::atlasCategory
+        mod_packages_i18n_test["packages/i18n/test"]:::atlasCategory
+        mod_packages_image_transform_test["packages/image-transform/test"]:::atlasCategory
+        mod_packages_limit_service_test["packages/limit-service/test"]:::atlasCategory
+        mod_packages_metafield_csv_test["packages/metafield-csv/test"]:::atlasCategory
+        mod_packages_nql_string_test["packages/nql-string/test"]:::atlasCategory
+        mod_packages_parse_email_address_test["packages/parse-email-address/test"]:::atlasCategory
+        mod_tools_scripts["tools/scripts"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile_production["Dockerfile.production"]
-        art_docker_dev_gateway_Dockerfile["docker/dev-gateway/Dockerfile"]
-        art_docker_fake_mailgun_Dockerfile["docker/fake-mailgun/Dockerfile"]
-        art_docker_fake_upgrades_Dockerfile["docker/fake-upgrades/Dockerfile"]
-        art_docker_ghost_dev_Dockerfile["docker/ghost-dev/Dockerfile"]
-        art_docker_tb_cli_Dockerfile["docker/tb-cli/Dockerfile"]
-        art_e2e_Dockerfile_e2e["e2e/Dockerfile.e2e"]
-        art_e2e_Dockerfile_runner["e2e/Dockerfile.runner"]
+        art_Dockerfile_production["Dockerfile.production"]:::atlasWorkflow
+        art_docker_dev_gateway_Dockerfile["docker/dev-gateway/Dockerfile"]:::atlasWorkflow
+        art_docker_fake_mailgun_Dockerfile["docker/fake-mailgun/Dockerfile"]:::atlasWorkflow
+        art_docker_fake_upgrades_Dockerfile["docker/fake-upgrades/Dockerfile"]:::atlasWorkflow
+        art_docker_ghost_dev_Dockerfile["docker/ghost-dev/Dockerfile"]:::atlasWorkflow
+        art_docker_tb_cli_Dockerfile["docker/tb-cli/Dockerfile"]:::atlasWorkflow
+        art_e2e_Dockerfile_e2e["e2e/Dockerfile.e2e"]:::atlasWorkflow
+        art_e2e_Dockerfile_runner["e2e/Dockerfile.runner"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_create_github_release["ci.yml#create_github_release"]
-        job_ci_yml_job_acceptance_tests["ci.yml#job_acceptance-tests"]
-        job_ci_yml_job_app_version_bump_check["ci.yml#job_app_version_bump_check"]
-        job_ci_yml_job_apps_acceptance_tests["ci.yml#job_apps_acceptance-tests"]
-        job_ci_yml_job_build_admin["ci.yml#job_build_admin"]
-        job_ci_yml_job_build_e2e_public_apps["ci.yml#job_build_e2e_public_apps"]
-        job_ci_yml_job_docker["ci.yml#job_docker"]
-        job_ci_yml_job_e2e_tests["ci.yml#job_e2e_tests"]
-        job_ci_yml_job_e2e_timings["ci.yml#job_e2e_timings"]
-        job_ci_yml_job_ghost_cli["ci.yml#job_ghost-cli"]
-        job_ci_yml_job_i18n["ci.yml#job_i18n"]
-        job_ci_yml_job_legacy_tests["ci.yml#job_legacy-tests"]
-        job_ci_yml_job_legacy_services["ci.yml#job_legacy_services"]
-        job_ci_yml_job_lint["ci.yml#job_lint"]
-        job_ci_yml_job_lint_docs["ci.yml#job_lint_docs"]
-        job_ci_yml_job_lint_packages["ci.yml#job_lint_packages"]
-        job_ci_yml_job_merge_e2e_reports["ci.yml#job_merge_e2e_reports"]
-        job_ci_yml_job_migration_integrity_check["ci.yml#job_migration_integrity_check"]
-        job_ci_yml_job_pack["ci.yml#job_pack"]
-        job_ci_yml_job_perf_tests["ci.yml#job_perf-tests"]
-        job_ci_yml_job_perf_tests_image["ci.yml#job_perf-tests-image"]
-        job_ci_yml_job_service_inventory["ci.yml#job_service_inventory"]
-        job_ci_yml_job_setup["ci.yml#job_setup"]
-        job_ci_yml_job_stripe_fixtures["ci.yml#job_stripe_fixtures"]
-        job_ci_yml_job_unit_tests["ci.yml#job_unit-tests"]
-        job_ci_yml_job_upload_sourcemaps["ci.yml#job_upload_sourcemaps"]
-        job_ci_yml_publish_continuous["ci.yml#publish_continuous"]
-        job_ci_yml_publish_ghost["ci.yml#publish_ghost"]
-        job_cleanup_ghcr_yml_cleanup["cleanup-ghcr.yml#cleanup"]
-        job_docker_nightly_yml_build["docker-nightly.yml#build"]
-        job_docker_nightly_yml_build_admin["docker-nightly.yml#build_admin"]
-        job_docker_nightly_yml_publish["docker-nightly.yml#publish"]
-        job_docker_nightly_yml_resolve["docker-nightly.yml#resolve"]
-        job_e2e_runner_image_yml_publish["e2e-runner-image.yml#publish"]
-        job_i18n_review_checks_yml_check["i18n-review-checks.yml#check"]
-        job_koenig_demo_yml_build["koenig-demo.yml#build"]
-        job_koenig_demo_yml_deploy["koenig-demo.yml#deploy"]
-        job_publish_packages_yml_publish["publish-packages.yml#publish"]
-        job_publish_tb_cli_yml_publish["publish-tb-cli.yml#publish"]
-        job_release_yml_release["release.yml#release"]
-        job_renovate_yml_renovate["renovate.yml#renovate"]
-        job_shade_docs_yml_build["shade-docs.yml#build"]
-        job_tinybird_yml_tests["tinybird.yml#tests"]
-        job_translation_review_yml_review["translation-review.yml#review"]
+        job_ci_yml_create_github_release["ci.yml#create_github_release"]:::atlasJob
+        job_ci_yml_job_acceptance_tests["ci.yml#job_acceptance-tests"]:::atlasJob
+        job_ci_yml_job_app_version_bump_check["ci.yml#job_app_version_bump_check"]:::atlasJob
+        job_ci_yml_job_apps_acceptance_tests["ci.yml#job_apps_acceptance-tests"]:::atlasJob
+        job_ci_yml_job_build_admin["ci.yml#job_build_admin"]:::atlasJob
+        job_ci_yml_job_build_e2e_public_apps["ci.yml#job_build_e2e_public_apps"]:::atlasJob
+        job_ci_yml_job_docker["ci.yml#job_docker"]:::atlasJob
+        job_ci_yml_job_e2e_tests["ci.yml#job_e2e_tests"]:::atlasJob
+        job_ci_yml_job_e2e_timings["ci.yml#job_e2e_timings"]:::atlasJob
+        job_ci_yml_job_ghost_cli["ci.yml#job_ghost-cli"]:::atlasJob
+        job_ci_yml_job_i18n["ci.yml#job_i18n"]:::atlasJob
+        job_ci_yml_job_legacy_tests["ci.yml#job_legacy-tests"]:::atlasJob
+        job_ci_yml_job_legacy_services["ci.yml#job_legacy_services"]:::atlasJob
+        job_ci_yml_job_lint["ci.yml#job_lint"]:::atlasJob
+        job_ci_yml_job_lint_docs["ci.yml#job_lint_docs"]:::atlasJob
+        job_ci_yml_job_lint_packages["ci.yml#job_lint_packages"]:::atlasJob
+        job_ci_yml_job_merge_e2e_reports["ci.yml#job_merge_e2e_reports"]:::atlasJob
+        job_ci_yml_job_migration_integrity_check["ci.yml#job_migration_integrity_check"]:::atlasJob
+        job_ci_yml_job_pack["ci.yml#job_pack"]:::atlasJob
+        job_ci_yml_job_perf_tests["ci.yml#job_perf-tests"]:::atlasJob
+        job_ci_yml_job_perf_tests_image["ci.yml#job_perf-tests-image"]:::atlasJob
+        job_ci_yml_job_service_inventory["ci.yml#job_service_inventory"]:::atlasJob
+        job_ci_yml_job_setup["ci.yml#job_setup"]:::atlasJob
+        job_ci_yml_job_stripe_fixtures["ci.yml#job_stripe_fixtures"]:::atlasJob
+        job_ci_yml_job_unit_tests["ci.yml#job_unit-tests"]:::atlasJob
+        job_ci_yml_job_upload_sourcemaps["ci.yml#job_upload_sourcemaps"]:::atlasJob
+        job_ci_yml_publish_continuous["ci.yml#publish_continuous"]:::atlasJob
+        job_ci_yml_publish_ghost["ci.yml#publish_ghost"]:::atlasJob
+        job_cleanup_ghcr_yml_cleanup["cleanup-ghcr.yml#cleanup"]:::atlasJob
+        job_docker_nightly_yml_build["docker-nightly.yml#build"]:::atlasJob
+        job_docker_nightly_yml_build_admin["docker-nightly.yml#build_admin"]:::atlasJob
+        job_docker_nightly_yml_publish["docker-nightly.yml#publish"]:::atlasJob
+        job_docker_nightly_yml_resolve["docker-nightly.yml#resolve"]:::atlasJob
+        job_e2e_runner_image_yml_publish["e2e-runner-image.yml#publish"]:::atlasJob
+        job_i18n_review_checks_yml_check["i18n-review-checks.yml#check"]:::atlasJob
+        job_koenig_demo_yml_build["koenig-demo.yml#build"]:::atlasJob
+        job_koenig_demo_yml_deploy["koenig-demo.yml#deploy"]:::atlasJob
+        job_publish_packages_yml_publish["publish-packages.yml#publish"]:::atlasJob
+        job_publish_tb_cli_yml_publish["publish-tb-cli.yml#publish"]:::atlasJob
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_renovate_yml_renovate["renovate.yml#renovate"]:::atlasJob
+        job_shade_docs_yml_build["shade-docs.yml#build"]:::atlasJob
+        job_tinybird_yml_tests["tinybird.yml#tests"]:::atlasJob
+        job_translation_review_yml_review["translation-review.yml#review"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_dockerhub["dockerhub"]
-        env_github_pages["github-pages"]
-        env_npm_release["npm-release"]
+        env_dockerhub["dockerhub"]:::atlasTarget
+        env_github_pages["github-pages"]:::atlasTarget
+        env_npm_release["npm-release"]:::atlasTarget
     end
     job_ci_yml_publish_continuous -->|DEPLOYS_TO| env_npm_release
     job_ci_yml_publish_ghost -->|DEPLOYS_TO| env_npm_release
@@ -720,13 +731,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/Ghost (25 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 15 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/Ghost (25 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 15 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (7 workflows · 9 jobs)"]
+  wf_5_Nightly_Docker_Image["Nightly Docker Image (4 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Nightly_Docker_Image
+  job_5_resolve["resolve"]:::atlasJob
+  job_5_build_admin["build_admin"]:::atlasJob
+  job_5_build["build"]:::atlasJob
+  wf_5_Nightly_Docker_Image --> job_5_resolve
+  job_5_resolve --> job_5_build_admin
+  job_5_resolve --> job_5_build
+  job_5_build_admin --> job_5_build
+  wf_9_Koenig_Demo["Koenig Demo (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_9_Koenig_Demo
+  job_9_build["build"]:::atlasJob
+  job_9_deploy["deploy"]:::atlasJob
+  wf_9_Koenig_Demo --> job_9_build
+  job_9_build --> job_9_deploy
+  wf_17_Shade_Docs["Shade Docs (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_17_Shade_Docs
+  job_17_build["build"]:::atlasJob
+  job_17_deploy["deploy"]:::atlasJob
+  wf_17_Shade_Docs --> job_17_build
+  job_17_build --> job_17_deploy
+  grp_1_Release___Deploy["Release & Deploy (7 workflows · 9 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (6 workflows · 43 jobs)"]
+  wf_3_Create_release_branch["Create release branch (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_Create_release_branch
+  job_3_create_branch["create-branch"]:::atlasJob
+  wf_3_Create_release_branch --> job_3_create_branch
+  wf_13_Publish_Packages["Publish Packages (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_13_Publish_Packages
+  job_13_publish["publish"]:::atlasJob
+  job_13_notify_failure["notify_failure"]:::atlasJob
+  wf_13_Publish_Packages --> job_13_publish
+  job_13_publish --> job_13_notify_failure
+  wf_15_Release["Release (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_15_Release
+  job_15_check_recent_release["check-recent-release"]:::atlasJob
+  job_15_release["release"]:::atlasJob
+  wf_15_Release --> job_15_check_recent_release
+  job_15_check_recent_release --> job_15_release
+  grp_2_CI___Verification["CI & Verification (6 workflows · 43 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+  wf_0_CI["CI (34 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_0_CI
+  job_0_job_setup["job_setup"]:::atlasJob
+  job_0_job_app_version_bump_check["job_app_version_bump_check"]:::atlasJob
+  job_0_job_migration_integrity_check["job_migration_integrity_check"]:::atlasJob
+  wf_0_CI --> job_0_job_setup
+  job_0_job_setup --> job_0_job_app_version_bump_check
+  job_0_job_setup --> job_0_job_migration_integrity_check
+  wf_21_Tinybird["Tinybird (4 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_21_Tinybird
+  job_21_changes["changes"]:::atlasJob
+  wf_21_Tinybird --> job_21_changes
+  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_18_Close_stale_i18n_PRs["Close stale i18n PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_18_Close_stale_i18n_PRs
+  wf_19_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_19_Close_stale_issues_and_PRs
+  wf_more["+15 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,40 +41,47 @@ description: Arc42 and Pipeline report for grafana/cog
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/cog (250 components)"])
-    dir_0_internal["internal (171)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/cog (250 components)"]):::atlasRoot
+    dir_0_internal["internal (171)"]:::atlasCategory
     repo_root --> dir_0_internal
-    sub_0_0_jennies["jennies (108)"]
+    sub_0_0_jennies["jennies (108)"]:::atlasWorkflow
     dir_0_internal --> sub_0_0_jennies
-    sub_0_1_codegen["codegen (14)"]
+    sub_0_1_codegen["codegen (14)"]:::atlasWorkflow
     dir_0_internal --> sub_0_1_codegen
-    sub_0_2_veneers["veneers (13)"]
+    sub_0_2_veneers["veneers (13)"]:::atlasWorkflow
     dir_0_internal --> sub_0_2_veneers
-    sub_0_more["+11 more submodules (36)"]
+    sub_0_more["+11 more submodules (36)"]:::atlasMore
     dir_0_internal --> sub_0_more
-    dir_1_pkg["pkg (64)"]
+    dir_1_pkg["pkg (64)"]:::atlasCategory
     repo_root --> dir_1_pkg
-    sub_1_0_ir["ir (59)"]
+    sub_1_0_ir["ir (59)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_0_ir
-    sub_1_1_apiref["apiref (2)"]
+    sub_1_1_apiref["apiref (2)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_1_apiref
-    sub_1_2_cue["cue (2)"]
+    sub_1_2_cue["cue (2)"]:::atlasWorkflow
     dir_1_pkg --> sub_1_2_cue
-    sub_1_more["+1 more submodules (1)"]
+    sub_1_more["+1 more submodules (1)"]:::atlasMore
     dir_1_pkg --> sub_1_more
-    dir_2_cmd["cmd (10)"]
+    dir_2_cmd["cmd (10)"]:::atlasCategory
     repo_root --> dir_2_cmd
-    sub_2_0_cli["cli (7)"]
+    sub_2_0_cli["cli (7)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_0_cli
-    sub_2_1_cog_config_schemas["cog-config-schemas (1)"]
+    sub_2_1_cog_config_schemas["cog-config-schemas (1)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_1_cog_config_schemas
-    sub_2_2_compiler_passes_docs["compiler-passes-docs (1)"]
+    sub_2_2_compiler_passes_docs["compiler-passes-docs (1)"]:::atlasWorkflow
     dir_2_cmd --> sub_2_2_compiler_passes_docs
-    sub_2_more["+1 more submodules (1)"]
+    sub_2_more["+1 more submodules (1)"]:::atlasMore
     dir_2_cmd --> sub_2_more
-    dir_3__root_["(root) (3)"]
+    dir_3__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_examples["examples (2)"]
+    dir_4_examples["examples (2)"]:::atlasCategory
     repo_root --> dir_4_examples
 ```
 
@@ -205,12 +212,16 @@ Showing top 60 representative components out of 250 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_docs_yaml_build_docs["docs.yaml#build_docs"]
-        job_docs_yaml_deploy["docs.yaml#deploy"]
+        job_docs_yaml_build_docs["docs.yaml#build_docs"]:::atlasJob
+        job_docs_yaml_deploy["docs.yaml#deploy"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_docs_yaml_build_docs -->|DEPLOYS_TO| env_github_pages
     job_docs_yaml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -224,17 +235,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/cog (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/cog (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_CI["CI (3 jobs)"]
+  wf_0_CI["CI (3 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_CI
-  wf_2_Foundation_SDK["Foundation SDK (3 jobs)"]
+  job_0_linters["linters"]:::atlasJob
+  job_0_tests["tests"]:::atlasJob
+  job_0_docs["docs"]:::atlasJob
+  wf_0_CI --> job_0_linters
+  wf_0_CI --> job_0_tests
+  wf_0_CI --> job_0_docs
+  wf_2_Foundation_SDK["Foundation SDK (3 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Foundation_SDK
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+  job_2_build_lint["build_lint"]:::atlasJob
+  job_2_examples["examples"]:::atlasJob
+  job_2_sdk_diff["sdk_diff"]:::atlasJob
+  wf_2_Foundation_SDK --> job_2_build_lint
+  wf_2_Foundation_SDK --> job_2_examples
+  wf_2_Foundation_SDK --> job_2_sdk_diff
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_1_Publish_documentation["Publish documentation (2 jobs)"]
+  wf_1_Publish_documentation["Publish documentation (2 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_1_Publish_documentation
-  wf_3_Release["Release (1 jobs)"]
+  job_1_build_docs["build_docs"]:::atlasJob
+  job_1_deploy["deploy"]:::atlasJob
+  wf_1_Publish_documentation --> job_1_build_docs
+  job_1_build_docs --> job_1_deploy
+  wf_3_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_Release
+  job_3_release["release"]:::atlasJob
+  wf_3_Release --> job_3_release
 ```

@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for PostHog/ai-plugin
 
 ```mermaid
 graph TD;
-    Vocabulary["Vocabulary : DATA_ACCESS_LAYER"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Vocabulary["Vocabulary : DATA_ACCESS_LAYER"]:::atlasJob
 ```
 
 ## Component Details
@@ -73,16 +80,23 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/ai-plugin"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/ai-plugin"]):::atlasRoot
   subgraph Sync_skills_from_PostHog_release_0["Sync skills from PostHog release"]
     direction TB
-    0_sync_skills["sync-skills"]
+    0_sync_skills["sync-skills"]:::atlasJob
   end
   pipeline_root --> 0_sync_skills
   subgraph Tests_1["Tests"]
     direction TB
-    1_tests["tests"]
-    1_antigravity["antigravity"]
+    1_tests["tests"]:::atlasJob
+    1_antigravity["antigravity"]:::atlasJob
   end
   pipeline_root --> 1_tests
 ```

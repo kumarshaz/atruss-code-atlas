@@ -70,16 +70,20 @@ description: Arc42 and Pipeline report for backstage/mkdocs-techdocs-core
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_c7543c94_d48a_4279_b699_28f4683a4a46["c7543c94-d48a-4279-b699-28f4683a4a46"]
+        mod_c7543c94_d48a_4279_b699_28f4683a4a46["c7543c94-d48a-4279-b699-28f4683a4a46"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_automate_stale_yml_stale["automate-stale.yml#stale"]
-        job_lint_yml_lint["lint.yml#lint"]
-        job_manual_versioning_yml_release["manual-versioning.yml#release"]
-        job_pypi_publish_yml_build["pypi-publish.yml#build"]
-        job_test_yml_build["test.yml#build"]
-        job_validate_renovate_yml_validate["validate-renovate.yml#validate"]
+        job_automate_stale_yml_stale["automate-stale.yml#stale"]:::atlasJob
+        job_lint_yml_lint["lint.yml#lint"]:::atlasJob
+        job_manual_versioning_yml_release["manual-versioning.yml#release"]:::atlasJob
+        job_pypi_publish_yml_build["pypi-publish.yml#build"]:::atlasJob
+        job_test_yml_build["test.yml#build"]:::atlasJob
+        job_validate_renovate_yml_validate["validate-renovate.yml#validate"]:::atlasJob
     end
     mod_c7543c94_d48a_4279_b699_28f4683a4a46 -->|BUILT_BY| job_automate_stale_yml_stale
     mod_c7543c94_d48a_4279_b699_28f4683a4a46 -->|BUILT_BY| job_lint_yml_lint
@@ -101,13 +105,44 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["backstage/mkdocs-techdocs-core (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["backstage/mkdocs-techdocs-core (6 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_1_Lint_using_PSF_s_black_linter["Lint using PSF's black linter (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Lint_using_PSF_s_black_linter
+  job_1_lint["lint"]:::atlasJob
+  wf_1_Lint_using_PSF_s_black_linter --> job_1_lint
+  wf_4_ci_python_unittest["ci-python-unittest (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_ci_python_unittest
+  job_4_build["build"]:::atlasJob
+  wf_4_ci_python_unittest --> job_4_build
+  wf_5_Validate_the_renovate_configuration["Validate the renovate configuration (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Validate_the_renovate_configuration
+  job_5_validate["validate"]:::atlasJob
+  wf_5_Validate_the_renovate_configuration --> job_5_validate
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  wf_3_TechDocs_PyPI_Publish_main_branch["TechDocs PyPI Publish main branch (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_3_TechDocs_PyPI_Publish_main_branch
+  job_3_build["build"]:::atlasJob
+  wf_3_TechDocs_PyPI_Publish_main_branch --> job_3_build
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_2_manual_versioning["manual-versioning (1 jobs)"]:::atlasWorkflow
+  grp_2_Scheduled___Manual --> wf_2_manual_versioning
+  job_2_release["release"]:::atlasJob
+  wf_2_manual_versioning --> job_2_release
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_0_Close_Stale_Issues_and_PRs_Automatically["Close Stale Issues and PRs Automatically (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_0_Close_Stale_Issues_and_PRs_Automatically
+  job_0_stale["stale"]:::atlasJob
+  wf_0_Close_Stale_Issues_and_PRs_Automatically --> job_0_stale
 ```

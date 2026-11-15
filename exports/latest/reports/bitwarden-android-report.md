@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for bitwarden/android
 
 ```mermaid
 graph TD;
-    _bitwarden_android_device_mcp["@bitwarden/android-device-mcp : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _bitwarden_android_device_mcp["@bitwarden/android-device-mcp : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -101,24 +108,28 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_app["app"]
-        mod_authenticator["authenticator"]
-        mod_data["data"]
-        mod_testharness["testharness"]
-        mod_ui["ui"]
+        mod_app["app"]:::atlasCategory
+        mod_authenticator["authenticator"]:::atlasCategory
+        mod_data["data"]:::atlasCategory
+        mod_testharness["testharness"]:::atlasCategory
+        mod_ui["ui"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job__version_yml_calculate_version["_version.yml#calculate-version"]
-        job_build_authenticator_yml_publish_playstore["build-authenticator.yml#publish_playstore"]
-        job_build_testharness_yml_build["build-testharness.yml#build"]
-        job_build_yml_publish_fdroid["build.yml#publish_fdroid"]
-        job_build_yml_publish_playstore["build.yml#publish_playstore"]
-        job_cron_sync_google_priviledged_browsers_yml_sync_privileged_browsers["cron-sync-google-priviledged-browsers.yml#sync-privileged-browsers"]
-        job_github_release_yml_create_release["github-release.yml#create-release"]
-        job_release_branch_yml_create_release_branch["release-branch.yml#create-release-branch"]
-        job_sdlc_label_pr_yml_label_pr["sdlc-label-pr.yml#label-pr"]
-        job_test_yml_test_sharded["test.yml#test-sharded"]
+        job__version_yml_calculate_version["_version.yml#calculate-version"]:::atlasJob
+        job_build_authenticator_yml_publish_playstore["build-authenticator.yml#publish_playstore"]:::atlasJob
+        job_build_testharness_yml_build["build-testharness.yml#build"]:::atlasJob
+        job_build_yml_publish_fdroid["build.yml#publish_fdroid"]:::atlasJob
+        job_build_yml_publish_playstore["build.yml#publish_playstore"]:::atlasJob
+        job_cron_sync_google_priviledged_browsers_yml_sync_privileged_browsers["cron-sync-google-priviledged-browsers.yml#sync-privileged-browsers"]:::atlasJob
+        job_github_release_yml_create_release["github-release.yml#create-release"]:::atlasJob
+        job_release_branch_yml_create_release_branch["release-branch.yml#create-release-branch"]:::atlasJob
+        job_sdlc_label_pr_yml_label_pr["sdlc-label-pr.yml#label-pr"]:::atlasJob
+        job_test_yml_test_sharded["test.yml#test-sharded"]:::atlasJob
     end
     mod_app -->|BUILT_BY| job__version_yml_calculate_version
     mod_app -->|BUILT_BY| job_cron_sync_google_priviledged_browsers_yml_sync_privileged_browsers
@@ -176,11 +187,72 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/android (19 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (13 workflows · 21 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/android (19 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (13 workflows · 21 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+  wf_1_Build_Authenticator["Build Authenticator (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_1_Build_Authenticator
+  job_1_version["version"]:::atlasJob
+  job_1_publish_playstore["publish_playstore"]:::atlasJob
+  wf_1_Build_Authenticator --> job_1_version
+  job_1_version --> job_1_publish_playstore
+  wf_2_Build_Test_Harness["Build Test Harness (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_Build_Test_Harness
+  job_2_version["version"]:::atlasJob
+  job_2_build["build"]:::atlasJob
+  wf_2_Build_Test_Harness --> job_2_version
+  job_2_version --> job_2_build
+  wf_3_Build["Build (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Build
+  job_3_version["version"]:::atlasJob
+  job_3_publish_playstore["publish_playstore"]:::atlasJob
+  job_3_publish_fdroid["publish_fdroid"]:::atlasJob
+  wf_3_Build --> job_3_version
+  job_3_version --> job_3_publish_playstore
+  job_3_version --> job_3_publish_fdroid
+  wf_18_Test["Test (3 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_18_Test
+  job_18_test_sharded["test-sharded"]:::atlasJob
+  job_18_coverage_notify["coverage-notify"]:::atlasJob
+  job_18_test["test"]:::atlasJob
+  wf_18_Test --> job_18_test_sharded
+  job_18_test_sharded --> job_18_coverage_notify
+  job_18_test_sharded --> job_18_test
+  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  wf_9_Respond["Respond (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_9_Respond
+  job_9_respond["respond"]:::atlasJob
+  wf_9_Respond --> job_9_respond
+  wf_10_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_10_Code_Review
+  job_10_review["review"]:::atlasJob
+  wf_10_Code_Review --> job_10_review
+  wf_12_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_12_SDLC___Enforce_PR_labels
+  job_12_enforce_label["enforce-label"]:::atlasJob
+  wf_12_SDLC___Enforce_PR_labels --> job_12_enforce_label
+  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
+  wf_7_Create_GitHub_Release["Create GitHub Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_7_Create_GitHub_Release
+  job_7_create_release["create-release"]:::atlasJob
+  wf_7_Create_GitHub_Release --> job_7_create_release
+  wf_8_Cut_Release_Branch["Cut Release Branch (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_Cut_Release_Branch
+  job_8_create_release_branch["create-release-branch"]:::atlasJob
+  wf_8_Cut_Release_Branch --> job_8_create_release_branch
+  wf_13_SDLC___Update_Linked_Issues_on_Release["SDLC / Update Linked Issues on Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_13_SDLC___Update_Linked_Issues_on_Release
+  job_13_update_linked_issues["update-linked-issues"]:::atlasJob
+  wf_13_SDLC___Update_Linked_Issues_on_Release --> job_13_update_linked_issues
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

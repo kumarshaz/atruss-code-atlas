@@ -40,22 +40,29 @@ description: Arc42 and Pipeline report for RocketChat/rocketchat-compose
 
 ```mermaid
 graph TD;
-    repo_root(["RocketChat/rocketchat-compose (28 components)"])
-    dir_0_files["files (13)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["RocketChat/rocketchat-compose (28 components)"]):::atlasRoot
+    dir_0_files["files (13)"]:::atlasCategory
     repo_root --> dir_0_files
-    sub_0_0_prometheus["prometheus (8)"]
+    sub_0_0_prometheus["prometheus (8)"]:::atlasWorkflow
     dir_0_files --> sub_0_0_prometheus
-    sub_0_1_grafana["grafana (3)"]
+    sub_0_1_grafana["grafana (3)"]:::atlasWorkflow
     dir_0_files --> sub_0_1_grafana
-    sub_0_2_loki["loki (1)"]
+    sub_0_2_loki["loki (1)"]:::atlasWorkflow
     dir_0_files --> sub_0_2_loki
-    sub_0_more["+1 more submodules (1)"]
+    sub_0_more["+1 more submodules (1)"]:::atlasMore
     dir_0_files --> sub_0_more
-    dir_1__root_["(root) (12)"]
+    dir_1__root_["(root) (12)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_generated["generated (2)"]
+    dir_2_generated["generated (2)"]:::atlasCategory
     repo_root --> dir_2_generated
-    dir_3__github[".github (1)"]
+    dir_3__github[".github (1)"]:::atlasCategory
     repo_root --> dir_3__github
 ```
 
@@ -108,15 +115,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_generated["generated"]
+        mod_generated["generated"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_generated_docker_compose_no_traefik_yml["generated/docker-compose-no-traefik.yml"]
-        art_generated_docker_compose_yml["generated/docker-compose.yml"]
+        art_generated_docker_compose_no_traefik_yml["generated/docker-compose-no-traefik.yml"]:::atlasWorkflow
+        art_generated_docker_compose_yml["generated/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_generate_aio_yaml_build_aio_image["generate-aio.yaml#build-aio-image"]
+        job_generate_aio_yaml_build_aio_image["generate-aio.yaml#build-aio-image"]:::atlasJob
     end
     mod_generated -->|BUILT_BY| job_generate_aio_yaml_build_aio_image
     mod_generated -->|PACKAGED_BY| art_generated_docker_compose_no_traefik_yml
@@ -136,8 +147,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Generate_AIO_docker_file_0["Generate AIO docker-file"]
     direction TB
-    0_build_aio_image["build-aio-image"]
+    0_build_aio_image["build-aio-image"]:::atlasJob
   end
 ```

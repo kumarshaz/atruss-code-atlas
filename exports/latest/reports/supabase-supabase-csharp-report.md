@@ -40,18 +40,25 @@ description: Arc42 and Pipeline report for supabase/supabase-csharp
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/supabase-csharp (37 components)"])
-    dir_0_packages["packages (33)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/supabase-csharp (37 components)"]):::atlasRoot
+    dir_0_packages["packages (33)"]:::atlasCategory
     repo_root --> dir_0_packages
-    sub_0_0_Gotrue["Gotrue (10)"]
+    sub_0_0_Gotrue["Gotrue (10)"]:::atlasWorkflow
     dir_0_packages --> sub_0_0_Gotrue
-    sub_0_1_Storage["Storage (4)"]
+    sub_0_1_Storage["Storage (4)"]:::atlasWorkflow
     dir_0_packages --> sub_0_1_Storage
-    sub_0_2_Supabase["Supabase (4)"]
+    sub_0_2_Supabase["Supabase (4)"]:::atlasWorkflow
     dir_0_packages --> sub_0_2_Supabase
-    sub_0_more["+6 more submodules (15)"]
+    sub_0_more["+6 more submodules (15)"]:::atlasMore
     dir_0_packages --> sub_0_more
-    dir_1_scripts["scripts (4)"]
+    dir_1_scripts["scripts (4)"]:::atlasCategory
     repo_root --> dir_1_scripts
     sub_0_2_Supabase -.->|"4 deps"| sub_0_more
     sub_0_0_Gotrue -.->|"1 dep"| sub_0_more
@@ -169,12 +176,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_CapabilityMatrix_CapabilityMatrix["packages/CapabilityMatrix/CapabilityMatrix"]
+        mod_packages_CapabilityMatrix_CapabilityMatrix["packages/CapabilityMatrix/CapabilityMatrix"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_and_test_yml_capability_matrix["build-and-test.yml#capability-matrix"]
-        job_capability_matrix_sync_yml_sync["capability-matrix-sync.yml#sync"]
+        job_build_and_test_yml_capability_matrix["build-and-test.yml#capability-matrix"]:::atlasJob
+        job_capability_matrix_sync_yml_sync["capability-matrix-sync.yml#sync"]:::atlasJob
     end
     mod_packages_CapabilityMatrix_CapabilityMatrix -->|BUILT_BY| job_build_and_test_yml_capability_matrix
     mod_packages_CapabilityMatrix_CapabilityMatrix -->|BUILT_BY| job_capability_matrix_sync_yml_sync
@@ -188,21 +199,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/supabase-csharp (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/supabase-csharp (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_Build_and_Test["Build and Test (4 jobs)"]
+  wf_0_Build_and_Test["Build and Test (4 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_Build_and_Test
-  wf_2_Auto_format_master["Auto-format master (2 jobs)"]
+  job_0_changes["changes"]:::atlasJob
+  job_0_build_and_test["build-and-test"]:::atlasJob
+  job_0_baseline_tightened["baseline-tightened"]:::atlasJob
+  wf_0_Build_and_Test --> job_0_changes
+  job_0_changes --> job_0_build_and_test
+  wf_0_Build_and_Test --> job_0_baseline_tightened
+  wf_2_Auto_format_master["Auto-format master (2 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_Auto_format_master
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+  job_2_changes["changes"]:::atlasJob
+  job_2_format_master["format-master"]:::atlasJob
+  wf_2_Auto_format_master --> job_2_changes
+  job_2_changes --> job_2_format_master
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Sync_capability_matrix["Sync capability matrix (2 jobs)"]
+  wf_1_Sync_capability_matrix["Sync capability matrix (2 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_1_Sync_capability_matrix
-  wf_3_Mutation["Mutation (2 jobs)"]
+  job_1_changes["changes"]:::atlasJob
+  job_1_sync["sync"]:::atlasJob
+  wf_1_Sync_capability_matrix --> job_1_changes
+  job_1_changes --> job_1_sync
+  wf_3_Mutation["Mutation (2 jobs)"]:::atlasWorkflow
   grp_1_Scheduled___Manual --> wf_3_Mutation
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+  job_3_changes["changes"]:::atlasJob
+  job_3_mutation["mutation"]:::atlasJob
+  wf_3_Mutation --> job_3_changes
+  job_3_changes --> job_3_mutation
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  wf_4_Publish_NuGet_Package["Publish NuGet Package (3 jobs)"]
+  wf_4_Publish_NuGet_Package["Publish NuGet Package (3 jobs)"]:::atlasWorkflow
   grp_2_Release___Deploy --> wf_4_Publish_NuGet_Package
+  job_4_release_please["release-please"]:::atlasJob
+  job_4_publish["publish"]:::atlasJob
+  job_4_mark_api_shipped["mark-api-shipped"]:::atlasJob
+  wf_4_Publish_NuGet_Package --> job_4_release_please
+  job_4_release_please --> job_4_publish
+  job_4_release_please --> job_4_mark_api_shipped
+  job_4_publish --> job_4_mark_api_shipped
 ```

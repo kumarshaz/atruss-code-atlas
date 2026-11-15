@@ -64,12 +64,16 @@ description: Arc42 and Pipeline report for mastodon/documentation
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_yml_build["deploy.yml#build"]
-        job_deploy_yml_deploy["deploy.yml#deploy"]
+        job_deploy_yml_build["deploy.yml#build"]:::atlasJob
+        job_deploy_yml_deploy["deploy.yml#deploy"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_deploy_yml_build -->|DEPLOYS_TO| env_github_pages
     job_deploy_yml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -83,17 +87,24 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mastodon/documentation"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mastodon/documentation"]):::atlasRoot
   subgraph Deploy_on_Github_Pages_0["Deploy on Github Pages"]
     direction TB
-    0_build["build"]
-    0_deploy["deploy"]
+    0_build["build"]:::atlasJob
+    0_deploy["deploy"]:::atlasJob
     0_build --> 0_deploy
   end
   pipeline_root --> 0_build
   subgraph PR_Needs_Rebase_1["PR Needs Rebase"]
     direction TB
-    1_label_rebase_needed["label-rebase-needed"]
+    1_label_rebase_needed["label-rebase-needed"]:::atlasJob
   end
   pipeline_root --> 1_label_rebase_needed
 ```

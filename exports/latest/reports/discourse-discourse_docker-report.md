@@ -40,19 +40,26 @@ description: Arc42 and Pipeline report for discourse/discourse_docker
 
 ```mermaid
 graph TD;
-    postgres_dev_template["postgres_dev.template : module"]
-    wizard["wizard : module"]
-    cli["cli : module"]
-    config_generator["config_generator : module"]
-    constants["constants : module"]
-    launcher["launcher : module"]
-    network_checks["network_checks : module"]
-    prompts["prompts : module"]
-    resource_scaler["resource_scaler : module"]
-    system_checks["system_checks : module"]
-    tui_components["tui_components : module"]
-    ui["ui : module"]
-    repo_root(["discourse/discourse_docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    postgres_dev_template["postgres_dev.template : module"]:::atlasJob
+    wizard["wizard : module"]:::atlasJob
+    cli["cli : module"]:::atlasJob
+    config_generator["config_generator : module"]:::atlasJob
+    constants["constants : module"]:::atlasJob
+    launcher["launcher : module"]:::atlasJob
+    network_checks["network_checks : module"]:::atlasJob
+    prompts["prompts : module"]:::atlasJob
+    resource_scaler["resource_scaler : module"]:::atlasJob
+    system_checks["system_checks : module"]:::atlasJob
+    tui_components["tui_components : module"]:::atlasJob
+    ui["ui : module"]:::atlasJob
+    repo_root(["discourse/discourse_docker"]):::atlasRoot
     repo_root --> cli
     repo_root --> config_generator
     repo_root --> constants
@@ -109,21 +116,25 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_image_base["image/base"]
-        mod_image_discourse_dev["image/discourse_dev"]
-        mod_image_discourse_test["image/discourse_test"]
-        mod_image_setup_wizard["image/setup_wizard"]
+        mod_image_base["image/base"]:::atlasCategory
+        mod_image_discourse_dev["image/discourse_dev"]:::atlasCategory
+        mod_image_discourse_test["image/discourse_test"]:::atlasCategory
+        mod_image_setup_wizard["image/setup_wizard"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_image_base_Dockerfile["image/base/Dockerfile"]
-        art_image_discourse_dev_Dockerfile["image/discourse_dev/Dockerfile"]
-        art_image_discourse_test_Dockerfile["image/discourse_test/Dockerfile"]
-        art_image_setup_wizard_Dockerfile["image/setup_wizard/Dockerfile"]
+        art_image_base_Dockerfile["image/base/Dockerfile"]:::atlasWorkflow
+        art_image_discourse_dev_Dockerfile["image/discourse_dev/Dockerfile"]:::atlasWorkflow
+        art_image_discourse_test_Dockerfile["image/discourse_test/Dockerfile"]:::atlasWorkflow
+        art_image_setup_wizard_Dockerfile["image/setup_wizard/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_base["build.yml#base"]
-        job_build_yml_setup_wizard["build.yml#setup_wizard"]
+        job_build_yml_base["build.yml#base"]:::atlasJob
+        job_build_yml_setup_wizard["build.yml#setup_wizard"]:::atlasJob
     end
     mod_image_base -->|BUILT_BY| job_build_yml_base
     mod_image_base -->|BUILT_BY| job_build_yml_setup_wizard
@@ -161,35 +172,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["discourse/discourse_docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["discourse/discourse_docker"]):::atlasRoot
   subgraph build_web_only_yml_0["build-web-only.yml"]
     direction TB
-    0_version["version"]
-    0_build["build"]
+    0_version["version"]:::atlasJob
+    0_build["build"]:::atlasJob
     0_version --> 0_build
-    0_manifest["manifest"]
+    0_manifest["manifest"]:::atlasJob
     0_version --> 0_manifest
     0_build --> 0_manifest
   end
   pipeline_root --> 0_version
   subgraph build_yml_1["build.yml"]
     direction TB
-    1_timestamp["timestamp"]
-    1_base["base"]
+    1_timestamp["timestamp"]:::atlasJob
+    1_base["base"]:::atlasJob
     1_timestamp --> 1_base
-    1_setup_wizard["setup_wizard"]
-    1_push_multi_arch_manifests["push_multi_arch_manifests"]
+    1_setup_wizard["setup_wizard"]:::atlasJob
+    1_push_multi_arch_manifests["push_multi_arch_manifests"]:::atlasJob
     1_base --> 1_push_multi_arch_manifests
     1_setup_wizard --> 1_push_multi_arch_manifests
     1_timestamp --> 1_push_multi_arch_manifests
-    1_bump_base_image["bump_base_image"]
+    1_bump_base_image["bump_base_image"]:::atlasJob
     1_timestamp --> 1_bump_base_image
     1_push_multi_arch_manifests --> 1_bump_base_image
   end
   pipeline_root --> 1_timestamp
   subgraph cleanup_cache_yml_2["cleanup-cache.yml"]
     direction TB
-    2_cleanup_cache["cleanup_cache"]
+    2_cleanup_cache["cleanup_cache"]:::atlasJob
   end
   pipeline_root --> 2_cleanup_cache
 ```

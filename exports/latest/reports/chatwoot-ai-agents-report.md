@@ -40,28 +40,35 @@ description: Arc42 and Pipeline report for chatwoot/ai-agents
 
 ```mermaid
 graph TD;
-    repo_root(["chatwoot/ai-agents (79 components)"])
-    dir_0_spec["spec (37)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["chatwoot/ai-agents (79 components)"]):::atlasRoot
+    dir_0_spec["spec (37)"]:::atlasCategory
     repo_root --> dir_0_spec
-    sub_0_0_agents["agents (17)"]
+    sub_0_0_agents["agents (17)"]:::atlasWorkflow
     dir_0_spec --> sub_0_0_agents
-    sub_0_1_integration["integration (15)"]
+    sub_0_1_integration["integration (15)"]:::atlasWorkflow
     dir_0_spec --> sub_0_1_integration
-    sub_0_2_support["support (3)"]
+    sub_0_2_support["support (3)"]:::atlasWorkflow
     dir_0_spec --> sub_0_2_support
-    sub_0_more["+1 more submodules (2)"]
+    sub_0_more["+1 more submodules (2)"]:::atlasMore
     dir_0_spec --> sub_0_more
-    dir_1_examples["examples (22)"]
+    dir_1_examples["examples (22)"]:::atlasCategory
     repo_root --> dir_1_examples
-    sub_1_0_collaborative_copilot["collaborative-copilot (15)"]
+    sub_1_0_collaborative_copilot["collaborative-copilot (15)"]:::atlasWorkflow
     dir_1_examples --> sub_1_0_collaborative_copilot
-    sub_1_1_isp_support["isp-support (7)"]
+    sub_1_1_isp_support["isp-support (7)"]:::atlasWorkflow
     dir_1_examples --> sub_1_1_isp_support
-    dir_2_lib["lib (20)"]
+    dir_2_lib["lib (20)"]:::atlasCategory
     repo_root --> dir_2_lib
-    sub_2_0_agents["agents (19)"]
+    sub_2_0_agents["agents (19)"]:::atlasWorkflow
     dir_2_lib --> sub_2_0_agents
-    sub_2_1__module_root_["(module root) (1)"]
+    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
     dir_2_lib --> sub_2_1__module_root_
 ```
 
@@ -177,15 +184,22 @@ Showing top 60 representative components out of 79 across 3 module group(s):
 
 ```mermaid
 graph TD;
-  pipeline_root(["chatwoot/ai-agents"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["chatwoot/ai-agents"]):::atlasRoot
   subgraph Live_LLM_Smoke_0["Live LLM Smoke"]
     direction TB
-    0_live_llm["live-llm"]
+    0_live_llm["live-llm"]:::atlasJob
   end
   pipeline_root --> 0_live_llm
   subgraph Ruby_1["Ruby"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
 ```

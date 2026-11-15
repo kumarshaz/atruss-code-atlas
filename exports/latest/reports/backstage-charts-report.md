@@ -41,14 +41,21 @@ description: Arc42 and Pipeline report for backstage/charts
 
 ```mermaid
 graph TD;
-    repo_root(["backstage/charts (48 components)"])
-    dir_0_charts_backstage_ci["charts/backstage/ci (18)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["backstage/charts (48 components)"]):::atlasRoot
+    dir_0_charts_backstage_ci["charts/backstage/ci (18)"]:::atlasCategory
     repo_root --> dir_0_charts_backstage_ci
-    dir_1_charts_backstage_tests["charts/backstage/tests (14)"]
+    dir_1_charts_backstage_tests["charts/backstage/tests (14)"]:::atlasCategory
     repo_root --> dir_1_charts_backstage_tests
-    dir_2_charts_backstage_templates["charts/backstage/templates (12)"]
+    dir_2_charts_backstage_templates["charts/backstage/templates (12)"]:::atlasCategory
     repo_root --> dir_2_charts_backstage_templates
-    dir_3_charts_backstage["charts/backstage (4)"]
+    dir_3_charts_backstage["charts/backstage (4)"]:::atlasCategory
     repo_root --> dir_3_charts_backstage
 ```
 
@@ -121,21 +128,25 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_backstage["charts/backstage"]
+        mod_charts_backstage["charts/backstage"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_automate_stale_yml_stale["automate_stale.yml#stale"]
-        job_lint_yaml_lint["lint.yaml#lint"]
-        job_pre_commit_comment_yaml_comment["pre-commit-comment.yaml#comment"]
-        job_pre_commit_yaml_pre_commit["pre-commit.yaml#pre-commit"]
-        job_release_yml_release["release.yml#release"]
-        job_spellcheck_yaml_codespell["spellcheck.yaml#codespell"]
-        job_test_yml_test["test.yml#test"]
+        job_automate_stale_yml_stale["automate_stale.yml#stale"]:::atlasJob
+        job_lint_yaml_lint["lint.yaml#lint"]:::atlasJob
+        job_pre_commit_comment_yaml_comment["pre-commit-comment.yaml#comment"]:::atlasJob
+        job_pre_commit_yaml_pre_commit["pre-commit.yaml#pre-commit"]:::atlasJob
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_spellcheck_yaml_codespell["spellcheck.yaml#codespell"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_lint_yaml_lint -->|DEPLOYS_TO| env_kubernetes
     job_pre_commit_yaml_pre_commit -->|DEPLOYS_TO| env_azure
@@ -171,11 +182,46 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["backstage/charts (7 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["backstage/charts (7 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_1_Lint_Charts["Lint Charts (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_Lint_Charts
+  job_1_lint["lint"]:::atlasJob
+  wf_1_Lint_Charts --> job_1_lint
+  wf_2_Pre_commit_Comment["Pre-commit Comment (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Pre_commit_Comment
+  job_2_comment["comment"]:::atlasJob
+  wf_2_Pre_commit_Comment --> job_2_comment
+  wf_3_Pre_commit["Pre-commit (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Pre_commit
+  job_3_pre_commit["pre-commit"]:::atlasJob
+  wf_3_Pre_commit --> job_3_pre_commit
+  wf_5_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_5_Codespell
+  job_5_codespell["codespell"]:::atlasJob
+  wf_5_Codespell --> job_5_codespell
+  wf_6_Test_Charts["Test Charts (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_Test_Charts
+  job_6_test["test"]:::atlasJob
+  wf_6_Test_Charts --> job_6_test
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_4_Release_Charts["Release Charts (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_4_Release_Charts
+  job_4_release["release"]:::atlasJob
+  wf_4_Release_Charts --> job_4_release
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Security___Governance
+  wf_0_Automate_staleness["Automate staleness (1 jobs)"]:::atlasWorkflow
+  grp_2_Security___Governance --> wf_0_Automate_staleness
+  job_0_stale["stale"]:::atlasJob
+  wf_0_Automate_staleness --> job_0_stale
 ```

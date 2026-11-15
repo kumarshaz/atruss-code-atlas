@@ -41,22 +41,29 @@ description: Arc42 and Pipeline report for supabase/auth
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/auth (250 components)"])
-    dir_0_internal["internal (225)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/auth (250 components)"]):::atlasRoot
+    dir_0_internal["internal (225)"]:::atlasCategory
     repo_root --> dir_0_internal
-    sub_0_0_api["api (209)"]
+    sub_0_0_api["api (209)"]:::atlasWorkflow
     dir_0_internal --> sub_0_0_api
-    sub_0_1_conf["conf (16)"]
+    sub_0_1_conf["conf (16)"]:::atlasWorkflow
     dir_0_internal --> sub_0_1_conf
-    dir_1_docs["docs (14)"]
+    dir_1_docs["docs (14)"]:::atlasCategory
     repo_root --> dir_1_docs
-    dir_2_cmd["cmd (5)"]
+    dir_2_cmd["cmd (5)"]:::atlasCategory
     repo_root --> dir_2_cmd
-    dir_3_hack["hack (3)"]
+    dir_3_hack["hack (3)"]:::atlasCategory
     repo_root --> dir_3_hack
-    dir_4_client["client (2)"]
+    dir_4_client["client (2)"]:::atlasCategory
     repo_root --> dir_4_client
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -219,22 +226,26 @@ Showing top 60 representative components out of 250 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_60840523_d42c_4a5b_8f9a_e82dec5f2a99["60840523-d42c-4a5b-8f9a-e82dec5f2a99"]
-        mod_internal_forks_godotenv["internal/forks/godotenv"]
+        mod_60840523_d42c_4a5b_8f9a_e82dec5f2a99["60840523-d42c-4a5b-8f9a-e82dec5f2a99"]:::atlasCategory
+        mod_internal_forks_godotenv["internal/forks/godotenv"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_dev["Dockerfile.dev"]
-        art_Dockerfile_postgres_dev["Dockerfile.postgres.dev"]
-        art_docker_compose_dev_yml["docker-compose-dev.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_dev["Dockerfile.dev"]:::atlasWorkflow
+        art_Dockerfile_postgres_dev["Dockerfile.postgres.dev"]:::atlasWorkflow
+        art_docker_compose_dev_yml["docker-compose-dev.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_publish_yml_publish["publish.yml#publish"]
-        job_release_yml_release_please["release.yml#release_please"]
+        job_publish_yml_publish["publish.yml#publish"]:::atlasJob
+        job_release_yml_release_please["release.yml#release_please"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_release_yml_release_please -->|DEPLOYS_TO| env_aws
     mod_60840523_d42c_4a5b_8f9a_e82dec5f2a99 -->|DEPLOYED_BY| job_publish_yml_publish
@@ -264,19 +275,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/auth (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/auth (5 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_0_Check_pull_requests["Check pull requests (1 jobs)"]
+  wf_0_Check_pull_requests["Check pull requests (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_0_Check_pull_requests
-  wf_1_Dogfooding_Check["Dogfooding Check (1 jobs)"]
+  job_0_check_conventional_commits["check-conventional-commits"]:::atlasJob
+  wf_0_Check_pull_requests --> job_0_check_conventional_commits
+  wf_1_Dogfooding_Check["Dogfooding Check (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_Dogfooding_Check
-  wf_4_Test["Test (3 jobs)"]
+  job_1_check_dogfooding["check_dogfooding"]:::atlasJob
+  wf_1_Dogfooding_Check --> job_1_check_dogfooding
+  wf_4_Test["Test (3 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_4_Test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+  job_4_test_postgres["test_postgres"]:::atlasJob
+  job_4_test_oriole["test_oriole"]:::atlasJob
+  job_4_test_multigres["test_multigres"]:::atlasJob
+  wf_4_Test --> job_4_test_postgres
+  wf_4_Test --> job_4_test_oriole
+  wf_4_Test --> job_4_test_multigres
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_2_Publish_to_Image_Registry["Publish to Image Registry (1 jobs)"]
+  wf_2_Publish_to_Image_Registry["Publish to Image Registry (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_2_Publish_to_Image_Registry
-  wf_3_Release["Release (2 jobs)"]
+  job_2_publish["publish"]:::atlasJob
+  wf_2_Publish_to_Image_Registry --> job_2_publish
+  wf_3_Release["Release (2 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_3_Release
+  job_3_release_please["release_please"]:::atlasJob
+  job_3_publish["publish"]:::atlasJob
+  wf_3_Release --> job_3_release_please
+  job_3_release_please --> job_3_publish
 ```

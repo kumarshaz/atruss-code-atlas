@@ -41,46 +41,53 @@ description: Arc42 and Pipeline report for owncloud/ocis
 
 ```mermaid
 graph TD;
-    repo_root(["owncloud/ocis (316 components)"])
-    dir_0_ocis_pkg["ocis-pkg (158)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["owncloud/ocis (316 components)"]):::atlasRoot
+    dir_0_ocis_pkg["ocis-pkg (158)"]:::atlasCategory
     repo_root --> dir_0_ocis_pkg
-    sub_0_0_config["config (14)"]
+    sub_0_0_config["config (14)"]:::atlasWorkflow
     dir_0_ocis_pkg --> sub_0_0_config
-    sub_0_1_service["service (12)"]
+    sub_0_1_service["service (12)"]:::atlasWorkflow
     dir_0_ocis_pkg --> sub_0_1_service
-    sub_0_2_kql["kql (11)"]
+    sub_0_2_kql["kql (11)"]:::atlasWorkflow
     dir_0_ocis_pkg --> sub_0_2_kql
-    sub_0_more["+35 more submodules (121)"]
+    sub_0_more["+35 more submodules (121)"]:::atlasMore
     dir_0_ocis_pkg --> sub_0_more
-    dir_1_deployments["deployments (65)"]
+    dir_1_deployments["deployments (65)"]:::atlasCategory
     repo_root --> dir_1_deployments
-    sub_1_0_examples_ocis_full["examples/ocis_full (33)"]
+    sub_1_0_examples_ocis_full["examples/ocis_full (33)"]:::atlasWorkflow
     dir_1_deployments --> sub_1_0_examples_ocis_full
-    sub_1_1_examples_ocis_ocm["examples/ocis_ocm (18)"]
+    sub_1_1_examples_ocis_ocm["examples/ocis_ocm (18)"]:::atlasWorkflow
     dir_1_deployments --> sub_1_1_examples_ocis_ocm
-    sub_1_2_examples_ocis_multi["examples/ocis_multi (5)"]
+    sub_1_2_examples_ocis_multi["examples/ocis_multi (5)"]:::atlasWorkflow
     dir_1_deployments --> sub_1_2_examples_ocis_multi
-    sub_1_more["+3 more submodules (9)"]
+    sub_1_more["+3 more submodules (9)"]:::atlasMore
     dir_1_deployments --> sub_1_more
-    dir_2_ocis["ocis (35)"]
+    dir_2_ocis["ocis (35)"]:::atlasCategory
     repo_root --> dir_2_ocis
-    sub_2_0_pkg["pkg (34)"]
+    sub_2_0_pkg["pkg (34)"]:::atlasWorkflow
     dir_2_ocis --> sub_2_0_pkg
-    sub_2_1_cmd["cmd (1)"]
+    sub_2_1_cmd["cmd (1)"]:::atlasWorkflow
     dir_2_ocis --> sub_2_1_cmd
-    dir_3_protogen["protogen (34)"]
+    dir_3_protogen["protogen (34)"]:::atlasCategory
     repo_root --> dir_3_protogen
-    sub_3_0_gen_ocis_services["gen/ocis/services (20)"]
+    sub_3_0_gen_ocis_services["gen/ocis/services (20)"]:::atlasWorkflow
     dir_3_protogen --> sub_3_0_gen_ocis_services
-    sub_3_1_gen_ocis_messages["gen/ocis/messages (14)"]
+    sub_3_1_gen_ocis_messages["gen/ocis/messages (14)"]:::atlasWorkflow
     dir_3_protogen --> sub_3_1_gen_ocis_messages
-    dir_4_services["services (21)"]
+    dir_4_services["services (21)"]:::atlasCategory
     repo_root --> dir_4_services
-    sub_4_0_activitylog_pkg["activitylog/pkg (20)"]
+    sub_4_0_activitylog_pkg["activitylog/pkg (20)"]:::atlasWorkflow
     dir_4_services --> sub_4_0_activitylog_pkg
-    sub_4_1_activitylog_cmd["activitylog/cmd (1)"]
+    sub_4_1_activitylog_cmd["activitylog/cmd (1)"]:::atlasWorkflow
     dir_4_services --> sub_4_1_activitylog_cmd
-    dir_other_modules["+2 more modules (3)"]
+    dir_other_modules["+2 more modules (3)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -235,65 +242,69 @@ Showing top 60 representative components out of 316 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_deployments_examples_ocis_full["deployments/examples/ocis_full"]
-        mod_deployments_examples_ocis_hello["deployments/examples/ocis_hello"]
-        mod_deployments_examples_ocis_keycloak["deployments/examples/ocis_keycloak"]
-        mod_deployments_examples_ocis_ldap["deployments/examples/ocis_ldap"]
-        mod_deployments_examples_ocis_multi["deployments/examples/ocis_multi"]
-        mod_deployments_examples_ocis_ocm["deployments/examples/ocis_ocm"]
-        mod_ed3215ce_d600_4b13_a950_220c2e140160["ed3215ce-d600-4b13-a950-220c2e140160"]
-        mod_ocis_docker["ocis/docker"]
-        mod_tests_ldap_smoke_distributed["tests/ldap-smoke-distributed"]
-        mod_tests_ociswrapper["tests/ociswrapper"]
-        mod_tools_ci_reporter["tools/ci-reporter"]
-        mod_web["web"]
-        mod_web_deployments_examples_ocis_web["web/deployments/examples/ocis_web"]
-        mod_web_docker["web/docker"]
+        mod_deployments_examples_ocis_full["deployments/examples/ocis_full"]:::atlasCategory
+        mod_deployments_examples_ocis_hello["deployments/examples/ocis_hello"]:::atlasCategory
+        mod_deployments_examples_ocis_keycloak["deployments/examples/ocis_keycloak"]:::atlasCategory
+        mod_deployments_examples_ocis_ldap["deployments/examples/ocis_ldap"]:::atlasCategory
+        mod_deployments_examples_ocis_multi["deployments/examples/ocis_multi"]:::atlasCategory
+        mod_deployments_examples_ocis_ocm["deployments/examples/ocis_ocm"]:::atlasCategory
+        mod_ed3215ce_d600_4b13_a950_220c2e140160["ed3215ce-d600-4b13-a950-220c2e140160"]:::atlasCategory
+        mod_ocis_docker["ocis/docker"]:::atlasCategory
+        mod_tests_ldap_smoke_distributed["tests/ldap-smoke-distributed"]:::atlasCategory
+        mod_tests_ociswrapper["tests/ociswrapper"]:::atlasCategory
+        mod_tools_ci_reporter["tools/ci-reporter"]:::atlasCategory
+        mod_web["web"]:::atlasCategory
+        mod_web_deployments_examples_ocis_web["web/deployments/examples/ocis_web"]:::atlasCategory
+        mod_web_docker["web/docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_deployments_examples_ocis_full_docker_compose_yml["deployments/examples/ocis_full/docker-compose.yml"]
-        art_deployments_examples_ocis_hello_docker_compose_yml["deployments/examples/ocis_hello/docker-compose.yml"]
-        art_deployments_examples_ocis_hello_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_hello/monitoring_tracing/docker-compose-additions.yml"]
-        art_deployments_examples_ocis_keycloak_docker_compose_yml["deployments/examples/ocis_keycloak/docker-compose.yml"]
-        art_deployments_examples_ocis_keycloak_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_keycloak/monitoring_tracing/docker-compose-additions.yml"]
-        art_deployments_examples_ocis_ldap_docker_compose_yml["deployments/examples/ocis_ldap/docker-compose.yml"]
-        art_deployments_examples_ocis_ldap_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_ldap/monitoring_tracing/docker-compose-additions.yml"]
-        art_deployments_examples_ocis_multi_docker_compose_yml["deployments/examples/ocis_multi/docker-compose.yml"]
-        art_deployments_examples_ocis_multi_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_multi/monitoring_tracing/docker-compose-additions.yml"]
-        art_deployments_examples_ocis_ocm_docker_compose_yml["deployments/examples/ocis_ocm/docker-compose.yml"]
-        art_ocis_docker_Dockerfile_linux_amd64["ocis/docker/Dockerfile.linux.amd64"]
-        art_ocis_docker_Dockerfile_linux_arm64["ocis/docker/Dockerfile.linux.arm64"]
-        art_ocis_docker_Dockerfile_linux_debug_amd64["ocis/docker/Dockerfile.linux.debug.amd64"]
-        art_ocis_docker_Dockerfile_linux_debug_arm64["ocis/docker/Dockerfile.linux.debug.arm64"]
-        art_tests_config_k8s_traefik_config_yaml["tests/config/k8s/traefik-config.yaml"]
-        art_tests_config_k8s_values_yaml["tests/config/k8s/values.yaml"]
-        art_tests_ldap_smoke_distributed_docker_compose_yml["tests/ldap-smoke-distributed/docker-compose.yml"]
-        art_web_deployments_examples_ocis_web_docker_compose_yml["web/deployments/examples/ocis_web/docker-compose.yml"]
-        art_web_deployments_examples_ocis_web_monitoring_tracing_docker_compose_additions_yml["web/deployments/examples/ocis_web/monitoring_tracing/docker-compose-additions.yml"]
-        art_web_docker_compose_yml["web/docker-compose.yml"]
-        art_web_docker_Dockerfile["web/docker/Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_deployments_examples_ocis_full_docker_compose_yml["deployments/examples/ocis_full/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_hello_docker_compose_yml["deployments/examples/ocis_hello/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_hello_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_hello/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_keycloak_docker_compose_yml["deployments/examples/ocis_keycloak/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_keycloak_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_keycloak/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_ldap_docker_compose_yml["deployments/examples/ocis_ldap/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_ldap_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_ldap/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_multi_docker_compose_yml["deployments/examples/ocis_multi/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_multi_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_multi/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_ocm_docker_compose_yml["deployments/examples/ocis_ocm/docker-compose.yml"]:::atlasWorkflow
+        art_ocis_docker_Dockerfile_linux_amd64["ocis/docker/Dockerfile.linux.amd64"]:::atlasWorkflow
+        art_ocis_docker_Dockerfile_linux_arm64["ocis/docker/Dockerfile.linux.arm64"]:::atlasWorkflow
+        art_ocis_docker_Dockerfile_linux_debug_amd64["ocis/docker/Dockerfile.linux.debug.amd64"]:::atlasWorkflow
+        art_ocis_docker_Dockerfile_linux_debug_arm64["ocis/docker/Dockerfile.linux.debug.arm64"]:::atlasWorkflow
+        art_tests_config_k8s_traefik_config_yaml["tests/config/k8s/traefik-config.yaml"]:::atlasWorkflow
+        art_tests_config_k8s_values_yaml["tests/config/k8s/values.yaml"]:::atlasWorkflow
+        art_tests_ldap_smoke_distributed_docker_compose_yml["tests/ldap-smoke-distributed/docker-compose.yml"]:::atlasWorkflow
+        art_web_deployments_examples_ocis_web_docker_compose_yml["web/deployments/examples/ocis_web/docker-compose.yml"]:::atlasWorkflow
+        art_web_deployments_examples_ocis_web_monitoring_tracing_docker_compose_additions_yml["web/deployments/examples/ocis_web/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_web_docker_compose_yml["web/docker-compose.yml"]:::atlasWorkflow
+        art_web_docker_Dockerfile["web/docker/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_acceptance_tests_yml_build_and_test["acceptance-tests.yml#build-and-test"]
-        job_acceptance_tests_yml_cli_tests["acceptance-tests.yml#cli-tests"]
-        job_acceptance_tests_yml_core_api_tests["acceptance-tests.yml#core-api-tests"]
-        job_acceptance_tests_yml_e2e_tests["acceptance-tests.yml#e2e-tests"]
-        job_acceptance_tests_yml_external_ldap_distributed_tests["acceptance-tests.yml#external-ldap-distributed-tests"]
-        job_acceptance_tests_yml_ldap_pool_tests["acceptance-tests.yml#ldap-pool-tests"]
-        job_acceptance_tests_yml_local_api_tests["acceptance-tests.yml#local-api-tests"]
-        job_k8s_yml_api_tests["k8s.yml#api-tests"]
-        job_k8s_yml_e2e_tests["k8s.yml#e2e-tests"]
-        job_release_npm_packages_yml_release_npm["release-npm-packages.yml#release-npm"]
-        job_release_yml_license_check["release.yml#license-check"]
-        job_web_tests_yml_detect_web_changes["web-tests.yml#detect-web-changes"]
-        job_web_tests_yml_web_build_test["web-tests.yml#web-build-test"]
-        job_web_tests_yml_web_tests_passed["web-tests.yml#web-tests-passed"]
-        job_weekly_pipeline_report_yml_generate_report["weekly_pipeline_report.yml#generate-report"]
+        job_acceptance_tests_yml_build_and_test["acceptance-tests.yml#build-and-test"]:::atlasJob
+        job_acceptance_tests_yml_cli_tests["acceptance-tests.yml#cli-tests"]:::atlasJob
+        job_acceptance_tests_yml_core_api_tests["acceptance-tests.yml#core-api-tests"]:::atlasJob
+        job_acceptance_tests_yml_e2e_tests["acceptance-tests.yml#e2e-tests"]:::atlasJob
+        job_acceptance_tests_yml_external_ldap_distributed_tests["acceptance-tests.yml#external-ldap-distributed-tests"]:::atlasJob
+        job_acceptance_tests_yml_ldap_pool_tests["acceptance-tests.yml#ldap-pool-tests"]:::atlasJob
+        job_acceptance_tests_yml_local_api_tests["acceptance-tests.yml#local-api-tests"]:::atlasJob
+        job_k8s_yml_api_tests["k8s.yml#api-tests"]:::atlasJob
+        job_k8s_yml_e2e_tests["k8s.yml#e2e-tests"]:::atlasJob
+        job_release_npm_packages_yml_release_npm["release-npm-packages.yml#release-npm"]:::atlasJob
+        job_release_yml_license_check["release.yml#license-check"]:::atlasJob
+        job_web_tests_yml_detect_web_changes["web-tests.yml#detect-web-changes"]:::atlasJob
+        job_web_tests_yml_web_build_test["web-tests.yml#web-build-test"]:::atlasJob
+        job_web_tests_yml_web_tests_passed["web-tests.yml#web-tests-passed"]:::atlasJob
+        job_weekly_pipeline_report_yml_generate_report["weekly_pipeline_report.yml#generate-report"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_k8s_yml_api_tests -->|DEPLOYS_TO| env_kubernetes
     job_k8s_yml_e2e_tests -->|DEPLOYS_TO| env_kubernetes
@@ -421,13 +432,75 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["owncloud/ocis (14 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 24 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["owncloud/ocis (14 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 24 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (4 workflows · 6 jobs)"]
+  wf_0_Acceptance_Tests["Acceptance Tests (17 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_0_Acceptance_Tests
+  job_0_detect_changes["detect-changes"]:::atlasJob
+  job_0_build_and_test["build-and-test"]:::atlasJob
+  job_0_local_api_tests["local-api-tests"]:::atlasJob
+  wf_0_Acceptance_Tests --> job_0_detect_changes
+  job_0_detect_changes --> job_0_build_and_test
+  job_0_build_and_test --> job_0_local_api_tests
+  wf_5_Acceptance_Tests_K8S["Acceptance Tests K8S (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Acceptance_Tests_K8S
+  job_5_api_tests["api-tests"]:::atlasJob
+  job_5_e2e_tests["e2e-tests"]:::atlasJob
+  wf_5_Acceptance_Tests_K8S --> job_5_api_tests
+  wf_5_Acceptance_Tests_K8S --> job_5_e2e_tests
+  wf_10_Translation_Sync["Translation Sync (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_10_Translation_Sync
+  job_10_sync["sync"]:::atlasJob
+  job_10_sync_web["sync-web"]:::atlasJob
+  wf_10_Translation_Sync --> job_10_sync
+  job_10_sync --> job_10_sync_web
+  grp_1_CI___Verification["CI & Verification (4 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]
+  wf_1_Check_licenses["Check licenses (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_1_Check_licenses
+  job_1_license_check["license-check"]:::atlasJob
+  wf_1_Check_licenses --> job_1_license_check
+  wf_6_Validate_PR_title["Validate PR title (1 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_6_Validate_PR_title
+  job_6_validate_pr_title["validate-pr-title"]:::atlasJob
+  wf_6_Validate_PR_title --> job_6_validate_pr_title
+  wf_11_Web_Tests["Web Tests (3 jobs)"]:::atlasWorkflow
+  grp_1_CI___Verification --> wf_11_Web_Tests
+  job_11_detect_web_changes["detect-web-changes"]:::atlasJob
+  job_11_web_build_test["web-build-test"]:::atlasJob
+  job_11_web_tests_passed["web-tests-passed"]:::atlasJob
+  wf_11_Web_Tests --> job_11_detect_web_changes
+  job_11_detect_web_changes --> job_11_web_build_test
+  job_11_detect_web_changes --> job_11_web_tests_passed
+  job_11_web_build_test --> job_11_web_tests_passed
+  grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_3_Test_Deployment_Examples["Test Deployment Examples (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_3_Test_Deployment_Examples
+  job_3_test["test"]:::atlasJob
+  wf_3_Test_Deployment_Examples --> job_3_test
+  wf_7_Release_NPM_packages["Release NPM packages (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_7_Release_NPM_packages
+  job_7_release_npm["release-npm"]:::atlasJob
+  wf_7_Release_NPM_packages --> job_7_release_npm
+  wf_8_Release["Release (8 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_Release
+  job_8_determine_release_type["determine-release-type"]:::atlasJob
+  job_8_generate_code["generate-code"]:::atlasJob
+  wf_8_Release --> job_8_determine_release_type
+  job_8_determine_release_type --> job_8_generate_code
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_9_Remove_stale_branches["Remove stale branches (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_9_Remove_stale_branches
+  wf_more["+4 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

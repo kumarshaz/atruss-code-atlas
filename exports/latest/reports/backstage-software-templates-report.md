@@ -41,13 +41,20 @@ description: Arc42 and Pipeline report for backstage/software-templates
 
 ```mermaid
 graph TD;
-    ___values_component_id__["${{values.component_id}} : MODULE"]
-    ____values_component_id___["${{ values.component_id }} : MODULE"]
-    Header["Header : UI_COMPONENT"]
-    API_api_ping["API_api_ping : API_ROUTE"]
-    ___values_artifact_id__["${{values.artifact_id}} : MODULE"]
-    Application["Application : CONFIG"]
-    repo_root(["backstage/software-templates"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ___values_component_id__["${{values.component_id}} : MODULE"]:::atlasJob
+    ____values_component_id___["${{ values.component_id }} : MODULE"]:::atlasJob
+    Header["Header : UI_COMPONENT"]:::atlasJob
+    API_api_ping["API_api_ping : API_ROUTE"]:::atlasJob
+    ___values_artifact_id__["${{values.artifact_id}} : MODULE"]:::atlasJob
+    Application["Application : CONFIG"]:::atlasJob
+    repo_root(["backstage/software-templates"]):::atlasRoot
     repo_root --> API_api_ping
     repo_root --> Application
     repo_root --> Header
@@ -120,11 +127,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_scaffolder_templates_springboot_grpc_template_skeleton["scaffolder-templates/springboot-grpc-template/skeleton"]
+        mod_scaffolder_templates_springboot_grpc_template_skeleton["scaffolder-templates/springboot-grpc-template/skeleton"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_scaffolder_templates_springboot_grpc_template_skeleton_Dockerfile["scaffolder-templates/springboot-grpc-template/skeleton/Dockerfile"]
+        art_scaffolder_templates_springboot_grpc_template_skeleton_Dockerfile["scaffolder-templates/springboot-grpc-template/skeleton/Dockerfile"]:::atlasWorkflow
     end
     mod_scaffolder_templates_springboot_grpc_template_skeleton -->|PACKAGED_BY| art_scaffolder_templates_springboot_grpc_template_skeleton_Dockerfile
 ```
@@ -136,5 +147,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

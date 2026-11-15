@@ -70,11 +70,67 @@ description: Arc42 and Pipeline report for grafana/grafana-ansible-collection
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-ansible-collection (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-ansible-collection (10 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]
+  wf_0_Alloy_Molecule["Alloy Molecule (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Alloy_Molecule
+  job_0_molecule["molecule"]:::atlasJob
+  wf_0_Alloy_Molecule --> job_0_molecule
+  wf_2_Lint["Lint (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_2_Lint
+  job_2_lint["lint"]:::atlasJob
+  wf_2_Lint --> job_2_lint
+  wf_3_Loki_Molecule["Loki Molecule (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_3_Loki_Molecule
+  job_3_molecule["molecule"]:::atlasJob
+  wf_3_Loki_Molecule --> job_3_molecule
+  wf_4_Mimir_Molecule["Mimir Molecule (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_4_Mimir_Molecule
+  job_4_molecule["molecule"]:::atlasJob
+  wf_4_Mimir_Molecule --> job_4_molecule
+  wf_6_OpenTelemetry_Collector_Molecule["OpenTelemetry Collector Molecule (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_6_OpenTelemetry_Collector_Molecule
+  job_6_molecule["molecule"]:::atlasJob
+  wf_6_OpenTelemetry_Collector_Molecule --> job_6_molecule
+  wf_7_Promtail_Molecule["Promtail Molecule (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_7_Promtail_Molecule
+  job_7_molecule["molecule"]:::atlasJob
+  wf_7_Promtail_Molecule --> job_7_molecule
+  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]
+  wf_1_Full_Integration_Test["Full Integration Test (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_1_Full_Integration_Test
+  job_1_integration["integration"]:::atlasJob
+  wf_1_Full_Integration_Test --> job_1_integration
+  wf_5_Modules_Test["Modules Test (2 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_Modules_Test
+  job_5_sanity["sanity"]:::atlasJob
+  job_5_integration["integration"]:::atlasJob
+  wf_5_Modules_Test --> job_5_sanity
+  wf_5_Modules_Test --> job_5_integration
+  wf_9_Roles_Test["Roles Test (2 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_9_Roles_Test
+  job_9_sanity["sanity"]:::atlasJob
+  job_9_integration["integration"]:::atlasJob
+  wf_9_Roles_Test --> job_9_sanity
+  wf_9_Roles_Test --> job_9_integration
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
+  wf_8_GitHub_Release["GitHub Release (4 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_8_GitHub_Release
+  job_8_sanity["sanity"]:::atlasJob
+  job_8_integration["integration"]:::atlasJob
+  job_8_publish["publish"]:::atlasJob
+  wf_8_GitHub_Release --> job_8_sanity
+  wf_8_GitHub_Release --> job_8_integration
+  job_8_sanity --> job_8_publish
+  job_8_integration --> job_8_publish
 ```

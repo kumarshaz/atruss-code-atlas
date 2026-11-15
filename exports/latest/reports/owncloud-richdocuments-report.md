@@ -41,30 +41,37 @@ description: Arc42 and Pipeline report for owncloud/richdocuments
 
 ```mermaid
 graph TD;
-    repo_root(["owncloud/richdocuments (47 components)"])
-    dir_0_lib["lib (20)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["owncloud/richdocuments (47 components)"]):::atlasRoot
+    dir_0_lib["lib (20)"]:::atlasCategory
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (7)"]
+    sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
     dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_Controller["Controller (6)"]
+    sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
     dir_0_lib --> sub_0_1_Controller
-    sub_0_2_Db["Db (2)"]
+    sub_0_2_Db["Db (2)"]:::atlasWorkflow
     dir_0_lib --> sub_0_2_Db
-    sub_0_more["+4 more submodules (5)"]
+    sub_0_more["+4 more submodules (5)"]:::atlasMore
     dir_0_lib --> sub_0_more
-    dir_1_tests["tests (15)"]
+    dir_1_tests["tests (15)"]:::atlasCategory
     repo_root --> dir_1_tests
-    sub_1_0_unit["unit (11)"]
+    sub_1_0_unit["unit (11)"]:::atlasWorkflow
     dir_1_tests --> sub_1_0_unit
-    sub_1_1_acceptance["acceptance (4)"]
+    sub_1_1_acceptance["acceptance (4)"]:::atlasWorkflow
     dir_1_tests --> sub_1_1_acceptance
-    dir_2_appinfo["appinfo (5)"]
+    dir_2_appinfo["appinfo (5)"]:::atlasCategory
     repo_root --> dir_2_appinfo
-    dir_3__root_["(root) (3)"]
+    dir_3__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_templates["templates (3)"]
+    dir_4_templates["templates (3)"]:::atlasCategory
     repo_root --> dir_4_templates
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -174,13 +181,48 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["owncloud/richdocuments (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["owncloud/richdocuments (6 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  wf_0_Lint_PR_title["Lint PR title (1 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_0_Lint_PR_title
+  job_0_lint["lint"]:::atlasJob
+  wf_0_Lint_PR_title --> job_0_lint
+  wf_1_CI["CI (7 jobs)"]:::atlasWorkflow
+  grp_0_CI___Verification --> wf_1_CI
+  job_1_get_vars["get-vars"]:::atlasJob
+  job_1_semantic_git_messages["semantic-git-messages"]:::atlasJob
+  job_1_php_code_style["php-code-style"]:::atlasJob
+  wf_1_CI --> job_1_get_vars
+  wf_1_CI --> job_1_semantic_git_messages
+  job_1_get_vars --> job_1_php_code_style
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  wf_4_Translation_Sync["Translation Sync (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_4_Translation_Sync
+  job_4_sync["sync"]:::atlasJob
+  wf_4_Translation_Sync --> job_4_sync
+  wf_5_Zizmor["Zizmor (1 jobs)"]:::atlasWorkflow
+  grp_1_Scheduled___Manual --> wf_5_Zizmor
+  job_5_zizmor["zizmor"]:::atlasJob
+  wf_5_Zizmor --> job_5_zizmor
+  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
+  grp_2_Release___Deploy --> wf_2_Release
+  job_2_release["release"]:::atlasJob
+  wf_2_Release --> job_2_release
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_3_Security_Scan["Security Scan (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_3_Security_Scan
+  job_3_trivy["trivy"]:::atlasJob
+  wf_3_Security_Scan --> job_3_trivy
 ```

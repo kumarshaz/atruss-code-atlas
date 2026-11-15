@@ -41,8 +41,15 @@ description: Arc42 and Pipeline report for saleor/cli
 
 ```mermaid
 graph TD;
-    _saleor_cli["@saleor/cli : MODULE"]
-    ClientErrorCollection["ClientErrorCollection : UI_COMPONENT"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _saleor_cli["@saleor/cli : MODULE"]:::atlasJob
+    ClientErrorCollection["ClientErrorCollection : UI_COMPONENT"]:::atlasJob
 ```
 
 ## Component Details
@@ -110,17 +117,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_fa52fcf8_dcb2_4d47_b9ba_ebf02bf37760["fa52fcf8-dcb2-4d47-b9ba-ebf02bf37760"]
+        mod_fa52fcf8_dcb2_4d47_b9ba_ebf02bf37760["fa52fcf8-dcb2-4d47-b9ba-ebf02bf37760"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_clear_staging_cloud_yml_run_functional_tests["clear-staging-cloud.yml#run-functional-tests"]
-        job_pr_yml_build["pr.yml#build"]
-        job_pr_yml_lint["pr.yml#lint"]
-        job_pr_yml_test["pr.yml#test"]
-        job_prepare_release_yml_publish["prepare-release.yml#publish"]
-        job_release_yml_publish["release.yml#publish"]
-        job_tests_nightly_yml_run_functional_tests["tests-nightly.yml#run-functional-tests"]
+        job_clear_staging_cloud_yml_run_functional_tests["clear-staging-cloud.yml#run-functional-tests"]:::atlasJob
+        job_pr_yml_build["pr.yml#build"]:::atlasJob
+        job_pr_yml_lint["pr.yml#lint"]:::atlasJob
+        job_pr_yml_test["pr.yml#test"]:::atlasJob
+        job_prepare_release_yml_publish["prepare-release.yml#publish"]:::atlasJob
+        job_release_yml_publish["release.yml#publish"]:::atlasJob
+        job_tests_nightly_yml_run_functional_tests["tests-nightly.yml#run-functional-tests"]:::atlasJob
     end
     mod_fa52fcf8_dcb2_4d47_b9ba_ebf02bf37760 -->|BUILT_BY| job_clear_staging_cloud_yml_run_functional_tests
     mod_fa52fcf8_dcb2_4d47_b9ba_ebf02bf37760 -->|BUILT_BY| job_pr_yml_build
@@ -144,21 +155,42 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/cli (5 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/cli (5 workflows)"]):::atlasRoot
+  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Release___Deploy
-  wf_0_Clear_staging_cloud_projects["Clear staging cloud projects (1 jobs)"]
+  wf_0_Clear_staging_cloud_projects["Clear staging cloud projects (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_0_Clear_staging_cloud_projects
-  wf_2_Prepare_a_Release_on_GitHub["Prepare a Release on GitHub (1 jobs)"]
+  job_0_run_functional_tests["run-functional-tests"]:::atlasJob
+  wf_0_Clear_staging_cloud_projects --> job_0_run_functional_tests
+  wf_2_Prepare_a_Release_on_GitHub["Prepare a Release on GitHub (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_2_Prepare_a_Release_on_GitHub
-  wf_3_Release["Release (1 jobs)"]
+  job_2_publish["publish"]:::atlasJob
+  wf_2_Prepare_a_Release_on_GitHub --> job_2_publish
+  wf_3_Release["Release (1 jobs)"]:::atlasWorkflow
   grp_0_Release___Deploy --> wf_3_Release
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+  job_3_publish["publish"]:::atlasJob
+  wf_3_Release --> job_3_publish
+  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_CI___Verification
-  wf_1_Test_PR["Test PR (3 jobs)"]
+  wf_1_Test_PR["Test PR (3 jobs)"]:::atlasWorkflow
   grp_1_CI___Verification --> wf_1_Test_PR
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+  job_1_lint["lint"]:::atlasJob
+  job_1_test["test"]:::atlasJob
+  job_1_build["build"]:::atlasJob
+  wf_1_Test_PR --> job_1_lint
+  wf_1_Test_PR --> job_1_test
+  wf_1_Test_PR --> job_1_build
+  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_Execute_nightly_tests["Execute nightly tests (1 jobs)"]
+  wf_4_Execute_nightly_tests["Execute nightly tests (1 jobs)"]:::atlasWorkflow
   grp_2_Scheduled___Manual --> wf_4_Execute_nightly_tests
+  job_4_run_functional_tests["run-functional-tests"]:::atlasJob
+  wf_4_Execute_nightly_tests --> job_4_run_functional_tests
 ```

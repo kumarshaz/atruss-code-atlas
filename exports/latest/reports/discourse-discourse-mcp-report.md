@@ -41,8 +41,15 @@ description: Arc42 and Pipeline report for discourse/discourse-mcp
 
 ```mermaid
 graph TD;
-    _discourse_mcp["@discourse/mcp : MODULE"]
-    HttpClient["HttpClient : SERVICE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _discourse_mcp["@discourse/mcp : MODULE"]:::atlasJob
+    HttpClient["HttpClient : SERVICE"]:::atlasJob
 ```
 
 ## Component Details
@@ -114,13 +121,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_9e22f13d_bb8e_4037_a4c9_0fe996571642["9e22f13d-bb8e-4037-a4c9-0fe996571642"]
+        mod_9e22f13d_bb8e_4037_a4c9_0fe996571642["9e22f13d-bb8e-4037-a4c9-0fe996571642"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_npm_compatibility["ci.yml#npm-compatibility"]
-        job_ci_yml_pnpm["ci.yml#pnpm"]
-        job_ci_yml_publish["ci.yml#publish"]
+        job_ci_yml_npm_compatibility["ci.yml#npm-compatibility"]:::atlasJob
+        job_ci_yml_pnpm["ci.yml#pnpm"]:::atlasJob
+        job_ci_yml_publish["ci.yml#publish"]:::atlasJob
     end
     mod_9e22f13d_bb8e_4037_a4c9_0fe996571642 -->|BUILT_BY| job_ci_yml_npm_compatibility
     mod_9e22f13d_bb8e_4037_a4c9_0fe996571642 -->|BUILT_BY| job_ci_yml_pnpm
@@ -136,11 +147,18 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_pnpm["pnpm"]
-    0_npm_compatibility["npm-compatibility"]
-    0_publish["publish"]
+    0_pnpm["pnpm"]:::atlasJob
+    0_npm_compatibility["npm-compatibility"]:::atlasJob
+    0_publish["publish"]:::atlasJob
     0_pnpm --> 0_publish
     0_npm_compatibility --> 0_publish
   end

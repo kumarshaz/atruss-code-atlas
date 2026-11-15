@@ -202,24 +202,26 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         applyResponsiveSvgStyle,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        getMermaidClassDefs,
         renderMermaidSvg,
         safeId,
         safeLabel,
     } from '../lib/mermaid-client';
 
     function buildCrossTopologyGraph(edges: Array<{ kind: string; source: string; target: string }>): string {
-        const lines = ['flowchart TD'];
+        const lines = ['flowchart TD', ...getMermaidClassDefs()];
         const declared = new Set<string>();
         edges.forEach((edge, idx) => {
             const sId = `n_${safeId(edge.source)}`;
             const tId = `n_${safeId(edge.target)}`;
             if (!declared.has(sId)) {
                 declared.add(sId);
-                lines.push(`  ${sId}["${safeLabel(edge.source)}"]`);
+                lines.push(`  ${sId}["${safeLabel(edge.source)}"]:::atlasWorkflow`);
             }
             if (!declared.has(tId)) {
                 declared.add(tId);
-                lines.push(`  ${tId}["${safeLabel(edge.target)}"]`);
+                const tCls = edge.target.startsWith('env:') ? ':::atlasTarget' : ':::atlasCategory';
+                lines.push(`  ${tId}["${safeLabel(edge.target)}"]${tCls}`);
             }
             if (idx < 28) {
                 lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);

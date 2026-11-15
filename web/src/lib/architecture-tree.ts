@@ -1,4 +1,4 @@
-import { safeId, safeLabel } from './mermaid-client';
+import { getMermaidClassDefs, safeId, safeLabel } from './mermaid-client';
 
 export interface ArchComponentInput {
     name?: string;
@@ -307,12 +307,12 @@ export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: strin
         return 'flowchart TD\n  empty["No Architectural Components Detected"]';
     }
 
-    const lines: string[] = ['flowchart TD'];
+    const lines: string[] = ['flowchart TD', ...getMermaidClassDefs()];
     const focusLabel =
         current.id === payload.rootId
             ? `${current.label} (${current.totalComponents} components)`
             : `${current.path || current.label} (${current.totalComponents} components)`;
-    lines.push(`  curr(["${safeLabel(focusLabel)}"])`);
+    lines.push(`  curr(["${safeLabel(focusLabel)}"]):::atlasRoot`);
 
     const childIds = current.children;
     const visibleChildIds = childIds.slice(0, MAX_SVG_CHILD_BRANCHES);
@@ -327,13 +327,13 @@ export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: strin
             child.children.length > 0
                 ? `${child.totalComponents} comps · ${child.children.length} dirs`
                 : `${child.totalComponents} comps · ${child.totalFiles} files`;
-        lines.push(`  ${mermaidId}["${safeLabel(child.label)} (${subSuffix})"]`);
+        lines.push(`  ${mermaidId}["${safeLabel(child.label)} (${subSuffix})"]:::atlasCategory`);
         lines.push(`  curr --> ${mermaidId}`);
     });
 
     if (childIds.length > visibleChildIds.length) {
         const hiddenCount = childIds.length - visibleChildIds.length;
-        lines.push(`  more_dirs["+${hiddenCount} more modules (use selector above)"]`);
+        lines.push(`  more_dirs["+${hiddenCount} more modules (use selector above)"]:::atlasMore`);
         lines.push(`  curr --> more_dirs`);
     }
 
@@ -350,13 +350,13 @@ export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: strin
                 const grandMermaidId = `child_${safeId(grand.id)}`;
                 renderedNodeMap.set(grand.id, grandMermaidId);
                 lines.push(
-                    `  ${grandMermaidId}["${safeLabel(grand.label)} (${grand.totalComponents})"]`
+                    `  ${grandMermaidId}["${safeLabel(grand.label)} (${grand.totalComponents})"]:::atlasWorkflow`
                 );
                 lines.push(`  ${onlyChildMermaidId} --> ${grandMermaidId}`);
             });
             if (onlyChild.children.length > grandSlice.length) {
                 lines.push(
-                    `  more_grand["+${onlyChild.children.length - grandSlice.length} more in ${safeLabel(onlyChild.label)}"]`
+                    `  more_grand["+${onlyChild.children.length - grandSlice.length} more in ${safeLabel(onlyChild.label)}"]:::atlasMore`
                 );
                 lines.push(`  ${onlyChildMermaidId} --> more_grand`);
             }
@@ -367,7 +367,7 @@ export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: strin
     if (visibleChildIds.length > 0 && current.topFiles.length > 0) {
         const sampleFile = current.topFiles[0]?.file || 'files';
         lines.push(
-            `  direct_files("${current.totalFiles} direct file(s), e.g. ${safeLabel(sampleFile)}")`
+            `  direct_files("${current.totalFiles} direct file(s), e.g. ${safeLabel(sampleFile)}"):::atlasJob`
         );
         lines.push(`  curr --> direct_files`);
     } else {
@@ -375,11 +375,11 @@ export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: strin
         filesSlice.forEach((f, idx) => {
             const fid = `file_${idx}`;
             const sampleText = f.samples.length > 0 ? `: ${f.samples.slice(0, 2).join(', ')}` : '';
-            lines.push(`  ${fid}("${safeLabel(f.file)}${safeLabel(sampleText)}")`);
+            lines.push(`  ${fid}("${safeLabel(f.file)}${safeLabel(sampleText)}"):::atlasJob`);
             lines.push(`  curr --> ${fid}`);
         });
         if (current.totalFiles > filesSlice.length) {
-            lines.push(`  more_files("+${current.totalFiles - filesSlice.length} more files")`);
+            lines.push(`  more_files("+${current.totalFiles - filesSlice.length} more files"):::atlasMore`);
             lines.push(`  curr --> more_files`);
         }
     }

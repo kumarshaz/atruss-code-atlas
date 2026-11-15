@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for PostHog/context-mill
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/context-mill (228 components)"])
-    dir_0_example_apps["example-apps (227)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/context-mill (228 components)"]):::atlasRoot
+    dir_0_example_apps["example-apps (227)"]:::atlasCategory
     repo_root --> dir_0_example_apps
-    sub_0_0_laravel["laravel (32)"]
+    sub_0_0_laravel["laravel (32)"]:::atlasWorkflow
     dir_0_example_apps --> sub_0_0_laravel
-    sub_0_1_fastapi["fastapi (14)"]
+    sub_0_1_fastapi["fastapi (14)"]:::atlasWorkflow
     dir_0_example_apps --> sub_0_1_fastapi
-    sub_0_2_elixir["elixir (11)"]
+    sub_0_2_elixir["elixir (11)"]:::atlasWorkflow
     dir_0_example_apps --> sub_0_2_elixir
-    sub_0_more["+36 more submodules (170)"]
+    sub_0_more["+36 more submodules (170)"]:::atlasMore
     dir_0_example_apps --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_fastapi -.->|"15 deps"| sub_0_0_laravel
     sub_0_0_laravel -.->|"2 deps"| sub_0_more
@@ -207,11 +214,15 @@ Showing top 60 representative components out of 228 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_mirror_dryrun_yml_dry_run["mirror-dryrun.yml#dry-run"]
+        job_mirror_dryrun_yml_dry_run["mirror-dryrun.yml#dry-run"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_mirror_dryrun_yml_dry_run -->|DEPLOYS_TO| env_aws
 ```
@@ -223,13 +234,64 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/context-mill (9 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/context-mill (9 workflows)"]):::atlasRoot
+  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+  wf_2_PostHog_Context_Mill___E2E_tests["PostHog Context Mill - E2E tests (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_2_PostHog_Context_Mill___E2E_tests
+  job_2_discover["discover"]:::atlasJob
+  job_2_test["test"]:::atlasJob
+  wf_2_PostHog_Context_Mill___E2E_tests --> job_2_discover
+  job_2_discover --> job_2_test
+  wf_3_Install_skill_evals["Install skill evals (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_3_Install_skill_evals
+  job_3_run["run"]:::atlasJob
+  wf_3_Install_skill_evals --> job_3_run
+  wf_4_PostHog_Context_Mill___Integration_tests["PostHog Context Mill - Integration tests (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_4_PostHog_Context_Mill___Integration_tests
+  job_4_discover["discover"]:::atlasJob
+  job_4_test["test"]:::atlasJob
+  wf_4_PostHog_Context_Mill___Integration_tests --> job_4_discover
+  job_4_discover --> job_4_test
+  wf_5_Mirror_dry_run["Mirror dry run (1 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_5_Mirror_dry_run
+  job_5_dry_run["dry-run"]:::atlasJob
+  wf_5_Mirror_dry_run --> job_5_dry_run
+  wf_8_Wizard_CI_Trigger["Wizard CI Trigger (2 jobs)"]:::atlasWorkflow
+  grp_0_Scheduled___Manual --> wf_8_Wizard_CI_Trigger
+  job_8_post_welcome["post-welcome"]:::atlasJob
+  job_8_handle_command["handle-command"]:::atlasJob
+  wf_8_Wizard_CI_Trigger --> job_8_post_welcome
+  wf_8_Wizard_CI_Trigger --> job_8_handle_command
+  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+  wf_0_Build_and_release["Build and release (2 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_0_Build_and_release
+  job_0_check_version["check-version"]:::atlasJob
+  job_0_build_and_release["build-and-release"]:::atlasJob
+  wf_0_Build_and_release --> job_0_check_version
+  job_0_check_version --> job_0_build_and_release
+  wf_6_release_please["release-please (1 jobs)"]:::atlasWorkflow
+  grp_1_Release___Deploy --> wf_6_release_please
+  job_6_release_please["release-please"]:::atlasJob
+  wf_6_release_please --> job_6_release_please
+  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_2_CI___Verification
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  wf_1_PostHog_Context_Mill___Build["PostHog Context Mill - Build (1 jobs)"]:::atlasWorkflow
+  grp_2_CI___Verification --> wf_1_PostHog_Context_Mill___Build
+  job_1_build["build"]:::atlasJob
+  wf_1_PostHog_Context_Mill___Build --> job_1_build
+  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_3_Security___Governance
+  wf_7_Security["Security (1 jobs)"]:::atlasWorkflow
+  grp_3_Security___Governance --> wf_7_Security
+  job_7_semgrep_general["semgrep-general"]:::atlasJob
+  wf_7_Security --> job_7_semgrep_general
 ```

@@ -41,28 +41,35 @@ description: Arc42 and Pipeline report for getsentry/sentry-symfony
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-symfony (222 components)"])
-    dir_0_tests["tests (150)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-symfony (222 components)"]):::atlasRoot
+    dir_0_tests["tests (150)"]:::atlasCategory
     repo_root --> dir_0_tests
-    sub_0_0_End2End["End2End (67)"]
+    sub_0_0_End2End["End2End (67)"]:::atlasWorkflow
     dir_0_tests --> sub_0_0_End2End
-    sub_0_1_DependencyInjection["DependencyInjection (38)"]
+    sub_0_1_DependencyInjection["DependencyInjection (38)"]:::atlasWorkflow
     dir_0_tests --> sub_0_1_DependencyInjection
-    sub_0_2_Tracing["Tracing (21)"]
+    sub_0_2_Tracing["Tracing (21)"]:::atlasWorkflow
     dir_0_tests --> sub_0_2_Tracing
-    sub_0_more["+7 more submodules (24)"]
+    sub_0_more["+7 more submodules (24)"]:::atlasMore
     dir_0_tests --> sub_0_more
-    dir_1_src["src (71)"]
+    dir_1_src["src (71)"]:::atlasCategory
     repo_root --> dir_1_src
-    sub_1_0_Tracing["Tracing (33)"]
+    sub_1_0_Tracing["Tracing (33)"]:::atlasWorkflow
     dir_1_src --> sub_1_0_Tracing
-    sub_1_1_EventListener["EventListener (15)"]
+    sub_1_1_EventListener["EventListener (15)"]:::atlasWorkflow
     dir_1_src --> sub_1_1_EventListener
-    sub_1_2_DependencyInjection["DependencyInjection (11)"]
+    sub_1_2_DependencyInjection["DependencyInjection (11)"]:::atlasWorkflow
     dir_1_src --> sub_1_2_DependencyInjection
-    sub_1_more["+6 more submodules (12)"]
+    sub_1_more["+6 more submodules (12)"]:::atlasMore
     dir_1_src --> sub_1_more
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -191,19 +198,23 @@ Showing top 60 representative components out of 222 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_713f81ac_dc60_471d_acd2_45d146fba297["713f81ac-dc60-471d-acd2-45d146fba297"]
+        mod_713f81ac_dc60_471d_acd2_45d146fba297["713f81ac-dc60-471d-acd2-45d146fba297"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_publish_release_yaml_release["publish-release.yaml#release"]
-        job_static_analysis_yaml_php_cs_fixer["static-analysis.yaml#php-cs-fixer"]
-        job_static_analysis_yaml_phpstan["static-analysis.yaml#phpstan"]
-        job_static_analysis_yaml_psalm["static-analysis.yaml#psalm"]
-        job_tests_yaml_missing_optional_packages_tests["tests.yaml#missing-optional-packages-tests"]
-        job_tests_yaml_runtime_tests_frankenphp["tests.yaml#runtime-tests-frankenphp"]
-        job_tests_yaml_runtime_tests_roadrunner["tests.yaml#runtime-tests-roadrunner"]
-        job_tests_yaml_tests["tests.yaml#tests"]
-        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]
+        job_publish_release_yaml_release["publish-release.yaml#release"]:::atlasJob
+        job_static_analysis_yaml_php_cs_fixer["static-analysis.yaml#php-cs-fixer"]:::atlasJob
+        job_static_analysis_yaml_phpstan["static-analysis.yaml#phpstan"]:::atlasJob
+        job_static_analysis_yaml_psalm["static-analysis.yaml#psalm"]:::atlasJob
+        job_tests_yaml_missing_optional_packages_tests["tests.yaml#missing-optional-packages-tests"]:::atlasJob
+        job_tests_yaml_runtime_tests_frankenphp["tests.yaml#runtime-tests-frankenphp"]:::atlasJob
+        job_tests_yaml_runtime_tests_roadrunner["tests.yaml#runtime-tests-roadrunner"]:::atlasJob
+        job_tests_yaml_tests["tests.yaml#tests"]:::atlasJob
+        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]:::atlasJob
     end
     mod_713f81ac_dc60_471d_acd2_45d146fba297 -->|BUILT_BY| job_static_analysis_yaml_php_cs_fixer
     mod_713f81ac_dc60_471d_acd2_45d146fba297 -->|BUILT_BY| job_static_analysis_yaml_phpstan
@@ -231,17 +242,40 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-symfony (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-symfony (4 workflows)"]):::atlasRoot
+  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
   pipeline_root --> grp_0_CI___Verification
-  wf_1_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]
+  wf_1_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_1_Code_style_and_static_analysis
-  wf_2_CI["CI (4 jobs)"]
+  job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
+  job_1_phpstan["phpstan"]:::atlasJob
+  job_1_psalm["psalm"]:::atlasJob
+  wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
+  wf_1_Code_style_and_static_analysis --> job_1_phpstan
+  wf_1_Code_style_and_static_analysis --> job_1_psalm
+  wf_2_CI["CI (4 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_2_CI
-  wf_3_Validate_PR["Validate PR (1 jobs)"]
+  job_2_tests["tests"]:::atlasJob
+  job_2_missing_optional_packages_tests["missing-optional-packages-tests"]:::atlasJob
+  job_2_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
+  wf_2_CI --> job_2_tests
+  wf_2_CI --> job_2_missing_optional_packages_tests
+  wf_2_CI --> job_2_runtime_tests_frankenphp
+  wf_3_Validate_PR["Validate PR (1 jobs)"]:::atlasWorkflow
   grp_0_CI___Verification --> wf_3_Validate_PR
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+  job_3_validate_pr["validate-pr"]:::atlasJob
+  wf_3_Validate_PR --> job_3_validate_pr
+  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
   pipeline_root --> grp_1_Release___Deploy
-  wf_0_Prepare_Release["Prepare Release (1 jobs)"]
+  wf_0_Prepare_Release["Prepare Release (1 jobs)"]:::atlasWorkflow
   grp_1_Release___Deploy --> wf_0_Prepare_Release
+  job_0_release["release"]:::atlasJob
+  wf_0_Prepare_Release --> job_0_release
 ```
