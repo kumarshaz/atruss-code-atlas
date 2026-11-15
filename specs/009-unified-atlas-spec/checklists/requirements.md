@@ -21,6 +21,6 @@
 
 ## Feature Readiness
 
-- [x] Every `FR-001`–`FR-030` in `spec.md` maps 1:1 to a task (`T001`–`T030`) in `tasks.md`
+- [x] Every `FR-001`–`FR-030` in `spec.md` maps 1:1 to a completed task (`T001`–`T030`) in `tasks.md`
 - [x] Every concrete path in `plan.md` resolves to a valid repository file
-- [x] Validated via `scripts/validate_agent_workflow.py --spec specs/009-unified-atlas-spec`
+- [x] Validated at Grade `A` via `scripts/validate_agent_workflow.py --spec specs/009-unified-atlas-spec` (including Horizon 2 SBOM/SARIF/llms/catalog-history contracts and 8-artifact SHA-256 determinism)

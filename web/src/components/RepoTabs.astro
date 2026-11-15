@@ -62,17 +62,28 @@ const priorityClass =
             </div>
         </div>
 
-        {github_url && (
-            <a
-                href={github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="m3-btn-tonal m3-report-gh-btn"
+        <div class="m3-report-actions">
+            <button
+                type="button"
+                class="m3-btn-tonal m3-print-btn"
+                data-m3-print="true"
+                aria-label="Print or save multi-tab PDF report"
             >
-                <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
-                View Repository
-            </a>
-        )}
+                <span class="material-symbols-outlined" aria-hidden="true">print</span>
+                <span>Print / Save PDF</span>
+            </button>
+            {github_url && (
+                <a
+                    href={github_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="m3-btn-tonal m3-report-gh-btn"
+                >
+                    <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+                    View Repository
+                </a>
+            )}
+        </div>
     </section>
 
     <div class="m3-tabs-bar" role="tablist" aria-label="Repository analysis views">
@@ -114,6 +125,19 @@ const priorityClass =
             <span class="material-symbols-outlined" aria-hidden="true">architecture</span>
             <span>Arc42 Code Architecture</span>
         </button>
+
+        <button
+            type="button"
+            role="tab"
+            id={`${tabGroupId}-tab-scorecard`}
+            aria-controls={`${tabGroupId}-panel-scorecard`}
+            aria-selected="false"
+            data-m3-tab="scorecard"
+            class="m3-tab-btn"
+        >
+            <span class="material-symbols-outlined" aria-hidden="true">radar</span>
+            <span>6-D Scorecard &amp; Security</span>
+        </button>
     </div>
 
     <div
@@ -147,6 +171,17 @@ const priorityClass =
     >
         <slot name="architecture" />
     </div>
+
+    <div
+        role="tabpanel"
+        id={`${tabGroupId}-panel-scorecard`}
+        aria-labelledby={`${tabGroupId}-tab-scorecard`}
+        data-m3-panel="scorecard"
+        class="m3-tab-panel"
+        hidden
+    >
+        <slot name="scorecard" />
+    </div>
 </div>
 
 <script>
@@ -178,6 +213,33 @@ const priorityClass =
                     }
                 });
             };
+
+            const printBtn = root.querySelector<HTMLButtonElement>('[data-m3-print="true"]');
+            if (printBtn) {
+                printBtn.addEventListener('click', () => {
+                    const prevStates = panels.map((p) => ({ el: p, hidden: p.hidden }));
+                    panels.forEach((p) => {
+                        if (p.hidden) {
+                            p.hidden = false;
+                            document.dispatchEvent(
+                                new CustomEvent('atruss:tab-activated', { detail: { panel: p } })
+                            );
+                        }
+                    });
+
+                    const restore = () => {
+                        prevStates.forEach(({ el, hidden }) => {
+                            el.hidden = hidden;
+                        });
+                    };
+
+                    window.addEventListener('afterprint', restore, { once: true });
+                    window.setTimeout(() => {
+                        window.print();
+                        window.setTimeout(restore, 300);
+                    }, 250);
+                });
+            }
 
             tabs.forEach((tab, index) => {
                 tab.addEventListener('click', () => {
@@ -218,6 +280,13 @@ const priorityClass =
         padding: 1.5rem;
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: var(--md-sys-shape-corner-extra-large);
+    }
+
+    .m3-report-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.625rem;
     }
 
     .m3-report-breadcrumb {

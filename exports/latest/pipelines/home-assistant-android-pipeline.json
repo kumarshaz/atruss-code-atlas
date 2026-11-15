@@ -1,0 +1,1892 @@
+{
+  "org": "home-assistant",
+  "repository": "android",
+  "sha": "6f48337910158c5ca1a3965e499143114bd6a3d3",
+  "analyzed_at": "2026-11-15T05:22:51Z",
+  "workflows": [
+    {
+      "id": "e2e-triage.lock.yml",
+      "path": ".github/workflows/e2e-triage.lock.yml",
+      "name": "E2E failure triage",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "activation",
+          "name": "activation",
+          "runner": "ubuntu-slim",
+          "steps_count": 21,
+          "needs": []
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "runner": "ubuntu-latest",
+          "steps_count": 50,
+          "needs": [
+            "activation"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "name": "conclusion",
+          "runner": "ubuntu-slim",
+          "steps_count": 19,
+          "needs": [
+            "activation",
+            "agent",
+            "detection",
+            "safe_outputs"
+          ]
+        },
+        {
+          "id": "detection",
+          "name": "detection",
+          "runner": "ubuntu-latest",
+          "steps_count": 28,
+          "needs": [
+            "activation",
+            "agent"
+          ]
+        },
+        {
+          "id": "safe_outputs",
+          "name": "safe_outputs",
+          "runner": "ubuntu-slim",
+          "steps_count": 7,
+          "needs": [
+            "activation",
+            "agent",
+            "detection"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 10,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "activation": 0.0,
+          "agent": 0.0,
+          "conclusion": 0.0,
+          "detection": 0.0,
+          "safe_outputs": 0.0
+        },
+        "pagerank": {
+          "activation": 0.099127,
+          "agent": 0.120192,
+          "conclusion": 0.406632,
+          "detection": 0.154247,
+          "safe_outputs": 0.219801
+        },
+        "downstream_impact": {
+          "activation": [
+            "agent",
+            "conclusion",
+            "detection",
+            "safe_outputs"
+          ],
+          "agent": [
+            "conclusion",
+            "detection",
+            "safe_outputs"
+          ],
+          "conclusion": [],
+          "detection": [
+            "conclusion",
+            "safe_outputs"
+          ],
+          "safe_outputs": [
+            "conclusion"
+          ]
+        },
+        "critical_nodes": [
+          "conclusion",
+          "safe_outputs",
+          "detection",
+          "agent",
+          "activation"
+        ],
+        "max_blast_radius": 4
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'agent' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 1273,
+          "end_line": 1273,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 2105,
+          "end_line": 2105,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_TOKEN_USAGE_SUMMARY_TITLE'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 2123,
+          "end_line": 2123,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'detection' step env 'GH_AW_SECRET_NAMES'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 2141,
+          "end_line": 2141,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'agent' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 593,
+          "end_line": 601,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'safe_outputs' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 2289,
+          "end_line": 2294,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'activation' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 87,
+          "end_line": 512,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'conclusion' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e-triage.lock.yml",
+          "start_line": 1477,
+          "end_line": 1839,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "e2e.yml",
+      "path": ".github/workflows/e2e.yml",
+      "name": "E2E",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "maestro",
+          "name": "Maestro onboarding",
+          "runner": "ubuntu-latest",
+          "steps_count": 22,
+          "needs": []
+        },
+        {
+          "id": "triage-failure",
+          "name": "Triage E2E failure",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "maestro"
+          ]
+        },
+        {
+          "id": "close-failure-issue",
+          "name": "Close E2E failure issue",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "maestro"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "close-failure-issue": 0.0,
+          "maestro": 0.0,
+          "triage-failure": 0.0
+        },
+        "pagerank": {
+          "close-failure-issue": 0.37013,
+          "maestro": 0.259741,
+          "triage-failure": 0.37013
+        },
+        "downstream_impact": {
+          "close-failure-issue": [],
+          "maestro": [
+            "close-failure-issue",
+            "triage-failure"
+          ],
+          "triage-failure": []
+        },
+        "critical_nodes": [
+          "close-failure-issue",
+          "triage-failure",
+          "maestro"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'maestro' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 26,
+          "end_line": 333,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 70,
+          "end_line": 70,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'maestro' env 'E2E_HOME_ASSISTANT_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 45,
+          "end_line": 45,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in job 'maestro' env 'E2E_MTLS_P12_PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 47,
+          "end_line": 47,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'maestro' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 55,
+          "end_line": 55,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'maestro' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 73,
+          "end_line": 81,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage-failure' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 338,
+          "end_line": 350,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'close-failure-issue' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/e2e.yml",
+          "start_line": 354,
+          "end_line": 373,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "monthly.yml",
+      "path": ".github/workflows/monthly.yml",
+      "name": "Bump our Calendar Version",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "Tag Monthly Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tag": 0.0
+        },
+        "pagerank": {
+          "tag": 1.0
+        },
+        "downstream_impact": {
+          "tag": []
+        },
+        "critical_nodes": [
+          "tag"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tag' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/monthly.yml",
+          "start_line": 15,
+          "end_line": 34,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/monthly.yml",
+          "start_line": 15,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "onPush.yml",
+      "path": ".github/workflows/onPush.yml",
+      "name": "On Push",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "app_build",
+          "name": "GitHub build and (pre)release",
+          "runner": "ubuntu-latest",
+          "steps_count": 16,
+          "needs": []
+        },
+        {
+          "id": "play_publish",
+          "name": "Play Publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "app_build": 0.0,
+          "play_publish": 0.0
+        },
+        "pagerank": {
+          "app_build": 0.5,
+          "play_publish": 0.5
+        },
+        "downstream_impact": {
+          "app_build": [],
+          "play_publish": []
+        },
+        "critical_nodes": [
+          "app_build",
+          "play_publish"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'app_build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 24,
+          "end_line": 154,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'play_publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 156,
+          "end_line": 227,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 36,
+          "end_line": 36,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 4 uses unpinned action '$/.github/actions/create-release-number'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 45,
+          "end_line": 45,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 5 uses unpinned action '$/.github/actions/inflate-secrets'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 49,
+          "end_line": 49,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 6 uses unpinned action '$/.github/actions/create-release-notes'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 56,
+          "end_line": 56,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 7 uses unpinned action '$/.github/actions/download-translations'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 62,
+          "end_line": 62,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'app_build' step 8 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 69,
+          "end_line": 69,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 170,
+          "end_line": 170,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 4 uses unpinned action '$/.github/actions/create-release-number'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 179,
+          "end_line": 179,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 5 uses unpinned action '$/.github/actions/inflate-secrets'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 183,
+          "end_line": 183,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 6 uses unpinned action '$/.github/actions/create-release-notes'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 190,
+          "end_line": 190,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 7 uses unpinned action '$/.github/actions/download-translations'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 196,
+          "end_line": 196,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_publish' step 8 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 203,
+          "end_line": 203,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'app_build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 24,
+          "end_line": 154,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'play_publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/onPush.yml",
+          "start_line": 156,
+          "end_line": 227,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-emulator-wtf.yml",
+      "path": ".github/workflows/pr-emulator-wtf.yml",
+      "name": "PR Emulator.wtf",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "check_inputs",
+          "name": "Check emulator.wtf inputs",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "emulator_wtf",
+          "name": "Instrumentation Test app",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "check_inputs"
+          ]
+        },
+        {
+          "id": "publish_test_results",
+          "name": "Publish Tests Results",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "emulator_wtf"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/pr.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/pr-emulator-wtf.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check_inputs": 0.0,
+          "emulator_wtf": 0.5,
+          "publish_test_results": 0.0
+        },
+        "pagerank": {
+          "check_inputs": 0.184417,
+          "emulator_wtf": 0.341172,
+          "publish_test_results": 0.474412
+        },
+        "downstream_impact": {
+          "check_inputs": [
+            "emulator_wtf",
+            "publish_test_results"
+          ],
+          "emulator_wtf": [
+            "publish_test_results"
+          ],
+          "publish_test_results": []
+        },
+        "critical_nodes": [
+          "emulator_wtf",
+          "publish_test_results",
+          "check_inputs"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 3 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-emulator-wtf.yml",
+          "start_line": 14,
+          "end_line": 281,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check_inputs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-emulator-wtf.yml",
+          "start_line": 18,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'emulator_wtf' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-emulator-wtf.yml",
+          "start_line": 46,
+          "end_line": 212,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish_test_results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-emulator-wtf.yml",
+          "start_line": 213,
+          "end_line": 281,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr.yml",
+      "path": ".github/workflows/pr.yml",
+      "name": "Pull Request",
+      "triggers": [
+        "workflow_dispatch",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "validate_localize_setup",
+          "name": "Validate Localize Setup",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "yamllint",
+          "name": "yamllint",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "lockfiles",
+          "name": "Check Lockfiles",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "license_check",
+          "name": "license_check",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "lockfiles"
+          ]
+        },
+        {
+          "id": "ktlint",
+          "name": "ktlint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "license_check",
+            "yamllint",
+            "validate_localize_setup"
+          ]
+        },
+        {
+          "id": "detekt",
+          "name": "Detekt",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "lockfiles",
+            "yamllint"
+          ]
+        },
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "screenshot_test",
+          "name": "Screenshot Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "detekt",
+            "lint",
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "pr_build",
+          "name": "pr_build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "pr_build_release",
+          "name": "pr_build_release",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "unit_tests",
+          "name": "Unit Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "detekt",
+            "lint",
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "build_emulator_wtf_apks",
+          "name": "Build Emulator.wtf APKs",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "detekt",
+            "lint",
+            "lockfiles",
+            "ktlint"
+          ]
+        },
+        {
+          "id": "instrumentation_test",
+          "name": "Instrumentation Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "detekt",
+            "lint",
+            "lockfiles",
+            "ktlint"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 13,
+        "edge_count": 28,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build_emulator_wtf_apks": 0.0,
+          "detekt": 0.015152,
+          "instrumentation_test": 0.0,
+          "ktlint": 0.143939,
+          "license_check": 0.007576,
+          "lint": 0.0,
+          "lockfiles": 0.0,
+          "pr_build": 0.0,
+          "pr_build_release": 0.0,
+          "screenshot_test": 0.0,
+          "unit_tests": 0.0,
+          "validate_localize_setup": 0.0,
+          "yamllint": 0.0
+        },
+        "pagerank": {
+          "build_emulator_wtf_apks": 0.097522,
+          "detekt": 0.069835,
+          "instrumentation_test": 0.097522,
+          "ktlint": 0.147318,
+          "license_check": 0.050302,
+          "lint": 0.068191,
+          "lockfiles": 0.045961,
+          "pr_build": 0.068191,
+          "pr_build_release": 0.068191,
+          "screenshot_test": 0.097522,
+          "unit_tests": 0.097522,
+          "validate_localize_setup": 0.045961,
+          "yamllint": 0.045961
+        },
+        "downstream_impact": {
+          "build_emulator_wtf_apks": [],
+          "detekt": [
+            "build_emulator_wtf_apks",
+            "instrumentation_test",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "instrumentation_test": [],
+          "ktlint": [
+            "build_emulator_wtf_apks",
+            "instrumentation_test",
+            "lint",
+            "pr_build",
+            "pr_build_release",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "license_check": [
+            "build_emulator_wtf_apks",
+            "instrumentation_test",
+            "ktlint",
+            "lint",
+            "pr_build",
+            "pr_build_release",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "lint": [
+            "build_emulator_wtf_apks",
+            "instrumentation_test",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "lockfiles": [
+            "build_emulator_wtf_apks",
+            "detekt",
+            "instrumentation_test",
+            "ktlint",
+            "license_check",
+            "lint",
+            "pr_build",
+            "pr_build_release",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "pr_build": [],
+          "pr_build_release": [],
+          "screenshot_test": [],
+          "unit_tests": [],
+          "validate_localize_setup": [
+            "build_emulator_wtf_apks",
+            "instrumentation_test",
+            "ktlint",
+            "lint",
+            "pr_build",
+            "pr_build_release",
+            "screenshot_test",
+            "unit_tests"
+          ],
+          "yamllint": [
+            "build_emulator_wtf_apks",
+            "detekt",
+            "instrumentation_test",
+            "ktlint",
+            "lint",
+            "pr_build",
+            "pr_build_release",
+            "screenshot_test",
+            "unit_tests"
+          ]
+        },
+        "critical_nodes": [
+          "ktlint",
+          "build_emulator_wtf_apks",
+          "instrumentation_test",
+          "screenshot_test",
+          "unit_tests",
+          "detekt",
+          "lint",
+          "pr_build",
+          "pr_build_release",
+          "license_check",
+          "lockfiles",
+          "yamllint",
+          "validate_localize_setup"
+        ],
+        "max_blast_radius": 10
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 94,
+          "end_line": 94,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'validate_localize_setup' step 3 uses unpinned action '$/.github/actions/download-translations'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 37,
+          "end_line": 37,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lockfiles' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 88,
+          "end_line": 88,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'license_check' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 120,
+          "end_line": 120,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'ktlint' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 153,
+          "end_line": 153,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'ktlint' step 4 uses unpinned action '$/.github/actions/upload-sarif-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 162,
+          "end_line": 162,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'detekt' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 178,
+          "end_line": 178,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'detekt' step 4 uses unpinned action '$/.github/actions/upload-sarif-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 190,
+          "end_line": 190,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 206,
+          "end_line": 206,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint' step 5 uses unpinned action '$/.github/actions/upload-sarif-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 221,
+          "end_line": 221,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 235,
+          "end_line": 235,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 3 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 241,
+          "end_line": 241,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 4 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 246,
+          "end_line": 246,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 5 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 251,
+          "end_line": 251,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 6 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 256,
+          "end_line": 256,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'screenshot_test' step 7 uses unpinned action '$/.github/actions/upload-test-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 260,
+          "end_line": 260,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'pr_build' step 3 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 285,
+          "end_line": 285,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'pr_build_release' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 322,
+          "end_line": 322,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'pr_build_release' step 4 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 338,
+          "end_line": 338,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'unit_tests' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 356,
+          "end_line": 356,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'unit_tests' step 4 uses unpinned action '$/.github/actions/upload-test-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 371,
+          "end_line": 371,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build_emulator_wtf_apks' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 386,
+          "end_line": 386,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'instrumentation_test' step 3 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 462,
+          "end_line": 462,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'instrumentation_test' step 6 uses unpinned action '$/.github/actions/upload-test-results'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 493,
+          "end_line": 493,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate_localize_setup' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 16,
+          "end_line": 63,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'yamllint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 65,
+          "end_line": 78,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lockfiles' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 80,
+          "end_line": 110,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'license_check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 111,
+          "end_line": 141,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'ktlint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 142,
+          "end_line": 165,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'detekt' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 167,
+          "end_line": 193,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 195,
+          "end_line": 224,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'screenshot_test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 226,
+          "end_line": 264,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pr_build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 266,
+          "end_line": 311,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pr_build_release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 313,
+          "end_line": 345,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'unit_tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 347,
+          "end_line": 375,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build_emulator_wtf_apks' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 377,
+          "end_line": 418,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'instrumentation_test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr.yml",
+          "start_line": 419,
+          "end_line": 497,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Production Deploy",
+      "triggers": [
+        "workflow_dispatch",
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "play_promote_production",
+          "name": "Play Publish Production",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "play_promote_production": 0.0
+        },
+        "pagerank": {
+          "play_promote_production": 1.0
+        },
+        "downstream_impact": {
+          "play_promote_production": []
+        },
+        "critical_nodes": [
+          "play_promote_production"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'play_promote_production' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 19,
+          "end_line": 44,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'play_promote_production' step 3 uses unpinned action '$/.github/actions/inflate-secrets'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'play_promote_production' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 19,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "renovate-lockfiles.yml",
+      "path": ".github/workflows/renovate-lockfiles.yml",
+      "name": "Auto-update Renovate lockfiles",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "update-lockfiles",
+          "name": "Update lockfiles",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-lockfiles": 0.0
+        },
+        "pagerank": {
+          "update-lockfiles": 1.0
+        },
+        "downstream_impact": {
+          "update-lockfiles": []
+        },
+        "critical_nodes": [
+          "update-lockfiles"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/renovate-lockfiles.yml",
+          "start_line": 44,
+          "end_line": 44,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update-lockfiles' step 3 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/renovate-lockfiles.yml",
+          "start_line": 36,
+          "end_line": 36,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-lockfiles' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/renovate-lockfiles.yml",
+          "start_line": 14,
+          "end_line": 57,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "restrict-task-creation.yml",
+      "path": ".github/workflows/restrict-task-creation.yml",
+      "name": "Restrict task creation",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "check-authorization",
+          "name": "Check authorization",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-authorization": 0.0
+        },
+        "pagerank": {
+          "check-authorization": 1.0
+        },
+        "downstream_impact": {
+          "check-authorization": []
+        },
+        "critical_nodes": [
+          "check-authorization"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-authorization' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/restrict-task-creation.yml",
+          "start_line": 15,
+          "end_line": 67,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "updateScreenshot.yml",
+      "path": ".github/workflows/updateScreenshot.yml",
+      "name": "Update Screenshots",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update_screenshots",
+          "name": "Update Screenshots",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update_screenshots": 0.0
+        },
+        "pagerank": {
+          "update_screenshots": 1.0
+        },
+        "downstream_impact": {
+          "update_screenshots": []
+        },
+        "critical_nodes": [
+          "update_screenshots"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update_screenshots' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/updateScreenshot.yml",
+          "start_line": 30,
+          "end_line": 30,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'update_screenshots' step 3 uses unpinned action '$/.github/actions/monitor-resources'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/updateScreenshot.yml",
+          "start_line": 36,
+          "end_line": 36,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update_screenshots' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/updateScreenshot.yml",
+          "start_line": 20,
+          "end_line": 46,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "weekly.yml",
+      "path": ".github/workflows/weekly.yml",
+      "name": "Tag Weekly Release",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "Tag Weekly Release",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tag": 0.0
+        },
+        "pagerank": {
+          "tag": 1.0
+        },
+        "downstream_impact": {
+          "tag": []
+        },
+        "critical_nodes": [
+          "tag"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tag' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/weekly.yml",
+          "start_line": 15,
+          "end_line": 47,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/weekly.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'tag' step 2 uses unpinned action '$/.github/actions/setup-build-env'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/weekly.yml",
+          "start_line": 28,
+          "end_line": 28,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/weekly.yml",
+          "start_line": 15,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "zizmor.yml",
+      "path": ".github/workflows/zizmor.yml",
+      "name": "Zizmor GitHub Actions security analysis",
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor_scan",
+          "name": "Zizmor scan",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "upload_zizmor_reports",
+          "name": "Upload Zizmor reports",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "zizmor_scan"
+          ]
+        },
+        {
+          "id": "open-failure-issue",
+          "name": "Open zizmor failure issue",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "zizmor_scan"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "open-failure-issue": 0.0,
+          "upload_zizmor_reports": 0.0,
+          "zizmor_scan": 0.0
+        },
+        "pagerank": {
+          "open-failure-issue": 0.37013,
+          "upload_zizmor_reports": 0.37013,
+          "zizmor_scan": 0.259741
+        },
+        "downstream_impact": {
+          "open-failure-issue": [],
+          "upload_zizmor_reports": [],
+          "zizmor_scan": [
+            "open-failure-issue",
+            "upload_zizmor_reports"
+          ]
+        },
+        "critical_nodes": [
+          "open-failure-issue",
+          "upload_zizmor_reports",
+          "zizmor_scan"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": []
+    }
+  ]
+}

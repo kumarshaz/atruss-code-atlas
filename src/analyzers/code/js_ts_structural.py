@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from src.analyzers.code.base import SKIP_DIRS, compute_text_loc_metrics, iter_source_files
+from src.analyzers.code.treesitter_engine import analyze_repo_treesitter_metrics
 
 _ROUTE_RE = re.compile(
     r"\b(?:app|router|fastify|server)\.(get|post|put|delete|patch)\s*\(\s*['\"]([^'\"]+)['\"]"
@@ -11,7 +12,6 @@ _ROUTE_RE = re.compile(
 _REACT_FN_RE = re.compile(r"\bexport\s+(?:default\s+)?(?:function|const)\s+([A-Z]\w*)\b")
 _CLASS_RE = re.compile(r"\bclass\s+([A-Z]\w*)\b")
 _IMPORT_RE = re.compile(r"(?:import\s+[^'\"]*from\s+|require\s*\(\s*)['\"](\.[^'\"]+)['\"]")
-_BRANCH_RE = re.compile(r"\b(if|else\s+if|for|while|switch|case|catch)\b|\?\s*[^:]+\s*:")
 
 
 def analyze_js_ts_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -39,11 +39,12 @@ def analyze_js_ts_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict
                 "dependencies": [],
             })
 
-    src_files = iter_source_files(repo_dir, (".ts", ".tsx", ".js", ".jsx", ".mjs"))
+    js_exts = (".ts", ".tsx", ".js", ".jsx", ".mjs")
+    src_files = iter_source_files(repo_dir, js_exts)
     loc_metrics = compute_text_loc_metrics(src_files, comment_prefixes=("//", "/*", "*"))
+    ts_metrics = analyze_repo_treesitter_metrics(repo_dir, js_exts)
     file_to_component_names: dict[str, list[str]] = {}
     file_texts: dict[str, str] = {}
-    complexities: list[int] = []
 
     for fpath in src_files:
         rel_path = str(fpath.relative_to(repo_dir)).replace("\\", "/")
@@ -52,7 +53,6 @@ def analyze_js_ts_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict
         except OSError:
             continue
         file_texts[rel_path] = content
-        complexities.append(1 + len(_BRANCH_RE.findall(content)))
 
         # Next.js API route convention
         if (
@@ -153,11 +153,17 @@ def analyze_js_ts_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict
                             deps.append(tname)
         comp["dependencies"] = sorted(deps)
 
-    avg_cc = round(sum(complexities) / len(complexities), 2) if complexities else 0.0
-    max_cc = max(complexities) if complexities else 0
     return components, {
         **loc_metrics,
-        "avg_cyclomatic_complexity": avg_cc,
-        "max_cyclomatic_complexity": max_cc,
+        "avg_cyclomatic_complexity": ts_metrics["avg_cyclomatic_complexity"],
+        "max_cyclomatic_complexity": ts_metrics["max_cyclomatic_complexity"],
         "component_count": len(components),
+        "ast_engine": ts_metrics["ast_engine"],
+        "avg_cognitive_complexity": ts_metrics["avg_cognitive_complexity"],
+        "max_cognitive_complexity": ts_metrics["max_cognitive_complexity"],
+        "duplication_pct": ts_metrics["duplication_pct"],
+        "dead_code_count": ts_metrics["dead_code_count"],
+        "dead_code_symbols": ts_metrics["dead_code_symbols"],
+        "file_complexities": ts_metrics["file_complexities"],
+        "import_edges": ts_metrics["import_edges"],
     }

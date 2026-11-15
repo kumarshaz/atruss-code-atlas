@@ -141,6 +141,11 @@ def test_benchmark_cli_corpus_and_broken_yaml_resilience(tmp_path: Path):
     assert (latest / "pipelines" / "acme-web-ui-pipeline.json").exists()
     assert (latest / "reports" / "acme-py-svc-report.md").exists()
     assert (latest / "reports" / "acme-web-ui-report.md").exists()
+    assert (latest / "sbom" / "acme-py-svc.cdx.json").exists()
+    assert (latest / "sarif" / "acme-py-svc.sarif.json").exists()
+    assert (latest / "llms" / "llms.txt").exists()
+    assert (latest / "llms" / "llms-full.txt").exists()
+    assert (latest / "catalog-history.json").exists()
 
     # Deterministic replay via benchmark_manifest.json
     replay_exports = tmp_path / "replay_exports"

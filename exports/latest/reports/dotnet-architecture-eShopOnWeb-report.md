@@ -10,13 +10,24 @@ description: Arc42 and Pipeline report for dotnet-architecture/eShopOnWeb
 - **Primary Ecosystem**: .NET
 
 ## Quality Metrics
-- **avg_cyclomatic_complexity**: 1.61
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 0.45
+- **avg_cyclomatic_complexity**: 1.43
 - **component_count**: 38
-- **files_analyzed**: 508
+- **dead_code_count**: 17
+- **dead_code_symbols**: 17 entry(ies)
+- **duplication_pct**: 85.03
+- **file_complexities**: 25 entry(ies)
+- **files_analyzed**: 254
+- **fitness_passed**: False
+- **fitness_violation_count**: 1
 - **framework**: ASP.NET Core
-- **loc**: 21466
-- **max_cyclomatic_complexity**: 57
-- **sloc**: 17326
+- **import_edges**: 100 entry(ies)
+- **loc**: 10733
+- **max_cognitive_complexity**: 9
+- **max_cyclomatic_complexity**: 10
+- **sloc**: 8663
+- **test_file_count**: 50
 
 # Architecture: dotnet-architecture/eShopOnWeb
 
@@ -24,7 +35,7 @@ description: Arc42 and Pipeline report for dotnet-architecture/eShopOnWeb
 - **Repository**: `dotnet-architecture/eShopOnWeb`
 - **SHA**: `4da8212117e87d808d4bbc7da6286fd2147ce606`
 - **Ecosystem**: .NET
-- **Framework**: Unknown
+- **Framework**: ASP.NET Core
 
 ## Building Block View
 
@@ -83,10 +94,10 @@ graph TD;
 - **DELETE_api_catalog-items_{catalogItemId}** (`src/PublicApi/CatalogItemEndpoints/DeleteCatalogItemEndpoint.cs`): API_ROUTE
 - **PUT_api_catalog-items** (`src/PublicApi/CatalogItemEndpoints/UpdateCatalogItemEndpoint.cs`): API_ROUTE
 - **GET_api_catalog-types** (`src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs`): API_ROUTE
-- **BaseApiController** (`src/Web/Controllers/Api/BaseApiController.cs`): API_ROUTE
 - **ManageController** (`src/Web/Controllers/ManageController.cs`): API_ROUTE
 - **OrderController** (`src/Web/Controllers/OrderController.cs`): API_ROUTE
 - **UserController** (`src/Web/Controllers/UserController.cs`): API_ROUTE
+- **BaseApiController** (`src/Web/Controllers/Api/BaseApiController.cs`): API_ROUTE
 - **GetMyOrdersHandler** (`src/Web/Features/MyOrders/GetMyOrdersHandler.cs`): SERVICE
 - **GetOrderDetailsHandler** (`src/Web/Features/OrderDetails/GetOrderDetailsHandler.cs`): SERVICE
 - **BasketViewModelService** (`src/Web/Services/BasketViewModelService.cs`): SERVICE (deps: BasketQueryService)
@@ -94,10 +105,121 @@ graph TD;
 - **CatalogItemViewModelService** (`src/Web/Services/CatalogItemViewModelService.cs`): SERVICE
 - **CatalogViewModelService** (`src/Web/Services/CatalogViewModelService.cs`): SERVICE
 
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `C` (72.70/100)
+- **Technical Debt Score**: 27.30
+- **Estimated Remediation Effort**: 38.58h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `F` | 55.00 | 0.20 | avg_cc=1.43, max_cc=10, duplication=85.03%, dead_code=17 |
+| Dependency Health | `B` | 85.00 | 0.15 | dependencies=77, outdated=0, vulnerable=0, has_lockfile=False |
+| Maintainability | `B` | 89.00 | 0.15 | avg_cognitive=0.45, max_cognitive=9, fitness_violations=1, oversized_files=1 |
+| Pipeline Health | `B` | 82.00 | 0.15 | workflows=2, operational_antipatterns=4, parallel_branches=False |
+| Security | `D` | 64.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=3 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (85.03) exceeds policy threshold (15.0).
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 77 | **Vulnerabilities**: 0 | **Secrets**: 0
+
+### Inventory Sample
+- `Ardalis.ApiEndpoints` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
+- `Ardalis.GuardClauses` `*` (NuGet, `src/ApplicationCore/ApplicationCore.csproj`)
+- `Ardalis.ListStartupServices` `*` (NuGet, `src/Web/Web.csproj`)
+- `Ardalis.Result` `*` (NuGet, `src/ApplicationCore/ApplicationCore.csproj`)
+- `Ardalis.Specification` `*` (NuGet, `src/ApplicationCore/ApplicationCore.csproj`)
+- `Ardalis.Specification` `*` (NuGet, `src/Web/Web.csproj`)
+- `Ardalis.Specification.EntityFrameworkCore` `*` (NuGet, `src/Infrastructure/Infrastructure.csproj`)
+- `AutoMapper.Extensions.Microsoft.DependencyInjection` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
+- `AutoMapper.Extensions.Microsoft.DependencyInjection` `*` (NuGet, `src/Web/Web.csproj`)
+- `Azure.Extensions.AspNetCore.Configuration.Secrets` `*` (NuGet, `src/Web/Web.csproj`)
+- `Azure.Identity` `*` (NuGet, `src/Web/Web.csproj`)
+- `BlazorInputFile` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `BlazorInputFile` `*` (NuGet, `src/BlazorShared/BlazorShared.csproj`)
+- `Blazored.LocalStorage` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `BuildBundlerMinifier` `*` (NuGet, `src/Web/Web.csproj`)
+- `FluentValidation` `*` (NuGet, `src/BlazorShared/BlazorShared.csproj`)
+- `MSTest.TestAdapter` `*` (NuGet, `tests/PublicApiIntegrationTests/PublicApiIntegrationTests.csproj`)
+- `MSTest.TestFramework` `*` (NuGet, `tests/PublicApiIntegrationTests/PublicApiIntegrationTests.csproj`)
+- `MediatR` `*` (NuGet, `src/Web/Web.csproj`)
+- `Microsoft.AspNetCore.Authentication.JwtBearer` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
+- `Microsoft.AspNetCore.Authentication.JwtBearer` `*` (NuGet, `src/Web/Web.csproj`)
+- `Microsoft.AspNetCore.Components.Authorization` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `Microsoft.AspNetCore.Components.WebAssembly` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `Microsoft.AspNetCore.Components.WebAssembly.Authentication` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `Microsoft.AspNetCore.Components.WebAssembly.DevServer` `*` (NuGet, `src/BlazorAdmin/BlazorAdmin.csproj`)
+- `Microsoft.AspNetCore.Components.WebAssembly.Server` `*` (NuGet, `src/Web/Web.csproj`)
+- `Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
+- `Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore` `*` (NuGet, `src/Web/Web.csproj`)
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore` `*` (NuGet, `src/Infrastructure/Infrastructure.csproj`)
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
+- ... (+47 more dependencies)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    subgraph code_modules["Code Modules"]
+        mod_8334e582_72ab_481a_a988_4f2995829874["8334e582-72ab-481a-a988-4f2995829874"]
+        mod_src_PublicApi["src/PublicApi"]
+        mod_src_Web["src/Web"]
+    end
+    subgraph build_artifacts["Build Artifacts / Containers"]
+        art_docker_compose_override_yml["docker-compose.override.yml"]
+        art_docker_compose_yml["docker-compose.yml"]
+        art_infra_core_host_appservice_bicep["infra/core/host/appservice.bicep"]
+        art_infra_core_host_appserviceplan_bicep["infra/core/host/appserviceplan.bicep"]
+        art_infra_main_bicep["infra/main.bicep"]
+        art_src_PublicApi_Dockerfile["src/PublicApi/Dockerfile"]
+        art_src_Web_Dockerfile["src/Web/Dockerfile"]
+    end
+    mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_override_yml
+    mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_src_PublicApi -->|PACKAGED_BY| art_docker_compose_yml
+    mod_src_PublicApi -->|PACKAGED_BY| art_src_PublicApi_Dockerfile
+    mod_src_Web -->|PACKAGED_BY| art_docker_compose_yml
+    mod_src_Web -->|PACKAGED_BY| art_src_Web_Dockerfile
+    mod_src_Web -->|PACKAGED_BY| art_infra_core_host_appservice_bicep
+    mod_src_Web -->|PACKAGED_BY| art_infra_core_host_appserviceplan_bicep
+    mod_src_Web -->|PACKAGED_BY| art_infra_main_bicep
+    art_src_Web_Dockerfile -->|PACKAGED_BY| art_infra_core_host_appservice_bicep
+    art_src_Web_Dockerfile -->|PACKAGED_BY| art_infra_core_host_appserviceplan_bicep
+    art_src_Web_Dockerfile -->|PACKAGED_BY| art_infra_main_bicep
+```
+
+- `8334e582-72ab-481a-a988-4f2995829874` (code_module) --[PACKAGED_BY]--> `docker-compose.override.yml` (container)
+- `8334e582-72ab-481a-a988-4f2995829874` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `src/PublicApi` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `src/PublicApi` (code_module) --[PACKAGED_BY]--> `src/PublicApi/Dockerfile` (container)
+- `src/Web` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `src/Web` (code_module) --[PACKAGED_BY]--> `src/Web/Dockerfile` (container)
+- `src/Web` (code_module) --[PACKAGED_BY]--> `infra/core/host/appservice.bicep` (iac)
+- `src/Web` (code_module) --[PACKAGED_BY]--> `infra/core/host/appserviceplan.bicep` (iac)
+- `src/Web` (code_module) --[PACKAGED_BY]--> `infra/main.bicep` (iac)
+- `src/Web/Dockerfile` (container) --[PACKAGED_BY]--> `infra/core/host/appservice.bicep` (iac)
+- `src/Web/Dockerfile` (container) --[PACKAGED_BY]--> `infra/core/host/appserviceplan.bicep` (iac)
+- `src/Web/Dockerfile` (container) --[PACKAGED_BY]--> `infra/main.bicep` (iac)
+
 
 ## CI/CD Pipeline Topology
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  pipeline_root(["dotnet-architecture/eShopOnWeb"])
+  subgraph eShopOnWeb_Build_and_Test_0["eShopOnWeb Build and Test"]
+    direction TB
+    0_build["build"]
+  end
+  pipeline_root --> 0_build
+  subgraph eShopOnWeb___Code_Index_1["eShopOnWeb - Code Index"]
+    direction TB
+    1_build["build"]
+  end
+  pipeline_root --> 1_build
 ```

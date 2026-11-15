@@ -1,0 +1,569 @@
+{
+  "repository": "TryGhost/docker-library-ghost",
+  "sha": "a235302a801ceac861ca6944ebce03995f27d0dd",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 4,
+    "loc": 391,
+    "sloc": 313,
+    "component_count": 4,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Container",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "GitHub CI",
+      "triggers": [
+        "pull_request",
+        "push",
+        "schedule"
+      ],
+      "jobs": {
+        "generate-jobs": {
+          "name": "Generate Jobs",
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "strategy": "${{ steps.generate-jobs.outputs.strategy }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "uses": "./.github/actions/bashbrew/"
+            },
+            {
+              "id": "generate-jobs",
+              "name": "Generate Jobs",
+              "run": "strategy=\"$(\"$BASHBREW_SCRIPTS/github-actions/generate.sh\")\"\necho \"strategy=$strategy\" >> \"$GITHUB_OUTPUT\"\njq . <<<\"$strategy\" # sanity check / debugging aid\n"
+            }
+          ]
+        },
+        "test": {
+          "needs": "generate-jobs",
+          "strategy": "${{ fromJson(needs.generate-jobs.outputs.strategy) }}",
+          "name": "${{ matrix.name }}",
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "name": "Prepare Environment",
+              "run": "${{ matrix.runs.prepare }}"
+            },
+            {
+              "name": "Pull Dependencies",
+              "run": "${{ matrix.runs.pull }}"
+            },
+            {
+              "name": "Build ${{ matrix.name }}",
+              "run": "${{ matrix.runs.build }}"
+            },
+            {
+              "name": "History ${{ matrix.name }}",
+              "run": "${{ matrix.runs.history }}"
+            },
+            {
+              "name": "Test ${{ matrix.name }}",
+              "run": "${{ matrix.runs.test }}"
+            },
+            {
+              "name": "\"docker images\"",
+              "run": "${{ matrix.runs.images }}"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "generate-jobs",
+          "name": "Generate Jobs",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.name }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": [
+            "generate-jobs"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'generate-jobs' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'generate-jobs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 19,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 35,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "generate-jobs": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "generate-jobs": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "generate-jobs": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "generate-jobs"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "update.yml",
+      "path": ".github/workflows/update.yml",
+      "name": "Update Dockerfiles",
+      "triggers": [
+        "repository_dispatch",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "update": {
+          "name": "Update Dockerfiles",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0,
+                "ref": "${{ github.event.repository.default_branch }}",
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Resolve inputs",
+              "id": "inputs",
+              "env": {
+                "EVENT_NAME": "${{ github.event_name }}",
+                "WD_DRY_RUN": "${{ github.event.inputs.dry_run }}",
+                "WD_MAKE_IMAGE_PR": "${{ github.event.inputs.make_image_pr }}",
+                "WD_FORK_REPO": "${{ github.event.inputs.official_images_fork_repo }}",
+                "RD_DRY_RUN": "${{ github.event.client_payload.dry_run }}",
+                "RD_MAKE_IMAGE_PR": "${{ github.event.client_payload.make_image_pr }}",
+                "RD_FORK_REPO": "${{ github.event.client_payload.official_images_fork_repo }}"
+              },
+              "run": "if [ \"$EVENT_NAME\" = 'repository_dispatch' ]; then\n  dry_run=\"${RD_DRY_RUN:-false}\"\n  make_image_pr=\"${RD_MAKE_IMAGE_PR:-true}\"\n  fork_repo=\"${RD_FORK_REPO:-Ghost-Slimer/official-images}\"\nelse\n  dry_run=\"${WD_DRY_RUN:-false}\"\n  make_image_pr=\"${WD_MAKE_IMAGE_PR:-true}\"\n  fork_repo=\"${WD_FORK_REPO:-Ghost-Slimer/official-images}\"\nfi\n{\n  echo \"dry_run=$dry_run\"\n  echo \"make_image_pr=$make_image_pr\"\n  echo \"official_images_fork_repo=$fork_repo\"\n} >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Run update.sh",
+              "run": "./update.sh"
+            },
+            {
+              "name": "Check for changes",
+              "id": "changes",
+              "run": "if [ -n \"$(git status --porcelain)\" ]; then\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"changed=false\" >> \"$GITHUB_OUTPUT\"\n  echo 'No changes produced by update.sh.'\nfi\n"
+            },
+            {
+              "name": "Compute commit message",
+              "id": "message",
+              "env": {
+                "CHANGED": "${{ steps.changes.outputs.changed }}"
+              },
+              "run": "if [ \"$CHANGED\" = 'true' ]; then\n  old=\"$(git show HEAD:versions.json 2>/dev/null || echo '{}')\"\n  message=\"$(jq --raw-output --null-input \\\n    --argjson old \"$old\" \\\n    --argjson new \"$(cat versions.json)\" '\n      [ $new | to_entries[] | .key as $k | .value as $v\n        | ( if ($old[$k].version // null) != $v.version\n              then \"Update \\($k) to \\($v.version)\" else empty end ),\n          ( if (($old[$k].cli.version) // null) != $v.cli.version\n              then \"Update \\($k) to CLI \\($v.cli.version)\" else empty end )\n      ]\n      | join(\", \")\n  ')\"\n  sha=''\nelse\n  message=\"$(git log -1 --pretty=%s -- versions.json)\"\n  sha=\"$(git log -1 --pretty=%H -- versions.json)\"\nfi\nif [ -z \"$message\" ]; then\n  message='Update Dockerfiles'\nfi\nif [ -z \"$sha\" ]; then\n  sha=\"$(git rev-parse HEAD)\"\nfi\n{\n  echo \"message=$message\"\n  echo \"sha=$sha\"\n} >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Print diff (dry run)",
+              "if": "steps.inputs.outputs.dry_run == 'true'",
+              "run": "git diff"
+            },
+            {
+              "name": "Wait for Ghost on npm",
+              "if": "steps.inputs.outputs.dry_run != 'true' && (steps.changes.outputs.changed == 'true' || steps.inputs.outputs.make_image_pr == 'true')",
+              "timeout-minutes": 35,
+              "run": "deadline=$(( SECONDS + 30 * 60 ))\nfor version in $(jq --raw-output '[ .[] | select(has(\"cli\")) | .version ] | unique[]' versions.json); do\n  export version\n  until (\n    # check both packument flavors: npm clients request the abbreviated\n    # one, others the full one, and each is cached independently\n    for accept in 'application/vnd.npm.install-v1+json' 'application/json'; do\n      tarball=\"$(\n        curl -fsSL --connect-timeout 10 --max-time 60 \\\n          --header \"Accept: $accept\" \\\n          --header 'Cache-Control: no-cache' \\\n          'https://registry.npmjs.org/ghost' \\\n          | jq --raw-output '.versions[env.version].dist.tarball // empty'\n      )\"\n      [ -n \"$tarball\" ] || exit 1\n    done\n    # the tarball is served separately from the metadata\n    curl -fsSL --head --connect-timeout 10 --max-time 60 \"$tarball\" > /dev/null\n  ); do\n    if [ \"$SECONDS\" -ge \"$deadline\" ]; then\n      echo >&2 \"error: ghost@$version is still not available on npm; re-run this workflow once it is\"\n      exit 1\n    fi\n    echo \"ghost@$version is not available on npm yet; waiting...\"\n    sleep 30\n  done\n  echo \"ghost@$version is available on npm.\"\ndone\n"
+            },
+            {
+              "name": "Commit and push changes",
+              "id": "commit",
+              "if": "steps.inputs.outputs.dry_run != 'true' && steps.changes.outputs.changed == 'true'",
+              "env": {
+                "COMMIT_MESSAGE": "${{ steps.message.outputs.message }}",
+                "GH_TOKEN": "${{ secrets.OFFICIAL_IMAGES_PR_TOKEN }}"
+              },
+              "run": "git config user.name 'Ghost-Slimer'\ngit config user.email 'ghost-slimer@users.noreply.github.com'\n# authenticate via the credential helper (token stays in env, never on a command line)\ngh auth setup-git\ngit add -A\ngit commit -m \"$COMMIT_MESSAGE\"\ngit push origin HEAD\necho \"sha=$(git rev-parse HEAD)\" >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Install Bashbrew",
+              "if": "steps.inputs.outputs.dry_run != 'true' && steps.inputs.outputs.make_image_pr == 'true'",
+              "uses": "./.github/actions/bashbrew/"
+            },
+            {
+              "name": "Open official-images PR",
+              "if": "steps.inputs.outputs.dry_run != 'true' && steps.inputs.outputs.make_image_pr == 'true'",
+              "shell": "bash -Eeuo pipefail {0}",
+              "env": {
+                "GH_TOKEN": "${{ secrets.OFFICIAL_IMAGES_PR_TOKEN }}",
+                "FORK_REPO": "${{ steps.inputs.outputs.official_images_fork_repo }}",
+                "COMMIT_MESSAGE": "${{ steps.message.outputs.message }}",
+                "HEAD_SHA": "${{ steps.commit.outputs.sha || steps.message.outputs.sha }}"
+              },
+              "run": "# configure git to authenticate via the provided token (no token in URLs/logs)\ngh auth setup-git\n\n# make sure the fork's default branch is up to date with upstream before branching off it\ngh repo sync \"$FORK_REPO\" --source docker-library/official-images --force\n\ngh repo clone \"$FORK_REPO\" official-images\n./generate-stackbrew-library.sh > official-images/library/ghost\n\ncd official-images\nif git diff --quiet -- library/ghost; then\n  echo 'library/ghost is unchanged; skipping official-images push/PR.'\n  exit 0\nfi\n\ngit config user.name 'Ghost-Slimer'\ngit config user.email 'ghost-slimer@users.noreply.github.com'\n# always (re)create the update-ghost branch and force-push, overriding any existing one\ngit checkout -B update-ghost\ngit add library/ghost\ngit commit -m \"$COMMIT_MESSAGE\"\ngit push --force origin update-ghost\n\nforkOwner=\"${FORK_REPO%%/*}\"\nexistingPr=\"$(gh pr list --repo docker-library/official-images --head \"$forkOwner:update-ghost\" --state open --json url --jq '.[].url')\"\nif [ -n \"$existingPr\" ]; then\n  echo \"PR already exists for $forkOwner:update-ghost ($existingPr); force-pushed branch is enough.\"\nelse\n  gh pr create \\\n    --repo docker-library/official-images \\\n    --base master \\\n    --head \"$forkOwner:update-ghost\" \\\n    --title \"$COMMIT_MESSAGE\" \\\n    --body \"$COMMIT_MESSAGE\"$'\\n\\n'\"Generated from https://github.com/${GITHUB_REPOSITORY}/commit/${HEAD_SHA}.\"\nfi\n"
+            },
+            {
+              "name": "Notify Slack on failure",
+              "if": "failure() && env.SLACK_WEBHOOK_URL != ''",
+              "shell": "bash -Eeuo pipefail {0}",
+              "env": {
+                "SLACK_WEBHOOK_URL": "${{ secrets.SLACK_WEBHOOK_URL }}",
+                "RUN_URL": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "RUN_NUMBER": "${{ github.run_number }}",
+                "EVENT_NAME": "${{ github.event_name }}",
+                "REPOSITORY": "${{ github.repository }}",
+                "COMMIT_MESSAGE": "${{ steps.message.outputs.message }}"
+              },
+              "run": "# a webhook secret set to a plaintext URL would put the credential on the wire\nif [ \"${SLACK_WEBHOOK_URL#https://}\" = \"$SLACK_WEBHOOK_URL\" ]; then\n  echo >&2 'error: SLACK_WEBHOOK_URL must be an https:// URL'\n  exit 1\nfi\n\njq --null-input \\\n  --arg run_url \"$RUN_URL\" \\\n  --arg run_number \"$RUN_NUMBER\" \\\n  --arg event \"$EVENT_NAME\" \\\n  --arg repo \"$REPOSITORY\" \\\n  --arg commit_message \"${COMMIT_MESSAGE:-}\" '\n    \":x: *<\\($run_url)|Update Dockerfiles failed>* in `\\($repo)`\"\n      + \"\\n_event_ `\\($event)` · _run_ `#\\($run_number)`\"\n      + (if $commit_message == \"\" then \"\" else \"\\n_update_ `\\($commit_message)`\" end)\n    | {\n        text: \"Update Dockerfiles failed in \\($repo) (run #\\($run_number))\",\n        blocks: [ { type: \"section\", text: { type: \"mrkdwn\", text: . } } ]\n      }\n  ' \\\n  | curl --silent --show-error --fail-with-body \\\n      --connect-timeout 10 \\\n      --max-time 30 \\\n      --header 'Content-Type: application/json' \\\n      --data @- \\\n      \"$SLACK_WEBHOOK_URL\"\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "update",
+          "name": "Update Dockerfiles",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'update' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update.yml",
+          "start_line": 33,
+          "end_line": 292,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update": 0.0
+        },
+        "pagerank": {
+          "update": 1.0
+        },
+        "downstream_impact": {
+          "update": []
+        },
+        "critical_nodes": [
+          "update"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "verify-templating.yml",
+      "path": ".github/workflows/verify-templating.yml",
+      "name": "Verify Templating",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "apply-templates": {
+          "name": "Check For Uncomitted Changes",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "run": "./apply-templates.sh"
+            },
+            {
+              "run": "git diff --exit-code"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "apply-templates",
+          "name": "Check For Uncomitted Changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'apply-templates' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'apply-templates' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-templating.yml",
+          "start_line": 18,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "apply-templates": 0.0
+        },
+        "pagerank": {
+          "apply-templates": 1.0
+        },
+        "downstream_impact": {
+          "apply-templates": []
+        },
+        "critical_nodes": [
+          "apply-templates"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "action",
+      "type": "module",
+      "file": ".github/actions/bashbrew/action.yml",
+      "line": 1
+    },
+    {
+      "name": "ci",
+      "type": "module",
+      "file": ".github/workflows/ci.yml",
+      "line": 1
+    },
+    {
+      "name": "update",
+      "type": "module",
+      "file": ".github/workflows/update.yml",
+      "line": 1
+    },
+    {
+      "name": "verify-templating",
+      "type": "module",
+      "file": ".github/workflows/verify-templating.yml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 92.2,
+    "overall_grade": "A",
+    "technical_debt_score": 7.8,
+    "remediation_hours": 3.95,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 88.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "workflows=3, operational_antipatterns=4, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "6-next/alpine3.23",
+      "source_type": "code_module",
+      "target": "6-next/alpine3.23/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6-next/alpine3.23",
+      "source_type": "code_module",
+      "target": "6/alpine3.23/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6-next/bookworm",
+      "source_type": "code_module",
+      "target": "6-next/bookworm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6-next/bookworm",
+      "source_type": "code_module",
+      "target": "6/bookworm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6-next/bookworm",
+      "source_type": "code_module",
+      "target": "Dockerfile.template",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6/alpine3.23",
+      "source_type": "code_module",
+      "target": "6-next/alpine3.23/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6/alpine3.23",
+      "source_type": "code_module",
+      "target": "6/alpine3.23/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6/bookworm",
+      "source_type": "code_module",
+      "target": "6-next/bookworm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6/bookworm",
+      "source_type": "code_module",
+      "target": "6/bookworm/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "6/bookworm",
+      "source_type": "code_module",
+      "target": "Dockerfile.template",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "bd90a236-f18b-43f4-ae87-dab3bad56000",
+      "source_type": "code_module",
+      "target": "Dockerfile.template",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

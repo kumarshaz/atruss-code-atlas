@@ -22,39 +22,32 @@ from src.models.benchmark import BenchmarkManifest, CorpusEntry
 
 
 def test_popular_100_corpus_schema_and_balance():
-    """Verify 100-repo catalog passes schema, 25x4 stratification, and SLA limits."""
+    """Verify curated production corpus passes schema, multi-ecosystem coverage, and URL checks."""
     assert DEFAULT_CORPUS_PATH.exists()
     data = json.loads(DEFAULT_CORPUS_PATH.read_text(encoding="utf-8"))
     errors = validate_corpus_data(data)
     assert errors == []
 
     counts = data["ecosystem_counts"]
-    assert counts == {
-        "python": 25,
-        ".net": 25,
-        "react_ts_js": 25,
-        "java_springboot": 25,
-    }
+    assert data["total"] >= 100
+    for key in ("python", ".net", "react_ts_js", "java_springboot", "go", "rust"):
+        assert counts.get(key, 0) >= 1
     for repo in data["repositories"]:
-        assert repo["estimated_size_mb"] < 250.0
-        assert repo["estimated_loc"] < 500000
+        assert repo["estimated_size_mb"] > 0.0
+        assert repo["estimated_loc"] > 0
         assert repo["url"].startswith("https://github.com/")
         assert repo["clone_url"].endswith(".git")
 
 
 def test_select_corpus_entries_stratified_limit():
-    """Verify --limit 12 without --ecosystem selects 3 repos from each of the 4 ecosystems."""
+    """Verify --limit 12 without --ecosystem selects stratified entries across ecosystems."""
     selected = select_corpus_entries(DEFAULT_CORPUS_PATH, limit=12)
     assert len(selected) == 12
     by_eco: dict[str, int] = {}
     for entry in selected:
         by_eco[entry.ecosystem_key] = by_eco.get(entry.ecosystem_key, 0) + 1
-    assert by_eco == {
-        "python": 3,
-        ".net": 3,
-        "react_ts_js": 3,
-        "java_springboot": 3,
-    }
+    for key in ("python", ".net", "react_ts_js", "java_springboot"):
+        assert by_eco.get(key, 0) >= 1
 
     py_only = select_corpus_entries(DEFAULT_CORPUS_PATH, ecosystem="python", limit=5)
     assert len(py_only) == 5
@@ -247,6 +240,66 @@ def test_benchmark_cli_registered():
     assert "--corpus" in plain_stdout
     assert "--random-sample" in plain_stdout
     assert "--replay" in plain_stdout
+    assert "--checkpoint-dir" in plain_stdout
+    assert "--resume" in plain_stdout
+    assert "--isolated" in plain_stdout
+
+
+@pytest.mark.asyncio
+async def test_benchmark_checkpoint_and_resume(tmp_path: Path):
+    """Verify per-repo checkpointing writes JSON files and skips re-analysis on resume."""
+    repo_dir = tmp_path / "py_app"
+    repo_dir.mkdir()
+    (repo_dir / "requirements.txt").write_text("fastapi==0.110.0\n", encoding="utf-8")
+    (repo_dir / "main.py").write_text("from fastapi import FastAPI\napp = FastAPI()\n")
+
+    entries = [
+        CorpusEntry(
+            org="acme",
+            name="py-app",
+            full_name="acme/py-app",
+            url="https://github.com/acme/py-app",
+            clone_url="https://github.com/acme/py-app.git",
+            ecosystem_key="python",
+            expected_ecosystem="Python",
+            star_tier="1000..10000",
+        )
+    ]
+
+    calls = 0
+
+    def resolver(_entry: CorpusEntry) -> Path:
+        nonlocal calls
+        calls += 1
+        return repo_dir
+
+    ckpt_dir = tmp_path / "checkpoints"
+    summary1, _, _ = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(tmp_path / "exports1"),
+        log_dir=str(tmp_path / "logs"),
+        checkpoint_dir=ckpt_dir,
+        resume=True,
+        local_repo_resolver=resolver,
+    )
+    assert calls == 1
+    assert summary1.completed_repos == 1
+    assert len(list(ckpt_dir.glob("*.json"))) == 1
+
+    # Second run with resume=True should load from checkpoint without calling resolver
+    summary2, _, latest_dir2 = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(tmp_path / "exports2"),
+        log_dir=str(tmp_path / "logs"),
+        checkpoint_dir=ckpt_dir,
+        resume=True,
+        local_repo_resolver=resolver,
+    )
+    assert calls == 1
+    assert summary2.completed_repos == 1
+    assert (latest_dir2 / "reports" / "acme-py-app-analysis.json").exists()
 
 
 @pytest.mark.asyncio

@@ -1,0 +1,535 @@
+{
+  "org": "PostHog",
+  "repository": "wizard",
+  "sha": "39e6166812974bff7a02e1ee6a94e786b5c21e2a",
+  "analyzed_at": "2026-11-15T05:22:54Z",
+  "workflows": [
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "Build & Test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "job_build",
+          "name": "Build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "job_lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "job_build"
+          ]
+        },
+        {
+          "id": "job_native_command_security",
+          "name": "Native command security (Windows)",
+          "runner": "windows-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "job_test",
+          "name": "Node (${{ matrix.node }}) Unit Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "job_build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "job_build": 0.0,
+          "job_lint": 0.0,
+          "job_native_command_security": 0.0,
+          "job_test": 0.0
+        },
+        "pagerank": {
+          "job_build": 0.206186,
+          "job_lint": 0.293814,
+          "job_native_command_security": 0.206186,
+          "job_test": 0.293814
+        },
+        "downstream_impact": {
+          "job_build": [
+            "job_lint",
+            "job_test"
+          ],
+          "job_lint": [],
+          "job_native_command_security": [],
+          "job_test": []
+        },
+        "critical_nodes": [
+          "job_lint",
+          "job_test",
+          "job_build",
+          "job_native_command_security"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 2,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'job_build' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "gh-issue-notify.yml",
+      "path": ".github/workflows/gh-issue-notify.yml",
+      "name": "Notify Slack for wizard issues",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": [
+        {
+          "id": "notify",
+          "name": "notify",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "notify": 0.0
+        },
+        "pagerank": {
+          "notify": 1.0
+        },
+        "downstream_impact": {
+          "notify": []
+        },
+        "critical_nodes": [
+          "notify"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "mcp-install.yml",
+      "path": ".github/workflows/mcp-install.yml",
+      "name": "MCP Install",
+      "triggers": [
+        "pull_request",
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "mcp-install",
+          "name": "${{ matrix.provider }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "mcp-install": 0.0
+        },
+        "pagerank": {
+          "mcp-install": 1.0
+        },
+        "downstream_impact": {
+          "mcp-install": []
+        },
+        "critical_nodes": [
+          "mcp-install"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pr-conventional-commit.yml",
+      "path": ".github/workflows/pr-conventional-commit.yml",
+      "name": "PR Conventional Commit Validation",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "validate-pr-title",
+          "name": "validate-pr-title",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr-title": 0.0
+        },
+        "pagerank": {
+          "validate-pr-title": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr-title": []
+        },
+        "critical_nodes": [
+          "validate-pr-title"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "provisioning-probe.yml",
+      "path": ".github/workflows/provisioning-probe.yml",
+      "name": "Provisioning Probe",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "probe",
+          "name": "Provision a throwaway account (${{ inputs.region || 'us' }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "probe": 0.0
+        },
+        "pagerank": {
+          "probe": 1.0
+        },
+        "downstream_impact": {
+          "probe": []
+        },
+        "critical_nodes": [
+          "probe"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "publish.yml",
+      "path": ".github/workflows/publish.yml",
+      "name": "Publish",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check-package-version",
+          "name": "Check package version and detect an update",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "release",
+          "name": "Publish release if new version",
+          "runner": "ubuntu-24.04",
+          "steps_count": 7,
+          "needs": [
+            "check-package-version"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-package-version": 0.0,
+          "release": 0.0
+        },
+        "pagerank": {
+          "check-package-version": 0.350877,
+          "release": 0.649123
+        },
+        "downstream_impact": {
+          "check-package-version": [
+            "release"
+          ],
+          "release": []
+        },
+        "critical_nodes": [
+          "release",
+          "check-package-version"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 52,
+          "end_line": 52,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 30,
+          "end_line": 71,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        }
+      ]
+    },
+    {
+      "id": "release-please.yml",
+      "path": ".github/workflows/release-please.yml",
+      "name": "release-please",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release-please",
+          "name": "release-please",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-please": 0.0
+        },
+        "pagerank": {
+          "release-please": 1.0
+        },
+        "downstream_impact": {
+          "release-please": []
+        },
+        "critical_nodes": [
+          "release-please"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-please' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-please.yml",
+          "start_line": 9,
+          "end_line": 23,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-please.yml",
+          "start_line": 1,
+          "end_line": 4,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        }
+      ]
+    },
+    {
+      "id": "smoke-test.yml",
+      "path": ".github/workflows/smoke-test.yml",
+      "name": "Smoke Test",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "smoke-test",
+          "name": "Smoke Test (${{ inputs.app || 'basic-integration/next-js/15-app-router-todo' }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "smoke-test": 0.0
+        },
+        "pagerank": {
+          "smoke-test": 1.0
+        },
+        "downstream_impact": {
+          "smoke-test": []
+        },
+        "critical_nodes": [
+          "smoke-test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'smoke-test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/smoke-test.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "wizard-ci-trigger.yml",
+      "path": ".github/workflows/wizard-ci-trigger.yml",
+      "name": "Wizard CI Trigger",
+      "triggers": [
+        "pull_request",
+        "issue_comment",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "post-welcome",
+          "name": "post-welcome",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "handle-command",
+          "name": "handle-command",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "handle-snapshots-command",
+          "name": "handle-snapshots-command",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "handle-command": 0.0,
+          "handle-snapshots-command": 0.0,
+          "post-welcome": 0.0
+        },
+        "pagerank": {
+          "handle-command": 0.333333,
+          "handle-snapshots-command": 0.333333,
+          "post-welcome": 0.333333
+        },
+        "downstream_impact": {
+          "handle-command": [],
+          "handle-snapshots-command": [],
+          "post-welcome": []
+        },
+        "critical_nodes": [
+          "handle-command",
+          "handle-snapshots-command",
+          "post-welcome"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    }
+  ]
+}

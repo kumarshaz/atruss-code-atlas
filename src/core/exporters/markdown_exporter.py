@@ -2,9 +2,11 @@ from collections import defaultdict
 from pathlib import Path
 
 from src.core.services.report_generator import (
+    _format_metric_value,
     _mermaid_label,
     _mermaid_safe_id,
     generate_arc42_markdown,
+    render_horizon2_sections_markdown,
 )
 from src.core.utils.export_manager import ExportManager
 from src.models.artifacts import PortableArtifact
@@ -175,7 +177,7 @@ class MarkdownArchiver:
             "## Quality Metrics",
         ])
         for key, value in sorted(artifact.metrics.items()):
-            sections.append(f"- **{key}**: {value}")
+            sections.append(f"- **{key}**: {_format_metric_value(value)}")
 
         if artifact.architecture_components:
             sections.append("")
@@ -185,10 +187,33 @@ class MarkdownArchiver:
                     artifact.architecture_components,
                     metrics=None,
                     ecosystem=artifact.ecosystem,
+                    framework=str(artifact.metrics.get("framework", "Unknown")),
                     sha=artifact.sha,
                     include_frontmatter=False,
+                    scorecard=artifact.scorecard,
+                    fitness_violations=artifact.fitness_violations,
+                    dependencies=artifact.dependencies,
+                    vulnerabilities=artifact.vulnerabilities,
+                    secrets=artifact.secrets,
+                    code_to_cloud_edges=artifact.code_to_cloud_edges,
+                    workspace_packages=artifact.workspace_packages,
+                    observability=artifact.observability,
                 )
             )
+        else:
+            h2_lines = render_horizon2_sections_markdown(
+                scorecard=artifact.scorecard,
+                fitness_violations=artifact.fitness_violations,
+                dependencies=artifact.dependencies,
+                vulnerabilities=artifact.vulnerabilities,
+                secrets=artifact.secrets,
+                code_to_cloud_edges=artifact.code_to_cloud_edges,
+                workspace_packages=artifact.workspace_packages,
+                observability=artifact.observability,
+            )
+            if h2_lines:
+                sections.append("")
+                sections.extend(h2_lines)
 
         sections.extend([
             "",

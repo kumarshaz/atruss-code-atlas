@@ -53,6 +53,11 @@ def main() -> None:
         help="Run scripts/validate_agent_workflow.py after benchmark",
     )
     parser.add_argument(
+        "--spec",
+        default="specs/008-public-github-100-benchmark",
+        help="SpecKit feature directory passed to scripts/validate_agent_workflow.py",
+    )
+    parser.add_argument(
         "--rebuild-web",
         action="store_true",
         help="Run npm run build inside web/ after benchmark",
@@ -151,11 +156,11 @@ def main() -> None:
                 sys.executable,
                 str(REPO_ROOT / "scripts" / "validate_agent_workflow.py"),
                 "--spec",
-                "specs/008-public-github-100-benchmark",
+                args.spec,
                 "--exports-dir",
                 args.output_dir,
                 "--output",
-                str(Path(args.output_dir) / "latest" / "agent-eval-008-report.json"),
+                str(Path(args.output_dir) / "latest" / "agent-eval-report.json"),
             ],
             cwd=REPO_ROOT,
             check=False,

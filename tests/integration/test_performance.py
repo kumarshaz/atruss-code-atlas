@@ -11,7 +11,7 @@ from src.core.services.report_generator import generate_arc42_markdown
 @pytest.mark.integration
 @pytest.mark.benchmark
 def test_tr_perf_medium_monorepo_sla_and_determinism(tmp_path: Path):
-    """TR-PERF E2E: benchmark analysis under NFR SLA (<180s budget) with byte-identical determinism."""
+    """TR-PERF E2E: benchmark analysis under NFR SLA (<180s) with byte-identical determinism."""
     repo = tmp_path / "scale-monorepo"
     py_dir = repo / "services" / "api"
     ts_dir = repo / "apps" / "portal" / "src"
@@ -41,7 +41,8 @@ def test_tr_perf_medium_monorepo_sla_and_determinism(tmp_path: Path):
 
     for idx in range(3):
         (wf_dir / f"ci_{idx}.yml").write_text(
-            f"name: CI {idx}\non:\n  pull_request:\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: pytest\n",
+            f"name: CI {idx}\non:\n  pull_request:\njobs:\n  test:\n"
+            "    runs-on: ubuntu-latest\n    steps:\n      - run: pytest\n",
             encoding="utf-8",
         )
 

@@ -8,7 +8,7 @@ from src.analyzers.code.orchestrator import orchestrate_full_analysis
 
 @pytest.mark.integration
 def test_tr_cls_multi_ecosystem_e2e_classification(tmp_path: Path):
-    """TR-CLS E2E: validates YAML policy classification and priority tie-breaking across all 4 ecosystems."""
+    """TR-CLS E2E: validates YAML policy classification and priority across all 4 ecosystems."""
     py_cls = classify_repository(
         [
             "pyproject.toml",
@@ -30,7 +30,9 @@ def test_tr_cls_multi_ecosystem_e2e_classification(tmp_path: Path):
     dotnet_cls = classify_repository(
         ["src/Orders.Api/Orders.Api.csproj", "src/Orders.Api/Controllers/OrderController.cs"],
         file_contents={
-            "src/Orders.Api/Orders.Api.csproj": '<PackageReference Include="Microsoft.EntityFrameworkCore" />'
+            "src/Orders.Api/Orders.Api.csproj": (
+                '<PackageReference Include="Microsoft.EntityFrameworkCore" />'
+            )
         },
     )
     assert dotnet_cls.ecosystem == Ecosystem.DOTNET
@@ -40,7 +42,9 @@ def test_tr_cls_multi_ecosystem_e2e_classification(tmp_path: Path):
     react_cls = classify_repository(
         ["package.json", "tsconfig.json", "src/components/App.tsx", "k8s/deployment.yaml"],
         file_contents={
-            "package.json": '{"dependencies": {"react": "^18.0.0", "next": "^14.0.0", "prisma": "^5.0.0"}}'
+            "package.json": (
+                '{"dependencies": {"react": "^18.0.0", "next": "^14.0.0", "prisma": "^5.0.0"}}'
+            )
         },
     )
     assert react_cls.ecosystem == Ecosystem.REACT_TS_JS

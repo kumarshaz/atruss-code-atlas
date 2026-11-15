@@ -1,0 +1,2885 @@
+{
+  "repository": "getsentry/sentry-symfony",
+  "sha": "8b63bb688c6023cac2bf9ceb3f837ae9bb20cb25",
+  "ecosystem": "PHP",
+  "metrics": {
+    "files_analyzed": 222,
+    "loc": 24528,
+    "sloc": 16851,
+    "component_count": 222,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 233,
+    "framework": "Symfony",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "publish-release.yaml",
+      "path": ".github/workflows/publish-release.yaml",
+      "name": "Prepare Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "release": {
+          "runs-on": "ubuntu-latest",
+          "name": "Release version",
+          "steps": [
+            {
+              "name": "Get auth token",
+              "id": "token",
+              "uses": "actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510",
+              "with": {
+                "app-id": "${{ vars.SENTRY_RELEASE_BOT_CLIENT_ID }}",
+                "private-key": "${{ secrets.SENTRY_RELEASE_BOT_PRIVATE_KEY }}"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+              "with": {
+                "token": "${{ steps.token.outputs.token }}",
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Prepare release",
+              "uses": "getsentry/craft@2e29b0819113d334c15da3d8cac2138cb9dc111a",
+              "env": {
+                "GITHUB_TOKEN": "${{ steps.token.outputs.token }}"
+              },
+              "with": {
+                "version": "${{ github.event.inputs.version }}",
+                "force": "${{ github.event.inputs.force }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "release",
+          "name": "Release version",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-release.yaml",
+          "start_line": 17,
+          "end_line": 40,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-release.yaml",
+          "start_line": 17,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "static-analysis.yaml",
+      "path": ".github/workflows/static-analysis.yaml",
+      "name": "Code style and static analysis",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "php-cs-fixer": {
+          "name": "PHP-CS-Fixer",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@728c6c6b8cf02c2e48117716a91ee48313958a19",
+              "with": {
+                "php-version": "8.3"
+              }
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Run script",
+              "run": "vendor/bin/php-cs-fixer fix --verbose --diff --dry-run"
+            }
+          ]
+        },
+        "phpstan": {
+          "name": "PHPStan",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@728c6c6b8cf02c2e48117716a91ee48313958a19",
+              "with": {
+                "php-version": "8.3"
+              }
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Run script",
+              "run": "vendor/bin/phpstan analyse"
+            }
+          ]
+        },
+        "psalm": {
+          "name": "Psalm",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@728c6c6b8cf02c2e48117716a91ee48313958a19",
+              "with": {
+                "php-version": "8.3"
+              }
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Run script",
+              "run": "vendor/bin/psalm --php-version=8.0"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "php-cs-fixer",
+          "name": "PHP-CS-Fixer",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "phpstan",
+          "name": "PHPStan",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "psalm",
+          "name": "Psalm",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'php-cs-fixer' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'phpstan' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'psalm' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'php-cs-fixer' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 20,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'phpstan' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 41,
+          "end_line": 60,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'psalm' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/static-analysis.yaml",
+          "start_line": 62,
+          "end_line": 81,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "php-cs-fixer": 0.0,
+          "phpstan": 0.0,
+          "psalm": 0.0
+        },
+        "pagerank": {
+          "php-cs-fixer": 0.333333,
+          "phpstan": 0.333333,
+          "psalm": 0.333333
+        },
+        "downstream_impact": {
+          "php-cs-fixer": [],
+          "phpstan": [],
+          "psalm": []
+        },
+        "critical_nodes": [
+          "php-cs-fixer",
+          "phpstan",
+          "psalm"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "tests.yaml",
+      "path": ".github/workflows/tests.yaml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "tests": {
+          "name": "Tests",
+          "runs-on": "ubuntu-latest",
+          "env": {
+            "SYMFONY_REQUIRE": "${{ matrix.symfony-version }}"
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "php": [
+                "7.2",
+                "7.3",
+                "7.4",
+                "8.0",
+                "8.1",
+                "8.2",
+                "8.3",
+                "8.4",
+                "8.5",
+                "8.6"
+              ],
+              "symfony-version": [
+                "4.4.*",
+                "5.*",
+                "6.*",
+                "7.*",
+                "8.*"
+              ],
+              "dependencies": [
+                "highest"
+              ],
+              "exclude": [
+                {
+                  "php": "7.2",
+                  "symfony-version": "6.*"
+                },
+                {
+                  "php": "7.3",
+                  "symfony-version": "6.*"
+                },
+                {
+                  "php": "7.4",
+                  "symfony-version": "6.*"
+                },
+                {
+                  "php": "7.2",
+                  "symfony-version": "7.*"
+                },
+                {
+                  "php": "7.3",
+                  "symfony-version": "7.*"
+                },
+                {
+                  "php": "7.4",
+                  "symfony-version": "7.*"
+                },
+                {
+                  "php": "8.0",
+                  "symfony-version": "7.*"
+                },
+                {
+                  "php": "8.1",
+                  "symfony-version": "7.*"
+                },
+                {
+                  "php": "8.4",
+                  "symfony-version": "4.4.*"
+                },
+                {
+                  "php": "8.5",
+                  "symfony-version": "4.4.*"
+                },
+                {
+                  "php": "8.6",
+                  "symfony-version": "4.4.*"
+                },
+                {
+                  "php": "7.2",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "7.3",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "7.4",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "8.0",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "8.1",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "8.2",
+                  "symfony-version": "8.*"
+                },
+                {
+                  "php": "8.3",
+                  "symfony-version": "8.*"
+                }
+              ],
+              "include": [
+                {
+                  "php": "7.2",
+                  "symfony-version": "4.4.*",
+                  "dependencies": "lowest"
+                },
+                {
+                  "php": "7.2",
+                  "symfony-version": "5.*",
+                  "dependencies": "lowest"
+                },
+                {
+                  "php": "8.0",
+                  "symfony-version": "6.*",
+                  "dependencies": "lowest"
+                },
+                {
+                  "php": "8.2",
+                  "symfony-version": "7.*",
+                  "dependencies": "lowest"
+                },
+                {
+                  "php": "8.4",
+                  "symfony-version": "8.*",
+                  "dependencies": "lowest"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+              "with": {
+                "fetch-depth": 2
+              }
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@728c6c6b8cf02c2e48117716a91ee48313958a19",
+              "with": {
+                "php-version": "${{ matrix.php }}",
+                "coverage": "pcov",
+                "tools": "flex"
+              }
+            },
+            {
+              "name": "Setup Problem Matchers for PHPUnit",
+              "run": "echo \"::add-matcher::${{ runner.tool_cache }}/phpunit.json\""
+            },
+            {
+              "name": "Remove unused dependencies",
+              "run": "composer remove vimeo/psalm phpstan/phpstan friendsofphp/php-cs-fixer  --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Remove RoadRunner dependencies on unsupported PHP versions",
+              "if": "${{ runner.os == 'Windows' || matrix.php == '7.2' || matrix.php == '7.3' || matrix.php == '7.4' || matrix.php == '8.0' }}",
+              "run": "composer remove spiral/roadrunner-http spiral/roadrunner-worker --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Use PHPUnit 9 for lowest dependencies on newer PHP versions",
+              "if": "${{ matrix.dependencies == 'lowest' && matrix.php != '7.2' }}",
+              "run": "composer require phpunit/phpunit:^9.6.34 --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit",
+              "if": "${{ matrix.dependencies == 'highest' }}"
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --prefer-lowest --no-install --no-scripts --no-audit",
+              "if": "${{ matrix.dependencies == 'lowest' }}"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Run tests",
+              "run": "vendor/bin/phpunit --coverage-clover=build/coverage-report.xml"
+            },
+            {
+              "name": "Upload code coverage",
+              "uses": "codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5",
+              "with": {
+                "file": "build/coverage-report.xml",
+                "token": "${{ secrets.CODECOV_TOKEN }}"
+              }
+            }
+          ]
+        },
+        "missing-optional-packages-tests": {
+          "name": "Tests without optional packages",
+          "runs-on": "ubuntu-latest",
+          "env": {
+            "SYMFONY_REQUIRE": "${{ matrix.symfony-version }}"
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "include": [
+                {
+                  "php": "7.2",
+                  "dependencies": "lowest",
+                  "symfony-version": "4.4.*"
+                },
+                {
+                  "php": "7.4",
+                  "dependencies": "highest"
+                },
+                {
+                  "php": "8.0",
+                  "dependencies": "lowest",
+                  "symfony-version": "4.4.*"
+                },
+                {
+                  "php": "8.4",
+                  "dependencies": "highest",
+                  "symfony-version": "8.*"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@728c6c6b8cf02c2e48117716a91ee48313958a19",
+              "with": {
+                "php-version": "${{ matrix.php }}",
+                "coverage": "pcov",
+                "tools": "flex"
+              }
+            },
+            {
+              "name": "Setup Problem Matchers for PHPUnit",
+              "run": "echo \"::add-matcher::${{ runner.tool_cache }}/phpunit.json\""
+            },
+            {
+              "name": "Remove unused dependencies",
+              "run": "composer remove vimeo/psalm phpstan/phpstan friendsofphp/php-cs-fixer  --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Remove RoadRunner dependencies on unsupported PHP versions",
+              "if": "${{ runner.os == 'Windows' || matrix.php == '7.2' || matrix.php == '7.3' || matrix.php == '7.4' || matrix.php == '8.0' }}",
+              "run": "composer remove spiral/roadrunner-http spiral/roadrunner-worker --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Remove optional packages",
+              "run": "composer remove doctrine/dbal doctrine/doctrine-bundle symfony/messenger symfony/twig-bundle symfony/cache symfony/http-client --dev --no-update"
+            },
+            {
+              "name": "Use PHPUnit 9 for lowest dependencies on newer PHP versions",
+              "if": "${{ matrix.dependencies == 'lowest' && matrix.php != '7.2' }}",
+              "run": "composer require phpunit/phpunit:^9.6.34 --dev --no-interaction --no-update"
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit",
+              "if": "${{ matrix.dependencies == 'highest' }}"
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --prefer-lowest --no-install --no-scripts --no-audit",
+              "if": "${{ matrix.dependencies == 'lowest' }}"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Run tests",
+              "run": "vendor/bin/phpunit --coverage-clover=build/coverage-report.xml"
+            },
+            {
+              "name": "Upload code coverage",
+              "uses": "codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5",
+              "with": {
+                "file": "build/coverage-report.xml",
+                "token": "${{ secrets.CODECOV_TOKEN }}"
+              }
+            }
+          ]
+        },
+        "runtime-tests-frankenphp": {
+          "name": "Runtime tests (FrankenPHP)",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@v7",
+              "with": {
+                "fetch-depth": 2
+              }
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@v2",
+              "with": {
+                "php-version": "8.4",
+                "coverage": "none"
+              }
+            },
+            {
+              "name": "Determine Composer cache directory",
+              "id": "composer-cache",
+              "run": "echo \"directory=$(composer config cache-dir)\" >> \"$GITHUB_OUTPUT\"",
+              "shell": "bash"
+            },
+            {
+              "name": "Cache Composer dependencies",
+              "uses": "actions/cache@v6",
+              "with": {
+                "path": "${{ steps.composer-cache.outputs.directory }}",
+                "key": "${{ runner.os }}-runtime-frankenphp-composer-${{ hashFiles('**/composer.lock') }}",
+                "restore-keys": "${{ runner.os }}-runtime-frankenphp-composer-"
+              }
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Install FrankenPHP",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "set -euo pipefail\n\ncase \"$(uname -m)\" in\n  x86_64) asset=\"frankenphp-linux-x86_64\" ;;\n  aarch64|arm64) asset=\"frankenphp-linux-aarch64\" ;;\n  *) echo \"Unsupported architecture: $(uname -m)\"; exit 1 ;;\nesac\n\ndigest=\"$(gh api \"repos/php/frankenphp/releases/tags/${FRANKENPHP_VERSION}\" --jq \".assets[] | select(.name == \\\"${asset}\\\") | .digest\")\"\n\nif [ -z \"${digest}\" ]; then\n  echo \"Unable to resolve digest for ${asset} (${FRANKENPHP_VERSION}).\"\n  exit 1\nfi\n\ngh release download \"${FRANKENPHP_VERSION}\" \\\n  --repo php/frankenphp \\\n  --pattern \"${asset}\" \\\n  --output \"${asset}\"\n\necho \"${digest#sha256:}  ${asset}\" | sha256sum --check --\nmkdir -p \"${RUNNER_TEMP}/bin\"\ninstall -m 0755 \"${asset}\" \"${RUNNER_TEMP}/bin/frankenphp\"\necho \"${RUNNER_TEMP}/bin\" >> \"${GITHUB_PATH}\"\n\"${RUNNER_TEMP}/bin/frankenphp\" version\n",
+              "shell": "bash"
+            },
+            {
+              "name": "Run full PHPUnit test suite",
+              "run": "vendor/bin/phpunit --verbose"
+            }
+          ]
+        },
+        "runtime-tests-roadrunner": {
+          "name": "Runtime tests (RoadRunner)",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@v7",
+              "with": {
+                "fetch-depth": 2
+              }
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@v2",
+              "with": {
+                "php-version": "8.4",
+                "coverage": "none"
+              }
+            },
+            {
+              "name": "Determine Composer cache directory",
+              "id": "composer-cache",
+              "run": "echo \"directory=$(composer config cache-dir)\" >> \"$GITHUB_OUTPUT\"",
+              "shell": "bash"
+            },
+            {
+              "name": "Cache Composer dependencies",
+              "uses": "actions/cache@v6",
+              "with": {
+                "path": "${{ steps.composer-cache.outputs.directory }}",
+                "key": "${{ runner.os }}-runtime-roadrunner-composer-${{ hashFiles('**/composer.lock') }}",
+                "restore-keys": "${{ runner.os }}-runtime-roadrunner-composer-"
+              }
+            },
+            {
+              "name": "Resolve dependencies",
+              "run": "composer update --no-progress --no-interaction --prefer-dist --no-install --no-scripts --no-audit"
+            },
+            {
+              "name": "Install dependencies",
+              "run": "composer install --no-progress --no-interaction --prefer-dist --no-scripts"
+            },
+            {
+              "name": "Install RoadRunner",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "set -euo pipefail\n\ncase \"$(uname -m)\" in\n  x86_64) arch=\"amd64\" ;;\n  aarch64|arm64) arch=\"arm64\" ;;\n  *) echo \"Unsupported architecture: $(uname -m)\"; exit 1 ;;\nesac\n\nversion_no_prefix=\"${ROADRUNNER_VERSION#v}\"\nasset=\"roadrunner-${version_no_prefix}-linux-${arch}.tar.gz\"\n\ndigest=\"$(gh api \"repos/roadrunner-server/roadrunner/releases/tags/${ROADRUNNER_VERSION}\" --jq \".assets[] | select(.name == \\\"${asset}\\\") | .digest\")\"\n\nif [ -z \"${digest}\" ]; then\n  echo \"Unable to resolve digest for ${asset} (${ROADRUNNER_VERSION}).\"\n  exit 1\nfi\n\ngh release download \"${ROADRUNNER_VERSION}\" \\\n  --repo roadrunner-server/roadrunner \\\n  --pattern \"${asset}\" \\\n  --output \"${asset}\"\n\necho \"${digest#sha256:}  ${asset}\" | sha256sum --check --\ntar -xzf \"${asset}\" --strip-components=1 \"${asset%.tar.gz}/rr\"\nmkdir -p \"${RUNNER_TEMP}/bin\"\ninstall -m 0755 rr \"${RUNNER_TEMP}/bin/rr\"\necho \"${RUNNER_TEMP}/bin\" >> \"${GITHUB_PATH}\"\n\"${RUNNER_TEMP}/bin/rr\" --version\n",
+              "shell": "bash"
+            },
+            {
+              "name": "Run full PHPUnit test suite",
+              "run": "vendor/bin/phpunit --verbose"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "tests",
+          "name": "Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "missing-optional-packages-tests",
+          "name": "Tests without optional packages",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "runtime-tests-frankenphp",
+          "name": "Runtime tests (FrankenPHP)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "runtime-tests-roadrunner",
+          "name": "Runtime tests (RoadRunner)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'runtime-tests-frankenphp' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'runtime-tests-roadrunner' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'runtime-tests-frankenphp' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'runtime-tests-roadrunner' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[LOW] NO_TIMEOUT: Job 'tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'missing-optional-packages-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'runtime-tests-frankenphp' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'runtime-tests-roadrunner' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'runtime-tests-frankenphp' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 231,
+          "end_line": 231,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'runtime-tests-roadrunner' step 2 uses unpinned action 'shivammathur/setup-php@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 299,
+          "end_line": 299,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'runtime-tests-frankenphp' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 257,
+          "end_line": 282,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'runtime-tests-roadrunner' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 325,
+          "end_line": 354,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 21,
+          "end_line": 148,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'missing-optional-packages-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 150,
+          "end_line": 218,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'runtime-tests-frankenphp' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 220,
+          "end_line": 286,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'runtime-tests-roadrunner' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tests.yaml",
+          "start_line": 288,
+          "end_line": 358,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "missing-optional-packages-tests": 0.0,
+          "runtime-tests-frankenphp": 0.0,
+          "runtime-tests-roadrunner": 0.0,
+          "tests": 0.0
+        },
+        "pagerank": {
+          "missing-optional-packages-tests": 0.25,
+          "runtime-tests-frankenphp": 0.25,
+          "runtime-tests-roadrunner": 0.25,
+          "tests": 0.25
+        },
+        "downstream_impact": {
+          "missing-optional-packages-tests": [],
+          "runtime-tests-frankenphp": [],
+          "runtime-tests-roadrunner": [],
+          "tests": []
+        },
+        "critical_nodes": [
+          "missing-optional-packages-tests",
+          "runtime-tests-frankenphp",
+          "runtime-tests-roadrunner",
+          "tests"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "validate-pr.yml",
+      "path": ".github/workflows/validate-pr.yml",
+      "name": "Validate PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": {
+        "validate-pr": {
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "uses": "getsentry/github-workflows/validate-pr@01bcb7fe69bb48bacd83e675840e3dc95b33c730",
+              "with": {
+                "app-id": "${{ vars.SDK_MAINTAINER_BOT_APP_ID }}",
+                "private-key": "${{ secrets.SDK_MAINTAINER_BOT_PRIVATE_KEY }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "validate-pr",
+          "name": "validate-pr",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-pr.yml",
+          "start_line": 8,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr": 0.0
+        },
+        "pagerank": {
+          "validate-pr": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr": []
+        },
+        "critical_nodes": [
+          "validate-pr"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": ".php-cs-fixer.dist",
+      "type": "module",
+      "file": ".php-cs-fixer.dist.php",
+      "line": 1
+    },
+    {
+      "name": "ErrorTypesParser",
+      "type": "module",
+      "file": "src/ErrorTypesParser.php",
+      "line": 1
+    },
+    {
+      "name": "SentryBundle",
+      "type": "module",
+      "file": "src/SentryBundle.php",
+      "line": 1
+    },
+    {
+      "name": "aliases",
+      "type": "module",
+      "file": "src/aliases.php",
+      "line": 1
+    },
+    {
+      "name": "SentryTestCommand",
+      "type": "module",
+      "file": "src/Command/SentryTestCommand.php",
+      "line": 1
+    },
+    {
+      "name": "Configuration",
+      "type": "module",
+      "file": "src/DependencyInjection/Configuration.php",
+      "line": 1
+    },
+    {
+      "name": "SentryExtension",
+      "type": "module",
+      "file": "src/DependencyInjection/SentryExtension.php",
+      "line": 1
+    },
+    {
+      "name": "AddLoginListenerTagPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/AddLoginListenerTagPass.php",
+      "line": 1
+    },
+    {
+      "name": "BufferFlushPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/BufferFlushPass.php",
+      "line": 1
+    },
+    {
+      "name": "CacheTracingPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/CacheTracingPass.php",
+      "line": 1
+    },
+    {
+      "name": "DbalTracingPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/DbalTracingPass.php",
+      "line": 1
+    },
+    {
+      "name": "HttpClientTracingPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/HttpClientTracingPass.php",
+      "line": 1
+    },
+    {
+      "name": "MonologErrorReportingPass",
+      "type": "module",
+      "file": "src/DependencyInjection/Compiler/MonologErrorReportingPass.php",
+      "line": 1
+    },
+    {
+      "name": "NullableFloatNode",
+      "type": "module",
+      "file": "src/DependencyInjection/Config/NullableFloatNode.php",
+      "line": 1
+    },
+    {
+      "name": "NullableFloatNodeDefinition",
+      "type": "module",
+      "file": "src/DependencyInjection/Config/NullableFloatNodeDefinition.php",
+      "line": 1
+    },
+    {
+      "name": "SampleRateEnvVarProcessor",
+      "type": "module",
+      "file": "src/DependencyInjection/EnvVarProcessor/SampleRateEnvVarProcessor.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractTracingRequestListener",
+      "type": "module",
+      "file": "src/EventListener/AbstractTracingRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "BufferFlusher",
+      "type": "module",
+      "file": "src/EventListener/BufferFlusher.php",
+      "line": 1
+    },
+    {
+      "name": "ConsoleListener",
+      "type": "module",
+      "file": "src/EventListener/ConsoleListener.php",
+      "line": 1
+    },
+    {
+      "name": "ErrorListener",
+      "type": "module",
+      "file": "src/EventListener/ErrorListener.php",
+      "line": 1
+    },
+    {
+      "name": "KernelEventForwardCompatibilityTrait",
+      "type": "module",
+      "file": "src/EventListener/KernelEventForwardCompatibilityTrait.php",
+      "line": 1
+    },
+    {
+      "name": "LogRequestListener",
+      "type": "module",
+      "file": "src/EventListener/LogRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "LoginListener",
+      "type": "module",
+      "file": "src/EventListener/LoginListener.php",
+      "line": 1
+    },
+    {
+      "name": "MessengerListener",
+      "type": "module",
+      "file": "src/EventListener/MessengerListener.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsRequestListener",
+      "type": "module",
+      "file": "src/EventListener/MetricsRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "RequestListener",
+      "type": "module",
+      "file": "src/EventListener/RequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "RuntimeContextListener",
+      "type": "module",
+      "file": "src/EventListener/RuntimeContextListener.php",
+      "line": 1
+    },
+    {
+      "name": "SubRequestListener",
+      "type": "module",
+      "file": "src/EventListener/SubRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "TracingConsoleListener",
+      "type": "module",
+      "file": "src/EventListener/TracingConsoleListener.php",
+      "line": 1
+    },
+    {
+      "name": "TracingRequestListener",
+      "type": "module",
+      "file": "src/EventListener/TracingRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "TracingSubRequestListener",
+      "type": "module",
+      "file": "src/EventListener/TracingSubRequestListener.php",
+      "line": 1
+    },
+    {
+      "name": "IntegrationConfigurator",
+      "type": "module",
+      "file": "src/Integration/IntegrationConfigurator.php",
+      "line": 1
+    },
+    {
+      "name": "RequestFetcher",
+      "type": "module",
+      "file": "src/Integration/RequestFetcher.php",
+      "line": 1
+    },
+    {
+      "name": "CapturedExceptionTracker",
+      "type": "module",
+      "file": "src/Monolog/CapturedExceptionTracker.php",
+      "line": 1
+    },
+    {
+      "name": "LogsHandler",
+      "type": "module",
+      "file": "src/Monolog/LogsHandler.php",
+      "line": 1
+    },
+    {
+      "name": "PhpErrorHandler",
+      "type": "module",
+      "file": "src/Monolog/PhpErrorHandler.php",
+      "line": 1
+    },
+    {
+      "name": "UncaughtExceptionHandler",
+      "type": "module",
+      "file": "src/Monolog/UncaughtExceptionHandler.php",
+      "line": 1
+    },
+    {
+      "name": "ConsoleInputSerializer",
+      "type": "module",
+      "file": "src/Serializer/ConsoleInputSerializer.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableCacheAdapterForV2",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableCacheAdapterForV2.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableCacheAdapterForV3",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableCacheAdapterForV3.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableCacheAdapterForV3WithNamespace",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableCacheAdapterForV3WithNamespace.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableCacheAdapterTrait",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableCacheAdapterTrait.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableTagAwareCacheAdapterForV2",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableTagAwareCacheAdapterForV2.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableTagAwareCacheAdapterForV3",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableTagAwareCacheAdapterForV3.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableTagAwareCacheAdapterForV3WithNamespace",
+      "type": "module",
+      "file": "src/Tracing/Cache/TraceableTagAwareCacheAdapterForV3WithNamespace.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractTracingStatement",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/AbstractTracingStatement.php",
+      "line": 1
+    },
+    {
+      "name": "ConnectionConfigurator",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/ConnectionConfigurator.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryForV2V3",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryForV2V3.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryForV4",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryForV4.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryInterface",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryInterface.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionForV2V3",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionForV2V3.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionForV4",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionForV4.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionInterface",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverConnectionInterface.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV2",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverForV2.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV3",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverForV3.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV4",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverForV4.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverMiddleware",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingDriverMiddleware.php",
+      "line": 1
+    },
+    {
+      "name": "TracingServerInfoAwareDriverConnection",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingServerInfoAwareDriverConnection.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV2",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingStatementForV2.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV3",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingStatementForV3.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV4",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/TracingStatementForV4.php",
+      "line": 1
+    },
+    {
+      "name": "MiddlewareInterface",
+      "type": "module",
+      "file": "src/Tracing/Doctrine/DBAL/Compatibility/MiddlewareInterface.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractTraceableHttpClient",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/AbstractTraceableHttpClient.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractTraceableResponse",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/AbstractTraceableResponse.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableHttpClientForV4",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableHttpClientForV4.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableHttpClientForV5",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableHttpClientForV5.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableHttpClientForV6",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableHttpClientForV6.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableResponseForV4",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableResponseForV4.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableResponseForV5",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableResponseForV5.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableResponseForV6",
+      "type": "module",
+      "file": "src/Tracing/HttpClient/TraceableResponseForV6.php",
+      "line": 1
+    },
+    {
+      "name": "TwigTracingExtension",
+      "type": "module",
+      "file": "src/Tracing/Twig/TwigTracingExtension.php",
+      "line": 1
+    },
+    {
+      "name": "SentryExtension",
+      "type": "module",
+      "file": "src/Twig/SentryExtension.php",
+      "line": 1
+    },
+    {
+      "name": "DoctrineTestCase",
+      "type": "module",
+      "file": "tests/DoctrineTestCase.php",
+      "line": 1
+    },
+    {
+      "name": "ErrorTypesParserTest",
+      "type": "module",
+      "file": "tests/ErrorTypesParserTest.php",
+      "line": 1
+    },
+    {
+      "name": "bootstrap",
+      "type": "module",
+      "file": "tests/bootstrap.php",
+      "line": 1
+    },
+    {
+      "name": "SentryTestCommandTest",
+      "type": "module",
+      "file": "tests/Command/SentryTestCommandTest.php",
+      "line": 1
+    },
+    {
+      "name": "ConfigurationTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/ConfigurationTest.php",
+      "line": 1
+    },
+    {
+      "name": "PhpSentryExtensionTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/PhpSentryExtensionTest.php",
+      "line": 1
+    },
+    {
+      "name": "SentryExtensionTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/SentryExtensionTest.php",
+      "line": 1
+    },
+    {
+      "name": "XmlSentryExtensionTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/XmlSentryExtensionTest.php",
+      "line": 1
+    },
+    {
+      "name": "YamlSentryExtensionTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/YamlSentryExtensionTest.php",
+      "line": 1
+    },
+    {
+      "name": "AddLoginListenerTagPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/AddLoginListenerTagPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "BufferFlushPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/BufferFlushPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "CacheTracingPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/CacheTracingPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "DbalTracingPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/DbalTracingPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "HttpClientTracingPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/HttpClientTracingPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "MonologErrorReportingPassTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/Compiler/MonologErrorReportingPassTest.php",
+      "line": 1
+    },
+    {
+      "name": "SampleRateEnvVarProcessorTest",
+      "type": "module",
+      "file": "tests/DependencyInjection/EnvVarProcessor/SampleRateEnvVarProcessorTest.php",
+      "line": 1
+    },
+    {
+      "name": "StubEnvVarLoader",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/StubEnvVarLoader.php",
+      "line": 1
+    },
+    {
+      "name": "console_input_serializer",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/console_input_serializer.php",
+      "line": 1
+    },
+    {
+      "name": "console_tracing_enabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/console_tracing_enabled.php",
+      "line": 1
+    },
+    {
+      "name": "data_collection_null",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/data_collection_null.php",
+      "line": 1
+    },
+    {
+      "name": "data_collection_shorthand",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/data_collection_shorthand.php",
+      "line": 1
+    },
+    {
+      "name": "dbal_tracing_enabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/dbal_tracing_enabled.php",
+      "line": 1
+    },
+    {
+      "name": "dsn_empty_string",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/dsn_empty_string.php",
+      "line": 1
+    },
+    {
+      "name": "dsn_false",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/dsn_false.php",
+      "line": 1
+    },
+    {
+      "name": "dsn_null",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/dsn_null.php",
+      "line": 1
+    },
+    {
+      "name": "error_handler_disabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/error_handler_disabled.php",
+      "line": 1
+    },
+    {
+      "name": "error_listener_disabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/error_listener_disabled.php",
+      "line": 1
+    },
+    {
+      "name": "error_types",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/error_types.php",
+      "line": 1
+    },
+    {
+      "name": "full",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/full.php",
+      "line": 1
+    },
+    {
+      "name": "http_client_tracing_enabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/http_client_tracing_enabled.php",
+      "line": 1
+    },
+    {
+      "name": "ignore_errors_integration_overridden",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/ignore_errors_integration_overridden.php",
+      "line": 1
+    },
+    {
+      "name": "logger_service_not_set",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/logger_service_not_set.php",
+      "line": 1
+    },
+    {
+      "name": "messenger_listener_disabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/messenger_listener_disabled.php",
+      "line": 1
+    },
+    {
+      "name": "monolog_handler_enabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/monolog_handler_enabled.php",
+      "line": 1
+    },
+    {
+      "name": "release_option_fallback_to_composer_version",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/release_option_fallback_to_composer_version.php",
+      "line": 1
+    },
+    {
+      "name": "release_option_fallback_to_env_var",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/release_option_fallback_to_env_var.php",
+      "line": 1
+    },
+    {
+      "name": "release_option_from_config",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/release_option_from_config.php",
+      "line": 1
+    },
+    {
+      "name": "release_option_from_env_var",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/release_option_from_env_var.php",
+      "line": 1
+    },
+    {
+      "name": "sample_rate_env_var_processor",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/sample_rate_env_var_processor.php",
+      "line": 1
+    },
+    {
+      "name": "tracing_disabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/tracing_disabled.php",
+      "line": 1
+    },
+    {
+      "name": "tracing_enabled_env_var",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/tracing_enabled_env_var.php",
+      "line": 1
+    },
+    {
+      "name": "twig_tracing_enabled",
+      "type": "module",
+      "file": "tests/DependencyInjection/Fixtures/php/twig_tracing_enabled.php",
+      "line": 1
+    },
+    {
+      "name": "BreadcrumbTestCommandTest",
+      "type": "module",
+      "file": "tests/End2End/BreadcrumbTestCommandTest.php",
+      "line": 1
+    },
+    {
+      "name": "BufferFlushEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/BufferFlushEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "ClientIpEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/ClientIpEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DataCollectionConsoleEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DataCollectionConsoleEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DataCollectionDatabaseQueryDataEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DataCollectionDatabaseQueryDataEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DataCollectionIncomingRequestEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DataCollectionIncomingRequestEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DataCollectionServerResponseEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DataCollectionServerResponseEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DataCollectionUserInfoEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DataCollectionUserInfoEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "DbalPrepareSpanEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/DbalPrepareSpanEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "End2EndTest",
+      "type": "module",
+      "file": "tests/End2End/End2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "IntegrationsCallbacksEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/IntegrationsCallbacksEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "LoggingCommandTest",
+      "type": "module",
+      "file": "tests/End2End/LoggingCommandTest.php",
+      "line": 1
+    },
+    {
+      "name": "LoggingEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/LoggingEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "LoggingFlushThresholdEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/LoggingFlushThresholdEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsCommandTest",
+      "type": "module",
+      "file": "tests/End2End/MetricsCommandTest.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsDisabledEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/MetricsDisabledEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/MetricsEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsWithCallbackEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/MetricsWithCallbackEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "MonologErrorHandlerEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/MonologErrorHandlerEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "OtlpTracesEndpointEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/OtlpTracesEndpointEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "RuntimeContextEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/RuntimeContextEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "StrictTraceContinuationEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/StrictTraceContinuationEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "StubTransport",
+      "type": "module",
+      "file": "tests/End2End/StubTransport.php",
+      "line": 1
+    },
+    {
+      "name": "TraceIgnoreStatusCodesEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/TraceIgnoreStatusCodesEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingCacheEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/TracingCacheEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingEnd2EndTest",
+      "type": "module",
+      "file": "tests/End2End/TracingEnd2EndTest.php",
+      "line": 1
+    },
+    {
+      "name": "Kernel",
+      "type": "module",
+      "file": "tests/End2End/App/Kernel.php",
+      "line": 1
+    },
+    {
+      "name": "KernelForBufferTest",
+      "type": "module",
+      "file": "tests/End2End/App/KernelForBufferTest.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithExtraConfig",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithExtraConfig.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithLogging",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithLogging.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMetrics",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMetrics.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMetricsCallback",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMetricsCallback.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMetricsDisabled",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMetricsDisabled.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMonologAndListeners",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMonologAndListeners.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMonologErrors",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMonologErrors.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithMonologErrorsAndExceptionLogChannel",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithMonologErrorsAndExceptionLogChannel.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithSendDefaultPii",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithSendDefaultPii.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithTraceIgnoreStatusCodes",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithTraceIgnoreStatusCodes.php",
+      "line": 1
+    },
+    {
+      "name": "KernelWithTracing",
+      "type": "module",
+      "file": "tests/End2End/App/KernelWithTracing.php",
+      "line": 1
+    },
+    {
+      "name": "BeforeSendLogCallback",
+      "type": "module",
+      "file": "tests/End2End/App/Callback/BeforeSendLogCallback.php",
+      "line": 1
+    },
+    {
+      "name": "IgnoreSilencedDeprecationBeforeSendCallback",
+      "type": "module",
+      "file": "tests/End2End/App/Callback/IgnoreSilencedDeprecationBeforeSendCallback.php",
+      "line": 1
+    },
+    {
+      "name": "BreadcrumbTestCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/BreadcrumbTestCommand.php",
+      "line": 1
+    },
+    {
+      "name": "CrashCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/CrashCommand.php",
+      "line": 1
+    },
+    {
+      "name": "CrashingSubcommandTestCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/CrashingSubcommandTestCommand.php",
+      "line": 1
+    },
+    {
+      "name": "DummyTestCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/DummyTestCommand.php",
+      "line": 1
+    },
+    {
+      "name": "LoggingCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/LoggingCommand.php",
+      "line": 1
+    },
+    {
+      "name": "MainCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/MainCommand.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/MetricsCommand.php",
+      "line": 1
+    },
+    {
+      "name": "SubcommandTestCommand",
+      "type": "module",
+      "file": "tests/End2End/App/Command/SubcommandTestCommand.php",
+      "line": 1
+    },
+    {
+      "name": "BufferFlushController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/BufferFlushController.php",
+      "line": 1
+    },
+    {
+      "name": "LoggingController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/LoggingController.php",
+      "line": 1
+    },
+    {
+      "name": "MainController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/MainController.php",
+      "line": 1
+    },
+    {
+      "name": "MessengerController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/MessengerController.php",
+      "line": 1
+    },
+    {
+      "name": "MetricsController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/MetricsController.php",
+      "line": 1
+    },
+    {
+      "name": "NamespacedCacheController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/NamespacedCacheController.php",
+      "line": 1
+    },
+    {
+      "name": "PsrTracingCacheController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/PsrTracingCacheController.php",
+      "line": 1
+    },
+    {
+      "name": "TracingCacheController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/TracingCacheController.php",
+      "line": 1
+    },
+    {
+      "name": "TracingController",
+      "type": "module",
+      "file": "tests/End2End/App/Controller/TracingController.php",
+      "line": 1
+    },
+    {
+      "name": "FooMessage",
+      "type": "module",
+      "file": "tests/End2End/App/Messenger/FooMessage.php",
+      "line": 1
+    },
+    {
+      "name": "FooMessageHandler",
+      "type": "module",
+      "file": "tests/End2End/App/Messenger/FooMessageHandler.php",
+      "line": 1
+    },
+    {
+      "name": "StaticInMemoryTransport",
+      "type": "module",
+      "file": "tests/End2End/App/Messenger/StaticInMemoryTransport.php",
+      "line": 1
+    },
+    {
+      "name": "StaticInMemoryTransportFactory",
+      "type": "module",
+      "file": "tests/End2End/App/Messenger/StaticInMemoryTransportFactory.php",
+      "line": 1
+    },
+    {
+      "name": "FactoryCallback",
+      "type": "module",
+      "file": "tests/End2End/Fixtures/FactoryCallback.php",
+      "line": 1
+    },
+    {
+      "name": "InvokableCallback",
+      "type": "module",
+      "file": "tests/End2End/Fixtures/InvokableCallback.php",
+      "line": 1
+    },
+    {
+      "name": "SentryCallbacks",
+      "type": "module",
+      "file": "tests/End2End/Fixtures/SentryCallbacks.php",
+      "line": 1
+    },
+    {
+      "name": "TestIntegrationForFactory",
+      "type": "module",
+      "file": "tests/End2End/Fixtures/TestIntegrationForFactory.php",
+      "line": 1
+    },
+    {
+      "name": "TestIntegrationForInvokable",
+      "type": "module",
+      "file": "tests/End2End/Fixtures/TestIntegrationForInvokable.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractConsoleListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/AbstractConsoleListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "ConsoleListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/ConsoleListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "ErrorListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/ErrorListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "LoginListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/LoginListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "MessengerListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/MessengerListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "RequestListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/RequestListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "RuntimeContextListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/RuntimeContextListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "SubRequestListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/SubRequestListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingConsoleListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/TracingConsoleListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingRequestListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/TracingRequestListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingSubRequestListenerTest",
+      "type": "module",
+      "file": "tests/EventListener/TracingSubRequestListenerTest.php",
+      "line": 1
+    },
+    {
+      "name": "UserWithIdentifierStub",
+      "type": "module",
+      "file": "tests/EventListener/Fixtures/UserWithIdentifierStub.php",
+      "line": 1
+    },
+    {
+      "name": "UserWithoutIdentifierStub",
+      "type": "module",
+      "file": "tests/EventListener/Fixtures/UserWithoutIdentifierStub.php",
+      "line": 1
+    },
+    {
+      "name": "IntegrationConfiguratorTest",
+      "type": "module",
+      "file": "tests/Integration/IntegrationConfiguratorTest.php",
+      "line": 1
+    },
+    {
+      "name": "RequestFetcherTest",
+      "type": "module",
+      "file": "tests/Integration/RequestFetcherTest.php",
+      "line": 1
+    },
+    {
+      "name": "RequestIntegrationTest",
+      "type": "module",
+      "file": "tests/Integration/RequestIntegrationTest.php",
+      "line": 1
+    },
+    {
+      "name": "ErrorReportingHandlersTest",
+      "type": "module",
+      "file": "tests/Monolog/ErrorReportingHandlersTest.php",
+      "line": 1
+    },
+    {
+      "name": "LogsHandlerTest",
+      "type": "module",
+      "file": "tests/Monolog/LogsHandlerTest.php",
+      "line": 1
+    },
+    {
+      "name": "ConsoleInputSerializerTest",
+      "type": "module",
+      "file": "tests/Serializer/ConsoleInputSerializerTest.php",
+      "line": 1
+    },
+    {
+      "name": "AbstractTraceableCacheAdapterTest",
+      "type": "module",
+      "file": "tests/Tracing/Cache/AbstractTraceableCacheAdapterTest.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableCacheAdapterTest",
+      "type": "module",
+      "file": "tests/Tracing/Cache/TraceableCacheAdapterTest.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableTagAwareCacheAdapterTest",
+      "type": "module",
+      "file": "tests/Tracing/Cache/TraceableTagAwareCacheAdapterTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryV2Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryV2Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryV3Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryV3Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionFactoryV4Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverConnectionFactoryV4Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionForV2V3Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverConnectionForV2V3Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverConnectionForV4Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverConnectionForV4Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV2Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverForV2Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV3Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverForV3Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverForV4Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverForV4Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingDriverMiddlewareTest",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingDriverMiddlewareTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingServerInfoAwareDriverConnectionTest",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingServerInfoAwareDriverConnectionTest.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV2Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingStatementForV2Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV3Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingStatementForV3Test.php",
+      "line": 1
+    },
+    {
+      "name": "TracingStatementForV4Test",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/TracingStatementForV4Test.php",
+      "line": 1
+    },
+    {
+      "name": "NativeDriverConnectionInterfaceStub",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/Fixture/NativeDriverConnectionInterfaceStub.php",
+      "line": 1
+    },
+    {
+      "name": "ServerInfoAwareConnectionStub",
+      "type": "module",
+      "file": "tests/Tracing/Doctrine/DBAL/Fixture/ServerInfoAwareConnectionStub.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableHttpClientTest",
+      "type": "module",
+      "file": "tests/Tracing/HttpClient/TraceableHttpClientTest.php",
+      "line": 1
+    },
+    {
+      "name": "TraceableResponseTest",
+      "type": "module",
+      "file": "tests/Tracing/HttpClient/TraceableResponseTest.php",
+      "line": 1
+    },
+    {
+      "name": "TwigTracingExtensionTest",
+      "type": "module",
+      "file": "tests/Tracing/Twig/TwigTracingExtensionTest.php",
+      "line": 1
+    },
+    {
+      "name": "SentryExtensionTest",
+      "type": "module",
+      "file": "tests/Twig/SentryExtensionTest.php",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 76.4,
+    "overall_grade": "C",
+    "technical_debt_score": 23.6,
+    "remediation_hours": 19.4,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 36.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=4"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=34, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 58.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=4, operational_antipatterns=10, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "guzzlehttp/psr7",
+      "version": "",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "manifest_file": "composer.json",
+      "line": 16,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "jean85/pretty-package-versions",
+      "version": "1.5",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/jean85/pretty-package-versions@1.5",
+      "manifest_file": "composer.json",
+      "line": 17,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sentry/sentry",
+      "version": "4.35.0",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/sentry/sentry@4.35.0",
+      "manifest_file": "composer.json",
+      "line": 18,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/cache-contracts",
+      "version": "1.1",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/cache-contracts@1.1",
+      "manifest_file": "composer.json",
+      "line": 19,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/config",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/config@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 20,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/console",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/console@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 21,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/dependency-injection",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/dependency-injection@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 22,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/event-dispatcher",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/event-dispatcher@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 23,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/http-kernel",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/http-kernel@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 24,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/polyfill-php80",
+      "version": "1.22",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/polyfill-php80@1.22",
+      "manifest_file": "composer.json",
+      "line": 25,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/psr-http-message-bridge",
+      "version": "1.2",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/psr-http-message-bridge@1.2",
+      "manifest_file": "composer.json",
+      "line": 26,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/yaml",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/yaml@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 27,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "doctrine/dbal",
+      "version": "2.13",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/doctrine/dbal@2.13",
+      "manifest_file": "composer.json",
+      "line": 30,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "doctrine/doctrine-bundle",
+      "version": "2.6",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/doctrine/doctrine-bundle@2.6",
+      "manifest_file": "composer.json",
+      "line": 31,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "friendsofphp/php-cs-fixer",
+      "version": "2.19",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/friendsofphp/php-cs-fixer@2.19",
+      "manifest_file": "composer.json",
+      "line": 32,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "masterminds/html5",
+      "version": "2.8",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/masterminds/html5@2.8",
+      "manifest_file": "composer.json",
+      "line": 33,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "phpstan/extension-installer",
+      "version": "1.0",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/phpstan/extension-installer@1.0",
+      "manifest_file": "composer.json",
+      "line": 34,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "phpstan/phpstan",
+      "version": "1.12.5",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/phpstan/phpstan@1.12.5",
+      "manifest_file": "composer.json",
+      "line": 35,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "phpstan/phpstan-phpunit",
+      "version": "1.4.0",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/phpstan/phpstan-phpunit@1.4.0",
+      "manifest_file": "composer.json",
+      "line": 36,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "phpstan/phpstan-symfony",
+      "version": "1.4.10",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/phpstan/phpstan-symfony@1.4.10",
+      "manifest_file": "composer.json",
+      "line": 37,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "phpunit/phpunit",
+      "version": "8.5.52",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/phpunit/phpunit@8.5.52",
+      "manifest_file": "composer.json",
+      "line": 38,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/browser-kit",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/browser-kit@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 39,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/cache",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/cache@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 40,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/dom-crawler",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/dom-crawler@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 41,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/framework-bundle",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/framework-bundle@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 42,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/http-client",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/http-client@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 43,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/messenger",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/messenger@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 44,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/monolog-bundle",
+      "version": "3.4",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/monolog-bundle@3.4",
+      "manifest_file": "composer.json",
+      "line": 45,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/phpunit-bridge",
+      "version": "5.2.6",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/phpunit-bridge@5.2.6",
+      "manifest_file": "composer.json",
+      "line": 46,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/process",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/process@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 47,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/security-core",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/security-core@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 48,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/security-http",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/security-http@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 49,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "symfony/twig-bundle",
+      "version": "4.4.20",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/symfony/twig-bundle@4.4.20",
+      "manifest_file": "composer.json",
+      "line": 50,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "vimeo/psalm",
+      "version": "4.3",
+      "ecosystem": "composer",
+      "purl": "pkg:composer/vimeo/psalm@4.3",
+      "manifest_file": "composer.json",
+      "line": 51,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "static-analysis.yaml#php-cs-fixer",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "static-analysis.yaml#phpstan",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "static-analysis.yaml#psalm",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "tests.yaml#missing-optional-packages-tests",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "tests.yaml#runtime-tests-frankenphp",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "tests.yaml#runtime-tests-roadrunner",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "tests.yaml#tests",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "validate-pr.yml#validate-pr",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "713f81ac-dc60-471d-acd2-45d146fba297",
+      "source_type": "code_module",
+      "target": "publish-release.yaml#release",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

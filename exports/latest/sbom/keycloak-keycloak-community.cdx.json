@@ -1,0 +1,60 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:d22843ac-7fe8-40c0-b8eb-8e6a233a3e65",
+  "version": 1,
+  "metadata": {
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "atruss-code-atlas",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "pkg:github/keycloak/keycloak-community@4f8acf24fda4cdd63f6fa816ef7bdbdc5759e310",
+      "name": "keycloak/keycloak-community",
+      "version": "4f8acf24fda4cdd63f6fa816ef7bdbdc5759e310"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:gem/github-pages",
+      "name": "github-pages",
+      "purl": "pkg:gem/github-pages",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "atruss:ecosystem",
+          "value": "gem"
+        },
+        {
+          "name": "atruss:is_direct",
+          "value": "true"
+        },
+        {
+          "name": "atruss:manifest_files",
+          "value": "Gemfile"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:github/keycloak/keycloak-community@4f8acf24fda4cdd63f6fa816ef7bdbdc5759e310",
+      "dependsOn": [
+        "pkg:gem/github-pages"
+      ]
+    },
+    {
+      "ref": "pkg:gem/github-pages",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}

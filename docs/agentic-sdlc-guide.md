@@ -1,7 +1,7 @@
 # The Agentic SDLC Playbook: SpecKit SDD vs. Antigravity Native Agentic Coding
 
-**Case Study & Engineering Framework Guide from Atruss Code Atlas (`001`–`009`)**  
-**Date**: 2026-11-14 | **Branch**: `feat/001-PRD-enhancements-it2`  
+**Case Study & Engineering Framework Guide from Atruss Code Atlas (`001`–`009` + Horizon 2 Swarm)**  
+**Date**: 2026-11-14 | **Branch**: `002-horizon2-unified-atlas`  
 **Related Artifacts**: [Master PRD v2.0](./atruss-code-atlas-prd.md) | [Unified SpecKit Spec](./atruss-code-atlas-unified-spec.md) | [Constitution v2.1.0](../.specify/memory/constitution.md) | [5-Gate Validator](../scripts/validate_agent_workflow.py)
 
 ---
@@ -12,9 +12,9 @@ As software engineering organizations transition from AI pair-programming (autoc
 
 > *"Should our teams enforce a rigid, artifact-driven **Specification-Driven Development (SDD)** pipeline like **SpecKit**, or adopt an autonomous, goal-oriented, verification-driven paradigm like **Antigravity Native Agentic Coding**?"*
 
-**Atruss Code Atlas** serves as a real-world living laboratory for this exact question. Over nine iterative feature tracks (`001` through `009`), the platform was engineered using **both** paradigms:
+**Atruss Code Atlas** serves as a real-world living laboratory for this exact question. Over nine iterative feature tracks (`001` through `009`) plus full Horizon 2 implementation, the platform was engineered using **both** paradigms:
 1. **Iterations `001`–`006A` (SpecKit SDD Flow)**: Built using structured, sequential SpecKit skills (`constitution` -> `specify` -> `clarify` -> `plan` -> `tasks` -> `implement`).
-2. **Iterations `006B`–`009` (Antigravity Native Agentic Coding + Hybrid 5-Gate Governance)**: Built using Antigravity's interactive alignment (`/grill-me`), autonomous execution loops (`/goal`), custom self-healing skills (`benchmark-self-heal`), and deterministic AST/schema verification gates (`scripts/validate_agent_workflow.py`).
+2. **Iterations `006B`–`009` & Horizon 2 (Antigravity Native Agentic Coding + Parallel Subagent Swarm + Hybrid 5-Gate Governance)**: Built using Antigravity's interactive alignment (`/grill-me`), autonomous execution loops (`/goal`), custom self-healing and swarm skills (`.agent/skills/benchmark-self-heal/`, `.agent/skills/horizon2-swarm/`), and deterministic AST/schema/8-artifact SHA-256 verification gates (`scripts/validate_agent_workflow.py`).
 
 This document provides software engineering teams, architects, and compliance officers with an empirical comparison, visual workflow diagrams, real-world failure lessons, and a **Decision Matrix** to pick, choose, or hybridize agentic frameworks based on regulatory requirements, system complexity, and internal engineering governance.
 
@@ -44,12 +44,12 @@ flowchart TD
         D3["Hardcoded Python Classification Rules<br/>Violating Policy-as-Code Constitution"]
     end
 
-    subgraph Phase2["Phase II: Antigravity Native Agentic Coding + Hybrid Verification (006B - 009)"]
+    subgraph Phase2["Phase II: Antigravity Native Agentic Coding + Parallel Swarm (006B - Horizon 2)"]
         direction TB
         A006B["006-core-unification-and-eval (Track B)<br/>/grill-me Alignment, YAML Policy-as-Code,<br/>4-Ecosystem Analyzers, 0-Skip Pytest,<br/>5-Gate Conformance Validator"]
         A007["007-material-design-ui-gh-pages<br/>Material Design 3 Tonal Token System,<br/>M3 Interactive Filter Chips & Tabs,<br/>Subpath-Safe GitHub Pages CI/CD"]
         A008["008-public-github-100-benchmark<br/>100-Repo Stratified GitHub Corpus,<br/>Random Sampler & Fault-Isolated Ledger,<br/>Autonomous Self-Healing Skill (/goal)"]
-        A009["009-unified-atlas-spec (PRD v2.0)<br/>Forensic Lineage Audit (001-008),<br/>Top 10 Industry Recommendations,<br/>Unified SpecKit Spec (FR-001 to FR-030)"]
+        A009["009-unified-atlas-spec + 002-horizon2<br/>Parallel Disjoint Swarm (.agent/skills/horizon2-swarm),<br/>Tree-sitter, OSV, CycloneDX 1.6, Fitness Rules,<br/>SARIF, diff/check/mcp & M3 Heatmaps (FR-021..030)"]
 
         A006B --> A007 --> A008 --> A009
     end
@@ -105,7 +105,7 @@ When SpecKit was used *without* automated AST and runtime contract gates between
 
 ### 3.2 Paradigm 2: Antigravity Native Agentic Coding
 
-**Antigravity Native Agentic Coding** focuses on **interactive design alignment, deep codebase introspection, autonomous closed-loop execution, and deterministic runtime verification**. Instead of relying on static task checkboxes alone, the agent continuously validates its own changes against live compilers, AST linters, schema contracts, and self-healing benchmark loops.
+**Antigravity Native Agentic Coding** focuses on **interactive design alignment, deep codebase introspection, autonomous closed-loop execution, parallel disjoint subagent swarms, and deterministic runtime verification**. Instead of relying on static task checkboxes alone, the agent continuously validates its own changes against live compilers, AST linters, schema contracts, and self-healing benchmark loops.
 
 ```mermaid
 flowchart LR
@@ -115,33 +115,33 @@ flowchart LR
         Grill --> PlanCmd
     end
 
-    subgraph Execute["2. Autonomous Execution Loop (/goal)"]
+    subgraph Execute["2. Autonomous Swarm Loop (/goal)"]
         Research["Subagent & Web Research<br/>(Codebase + Industry Standards)"]
-        Code["Iterative Implementation<br/>(src/, manifests/, web/, tests/)"]
-        Skill["Custom Agent Skills<br/>(.agent/skills/benchmark-self-heal)"]
-        Research --> Code --> Skill
+        Swarm["Parallel Disjoint Subagent Waves<br/>(.agent/skills/horizon2-swarm)<br/>Zero-Overlap File Ownership"]
+        Skill["Custom Self-Healing Skills<br/>(.agent/skills/benchmark-self-heal)"]
+        Research --> Swarm --> Skill
     end
 
     subgraph Verify["3. Deterministic 5-Gate Verification"]
         G1["Gate 1: Spec-Plan-Task<br/>FR & File Target Parity"]
         G2["Gate 2: AST Anti-Stub<br/>& Zero-Skip Audit"]
         G3["Gate 3: Full Pytest<br/>(0 Fail, 0 Skip)"]
-        G4["Gate 4: Python-to-Astro<br/>Schema Contract"]
-        G5["Gate 5: SHA-256<br/>Determinism"]
+        G4["Gate 4: Python-to-Astro<br/>+ Horizon 2 Contracts"]
+        G5["Gate 5: 8-Artifact<br/>SHA-256 Determinism"]
         G1 --> G2 --> G3 --> G4 --> G5
     end
 
     PlanCmd --> Research
     Skill --> G1
-    G5 -->|"Any Gate Fails OR Anomaly Found"| Code
+    G5 -->|"Any Gate Fails OR Anomaly Found"| Swarm
     G5 -->|"Grade: A (All 5 Gates Pass)"| Done(["Production-Ready Deliverable"])
 ```
 
 #### Core Capabilities of Antigravity Native Agentic Coding
 - **`/grill-me` (Interactive Design Interview)**: Before writing a single line of spec or code in `006B`, `007`, and `008`, the agent inspected the broken codebase state and conducted a structured architectural interview to resolve split-brain exporters, dual-mode ingestion (`API` vs. `shallow clone`), and Material Design 3 hosting constraints.
-- **`/goal` (Autonomous Closed-Loop Execution)**: Enables long-horizon, multi-step engineering goals (such as auditing 9 SpecKit tracks, synthesizing 2025–2026 academic/industry research, authoring a 1,000-line Master PRD + Unified Spec, or running a 100-repository self-healing benchmark) that do not stop until every verification gate passes.
-- **Custom Reusable Agent Skills (`.agent/skills/benchmark-self-heal/SKILL.md`)**: Encapsulates domain-specific operational runbooks—such as running `atruss benchmark --corpus popular-100`, triaging `exports/latest/anomalies.json`, writing a failing regression unit test first, patching the parser, and rebuilding the Astro UI.
-- **Deterministic 5-Gate Enforcement (`scripts/validate_agent_workflow.py`)**: Replaces subjective "task checkbox completion" with an objective, programmatic **Grade A–F** evaluator.
+- **`/goal` (Autonomous Closed-Loop Execution & Parallel Swarms)**: Enables long-horizon, multi-step engineering goals using **disjoint-ownership parallel subagent waves** (`.agent/skills/horizon2-swarm/SKILL.md`: Wave A domain engines -> Wave B scorecard/traceability/diff/SARIF/MCP -> Wave C Astro M3 UI + harnesses + docs) that do not stop until every verification gate passes at Grade `A`.
+- **Custom Reusable Agent Skills (`.agent/skills/`)**: Encapsulates domain-specific operational runbooks—including `benchmark-self-heal/SKILL.md` (running `atruss benchmark --corpus popular-100`, triaging `anomalies.json`, writing regression unit tests) and `horizon2-swarm/SKILL.md` (coordinating 6 specialized workers cleanly without file merge conflicts).
+- **Deterministic 5-Gate Enforcement (`scripts/validate_agent_workflow.py`)**: Replaces subjective "task checkbox completion" with an objective, programmatic **Grade A–F** evaluator across both `006-core-unification-and-eval` and `009-unified-atlas-spec`.
 
 ---
 
@@ -158,9 +158,9 @@ The table below catalogs every capability in Atruss Code Atlas alongside the age
 | **`005-atruss-astro-dashboard`** | Astro v5 + Starlight Docs-as-Code portal, `generate-report-stubs.py`, `PipelineView.astro`, `ArchitectureView.astro` | **SpecKit Flow** | `specs/005-atruss-astro-dashboard/`, `web/`, `scripts/generate-report-stubs.py` | UI built cleanly against sample fixtures, but lacked automated contract checks against Python CLI output paths. |
 | **`006-ui-data-integration` (Track A)** | Multi-repository catalog (`catalog.json`), `AtlasSummary.astro`, `OrgHealthStrip.astro`, `RepoGrid.astro` | **SpecKit Flow** | `specs/006-ui-data-integration/`, `web/src/components/` | Completed Phase A–D UI components, exposing the need to unify the underlying Python data pipeline. |
 | **`006-core-unification-and-eval` (Track B)** | Exporter & CLI unification, `manifests/ecosystems.yaml` Policy-as-Code, 4-ecosystem structural analyzers (`.NET`, `Python`, `React/TS`, `Java`), 0-skip test suite, **5-Gate Validator** | **Antigravity Native** (`/grill-me` + `/goal`) + **SpecKit Artifacts** | `specs/006-core-unification-and-eval/`, `manifests/ecosystems.yaml`, `src/analyzers/code/*`, `scripts/validate_agent_workflow.py` | Combining `/grill-me` alignment with an automated 5-Gate AST/Contract validator permanently eliminated mock/skip drift. |
-| **`007-material-design-ui-gh-pages`** | Google Material Design 3 (`M3`) token system (`material-theme.css`), interactive M3 filter chips & 3-tab views, subpath-safe GitHub Pages CI/CD | **Antigravity Native** (`/grill-me` + full-stack UI build verification) | `specs/007-material-design-ui-gh-pages/`, `web/src/styles/material-theme.css`, `.github/workflows/deploy-pages.yml` | Antigravity's native build-and-verify loop caught `BASE_URL` subpath routing bugs immediately via `ASTRO_BASE` builds. |
+| **`007-material-design-ui-gh-pages`** | Google Material Design 3 (`M3`) token system (`material-theme.css`), interactive M3 filter chips & tabs, subpath-safe GitHub Pages CI/CD | **Antigravity Native** (`/grill-me` + full-stack UI build verification) | `specs/007-material-design-ui-gh-pages/`, `web/src/styles/material-theme.css`, `.github/workflows/deploy-pages.yml` | Antigravity's native build-and-verify loop caught `BASE_URL` subpath routing bugs immediately via `ASTRO_BASE` builds. |
 | **`008-public-github-100-benchmark`** | 100 Popular GitHub Projects Corpus, stratified random sampler (`--random-sample`), fault-isolated `anomalies.json`, **Self-Healing Agent Skill** | **Antigravity Native** (`/goal` + `.agent/skills/benchmark-self-heal/`) | `specs/008-public-github-100-benchmark/`, `tests/fixtures/popular_100_corpus.json`, `src/cli/commands/benchmark.py` | Autonomous self-healing loops (`benchmark` -> `anomalies.json` -> TDD fix -> replay) harden parsers against real-world chaos far beyond static specs. |
-| **`009-unified-atlas-spec` (`PRD v2.0`)** | Forensic `001`–`008` lineage audit, Top 10 industry recommendations (`REC-01`–`REC-10`), Master PRD v2.0, Unified SpecKit Spec (`FR-001`–`FR-030`) | **Antigravity Native** (`/goal` + Web Research + 5-Gate Validation) | `docs/atruss-code-atlas-prd.md`, `docs/atruss-code-atlas-unified-spec.md`, `specs/009-unified-atlas-spec/` | Subagent & web research combined with Gate 1 traceability checks ensured 30/30 FRs mapped cleanly to canonical modules. |
+| **`009-unified-atlas-spec` + `002-horizon2`** | Top 10 industry enhancements (`FR-021`–`FR-030`) delivered via disjoint parallel swarm: pipeline security, Tree-sitter CST, fitness rules, OSV/SBOM, 6-D scorecard, Code-to-Cloud, `atruss diff/check/mcp`, M3 heatmaps & SVG/PNG/PDF exports | **Antigravity Native Parallel Swarm** (`/goal` + `.agent/skills/horizon2-swarm/` + 5-Gate Validator) | `manifests/{architecture,pipeline}-rules.yaml`, `src/analyzers/{dependencies,scorecard,traceability,drift}.py`, `src/cli/commands/{check,diff,mcp_server}.py`, `web/src/components/{ScorecardHeatmap,CrossRepoTopology}.astro` | Disjoint worker file ownership across Waves A/B/C enabled rapid full-stack delivery with zero merge conflicts and Grade `A` 8-artifact determinism. |
 
 ---
 
@@ -180,17 +180,17 @@ flowchart TD
 
     subgraph AntigravityLayer["Layer 2: Antigravity Native Execution (Speed & Adaptability)"]
         GrillMe["/grill-me Interactive Alignment"]
-        GoalLoop["/goal Autonomous Execution & Self-Healing Skills"]
+        GoalLoop["/goal Parallel Swarm & Self-Healing Skills"]
         GrillMe --> Spec
         Tasks --> GoalLoop
     end
 
     subgraph GateLayer["Layer 3: Automated 5-Gate Conformance Validator (Zero-Trust Verification)"]
         Gate1["Gate 1: Traceability<br/>100% FR-to-Task mapping &<br/>all plan.md file paths exist on disk"]
-        Gate2["Gate 2: AST Anti-Stub Audit<br/>0 pytest.skip, 0 empty pass bodies,<br/>0 '# Mock targeting' comments"]
-        Gate3["Gate 3: Full Pytest Suite<br/>62+ tests passing, 0 failures, 0 skips"]
-        Gate4["Gate 4: Cross-Stack Schema Contract<br/>Python JSON exports match<br/>Astro UI component contracts"]
-        Gate5["Gate 5: SHA-256 Determinism<br/>Repeated CLI runs produce<br/>identical artifact digests"]
+        Gate2["Gate 2: AST Anti-Stub Audit<br/>0 pytest.skip, 0 empty pass bodies,<br/>0 '# Mock targeting' or TODO comments"]
+        Gate3["Gate 3: Full Pytest Suite<br/>120+ tests passing, 0 failures, 0 skips"]
+        Gate4["Gate 4: Cross-Stack Schema Contract<br/>Python JSON, SBOM, SARIF, llms.txt & history<br/>match Astro UI component contracts"]
+        Gate5["Gate 5: SHA-256 Determinism<br/>Repeated CLI runs produce identical digests<br/>across all 8 core & Horizon 2 artifacts"]
     end
 
     GoalLoop --> Gate1 --> Gate2 --> Gate3 --> Gate4 --> Gate5

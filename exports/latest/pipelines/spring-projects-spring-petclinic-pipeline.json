@@ -2,10 +2,11 @@
   "org": "spring-projects",
   "repository": "spring-petclinic",
   "sha": "500158f732419217507c7656904b8e6aa1bcc0d6",
-  "analyzed_at": "2026-11-13T04:13:07Z",
+  "analyzed_at": "2026-11-15T05:22:48Z",
   "workflows": [
     {
       "id": "deploy-and-test-cluster.yml",
+      "path": ".github/workflows/deploy-and-test-cluster.yml",
       "name": "Deploy and Test Cluster",
       "triggers": [
         "push",
@@ -20,16 +21,78 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy-and-test-cluster": 0.0
+        },
+        "pagerank": {
+          "deploy-and-test-cluster": 1.0
+        },
+        "downstream_impact": {
+          "deploy-and-test-cluster": []
+        },
+        "critical_nodes": [
+          "deploy-and-test-cluster"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-001",
           "type": "NO_TEST_GATE",
           "severity": "CRITICAL",
-          "message": "CRITICAL: Job 'deploy-and-test-cluster' performs deployment without upstream test gates ('needs:' block is empty)."
+          "message": "CRITICAL: Job 'deploy-and-test-cluster' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-and-test-cluster.yml",
+          "start_line": 14,
+          "end_line": 31,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'deploy-and-test-cluster' step 2 uses unpinned action 'helm/kind-action@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-and-test-cluster.yml",
+          "start_line": 21,
+          "end_line": 21,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-and-test-cluster.yml",
+          "start_line": 3,
+          "end_line": 11,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy-and-test-cluster' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-and-test-cluster.yml",
+          "start_line": 14,
+          "end_line": 31,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "gradle-build.yml",
+      "path": ".github/workflows/gradle-build.yml",
       "name": "Java CI with Gradle",
       "triggers": [
         "push",
@@ -44,10 +107,67 @@
           "needs": []
         }
       ],
-      "anti_patterns": []
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'build' step 3 uses unpinned action 'gradle/actions/setup-gradle@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gradle-build.yml",
+          "start_line": 29,
+          "end_line": 29,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gradle-build.yml",
+          "start_line": 6,
+          "end_line": 10,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gradle-build.yml",
+          "start_line": 13,
+          "end_line": 31,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
     },
     {
       "id": "maven-build.yml",
+      "path": ".github/workflows/maven-build.yml",
       "name": "Java CI with Maven",
       "triggers": [
         "push",
@@ -62,7 +182,52 @@
           "needs": []
         }
       ],
-      "anti_patterns": []
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/maven-build.yml",
+          "start_line": 6,
+          "end_line": 10,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/maven-build.yml",
+          "start_line": 13,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
     }
   ]
 }

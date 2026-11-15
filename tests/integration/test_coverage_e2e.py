@@ -9,7 +9,7 @@ from src.cli.commands.analyze_coverage import app as coverage_app
 
 @pytest.mark.integration
 def test_tr_ana_coverage_extraction_and_cli_e2e(tmp_path: Path):
-    """TR-ANA E2E: validates pytest-cov summary, JaCoCo XML, unknown fallback, and CLI invocation."""
+    """TR-ANA E2E: validates pytest-cov summary, JaCoCo XML, unknown fallback, and CLI run."""
     pytest_txt = tmp_path / "pytest_cov.txt"
     pytest_txt.write_text(
         "Name                 Stmts   Miss  Cover\n"

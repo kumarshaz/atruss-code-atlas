@@ -4,12 +4,12 @@ from pathlib import Path
 from typing import Any
 
 from src.analyzers.code.base import SKIP_DIRS, compute_text_loc_metrics, iter_source_files
+from src.analyzers.code.treesitter_engine import analyze_repo_treesitter_metrics
 
 _CLASS_DEF_RE = re.compile(
     r"\b(?:public|internal|sealed|abstract)?\s*(?:partial\s+)?class\s+(\w+)(?:\s*:\s*([^{]+))?"
 )
 _MINIMAL_API_RE = re.compile(r"\bapp\.Map(Get|Post|Put|Delete|Patch)\s*\(\s*\"([^\"]+)\"")
-_BRANCH_KEYWORD_RE = re.compile(r"\b(if|else\s+if|for|foreach|while|switch|case|catch|\?\?)\b")
 
 
 def _parse_csproj(csproj_path: Path, repo_dir: Path) -> dict[str, Any] | None:
@@ -53,8 +53,8 @@ def analyze_dotnet_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dic
 
     cs_files = iter_source_files(repo_dir, (".cs",))
     loc_metrics = compute_text_loc_metrics(cs_files, comment_prefixes=("//", "/*", "*"))
+    ts_metrics = analyze_repo_treesitter_metrics(repo_dir, (".cs",))
     file_texts: dict[str, str] = {}
-    branch_counts: list[int] = []
 
     for cs_file in cs_files:
         rel_path = str(cs_file.relative_to(repo_dir)).replace("\\", "/")
@@ -63,7 +63,6 @@ def analyze_dotnet_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dic
         except OSError:
             continue
         file_texts[rel_path] = content
-        branch_counts.append(1 + len(_BRANCH_KEYWORD_RE.findall(content)))
 
         for match in _CLASS_DEF_RE.finditer(content):
             cls_name = match.group(1)
@@ -124,11 +123,17 @@ def analyze_dotnet_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dic
         ]
         comp["dependencies"] = deps
 
-    avg_cc = round(sum(branch_counts) / len(branch_counts), 2) if branch_counts else 0.0
-    max_cc = max(branch_counts) if branch_counts else 0
     return components, {
         **loc_metrics,
-        "avg_cyclomatic_complexity": avg_cc,
-        "max_cyclomatic_complexity": max_cc,
+        "avg_cyclomatic_complexity": ts_metrics["avg_cyclomatic_complexity"],
+        "max_cyclomatic_complexity": ts_metrics["max_cyclomatic_complexity"],
         "component_count": len(components),
+        "ast_engine": ts_metrics["ast_engine"],
+        "avg_cognitive_complexity": ts_metrics["avg_cognitive_complexity"],
+        "max_cognitive_complexity": ts_metrics["max_cognitive_complexity"],
+        "duplication_pct": ts_metrics["duplication_pct"],
+        "dead_code_count": ts_metrics["dead_code_count"],
+        "dead_code_symbols": ts_metrics["dead_code_symbols"],
+        "file_complexities": ts_metrics["file_complexities"],
+        "import_edges": ts_metrics["import_edges"],
     }

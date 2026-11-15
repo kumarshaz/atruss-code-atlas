@@ -10,13 +10,24 @@ description: Arc42 and Pipeline report for dotnet/eShop
 - **Primary Ecosystem**: .NET
 
 ## Quality Metrics
-- **avg_cyclomatic_complexity**: 2.51
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 0.75
+- **avg_cyclomatic_complexity**: 1.65
 - **component_count**: 124
-- **files_analyzed**: 1092
+- **dead_code_count**: 82
+- **dead_code_symbols**: 50 entry(ies)
+- **duplication_pct**: 83.77
+- **file_complexities**: 25 entry(ies)
+- **files_analyzed**: 547
+- **fitness_passed**: False
+- **fitness_violation_count**: 11
 - **framework**: ASP.NET Core
-- **loc**: 52597
-- **max_cyclomatic_complexity**: 137
-- **sloc**: 41333
+- **import_edges**: 100 entry(ies)
+- **loc**: 26354
+- **max_cognitive_complexity**: 28
+- **max_cyclomatic_complexity**: 25
+- **sloc**: 20711
+- **test_file_count**: 64
 
 # Architecture: dotnet/eShop
 
@@ -24,7 +35,7 @@ description: Arc42 and Pipeline report for dotnet/eShop
 - **Repository**: `dotnet/eShop`
 - **SHA**: `913acea66708a59595351174cee9b29f37179d29`
 - **Ecosystem**: .NET
-- **Framework**: Unknown
+- **Framework**: ASP.NET Core
 
 ## Building Block View
 
@@ -132,10 +143,104 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - **OrderRepository** (`src/Ordering.Infrastructure/Repositories/OrderRepository.cs`): DATA_ACCESS_LAYER (deps: OrderingContext)
 - **OrderStatusChangedToAwaitingValidationIntegrationEventHandler** (`src/WebApp/Services/OrderStatus/IntegrationEvents/EventHandling/OrderStatusChangedToAwaitingValidationIntegrationEventHandler.cs`): SERVICE (deps: OrderStatusNotificationService)
 
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `F` (52.05/100)
+- **Technical Debt Score**: 47.95
+- **Estimated Remediation Effort**: 87.24h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `F` | 40.00 | 0.20 | avg_cc=1.65, max_cc=25, duplication=83.77%, dead_code=82 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=124, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `F` | 0.00 | 0.15 | avg_cognitive=0.75, max_cognitive=28, fitness_violations=11, oversized_files=1 |
+| Pipeline Health | `C` | 73.00 | 0.15 | workflows=4, operational_antipatterns=6, parallel_branches=False |
+| Security | `F` | 38.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=5 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+- **[HIGH] `ATRUSS-ARCH-001` (LAYER_VIOLATION)**: API_ROUTE cannot directly import DATA_ACCESS_LAYER when SERVICE components exist. (POST_webhook-received -> HooksRepository)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (CancelOrderCommandHandler -> CancelOrderIdentifiedCommandHandler -> CancelOrderCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (CreateOrderCommandHandler -> CreateOrderIdentifiedCommandHandler -> CreateOrderCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetAwaitingValidationIdentifiedOrderStatusCommandHandler -> SetAwaitingValidationOrderStatusCommandHandler -> SetAwaitingValidationIdentifiedOrderStatusCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetPaidIdentifiedOrderStatusCommandHandler -> SetPaidOrderStatusCommandHandler -> SetPaidIdentifiedOrderStatusCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockConfirmedOrderStatusCommandHandler -> SetStockConfirmedOrderStatusIdentifiedCommandHandler -> SetStockConfirmedOrderStatusCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockRejectedOrderStatusCommandHandler -> SetStockRejectedOrderStatusIdentifiedCommandHandler -> SetStockRejectedOrderStatusCommandHandler)
+- **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (ShipOrderCommandHandler -> ShipOrderIdentifiedCommandHandler -> ShipOrderCommandHandler)
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (83.77) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0).
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 124 | **Vulnerabilities**: 0 | **Secrets**: 0
+
+### Inventory Sample
+- `Asp.Versioning.Http` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
+- `Asp.Versioning.Http` `*` (NuGet, `src/Ordering.API/Ordering.API.csproj`)
+- `Asp.Versioning.Http` `*` (NuGet, `src/Webhooks.API/Webhooks.API.csproj`)
+- `Asp.Versioning.Http.Client` `*` (NuGet, `src/WebApp/WebApp.csproj`)
+- `Asp.Versioning.Http.Client` `*` (NuGet, `src/WebhookClient/WebhookClient.csproj`)
+- `Asp.Versioning.Http.Client` `*` (NuGet, `tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj`)
+- `Asp.Versioning.Http.Client` `*` (NuGet, `tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`)
+- `Asp.Versioning.Http.Client` `*` (NuGet, `tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj`)
+- `Asp.Versioning.Mvc.ApiExplorer` `*` (NuGet, `src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj`)
+- `Asp.Versioning.OpenApi` `*` (NuGet, `src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj`)
+- `Aspire.Azure.AI.OpenAI` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
+- `Aspire.Azure.AI.OpenAI` `*` (NuGet, `src/WebApp/WebApp.csproj`)
+- `Aspire.Hosting.Azure.AppContainers` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.Dotnet` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.Foundry` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.PostgreSQL` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.PostgreSQL` `*` (NuGet, `tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj`)
+- `Aspire.Hosting.PostgreSQL` `*` (NuGet, `tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`)
+- `Aspire.Hosting.PostgreSQL` `*` (NuGet, `tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj`)
+- `Aspire.Hosting.RabbitMQ` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.RabbitMQ` `*` (NuGet, `tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj`)
+- `Aspire.Hosting.Redis` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.Redis` `*` (NuGet, `tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj`)
+- `Aspire.Hosting.Yarp` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Npgsql` `*` (NuGet, `src/OrderProcessor/OrderProcessor.csproj`)
+- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
+- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Identity.API/Identity.API.csproj`)
+- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Ordering.API/Ordering.API.csproj`)
+- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Webhooks.API/Webhooks.API.csproj`)
+- `Aspire.RabbitMQ.Client` `*` (NuGet, `src/EventBusRabbitMQ/EventBusRabbitMQ.csproj`)
+- ... (+94 more dependencies)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    subgraph code_modules["Code Modules"]
+        mod_src_ClientApp["src/ClientApp"]
+        mod_tests_ClientApp_UnitTests["tests/ClientApp.UnitTests"]
+    end
+    subgraph ci_jobs["CI/CD Jobs"]
+        job_pr_validation_maui_yml_test["pr-validation-maui.yml#test"]
+    end
+    mod_src_ClientApp -->|BUILT_BY| job_pr_validation_maui_yml_test
+    mod_tests_ClientApp_UnitTests -->|BUILT_BY| job_pr_validation_maui_yml_test
+```
+
+- `src/ClientApp` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#test` (ci_job)
+- `tests/ClientApp.UnitTests` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#test` (ci_job)
+
 
 ## CI/CD Pipeline Topology
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  pipeline_root(["dotnet/eShop (4 workflows)"])
+  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  pipeline_root --> grp_0_CI___Verification
+  wf_0_Markdownlint["Markdownlint (1 jobs)"]
+  grp_0_CI___Verification --> wf_0_Markdownlint
+  wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]
+  grp_0_CI___Verification --> wf_1_Playwright_Tests_for_eShop
+  wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]
+  grp_0_CI___Verification --> wf_2_eShop_Pull_Request_Validation____NET_MAUI
+  wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]
+  grp_0_CI___Verification --> wf_3_eShop_Pull_Request_Validation
 ```

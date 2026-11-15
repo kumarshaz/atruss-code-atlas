@@ -91,9 +91,66 @@ function testUiLayoutAndDiagramTraversalContracts() {
     archSrc.includes('repairVisibleMermaidBlocks'),
     'ArchitectureView must re-render hidden-tab Markdown Mermaid blocks once visible'
   );
+  assert.ok(
+    archSrc.includes('data-export-format="svg"'),
+    'ArchitectureView must expose SVG export button'
+  );
+  assert.ok(
+    archSrc.includes('data-export-format="png"'),
+    'ArchitectureView must expose PNG export button'
+  );
+}
+
+function testHorizon2UiComponentsAndContracts() {
+  const mermaidSrc = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/lib/mermaid-client.ts'),
+    'utf8'
+  );
+  assert.ok(mermaidSrc.includes('downloadSvgFromElement'), 'mermaid-client.ts must export SVG downloader');
+  assert.ok(mermaidSrc.includes('exportSvgToPng'), 'mermaid-client.ts must export PNG exporter');
+  assert.ok(mermaidSrc.includes('htmlLabels'), 'mermaid-client.ts must handle htmlLabels fallback for foreignObject');
+
+  const tabsSrc = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/components/RepoTabs.astro'),
+    'utf8'
+  );
+  assert.ok(tabsSrc.includes('data-m3-tab="scorecard"'), 'RepoTabs.astro must expose 4th scorecard tab');
+  assert.ok(tabsSrc.includes('slot name="scorecard"'), 'RepoTabs.astro must render scorecard slot');
+  assert.ok(tabsSrc.includes('data-m3-print="true"'), 'RepoTabs.astro must expose Print / Save PDF button');
+
+  const scorecardPath = path.resolve(process.cwd(), 'src/components/ScorecardHeatmap.astro');
+  assert.ok(fs.existsSync(scorecardPath), 'ScorecardHeatmap.astro must exist');
+  const scorecardSrc = fs.readFileSync(scorecardPath, 'utf8');
+  assert.ok(scorecardSrc.includes('m3-scorecard-hero'), 'ScorecardHeatmap must render scorecard hero');
+  assert.ok(scorecardSrc.includes('m3-heatmap-grid'), 'ScorecardHeatmap must render complexity heatmap');
+
+  const crossTopoPath = path.resolve(process.cwd(), 'src/components/CrossRepoTopology.astro');
+  assert.ok(fs.existsSync(crossTopoPath), 'CrossRepoTopology.astro must exist');
+  const crossTopoSrc = fs.readFileSync(crossTopoPath, 'utf8');
+  assert.ok(crossTopoSrc.includes('flowchart TD'), 'CrossRepoTopology must use flowchart TD');
+
+  const leaderboardSrc = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/components/LeaderboardView.astro'),
+    'utf8'
+  );
+  assert.ok(leaderboardSrc.includes('CrossRepoTopology'), 'LeaderboardView must mount CrossRepoTopology');
+
+  const cssSrc = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/styles/material-theme.css'),
+    'utf8'
+  );
+  assert.ok(cssSrc.includes('@media print'), 'material-theme.css must define @media print rules');
+  assert.ok(cssSrc.includes('.m3-tab-panel[hidden]'), '@media print must reveal hidden tab panels');
+
+  const stubGenSrc = fs.readFileSync(
+    path.resolve(process.cwd(), '../scripts/generate-report-stubs.py'),
+    'utf8'
+  );
+  assert.ok(stubGenSrc.length > 0, 'generate-report-stubs.py must exist');
 }
 
 testSlugAndBasePathFormatting();
 testM3ComponentsAndTokensPresent();
 testUiLayoutAndDiagramTraversalContracts();
-console.log('AtlasSummary & UI layout/diagram traversal checks passed.');
+testHorizon2UiComponentsAndContracts();
+console.log('AtlasSummary & Horizon 2 UI layout/diagram traversal checks passed.');

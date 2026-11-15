@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,6 +41,10 @@ jobs:
         working-directory: web
         run: npm ci
 
+      - name: Run web schema and UI contract tests
+        working-directory: web
+        run: npm test
+
       - name: Sync discovery data & build Astro M3 site
         working-directory: web
         env:
@@ -57,6 +62,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: build
     steps:
       - name: Deploy to GitHub Pages

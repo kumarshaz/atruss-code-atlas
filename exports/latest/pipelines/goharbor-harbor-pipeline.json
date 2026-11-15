@@ -1,0 +1,1059 @@
+{
+  "org": "goharbor",
+  "repository": "harbor",
+  "sha": "e7dbdea223486b177ce87b6c954eaad756dd0b4f",
+  "analyzed_at": "2026-11-15T05:22:49Z",
+  "workflows": [
+    {
+      "id": "CI.yml",
+      "path": ".github/workflows/CI.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "merge_group",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "UTTEST",
+          "name": "UTTEST",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "APITEST_DB",
+          "name": "APITEST_DB",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "APITEST_DB_PROXY_CACHE",
+          "name": "APITEST_DB_PROXY_CACHE",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "APITEST_LDAP",
+          "name": "APITEST_LDAP",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "OFFLINE",
+          "name": "OFFLINE",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "UI_UT",
+          "name": "UI_UT",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 6,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "APITEST_DB": 0.0,
+          "APITEST_DB_PROXY_CACHE": 0.0,
+          "APITEST_LDAP": 0.0,
+          "OFFLINE": 0.0,
+          "UI_UT": 0.0,
+          "UTTEST": 0.0
+        },
+        "pagerank": {
+          "APITEST_DB": 0.166667,
+          "APITEST_DB_PROXY_CACHE": 0.166667,
+          "APITEST_LDAP": 0.166667,
+          "OFFLINE": 0.166667,
+          "UI_UT": 0.166667,
+          "UTTEST": 0.166667
+        },
+        "downstream_impact": {
+          "APITEST_DB": [],
+          "APITEST_DB_PROXY_CACHE": [],
+          "APITEST_LDAP": [],
+          "OFFLINE": [],
+          "UI_UT": [],
+          "UTTEST": []
+        },
+        "critical_nodes": [
+          "APITEST_DB",
+          "APITEST_DB_PROXY_CACHE",
+          "APITEST_LDAP",
+          "OFFLINE",
+          "UI_UT",
+          "UTTEST"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-004",
+          "type": "HARDCODED_SECRET",
+          "severity": "CRITICAL",
+          "message": "Potential hardcoded credential in workflow env 'CORE_SECRET'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 14,
+          "end_line": 14,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'UTTEST' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 72,
+          "end_line": 78,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'UTTEST' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 81,
+          "end_line": 96,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'APITEST_DB' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 135,
+          "end_line": 144,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'APITEST_DB_PROXY_CACHE' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 198,
+          "end_line": 207,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'APITEST_LDAP' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 260,
+          "end_line": 268,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'OFFLINE' step 3 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 320,
+          "end_line": 327,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'OFFLINE' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 330,
+          "end_line": 346,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'APITEST_DB' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 125,
+          "end_line": 125,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'APITEST_DB_PROXY_CACHE' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 188,
+          "end_line": 188,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'APITEST_LDAP' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/CI.yml",
+          "start_line": 250,
+          "end_line": 250,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "api-schema-check.yml",
+      "path": ".github/workflows/api-schema-check.yml",
+      "name": "API Schema Check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "check",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0
+        },
+        "pagerank": {
+          "check": 1.0
+        },
+        "downstream_impact": {
+          "check": []
+        },
+        "critical_nodes": [
+          "check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/api-schema-check.yml",
+          "start_line": 13,
+          "end_line": 21,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "auto_assign_prs.yml",
+      "path": ".github/workflows/auto_assign_prs.yml",
+      "name": "Auto Assign",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "add-reviews",
+          "name": "add-reviews",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "add-reviews": 0.0
+        },
+        "pagerank": {
+          "add-reviews": 1.0
+        },
+        "downstream_impact": {
+          "add-reviews": []
+        },
+        "critical_nodes": [
+          "add-reviews"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'add-reviews' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/auto_assign_prs.yml",
+          "start_line": 17,
+          "end_line": 23,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-package.yml",
+      "path": ".github/workflows/build-package.yml",
+      "name": "Build Package Workflow",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "BUILD_BASE_IMAGE",
+          "name": "BUILD_BASE_IMAGE",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "BUILD_PACKAGE",
+          "name": "BUILD_PACKAGE",
+          "runner": "${{ matrix.arch == 'arm64' && 'cncf-ubuntu-16-64-arm' || 'cncf-ubuntu-16-64-x86' }}",
+          "steps_count": 7,
+          "needs": [
+            "BUILD_BASE_IMAGE"
+          ]
+        },
+        {
+          "id": "CREATE_MANIFEST",
+          "name": "CREATE_MANIFEST",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 6,
+          "needs": [
+            "BUILD_BASE_IMAGE",
+            "BUILD_PACKAGE"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "BUILD_BASE_IMAGE": 0.0,
+          "BUILD_PACKAGE": 0.0,
+          "CREATE_MANIFEST": 0.0
+        },
+        "pagerank": {
+          "BUILD_BASE_IMAGE": 0.19758,
+          "BUILD_PACKAGE": 0.281551,
+          "CREATE_MANIFEST": 0.520869
+        },
+        "downstream_impact": {
+          "BUILD_BASE_IMAGE": [
+            "BUILD_PACKAGE",
+            "CREATE_MANIFEST"
+          ],
+          "BUILD_PACKAGE": [
+            "CREATE_MANIFEST"
+          ],
+          "CREATE_MANIFEST": []
+        },
+        "critical_nodes": [
+          "CREATE_MANIFEST",
+          "BUILD_PACKAGE",
+          "BUILD_BASE_IMAGE"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'BUILD_PACKAGE' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 64,
+          "end_line": 199,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'BUILD_PACKAGE' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 95,
+          "end_line": 176,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'BUILD_BASE_IMAGE' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 19,
+          "end_line": 63,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'BUILD_PACKAGE' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 64,
+          "end_line": 199,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'CREATE_MANIFEST' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 200,
+          "end_line": 258,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'BUILD_PACKAGE' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 84,
+          "end_line": 84,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'BUILD_PACKAGE' step 1 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-package.yml",
+          "start_line": 79,
+          "end_line": 79,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "Code scanning - action",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "CodeQL-Build",
+          "name": "CodeQL-Build",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "CodeQL-Build": 0.0
+        },
+        "pagerank": {
+          "CodeQL-Build": 1.0
+        },
+        "downstream_impact": {
+          "CodeQL-Build": []
+        },
+        "critical_nodes": [
+          "CodeQL-Build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'CodeQL-Build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 15,
+          "end_line": 59,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "conformance_test.yml",
+      "path": ".github/workflows/conformance_test.yml",
+      "name": "CONFORMANCE_TEST",
+      "triggers": [
+        "repository_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "CONFORMANCE_TEST",
+          "name": "CONFORMANCE_TEST",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "CONFORMANCE_TEST": 0.0
+        },
+        "pagerank": {
+          "CONFORMANCE_TEST": 1.0
+        },
+        "downstream_impact": {
+          "CONFORMANCE_TEST": []
+        },
+        "critical_nodes": [
+          "CONFORMANCE_TEST"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'CONFORMANCE_TEST' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/conformance_test.yml",
+          "start_line": 16,
+          "end_line": 71,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'CONFORMANCE_TEST' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/conformance_test.yml",
+          "start_line": 39,
+          "end_line": 53,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'CONFORMANCE_TEST' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/conformance_test.yml",
+          "start_line": 16,
+          "end_line": 71,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'CONFORMANCE_TEST' step 1 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/conformance_test.yml",
+          "start_line": 24,
+          "end_line": 24,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    },
+    {
+      "id": "housekeeping-stale-issues-prs.yaml",
+      "path": ".github/workflows/housekeeping-stale-issues-prs.yaml",
+      "name": "Housekeeping - Close stale issues and PRs",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/housekeeping-stale-issues-prs.yaml",
+          "start_line": 11,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "label_check.yaml",
+      "path": ".github/workflows/label_check.yaml",
+      "name": "Release Note Label Check",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-label",
+          "name": "Check release-note label set",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-label": 0.0
+        },
+        "pagerank": {
+          "check-label": 1.0
+        },
+        "downstream_impact": {
+          "check-label": []
+        },
+        "critical_nodes": [
+          "check-label"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'check-label' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/label_check.yaml",
+          "start_line": 18,
+          "end_line": 27,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/label_check.yaml",
+          "start_line": 18,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "nightly-trivy-scan.yml",
+      "path": ".github/workflows/nightly-trivy-scan.yml",
+      "name": "Trivy Nightly Scan",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "nightly-scan",
+          "name": "Trivy Scan nightly",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "nightly-scan": 0.0
+        },
+        "pagerank": {
+          "nightly-scan": 1.0
+        },
+        "downstream_impact": {
+          "nightly-scan": []
+        },
+        "critical_nodes": [
+          "nightly-scan"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nightly-scan' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/nightly-trivy-scan.yml",
+          "start_line": 8,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pass-CI.yml",
+      "path": ".github/workflows/pass-CI.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "UTTEST",
+          "name": "UTTEST",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "APITEST_DB",
+          "name": "APITEST_DB",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "APITEST_DB_PROXY_CACHE",
+          "name": "APITEST_DB_PROXY_CACHE",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "APITEST_LDAP",
+          "name": "APITEST_LDAP",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "OFFLINE",
+          "name": "OFFLINE",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "UI_UT",
+          "name": "UI_UT",
+          "runner": "cncf-ubuntu-2-8-x86",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 6,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "APITEST_DB": 0.0,
+          "APITEST_DB_PROXY_CACHE": 0.0,
+          "APITEST_LDAP": 0.0,
+          "OFFLINE": 0.0,
+          "UI_UT": 0.0,
+          "UTTEST": 0.0
+        },
+        "pagerank": {
+          "APITEST_DB": 0.166667,
+          "APITEST_DB_PROXY_CACHE": 0.166667,
+          "APITEST_LDAP": 0.166667,
+          "OFFLINE": 0.166667,
+          "UI_UT": 0.166667,
+          "UTTEST": 0.166667
+        },
+        "downstream_impact": {
+          "APITEST_DB": [],
+          "APITEST_DB_PROXY_CACHE": [],
+          "APITEST_LDAP": [],
+          "OFFLINE": [],
+          "UI_UT": [],
+          "UTTEST": []
+        },
+        "critical_nodes": [
+          "APITEST_DB",
+          "APITEST_DB_PROXY_CACHE",
+          "APITEST_LDAP",
+          "OFFLINE",
+          "UI_UT",
+          "UTTEST"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'UTTEST' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 31,
+          "end_line": 35,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'APITEST_DB' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 37,
+          "end_line": 41,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'APITEST_DB_PROXY_CACHE' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 43,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'APITEST_LDAP' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 49,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'OFFLINE' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 55,
+          "end_line": 59,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'UI_UT' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pass-CI.yml",
+          "start_line": 61,
+          "end_line": 65,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish_release.yml",
+      "path": ".github/workflows/publish_release.yml",
+      "name": "Publish Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "cncf-ubuntu-16-64-x86",
+          "steps_count": 13,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 9,
+          "end_line": 151,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'release' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 18,
+          "end_line": 25,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'release' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 33,
+          "end_line": 60,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'release' step 11 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 118,
+          "end_line": 121,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 9,
+          "end_line": 151,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'release' step 3 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_release.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    }
+  ]
+}

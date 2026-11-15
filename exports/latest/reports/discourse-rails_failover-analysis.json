@@ -1,0 +1,943 @@
+{
+  "repository": "discourse/rails_failover",
+  "sha": "c7d03a474d6198c921dcf27d8006f9d4a6bc92a3",
+  "ecosystem": "Ruby",
+  "metrics": {
+    "files_analyzed": 51,
+    "loc": 2193,
+    "sloc": 1471,
+    "component_count": 51,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Ruby on Rails",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "lint": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v3"
+            },
+            {
+              "name": "Setup ruby",
+              "uses": "ruby/setup-ruby@v1",
+              "with": {
+                "ruby-version": "3.4",
+                "bundler-cache": true
+              }
+            },
+            {
+              "name": "Rubocop",
+              "run": "bundle exec rubocop"
+            },
+            {
+              "name": "syntax_tree",
+              "if": "${{ !cancelled() }}",
+              "run": "set -E\nbundle exec stree check Gemfile rails_failover.gemspec $(git ls-files '*.rb')\n"
+            }
+          ]
+        },
+        "redis": {
+          "name": "Redis (Redis gem ~> ${{ matrix.redis_gem }}, Ruby ${{ matrix.ruby }})",
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "ruby": [
+                "3.4",
+                "3.3",
+                "3.2",
+                "3.1"
+              ],
+              "redis_gem": [
+                "4.8",
+                "5.3",
+                "6.0"
+              ],
+              "exclude": [
+                {
+                  "ruby": "3.1",
+                  "redis_gem": "6.0"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v3"
+            },
+            {
+              "name": "Setup ruby",
+              "uses": "ruby/setup-ruby@v1",
+              "with": {
+                "ruby-version": "${{ matrix.ruby }}"
+              }
+            },
+            {
+              "name": "Setup gems",
+              "env": {
+                "REDIS_GEM_VERSION": "${{ matrix.redis_gem }}"
+              },
+              "run": "bundle install"
+            },
+            {
+              "name": "Setup redis",
+              "run": "sudo apt-get install redis-server"
+            },
+            {
+              "name": "Redis specs",
+              "env": {
+                "REDIS_GEM_VERSION": "${{ matrix.redis_gem }}"
+              },
+              "run": "bin/rspec redis"
+            }
+          ]
+        },
+        "active_record": {
+          "runs-on": "ubuntu-latest",
+          "name": "ActiveRecord ~>${{ matrix.rails }} (Ruby ${{ matrix.ruby }})",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "ruby": [
+                "3.4",
+                "3.3",
+                "3.2"
+              ],
+              "rails": [
+                "8.0.0",
+                "7.2.0",
+                "7.1.0"
+              ],
+              "exclude": [
+                {
+                  "ruby": "3.4",
+                  "rails": "7.0.0"
+                },
+                {
+                  "ruby": "3.3",
+                  "rails": "7.0.0"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@v3"
+            },
+            {
+              "name": "Setup ruby",
+              "uses": "ruby/setup-ruby@v1",
+              "with": {
+                "ruby-version": "${{ matrix.ruby }}"
+              }
+            },
+            {
+              "name": "Setup gems",
+              "run": "bundle install"
+            },
+            {
+              "name": "Setup postgres",
+              "run": "make setup_pg\n"
+            },
+            {
+              "name": "ActiveRecord specs",
+              "env": {
+                "RAILS_VERSION": "${{ matrix.rails }}"
+              },
+              "run": "bin/rspec active_record"
+            },
+            {
+              "name": "Dump Unicorn STDERR logs",
+              "if": "${{ failure() }}",
+              "run": "cat spec/support/dummy_app/log/unicorn.stderr.log"
+            },
+            {
+              "name": "Dump Rails logs",
+              "if": "${{ failure() }}",
+              "run": "cat spec/support/dummy_app/log/production.log"
+            }
+          ]
+        },
+        "publish": {
+          "if": "github.event_name == 'push' && github.ref == 'refs/heads/main'",
+          "needs": [
+            "lint",
+            "redis",
+            "active_record"
+          ],
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v3"
+            },
+            {
+              "name": "Release Gem",
+              "uses": "discourse/publish-rubygems-action@v3",
+              "env": {
+                "RUBYGEMS_API_KEY": "${{ secrets.RUBYGEMS_API_KEY }}",
+                "GIT_EMAIL": "team@discourse.org",
+                "GIT_NAME": "discoursebot"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "redis",
+          "name": "Redis (Redis gem ~> ${{ matrix.redis_gem }}, Ruby ${{ matrix.ruby }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "active_record",
+          "name": "ActiveRecord ~>${{ matrix.rails }} (Ruby ${{ matrix.ruby }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "publish",
+          "name": "publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "lint",
+            "redis",
+            "active_record"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[HIGH] UNPINNED_ACTION: Job 'lint' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'redis' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'active_record' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'publish' step 2 uses unpinned action 'discourse/publish-rubygems-action@v3'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'redis' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'active_record' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'publish' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 17,
+          "end_line": 17,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'redis' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 49,
+          "end_line": 49,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'active_record' step 2 uses unpinned action 'ruby/setup-ruby@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 85,
+          "end_line": 85,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'publish' step 2 uses unpinned action 'discourse/publish-rubygems-action@v3'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 118,
+          "end_line": 118,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 10,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'redis' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 31,
+          "end_line": 64,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'active_record' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 66,
+          "end_line": 107,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 109,
+          "end_line": 122,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "active_record": 0.0,
+          "lint": 0.0,
+          "publish": 0.0,
+          "redis": 0.0
+        },
+        "pagerank": {
+          "active_record": 0.152672,
+          "lint": 0.152672,
+          "publish": 0.541985,
+          "redis": 0.152672
+        },
+        "downstream_impact": {
+          "active_record": [
+            "publish"
+          ],
+          "lint": [
+            "publish"
+          ],
+          "publish": [],
+          "redis": [
+            "publish"
+          ]
+        },
+        "critical_nodes": [
+          "publish",
+          "active_record",
+          "lint",
+          "redis"
+        ],
+        "max_blast_radius": 1
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "rails_failover",
+      "type": "module",
+      "file": "lib/rails_failover.rb",
+      "line": 1
+    },
+    {
+      "name": "active_record",
+      "type": "module",
+      "file": "lib/rails_failover/active_record.rb",
+      "line": 1
+    },
+    {
+      "name": "redis",
+      "type": "module",
+      "file": "lib/rails_failover/redis.rb",
+      "line": 1
+    },
+    {
+      "name": "version",
+      "type": "module",
+      "file": "lib/rails_failover/version.rb",
+      "line": 1
+    },
+    {
+      "name": "handler",
+      "type": "module",
+      "file": "lib/rails_failover/active_record/handler.rb",
+      "line": 1
+    },
+    {
+      "name": "middleware",
+      "type": "module",
+      "file": "lib/rails_failover/active_record/middleware.rb",
+      "line": 1
+    },
+    {
+      "name": "railtie",
+      "type": "module",
+      "file": "lib/rails_failover/active_record/railtie.rb",
+      "line": 1
+    },
+    {
+      "name": "handler_base",
+      "type": "module",
+      "file": "lib/rails_failover/redis/handler_base.rb",
+      "line": 1
+    },
+    {
+      "name": "connector",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_4x/connector.rb",
+      "line": 1
+    },
+    {
+      "name": "handler",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_4x/handler.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_4x/patches/client.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_5x/client.rb",
+      "line": 1
+    },
+    {
+      "name": "config",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_5x/config.rb",
+      "line": 1
+    },
+    {
+      "name": "handler",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_5x/handler.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/rails_failover/redis/compat_5x/patches/client.rb",
+      "line": 1
+    },
+    {
+      "name": "spec_helper",
+      "type": "module",
+      "file": "spec/spec_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "generic_helper",
+      "type": "module",
+      "file": "spec/helpers/generic_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "postgres_helper",
+      "type": "module",
+      "file": "spec/helpers/postgres_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "rails_server_helper",
+      "type": "module",
+      "file": "spec/helpers/rails_server_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "redis_helper",
+      "type": "module",
+      "file": "spec/helpers/redis_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "url_helper",
+      "type": "module",
+      "file": "spec/helpers/url_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "active_record_spec",
+      "type": "module",
+      "file": "spec/integration/active_record_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "redis_spec",
+      "type": "module",
+      "file": "spec/integration/redis_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "middleware_spec",
+      "type": "module",
+      "file": "spec/rails_failover/middleware_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "application_controller",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/controllers/application_controller.rb",
+      "line": 1
+    },
+    {
+      "name": "posts_controller",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/controllers/posts_controller.rb",
+      "line": 1
+    },
+    {
+      "name": "application_helper",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/helpers/application_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "posts_helper",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/helpers/posts_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "application_record",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/models/application_record.rb",
+      "line": 1
+    },
+    {
+      "name": "post",
+      "type": "module",
+      "file": "spec/support/dummy_app/app/models/post.rb",
+      "line": 1
+    },
+    {
+      "name": "application",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/application.rb",
+      "line": 1
+    },
+    {
+      "name": "boot",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/boot.rb",
+      "line": 1
+    },
+    {
+      "name": "environment",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/environment.rb",
+      "line": 1
+    },
+    {
+      "name": "routes",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/routes.rb",
+      "line": 1
+    },
+    {
+      "name": "unicorn.conf",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/unicorn.conf.rb",
+      "line": 1
+    },
+    {
+      "name": "development",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/environments/development.rb",
+      "line": 1
+    },
+    {
+      "name": "production",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/environments/production.rb",
+      "line": 1
+    },
+    {
+      "name": "test",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/environments/test.rb",
+      "line": 1
+    },
+    {
+      "name": "application_controller_renderer",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/application_controller_renderer.rb",
+      "line": 1
+    },
+    {
+      "name": "assets",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/assets.rb",
+      "line": 1
+    },
+    {
+      "name": "backtrace_silencers",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/backtrace_silencers.rb",
+      "line": 1
+    },
+    {
+      "name": "content_security_policy",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/content_security_policy.rb",
+      "line": 1
+    },
+    {
+      "name": "cookies_serializer",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/cookies_serializer.rb",
+      "line": 1
+    },
+    {
+      "name": "filter_parameter_logging",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/filter_parameter_logging.rb",
+      "line": 1
+    },
+    {
+      "name": "inflections",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/inflections.rb",
+      "line": 1
+    },
+    {
+      "name": "mime_types",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/mime_types.rb",
+      "line": 1
+    },
+    {
+      "name": "role_switcher_middleware",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/role_switcher_middleware.rb",
+      "line": 1
+    },
+    {
+      "name": "trigger_pg_exception_middleware",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/trigger_pg_exception_middleware.rb",
+      "line": 1
+    },
+    {
+      "name": "wrap_parameters",
+      "type": "module",
+      "file": "spec/support/dummy_app/config/initializers/wrap_parameters.rb",
+      "line": 1
+    },
+    {
+      "name": "seeds",
+      "type": "module",
+      "file": "spec/support/dummy_app/db/seeds.rb",
+      "line": 1
+    },
+    {
+      "name": "20200528020608_create_posts",
+      "type": "module",
+      "file": "spec/support/dummy_app/db/migrate/20200528020608_create_posts.rb",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 79.75,
+    "overall_grade": "C",
+    "technical_debt_score": 20.25,
+    "remediation_hours": 17.06,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=5"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=11, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 75.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=1, operational_antipatterns=6, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "redis",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/redis",
+      "manifest_file": "Gemfile",
+      "line": 7,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rails",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rails",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 6,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rails",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rails",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sass-rails",
+      "version": "6",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/sass-rails@6",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "unicorn",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/unicorn",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 14,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "pg",
+      "version": "1.3.0",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/pg@1.3.0",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 15,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "byebug",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/byebug",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 16,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rails_failover",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rails_failover",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 17,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "psych",
+      "version": "3.0",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/psych@3.0",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 18,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "listen",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/listen",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 19,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "concurrent-ruby",
+      "version": "1.3.4",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/concurrent-ruby@1.3.4",
+      "manifest_file": "spec/support/dummy_app/Gemfile",
+      "line": 20,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "spec/support/dummy_app",
+      "source_type": "code_module",
+      "target": "ci.yml#active_record",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

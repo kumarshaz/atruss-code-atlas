@@ -122,6 +122,7 @@ def generate_stubs(discovery_path: Path, output_dir: Path) -> int:
             "import PipelineView from '../../../../components/PipelineView.astro';",
             "import ArchitectureView from '../../../../components/ArchitectureView.astro';",
             "import DiscoveryTable from '../../../../components/DiscoveryTable.astro';",
+            "import ScorecardHeatmap from '../../../../components/ScorecardHeatmap.astro';",
             "",
             f"<RepoTabs {' '.join(tabs_attrs)}>",
             '  <div slot="discovery">',
@@ -136,6 +137,12 @@ def generate_stubs(discovery_path: Path, output_dir: Path) -> int:
             '  <div slot="architecture">',
             (
                 f"    <ArchitectureView repo_name={json.dumps(str(repo_name))} "
+                f"org={json.dumps(str(org))} />"
+            ),
+            "  </div>",
+            '  <div slot="scorecard">',
+            (
+                f"    <ScorecardHeatmap repo_name={json.dumps(str(repo_name))} "
                 f"org={json.dumps(str(org))} />"
             ),
             "  </div>",

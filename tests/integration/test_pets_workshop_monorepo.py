@@ -10,7 +10,9 @@ from tests.utils.fixture_manager import FixtureManager
 @pytest.mark.integration
 @pytest.mark.e2e
 def test_pets_workshop_parsing():
-    """Clones pinned github-samples/pets-workshop and validates structural ecosystem & pipeline extraction."""
+    """
+    Clones pinned github-samples/pets-workshop and validates ecosystem & pipeline extraction.
+    """
     repo_url = "https://github.com/github-samples/pets-workshop.git"
     pinned_sha = "49000790c260bf6ab84a833f0ece3bc91d2afbe0"
 

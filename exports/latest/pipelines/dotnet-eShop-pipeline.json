@@ -2,10 +2,11 @@
   "org": "dotnet",
   "repository": "eShop",
   "sha": "913acea66708a59595351174cee9b29f37179d29",
-  "analyzed_at": "2026-11-13T04:13:07Z",
+  "analyzed_at": "2026-11-15T05:22:48Z",
   "workflows": [
     {
       "id": "markdownlint.yml",
+      "path": ".github/workflows/markdownlint.yml",
       "name": "Markdownlint",
       "triggers": [
         "pull_request"
@@ -19,10 +20,45 @@
           "needs": []
         }
       ],
-      "anti_patterns": []
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0
+        },
+        "pagerank": {
+          "lint": 1.0
+        },
+        "downstream_impact": {
+          "lint": []
+        },
+        "critical_nodes": [
+          "lint"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/markdownlint.yml",
+          "start_line": 12,
+          "end_line": 26,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
     },
     {
       "id": "playwright.yml",
+      "path": ".github/workflows/playwright.yml",
       "name": "Playwright Tests for eShop",
       "triggers": [
         "push",
@@ -37,21 +73,78 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-002",
           "type": "NO_CACHE",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 30,
+          "end_line": 30,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
         },
         {
+          "rule_id": "ATRUSS-PIPE-004",
           "type": "HARDCODED_SECRET",
           "severity": "CRITICAL",
-          "message": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead."
+          "message": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 38,
+          "end_line": 38,
+          "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 2,
+          "end_line": 16,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/playwright.yml",
+          "start_line": 22,
+          "end_line": 22,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
         }
       ]
     },
     {
       "id": "pr-validation-maui.yml",
+      "path": ".github/workflows/pr-validation-maui.yml",
       "name": "eShop Pull Request Validation - .NET MAUI",
       "triggers": [
         "pull_request",
@@ -66,16 +159,67 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-002",
           "type": "NO_CACHE",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation-maui.yml",
+          "start_line": 39,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation-maui.yml",
+          "start_line": 3,
+          "end_line": 17,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation-maui.yml",
+          "start_line": 20,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
     {
       "id": "pr-validation.yml",
+      "path": ".github/workflows/pr-validation.yml",
       "name": "eShop Pull Request Validation",
       "triggers": [
         "pull_request",
@@ -90,11 +234,61 @@
           "needs": []
         }
       ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
       "anti_patterns": [
         {
+          "rule_id": "ATRUSS-PIPE-002",
           "type": "NO_CACHE",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation.yml",
+          "start_line": 3,
+          "end_line": 17,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-validation.yml",
+          "start_line": 20,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     }

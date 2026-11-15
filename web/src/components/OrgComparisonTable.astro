@@ -6,6 +6,10 @@ interface OrgMaturityScore {
     repos_with_docker: number;
     pipeline_coverage_pct: number;
     maturity_score: number;
+    avg_scorecard?: number | null;
+    avg_grade?: string | null;
+    open_cves?: number | null;
+    fitness_alerts?: number | null;
 }
 
 interface Props {
@@ -33,12 +37,14 @@ const getScoreBadgeClass = (score: number) => {
                 <th>Containerized</th>
                 <th>Pipeline Coverage</th>
                 <th>Maturity Score</th>
+                <th>6-D Scorecard</th>
+                <th>Security &amp; Fitness</th>
             </tr>
         </thead>
         <tbody>
             {sortedOrgs.length === 0 ? (
                 <tr>
-                    <td colspan="6" class="m3-empty-row">
+                    <td colspan="8" class="m3-empty-row">
                         No organization benchmarks available yet.
                     </td>
                 </tr>
@@ -46,6 +52,8 @@ const getScoreBadgeClass = (score: number) => {
                 sortedOrgs.map((org, index) => {
                     const pct = Math.round(org.pipeline_coverage_pct);
                     const score = Math.round(org.maturity_score);
+                    const hasSc = typeof org.avg_scorecard === 'number';
+                    const hasSec = org.open_cves !== null && org.open_cves !== undefined;
 
                     return (
                         <tr>
@@ -76,6 +84,26 @@ const getScoreBadgeClass = (score: number) => {
                                 <span class={`m3-chip ${getScoreBadgeClass(score)}`}>
                                     {score} / 100
                                 </span>
+                            </td>
+                            <td>
+                                {hasSc ? (
+                                    <span
+                                        class={`m3-chip ${getScoreBadgeClass(org.avg_scorecard || 0)}`}
+                                    >
+                                        Grade {org.avg_grade || '?'} ({org.avg_scorecard})
+                                    </span>
+                                ) : (
+                                    <span class="m3-empty-cell">—</span>
+                                )}
+                            </td>
+                            <td class="m3-numeric-cell">
+                                {hasSec ? (
+                                    <span>
+                                        {org.open_cves} CVE · {org.fitness_alerts ?? 0} Rule
+                                    </span>
+                                ) : (
+                                    <span class="m3-empty-cell">—</span>
+                                )}
                             </td>
                         </tr>
                     );
@@ -143,6 +171,12 @@ const getScoreBadgeClass = (score: number) => {
         height: 100%;
         background-color: var(--md-sys-color-primary);
         border-radius: var(--md-sys-shape-corner-full);
+    }
+
+    .m3-empty-cell {
+        color: var(--md-sys-color-on-surface-variant);
+        font-family: var(--md-ref-typeface-mono);
+        opacity: 0.7;
     }
 
     .m3-empty-row {

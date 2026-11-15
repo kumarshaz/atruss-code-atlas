@@ -101,7 +101,7 @@ def test_monorepo_module_detection():
 
 
 def test_policy_as_code_custom_yaml_manifest(tmp_path: Path):
-    """Verify FR-001: adding a framework rule in YAML changes classification with zero Python edits."""
+    """Verify FR-001: adding a framework rule in YAML works with zero Python edits."""
     custom_manifest = tmp_path / "custom_ecosystems.yaml"
     custom_manifest.write_text(
         """

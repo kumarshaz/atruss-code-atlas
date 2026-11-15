@@ -1,3 +1,4 @@
+import os
 from collections.abc import Iterable
 from pathlib import Path
 
@@ -16,21 +17,22 @@ SKIP_DIRS = frozenset({
     ".astro",
     ".pytest_cache",
     ".ruff_cache",
+    "vendor",
 })
 
 
 def iter_source_files(root_dir: Path, extensions: Iterable[str]) -> list[Path]:
-    """Enumerate source files matching extensions while skipping build/vendor dirs."""
+    """Enumerate source files matching extensions while pruning build/vendor/git dirs."""
     ext_set = {e.lower() for e in extensions}
     matched: list[Path] = []
-    for path in root_dir.rglob("*"):
-        if not path.is_file():
-            continue
-        if any(part in SKIP_DIRS for part in path.relative_to(root_dir).parts):
-            continue
-        if path.suffix.lower() in ext_set:
-            matched.append(path)
-    return sorted(matched, key=lambda p: str(p.relative_to(root_dir)))
+    for root, dirnames, filenames in os.walk(root_dir):
+        dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS)
+        root_path = Path(root)
+        for fname in sorted(filenames):
+            fpath = root_path / fname
+            if fpath.suffix.lower() in ext_set:
+                matched.append(fpath)
+    return matched
 
 
 def compute_text_loc_metrics(

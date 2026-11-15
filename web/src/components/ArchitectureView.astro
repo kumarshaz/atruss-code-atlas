@@ -13,12 +13,13 @@ const { repo_name, org } = Astro.props;
 
 const mdModules = import.meta.glob('../data/latest/reports/*-report.md', { eager: true });
 const orgRepoMatch = `${org}-${repo_name}-report.md`.toLowerCase();
+const localRepoMatch = `local-${repo_name}-report.md`.toLowerCase();
 const plainRepoMatch = `${repo_name}-report.md`.toLowerCase();
 
 let Content: any = null;
 for (const [modPath, mod] of Object.entries(mdModules)) {
     const fileName = (modPath.split('/').pop() || '').toLowerCase();
-    if (fileName === orgRepoMatch || fileName === plainRepoMatch) {
+    if (fileName === orgRepoMatch || fileName === localRepoMatch || fileName === plainRepoMatch) {
         Content = (mod as any).Content;
         break;
     }
@@ -49,6 +50,11 @@ try {
 }
 
 const metrics = analysisJson?.metrics || {};
+const scorecard = analysisJson?.scorecard || null;
+const osvVulns = Array.isArray(analysisJson?.vulnerabilities) ? analysisJson.vulnerabilities : [];
+const fitnessViolations = Array.isArray(analysisJson?.fitness_violations)
+    ? analysisJson.fitness_violations
+    : [];
 const archComponents = Array.isArray(analysisJson?.architecture_components)
     ? analysisJson.architecture_components
     : [];
@@ -65,10 +71,11 @@ const jumpableNodes = Object.values(archTree.nodes)
         if (b.id === archTree.rootId) return 1;
         return b.totalComponents - a.totalComponents || a.path.localeCompare(b.path);
     });
+const repoSlug = `${org}-${repo_name}`;
 ---
 
 {Content || archTree.hasTree ? (
-    <div class="m3-architecture-wrap">
+    <div class="m3-architecture-wrap" data-repo-slug={repoSlug}>
         {analysisJson && (
             <div class="m3-arch-chips">
                 <span class="m3-chip m3-chip-tonal-primary">
@@ -97,6 +104,36 @@ const jumpableNodes = Object.values(archTree.nodes)
                         Avg CC: {metrics.avg_cyclomatic_complexity}
                     </span>
                 )}
+                {scorecard?.grade && (
+                    <span
+                        class={`m3-chip ${
+                            scorecard.grade === 'A' || scorecard.grade === 'B'
+                                ? 'm3-chip-tonal-success'
+                                : scorecard.grade === 'C'
+                                  ? 'm3-chip-tonal-warning'
+                                  : 'm3-chip-tonal-error'
+                        }`}
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">grade</span>
+                        Scorecard: {scorecard.grade} ({Math.round(scorecard.overall_score || 0)})
+                    </span>
+                )}
+                {analysisJson.dependencies && (
+                    <span
+                        class={`m3-chip ${osvVulns.length > 0 ? 'm3-chip-tonal-error' : 'm3-chip-tonal-success'}`}
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">bug_report</span>
+                        {osvVulns.length} OSV CVE(s)
+                    </span>
+                )}
+                {analysisJson.fitness_violations !== undefined && (
+                    <span
+                        class={`m3-chip ${fitnessViolations.length > 0 ? 'm3-chip-tonal-warning' : 'm3-chip-tonal-success'}`}
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">rule</span>
+                        {fitnessViolations.length} Fitness Rule Alert(s)
+                    </span>
+                )}
             </div>
         )}
 
@@ -117,7 +154,7 @@ const jumpableNodes = Object.values(archTree.nodes)
                         <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
                         <h4>Top-Level Architecture Tree (TD)</h4>
                     </div>
-                    <div class="m3-zoom-controls" role="group" aria-label="Architecture tree zoom">
+                    <div class="m3-zoom-controls" role="group" aria-label="Architecture tree zoom and export">
                         <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                             <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
                         </button>
@@ -127,6 +164,12 @@ const jumpableNodes = Object.values(archTree.nodes)
                         </button>
                         <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                             <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+                            <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+                            <span class="material-symbols-outlined" aria-hidden="true">image</span>
                         </button>
                     </div>
                 </header>
@@ -184,7 +227,7 @@ const jumpableNodes = Object.values(archTree.nodes)
                         <span class="material-symbols-outlined" aria-hidden="true">architecture</span>
                         <h4>Arc42 Architecture &amp; Dependency Report</h4>
                     </div>
-                    <div class="m3-zoom-controls" role="group" aria-label="Architecture report zoom">
+                    <div class="m3-zoom-controls" role="group" aria-label="Architecture report zoom and export">
                         <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                             <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
                         </button>
@@ -194,6 +237,12 @@ const jumpableNodes = Object.values(archTree.nodes)
                         </button>
                         <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                             <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download Report Diagram SVG">
+                            <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                        </button>
+                        <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download Report Diagram PNG">
+                            <span class="material-symbols-outlined" aria-hidden="true">image</span>
                         </button>
                     </div>
                 </header>
@@ -214,6 +263,7 @@ const jumpableNodes = Object.values(archTree.nodes)
 <script>
     import {
         applyResponsiveSvgStyle,
+        bindDiagramExportButtons,
         bindDiagramZoom,
         renderMermaidSvg,
         repairVisibleMermaidBlocks,
@@ -317,6 +367,7 @@ const jumpableNodes = Object.values(archTree.nodes)
         updateArchNavigation(root, payload, activeNodeId);
 
         const graphDef = buildArchTreeGraph(payload, activeNodeId);
+        canvas.dataset.diagramSource = graphDef;
         try {
             const svg = await renderMermaidSvg('arch-tree', graphDef);
             canvas.innerHTML = svg;
@@ -342,6 +393,9 @@ const jumpableNodes = Object.values(archTree.nodes)
 
     function initArchitectureScope(scope: ParentNode = document, forceMarkdown = false): void {
         scope.querySelectorAll<HTMLElement>('[data-arch-root="true"]').forEach((root) => {
+            const wrap = root.closest<HTMLElement>('[data-repo-slug]');
+            const slug = wrap?.dataset.repoSlug || 'architecture';
+
             if (!root.dataset.archBound) {
                 root.dataset.archBound = 'true';
                 root.dataset.activeNode = 'root';
@@ -353,11 +407,34 @@ const jumpableNodes = Object.values(archTree.nodes)
                         renderArchTree(root);
                     });
                 }
+
+                const canvas = root.querySelector<HTMLElement>('[data-arch-canvas]');
+                bindDiagramExportButtons(root, {
+                    getSvgContainer: () => canvas,
+                    getSource: () => canvas?.dataset.diagramSource,
+                    filenameBase: `${slug}-arch-tree`,
+                });
             }
 
             if (!root.closest('[hidden]')) {
                 renderArchTree(root);
             }
+        });
+
+        scope.querySelectorAll<HTMLElement>('[data-arch-markdown="true"]').forEach((mdCard) => {
+            const wrap = mdCard.closest<HTMLElement>('[data-repo-slug]');
+            const slug = wrap?.dataset.repoSlug || 'architecture';
+            bindDiagramExportButtons(mdCard, {
+                getSvgContainer: () =>
+                    mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
+                    mdCard.querySelector<HTMLElement>('pre.mermaid'),
+                getSource: () =>
+                    (
+                        mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
+                        mdCard.querySelector<HTMLElement>('pre.mermaid')
+                    )?.getAttribute('data-diagram') || undefined,
+                filenameBase: `${slug}-arc42-diagram`,
+            });
         });
 
         repairVisibleMermaidBlocks(scope, forceMarkdown);

@@ -30,6 +30,12 @@ const filterChips = [
     { id: '.net', label: '.NET', icon: 'terminal', group: 'ecosystem' },
     { id: 'js_ts', label: 'JavaScript/TypeScript', icon: 'javascript', group: 'ecosystem' },
     { id: 'java', label: 'Java', icon: 'coffee', group: 'ecosystem' },
+    { id: 'go', label: 'Go', icon: 'bolt', group: 'ecosystem' },
+    { id: 'rust', label: 'Rust', icon: 'memory', group: 'ecosystem' },
+    { id: 'ruby', label: 'Ruby', icon: 'diamond', group: 'ecosystem' },
+    { id: 'php', label: 'PHP', icon: 'php', group: 'ecosystem' },
+    { id: 'elixir', label: 'Elixir', icon: 'science', group: 'ecosystem' },
+    { id: 'infra_devops', label: 'Container / Helm / IaC', icon: 'layers', group: 'ecosystem' },
     { id: 'tier_1', label: 'Tier 1', icon: 'star', group: 'signal' },
     { id: 'has_pipeline', label: 'Has Pipeline', icon: 'account_tree', group: 'signal' },
     { id: 'has_docker', label: 'Has Docker', icon: 'deployed_code', group: 'signal' },
@@ -116,6 +122,14 @@ const filterChips = [
                 return lang.includes('javascript') || lang.includes('typescript') || lang.includes('react');
             }
             if (filter === 'java') return lang === 'java' || lang.includes('spring');
+            if (filter === 'go') return lang === 'go' || lang.includes('golang');
+            if (filter === 'rust') return lang.includes('rust');
+            if (filter === 'ruby') return lang.includes('ruby');
+            if (filter === 'php') return lang.includes('php');
+            if (filter === 'elixir') return lang.includes('elixir');
+            if (filter === 'infra_devops') {
+                return lang.includes('container') || lang.includes('helm') || lang.includes('iac');
+            }
             return true;
         };
 

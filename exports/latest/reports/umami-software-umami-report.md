@@ -10,13 +10,24 @@ description: Arc42 and Pipeline report for umami-software/umami
 - **Primary Ecosystem**: JavaScript/TypeScript
 
 ## Quality Metrics
-- **avg_cyclomatic_complexity**: 21.24
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 2.73
+- **avg_cyclomatic_complexity**: 3.2
 - **component_count**: 595
-- **files_analyzed**: 1610
+- **dead_code_count**: 6
+- **dead_code_symbols**: 6 entry(ies)
+- **duplication_pct**: 90.05
+- **file_complexities**: 25 entry(ies)
+- **files_analyzed**: 1519
+- **fitness_passed**: False
+- **fitness_violation_count**: 3
 - **framework**: Next.js
-- **loc**: 227333
-- **max_cyclomatic_complexity**: 488
-- **sloc**: 188689
+- **import_edges**: 100 entry(ies)
+- **loc**: 183598
+- **max_cognitive_complexity**: 100
+- **max_cyclomatic_complexity**: 104
+- **sloc**: 157312
+- **test_file_count**: 254
 
 # Architecture: umami-software/umami
 
@@ -24,7 +35,7 @@ description: Arc42 and Pipeline report for umami-software/umami
 - **Repository**: `umami-software/umami`
 - **SHA**: `b18d5144dfe7342edeeca6f61d13ba3baabed9ad`
 - **Ecosystem**: JavaScript/TypeScript
-- **Framework**: Unknown
+- **Framework**: Next.js
 
 ## Building Block View
 
@@ -121,10 +132,139 @@ Showing top 60 representative components out of 595 across 5 module group(s):
 - **AdminWebsitesDataTable** (`src/app/(main)/admin/websites/AdminWebsitesDataTable.tsx`): UI_COMPONENT (deps: AdminWebsitesTable)
 - **AdminWebsitesPage** (`src/app/(main)/admin/websites/AdminWebsitesPage.tsx`): UI_COMPONENT (deps: AdminWebsitesDataTable)
 
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `F` (45.24/100)
+- **Technical Debt Score**: 54.76
+- **Estimated Remediation Effort**: 91.20h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `F` | 37.20 | 0.20 | avg_cc=3.20, max_cc=104, duplication=90.05%, dead_code=6 |
+| Dependency Health | `A` | 100.00 | 0.15 | dependencies=1270, outdated=0, vulnerable=0, has_lockfile=True |
+| Maintainability | `F` | 37.00 | 0.15 | avg_cognitive=2.73, max_cognitive=100, fitness_violations=3, oversized_files=9 |
+| Pipeline Health | `F` | 45.00 | 0.15 | workflows=5, operational_antipatterns=7, parallel_branches=False |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=0, secrets=8, pipeline_security_findings=11 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (90.05) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (100.0) exceeds policy threshold (25.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (104.0) exceeds policy threshold (20.0).
+
+### Workspace Packages
+- **@umami/api-client** (`packages/api-client`, react_ts_js, pnpm)
+- **@umami/mcp** (`packages/mcp`, react_ts_js, pnpm) -> internal deps: `@umami/api-client`
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 1270 | **Vulnerabilities**: 0 | **Secrets**: 8
+
+### Secret Findings (Redacted)
+- **[HIGH] `ATRUSS-SEC-005`** at `public/intl/messages/ja-JP.json:483` (`"password-change-required": "アカウン***REDACTED***",`)
+- **[HIGH] `ATRUSS-SEC-005`** at `public/intl/messages/ja-JP.json:535` (`"api-key-created": "今すぐA***REDACTED***",`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/auth.test.ts:112` (`const API_KEY = 'umam***REDACTED***';`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/auth.test.ts:305` (`const systemUserPasswordHash = '$2b$***REDACTED***';`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/password.test.ts:42` (`password: '$2b$***REDACTED***',`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/password.test.ts:56` (`password: '$2b$***REDACTED***',`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/password.test.ts:69` (`password: '$2b$***REDACTED***',`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/lib/password.ts:5` (`const SYSTEM_USER_PASSWORD_HASH = '$2b$***REDACTED***';`)
+
+### Inventory Sample
+- `@biomejs/biome` `2.5.15` (npm, `package.json`)
+- `@biomejs/biome` `2.5.15` (npm, `pnpm-lock.yaml`)
+- `@clickhouse/client` `1.24.0` (npm, `package.json`)
+- `@clickhouse/client` `1.24.0` (npm, `pnpm-lock.yaml`)
+- `@dicebear/core` `10.7.0` (npm, `package.json`)
+- `@dicebear/core` `10.7.0` (npm, `pnpm-lock.yaml`)
+- `@dicebear/styles` `10.6.0` (npm, `package.json`)
+- `@dicebear/styles` `10.6.0` (npm, `pnpm-lock.yaml`)
+- `@eloqnt/cli` `0.6.33` (npm, `package.json`)
+- `@eloqnt/cli` `0.6.33` (npm, `pnpm-lock.yaml`)
+- `@modelcontextprotocol/client` `2.3.1` (npm, `packages/mcp/package.json`)
+- `@modelcontextprotocol/client` `2.3.1` (npm, `pnpm-lock.yaml`)
+- `@modelcontextprotocol/server` `2.3.1` (npm, `packages/mcp/package.json`)
+- `@modelcontextprotocol/server` `2.3.1` (npm, `pnpm-lock.yaml`)
+- `@netlify/plugin-nextjs` `5.16.2` (npm, `package.json`)
+- `@netlify/plugin-nextjs` `5.16.2` (npm, `pnpm-lock.yaml`)
+- `@playwright/test` `1.64.0` (npm, `package.json`)
+- `@playwright/test` `1.64.0` (npm, `pnpm-lock.yaml`)
+- `@prisma/adapter-pg` `7.10.0` (npm, `package.json`)
+- `@prisma/adapter-pg` `7.10.0` (npm, `pnpm-lock.yaml`)
+- `@prisma/client` `7.10.0` (npm, `package.json`)
+- `@prisma/client` `7.10.0` (npm, `pnpm-lock.yaml`)
+- `@prisma/extension-read-replicas` `0.5.0` (npm, `package.json`)
+- `@prisma/extension-read-replicas` `0.5.0` (npm, `pnpm-lock.yaml`)
+- `@rollup/plugin-commonjs` `29.0.3` (npm, `package.json`)
+- `@rollup/plugin-commonjs` `29.0.3` (npm, `pnpm-lock.yaml`)
+- `@rollup/plugin-node-resolve` `16.0.3` (npm, `package.json`)
+- `@rollup/plugin-node-resolve` `16.0.3` (npm, `pnpm-lock.yaml`)
+- `@rollup/plugin-replace` `6.0.3` (npm, `package.json`)
+- `@rollup/plugin-replace` `6.0.3` (npm, `pnpm-lock.yaml`)
+- ... (+1240 more dependencies)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    subgraph code_modules["Code Modules"]
+        mod_dab63c58_8946_4403_99d0_662136976d46["dab63c58-8946-4403-99d0-662136976d46"]
+        mod_packages_api_client["packages/api-client"]
+        mod_packages_mcp["packages/mcp"]
+        mod_tests_api["tests/api"]
+    end
+    subgraph build_artifacts["Build Artifacts / Containers"]
+        art_Dockerfile["Dockerfile"]
+        art_docker_compose_test_yml["docker-compose.test.yml"]
+        art_docker_compose_yml["docker-compose.yml"]
+    end
+    subgraph ci_jobs["CI/CD Jobs"]
+        job_cd_yml_build["cd.yml#build"]
+    end
+    mod_dab63c58_8946_4403_99d0_662136976d46 -->|DEPLOYED_BY| job_cd_yml_build
+    mod_dab63c58_8946_4403_99d0_662136976d46 -->|PACKAGED_BY| art_Dockerfile
+    mod_dab63c58_8946_4403_99d0_662136976d46 -->|PACKAGED_BY| art_docker_compose_test_yml
+    mod_dab63c58_8946_4403_99d0_662136976d46 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_packages_api_client -->|PACKAGED_BY| art_Dockerfile
+    mod_packages_mcp -->|PACKAGED_BY| art_Dockerfile
+    mod_tests_api -->|PACKAGED_BY| art_Dockerfile
+    mod_tests_api -->|PACKAGED_BY| art_docker_compose_test_yml
+    mod_tests_api -->|PACKAGED_BY| art_docker_compose_yml
+    art_Dockerfile -->|BUILT_BY| job_cd_yml_build
+```
+
+- `dab63c58-8946-4403-99d0-662136976d46` (code_module) --[DEPLOYED_BY]--> `cd.yml#build` (ci_job)
+- `dab63c58-8946-4403-99d0-662136976d46` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `dab63c58-8946-4403-99d0-662136976d46` (code_module) --[PACKAGED_BY]--> `docker-compose.test.yml` (container)
+- `dab63c58-8946-4403-99d0-662136976d46` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `packages/api-client` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `packages/mcp` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `tests/api` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `tests/api` (code_module) --[PACKAGED_BY]--> `docker-compose.test.yml` (container)
+- `tests/api` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `Dockerfile` (container) --[BUILT_BY]--> `cd.yml#build` (ci_job)
+
 
 ## CI/CD Pipeline Topology
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  pipeline_root(["umami-software/umami (5 workflows)"])
+  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+  pipeline_root --> grp_0_CI___Verification
+  wf_0_Create_docker_images__cloud_["Create docker images (cloud) (1 jobs)"]
+  grp_0_CI___Verification --> wf_0_Create_docker_images__cloud_
+  wf_2_Node_js_CI["Node.js CI (1 jobs)"]
+  grp_0_CI___Verification --> wf_2_Node_js_CI
+  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+  pipeline_root --> grp_1_Scheduled___Manual
+  wf_1_Create_docker_images["Create docker images (1 jobs)"]
+  grp_1_Scheduled___Manual --> wf_1_Create_docker_images
+  wf_3_Gitleaks["Gitleaks (1 jobs)"]
+  grp_1_Scheduled___Manual --> wf_3_Gitleaks
+  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+  pipeline_root --> grp_2_Security___Governance
+  wf_4_Close_stale_issues["Close stale issues (1 jobs)"]
+  grp_2_Security___Governance --> wf_4_Close_stale_issues
 ```

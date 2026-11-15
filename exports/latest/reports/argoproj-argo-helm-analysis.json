@@ -1,0 +1,3640 @@
+{
+  "repository": "argoproj/argo-helm",
+  "sha": "c947077fd0de0259fc932f996a4e4acb6763b926",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 302,
+    "loc": 92035,
+    "sloc": 86288,
+    "component_count": 297,
+    "avg_cyclomatic_complexity": 3.78,
+    "max_cyclomatic_complexity": 11,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 3.89,
+    "max_cognitive_complexity": 16,
+    "duplication_pct": 0.21,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [
+      {
+        "file": "scripts/release-analysis/merge_csvs.py",
+        "loc": 108,
+        "cyclomatic": 12,
+        "cognitive": 16
+      },
+      {
+        "file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "loc": 90,
+        "cyclomatic": 9,
+        "cognitive": 8
+      },
+      {
+        "file": "scripts/release-analysis/plot_graph.py",
+        "loc": 58,
+        "cyclomatic": 7,
+        "cognitive": 6
+      },
+      {
+        "file": "scripts/release-analysis/fetch_releases.py",
+        "loc": 57,
+        "cyclomatic": 6,
+        "cognitive": 4
+      },
+      {
+        "file": "scripts/release-analysis/main.py",
+        "loc": 31,
+        "cyclomatic": 2,
+        "cognitive": 1
+      }
+    ],
+    "import_edges": [
+      {
+        "source_file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "target_symbol": "csv",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "target_symbol": "datetime",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "target_symbol": "fetch_all_releases",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_helmet_releases.py",
+        "target_symbol": "requests",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_releases.py",
+        "target_symbol": "csv",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_releases.py",
+        "target_symbol": "datetime",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_releases.py",
+        "target_symbol": "fetch_all_releases",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_releases.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/fetch_releases.py",
+        "target_symbol": "requests",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/main.py",
+        "target_symbol": "fetch_and_write_helmet_releases",
+        "confidence": 1.0
+      },
+      {
+        "source_file": "scripts/release-analysis/main.py",
+        "target_symbol": "fetch_and_write_releases",
+        "confidence": 1.0
+      },
+      {
+        "source_file": "scripts/release-analysis/main.py",
+        "target_symbol": "merge_csv_files",
+        "confidence": 1.0
+      },
+      {
+        "source_file": "scripts/release-analysis/main.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/main.py",
+        "target_symbol": "plot_time_difference",
+        "confidence": 1.0
+      },
+      {
+        "source_file": "scripts/release-analysis/merge_csvs.py",
+        "target_symbol": "csv",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/merge_csvs.py",
+        "target_symbol": "datetime",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/plot_graph.py",
+        "target_symbol": "csv",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/plot_graph.py",
+        "target_symbol": "pyplot",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "scripts/release-analysis/plot_graph.py",
+        "target_symbol": "version",
+        "confidence": 0.5
+      }
+    ],
+    "framework": "Unknown",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "actions-lint.yaml",
+      "path": ".github/workflows/actions-lint.yaml",
+      "name": "Actions Lint",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "actionlint": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run actionlint",
+              "env": {
+                "SHELLCHECK_OPTS": "-S warning"
+              },
+              "run": "bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash) 1.7.12\n./actionlint -color\n"
+            }
+          ]
+        },
+        "shellcheck": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run shellcheck on repo scripts",
+              "run": "shellcheck -S warning scripts/*.sh"
+            }
+          ]
+        },
+        "zizmor": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run zizmor",
+              "uses": "zizmorcore/zizmor-action@53290badfa369cb0bf7ad16342cb62c2fa47ac7b",
+              "with": {
+                "inputs": ".github/workflows/",
+                "advanced-security": false,
+                "version": "1.30.1"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "actionlint",
+          "name": "actionlint",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "shellcheck",
+          "name": "shellcheck",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "zizmor",
+          "name": "zizmor",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'actionlint' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'actionlint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/actions-lint.yaml",
+          "start_line": 24,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/actions-lint.yaml",
+          "start_line": 46,
+          "end_line": 60,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/actions-lint.yaml",
+          "start_line": 62,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "actionlint": 0.0,
+          "shellcheck": 0.0,
+          "zizmor": 0.0
+        },
+        "pagerank": {
+          "actionlint": 0.333333,
+          "shellcheck": 0.333333,
+          "zizmor": 0.333333
+        },
+        "downstream_impact": {
+          "actionlint": [],
+          "shellcheck": [],
+          "zizmor": []
+        },
+        "critical_nodes": [
+          "actionlint",
+          "shellcheck",
+          "zizmor"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "lint-and-test.yml",
+      "path": ".github/workflows/lint-and-test.yml",
+      "name": "Linting and Testing",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "linter-artifacthub": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Pull ah image",
+              "id": "ah",
+              "env": {
+                "AH_IMAGE": "ecr-public.aws.com/artifacthub/ah:v1.14.0@sha256:3773afcdeb5662c31576f1a9a0ee10bced7af2e80842ca06a186a50497e149a5"
+              },
+              "run": "echo \"image=$(./scripts/ci-pull-image.sh \"${AH_IMAGE}\")\" >> \"${GITHUB_OUTPUT}\""
+            },
+            {
+              "name": "Run ah lint",
+              "env": {
+                "AH_IMAGE": "${{ steps.ah.outputs.image }}"
+              },
+              "run": "docker run --rm --user 1001 --volume \"${GITHUB_WORKSPACE}:/work:ro\" --workdir /work/charts \"${AH_IMAGE}\" ah lint"
+            }
+          ]
+        },
+        "chart-test": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Set up Helm",
+              "uses": "azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310",
+              "with": {
+                "version": "v4.2.3"
+              }
+            },
+            {
+              "name": "Verify subchart digests",
+              "run": "set -euo pipefail\nhelm repo add dandydeveloper https://dandydeveloper.github.io/charts/\nfor chart in charts/*/; do\n  helm dependency build \"${chart}\"\ndone\n./scripts/verify-chart-dependencies.sh\n"
+            },
+            {
+              "name": "Set up python",
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "3.13"
+              }
+            },
+            {
+              "name": "Setup Chart Linting",
+              "id": "lint",
+              "uses": "helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510",
+              "with": {
+                "version": "v3.14.0"
+              }
+            },
+            {
+              "name": "List changed charts",
+              "id": "list-changed",
+              "run": "## If executed with debug this won't work anymore.\nchanged=$(ct --config ./.github/configs/ct-lint.yaml list-changed)\ncharts=$(echo \"$changed\" | tr '\\n' ' ' | xargs)\nif [[ -n \"$changed\" ]]; then\n  echo \"changed=true\" >> $GITHUB_OUTPUT\n  echo \"changed_charts=$charts\" >> $GITHUB_OUTPUT\nfi\n"
+            },
+            {
+              "name": "Run chart-testing (lint)",
+              "run": "ct lint --debug --config ./.github/configs/ct-lint.yaml --lint-conf ./.github/configs/lintconf.yaml"
+            },
+            {
+              "name": "Check change fragments",
+              "run": "./scripts/lint-changelog.sh"
+            },
+            {
+              "name": "Run docs-testing (helm-docs)",
+              "id": "helm-docs",
+              "run": "./scripts/helm-docs.sh\nif [[ $(git diff --stat) != '' ]]; then\n  echo -e '\\033[0;31mDocumentation outdated!\\033[0m ❌'\n  git diff --color\n  exit 1\nelse\n  echo -e '\\033[0;32mDocumentation up to date\\033[0m ✔'\nfi\n"
+            },
+            {
+              "name": "Create kind cluster",
+              "uses": "helm/kind-action@1544676c07bb3570fcb70166beaa07c4528fd4aa",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "with": {
+                "config": ".github/configs/kind-config.yaml"
+              }
+            },
+            {
+              "name": "Preload ECR Public images into kind",
+              "if": "steps.list-changed.outputs.changed == 'true' &&\ncontains(steps.list-changed.outputs.changed_charts, 'argo-cd')\n",
+              "run": "./scripts/ci-preload-images.sh chart-testing"
+            },
+            {
+              "name": "Deploy latest ArgoCD CRDs when testing ArgoCD extensions",
+              "if": "contains(steps.list-changed.outputs.changed_charts, 'argocd-image-updater') ||\ncontains(steps.list-changed.outputs.changed_charts, 'argocd-apps')\n",
+              "run": "helm repo add dandydeveloper https://dandydeveloper.github.io/charts/\nhelm dependency build charts/argo-cd/\nhelm template charts/argo-cd/ --set server.extensions.enabled=true -s templates/crds/* | kubectl apply --server-side=true -f -\n"
+            },
+            {
+              "name": "Skip HPA tests of ArgoCD",
+              "if": "contains(steps.list-changed.outputs.changed_charts, 'argo-cd')",
+              "run": "## Metrics API not available in kind cluster\nrm charts/argo-cd/ci/ha-autoscaling-values.yaml\n"
+            },
+            {
+              "name": "Skip VPA tests of ArgoCD",
+              "if": "contains(steps.list-changed.outputs.changed_charts, 'argo-cd')",
+              "run": "## VPA CRDs not available in kind cluster\nrm charts/argo-cd/ci/vpa-values.yaml\n"
+            },
+            {
+              "name": "Create an external redis for ArgoCD externalRedis feature",
+              "if": "contains(steps.list-changed.outputs.changed_charts, 'argo-cd')",
+              "run": "kubectl apply -f ./.github/configs/external-redis.yaml\n"
+            },
+            {
+              "name": "Install Gateway API CRDs for ListenerSet testing",
+              "if": "contains(steps.list-changed.outputs.changed_charts, 'argo-cd')",
+              "run": "kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.0/experimental-install.yaml\n"
+            },
+            {
+              "name": "Run chart-testing (install)",
+              "run": "ct install --config ./.github/configs/ct-install.yaml",
+              "if": "steps.list-changed.outputs.changed == 'true'"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "linter-artifacthub",
+          "name": "linter-artifacthub",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "chart-test",
+          "name": "chart-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 18,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'chart-test' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[LOW] NO_TIMEOUT: Job 'linter-artifacthub' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'chart-test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'chart-test' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-and-test.yml",
+          "start_line": 35,
+          "end_line": 151,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-and-test.yml",
+          "start_line": 35,
+          "end_line": 151,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'linter-artifacthub' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-and-test.yml",
+          "start_line": 8,
+          "end_line": 33,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'chart-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-and-test.yml",
+          "start_line": 35,
+          "end_line": 151,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "chart-test": 0.0,
+          "linter-artifacthub": 0.0
+        },
+        "pagerank": {
+          "chart-test": 0.5,
+          "linter-artifacthub": 0.5
+        },
+        "downstream_impact": {
+          "chart-test": [],
+          "linter-artifacthub": []
+        },
+        "critical_nodes": [
+          "chart-test",
+          "linter-artifacthub"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pr-lifecycle.yml",
+      "path": ".github/workflows/pr-lifecycle.yml",
+      "name": "PR Lifecycle",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": {
+        "lifecycle": {
+          "if": "github.event.workflow_run.event == 'pull_request'",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "id-token": "write",
+            "contents": "read"
+          },
+          "concurrency": {
+            "group": "pr-lifecycle-${{ github.event.workflow_run.head_sha }}",
+            "cancel-in-progress": false
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Get octo-sts token",
+              "id": "sts",
+              "uses": "octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05",
+              "with": {
+                "scope": "argoproj/argo-helm",
+                "identity": "pr-lifecycle"
+              }
+            },
+            {
+              "name": "Reconcile PR draft state with check outcome",
+              "env": {
+                "GH_TOKEN": "${{ steps.sts.outputs.token }}",
+                "HEAD_SHA": "${{ github.event.workflow_run.head_sha }}",
+                "CONCLUSION": "${{ github.event.workflow_run.conclusion }}",
+                "MARKER_LABEL": "auto-drafted-ci-failed"
+              },
+              "run": "set -euo pipefail\n# workflow_run payloads omit PR refs for fork PRs, and the\n# commits/{sha}/pulls endpoint returns an empty list for fork PRs\n# under the app token (observed live in run 35081347892), so match\n# the head SHA against the open PR list instead.\npr_json=$(gh api \"repos/argoproj/argo-helm/pulls?state=open&per_page=100\" --paginate             --jq '[.[] | select(.head.sha == env.HEAD_SHA)] | first')\nif [ -z \"${pr_json}\" ] || [ \"${pr_json}\" = \"null\" ]; then\n  echo \"No open PR with current head ${HEAD_SHA}; stale run or PR closed. Nothing to do.\"; exit 0\nfi\npr=$(echo \"${pr_json}\" | jq -r .number)\nauthor=$(echo \"${pr_json}\" | jq -r .user.login)\nis_draft=$(echo \"${pr_json}\" | jq -r .draft)\nnode_id=$(echo \"${pr_json}\" | jq -r .node_id)\nhas_label=$(echo \"${pr_json}\" | jq -r --arg l \"${MARKER_LABEL}\" '[.labels[].name] | contains([$l])')\n\ncase \"${author}\" in\n  *\"[bot]\") echo \"Bot-authored PR #${pr}; skipping.\"; exit 0 ;;\nesac\n\nif [ \"${CONCLUSION}\" = \"failure\" ]; then\n  if [ \"${is_draft}\" = \"true\" ]; then\n    echo \"PR #${pr} already draft; nothing to do.\"; exit 0\n  fi\n  # Draft at most once per head SHA: a hidden marker comment records it.\n  if gh api \"repos/argoproj/argo-helm/issues/${pr}/comments\" --paginate \\\n       --jq '.[].body' | grep -q \"pr-lifecycle:drafted:${HEAD_SHA}\"; then\n    echo \"Already drafted once for ${HEAD_SHA}; respecting the author's ready state.\"; exit 0\n  fi\n  # shellcheck disable=SC2016 # $id is a GraphQL variable substituted server-side by gh, not a shell expansion\ngh api graphql -f query='mutation($id: ID!) { convertPullRequestToDraft(input: {pullRequestId: $id}) { pullRequest { isDraft } } }' -f id=\"${node_id}\"\n  gh api \"repos/argoproj/argo-helm/issues/${pr}/labels\" -f \"labels[]=${MARKER_LABEL}\"\n  gh api \"repos/argoproj/argo-helm/issues/${pr}/comments\" -f body=\"$(printf '<!-- pr-lifecycle:drafted:%s -->\\nRequired checks failed, so this PR was converted to a draft to keep the review queue green. Push a fix (the PR returns to ready automatically when checks pass) or mark it ready yourself to discuss as is. Details: the failing run is linked in the checks tab.' \"${HEAD_SHA}\")\"\n  echo \"Drafted PR #${pr}.\"\nelif [ \"${CONCLUSION}\" = \"success\" ]; then\n  if [ \"${has_label}\" != \"true\" ]; then\n    echo \"PR #${pr} was not auto-drafted; leaving state alone.\"; exit 0\n  fi\n  # shellcheck disable=SC2016 # $id is a GraphQL variable substituted server-side by gh, not a shell expansion\ngh api graphql -f query='mutation($id: ID!) { markPullRequestReadyForReview(input: {pullRequestId: $id}) { pullRequest { isDraft } } }' -f id=\"${node_id}\"\n  gh api -X DELETE \"repos/argoproj/argo-helm/issues/${pr}/labels/${MARKER_LABEL}\"\n  echo \"PR #${pr} back to ready.\"\nelse\n  echo \"Conclusion ${CONCLUSION}; nothing to do.\"\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "lifecycle",
+          "name": "lifecycle",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'lifecycle' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lifecycle' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-lifecycle.yml",
+          "start_line": 15,
+          "end_line": 87,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": "Linting and Testing",
+          "source_job": "",
+          "target_workflow": ".github/workflows/pr-lifecycle.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lifecycle": 0.0
+        },
+        "pagerank": {
+          "lifecycle": 1.0
+        },
+        "downstream_impact": {
+          "lifecycle": []
+        },
+        "critical_nodes": [
+          "lifecycle"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pr-sizing.yml",
+      "path": ".github/workflows/pr-sizing.yml",
+      "name": "PR Labeling",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": {
+        "triage": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "uses": "actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13",
+              "with": {
+                "configuration-path": ".github/configs/labeler.yaml",
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}",
+                "sync-labels": true
+              }
+            }
+          ]
+        },
+        "size-label": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "uses": "pascalgn/size-label-action@56b489b027932ec0cf60438a1a5f1a19c8fc71ff",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "triage",
+          "name": "triage",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "size-label",
+          "name": "size-label",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'size-label' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-sizing.yml",
+          "start_line": 14,
+          "end_line": 29,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'size-label' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-sizing.yml",
+          "start_line": 31,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "size-label": 0.0,
+          "triage": 0.0
+        },
+        "pagerank": {
+          "size-label": 0.5,
+          "triage": 0.5
+        },
+        "downstream_impact": {
+          "size-label": [],
+          "triage": []
+        },
+        "critical_nodes": [
+          "size-label",
+          "triage"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pr-title.yml",
+      "path": ".github/workflows/pr-title.yml",
+      "name": "Lint PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": {
+        "main": {
+          "permissions": {
+            "pull-requests": "read",
+            "statuses": "write"
+          },
+          "name": "Validate PR title",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "uses": "amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "with": {
+                "scopes": "argo-cd\nargo-events\nargo-rollouts\nargo-workflows\nargocd-image-updater\nargocd-apps\nconfig\ndeps\ngithub\n",
+                "requireScope": true
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "main",
+          "name": "Validate PR title",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'main' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'main' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-title.yml",
+          "start_line": 14,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "main": 0.0
+        },
+        "pagerank": {
+          "main": 1.0
+        },
+        "downstream_impact": {
+          "main": []
+        },
+        "critical_nodes": [
+          "main"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "publish-results.yml",
+      "path": ".github/workflows/publish-results.yml",
+      "name": "Publish OSPS Baseline results",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "results": {
+          "if": "github.repository == 'argoproj/argo-helm'",
+          "permissions": {
+            "contents": "read",
+            "id-token": "write",
+            "security-events": "write"
+          },
+          "uses": "revanite-io/pvtr-publish-results/.github/workflows/publish.yml@v1",
+          "with": {
+            "target": "argo-helm/argo-helm@0.0.0",
+            "license": "CC0-1.0",
+            "dry-run": "${{ inputs.dry-run == true }}"
+          },
+          "secrets": {
+            "config": "targets:\n  argo-helm:\n    plugin: openssf/github-repo\n    policy:\n      catalogs:\n        - osps-baseline\n      applicability:\n        - maturity-3\n    vars:\n      owner: argoproj\n      repo: argo-helm\n      token: ${{ secrets.GITHUB_TOKEN }}\n"
+          }
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "results",
+          "name": "results",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'results' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-results.yml",
+          "start_line": 25,
+          "end_line": 58,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/publish-results.yml",
+          "source_job": "results",
+          "target_workflow": "revanite-io/pvtr-publish-results/.github/workflows/publish.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "results": 0.0
+        },
+        "pagerank": {
+          "results": 1.0
+        },
+        "downstream_impact": {
+          "results": []
+        },
+        "critical_nodes": [
+          "results"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "publish.yml",
+      "path": ".github/workflows/publish.yml",
+      "name": "Chart Publish",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "fold": {
+          "if": "github.repository == 'argoproj/argo-helm'",
+          "permissions": {
+            "contents": "read"
+          },
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "sha": "${{ steps.fold.outputs.sha }}",
+            "folded": "${{ steps.fold.outputs.folded }}"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "main",
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Fold change fragments",
+              "id": "fold",
+              "run": "set -euo pipefail\necho \"sha=$(git rev-parse HEAD)\" >> \"$GITHUB_OUTPUT\"\n./scripts/fold-changes.sh | tee \"${RUNNER_TEMP}/folded.txt\"\nif [[ -s \"${RUNNER_TEMP}/folded.txt\" ]]; then\n  echo \"folded=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"folded=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Get release App token",
+              "if": "steps.fold.outputs.folded == 'true'",
+              "id": "app-token",
+              "uses": "actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510",
+              "with": {
+                "client-id": "${{ vars.RELEASE_APP_CLIENT_ID }}",
+                "private-key": "${{ secrets.RELEASE_APP_PRIVATE_KEY }}",
+                "permission-contents": "write"
+              }
+            },
+            {
+              "name": "Push version bumps",
+              "if": "steps.fold.outputs.folded == 'true'",
+              "env": {
+                "GH_TOKEN": "${{ steps.app-token.outputs.token }}",
+                "APP_SLUG": "${{ steps.app-token.outputs.app-slug }}"
+              },
+              "run": "set -euo pipefail\nuser_id=$(gh api \"/users/${APP_SLUG}[bot]\" --jq .id)\ngit config user.name \"${APP_SLUG}[bot]\"\ngit config user.email \"${user_id}+${APP_SLUG}[bot]@users.noreply.github.com\"\ngit add -A charts\ngit commit -s -m \"chore(release): fold change fragments\" -m \"$(cat \"${RUNNER_TEMP}/folded.txt\")\"\nremote=\"https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git\"\n# A merge can land after checkout. If the rebase conflicts, that merge's own run folds again.\nfor _ in 1 2 3; do\n  git push \"${remote}\" HEAD:main && exit 0\n  git pull --rebase \"${remote}\" main\ndone\nexit 1\n"
+            }
+          ]
+        },
+        "package": {
+          "needs": "fold",
+          "if": "needs.fold.outputs.folded == 'false'",
+          "permissions": {
+            "contents": "read"
+          },
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "changed": "${{ steps.list-changed.outputs.changed }}"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ needs.fold.outputs.sha }}",
+                "fetch-depth": 0,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "List changed charts",
+              "id": "list-changed",
+              "run": "set -euo pipefail\ngit fetch --tags >/dev/null 2>&1 || true\nif ! latest_tag=$(git describe --tags --abbrev=0 HEAD~ 2>/dev/null); then\n  latest_tag=$(git rev-list --max-parents=0 --first-parent HEAD)\nfi\necho \"Discovering changed charts since '${latest_tag}'...\"\n\nchanged_charts=()\nwhile IFS= read -r chart; do\n  [[ -n \"${chart}\" && -d \"${chart}\" ]] || continue\n  if [[ -f \"${chart}/Chart.yaml\" ]]; then\n    changed_charts+=(\"${chart}\")\n  else\n    echo \"WARNING: ${chart}/Chart.yaml is missing, assuming that '${chart}' is not a Helm chart. Skipping.\" >&2\n  fi\ndone < <(git diff --find-renames --name-only \"${latest_tag}\" -- charts | cut -d '/' -f 1-2 | uniq)\n\nif [[ ${#changed_charts[@]} -eq 0 ]]; then\n  echo \"Nothing to do. No chart changes detected.\"\n  echo \"changed=false\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"Changed charts: ${changed_charts[*]}\"\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\n  echo \"charts=${changed_charts[*]}\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Install Helm",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "uses": "azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310",
+              "with": {
+                "version": "v4.2.3"
+              }
+            },
+            {
+              "name": "Add dependency chart repos",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "helm repo add dandydeveloper https://dandydeveloper.github.io/charts/\n"
+            },
+            {
+              "name": "Build chart dependencies",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "env": {
+                "CHARTS": "${{ steps.list-changed.outputs.charts }}"
+              },
+              "run": "set -euo pipefail\nread -ra charts <<< \"${CHARTS}\"\nfor chart in \"${charts[@]}\"; do\n  helm dependency build \"${chart}\"\ndone\n"
+            },
+            {
+              "name": "Verify subchart digests",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "env": {
+                "CHARTS": "${{ steps.list-changed.outputs.charts }}"
+              },
+              "run": "set -euo pipefail\nread -ra charts <<< \"${CHARTS}\"\n./scripts/verify-chart-dependencies.sh \"${charts[@]}\"\n"
+            },
+            {
+              "name": "Package and sign charts",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "env": {
+                "CHARTS": "${{ steps.list-changed.outputs.charts }}",
+                "PGP_PRIVATE_KEY": "${{ secrets.PGP_PRIVATE_KEY }}",
+                "PGP_PASSPHRASE": "${{ secrets.PGP_PASSPHRASE }}"
+              },
+              "run": "set -euo pipefail\nsigning_key=$(yq '.key' ./.github/configs/cr.yaml)\nif [[ -z \"${signing_key}\" || \"${signing_key}\" == \"null\" ]]; then\n  echo \"::error::No signing key name set in .github/configs/cr.yaml\"\n  exit 1\nfi\n\nkey_dir=\"${RUNNER_TEMP}/signing\"\ntrap 'rm -rf \"${key_dir}\"' EXIT\nmkdir -m 700 \"${key_dir}\"\nprintf '%s\\n' \"${PGP_PRIVATE_KEY}\" | gpg --dearmor > \"${key_dir}/secring.gpg\"\n# Only pass a passphrase file when the secret holds one: helm rejects\n# an empty passphrase file.\nsign_args=(--sign --key \"${signing_key}\" --keyring \"${key_dir}/secring.gpg\")\nif [[ -n \"${PGP_PASSPHRASE}\" ]]; then\n  printf '%s\\n' \"${PGP_PASSPHRASE}\" > \"${key_dir}/passphrase.txt\"\n  sign_args+=(--passphrase-file \"${key_dir}/passphrase.txt\")\nfi\n\nrm -rf .cr-release-packages\nmkdir -p .cr-release-packages\nread -ra charts <<< \"${CHARTS}\"\nfor chart in \"${charts[@]}\"; do\n  echo \"Packaging chart '${chart}'...\"\n  helm package \"${chart}\" \\\n    --destination .cr-release-packages \\\n    \"${sign_args[@]}\"\ndone\n"
+            },
+            {
+              "name": "Remove signing material",
+              "if": "always()",
+              "run": "rm -rf \"${RUNNER_TEMP}/signing\"\n"
+            },
+            {
+              "name": "Upload chart packages",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "with": {
+                "name": "chart-packages",
+                "path": ".cr-release-packages/",
+                "include-hidden-files": true,
+                "if-no-files-found": "error",
+                "retention-days": 1
+              }
+            }
+          ]
+        },
+        "release": {
+          "needs": [
+            "fold",
+            "package"
+          ],
+          "if": "needs.package.outputs.changed == 'true'",
+          "permissions": {
+            "contents": "write",
+            "packages": "write"
+          },
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ needs.fold.outputs.sha }}",
+                "fetch-depth": 0,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Install Helm",
+              "uses": "azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310",
+              "with": {
+                "version": "v4.2.3"
+              }
+            },
+            {
+              "name": "Configure Git",
+              "run": "git config user.name \"$GITHUB_ACTOR\"\ngit config user.email \"$GITHUB_ACTOR@users.noreply.github.com\"\n"
+            },
+            {
+              "name": "Fetch current Chart Index",
+              "run": "git checkout origin/gh-pages index.yaml\n"
+            },
+            {
+              "name": "Install chart-releaser",
+              "uses": "helm/chart-releaser-action@92c6b97fa9f664492a2592e0d1d80bc6bf378957",
+              "with": {
+                "install_only": true
+              }
+            },
+            {
+              "name": "Download chart packages",
+              "uses": "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "with": {
+                "name": "chart-packages",
+                "path": ".cr-release-packages"
+              }
+            },
+            {
+              "name": "Run chart-releaser",
+              "env": {
+                "CR_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "run": "set -euo pipefail\nowner=\"${GITHUB_REPOSITORY%%/*}\"\nrepo=\"${GITHUB_REPOSITORY#*/}\"\n\necho 'Releasing charts...'\ncr upload -o \"${owner}\" -r \"${repo}\" -c \"$(git rev-parse HEAD)\" --config ./.github/configs/cr.yaml\n\necho 'Updating charts repo index...'\ncr index -o \"${owner}\" -r \"${repo}\" --push --config ./.github/configs/cr.yaml\n"
+            },
+            {
+              "name": "Login to GHCR",
+              "uses": "docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Push chart to GHCR",
+              "env": {
+                "REPOSITORY": "${{ github.repository }}"
+              },
+              "run": "shopt -s nullglob\nfor pkg in .cr-release-packages/*.tgz; do\n  if [ -z \"${pkg:-}\" ]; then\n    break\n  fi\n  helm push \"${pkg}\" \"oci://ghcr.io/${REPOSITORY}\"\ndone\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "fold",
+          "name": "fold",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "package",
+          "name": "package",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "fold"
+          ],
+          "environment": null
+        },
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "fold",
+            "package"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'package' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[LOW] NO_TIMEOUT: Job 'fold' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'package' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'package' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 87,
+          "end_line": 226,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'release' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 228,
+          "end_line": 307,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'fold' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 25,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'package' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 87,
+          "end_line": 226,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish.yml",
+          "start_line": 228,
+          "end_line": 307,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "fold": 0.0,
+          "package": 0.0,
+          "release": 0.0
+        },
+        "pagerank": {
+          "fold": 0.19758,
+          "package": 0.281551,
+          "release": 0.520869
+        },
+        "downstream_impact": {
+          "fold": [
+            "package",
+            "release"
+          ],
+          "package": [
+            "release"
+          ],
+          "release": []
+        },
+        "critical_nodes": [
+          "release",
+          "package",
+          "fold"
+        ],
+        "max_blast_radius": 2
+      }
+    },
+    {
+      "id": "renovate.yaml",
+      "path": ".github/workflows/renovate.yaml",
+      "name": "Renovate",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "renovate": {
+          "if": "github.repository == 'argoproj/argo-helm'",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "id-token": "write",
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Get octo-sts token",
+              "id": "sts",
+              "uses": "octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05",
+              "with": {
+                "scope": "argoproj/argo-helm",
+                "identity": "renovate"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Self-hosted Renovate",
+              "uses": "renovatebot/github-action@266fef21329c44765ad42f9dea1f01f5d2d91084",
+              "with": {
+                "configurationFile": ".github/configs/renovate-config.js",
+                "renovate-version": "44.202.0",
+                "token": "${{ steps.sts.outputs.token }}",
+                "mount-docker-socket": true
+              },
+              "env": {
+                "LOG_LEVEL": "debug",
+                "RENOVATE_REPOSITORIES": "${{ github.repository }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "renovate",
+          "name": "renovate",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'renovate' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'renovate' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/renovate.yaml",
+          "start_line": 13,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "renovate": 0.0
+        },
+        "pagerank": {
+          "renovate": 1.0
+        },
+        "downstream_impact": {
+          "renovate": []
+        },
+        "critical_nodes": [
+          "renovate"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "scorecard.yml",
+      "path": ".github/workflows/scorecard.yml",
+      "name": "Scorecard supply-chain security",
+      "triggers": [
+        "branch_protection_rule",
+        "schedule",
+        "push"
+      ],
+      "jobs": {
+        "analysis": {
+          "if": "github.repository_owner == 'argoproj'",
+          "name": "Scorecard analysis",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "security-events": "write",
+            "id-token": "write"
+          },
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run analysis",
+              "uses": "ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e",
+              "with": {
+                "results_file": "results.sarif",
+                "results_format": "sarif",
+                "publish_results": true
+              }
+            },
+            {
+              "name": "Upload artifact",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "with": {
+                "name": "SARIF file",
+                "path": "results.sarif",
+                "retention-days": 5
+              }
+            },
+            {
+              "name": "Upload to code-scanning",
+              "uses": "github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+              "with": {
+                "sarif_file": "results.sarif"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "analysis",
+          "name": "Scorecard analysis",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'analysis' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analysis' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/scorecard.yml",
+          "start_line": 21,
+          "end_line": 78,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analysis": 0.0
+        },
+        "pagerank": {
+          "analysis": 1.0
+        },
+        "downstream_impact": {
+          "analysis": []
+        },
+        "critical_nodes": [
+          "analysis"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "stale.yml",
+      "path": ".github/workflows/stale.yml",
+      "name": "Mark stale issues and pull requests",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": {
+        "stale": {
+          "permissions": {
+            "contents": "read",
+            "issues": "write",
+            "pull-requests": "write"
+          },
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Harden the runner (Audit all outbound calls)",
+              "uses": "step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43",
+              "with": {
+                "egress-policy": "audit"
+              }
+            },
+            {
+              "uses": "actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93",
+              "with": {
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}",
+                "days-before-stale": 60,
+                "days-before-close": 7,
+                "exempt-issue-labels": "on-hold,pinned,security,awaiting-upstream,keep",
+                "exempt-pr-labels": "on-hold,pinned,security,awaiting-upstream,keep",
+                "stale-issue-message": "This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.\n",
+                "stale-pr-message": "This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.\n",
+                "stale-issue-label": "no-issue-activity",
+                "stale-pr-label": "no-pr-activity"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale.yml",
+          "start_line": 10,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argo-cd/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argo-cd/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "core-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/core-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "dynamic-sharding-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/dynamic-sharding-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "extension-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/extension-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "external-redis-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/external-redis-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-objects-map-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/extra-objects-map-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "grpcroute-empty-matches",
+      "type": "module",
+      "file": "charts/argo-cd/ci/grpcroute-empty-matches.yaml",
+      "line": 1
+    },
+    {
+      "name": "grpcroute-h2c-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/grpcroute-h2c-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "ha-autoscaling-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/ha-autoscaling-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "ha-static-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/ha-static-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute-empty-matches",
+      "type": "module",
+      "file": "charts/argo-cd/ci/httproute-empty-matches.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset-defaults-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/listenerset-defaults-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset-httproute-custom-listeners-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/listenerset-httproute-custom-listeners-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset-httproute-multi-listeners-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/listenerset-httproute-multi-listeners-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/listenerset-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "redis-tls-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/redis-tls-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/vpa-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "with-commit-server-values",
+      "type": "module",
+      "file": "charts/argo-cd/ci/with-commit-server-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "aggregate-roles",
+      "type": "module",
+      "file": "charts/argo-cd/templates/aggregate-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-manifests",
+      "type": "module",
+      "file": "charts/argo-cd/templates/extra-manifests.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy-default-deny",
+      "type": "module",
+      "file": "charts/argo-cd/templates/networkpolicy-default-deny.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "prometheusrule",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/prometheusrule.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "statefulset",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/statefulset.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-application-controller/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "certificate",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/certificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/httproute.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/listenerset.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-applicationset/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-commit-server/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-cmd-params-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-cmd-params-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-cmp-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-cmp-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-dex-server-tls-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-dex-server-tls-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-gpg-keys-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-gpg-keys-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-notifications-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-notifications-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-notifications-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-notifications-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-rbac-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-rbac-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-repo-server-tls-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-repo-server-tls-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-server-tls-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-server-tls-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-ssh-known-hosts-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-ssh-known-hosts-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-styles-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-styles-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "argocd-tls-certs-cm",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/argocd-tls-certs-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "cluster-secrets",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/cluster-secrets.yaml",
+      "line": 1
+    },
+    {
+      "name": "externalredis-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/externalredis-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "repository-credentials-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/repository-credentials-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "repository-secret",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-configs/repository-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-notifications/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "hpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-repo-server/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "backendtlspolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/backendtlspolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "certificate",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/certificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "grpcroute",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/grpcroute.yaml",
+      "line": 1
+    },
+    {
+      "name": "hpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/httproute.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-grpc",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/ingress-grpc.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "listenerset",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/listenerset.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/aws/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/aws/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "backendconfig",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/gke/backendconfig.yaml",
+      "line": 1
+    },
+    {
+      "name": "frontendconfig",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/gke/frontendconfig.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/gke/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "managedcertificate",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/gke/managedcertificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "route",
+      "type": "module",
+      "file": "charts/argo-cd/templates/argocd-server/openshift/route.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-application",
+      "type": "module",
+      "file": "charts/argo-cd/templates/crds/crd-application.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-applicationset",
+      "type": "module",
+      "file": "charts/argo-cd/templates/crds/crd-applicationset.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-appproject",
+      "type": "module",
+      "file": "charts/argo-cd/templates/crds/crd-appproject.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/dex/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "health-configmap",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/health-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "vpa",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis/vpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "job",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis-secret-init/job.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis-secret-init/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis-secret-init/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-cd/templates/redis-secret-init/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argo-events/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argo-events/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "test-values",
+      "type": "module",
+      "file": "charts/argo-events/ci/test-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "aggregate-roles",
+      "type": "module",
+      "file": "charts/argo-events/templates/aggregate-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-manifests",
+      "type": "module",
+      "file": "charts/argo-events/templates/extra-manifests.yaml",
+      "line": 1
+    },
+    {
+      "name": "config",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/config.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "rbac",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/rbac.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-controller/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-events/templates/argo-events-webhook/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "eventbus-crd",
+      "type": "module",
+      "file": "charts/argo-events/templates/crds/eventbus-crd.yml",
+      "line": 1
+    },
+    {
+      "name": "eventsources-crd",
+      "type": "module",
+      "file": "charts/argo-events/templates/crds/eventsources-crd.yml",
+      "line": 1
+    },
+    {
+      "name": "sensors-crd",
+      "type": "module",
+      "file": "charts/argo-events/templates/crds/sensors-crd.yml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argo-rollouts/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argo-rollouts/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/argo-rollouts/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-dashboard-values",
+      "type": "module",
+      "file": "charts/argo-rollouts/ci/enable-dashboard-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-extra-objects-values",
+      "type": "module",
+      "file": "charts/argo-rollouts/ci/enable-extra-objects-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "aggregate-roles",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/aggregate-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-manifests",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/extra-manifests.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics-service",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/metrics-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "notifications-configmap",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/notifications-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "notifications-secret",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/notifications-secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "poddisruptionbudget",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/poddisruptionbudget.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/controller/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "analysis-run-crd",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/crds/analysis-run-crd.yaml",
+      "line": 1
+    },
+    {
+      "name": "analysis-template-crd",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/crds/analysis-template-crd.yaml",
+      "line": 1
+    },
+    {
+      "name": "cluster-analysis-template-crd",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/crds/cluster-analysis-template-crd.yaml",
+      "line": 1
+    },
+    {
+      "name": "experiment-crd",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/crds/experiment-crd.yaml",
+      "line": 1
+    },
+    {
+      "name": "rollout-crd",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/crds/rollout-crd.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/httproute.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "poddisruptionbudget",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/poddisruptionbudget.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argo-rollouts/templates/dashboard/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argo-workflows/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argo-workflows/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "aa-minimal-crds-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/aa-minimal-crds-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-artifact-repo-ref",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-artifact-repo-ref.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-artifact-repo-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-artifact-repo-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-ingress-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-ingress-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-metrics-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-metrics-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-rbac-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-rbac-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-server-liveness-probe-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/enable-server-liveness-probe-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "ha-values",
+      "type": "module",
+      "file": "charts/argo-workflows/ci/ha-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_clusterworkflowtemplates",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_clusterworkflowtemplates.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_cronworkflows",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_cronworkflows.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workflowartifactgctasks",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workflowartifactgctasks.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workfloweventbindings",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workfloweventbindings.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workflows",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workflows.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workflowtaskresults",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workflowtaskresults.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workflowtasksets",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workflowtasksets.yaml",
+      "line": 1
+    },
+    {
+      "name": "argoproj.io_workflowtemplates",
+      "type": "module",
+      "file": "charts/argo-workflows/files/crds/minimal/argoproj.io_workflowtemplates.yaml",
+      "line": 1
+    },
+    {
+      "name": "crds-install-job",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/crds-install-job.yaml",
+      "line": 1
+    },
+    {
+      "name": "crds",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/crds.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-manifests",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/extra-manifests.yaml",
+      "line": 1
+    },
+    {
+      "name": "agent-rb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/agent-rb.yaml",
+      "line": 1
+    },
+    {
+      "name": "agent-role",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/agent-role.yaml",
+      "line": 1
+    },
+    {
+      "name": "artifact-gc-rb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/artifact-gc-rb.yaml",
+      "line": 1
+    },
+    {
+      "name": "artifact-gc-role",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/artifact-gc-role.yaml",
+      "line": 1
+    },
+    {
+      "name": "artifact-repository-ref-cm",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/artifact-repository-ref-cm.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-aggregate-roles",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-aggregate-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-cluster-roles",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-cluster-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-config-map",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-config-map.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-crb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-crb.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-deployment-pdb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-deployment-pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-deployment",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-sa",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-sa.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-service",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-controller-servicemonitor",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-controller-servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-rb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-rb.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-role",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-role.yaml",
+      "line": 1
+    },
+    {
+      "name": "workflow-sa",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/controller/workflow-sa.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-backendtlspolicy",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-backendtlspolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-cluster-roles",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-cluster-roles.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-crb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-crb.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-deployment-hpa",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-deployment-hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-deployment-pdb",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-deployment-pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-deployment",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-httproute",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-httproute.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-ingress",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-sa",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-sa.yaml",
+      "line": 1
+    },
+    {
+      "name": "server-service",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/server-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "backendconfig",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/gke/backendconfig.yaml",
+      "line": 1
+    },
+    {
+      "name": "frontendconfig",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/gke/frontendconfig.yaml",
+      "line": 1
+    },
+    {
+      "name": "managedcertificate",
+      "type": "module",
+      "file": "charts/argo-workflows/templates/server/gke/managedcertificate.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argocd-apps/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argocd-apps/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applications-multiple-sources-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/applications-multiple-sources-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applications-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/applications-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applicationsets-multiple-sources-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/applicationsets-multiple-sources-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applicationsets-progressive-syncs-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/applicationsets-progressive-syncs-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applicationsets-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/applicationsets-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "item-templates",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/item-templates.yaml",
+      "line": 1
+    },
+    {
+      "name": "project-descriptions-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/project-descriptions-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "project-destination-service-accounts-values",
+      "type": "module",
+      "file": "charts/argocd-apps/ci/project-destination-service-accounts-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "applications",
+      "type": "module",
+      "file": "charts/argocd-apps/templates/applications.yaml",
+      "line": 1
+    },
+    {
+      "name": "applicationsets",
+      "type": "module",
+      "file": "charts/argocd-apps/templates/applicationsets.yaml",
+      "line": 1
+    },
+    {
+      "name": "extensions",
+      "type": "module",
+      "file": "charts/argocd-apps/templates/extensions.yaml",
+      "line": 1
+    },
+    {
+      "name": "item-templates",
+      "type": "module",
+      "file": "charts/argocd-apps/templates/item-templates.yaml",
+      "line": 1
+    },
+    {
+      "name": "projects",
+      "type": "module",
+      "file": "charts/argocd-apps/templates/projects.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/argocd-image-updater/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/argocd-image-updater/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-extra-objects-values",
+      "type": "module",
+      "file": "charts/argocd-image-updater/ci/enable-extra-objects-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-ingress-values",
+      "type": "module",
+      "file": "charts/argocd-image-updater/ci/enable-ingress-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "enable-service-metrics-values",
+      "type": "module",
+      "file": "charts/argocd-image-updater/ci/enable-service-metrics-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "priority-class-values",
+      "type": "module",
+      "file": "charts/argocd-image-updater/ci/priority-class-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap-authscripts",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/configmap-authscripts.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap-sshconfig",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/configmap-sshconfig.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-imageupdaters",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/crd-imageupdaters.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-manifests",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/extra-manifests.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "metrics-service",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/metrics-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "rbac-leader-election",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/rbac-leader-election.yaml",
+      "line": 1
+    },
+    {
+      "name": "rbac-metrics",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/rbac-metrics.yaml",
+      "line": 1
+    },
+    {
+      "name": "rbac",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/rbac.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/argocd-image-updater/templates/servicemonitor.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 65.01,
+    "overall_grade": "D",
+    "technical_debt_score": 34.99,
+    "remediation_hours": 28.79,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 96.56,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=3.78, max_cc=11, duplication=0.21%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 32.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=3, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=3.89, max_cognitive=16, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=2, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 7.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=10, operational_antipatterns=20, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "requests",
+      "version": "",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/requests",
+      "manifest_file": "scripts/release-analysis/requirements.txt",
+      "line": 1,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "matplotlib",
+      "version": "",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/matplotlib",
+      "manifest_file": "scripts/release-analysis/requirements.txt",
+      "line": 2,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [
+    {
+      "rule_id": "ATRUSS-SEC-005",
+      "type": "HIGH_ENTROPY_SECRET",
+      "severity": "HIGH",
+      "file_source": "CONTRIBUTING.md",
+      "start_line": 150,
+      "end_line": 150,
+      "redacted_snippet": "\"admin.password\": \"$2a$***REDACTED***\",",
+      "entropy": 5.1232,
+      "message": "High-entropy credential candidate (H=5.12 > 4.5) detected."
+    },
+    {
+      "rule_id": "ATRUSS-SEC-004",
+      "type": "PRIVATE_KEY",
+      "severity": "CRITICAL",
+      "file_source": "charts/argo-cd/values.yaml",
+      "start_line": 656,
+      "end_line": 658,
+      "redacted_snippet": "-----BEGIN ... PRIVATE KEY----- [REDACTED]",
+      "entropy": 3.4421,
+      "message": "Private key material header detected."
+    },
+    {
+      "rule_id": "ATRUSS-SEC-004",
+      "type": "PRIVATE_KEY",
+      "severity": "CRITICAL",
+      "file_source": "charts/argo-cd/values.yaml",
+      "start_line": 666,
+      "end_line": 668,
+      "redacted_snippet": "-----BEGIN ... PRIVATE KEY----- [REDACTED]",
+      "entropy": 3.476,
+      "message": "Private key material header detected."
+    }
+  ],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "lint-and-test.yml#chart-test",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "lint-and-test.yml#chart-test",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "publish.yml#package",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "publish.yml#package",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "publish.yml#release",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "publish.yml#release",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "charts/argo-cd",
+      "source_type": "code_module",
+      "target": "lint-and-test.yml#chart-test",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    },
+    {
+      "source": "scripts/release-analysis",
+      "source_type": "code_module",
+      "target": "scripts/release-analysis/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

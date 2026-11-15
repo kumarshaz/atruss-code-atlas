@@ -21,9 +21,14 @@ try {
     ];
     for (const basePath of baseDirs) {
         const orgRepoPath = path.join(basePath, `${org}-${repo_name}-pipeline.json`);
+        const localRepoPath = path.join(basePath, `local-${repo_name}-pipeline.json`);
         const plainRepoPath = path.join(basePath, `${repo_name}-pipeline.json`);
         if (fs.existsSync(orgRepoPath)) {
             pipelineData = JSON.parse(fs.readFileSync(orgRepoPath, 'utf8'));
+            break;
+        }
+        if (fs.existsSync(localRepoPath)) {
+            pipelineData = JSON.parse(fs.readFileSync(localRepoPath, 'utf8'));
             break;
         }
         if (fs.existsSync(plainRepoPath)) {
@@ -45,10 +50,16 @@ const totalJobs = workflows.reduce(
 );
 
 const antiPatterns: any[] = [];
+const crossWorkflowEdges: any[] = [];
 workflows.forEach((wf: any) => {
     if (Array.isArray(wf.anti_patterns)) {
         wf.anti_patterns.forEach((ap: any) => {
             antiPatterns.push({ ...ap, workflowName: wf.name || wf.id });
+        });
+    }
+    if (Array.isArray(wf.cross_workflow_edges)) {
+        wf.cross_workflow_edges.forEach((edge: any) => {
+            crossWorkflowEdges.push({ ...edge, workflowName: wf.name || wf.id });
         });
     }
 });
@@ -99,7 +110,12 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         command={`atruss analyze-pipeline --repos-file repos.txt --output-dir exports`}
     />
 ) : (
-    <div class="m3-pipeline-view" data-pipeline-root="true" data-default-mode={defaultMode}>
+    <div
+        class="m3-pipeline-view"
+        data-pipeline-root="true"
+        data-default-mode={defaultMode}
+        data-repo-slug={`${org}-${repo_name}`}
+    >
         <script type="application/json" data-pipeline-payload set:html={serializedPayload} />
 
         <div class="m3-pipeline-chips">
@@ -119,6 +135,12 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                 </span>
                 {antiPatterns.length} Anti-Pattern(s)
             </span>
+            {crossWorkflowEdges.length > 0 && (
+                <span class="m3-chip m3-chip-tonal-tertiary">
+                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
+                    {crossWorkflowEdges.length} Cross-Workflow Edge(s)
+                </span>
+            )}
             <span class="m3-chip">
                 <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
                 {pipelineData.analyzed_at
@@ -145,13 +167,34 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             </section>
         )}
 
+        {crossWorkflowEdges.length > 0 && (
+            <section class="m3-card-elevated m3-findings-card">
+                <header class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">call_split</span>
+                    <h4>Cross-Workflow Triggers &amp; Reusable Calls</h4>
+                </header>
+                <div class="m3-cross-wf-grid">
+                    {crossWorkflowEdges.slice(0, 20).map((edge) => (
+                        <article class="m3-cross-wf-item">
+                            <span class="m3-chip m3-chip-tonal-tertiary m3-cross-wf-type">
+                                {edge.edge_type || 'workflow_call'}
+                            </span>
+                            <code>
+                                {edge.source_workflow || edge.workflowName} → {edge.target_workflow}
+                            </code>
+                        </article>
+                    ))}
+                </div>
+            </section>
+        )}
+
         <section class="m3-card-elevated m3-diagram-card" data-zoom-container="true">
             <header class="m3-diagram-toolbar">
                 <div class="m3-section-header">
                     <span class="material-symbols-outlined" aria-hidden="true">schema</span>
                     <h4>Workflow Dependency DAG (Top-Down)</h4>
                 </div>
-                <div class="m3-zoom-controls" role="group" aria-label="Diagram zoom controls">
+                <div class="m3-zoom-controls" role="group" aria-label="Diagram zoom and export controls">
                     <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                         <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
                     </button>
@@ -161,6 +204,12 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                     </button>
                     <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                         <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+                    </button>
+                    <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                    </button>
+                    <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+                        <span class="material-symbols-outlined" aria-hidden="true">image</span>
                     </button>
                 </div>
             </header>
@@ -225,6 +274,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
 <script>
     import {
         applyResponsiveSvgStyle,
+        bindDiagramExportButtons,
         bindDiagramZoom,
         renderMermaidSvg,
         safeId,
@@ -448,6 +498,8 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             btn.classList.toggle('is-active', btn.dataset.pipelineSelect === mode);
         });
 
+        canvas.dataset.diagramSource = graphDef;
+
         try {
             const svg = await renderMermaidSvg('pipe-dag', graphDef);
             canvas.innerHTML = svg;
@@ -489,6 +541,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
 
     function initPipelineRoots(scope: ParentNode = document) {
         scope.querySelectorAll<HTMLElement>('[data-pipeline-root="true"]').forEach((root) => {
+            const slug = root.dataset.repoSlug || 'pipeline';
             if (!root.dataset.pipelineBound) {
                 root.dataset.pipelineBound = 'true';
                 root.dataset.activeMode = root.dataset.defaultMode || 'overview';
@@ -507,6 +560,13 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                         renderPipelineView(root);
                     });
                 }
+
+                const canvas = root.querySelector<HTMLElement>('[data-pipeline-canvas]');
+                bindDiagramExportButtons(root, {
+                    getSvgContainer: () => canvas,
+                    getSource: () => canvas?.dataset.diagramSource,
+                    filenameBase: `${slug}-pipeline-dag`,
+                });
             }
 
             if (!root.closest('[hidden]')) {
@@ -562,6 +622,31 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     .m3-findings-card,
     .m3-diagram-card {
         padding: 1.25rem;
+    }
+
+    .m3-cross-wf-grid {
+        margin-top: 0.875rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .m3-cross-wf-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        padding: 0.65rem 0.8rem;
+        border-radius: var(--md-sys-shape-corner-medium);
+        background-color: var(--md-sys-color-surface-container);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        font-size: 0.8rem;
+    }
+
+    .m3-cross-wf-type {
+        width: fit-content;
+        height: 1.4rem;
+        font-size: 0.7rem;
+        font-family: var(--md-ref-typeface-mono);
     }
 
     .m3-section-header {

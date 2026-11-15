@@ -4,12 +4,12 @@ from pathlib import Path
 from typing import Any
 
 from src.analyzers.code.base import SKIP_DIRS, compute_text_loc_metrics, iter_source_files
+from src.analyzers.code.treesitter_engine import analyze_repo_treesitter_metrics
 
 _ANN_CLASS_RE = re.compile(
     r"((?:@\w+(?:\([^)]*\))?\s*)+)\s*(?:public\s+|protected\s+|private\s+|abstract\s+|final\s+)*(?:class|interface)\s+(\w+)",
     re.MULTILINE,
 )
-_BRANCH_RE = re.compile(r"\b(if|else\s+if|for|while|switch|case|catch)\b")
 
 
 def _parse_pom(pom_path: Path, repo_dir: Path) -> dict[str, Any] | None:
@@ -48,10 +48,11 @@ def analyze_java_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict[
                 seen.add(key)
                 components.append(mod)
 
-    java_files = iter_source_files(repo_dir, (".java", ".kt"))
+    java_exts = (".java", ".kt")
+    java_files = iter_source_files(repo_dir, java_exts)
     loc_metrics = compute_text_loc_metrics(java_files, comment_prefixes=("//", "/*", "*"))
+    ts_metrics = analyze_repo_treesitter_metrics(repo_dir, java_exts)
     file_texts: dict[str, str] = {}
-    complexities: list[int] = []
 
     for jfile in java_files:
         rel_path = str(jfile.relative_to(repo_dir)).replace("\\", "/")
@@ -60,7 +61,6 @@ def analyze_java_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict[
         except OSError:
             continue
         file_texts[rel_path] = content
-        complexities.append(1 + len(_BRANCH_RE.findall(content)))
 
         for match in _ANN_CLASS_RE.finditer(content):
             annotations = match.group(1)
@@ -99,11 +99,17 @@ def analyze_java_structural(repo_dir: Path) -> tuple[list[dict[str, Any]], dict[
         ]
         comp["dependencies"] = deps
 
-    avg_cc = round(sum(complexities) / len(complexities), 2) if complexities else 0.0
-    max_cc = max(complexities) if complexities else 0
     return components, {
         **loc_metrics,
-        "avg_cyclomatic_complexity": avg_cc,
-        "max_cyclomatic_complexity": max_cc,
+        "avg_cyclomatic_complexity": ts_metrics["avg_cyclomatic_complexity"],
+        "max_cyclomatic_complexity": ts_metrics["max_cyclomatic_complexity"],
         "component_count": len(components),
+        "ast_engine": ts_metrics["ast_engine"],
+        "avg_cognitive_complexity": ts_metrics["avg_cognitive_complexity"],
+        "max_cognitive_complexity": ts_metrics["max_cognitive_complexity"],
+        "duplication_pct": ts_metrics["duplication_pct"],
+        "dead_code_count": ts_metrics["dead_code_count"],
+        "dead_code_symbols": ts_metrics["dead_code_symbols"],
+        "file_complexities": ts_metrics["file_complexities"],
+        "import_edges": ts_metrics["import_edges"],
     }

@@ -27,17 +27,17 @@ Atruss Code Atlas tells you **what** is being built (structural code & infrastru
 
 ## What's In It For You? (Value by Stakeholder Group)
 
-Atruss Code Atlas is designed as a multi-lens observability platform where a single passive scan powers tailored insights across five core organizational personas—combining **Implemented Baseline (`v1.0`)** capabilities with **Planned Master PRD `v2.0` (`Horizon 2`)** enhancements.
+Atruss Code Atlas is designed as a multi-lens observability platform where a single passive scan powers tailored insights across five core organizational personas—unifying the **Core Baseline (`v1.0`)** and **Horizon 2 Platform Enhancements (`v2.0` / `FR-021`–`FR-030`)**.
 
 ```mermaid
 flowchart LR
-    Engine["Atruss Code Atlas Engine<br/>(Passive CLI + Policy-as-Code YAML)"]
+    Engine["Atruss Code Atlas Engine<br/>(Passive CLI + Policy-as-Code YAML + Tree-sitter)"]
     
-    Engine --> Exec["a. Executives<br/>Portfolio A-F Scorecards,<br/>Risk Heatmaps & Drift Trends"]
-    Engine --> Arch["b. Software Architects<br/>Arc42 Living Docs, Polyglot AST,<br/>Monorepo DAGs & Fitness Rules"]
-    Engine --> SWE["c. Software Engineers<br/>End-to-End Code Traces, PR Deltas,<br/>Interactive Canvas & MCP Server"]
-    Engine --> DevOps["d. DevOps & Platform<br/>CI/CD DAGs, Workflow Security<br/>(zizmor-class) & SARIF Gates"]
-    Engine --> Infra["e. Infra, Cloud & SRE<br/>Docker/K8s/Terraform Topology,<br/>Blast Radius & OTel Overlays"]
+    Engine --> Exec["a. Executives<br/>6-D A-F Scorecards,<br/>Complexity Heatmaps & Drift Trends"]
+    Engine --> Arch["b. Software Architects<br/>Arc42 + C2C Docs, Tree-sitter AST,<br/>Monorepo DAGs & Fitness Rules"]
+    Engine --> SWE["c. Software Engineers<br/>End-to-End Traces, PR Diffs,<br/>llms.txt & Stdio MCP Server"]
+    Engine --> DevOps["d. DevOps & Platform<br/>CI/CD & Cross-Workflow DAGs,<br/>Supply-Chain Rules & SARIF Gates"]
+    Engine --> Infra["e. Infra, Cloud & SRE<br/>Docker/K8s/TF Code-to-Cloud,<br/>Blast Radius & OTel Overlays"]
 ```
 
 ---
@@ -48,16 +48,14 @@ flowchart LR
 
 * **Core Value**:
   * **Eliminate Blind Spots**: Automatically inventory hundreds of repositories across organizations, classifying languages, frameworks, deployment readiness, and documentation priority (`Tier 1`–`Tier 3`).
-  * **Quantify Technical Debt & Risk**: Replace subjective status reports with a deterministic **6-Dimension A–F Weighted Health Scorecard** (`Dependency Health`, `Security`, `Architecture`, `CI/CD`, `Maintainability`, `Test Coverage`).
-  * **M&A Due Diligence & Compliance Readiness**: Generate audit-ready portfolio catalogs and supply-chain inventories in minutes.
-* **Implemented Today (`v1.0 Baseline`)**:
-  * **27-Column Organization Discovery (`FR-002`, `FR-015`)**: Automated org-wide inventory exporting `repositories.{json,csv,yaml}` with language, framework, Docker/K8s/CI presence, and `DocumentationPriority`.
-  * **6-Dimension A–F Health Scorecard (`FR-011`)**: Objective grading across every repository and organization.
-  * **Material Design 3 Executive Command Center (`FR-017`, `FR-019`)**: Interactive web portal (`/`, `/orgs/`) with KPI strips, ecosystem distribution charts, risk alert banners, and multi-org comparison leaderboards.
-  * **100-Repo Stratified Benchmark Harness (`FR-020`)**: Proven scalability and SLA compliance across diverse multi-language portfolios.
-* **Planned in Master PRD `v2.0` (`Horizon 2 Roadmap`)**:
-  * **Longitudinal Architecture Drift & Historical Scorecard Time-Series (`REC-10` / `FR-030`)**: Track whether portfolio health grades, complexity, and security posture are improving or degrading week-over-week via `catalog-history.json` sparklines.
-  * **Executive CycloneDX v1.5 / SPDX v2.3 SBOM Generation (`REC-03` / `FR-023`)**: One-command regulatory Software Bill of Materials export (`--sbom`) with exploit-reachability filtering so CISOs focus only on reachable vulnerabilities.
+  * **Quantify Technical Debt & Risk**: Replace subjective status reports with a deterministic **6-Dimension A–F Weighted Health Scorecard** (*Code Quality*, *Security*, *Maintainability*, *Test Coverage*, *Dependency Health*, *Pipeline Health*) and Composite `technical_debt_score` (`0–100`).
+  * **M&A Due Diligence & Compliance Readiness**: Generate audit-ready portfolio catalogs, CycloneDX v1.6 SBOMs, and supply-chain inventories in minutes.
+* **Implemented Capabilities (`v1.0` + `v2.0`)**:
+  * **27-Column Organization Discovery (`FR-005`, `FR-015`)**: Automated org-wide inventory exporting `repositories.{json,csv,yaml}` with language, framework, Docker/K8s/CI presence, and `DocumentationPriority`.
+  * **6-Dimension A–F Scorecard & Debt Estimator (`FR-025`)**: Objective deterministic grading inside every `{org}-{repo}-analysis.json` plus `ScorecardHeatmap.astro` UI visualization.
+  * **Material Design 3 Executive Command Center (`FR-017`, `FR-030`)**: Interactive web portal (`/`, `/orgs/`) with KPI strips, 6-D health columns, ecosystem distribution charts, risk banners, and cross-repo topology.
+  * **CycloneDX v1.6 SBOM & Historical Drift (`FR-024`, `FR-027`)**: Export offline-safe `sbom/{org}-{repo}.cdx.json`, track snapshots in `catalog-history.json`, and run `atruss diff --baseline <dir1> --target <dir2>`.
+  * **100-Repo Stratified Benchmark Harness (`FR-019`, `FR-020`)**: Proven scalability and SLA compliance across diverse multi-language portfolios.
 
 ---
 
@@ -67,105 +65,77 @@ flowchart LR
 
 * **Core Value**:
   * **Living Docs-as-Code**: Automatically reconstruct component topologies (Controllers/Routes, Services, Data Access Layers, UI Components) directly from source code.
-  * **Cross-Boundary Governance**: Detect circular dependencies (`CYCLE_DETECTED`), dead/orphaned modules (`ORPHAN_NODE`), and god scripts (`AP-001`) before they calcify into monoliths.
-  * **Zero-Code Extensibility**: Define new frameworks and classification heuristics declaratively in [`manifests/ecosystems.yaml`](./manifests/ecosystems.yaml) without touching Python code.
-* **Implemented Today (`v1.0 Baseline`)**:
-  * **4-Ecosystem Structural Code Analysis (`FR-016`)**: Out-of-the-box component & complexity extraction for **Python** (`ast` + `radon`), **.NET / C#** (`.csproj`, Controllers, Services, `DbContext`), **React / TypeScript / Next.js**, and **Java Spring Boot** (`pom.xml`/`build.gradle`, `@RestController`, `@Service`, `@Repository`).
-  * **Automated Arc42 + Mermaid Reports (`FR-005`, `FR-012`)**: Self-contained Markdown architecture reports (`{org}-{repo}-report.md`) and tabbed Material Design 3 architecture views (`ArchitectureView.astro`).
-  * **Circular Dependency & Anti-Pattern Detection (`FR-007`, `FR-008`)**: Automated detection of `AP-001` through `AP-007` with concrete remediation guidance.
-* **Planned in Master PRD `v2.0` (`Horizon 2 Roadmap`)**:
-  * **Hybrid Tree-sitter Polyglot AST & Call Graph Engine (`REC-01` / `FR-021`)**: Deep cross-file call graph resolution across Python, JS/TS (including barrel re-exports & `tsconfig` path aliases), Go, Rust, Bash, and HCL with edge confidence scoring (`1.0` AST-verified, `0.8` heuristic, `0.5` dynamic).
-  * **First-Class Monorepo Workspace Graph (`REC-05` / `FR-025`)**: Native workspace package topology (`pnpm-workspace.yaml`, `turbo.json`, `nx.json`, `Cargo.toml`, `go.work`, `uv`) modeling internal `DEPENDS_ON_WORKSPACE` edges.
-  * **Declarative Architecture Fitness Functions (`REC-06` / `FR-026`)**: Policy-as-Code rules (`manifests/fitness-rules.yaml`, `--policy`) enforcing layer boundaries (e.g., forbidding UI components from importing database drivers directly).
+  * **Cross-Boundary Governance**: Detect forbidden layer bypasses (`ATRUSS-ARCH-*`), circular dependencies (`nx.simple_cycles`), and code duplication/dead code before they calcify into monoliths.
+  * **Zero-Code Extensibility**: Define new frameworks, layer rules, and CI security policies declaratively in [`manifests/ecosystems.yaml`](./manifests/ecosystems.yaml), [`manifests/architecture-rules.yaml`](./manifests/architecture-rules.yaml), and [`manifests/pipeline-rules.yaml`](./manifests/pipeline-rules.yaml).
+* **Implemented Capabilities (`v1.0` + `v2.0`)**:
+  * **Polyglot `tree-sitter` CST + Structural Code Analysis (`FR-012`, `FR-022`)**: Component extraction plus Cyclomatic Complexity, Cognitive Complexity, AST Clone Duplication %, and Dead Code metrics across **Python**, **.NET / C#**, **TypeScript/JS**, and **Java Spring Boot**.
+  * **Declarative Architecture Fitness Functions & Workspace Graph (`FR-023`)**: Evaluates `manifests/architecture-rules.yaml` against internal import edges, discovers `pnpm`/`turbo`/`nx`/`cargo`/`go.work`/`uv` workspaces, and highlights violating edges with red dashed lines in Mermaid diagrams.
+  * **Automated Arc42 + Mermaid Reports & Print/PDF (`FR-013`, `FR-030`)**: Self-contained Markdown reports (`{org}-{repo}-report.md`), SVG/PNG diagram downloads, and multi-tab Print/PDF styling.
 
 ---
 
 ### c. Software Engineering Teams (Tech Leads, Backend/Frontend Devs & AI-Assisted Engineers)
 
-> **Software Engineer Bottom Line**: Understand unfamiliar repositories in minutes, preview the architectural impact of your Pull Requests before merging, and supercharge your AI coding assistant (Cursor, Claude Code, Antigravity, Copilot) with structural graph tools.
+> **Software Engineer Bottom Line**: Understand unfamiliar repositories in minutes, gate PR regressions before merging, and equip your AI coding assistant (Cursor, Claude Code, Antigravity, Copilot) with deterministic graph tools.
 
 * **Core Value**:
-  * **10x Faster Onboarding**: Trace any feature from its external trigger or entrypoint down through intermediate scripts to third-party packages (`Trigger -> Entrypoint -> Script -> Dependency`) with exact file paths and line numbers.
-  * **Safe Refactoring**: Know what downstream workflows or modules will break before renaming a script or upgrading a dependency.
-  * **AI Agent Context Augmentation**: Give AI coding agents exact structural call graphs and blast radii instead of letting them grep blindly.
-* **Implemented Today (`v1.0 Baseline`)**:
-  * **End-to-End Execution Chain Tracing (`FR-006`, `FR-007`)**: Full DAG traversal linking entrypoints (`main.py`, `package.json` scripts, `Makefile`, `Dockerfile`) to internal modules and external dependencies (`requirements.txt`, `pyproject.toml`, `package.json`, `Cargo.toml`, `go.mod`).
-  * **Fast Local CLI & Deterministic JSON Exports (`FR-001`, `FR-013`)**: Run `atruss analyze-code --path ./my-repo` locally in seconds with zero network mutations.
-  * **5-Gate Agentic Workflow Validator (`FR-018`)**: Built-in quality harness ([`scripts/validate_agent_workflow.py`](./scripts/validate_agent_workflow.py)) ensuring 0 stubbed functions, 0 skipped tests, and 100% schema contract parity.
-* **Planned in Master PRD `v2.0` (`Horizon 2 Roadmap`)**:
-  * **Model Context Protocol (MCP) Server for AI Coding Agents (`REC-07` / `FR-027`)**: Run `atruss mcp serve` (`stdio`/`sse`) to expose `get_blast_radius`, `trace_entrypoint_chain`, `query_antipatterns`, `get_repo_scorecard`, and `check_boundary_violation` directly to LLM coding agents.
-  * **Interactive WebGL/Canvas Graph Explorer & Code-Jump Drawer (`REC-09` / `FR-029`)**: Smooth 60fps Cytoscape.js/ELK.js graph canvas for 500+ node repositories with `Cmd+K` search spotlight, 1-hop/2-hop neighborhood isolation, and a synchronized **Code-Jump Inspector Drawer**.
-  * **Diff-Aware Incremental PR Architecture Delta (`REC-04` / `FR-024`)**: Run `atruss analyze --diff origin/main..HEAD` in `< 5 seconds` to see added/removed dependency edges and complexity deltas right in your PR.
+  * **10x Faster Onboarding**: Trace components from API routes and CLI commands down through services, data layers, and cloud infrastructure with exact file paths and line numbers.
+  * **Safe Refactoring**: Compute PageRank and betweenness centrality blast radius before modifying shared components or workflow jobs.
+  * **AI Agent Context Augmentation**: Supply AI coding agents with structured `llms.txt` summaries and live read-only MCP queries instead of blind grepping.
+* **Implemented Capabilities (`v1.0` + `v2.0`)**:
+  * **Model Context Protocol (MCP) Server & `llms.txt` (`FR-029`)**: Generates `exports/latest/llms/{llms.txt,llms-full.txt}` and exposes 10 read-only JSON-RPC stdio tools via `atruss mcp --exports-dir exports/latest`.
+  * **Offline PR Quality Gate & Regression Diff (`FR-027`, `FR-028`)**: Run `atruss check --path . --sarif check.sarif.json --fail-on HIGH` or `atruss diff --baseline exports/t1 --target exports/latest --fail-on-regression`.
+  * **5-Gate Agentic Workflow Validator (`FR-020`)**: Programmatic quality harness ([`scripts/validate_agent_workflow.py`](./scripts/validate_agent_workflow.py)) enforcing `0` stubbed functions, `0` skipped tests, full schema contracts, and 8-artifact SHA-256 determinism.
 
 ---
 
 ### d. DevOps & CI/CD Platform Engineers
 
-> **DevOps Bottom Line**: Turn opaque YAML workflow jungles into visual, auditable pipeline DAGs and automatically catch critical CI/CD supply-chain vulnerabilities (`pull_request_target` pwn requests, unpinned actions, missing test gates) across every repository.
+> **DevOps Bottom Line**: Turn opaque YAML workflow jungles into visual, auditable pipeline DAGs and automatically catch critical CI/CD supply-chain vulnerabilities (`pull_request_target` pwn requests, template injection, unpinned actions) across every repository.
 
 * **Core Value**:
-  * **Pipeline Topology Visualization**: Automatically parse `.github/workflows/*.yml`, `.gitlab-ci.yml`, `CircleCI`, and `Jenkinsfile` definitions into visual job-dependency DAGs (`needs:` edges, triggers, runners, and step counts).
-  * **CI/CD Best-Practice Enforcement**: Catch deployments that bypass upstream test gates (`NO_TEST_GATE`), missing dependency caches (`MISSING_CACHE`), and unpinned container/package versions (`AP-002`, `AP-005`).
-  * **Shift-Left CI Security**: Prevent malicious PRs and supply-chain action compromises before they execute on runners.
-* **Implemented Today (`v1.0 Baseline`)**:
-  * **Dual-Mode Pipeline DAG & Anti-Pattern Analyzer (`FR-004`, `FR-008`)**: `atruss analyze-pipeline` extracts full workflow topologies and flags structural CI anti-patterns (`NO_TEST_GATE`, `MISSING_CACHE`, `UNPINNED_VERSION`, `MISSING_LOCKFILE`, `BROAD_EXCEPT`, `HARDCODED_SECRET_PATTERN`), outputting per-repo DAGs and org-wide `pipeline_topology.{json,csv,yaml}`.
-  * **Interactive M3 Pipeline DAG Viewer (`FR-014`, `FR-019`)**: Dedicated `CI/CD Pipeline DAG` tab (`PipelineView.astro`) in the Astro portal with anti-pattern severity chips and zoomable Mermaid diagrams.
-  * **Turnkey GitHub Pages Deployment Pipeline (`FR-019`)**: Preconfigured `.github/workflows/deploy-pages.yml` publishing the entire static observability portal to GitHub Pages.
-* **Planned in Master PRD `v2.0` (`Horizon 2 Roadmap`)**:
-  * **CI/CD Workflow Security Static Analyzer — `zizmor` / `poutine` Class Rules (`REC-02` / `FR-022`)**: 7 dedicated CI/CD supply-chain security rules (`AP-008`–`AP-014`):
-    * `AP-008`: `pull_request_target` untrusted checkout / `${{ github.event.pull_request.title }}` command injection (`CRITICAL`)
-    * `AP-009`: Unpinned third-party GitHub Action (`uses: owner/action@v3` mutable tag vs. 40-char commit SHA) (`HIGH`)
-    * `AP-010`: Missing or excessive `permissions: write-all` `GITHUB_TOKEN` scope (`HIGH`)
-    * `AP-011`: Insecure `$GITHUB_ENV` / `$GITHUB_PATH` untrusted input writes (`CRITICAL`)
-    * `AP-012`: Unverified workflow artifact download/execution (`HIGH`)
-    * `AP-013`: Public repository executing on `self-hosted` runner (`CRITICAL`)
-    * `AP-014`: Cache poisoning risk across privilege boundaries (`MEDIUM`)
-  * **Native GitHub Action & SARIF v2.1.0 Code Scanning Exporter (`REC-04` / `FR-024`)**: Export `--format sarif` so pipeline and architectural violations appear as inline annotations on GitHub Pull Requests.
+  * **Pipeline Topology Visualization**: Automatically parse `.github/workflows/*.yml` definitions into visual job-dependency DAGs (`needs:` edges, triggers, runners, step counts, and `workflow_call`/`workflow_run` cross-workflow edges).
+  * **14-Rule CI/CD Policy Engine**: Catch operational gaps (`NO_TEST_GATE`, `NO_CACHE`, `SEQUENTIAL_ONLY`, etc.) alongside 7 supply-chain security rules defined in [`manifests/pipeline-rules.yaml`](./manifests/pipeline-rules.yaml).
+  * **Shift-Left CI Security & SARIF Export**: Block high-risk PRs and surface exact line-level annotations in GitHub Code Scanning.
+* **Implemented Capabilities (`v1.0` + `v2.0`)**:
+  * **14-Rule Pipeline DAG & Supply-Chain Security Analyzer (`FR-010`, `FR-021`)**: Flags operational issues plus `UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `NO_TIMEOUT`, `ARTIFACT_CREDENTIAL_PERSISTENCE`, and `STATIC_CLOUD_CREDENTIALS`, alongside cross-workflow DAG edges.
+  * **OASIS SARIF v2.1.0 Code Scanning Exporter (`FR-028`)**: `atruss analyze-code --format sarif`, `atruss analyze-pipeline --format sarif`, and `atruss check --sarif` emit standard SARIF v2.1.0 artifacts.
+  * **Interactive M3 Pipeline & Cross-Repo Topology Explorer (`FR-017`, `FR-030`)**: `PipelineView.astro` on every repo page and `CrossRepoTopology.astro` on `/orgs/` with SVG/PNG export buttons.
+  * **Turnkey GitHub Pages Deployment Pipeline (`FR-018`)**: Preconfigured `.github/workflows/deploy-pages.yml` publishing the entire static observability portal to GitHub Pages.
 
 ---
 
 ### e. Infrastructure, Cloud & SRE Teams
 
-> **Infra & SRE Bottom Line**: Map how application code connects to Docker containers, Kubernetes/Helm workloads, and Terraform cloud resources, quantify blast radius before incidents happen, and overlay live OpenTelemetry production heatmaps onto static topology graphs.
+> **Infra & SRE Bottom Line**: Map how application code connects to Docker containers, Kubernetes/Helm workloads, and Terraform cloud resources, quantify blast radius before incidents happen, and overlay OpenTelemetry traces or test coverage onto static component maps.
 
 * **Core Value**:
-  * **Code-to-Cloud Traceability**: Bridge the gap between application repositories and infrastructure manifests (`Dockerfile`, `docker-compose.yml`, Kubernetes YAML, Helm `Chart.yaml`, Kustomize, and Terraform `.tf` HCL).
-  * **Blast-Radius & Incident Triage**: Identify single-point-of-failure packages and shared infrastructure modules with the highest transitive downstream impact.
-  * **Air-Gapped & Rate-Limit Resilient**: Operate seamlessly in restricted VPCs or air-gapped environments using shallow clones (`--depth 1`) and graceful offline degradation (`ScanDiagnostics`).
-* **Implemented Today (`v1.0 Baseline`)**:
-  * **Infrastructure Footprint Discovery & Structural Mapping (`FR-002`, `FR-016`)**: Automatic detection and structural mapping of `HasDockerfile`, `HasKubernetes`, `HasDatabase`, container base images, exposed ports, K8s/Helm workloads, and Terraform resources.
-  * **Transitive Blast-Radius Impact Analyzer (`FR-010`)**: Calculates downstream affected scripts, services, and entrypoints if a dependency or module fails.
-  * **Ephemeral Zero-Footprint Resource Safety (`FR-001`, `FR-020`)**: Blobless shallow clones (`--depth 1 --filter=blob:none`) with 180s circuit-breaker timeouts and automatic temporary disk purge after every repository.
-* **Planned in Master PRD `v2.0` (`Horizon 2 Roadmap`)**:
-  * **PageRank & Betweenness Centrality Blast-Radius Engine (`REC-05` / `FR-025`)**: Run `atruss analyze --blast-radius <node_id>` to compute graph centrality and transitive failure radius across multi-service and monorepo topologies.
-  * **OSV.dev Batch Vulnerability Engine & Execution-Chain Reachability (`REC-03` / `FR-023`)**: High-speed vulnerability scanning (`/v1/querybatch`) that tags every CVE as `REACHABLE_FROM_CI`, `REACHABLE_FROM_RUNTIME`, or `UNREACHABLE_DORMANT` so SRE/SecOps teams prioritize real production risks.
-  * **Runtime Observability Overlay — OpenTelemetry & Coverage Heatmaps (`REC-08` / `FR-028`)**: Ingest OpenTelemetry span exports (`--otel-traces`) and coverage reports (`--coverage`) to highlight `HOT_PATH` production bottlenecks vs. `DEAD_UNOBSERVED` infrastructure weight.
+  * **Code-to-Cloud Traceability**: Bridge application submodules (`WorkspacePackage` / `ModuleUnit`), container/IaC manifests (`Dockerfile`, Kubernetes YAML, Terraform HCL), CI/CD deployment jobs, and target runtime environments.
+  * **Blast-Radius & Vulnerability Prioritization**: Identify high-centrality single points of failure and tag OSV vulnerabilities with runtime/CI reachability (`REACHABLE_FROM_CI`, `REACHABLE_FROM_RUNTIME`, `UNREACHABLE_DORMANT`).
+  * **Air-Gapped & Rate-Limit Resilient**: Operate offline-first with shallow clones (`--depth 1`), cached OSV lookups, and optional opt-in `--live-osv` scanning.
+* **Implemented Capabilities (`v1.0` + `v2.0`)**:
+  * **Arc42 Section 7 Code-to-Cloud Deployment Traceability (`FR-026`)**: Emits `code_to_cloud_edges` and renders a 4-stage Mermaid deployment diagram (`Code Modules -> Build Artifacts -> CI/CD Jobs -> Runtime Environments`).
+  * **OSV.dev Batch Vulnerability Engine & Redacted Secret Scanner (`FR-024`)**: Parses polyglot manifests/lockfiles (`requirements.txt`, `uv.lock`, `package-lock.json`, `pnpm-lock.yaml`, `*.csproj`, `pom.xml`, etc.), queries `/v1/querybatch` when enabled, redacts discovered secrets, and writes CycloneDX v1.6 SBOMs.
+  * **Runtime Observability & PageRank Blast Radius (`FR-023`, `FR-026`)**: `--blast-radius <node>`, `--otel-traces <traces.json>`, and `--coverage <lcov|cobertura|jest>` classify `HOT_PATH`, `COVERED_STATIC`, and `DEAD_UNOBSERVED` nodes.
 
 ---
 
-## Feature Matrix: Implemented (`v1.0`) vs. Planned (`PRD v2.0` Roadmap)
+## Feature Matrix (`v1.0` Baseline + `v2.0` Horizon 2 — Implemented)
 
 | Capability Domain | Feature ID & Name | Status | Primary Personas Served |
 | :--- | :--- | :--- | :--- |
-| **Ingestion & Discovery** | `FR-001` / `FR-002`: Dual-Mode GitHub `/trees` API & Shallow Clone Discovery (27 Columns) | **Implemented (`v1.0`)** | Executives, Architects, Infra |
-| **Policy-as-Code** | `FR-015`: Externalized YAML Ecosystem & Archetype Registry (`manifests/ecosystems.yaml`) | **Implemented (`v1.0`)** | Architects, DevOps |
-| **Pipeline Topology** | `FR-004` / `FR-005`: CI/CD Workflow Parser, NetworkX DAG Builder & Mermaid Exporter | **Implemented (`v1.0`)** | DevOps, SWE |
-| **Deep Chain Analysis** | `FR-006` / `FR-007`: `Trigger -> Entrypoint -> Script -> Dependency` DAG, Cycle & Orphan Detection | **Implemented (`v1.0`)** | SWE, Architects |
-| **Structural Code AST** | `FR-016`: 4-Ecosystem Analyzers (`Python`, `.NET`, `React/TS`, `Java Spring Boot`) + Arc42 Reports | **Implemented (`v1.0`)** | Architects, SWE |
-| **Anti-Patterns & Risk** | `FR-008` / `FR-009` / `FR-010`: Structural Anti-Patterns (`AP-001`–`AP-007`), CVE Lookup & Blast Radius | **Implemented (`v1.0`)** | DevOps, Architects, Infra |
-| **Health Scoring** | `FR-011` / `FR-012` / `FR-013`: 6-Dimension A–F Weighted Scorecard + JSON/CSV/YAML/MD Exporters | **Implemented (`v1.0`)** | Executives, Architects |
-| **Web Portal (M3 UI)** | `FR-014` / `FR-017` / `FR-019`: Astro Starlight + Material Design 3 Portal & GitHub Pages CI/CD | **Implemented (`v1.0`)** | All Stakeholders |
-| **Quality & Scale** | `FR-018` / `FR-020`: 5-Gate Agentic Conformance Validator & 100-Repo Stratified Benchmark | **Implemented (`v1.0`)** | SWE, Architects, Executives |
-| **Polyglot AST (`REC-01`)** | `FR-021`: Hybrid Tree-sitter Polyglot AST & Cross-File Call Graph with Confidence Weights | **Planned (`v2.2`)** | Architects, SWE |
-| **CI Security (`REC-02`)** | `FR-022`: CI/CD Workflow Security Static Analysis (`AP-008`–`AP-014`, `zizmor`/`poutine`-class) | **Planned (`v2.1`)** | DevOps, CISO/Executives |
-| **Supply Chain (`REC-03`)** | `FR-023`: OSV.dev Batch API Engine, CycloneDX/SPDX SBOM (`--sbom`) & CVE Reachability Tagging | **Planned (`v2.1`)** | Infra/SRE, CISO, DevOps |
-| **PR Governance (`REC-04`)** | `FR-024`: Diff-Aware Incremental PR Architecture Delta (`--diff`) & GitHub SARIF v2.1.0 Exporter | **Planned (`v2.2`)** | SWE, DevOps, Architects |
-| **Monorepo & Graph (`REC-05`)** | `FR-025`: Monorepo Workspace Graph (`pnpm`/`nx`/`turbo`/`cargo`) & PageRank Centrality (`--blast-radius`) | **Planned (`v2.1`)** | Architects, Infra/SRE, SWE |
-| **Fitness Rules (`REC-06`)** | `FR-026`: Declarative Architecture Fitness Functions & Policy-as-Code (`manifests/fitness-rules.yaml`) | **Planned (`v2.2`)** | Architects, DevOps |
-| **AI Agent MCP (`REC-07`)** | `FR-027`: Model Context Protocol (MCP) Server (`atruss mcp serve`) for AI Coding Agents | **Planned (`v2.3`)** | SWE, Architects |
-| **Runtime Overlay (`REC-08`)** | `FR-028`: OpenTelemetry Trace (`--otel-traces`) & Test Coverage (`--coverage`) Heatmap Overlay | **Planned (`v2.2`)** | Infra/SRE, Architects, SWE |
-| **Interactive UI (`REC-09`)** | `FR-029`: WebGL/Canvas Graph Explorer (Cytoscape.js/ELK.js), `Cmd+K` Spotlight & Code-Jump Drawer | **Planned (`v2.3`)** | SWE, Architects, DevOps |
-| **Historical Drift (`REC-10`)** | `FR-030`: Longitudinal Architecture Drift & Historical Scorecard Time-Series (`catalog-history.json`) | **Planned (`v2.3`)** | Executives, Architects |
+| **Ingestion & Discovery** | `FR-005`: Dual-Mode GitHub `/trees` API & Shallow Clone Discovery (27 Columns) | **Implemented** | Executives, Architects, Infra |
+| **Policy-as-Code** | `FR-004` / `FR-021` / `FR-023`: YAML Rules (`ecosystems.yaml`, `architecture-rules.yaml`, `pipeline-rules.yaml`) | **Implemented** | Architects, DevOps |
+| **Pipeline & Security** | `FR-009` / `FR-010` / `FR-021`: 14-Rule CI/CD DAG, Supply-Chain Security & Cross-Workflow Edges | **Implemented** | DevOps, CISO/Executives |
+| **Polyglot Tree-sitter AST** | `FR-012` / `FR-022`: 10-Ecosystem Analyzers (`Python`, `.NET`, `TS/JS`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container/Helm/IaC`) + Cognitive/Clone/Dead-Code | **Implemented** | Architects, SWE |
+| **Fitness & Workspaces** | `FR-023`: Declarative Layer Boundaries, Cycle Detection (`nx.simple_cycles`) & PageRank Blast Radius | **Implemented** | Architects, Infra/SRE, SWE |
+| **Supply Chain & SBOM** | `FR-024`: Lockfiles (`go.mod`, `Cargo.lock`, `Gemfile`, `composer.json`, `mix.exs`, etc.), Offline-Safe OSV.dev Batch API, Redacted Secrets & CycloneDX v1.6 SBOM | **Implemented** | Infra/SRE, CISO, DevOps |
+| **6-D Scorecard & Debt** | `FR-025`: 6-Dimension A–F Scorecard & Technical Debt Estimator (`0–100`) | **Implemented** | Executives, Architects |
+| **Code-to-Cloud & OTel** | `FR-026`: Arc42 Section 7 Code-to-Cloud Deployment Graph + `--otel-traces` / `--coverage` Overlay | **Implemented** | Infra/SRE, Architects, SWE |
+| **Drift Diff & SARIF Gate** | `FR-027` / `FR-028`: `atruss diff`, `atruss check --sarif` & OASIS SARIF v2.1.0 Exporter | **Implemented** | SWE, DevOps, Architects |
+| **AI Context & MCP** | `FR-029`: `llms.txt` / `llms-full.txt` Exporters & Read-Only Stdio MCP Server (`atruss mcp`, 10 Tools) | **Implemented** | SWE, Architects |
+| **Web Portal & Exports** | `FR-017` / `FR-030`: 4-Tab M3 Astro Portal, `ScorecardHeatmap`, `CrossRepoTopology`, SVG/PNG & Print/PDF | **Implemented** | All Stakeholders |
+| **Quality & Scale** | `FR-019` / `FR-020`: 372-Repo Production Corpus Benchmark (`--isolated`, `--checkpoint-dir`) & 5-Gate Validator (Grade `A`) | **Implemented** | SWE, Architects, Executives |
 
 ---
 
@@ -176,17 +146,15 @@ flowchart LR
 git clone https://github.com/kumarshaz/atruss-code-atlas.git
 cd atruss-code-atlas
 
-# Create WSL/Linux-native environment and install
+# Create Linux/WSL virtual environment and install
 uv venv .venv
 source .venv/bin/activate
 uv pip install -e ".[dev]"
 ```
 
-> **Note**: If you recently migrated this project from Windows to WSL, recreate your virtual environment inside WSL.
+### 1. Structural Analysis, Security Gates, Drift Diff & MCP Server
 
-### 1. Perform Multi-Phase Structural Extraction (CSV, JSON, YAML, Arc42 Markdown)
-
-Atruss Code Atlas outputs deterministic datasets into `exports/{timestamp}/` (and updates `exports/latest/`), mapping to 27-column discovery schemas, pipeline DAGs, and Arc42 architecture reports that the Material Design 3 Astro portal ingests natively at build time.
+Atruss Code Atlas outputs deterministic datasets into `exports/{timestamp}/` and synchronizes `exports/latest/` for CLI inspection, PR gating, MCP tooling, and static Material Design 3 portal builds.
 
 ```bash
 export GH_TOKEN="ghp_xxx"
@@ -194,35 +162,74 @@ export GH_TOKEN="ghp_xxx"
 # 1. Discover repositories across an organization (27-column YAML-driven classification)
 atruss discover --org your-org
 
-# 2. Analyze CI/CD pipeline topologies & anti-patterns from discovery output
-atruss analyze-pipeline --from-discovery ./exports/latest/repos/repositories.json
+# 2. Analyze CI/CD pipeline topologies, supply-chain security & cross-workflow edges
+atruss analyze-pipeline --from-discovery ./exports/latest/repos/repositories.json --format sarif
 
-# Alternatively, pass a flat repository list or local path
-atruss analyze-pipeline --repos-file targets.txt --output-dir ./reports/
+# 3. Deep structural code scan generating Arc42 reports, 6-D Scorecards, SBOMs, SARIF & llms.txt
+atruss analyze-code --path ./my-repo --sbom --format sarif
 
-# 3. Deep structural code scan generating Arc42 + Mermaid architecture reports
-atruss analyze-code --repos-file targets.txt --output-dir ./architecture-reports/
+# 4. Run offline PR quality gate or snapshot drift diff
+atruss check --path ./my-repo --sarif check.sarif.json --fail-on HIGH
+atruss diff --baseline ./exports/baseline --target ./exports/latest --fail-on-regression
 
-# 4. Run the 100 Popular GitHub Projects Benchmark or Stratified Random Sampler
+# 5. Start the read-only stdio MCP server (10 structural & security query tools)
+atruss mcp --exports-dir ./exports/latest --transport stdio
+
+# 6. Run the Curated Production Corpus Benchmark or Stratified Random Sampler
 atruss benchmark --corpus popular-100 --limit 12
 atruss benchmark --random-sample 12 --seed 2026
 
-# 5. Run the 5-Gate Agentic Workflow Conformance Validator
+# 7. Run the 5-Gate Agentic Workflow Conformance Validator (Grade A target)
 python scripts/validate_agent_workflow.py --spec specs/009-unified-atlas-spec
 ```
+
+### 2. Reproducible Corpus Benchmarking, Checkpointing & Portal Refresh
+
+Large-scale exploration across the full 372-repository production corpus (`tests/fixtures/popular_100_corpus.json`) automatically exports `repos/`, `pipelines/`, `reports/`, `sbom/`, `sarif/`, `llms/`, `catalog-history.json`, `benchmark_summary.{json,md}`, `benchmark_manifest.json`, and `anomalies.json` into `exports/latest/`.
+
+To keep multi-GB monorepo scans repeatable and resilient on memory- or time-constrained hosts (e.g., 8 GB RAM VMs or CI runners):
+
+```bash
+# 1. Point TMPDIR to a volume with >= 10 GB free space for shallow clones
+mkdir -p .cache/tmp .cache/bench_results
+export TMPDIR="$(pwd)/.cache/tmp"
+
+# 2. Run automated subprocess-isolated, checkpointed benchmarking
+#    - --isolated: frees Tree-sitter/Python memory after each repo & enforces hard timeouts
+#    - --checkpoint-dir + --resume: checkpoints each repo JSON and skips completed repos if re-run
+atruss benchmark \
+  --corpus popular-100 \
+  --isolated \
+  --checkpoint-dir .cache/bench_results \
+  --timeout 60 \
+  --max-concurrent 5 \
+  --resume
+
+# 3. (Optional) Replay only failed/timed-out repositories with a higher timeout
+atruss benchmark --replay exports/latest/anomalies.json --isolated --timeout 180
+
+# 4. Refresh and verify the Material Design 3 Astro Portal from exports/latest/
+cd web
+npm run copy-data
+npm test
+npm run build
+ASTRO_SITE=https://kumarshaz.github.io ASTRO_BASE=/atruss-code-atlas npm run build
+```
+
+> **Note on Checkpoints**: Checkpoints in `.cache/bench_results/` are local-only scratch state; once `atruss benchmark` completes and publishes `exports/latest/`, clean up `.cache/bench_results/` and `.cache/tmp/` before committing.
 
 ---
 
 ## Core Architecture (Hexagonal / Ports & Adapters)
 
-To ensure the Python engine remains a clean, deterministic core that powers CLI reports, CI gates, and the Astro Starlight UI, the system enforces strict hexagonal boundaries:
-* **Declarative Policy Layer ([`manifests/ecosystems.yaml`](./manifests/ecosystems.yaml))**: Externalized rules for ecosystem detection, sub-frameworks, and 27-column discovery signals.
-* **Core Domain (The "Lego" Logic)**: Immutable classification (`src/analyzers/classification.py`), AST/structural parsing (`src/analyzers/code/`), NetworkX DAG reconstruction (`src/analyzers/pipeline/dag_builder.py`), and pipeline anti-pattern heuristics (`src/analyzers/pipeline/heuristics.py`). Zero coupling to external UIs.
-* **Inbound Ports (Interfaces)**:
-  * `CLIAdapter` (`src/cli/commands/`): `discover`, `analyze-pipeline`, `analyze-code`, and `benchmark`.
-* **Outbound Adapters (The "Modular Joints")**:
-  * `GitHubRESTClient` & `GitCloner`: Dual-mode zero-clone `/git/trees?recursive=1` inspection and shallow (`--depth 1`) ephemeral repository cloning.
-  * `DiscoveryExporter`, `PipelineExporter`, `MarkdownExporter`: Deterministic JSON, CSV, YAML, and Arc42/Mermaid Markdown exporters writing to `exports/{timestamp}/` and `exports/latest/`.
+To ensure the Python engine remains a clean, deterministic core that powers CLI reports, CI gates, MCP tools, and the Astro Starlight UI, the system enforces strict hexagonal boundaries:
+* **Declarative Policy Layer**: [`manifests/ecosystems.yaml`](./manifests/ecosystems.yaml), [`manifests/architecture-rules.yaml`](./manifests/architecture-rules.yaml), and [`manifests/pipeline-rules.yaml`](./manifests/pipeline-rules.yaml).
+* **Core Domain (The "Lego" Logic)**: Classification (`src/analyzers/classification.py`), Tree-sitter & fitness engines (`src/analyzers/code/`), dependency/OSV/secret scanners (`src/analyzers/dependencies/`), 6-D scorecard & Code-to-Cloud traceability (`src/analyzers/{scorecard,traceability,observability,drift}.py`), and pipeline DAG heuristics (`src/analyzers/pipeline/`).
+* **Inbound Ports (Adapters)**:
+  * `CLIAdapter` (`src/cli/commands/`): `discover`, `analyze-pipeline`, `analyze-code`, `analyze-coverage`, `benchmark`, `check`, `diff`, `mcp`.
+* **Outbound Adapters (Exporters)**:
+  * `GitHubRESTClient` & `GitCloner`: Zero-clone `/git/trees?recursive=1` inspection and shallow (`--depth 1`) ephemeral repository cloning.
+  * Exporters (`src/core/exporters/`): Deterministic JSON, CSV, YAML, Arc42 Markdown, CycloneDX v1.6 SBOM, OASIS SARIF v2.1.0, and `llms.txt` writers writing to `exports/{timestamp}/` and `exports/latest/`.
 
 ---
 
@@ -230,15 +237,8 @@ To ensure the Python engine remains a clean, deterministic core that powers CLI 
 
 Atruss Code Atlas includes a zero-backend **Astro v5 + Starlight** web application styled with **Google Material Design 3 (`M3`)** tonal surface tokens ([`web/src/styles/material-theme.css`](./web/src/styles/material-theme.css)).
 
-> **Note on Development**: Building or running the Astro Node.js project on Windows requires running within **WSL (Windows Subsystem for Linux)** with Node v20/v22+.
->
-> ### Quick WSL Node Setup:
-> 1. Install FNM: `curl -fsSL https://fnm.vercel.app/install | bash`
-> 2. Initialize in shell: `source ~/.bashrc`
-> 3. Install required version: `fnm install 22 && fnm default 22 && fnm use 22`
-
 ### End-to-End Portal Build Pipeline:
-1. **The Generator**: The Python CLI analyzes repositories and outputs canonical JSON datasets and Arc42 Markdown reports into `./exports/latest/`.
-2. **The Output Bridge**: `scripts/generate-report-stubs.py` converts `./exports/latest/` artifacts into tabbed Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture`).
-3. **The Consumer**: Running `npm run copy-data` inside `./web` synchronizes `./exports/latest/` into `web/src/data/latest/` and generates the MDX report routes.
+1. **The Generator**: The Python CLI analyzes repositories and outputs canonical datasets, SBOMs, SARIF, `llms.txt`, and Arc42 Markdown reports into `./exports/latest/`.
+2. **The Output Bridge**: `scripts/generate-report-stubs.py` converts `./exports/latest/` artifacts into 4-tab Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture` | `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, client-side SVG/PNG diagram downloads, and Print/PDF layout support.
+3. **The Consumer**: Running `npm run copy-data` inside `./web` synchronizes `./exports/latest/` into `web/src/data/latest/`, copies `llms*.txt` into `web/public/`, and generates the MDX report routes.
 4. **Static Output**: Run `npm run build` in `./web` (or `ASTRO_BASE=/atruss-code-atlas npm run build` for GitHub Pages subpath hosting). The output in `web/dist/` is pure static HTML/CSS/JS ready for GitHub Pages, S3, or internal enterprise hosting.

@@ -1,0 +1,119 @@
+{
+  "org": "keycloak",
+  "repository": "keycloak-oauth-sig",
+  "sha": "64b97d552fa6c0f85aa5a9ead64f7dd5bfd8dbdc",
+  "analyzed_at": "2026-11-15T05:22:56Z",
+  "workflows": [
+    {
+      "id": "run-conformance-tests.yml",
+      "path": ".github/workflows/run-conformance-tests.yml",
+      "name": "run-conformance-tests",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run-conformance-test",
+          "name": "run-conformance-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "evaluate-test-results",
+          "name": "evaluate-test-results",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "run-conformance-test"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "evaluate-test-results": 0.0,
+          "run-conformance-test": 0.0
+        },
+        "pagerank": {
+          "evaluate-test-results": 0.649123,
+          "run-conformance-test": 0.350877
+        },
+        "downstream_impact": {
+          "evaluate-test-results": [],
+          "run-conformance-test": [
+            "evaluate-test-results"
+          ]
+        },
+        "critical_nodes": [
+          "evaluate-test-results",
+          "run-conformance-test"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-conformance-tests.yml",
+          "start_line": 4,
+          "end_line": 5,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-conformance-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-conformance-tests.yml",
+          "start_line": 8,
+          "end_line": 66,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'evaluate-test-results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-conformance-tests.yml",
+          "start_line": 67,
+          "end_line": 129,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'run-conformance-test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-conformance-tests.yml",
+          "start_line": 19,
+          "end_line": 19,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'evaluate-test-results' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/run-conformance-tests.yml",
+          "start_line": 75,
+          "end_line": 75,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    }
+  ]
+}

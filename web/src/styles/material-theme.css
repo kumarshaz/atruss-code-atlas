@@ -600,3 +600,58 @@ header.header {
   text-align: center;
   color: var(--md-sys-color-on-surface-variant);
 }
+
+/* Multi-Tab PDF Print & Executive Export Formatting */
+@media print {
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'] {
+    --md-sys-color-background: #ffffff;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #f8fafc;
+    --md-sys-color-surface-container: #f1f5f9;
+    --md-sys-color-on-surface: #0f172a;
+    --md-sys-color-on-surface-variant: #475569;
+    --md-sys-color-outline-variant: #cbd5e1;
+  }
+
+  header.header,
+  .sidebar-pane,
+  .mobile-starlight-toc,
+  .m3-tabs-bar,
+  .m3-report-actions,
+  .m3-zoom-controls,
+  .m3-tree-nav,
+  footer.sl-flex {
+    display: none !important;
+  }
+
+  .main-pane,
+  .sl-container,
+  .content-panel {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0.5rem !important;
+  }
+
+  .m3-tab-panel[hidden] {
+    display: block !important;
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .m3-card-elevated,
+  .m3-card-filled,
+  .m3-card-outlined {
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .m3-diagram-viewport {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
