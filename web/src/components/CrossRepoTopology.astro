@@ -303,9 +303,12 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 0.65rem;
+        align-items: stretch;
     }
 
     .m3-cross-edge-pill {
+        height: 100%;
+        margin: 0 !important;
         padding: 0.7rem 0.85rem;
         border-radius: var(--md-sys-shape-corner-medium);
         background-color: var(--md-sys-color-surface-container);
@@ -313,6 +316,10 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
+    }
+
+    .m3-cross-edge-pill > * {
+        margin: 0 !important;
     }
 
     .m3-cross-kind {
