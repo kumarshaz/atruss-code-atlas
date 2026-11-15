@@ -23,6 +23,10 @@ export default defineConfig({
 		}),
 		starlight({
 			title: 'Atruss Code Atlas',
+			logo: {
+				src: './src/assets/atruss-logo.png',
+				alt: 'Atruss Code Atlas',
+			},
 			tableOfContents: false,
 			favicon: '/favicon.png',
 			customCss: ['./src/styles/material-theme.css'],
