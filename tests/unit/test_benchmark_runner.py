@@ -240,6 +240,66 @@ def test_benchmark_cli_registered():
     assert "--corpus" in plain_stdout
     assert "--random-sample" in plain_stdout
     assert "--replay" in plain_stdout
+    assert "--checkpoint-dir" in plain_stdout
+    assert "--resume" in plain_stdout
+    assert "--isolated" in plain_stdout
+
+
+@pytest.mark.asyncio
+async def test_benchmark_checkpoint_and_resume(tmp_path: Path):
+    """Verify per-repo checkpointing writes JSON files and skips re-analysis on resume."""
+    repo_dir = tmp_path / "py_app"
+    repo_dir.mkdir()
+    (repo_dir / "requirements.txt").write_text("fastapi==0.110.0\n", encoding="utf-8")
+    (repo_dir / "main.py").write_text("from fastapi import FastAPI\napp = FastAPI()\n")
+
+    entries = [
+        CorpusEntry(
+            org="acme",
+            name="py-app",
+            full_name="acme/py-app",
+            url="https://github.com/acme/py-app",
+            clone_url="https://github.com/acme/py-app.git",
+            ecosystem_key="python",
+            expected_ecosystem="Python",
+            star_tier="1000..10000",
+        )
+    ]
+
+    calls = 0
+
+    def resolver(_entry: CorpusEntry) -> Path:
+        nonlocal calls
+        calls += 1
+        return repo_dir
+
+    ckpt_dir = tmp_path / "checkpoints"
+    summary1, _, _ = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(tmp_path / "exports1"),
+        log_dir=str(tmp_path / "logs"),
+        checkpoint_dir=ckpt_dir,
+        resume=True,
+        local_repo_resolver=resolver,
+    )
+    assert calls == 1
+    assert summary1.completed_repos == 1
+    assert len(list(ckpt_dir.glob("*.json"))) == 1
+
+    # Second run with resume=True should load from checkpoint without calling resolver
+    summary2, _, latest_dir2 = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(tmp_path / "exports2"),
+        log_dir=str(tmp_path / "logs"),
+        checkpoint_dir=ckpt_dir,
+        resume=True,
+        local_repo_resolver=resolver,
+    )
+    assert calls == 1
+    assert summary2.completed_repos == 1
+    assert (latest_dir2 / "reports" / "acme-py-app-analysis.json").exists()
 
 
 @pytest.mark.asyncio

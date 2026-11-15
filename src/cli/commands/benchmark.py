@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import random
 import shutil
+import sys
 import time
 import traceback
 from collections import Counter, defaultdict
 from collections.abc import Awaitable, Callable
+from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -788,6 +791,169 @@ def _clear_latest_artifact_dirs(exports_root: Path) -> None:
             shutil.rmtree(target)
 
 
+def _serialize_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "result": outcome["result"].model_dump(),
+        "anomalies": [a.model_dump() for a in outcome.get("anomalies", [])],
+    }
+    if "discovery_item" in outcome:
+        payload["discovery_item"] = asdict(outcome["discovery_item"])
+    if "astro_workflows" in outcome:
+        payload["astro_workflows"] = outcome["astro_workflows"]
+    if "topo_nodes" in outcome:
+        payload["topo_nodes"] = [asdict(n) for n in outcome["topo_nodes"]]
+    if "wf_runs" in outcome:
+        payload["wf_runs"] = [asdict(w) for w in outcome["wf_runs"]]
+    if outcome.get("code_artifact") is not None:
+        payload["code_artifact"] = outcome["code_artifact"].model_dump()
+    return payload
+
+
+def _deserialize_outcome(raw: dict[str, Any]) -> dict[str, Any]:
+    outcome: dict[str, Any] = {
+        "result": BenchmarkRepoResult.model_validate(raw["result"]),
+        "anomalies": [AnomalyRecord.model_validate(a) for a in raw.get("anomalies", [])],
+    }
+    if "discovery_item" in raw:
+        outcome["discovery_item"] = DiscoveryManifestItem(**raw["discovery_item"])
+    if "astro_workflows" in raw:
+        outcome["astro_workflows"] = raw["astro_workflows"]
+    if "topo_nodes" in raw:
+        outcome["topo_nodes"] = [TopologyNode(**n) for n in raw["topo_nodes"]]
+    if "wf_runs" in raw:
+        outcome["wf_runs"] = [WorkflowRun(**w) for w in raw["wf_runs"]]
+    if raw.get("code_artifact") is not None:
+        outcome["code_artifact"] = PortableArtifact.model_validate(raw["code_artifact"])
+    return outcome
+
+
+def _run_worker_from_stdin() -> None:
+    req = json.loads(sys.stdin.read())
+    entry = CorpusEntry.model_validate(req["entry"])
+    timeout = float(req["timeout"])
+    analyzed_date = str(req["analyzed_date"])
+    token = os.getenv("GH_TOKEN") or req.get("token")
+    sem = asyncio.Semaphore(1)
+    outcome = asyncio.run(
+        _run_single_repo(
+            entry,
+            semaphore=sem,
+            timeout=timeout,
+            token=token,
+            analyzed_date=analyzed_date,
+        )
+    )
+    sys.stdout.write(json.dumps(_serialize_outcome(outcome)))
+    sys.stdout.flush()
+
+
+async def _run_single_repo_subprocess(
+    entry: CorpusEntry,
+    *,
+    semaphore: asyncio.Semaphore,
+    timeout: float,
+    token: str | None,
+    analyzed_date: str,
+) -> dict[str, Any]:
+    req_bytes = json.dumps(
+        {
+            "entry": entry.model_dump(),
+            "timeout": timeout,
+            "analyzed_date": analyzed_date,
+            "token": token,
+        }
+    ).encode("utf-8")
+
+    async with semaphore:
+        t0 = time.perf_counter()
+        worker_cmd = (
+            "from src.cli.commands.benchmark import _run_worker_from_stdin; "
+            "_run_worker_from_stdin()"
+        )
+        proc = await asyncio.create_subprocess_exec(
+            sys.executable,
+            "-c",
+            worker_cmd,
+            stdin=asyncio.subprocess.PIPE,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        try:
+            stdout, stderr = await asyncio.wait_for(
+                proc.communicate(input=req_bytes),
+                timeout=timeout + 10.0,
+            )
+        except asyncio.TimeoutError:
+            proc.kill()
+            await proc.wait()
+            duration = round(time.perf_counter() - t0, 3)
+            tmp_atlas = Path(os.environ.get("TMPDIR", "/tmp")) / "atruss_code_atlas"
+            if tmp_atlas.exists():
+                for d in tmp_atlas.iterdir():
+                    if d.is_dir() and (time.time() - d.stat().st_mtime) > timeout:
+                        shutil.rmtree(d, ignore_errors=True)
+            res = BenchmarkRepoResult(
+                full_name=entry.full_name,
+                org=entry.org,
+                repo=entry.name,
+                clone_url=entry.clone_url,
+                resolved_sha=entry.pinned_sha or "unknown",
+                expected_ecosystem=entry.expected_ecosystem,
+                status="timeout",
+                duration_seconds=duration,
+                within_sla=False,
+                error=f"Hard subprocess timeout after {timeout:.1f}s",
+                stage_failed="timeout",
+            )
+            anom = AnomalyRecord(
+                repo=entry.full_name,
+                sha=entry.pinned_sha or "unknown",
+                stage="timeout",
+                error_type="TimeoutError",
+                message=f"Subprocess exceeded {timeout:.1f}s SLA",
+                expected_ecosystem=entry.expected_ecosystem,
+                suggested_action="Increase --timeout or optimize large monorepo scan",
+                timestamp=_utc_iso(),
+            )
+            return {"result": res, "anomalies": [anom]}
+
+        if proc.returncode == 0 and stdout:
+            try:
+                return _deserialize_outcome(json.loads(stdout.decode("utf-8")))
+            except Exception as exc:
+                err_msg = f"Worker payload decode failed: {exc}"
+        else:
+            err_msg = stderr.decode("utf-8", errors="replace").strip()[-400:] or (
+                f"Worker exited with code {proc.returncode}"
+            )
+
+        duration = round(time.perf_counter() - t0, 3)
+        res = BenchmarkRepoResult(
+            full_name=entry.full_name,
+            org=entry.org,
+            repo=entry.name,
+            clone_url=entry.clone_url,
+            resolved_sha=entry.pinned_sha or "unknown",
+            expected_ecosystem=entry.expected_ecosystem,
+            status="failed",
+            duration_seconds=duration,
+            within_sla=duration <= timeout,
+            error=err_msg,
+            stage_failed="worker",
+        )
+        anom = AnomalyRecord(
+            repo=entry.full_name,
+            sha=entry.pinned_sha or "unknown",
+            stage="worker",
+            error_type="WorkerProcessError",
+            message=err_msg,
+            expected_ecosystem=entry.expected_ecosystem,
+            suggested_action="Inspect benchmark logs or re-run with --isolated",
+            timestamp=_utc_iso(),
+        )
+        return {"result": res, "anomalies": [anom]}
+
+
 async def execute_benchmark(
     entries: list[CorpusEntry],
     mode: str,
@@ -801,29 +967,54 @@ async def execute_benchmark(
     clean_latest: bool = True,
     local_repo_resolver: Callable[[CorpusEntry], Awaitable[Path | None] | Path | None]
     | None = None,
+    checkpoint_dir: Path | str | None = None,
+    resume: bool = True,
+    isolated: bool = False,
 ) -> tuple[BenchmarkSummary, list[AnomalyRecord], Path]:
     """
     Execute the fault-isolated 3-stage benchmark across `entries` and publish
     Astro-compatible artifacts, `benchmark_manifest.json`, `benchmark_summary.{json,md}`,
-    and `anomalies.json`.
+    and `anomalies.json`. Supports optional per-repo checkpointing (`checkpoint_dir`,
+    `resume`) and memory-isolated subprocess execution (`isolated`).
     """
     logger = setup_secure_logging(Path(log_dir) / "benchmark.log", token)
     started_at = _utc_iso()
     run_ts = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H-%M-%S")
     analyzed_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+    ckpt_root = Path(checkpoint_dir) if checkpoint_dir is not None else None
+    if ckpt_root is not None:
+        ckpt_root.mkdir(parents=True, exist_ok=True)
+
     logger.info(
-        "Starting %s benchmark for %d repositories (concurrency=%d, timeout=%.1fs)",
+        "Starting %s benchmark for %d repositories (concurrency=%d, timeout=%.1fs, isolated=%s)",
         mode,
         len(entries),
         max_concurrent,
         timeout,
+        isolated and local_repo_resolver is None,
     )
 
     semaphore = asyncio.Semaphore(max_concurrent)
-    outcomes = await asyncio.gather(
-        *(
-            _run_single_repo(
+
+    async def _run_or_load(idx: int, entry: CorpusEntry) -> dict[str, Any]:
+        ckpt_file: Path | None = None
+        if ckpt_root is not None:
+            slug = f"{entry.org}__{entry.name}".replace("/", "_")
+            ckpt_file = ckpt_root / f"{idx:04d}_{slug}.json"
+            if resume and ckpt_file.exists():
+                return _deserialize_outcome(json.loads(ckpt_file.read_text(encoding="utf-8")))
+
+        if isolated and local_repo_resolver is None:
+            outcome = await _run_single_repo_subprocess(
+                entry,
+                semaphore=semaphore,
+                timeout=timeout,
+                token=token,
+                analyzed_date=analyzed_date,
+            )
+        else:
+            outcome = await _run_single_repo(
                 entry,
                 semaphore=semaphore,
                 timeout=timeout,
@@ -831,8 +1022,13 @@ async def execute_benchmark(
                 analyzed_date=analyzed_date,
                 local_repo_resolver=local_repo_resolver,
             )
-            for entry in entries
-        )
+
+        if ckpt_file is not None:
+            ckpt_file.write_text(json.dumps(_serialize_outcome(outcome)), encoding="utf-8")
+        return outcome
+
+    outcomes = await asyncio.gather(
+        *(_run_or_load(idx, entry) for idx, entry in enumerate(entries))
     )
 
     results: list[BenchmarkRepoResult] = []
@@ -1024,12 +1220,15 @@ def benchmark(
         None,
         "--limit",
         min=1,
-        help="Limit number of repositories (uses stratified balance across all 4 ecosystems)",
+        help="Limit number of repositories (uses stratified balance across all 10 ecosystems)",
     ),
     ecosystem: str | None = typer.Option(
         None,
         "--ecosystem",
-        help="Filter by ecosystem (python, .net, react_ts_js, java_springboot)",
+        help=(
+            "Filter by ecosystem (python, .net, react_ts_js, java_springboot, "
+            "go, rust, ruby, php, elixir, infra_devops)"
+        ),
     ),
     random_sample: int | None = typer.Option(
         None,
@@ -1052,6 +1251,21 @@ def benchmark(
     ),
     corpus_file: str | None = typer.Option(
         None, "--corpus-file", help="Custom path to popular_100_corpus.json"
+    ),
+    checkpoint_dir: str | None = typer.Option(
+        None,
+        "--checkpoint-dir",
+        help="Directory to store per-repo checkpoints for automated resume",
+    ),
+    resume: bool = typer.Option(
+        True,
+        "--resume/--no-resume",
+        help="Skip repositories that already have checkpoints in --checkpoint-dir",
+    ),
+    isolated: bool = typer.Option(
+        False,
+        "--isolated/--no-isolated",
+        help="Run each repository in a memory-isolated subprocess with hard timeout enforcement",
     ),
 ) -> None:
     """
@@ -1113,6 +1327,9 @@ def benchmark(
             max_concurrent=max_concurrent,
             timeout=timeout,
             token=token,
+            checkpoint_dir=checkpoint_dir,
+            resume=resume,
+            isolated=isolated,
         )
     )
 

@@ -127,15 +127,15 @@ flowchart LR
 | **Ingestion & Discovery** | `FR-005`: Dual-Mode GitHub `/trees` API & Shallow Clone Discovery (27 Columns) | **Implemented** | Executives, Architects, Infra |
 | **Policy-as-Code** | `FR-004` / `FR-021` / `FR-023`: YAML Rules (`ecosystems.yaml`, `architecture-rules.yaml`, `pipeline-rules.yaml`) | **Implemented** | Architects, DevOps |
 | **Pipeline & Security** | `FR-009` / `FR-010` / `FR-021`: 14-Rule CI/CD DAG, Supply-Chain Security & Cross-Workflow Edges | **Implemented** | DevOps, CISO/Executives |
-| **Polyglot Tree-sitter AST** | `FR-012` / `FR-022`: 4-Ecosystem Analyzers (`Python`, `.NET`, `TS/JS`, `Java`) + Cognitive/Clone/Dead-Code | **Implemented** | Architects, SWE |
+| **Polyglot Tree-sitter AST** | `FR-012` / `FR-022`: 10-Ecosystem Analyzers (`Python`, `.NET`, `TS/JS`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container/Helm/IaC`) + Cognitive/Clone/Dead-Code | **Implemented** | Architects, SWE |
 | **Fitness & Workspaces** | `FR-023`: Declarative Layer Boundaries, Cycle Detection (`nx.simple_cycles`) & PageRank Blast Radius | **Implemented** | Architects, Infra/SRE, SWE |
-| **Supply Chain & SBOM** | `FR-024`: Lockfiles, Offline-Safe OSV.dev Batch API, Redacted Secrets & CycloneDX v1.6 SBOM (`--sbom`) | **Implemented** | Infra/SRE, CISO, DevOps |
+| **Supply Chain & SBOM** | `FR-024`: Lockfiles (`go.mod`, `Cargo.lock`, `Gemfile`, `composer.json`, `mix.exs`, etc.), Offline-Safe OSV.dev Batch API, Redacted Secrets & CycloneDX v1.6 SBOM | **Implemented** | Infra/SRE, CISO, DevOps |
 | **6-D Scorecard & Debt** | `FR-025`: 6-Dimension A–F Scorecard & Technical Debt Estimator (`0–100`) | **Implemented** | Executives, Architects |
 | **Code-to-Cloud & OTel** | `FR-026`: Arc42 Section 7 Code-to-Cloud Deployment Graph + `--otel-traces` / `--coverage` Overlay | **Implemented** | Infra/SRE, Architects, SWE |
 | **Drift Diff & SARIF Gate** | `FR-027` / `FR-028`: `atruss diff`, `atruss check --sarif` & OASIS SARIF v2.1.0 Exporter | **Implemented** | SWE, DevOps, Architects |
 | **AI Context & MCP** | `FR-029`: `llms.txt` / `llms-full.txt` Exporters & Read-Only Stdio MCP Server (`atruss mcp`, 10 Tools) | **Implemented** | SWE, Architects |
 | **Web Portal & Exports** | `FR-017` / `FR-030`: 4-Tab M3 Astro Portal, `ScorecardHeatmap`, `CrossRepoTopology`, SVG/PNG & Print/PDF | **Implemented** | All Stakeholders |
-| **Quality & Scale** | `FR-019` / `FR-020`: 100-Repo Stratified Benchmark & 5-Gate Validator (Grade `A`, 8-Artifact Determinism) | **Implemented** | SWE, Architects, Executives |
+| **Quality & Scale** | `FR-019` / `FR-020`: 372-Repo Production Corpus Benchmark (`--isolated`, `--checkpoint-dir`) & 5-Gate Validator (Grade `A`) | **Implemented** | SWE, Architects, Executives |
 
 ---
 
@@ -175,13 +175,48 @@ atruss diff --baseline ./exports/baseline --target ./exports/latest --fail-on-re
 # 5. Start the read-only stdio MCP server (10 structural & security query tools)
 atruss mcp --exports-dir ./exports/latest --transport stdio
 
-# 6. Run the 100 Popular GitHub Projects Benchmark or Stratified Random Sampler
+# 6. Run the Curated Production Corpus Benchmark or Stratified Random Sampler
 atruss benchmark --corpus popular-100 --limit 12
 atruss benchmark --random-sample 12 --seed 2026
 
 # 7. Run the 5-Gate Agentic Workflow Conformance Validator (Grade A target)
 python scripts/validate_agent_workflow.py --spec specs/009-unified-atlas-spec
 ```
+
+### 2. Reproducible Corpus Benchmarking, Checkpointing & Portal Refresh
+
+Large-scale exploration across the full 372-repository production corpus (`tests/fixtures/popular_100_corpus.json`) automatically exports `repos/`, `pipelines/`, `reports/`, `sbom/`, `sarif/`, `llms/`, `catalog-history.json`, `benchmark_summary.{json,md}`, `benchmark_manifest.json`, and `anomalies.json` into `exports/latest/`.
+
+To keep multi-GB monorepo scans repeatable and resilient on memory- or time-constrained hosts (e.g., 8 GB RAM VMs or CI runners):
+
+```bash
+# 1. Point TMPDIR to a volume with >= 10 GB free space for shallow clones
+mkdir -p .cache/tmp .cache/bench_results
+export TMPDIR="$(pwd)/.cache/tmp"
+
+# 2. Run automated subprocess-isolated, checkpointed benchmarking
+#    - --isolated: frees Tree-sitter/Python memory after each repo & enforces hard timeouts
+#    - --checkpoint-dir + --resume: checkpoints each repo JSON and skips completed repos if re-run
+atruss benchmark \
+  --corpus popular-100 \
+  --isolated \
+  --checkpoint-dir .cache/bench_results \
+  --timeout 60 \
+  --max-concurrent 5 \
+  --resume
+
+# 3. (Optional) Replay only failed/timed-out repositories with a higher timeout
+atruss benchmark --replay exports/latest/anomalies.json --isolated --timeout 180
+
+# 4. Refresh and verify the Material Design 3 Astro Portal from exports/latest/
+cd web
+npm run copy-data
+npm test
+npm run build
+ASTRO_SITE=https://kumarshaz.github.io ASTRO_BASE=/atruss-code-atlas npm run build
+```
+
+> **Note on Checkpoints**: Checkpoints in `.cache/bench_results/` are local-only scratch state; once `atruss benchmark` completes and publishes `exports/latest/`, clean up `.cache/bench_results/` and `.cache/tmp/` before committing.
 
 ---
 
