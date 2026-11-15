@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for plausible/ch
 
 ```mermaid
 graph TD;
-    repo_root(["plausible/ch (38 components)"])
-    dir_0_test["test (28)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["plausible/ch (38 components)"]):::atlasRoot
+    subgraph sg_dir_0_test["test (28)"]
+      direction TB
+      dir_0_test["test (28)"]:::atlasCategory
+      sub_0_0_ch["ch (26)"]:::atlasWorkflow
+      dir_0_test --> sub_0_0_ch
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_test --> sub_0_1__module_root_
+      sub_0_2_support["support (1)"]:::atlasWorkflow
+      dir_0_test --> sub_0_2_support
+    end
     repo_root --> dir_0_test
-    sub_0_0_ch["ch (26)"]
-    dir_0_test --> sub_0_0_ch
-    sub_0_1__module_root_["(module root) (1)"]
-    dir_0_test --> sub_0_1__module_root_
-    sub_0_2_support["support (1)"]
-    dir_0_test --> sub_0_2_support
-    dir_1_lib["lib (8)"]
+    dir_1_lib["lib (8)"]:::atlasCategory
     repo_root --> dir_1_lib
-    dir_2__root_["(root) (2)"]
+    dir_2__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -130,11 +140,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_10ebc763_dfb4_490a_a5ae_56ef0d153471["10ebc763-dfb4-490a-a5ae-56ef0d153471"]
+        mod_10ebc763_dfb4_490a_a5ae_56ef0d153471["10ebc763-dfb4-490a-a5ae-56ef0d153471"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_test["ci.yml#test"]
+        job_ci_yml_test["ci.yml#test"]:::atlasJob
     end
     mod_10ebc763_dfb4_490a_a5ae_56ef0d153471 -->|BUILT_BY| job_ci_yml_test
 ```
@@ -146,8 +160,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph ci_0["ci"]
     direction TB
-    0_test["test"]
+    0_test["test"]:::atlasJob
   end
 ```

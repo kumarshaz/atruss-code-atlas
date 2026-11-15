@@ -41,28 +41,41 @@ description: Arc42 and Pipeline report for open-runtimes/open-runtimes
 
 ```mermaid
 graph TD;
-    repo_root(["open-runtimes/open-runtimes (98 components)"])
-    dir_0_tests["tests (56)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["open-runtimes/open-runtimes (98 components)"]):::atlasRoot
+    subgraph sg_dir_0_tests["tests (56)"]
+      direction TB
+      dir_0_tests["tests (56)"]:::atlasCategory
+      sub_0_0_resources_functions_remix["resources/functions/remix (10)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_0_resources_functions_remix
+      sub_0_1_resources_functions_tanstack_start_native["resources/functions/tanstack_start_native (9)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_1_resources_functions_tanstack_start_native
+      sub_0_2_resources_functions_tanstack_start_nitro_listener["resources/functions/tanstack_start_nitro_listener (9)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_2_resources_functions_tanstack_start_nitro_listener
+      sub_0_more["+11 more submodules (28)"]:::atlasMore
+      dir_0_tests --> sub_0_more
+    end
     repo_root --> dir_0_tests
-    sub_0_0_resources_functions_remix["resources/functions/remix (10)"]
-    dir_0_tests --> sub_0_0_resources_functions_remix
-    sub_0_1_resources_functions_tanstack_start_native["resources/functions/tanstack_start_native (9)"]
-    dir_0_tests --> sub_0_1_resources_functions_tanstack_start_native
-    sub_0_2_resources_functions_tanstack_start_nitro_listener["resources/functions/tanstack_start_nitro_listener (9)"]
-    dir_0_tests --> sub_0_2_resources_functions_tanstack_start_nitro_listener
-    sub_0_more["+11 more submodules (28)"]
-    dir_0_tests --> sub_0_more
-    dir_1_runtimes["runtimes (41)"]
+    subgraph sg_dir_1_runtimes["runtimes (41)"]
+      direction TB
+      dir_1_runtimes["runtimes (41)"]:::atlasCategory
+      sub_1_0_dart["dart (20)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_0_dart
+      sub_1_1_ruby["ruby (6)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_1_ruby
+      sub_1_2_dotnet["dotnet (4)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_2_dotnet
+      sub_1_more["+6 more submodules (11)"]:::atlasMore
+      dir_1_runtimes --> sub_1_more
+    end
     repo_root --> dir_1_runtimes
-    sub_1_0_dart["dart (20)"]
-    dir_1_runtimes --> sub_1_0_dart
-    sub_1_1_ruby["ruby (6)"]
-    dir_1_runtimes --> sub_1_1_ruby
-    sub_1_2_dotnet["dotnet (4)"]
-    dir_1_runtimes --> sub_1_2_dotnet
-    sub_1_more["+6 more submodules (11)"]
-    dir_1_runtimes --> sub_1_more
-    dir_2__github[".github (1)"]
+    dir_2__github[".github (1)"]:::atlasCategory
     repo_root --> dir_2__github
 ```
 
@@ -197,76 +210,80 @@ Showing top 60 representative components out of 98 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github_workflows_version_audit[".github/workflows/version-audit"]
-        mod_8efc7635_b5c9_4274_a531_6ed15d1f78fa["8efc7635-b5c9-4274-a531-6ed15d1f78fa"]
-        mod_runtimes_bun["runtimes/bun"]
-        mod_runtimes_bun_versions_latest["runtimes/bun/versions/latest"]
-        mod_runtimes_cpp["runtimes/cpp"]
-        mod_runtimes_dart["runtimes/dart"]
-        mod_runtimes_deno["runtimes/deno"]
-        mod_runtimes_dotnet["runtimes/dotnet"]
-        mod_runtimes_dotnet_versions_10["runtimes/dotnet/versions/10"]
-        mod_runtimes_dotnet_versions_8_0["runtimes/dotnet/versions/8.0"]
-        mod_runtimes_flutter["runtimes/flutter"]
-        mod_runtimes_go["runtimes/go"]
-        mod_runtimes_go_versions_latest_src["runtimes/go/versions/latest/src"]
-        mod_runtimes_java["runtimes/java"]
-        mod_runtimes_java_versions_22["runtimes/java/versions/22"]
-        mod_runtimes_java_versions_25["runtimes/java/versions/25"]
-        mod_runtimes_java_versions_8_0["runtimes/java/versions/8.0"]
-        mod_runtimes_java_versions_latest["runtimes/java/versions/latest"]
-        mod_runtimes_kotlin["runtimes/kotlin"]
-        mod_runtimes_kotlin_versions_1_9["runtimes/kotlin/versions/1.9"]
-        mod_runtimes_kotlin_versions_latest["runtimes/kotlin/versions/latest"]
-        mod_runtimes_node["runtimes/node"]
-        mod_runtimes_node_versions_latest["runtimes/node/versions/latest"]
-        mod_runtimes_php["runtimes/php"]
-        mod_runtimes_php_versions_latest["runtimes/php/versions/latest"]
-        mod_runtimes_python["runtimes/python"]
-        mod_runtimes_python_versions_latest["runtimes/python/versions/latest"]
-        mod_runtimes_ruby["runtimes/ruby"]
-        mod_runtimes_ruby_versions_latest["runtimes/ruby/versions/latest"]
-        mod_runtimes_rust["runtimes/rust"]
-        mod_runtimes_rust_versions_latest["runtimes/rust/versions/latest"]
-        mod_runtimes_rust_versions_latest_src_function["runtimes/rust/versions/latest/src/function"]
-        mod_runtimes_static["runtimes/static"]
-        mod_runtimes_swift["runtimes/swift"]
-        mod_tests_resources_functions_bun_latest["tests/resources/functions/bun/latest"]
-        mod_tests_resources_functions_dotnet_10["tests/resources/functions/dotnet/10"]
-        mod_tests_resources_functions_dotnet_8_0["tests/resources/functions/dotnet/8.0"]
-        mod_tests_resources_functions_go_latest["tests/resources/functions/go/latest"]
-        mod_tests_resources_functions_java_22["tests/resources/functions/java/22"]
-        mod_tests_resources_functions_node_latest["tests/resources/functions/node/latest"]
-        mod_tests_resources_functions_nuxt_server["tests/resources/functions/nuxt/server"]
-        mod_tests_resources_functions_php["tests/resources/functions/php"]
-        mod_tests_resources_functions_php_latest["tests/resources/functions/php/latest"]
-        mod_tests_resources_functions_python_latest["tests/resources/functions/python/latest"]
-        mod_tests_resources_functions_ruby_latest["tests/resources/functions/ruby/latest"]
-        mod_tests_resources_functions_rust_latest["tests/resources/functions/rust/latest"]
+        mod__github_workflows_version_audit[".github/workflows/version-audit"]:::atlasCategory
+        mod_8efc7635_b5c9_4274_a531_6ed15d1f78fa["8efc7635-b5c9-4274-a531-6ed15d1f78fa"]:::atlasCategory
+        mod_runtimes_bun["runtimes/bun"]:::atlasCategory
+        mod_runtimes_bun_versions_latest["runtimes/bun/versions/latest"]:::atlasCategory
+        mod_runtimes_cpp["runtimes/cpp"]:::atlasCategory
+        mod_runtimes_dart["runtimes/dart"]:::atlasCategory
+        mod_runtimes_deno["runtimes/deno"]:::atlasCategory
+        mod_runtimes_dotnet["runtimes/dotnet"]:::atlasCategory
+        mod_runtimes_dotnet_versions_10["runtimes/dotnet/versions/10"]:::atlasCategory
+        mod_runtimes_dotnet_versions_8_0["runtimes/dotnet/versions/8.0"]:::atlasCategory
+        mod_runtimes_flutter["runtimes/flutter"]:::atlasCategory
+        mod_runtimes_go["runtimes/go"]:::atlasCategory
+        mod_runtimes_go_versions_latest_src["runtimes/go/versions/latest/src"]:::atlasCategory
+        mod_runtimes_java["runtimes/java"]:::atlasCategory
+        mod_runtimes_java_versions_22["runtimes/java/versions/22"]:::atlasCategory
+        mod_runtimes_java_versions_25["runtimes/java/versions/25"]:::atlasCategory
+        mod_runtimes_java_versions_8_0["runtimes/java/versions/8.0"]:::atlasCategory
+        mod_runtimes_java_versions_latest["runtimes/java/versions/latest"]:::atlasCategory
+        mod_runtimes_kotlin["runtimes/kotlin"]:::atlasCategory
+        mod_runtimes_kotlin_versions_1_9["runtimes/kotlin/versions/1.9"]:::atlasCategory
+        mod_runtimes_kotlin_versions_latest["runtimes/kotlin/versions/latest"]:::atlasCategory
+        mod_runtimes_node["runtimes/node"]:::atlasCategory
+        mod_runtimes_node_versions_latest["runtimes/node/versions/latest"]:::atlasCategory
+        mod_runtimes_php["runtimes/php"]:::atlasCategory
+        mod_runtimes_php_versions_latest["runtimes/php/versions/latest"]:::atlasCategory
+        mod_runtimes_python["runtimes/python"]:::atlasCategory
+        mod_runtimes_python_versions_latest["runtimes/python/versions/latest"]:::atlasCategory
+        mod_runtimes_ruby["runtimes/ruby"]:::atlasCategory
+        mod_runtimes_ruby_versions_latest["runtimes/ruby/versions/latest"]:::atlasCategory
+        mod_runtimes_rust["runtimes/rust"]:::atlasCategory
+        mod_runtimes_rust_versions_latest["runtimes/rust/versions/latest"]:::atlasCategory
+        mod_runtimes_rust_versions_latest_src_function["runtimes/rust/versions/latest/src/function"]:::atlasCategory
+        mod_runtimes_static["runtimes/static"]:::atlasCategory
+        mod_runtimes_swift["runtimes/swift"]:::atlasCategory
+        mod_tests_resources_functions_bun_latest["tests/resources/functions/bun/latest"]:::atlasCategory
+        mod_tests_resources_functions_dotnet_10["tests/resources/functions/dotnet/10"]:::atlasCategory
+        mod_tests_resources_functions_dotnet_8_0["tests/resources/functions/dotnet/8.0"]:::atlasCategory
+        mod_tests_resources_functions_go_latest["tests/resources/functions/go/latest"]:::atlasCategory
+        mod_tests_resources_functions_java_22["tests/resources/functions/java/22"]:::atlasCategory
+        mod_tests_resources_functions_node_latest["tests/resources/functions/node/latest"]:::atlasCategory
+        mod_tests_resources_functions_nuxt_server["tests/resources/functions/nuxt/server"]:::atlasCategory
+        mod_tests_resources_functions_php["tests/resources/functions/php"]:::atlasCategory
+        mod_tests_resources_functions_php_latest["tests/resources/functions/php/latest"]:::atlasCategory
+        mod_tests_resources_functions_python_latest["tests/resources/functions/python/latest"]:::atlasCategory
+        mod_tests_resources_functions_ruby_latest["tests/resources/functions/ruby/latest"]:::atlasCategory
+        mod_tests_resources_functions_rust_latest["tests/resources/functions/rust/latest"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_runtimes_bun_Dockerfile["runtimes/bun/Dockerfile"]
-        art_runtimes_cpp_Dockerfile["runtimes/cpp/Dockerfile"]
-        art_runtimes_dart_Dockerfile["runtimes/dart/Dockerfile"]
-        art_runtimes_deno_Dockerfile["runtimes/deno/Dockerfile"]
-        art_runtimes_dotnet_Dockerfile["runtimes/dotnet/Dockerfile"]
-        art_runtimes_flutter_Dockerfile["runtimes/flutter/Dockerfile"]
-        art_runtimes_go_Dockerfile["runtimes/go/Dockerfile"]
-        art_runtimes_java_Dockerfile["runtimes/java/Dockerfile"]
-        art_runtimes_kotlin_Dockerfile["runtimes/kotlin/Dockerfile"]
-        art_runtimes_node_Dockerfile["runtimes/node/Dockerfile"]
-        art_runtimes_php_Dockerfile["runtimes/php/Dockerfile"]
-        art_runtimes_python_Dockerfile["runtimes/python/Dockerfile"]
-        art_runtimes_ruby_Dockerfile["runtimes/ruby/Dockerfile"]
-        art_runtimes_rust_Dockerfile["runtimes/rust/Dockerfile"]
-        art_runtimes_static_Dockerfile["runtimes/static/Dockerfile"]
-        art_runtimes_swift_Dockerfile["runtimes/swift/Dockerfile"]
+        art_runtimes_bun_Dockerfile["runtimes/bun/Dockerfile"]:::atlasWorkflow
+        art_runtimes_cpp_Dockerfile["runtimes/cpp/Dockerfile"]:::atlasWorkflow
+        art_runtimes_dart_Dockerfile["runtimes/dart/Dockerfile"]:::atlasWorkflow
+        art_runtimes_deno_Dockerfile["runtimes/deno/Dockerfile"]:::atlasWorkflow
+        art_runtimes_dotnet_Dockerfile["runtimes/dotnet/Dockerfile"]:::atlasWorkflow
+        art_runtimes_flutter_Dockerfile["runtimes/flutter/Dockerfile"]:::atlasWorkflow
+        art_runtimes_go_Dockerfile["runtimes/go/Dockerfile"]:::atlasWorkflow
+        art_runtimes_java_Dockerfile["runtimes/java/Dockerfile"]:::atlasWorkflow
+        art_runtimes_kotlin_Dockerfile["runtimes/kotlin/Dockerfile"]:::atlasWorkflow
+        art_runtimes_node_Dockerfile["runtimes/node/Dockerfile"]:::atlasWorkflow
+        art_runtimes_php_Dockerfile["runtimes/php/Dockerfile"]:::atlasWorkflow
+        art_runtimes_python_Dockerfile["runtimes/python/Dockerfile"]:::atlasWorkflow
+        art_runtimes_ruby_Dockerfile["runtimes/ruby/Dockerfile"]:::atlasWorkflow
+        art_runtimes_rust_Dockerfile["runtimes/rust/Dockerfile"]:::atlasWorkflow
+        art_runtimes_static_Dockerfile["runtimes/static/Dockerfile"]:::atlasWorkflow
+        art_runtimes_swift_Dockerfile["runtimes/swift/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_test_yaml_open_runtimes["test.yaml#open-runtimes"]
-        job_test_yaml_shell_script_check["test.yaml#shell-script-check"]
-        job_version_audit_yml_analyze_runtimes["version-audit.yml#analyze-runtimes"]
+        job_test_yaml_open_runtimes["test.yaml#open-runtimes"]:::atlasJob
+        job_test_yaml_shell_script_check["test.yaml#shell-script-check"]:::atlasJob
+        job_version_audit_yml_analyze_runtimes["version-audit.yml#analyze-runtimes"]:::atlasJob
     end
     mod__github_workflows_version_audit -->|BUILT_BY| job_version_audit_yml_analyze_runtimes
     mod_8efc7635_b5c9_4274_a531_6ed15d1f78fa -->|BUILT_BY| job_test_yaml_open_runtimes
@@ -428,27 +445,34 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["open-runtimes/open-runtimes"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["open-runtimes/open-runtimes"]):::atlasRoot
   subgraph Build_and_Publish_OpenRuntimes_Images_0["Build and Publish OpenRuntimes Images"]
     direction TB
-    0_prepare["prepare"]
-    0_build["build"]
+    0_prepare["prepare"]:::atlasJob
+    0_build["build"]:::atlasJob
     0_prepare --> 0_build
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
     0_prepare --> 0_publish
     0_build --> 0_publish
   end
   pipeline_root --> 0_prepare
   subgraph Testing_OpenRuntimes_1["Testing OpenRuntimes"]
     direction TB
-    1_prepare["prepare"]
-    1_shell_format_check["shell-format-check"]
-    1_shell_script_check["shell-script-check"]
-    1_open_runtimes["open-runtimes"]
+    1_prepare["prepare"]:::atlasJob
+    1_shell_format_check["shell-format-check"]:::atlasJob
+    1_shell_script_check["shell-script-check"]:::atlasJob
+    1_open_runtimes["open-runtimes"]:::atlasJob
     1_prepare --> 1_open_runtimes
-    1_report_startup_time["report-startup-time"]
+    1_report_startup_time["report-startup-time"]:::atlasJob
     1_open_runtimes --> 1_report_startup_time
-    wf_entry_1(["Trigger: Testing OpenRuntimes"])
+    wf_entry_1(["Trigger: Testing OpenRuntimes"]):::atlasWorkflow
     wf_entry_1 --> 1_prepare
     wf_entry_1 --> 1_shell_format_check
     wf_entry_1 --> 1_shell_script_check
@@ -456,7 +480,7 @@ graph TD;
   pipeline_root --> wf_entry_1
   subgraph Version_auditor_2["Version auditor"]
     direction TB
-    2_analyze_runtimes["analyze-runtimes"]
+    2_analyze_runtimes["analyze-runtimes"]:::atlasJob
   end
   pipeline_root --> 2_analyze_runtimes
 ```

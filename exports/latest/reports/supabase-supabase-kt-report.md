@@ -65,15 +65,19 @@ description: Arc42 and Pipeline report for supabase/supabase-kt
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_integration_test["integration-test"]
+        mod_integration_test["integration-test"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_dokka_yml_deploy["dokka.yml#deploy"]
-        job_integration_test_yml_integration_test["integration-test.yml#integration-test"]
+        job_dokka_yml_deploy["dokka.yml#deploy"]:::atlasJob
+        job_integration_test_yml_integration_test["integration-test.yml#integration-test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_dokka_yml_deploy -->|DEPLOYS_TO| env_github_pages
     mod_integration_test -->|BUILT_BY| job_integration_test_yml_integration_test
@@ -87,11 +91,84 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/supabase-kt (9 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/supabase-kt (9 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_project["Build project (1 jobs)"]
+      direction TB
+      wf_0_Build_project(["Trigger: Build project"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Build_project --> job_0_build
+    end
+    pipeline_root --> wf_0_Build_project
+    subgraph sg_wf_2_Analyze_code_using_detekt["Analyze code using detekt (1 jobs)"]
+      direction TB
+      wf_2_Analyze_code_using_detekt(["Trigger: Analyze code using detekt"]):::atlasWorkflow
+      job_2_analyze["analyze"]:::atlasJob
+      wf_2_Analyze_code_using_detekt --> job_2_analyze
+    end
+    pipeline_root --> wf_2_Analyze_code_using_detekt
+    subgraph sg_wf_4_Integration_Tests["Integration Tests (1 jobs)"]
+      direction TB
+      wf_4_Integration_Tests(["Trigger: Integration Tests"]):::atlasWorkflow
+      job_4_integration_test["integration-test"]:::atlasJob
+      wf_4_Integration_Tests --> job_4_integration_test
+    end
+    pipeline_root --> wf_4_Integration_Tests
+    subgraph sg_wf_5_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]
+      direction TB
+      wf_5_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_5_labeler["labeler"]:::atlasJob
+      wf_5_Pull_Request_Labeler --> job_5_labeler
+    end
+    pipeline_root --> wf_5_Pull_Request_Labeler
+    subgraph sg_wf_7_Build_samples["Build samples (1 jobs)"]
+      direction TB
+      wf_7_Build_samples(["Trigger: Build samples"]):::atlasWorkflow
+      job_7_build["build"]:::atlasJob
+      wf_7_Build_samples --> job_7_build
+    end
+    pipeline_root --> wf_7_Build_samples
+    subgraph sg_wf_8_Test_project["Test project (1 jobs)"]
+      direction TB
+      wf_8_Test_project(["Trigger: Test project"]):::atlasWorkflow
+      job_8_test["test"]:::atlasJob
+      wf_8_Test_project --> job_8_test
+    end
+    pipeline_root --> wf_8_Test_project
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Deploy_multi_module_dokka_to_GitHub_Pages["Deploy multi-module dokka to GitHub Pages (1 jobs)"]
+      direction TB
+      wf_3_Deploy_multi_module_dokka_to_GitHub_Pages(["Trigger: Deploy multi-module dokka to GitHub Pages"]):::atlasWorkflow
+      job_3_deploy["deploy"]:::atlasJob
+      wf_3_Deploy_multi_module_dokka_to_GitHub_Pages --> job_3_deploy
+    end
+    pipeline_root --> wf_3_Deploy_multi_module_dokka_to_GitHub_Pages
+    subgraph sg_wf_6_Release_to_Maven_Central["Release to Maven Central (1 jobs)"]
+      direction TB
+      wf_6_Release_to_Maven_Central(["Trigger: Release to Maven Central"]):::atlasWorkflow
+      job_6_publish["publish"]:::atlasJob
+      wf_6_Release_to_Maven_Central --> job_6_publish
+    end
+    pipeline_root --> wf_6_Release_to_Maven_Central
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Clear_all_Github_actions_caches["Clear all Github actions caches (1 jobs)"]
+      direction TB
+      wf_1_Clear_all_Github_actions_caches(["Trigger: Clear all Github actions caches"]):::atlasWorkflow
+      job_1_clear_cache["clear-cache"]:::atlasJob
+      wf_1_Clear_all_Github_actions_caches --> job_1_clear_cache
+    end
+    pipeline_root --> wf_1_Clear_all_Github_actions_caches
+  end
 ```

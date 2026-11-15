@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for nextcloud/unsplash
 
 ```mermaid
 graph TD;
-    unsplash["unsplash : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    unsplash["unsplash : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,14 +114,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0c66d643_9be6_4624_8b7c_22340bf3bfb4["0c66d643-9be6-4624-8b7c-22340bf3bfb4"]
+        mod_0c66d643_9be6_4624_8b7c_22340bf3bfb4["0c66d643-9be6-4624-8b7c-22340bf3bfb4"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_appstore_build_publish_yml_build_and_publish["appstore-build-publish.yml#build_and_publish"]
-        job_playwright_yml_get_branches["playwright.yml#get-branches"]
-        job_playwright_yml_test["playwright.yml#test"]
-        job_release_relay_yml_notify["release-relay.yml#notify"]
+        job_appstore_build_publish_yml_build_and_publish["appstore-build-publish.yml#build_and_publish"]:::atlasJob
+        job_playwright_yml_get_branches["playwright.yml#get-branches"]:::atlasJob
+        job_playwright_yml_test["playwright.yml#test"]:::atlasJob
+        job_release_relay_yml_notify["release-relay.yml#notify"]:::atlasJob
     end
     mod_0c66d643_9be6_4624_8b7c_22340bf3bfb4 -->|BUILT_BY| job_playwright_yml_get_branches
     mod_0c66d643_9be6_4624_8b7c_22340bf3bfb4 -->|BUILT_BY| job_playwright_yml_test
@@ -132,22 +143,29 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/unsplash"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/unsplash"]):::atlasRoot
   subgraph Build_and_publish_app_release_0["Build and publish app release"]
     direction TB
-    0_build_and_publish["build_and_publish"]
+    0_build_and_publish["build_and_publish"]:::atlasJob
   end
   pipeline_root --> 0_build_and_publish
   subgraph Playwright_Tests_1["Playwright Tests"]
     direction TB
-    1_get_branches["get-branches"]
-    1_test["test"]
+    1_get_branches["get-branches"]:::atlasJob
+    1_test["test"]:::atlasJob
     1_get_branches --> 1_test
   end
   pipeline_root --> 1_get_branches
   subgraph Notify_release_relay_on_release_2["Notify release-relay on release"]
     direction TB
-    2_notify["notify"]
+    2_notify["notify"]:::atlasJob
   end
   pipeline_root --> 2_notify
 ```

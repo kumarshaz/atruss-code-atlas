@@ -41,48 +41,67 @@ description: Arc42 and Pipeline report for getsentry/symbolic
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/symbolic (131 components)"])
-    dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/symbolic (131 components)"]):::atlasRoot
+    subgraph sg_dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]
+      direction TB
+      dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]:::atlasCategory
+      sub_0_0_src["src (23)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_0_src
+      sub_0_1_tests["tests (3)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_1_tests
+      sub_0_2_benches["benches (1)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_2_benches
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_symbolic_debuginfo --> sub_0_more
+    end
     repo_root --> dir_0_symbolic_debuginfo
-    sub_0_0_src["src (23)"]
-    dir_0_symbolic_debuginfo --> sub_0_0_src
-    sub_0_1_tests["tests (3)"]
-    dir_0_symbolic_debuginfo --> sub_0_1_tests
-    sub_0_2_benches["benches (1)"]
-    dir_0_symbolic_debuginfo --> sub_0_2_benches
-    sub_0_more["+1 more submodules (1)"]
-    dir_0_symbolic_debuginfo --> sub_0_more
-    dir_1_symbolic_symcache["symbolic-symcache (20)"]
+    subgraph sg_dir_1_symbolic_symcache["symbolic-symcache (20)"]
+      direction TB
+      dir_1_symbolic_symcache["symbolic-symcache (20)"]:::atlasCategory
+      sub_1_0_src["src (14)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_0_src
+      sub_1_1_tests["tests (4)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_1_tests
+      sub_1_2_benches["benches (1)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_2_benches
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_symbolic_symcache --> sub_1_more
+    end
     repo_root --> dir_1_symbolic_symcache
-    sub_1_0_src["src (14)"]
-    dir_1_symbolic_symcache --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]
-    dir_1_symbolic_symcache --> sub_1_1_tests
-    sub_1_2_benches["benches (1)"]
-    dir_1_symbolic_symcache --> sub_1_2_benches
-    sub_1_more["+1 more submodules (1)"]
-    dir_1_symbolic_symcache --> sub_1_more
-    dir_2_symbolic_ppdb["symbolic-ppdb (15)"]
+    subgraph sg_dir_2_symbolic_ppdb["symbolic-ppdb (15)"]
+      direction TB
+      dir_2_symbolic_ppdb["symbolic-ppdb (15)"]:::atlasCategory
+      sub_2_0_src["src (12)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_0_src
+      sub_2_1_tests["tests (2)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_1_tests
+      sub_2_2_fuzz["fuzz (1)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_2_fuzz
+    end
     repo_root --> dir_2_symbolic_ppdb
-    sub_2_0_src["src (12)"]
-    dir_2_symbolic_ppdb --> sub_2_0_src
-    sub_2_1_tests["tests (2)"]
-    dir_2_symbolic_ppdb --> sub_2_1_tests
-    sub_2_2_fuzz["fuzz (1)"]
-    dir_2_symbolic_ppdb --> sub_2_2_fuzz
-    dir_3_examples["examples (9)"]
+    subgraph sg_dir_3_examples["examples (9)"]
+      direction TB
+      dir_3_examples["examples (9)"]:::atlasCategory
+      sub_3_0_addr2line["addr2line (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_0_addr2line
+      sub_3_1_debuginfo_debug["debuginfo_debug (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_1_debuginfo_debug
+      sub_3_2_dump_cfi["dump_cfi (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_2_dump_cfi
+      sub_3_more["+6 more submodules (6)"]:::atlasMore
+      dir_3_examples --> sub_3_more
+    end
     repo_root --> dir_3_examples
-    sub_3_0_addr2line["addr2line (1)"]
-    dir_3_examples --> sub_3_0_addr2line
-    sub_3_1_debuginfo_debug["debuginfo_debug (1)"]
-    dir_3_examples --> sub_3_1_debuginfo_debug
-    sub_3_2_dump_cfi["dump_cfi (1)"]
-    dir_3_examples --> sub_3_2_dump_cfi
-    sub_3_more["+6 more submodules (6)"]
-    dir_3_examples --> sub_3_more
-    dir_4_symbolic_cabi["symbolic-cabi (9)"]
+    dir_4_symbolic_cabi["symbolic-cabi (9)"]:::atlasCategory
     repo_root --> dir_4_symbolic_cabi
-    dir_other_modules["+9 more modules (50)"]
+    dir_other_modules["+9 more modules (50)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -246,20 +265,24 @@ Showing top 60 representative components out of 131 across 14 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_py["py"]
-        mod_symbolic["symbolic"]
-        mod_symbolic_cabi["symbolic-cabi"]
-        mod_symbolic_wasm["symbolic-wasm"]
+        mod_py["py"]:::atlasCategory
+        mod_symbolic["symbolic"]:::atlasCategory
+        mod_symbolic_cabi["symbolic-cabi"]:::atlasCategory
+        mod_symbolic_wasm["symbolic-wasm"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_python_wheel_linux["build.yml#python-wheel-linux"]
-        job_build_yml_python_wheel_mac["build.yml#python-wheel-mac"]
-        job_ci_yml_lints["ci.yml#lints"]
-        job_ci_yml_test_cabi["ci.yml#test-cabi"]
-        job_ci_yml_test_python["ci.yml#test-python"]
-        job_ci_yml_test_wasm["ci.yml#test-wasm"]
-        job_weekly_yml_weekly_ci["weekly.yml#weekly-ci"]
+        job_build_yml_python_wheel_linux["build.yml#python-wheel-linux"]:::atlasJob
+        job_build_yml_python_wheel_mac["build.yml#python-wheel-mac"]:::atlasJob
+        job_ci_yml_lints["ci.yml#lints"]:::atlasJob
+        job_ci_yml_test_cabi["ci.yml#test-cabi"]:::atlasJob
+        job_ci_yml_test_python["ci.yml#test-python"]:::atlasJob
+        job_ci_yml_test_wasm["ci.yml#test-wasm"]:::atlasJob
+        job_weekly_yml_weekly_ci["weekly.yml#weekly-ci"]:::atlasJob
     end
     mod_py -->|BUILT_BY| job_build_yml_python_wheel_linux
     mod_py -->|BUILT_BY| job_build_yml_python_wheel_mac
@@ -287,11 +310,73 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/symbolic (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 10 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/symbolic (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (8 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lints["lints"]:::atlasJob
+      job_1_doc_comments["doc-comments"]:::atlasJob
+      job_1_test_rust["test-rust"]:::atlasJob
+      wf_1_CI --> job_1_lints
+      wf_1_CI --> job_1_doc_comments
+      wf_1_CI --> job_1_test_rust
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Danger["Danger (1 jobs)"]
+      direction TB
+      wf_2_Danger(["Trigger: Danger"]):::atlasWorkflow
+      job_2_danger["danger"]:::atlasJob
+      wf_2_Danger --> job_2_danger
+    end
+    pipeline_root --> wf_2_Danger
+    subgraph sg_wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_3_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
+    end
+    pipeline_root --> wf_3_Enforce_License_Compliance
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_build["Release build (5 jobs)"]
+      direction TB
+      wf_0_Release_build(["Trigger: Release build"]):::atlasWorkflow
+      job_0_python_wheel_mac["python-wheel-mac"]:::atlasJob
+      job_0_python_wheel_linux["python-wheel-linux"]:::atlasJob
+      job_0_sdist["sdist"]:::atlasJob
+      wf_0_Release_build --> job_0_python_wheel_mac
+      wf_0_Release_build --> job_0_python_wheel_linux
+      wf_0_Release_build --> job_0_sdist
+    end
+    pipeline_root --> wf_0_Release_build
+    subgraph sg_wf_4_Release["Release (1 jobs)"]
+      direction TB
+      wf_4_Release(["Trigger: Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Release --> job_4_release
+    end
+    pipeline_root --> wf_4_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Weekly_CI["Weekly CI (2 jobs)"]
+      direction TB
+      wf_5_Weekly_CI(["Trigger: Weekly CI"]):::atlasWorkflow
+      job_5_weekly_ci["weekly-ci"]:::atlasJob
+      job_5_weekly_audit["weekly-audit"]:::atlasJob
+      wf_5_Weekly_CI --> job_5_weekly_ci
+      wf_5_Weekly_CI --> job_5_weekly_audit
+    end
+    pipeline_root --> wf_5_Weekly_CI
+  end
 ```

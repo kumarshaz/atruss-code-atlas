@@ -364,6 +364,30 @@ header.header {
   filter: brightness(1.06);
 }
 
+.m3-btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: 1px solid var(--md-sys-color-outline);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.m3-btn-outlined:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent);
+  border-color: var(--md-sys-color-primary);
+  box-shadow: var(--md-sys-elevation-level1);
+}
+
 /* Data Table Container */
 .m3-table-surface {
   background-color: var(--md-sys-color-surface-container-low);
@@ -654,4 +678,41 @@ header.header {
     max-height: none !important;
     overflow: visible !important;
   }
+}
+
+/* Ensure Mermaid static & dynamic node labels maintain crisp contrast in both themes */
+:root[data-theme='light'] pre.mermaid .node.atlasRoot .nodeLabel,
+:root[data-theme='light'] pre.mermaid .node.atlasRoot span,
+:root[data-theme='light'] pre.mermaid .node.atlasRoot p {
+  color: #001d36 !important;
+}
+
+:root[data-theme='light'] pre.mermaid .node.atlasCategory .nodeLabel,
+:root[data-theme='light'] pre.mermaid .node.atlasCategory span,
+:root[data-theme='light'] pre.mermaid .node.atlasCategory p,
+:root[data-theme='light'] pre.mermaid .node.atlasWorkflow .nodeLabel,
+:root[data-theme='light'] pre.mermaid .node.atlasWorkflow span,
+:root[data-theme='light'] pre.mermaid .node.atlasWorkflow p,
+:root[data-theme='light'] pre.mermaid .node.atlasJob .nodeLabel,
+:root[data-theme='light'] pre.mermaid .node.atlasJob span,
+:root[data-theme='light'] pre.mermaid .node.atlasJob p {
+  color: #181c22 !important;
+}
+
+:root[data-theme='dark'] pre.mermaid .node.atlasRoot .nodeLabel,
+:root[data-theme='dark'] pre.mermaid .node.atlasRoot span,
+:root[data-theme='dark'] pre.mermaid .node.atlasRoot p {
+  color: #d3e4ff !important;
+}
+
+:root[data-theme='dark'] pre.mermaid .node.atlasCategory .nodeLabel,
+:root[data-theme='dark'] pre.mermaid .node.atlasCategory span,
+:root[data-theme='dark'] pre.mermaid .node.atlasCategory p,
+:root[data-theme='dark'] pre.mermaid .node.atlasWorkflow .nodeLabel,
+:root[data-theme='dark'] pre.mermaid .node.atlasWorkflow span,
+:root[data-theme='dark'] pre.mermaid .node.atlasWorkflow p,
+:root[data-theme='dark'] pre.mermaid .node.atlasJob .nodeLabel,
+:root[data-theme='dark'] pre.mermaid .node.atlasJob span,
+:root[data-theme='dark'] pre.mermaid .node.atlasJob p {
+  color: #dfe3eb !important;
 }

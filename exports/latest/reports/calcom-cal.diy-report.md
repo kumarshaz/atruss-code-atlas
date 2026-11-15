@@ -41,28 +41,41 @@ description: Arc42 and Pipeline report for calcom/cal.diy
 
 ```mermaid
 graph TD;
-    repo_root(["calcom/cal.diy (1928 components)"])
-    dir_0_packages["packages (1158)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["calcom/cal.diy (1928 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (1158)"]
+      direction TB
+      dir_0_packages["packages (1158)"]:::atlasCategory
+      sub_0_0_features["features (429)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_features
+      sub_0_1_app_store["app-store (320)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_app_store
+      sub_0_2_ui["ui (148)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_ui
+      sub_0_more["+14 more submodules (261)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_features["features (429)"]
-    dir_0_packages --> sub_0_0_features
-    sub_0_1_app_store["app-store (320)"]
-    dir_0_packages --> sub_0_1_app_store
-    sub_0_2_ui["ui (148)"]
-    dir_0_packages --> sub_0_2_ui
-    sub_0_more["+14 more submodules (261)"]
-    dir_0_packages --> sub_0_more
-    dir_1_apps["apps (765)"]
+    subgraph sg_dir_1_apps["apps (765)"]
+      direction TB
+      dir_1_apps["apps (765)"]:::atlasCategory
+      sub_1_0_api["api (342)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_0_api
+      sub_1_1_web["web (316)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_1_web
+      sub_1_2_ui_playground["ui-playground (107)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_2_ui_playground
+    end
     repo_root --> dir_1_apps
-    sub_1_0_api["api (342)"]
-    dir_1_apps --> sub_1_0_api
-    sub_1_1_web["web (316)"]
-    dir_1_apps --> sub_1_1_web
-    sub_1_2_ui_playground["ui-playground (107)"]
-    dir_1_apps --> sub_1_2_ui_playground
-    dir_2_example_apps["example-apps (4)"]
+    dir_2_example_apps["example-apps (4)"]:::atlasCategory
     repo_root --> dir_2_example_apps
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     sub_0_2_ui -.->|"510 deps"| sub_0_0_features
     sub_0_1_app_store -.->|"453 deps"| sub_0_0_features
@@ -297,38 +310,42 @@ Showing top 60 representative components out of 1928 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_apps_api["apps/api"]
-        mod_apps_api_v1["apps/api/v1"]
-        mod_apps_api_v1_test["apps/api/v1/test"]
-        mod_apps_api_v2["apps/api/v2"]
-        mod_apps_web["apps/web"]
-        mod_apps_web_test["apps/web/test"]
-        mod_infra_docker_api["infra/docker/api"]
-        mod_packages_config["packages/config"]
-        mod_packages_emails["packages/emails"]
-        mod_packages_platform_atoms["packages/platform/atoms"]
-        mod_packages_prisma["packages/prisma"]
-        mod_packages_tsconfig["packages/tsconfig"]
-        mod_packages_types["packages/types"]
+        mod_apps_api["apps/api"]:::atlasCategory
+        mod_apps_api_v1["apps/api/v1"]:::atlasCategory
+        mod_apps_api_v1_test["apps/api/v1/test"]:::atlasCategory
+        mod_apps_api_v2["apps/api/v2"]:::atlasCategory
+        mod_apps_web["apps/web"]:::atlasCategory
+        mod_apps_web_test["apps/web/test"]:::atlasCategory
+        mod_infra_docker_api["infra/docker/api"]:::atlasCategory
+        mod_packages_config["packages/config"]:::atlasCategory
+        mod_packages_emails["packages/emails"]:::atlasCategory
+        mod_packages_platform_atoms["packages/platform/atoms"]:::atlasCategory
+        mod_packages_prisma["packages/prisma"]:::atlasCategory
+        mod_packages_tsconfig["packages/tsconfig"]:::atlasCategory
+        mod_packages_types["packages/types"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_apps_api_v1_test_docker_compose_yml["apps/api/v1/test/docker-compose.yml"]
-        art_apps_api_v2_Dockerfile["apps/api/v2/Dockerfile"]
-        art_apps_api_v2_docker_compose_yaml["apps/api/v2/docker-compose.yaml"]
-        art_apps_web_test_docker_compose_yml["apps/web/test/docker-compose.yml"]
-        art_infra_docker_api_Dockerfile["infra/docker/api/Dockerfile"]
-        art_packages_emails_docker_compose_yml["packages/emails/docker-compose.yml"]
-        art_packages_prisma_docker_compose_yml["packages/prisma/docker-compose.yml"]
+        art_apps_api_v1_test_docker_compose_yml["apps/api/v1/test/docker-compose.yml"]:::atlasWorkflow
+        art_apps_api_v2_Dockerfile["apps/api/v2/Dockerfile"]:::atlasWorkflow
+        art_apps_api_v2_docker_compose_yaml["apps/api/v2/docker-compose.yaml"]:::atlasWorkflow
+        art_apps_web_test_docker_compose_yml["apps/web/test/docker-compose.yml"]:::atlasWorkflow
+        art_infra_docker_api_Dockerfile["infra/docker/api/Dockerfile"]:::atlasWorkflow
+        art_packages_emails_docker_compose_yml["packages/emails/docker-compose.yml"]:::atlasWorkflow
+        art_packages_prisma_docker_compose_yml["packages/prisma/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_api_v2_production_build_yml_build["api-v2-production-build.yml#build"]
-        job_atoms_production_build_yml_build["atoms-production-build.yml#build"]
-        job_draft_release_yml_draft_release["draft-release.yml#draft_release"]
-        job_e2e_api_v2_yml_e2e["e2e-api-v2.yml#e2e"]
-        job_nextjs_bundle_analysis_annotation_yml_annotate["nextjs-bundle-analysis-annotation.yml#annotate"]
-        job_nextjs_bundle_analysis_yml_analyze["nextjs-bundle-analysis.yml#analyze"]
-        job_unit_tests_yml_test["unit-tests.yml#test"]
+        job_api_v2_production_build_yml_build["api-v2-production-build.yml#build"]:::atlasJob
+        job_atoms_production_build_yml_build["atoms-production-build.yml#build"]:::atlasJob
+        job_draft_release_yml_draft_release["draft-release.yml#draft_release"]:::atlasJob
+        job_e2e_api_v2_yml_e2e["e2e-api-v2.yml#e2e"]:::atlasJob
+        job_nextjs_bundle_analysis_annotation_yml_annotate["nextjs-bundle-analysis-annotation.yml#annotate"]:::atlasJob
+        job_nextjs_bundle_analysis_yml_analyze["nextjs-bundle-analysis.yml#analyze"]:::atlasJob
+        job_unit_tests_yml_test["unit-tests.yml#test"]:::atlasJob
     end
     mod_apps_api -->|BUILT_BY| job_api_v2_production_build_yml_build
     mod_apps_api -->|PACKAGED_BY| art_apps_api_v2_Dockerfile
@@ -418,15 +435,109 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["calcom/cal.diy (45 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 51 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (15 workflows · 15 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Automation___Other["Automation & Other (8 workflows · 9 jobs)"]
-  pipeline_root --> grp_2_Automation___Other
-  grp_3_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
-  pipeline_root --> grp_3_Release___Deploy
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["calcom/cal.diy (45 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 51 jobs)"]
+    direction TB
+    subgraph sg_wf_0_All_checks["All checks (13 jobs)"]
+      direction TB
+      wf_0_All_checks(["Trigger: All checks"]):::atlasWorkflow
+      job_0_type_check["type-check"]:::atlasJob
+      job_0_lint["lint"]:::atlasJob
+      job_0_unit_test["unit-test"]:::atlasJob
+      wf_0_All_checks --> job_0_type_check
+      wf_0_All_checks --> job_0_lint
+      wf_0_All_checks --> job_0_unit_test
+    end
+    pipeline_root --> wf_0_All_checks
+    subgraph sg_wf_30_Pull_Request_Labeler["Pull Request Labeler (3 jobs)"]
+      direction TB
+      wf_30_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_30_labeler["labeler"]:::atlasJob
+      job_30_team_labels["team-labels"]:::atlasJob
+      job_30_apply_labels_from_issue["apply-labels-from-issue"]:::atlasJob
+      wf_30_Pull_Request_Labeler --> job_30_labeler
+      wf_30_Pull_Request_Labeler --> job_30_team_labels
+      wf_30_Pull_Request_Labeler --> job_30_apply_labels_from_issue
+    end
+    pipeline_root --> wf_30_Pull_Request_Labeler
+    subgraph sg_wf_37_PR_Update["PR Update (22 jobs)"]
+      direction TB
+      wf_37_PR_Update(["Trigger: PR Update"]):::atlasWorkflow
+      job_37_changes["changes"]:::atlasJob
+      job_37_check_label["check-label"]:::atlasJob
+      job_37_deps["deps"]:::atlasJob
+      wf_37_PR_Update --> job_37_changes
+      job_37_changes --> job_37_check_label
+      job_37_changes --> job_37_deps
+      job_37_check_label --> job_37_deps
+    end
+    pipeline_root --> wf_37_PR_Update
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (15 workflows · 15 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Atoms_production_Build["Atoms production Build (1 jobs)"]
+      direction TB
+      wf_3_Atoms_production_Build(["Trigger: Atoms production Build"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_Atoms_production_Build --> job_3_build
+    end
+    pipeline_root --> wf_3_Atoms_production_Build
+    subgraph sg_wf_21_Build["Build (1 jobs)"]
+      direction TB
+      wf_21_Build(["Trigger: Build"]):::atlasWorkflow
+      job_21_build["build"]:::atlasJob
+      wf_21_Build --> job_21_build
+    end
+    pipeline_root --> wf_21_Build
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (8 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Delete["Delete (1 jobs)"]
+      direction TB
+      wf_8_Delete(["Trigger: Delete"]):::atlasWorkflow
+      job_8_delete_reports["delete_reports"]:::atlasJob
+      wf_8_Delete --> job_8_delete_reports
+    end
+    pipeline_root --> wf_8_Delete
+    subgraph sg_wf_40_Re_draft["Re-draft (2 jobs)"]
+      direction TB
+      wf_40_Re_draft(["Trigger: Re-draft"]):::atlasWorkflow
+      job_40_download_context["download-context"]:::atlasJob
+      job_40_re_draft["re-draft"]:::atlasJob
+      wf_40_Re_draft --> job_40_download_context
+      job_40_download_context --> job_40_re_draft
+    end
+    pipeline_root --> wf_40_Re_draft
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged["Create PR containing updated CHANGELOG.md and release packages to NPM once PR is merged (1 jobs)"]
+      direction TB
+      wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged(["Trigger: Create PR containing updated CHANGELOG.md and release packages to NPM once PR is merged"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged --> job_5_release
+    end
+    pipeline_root --> wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged
+    subgraph sg_wf_22_Draft_release["Draft release (1 jobs)"]
+      direction TB
+      wf_22_Draft_release(["Trigger: Draft release"]):::atlasWorkflow
+      job_22_draft_release["draft_release"]:::atlasJob
+      wf_22_Draft_release --> job_22_draft_release
+    end
+    pipeline_root --> wf_22_Draft_release
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_17_Cron___mark_stale_for_inactive_issues["Cron - mark stale for inactive issues (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Cron___mark_stale_for_inactive_issues
+  end
+  wf_more["+35 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

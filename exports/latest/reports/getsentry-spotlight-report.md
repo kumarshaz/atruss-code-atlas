@@ -41,14 +41,24 @@ description: Arc42 and Pipeline report for getsentry/spotlight
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/spotlight (108 components)"])
-    dir_0_packages["packages (107)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/spotlight (108 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (107)"]
+      direction TB
+      dir_0_packages["packages (107)"]:::atlasCategory
+      sub_0_0_spotlight["spotlight (105)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_spotlight
+      sub_0_1_website["website (2)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_website
+    end
     repo_root --> dir_0_packages
-    sub_0_0_spotlight["spotlight (105)"]
-    dir_0_packages --> sub_0_0_spotlight
-    sub_0_1_website["website (2)"]
-    dir_0_packages --> sub_0_1_website
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -193,23 +203,27 @@ Showing top 60 representative components out of 108 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_6d45089f_dd9a_4d07_a2f5_4c0ba3786988["6d45089f-dd9a-4d07-a2f5-4c0ba3786988"]
-        mod_packages_spotlight["packages/spotlight"]
+        mod_6d45089f_dd9a_4d07_a2f5_4c0ba3786988["6d45089f-dd9a-4d07-a2f5-4c0ba3786988"]:::atlasCategory
+        mod_packages_spotlight["packages/spotlight"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build["build.yml#build"]
-        job_build_yml_docker["build.yml#docker"]
-        job_build_yml_electron_mac["build.yml#electron-mac"]
-        job_build_yml_test_e2e_cli["build.yml#test-e2e-cli"]
-        job_build_yml_test_e2e_ui["build.yml#test-e2e-ui"]
+        job_build_yml_build["build.yml#build"]:::atlasJob
+        job_build_yml_docker["build.yml#docker"]:::atlasJob
+        job_build_yml_electron_mac["build.yml#electron-mac"]:::atlasJob
+        job_build_yml_test_e2e_cli["build.yml#test-e2e-cli"]:::atlasJob
+        job_build_yml_test_e2e_ui["build.yml#test-e2e-ui"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_____github_event_name_____push______github_ref_name_____main_____startsWith_github_ref_name___release_________Production______Preview____["${{ github.event_name == 'push' && (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && 'Production' || 'Preview' }}"]
-        env_Production["Production"]
+        env_____github_event_name_____push______github_ref_name_____main_____startsWith_github_ref_name___release_________Production______Preview____["${{ github.event_name == 'push' && (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && 'Production' || 'Preview' }}"]:::atlasTarget
+        env_Production["Production"]:::atlasTarget
     end
     job_build_yml_build -->|DEPLOYS_TO| env_____github_event_name_____push______github_ref_name_____main_____startsWith_github_ref_name___release_________Production______Preview____
     job_build_yml_electron_mac -->|DEPLOYS_TO| env_Production
@@ -241,29 +255,36 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/spotlight"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/spotlight"]):::atlasRoot
   subgraph Build___Test_0["Build & Test"]
     direction TB
-    0_build["build"]
-    0_test_unit["test-unit"]
-    0_test_e2e_cli["test-e2e-cli"]
+    0_build["build"]:::atlasJob
+    0_test_unit["test-unit"]:::atlasJob
+    0_test_e2e_cli["test-e2e-cli"]:::atlasJob
     0_build --> 0_test_e2e_cli
-    0_test_e2e_ui["test-e2e-ui"]
+    0_test_e2e_ui["test-e2e-ui"]:::atlasJob
     0_build --> 0_test_e2e_ui
-    0_docker["docker"]
+    0_docker["docker"]:::atlasJob
     0_build --> 0_docker
-    0_electron_mac["electron-mac"]
+    0_electron_mac["electron-mac"]:::atlasJob
     0_build --> 0_electron_mac
   end
   pipeline_root --> 0_build
   subgraph Automation__Notify_issues_for_release_1["Automation: Notify issues for release"]
     direction TB
-    1_release_comment_issues["release-comment-issues"]
+    1_release_comment_issues["release-comment-issues"]:::atlasJob
   end
   pipeline_root --> 1_release_comment_issues
   subgraph Release_2["Release"]
     direction TB
-    2_release["release"]
+    2_release["release"]:::atlasJob
   end
   pipeline_root --> 2_release
 ```

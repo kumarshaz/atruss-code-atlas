@@ -40,10 +40,17 @@ description: Arc42 and Pipeline report for TryGhost/docker-library-ghost
 
 ```mermaid
 graph TD;
-    action["action : module"]
-    ci["ci : module"]
-    update["update : module"]
-    verify_templating["verify-templating : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    action["action : module"]:::atlasJob
+    ci["ci : module"]:::atlasJob
+    update["update : module"]:::atlasJob
+    verify_templating["verify-templating : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -71,19 +78,23 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_6_next_alpine3_23["6-next/alpine3.23"]
-        mod_6_next_bookworm["6-next/bookworm"]
-        mod_6_alpine3_23["6/alpine3.23"]
-        mod_6_bookworm["6/bookworm"]
-        mod_bd90a236_f18b_43f4_ae87_dab3bad56000["bd90a236-f18b-43f4-ae87-dab3bad56000"]
+        mod_6_next_alpine3_23["6-next/alpine3.23"]:::atlasCategory
+        mod_6_next_bookworm["6-next/bookworm"]:::atlasCategory
+        mod_6_alpine3_23["6/alpine3.23"]:::atlasCategory
+        mod_6_bookworm["6/bookworm"]:::atlasCategory
+        mod_bd90a236_f18b_43f4_ae87_dab3bad56000["bd90a236-f18b-43f4-ae87-dab3bad56000"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_6_next_alpine3_23_Dockerfile["6-next/alpine3.23/Dockerfile"]
-        art_6_next_bookworm_Dockerfile["6-next/bookworm/Dockerfile"]
-        art_6_alpine3_23_Dockerfile["6/alpine3.23/Dockerfile"]
-        art_6_bookworm_Dockerfile["6/bookworm/Dockerfile"]
-        art_Dockerfile_template["Dockerfile.template"]
+        art_6_next_alpine3_23_Dockerfile["6-next/alpine3.23/Dockerfile"]:::atlasWorkflow
+        art_6_next_bookworm_Dockerfile["6-next/bookworm/Dockerfile"]:::atlasWorkflow
+        art_6_alpine3_23_Dockerfile["6/alpine3.23/Dockerfile"]:::atlasWorkflow
+        art_6_bookworm_Dockerfile["6/bookworm/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_template["Dockerfile.template"]:::atlasWorkflow
     end
     mod_6_next_alpine3_23 -->|PACKAGED_BY| art_6_next_alpine3_23_Dockerfile
     mod_6_next_alpine3_23 -->|PACKAGED_BY| art_6_alpine3_23_Dockerfile
@@ -115,22 +126,29 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/docker-library-ghost"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/docker-library-ghost"]):::atlasRoot
   subgraph GitHub_CI_0["GitHub CI"]
     direction TB
-    0_generate_jobs["generate-jobs"]
-    0_test["test"]
+    0_generate_jobs["generate-jobs"]:::atlasJob
+    0_test["test"]:::atlasJob
     0_generate_jobs --> 0_test
   end
   pipeline_root --> 0_generate_jobs
   subgraph Update_Dockerfiles_1["Update Dockerfiles"]
     direction TB
-    1_update["update"]
+    1_update["update"]:::atlasJob
   end
   pipeline_root --> 1_update
   subgraph Verify_Templating_2["Verify Templating"]
     direction TB
-    2_apply_templates["apply-templates"]
+    2_apply_templates["apply-templates"]:::atlasJob
   end
   pipeline_root --> 2_apply_templates
 ```

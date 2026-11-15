@@ -41,8 +41,15 @@ description: Arc42 and Pipeline report for medusajs/medusa-starter-default
 
 ```mermaid
 graph TD;
-    medusa_starter_default["medusa-starter-default : MODULE"]
-    API_custom_route["API_custom_route : API_ROUTE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    medusa_starter_default["medusa-starter-default : MODULE"]:::atlasJob
+    API_custom_route["API_custom_route : API_ROUTE"]:::atlasJob
 ```
 
 ## Component Details
@@ -99,17 +106,50 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["medusajs/medusa-starter-default (4 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_Update_Medusa["Update Medusa (1 jobs)"]
-  grp_0_Scheduled___Manual --> wf_1_Update_Medusa
-  wf_2_Update_Preview_Dependencies__feat_ci_["Update Preview Dependencies (feat/ci) (1 jobs)"]
-  grp_0_Scheduled___Manual --> wf_2_Update_Preview_Dependencies__feat_ci_
-  wf_3_Update_Preview_Dependencies__master_["Update Preview Dependencies (master) (1 jobs)"]
-  grp_0_Scheduled___Manual --> wf_3_Update_Preview_Dependencies__master_
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Test_CLI["Test CLI (3 jobs)"]
-  grp_1_CI___Verification --> wf_0_Test_CLI
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["medusajs/medusa-starter-default (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Update_Medusa["Update Medusa (1 jobs)"]
+      direction TB
+      wf_1_Update_Medusa(["Trigger: Update Medusa"]):::atlasWorkflow
+      job_1_update["update"]:::atlasJob
+      wf_1_Update_Medusa --> job_1_update
+    end
+    pipeline_root --> wf_1_Update_Medusa
+    subgraph sg_wf_2_Update_Preview_Dependencies__feat_ci_["Update Preview Dependencies (feat/ci) (1 jobs)"]
+      direction TB
+      wf_2_Update_Preview_Dependencies__feat_ci_(["Trigger: Update Preview Dependencies (feat/ci)"]):::atlasWorkflow
+      job_2_update["update"]:::atlasJob
+      wf_2_Update_Preview_Dependencies__feat_ci_ --> job_2_update
+    end
+    pipeline_root --> wf_2_Update_Preview_Dependencies__feat_ci_
+    subgraph sg_wf_3_Update_Preview_Dependencies__master_["Update Preview Dependencies (master) (1 jobs)"]
+      direction TB
+      wf_3_Update_Preview_Dependencies__master_(["Trigger: Update Preview Dependencies (master)"]):::atlasWorkflow
+      job_3_update["update"]:::atlasJob
+      wf_3_Update_Preview_Dependencies__master_ --> job_3_update
+    end
+    pipeline_root --> wf_3_Update_Preview_Dependencies__master_
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Test_CLI["Test CLI (3 jobs)"]
+      direction TB
+      wf_0_Test_CLI(["Trigger: Test CLI"]):::atlasWorkflow
+      job_0_test_cli_yarn["test-cli-yarn"]:::atlasJob
+      job_0_test_cli_npm["test-cli-npm"]:::atlasJob
+      job_0_test_cli_pnpm["test-cli-pnpm"]:::atlasJob
+      wf_0_Test_CLI --> job_0_test_cli_yarn
+      wf_0_Test_CLI --> job_0_test_cli_npm
+      wf_0_Test_CLI --> job_0_test_cli_pnpm
+    end
+    pipeline_root --> wf_0_Test_CLI
+  end
 ```

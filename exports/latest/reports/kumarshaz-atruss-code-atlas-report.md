@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for kumarshaz/atruss-code-atlas
 
 ```mermaid
 graph TD;
-    repo_root(["kumarshaz/atruss-code-atlas (30 components)"])
-    dir_0_src["src (28)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["kumarshaz/atruss-code-atlas (30 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (28)"]
+      direction TB
+      dir_0_src["src (28)"]:::atlasCategory
+      sub_0_0_models["models (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_models
+      sub_0_1_core["core (10)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_core
+      sub_0_2_cli["cli (6)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_cli
+    end
     repo_root --> dir_0_src
-    sub_0_0_models["models (12)"]
-    dir_0_src --> sub_0_0_models
-    sub_0_1_core["core (10)"]
-    dir_0_src --> sub_0_1_core
-    sub_0_2_cli["cli (6)"]
-    dir_0_src --> sub_0_2_cli
-    dir_1_tests["tests (1)"]
+    dir_1_tests["tests (1)"]:::atlasCategory
     repo_root --> dir_1_tests
-    dir_2_web["web (1)"]
+    dir_2_web["web (1)"]:::atlasCategory
     repo_root --> dir_2_web
     sub_0_2_cli -.->|"15 deps"| sub_0_1_core
     sub_0_2_cli -.->|"11 deps"| sub_0_0_models
@@ -156,16 +166,20 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_web["web"]
+        mod_web["web"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_deploy_pages_yml_build["deploy-pages.yml#build"]
-        job_deploy_pages_yml_deploy["deploy-pages.yml#deploy"]
-        job_tests_yml_web_check["tests.yml#web-check"]
+        job_deploy_pages_yml_build["deploy-pages.yml#build"]:::atlasJob
+        job_deploy_pages_yml_deploy["deploy-pages.yml#deploy"]:::atlasJob
+        job_tests_yml_web_check["tests.yml#web-check"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_deploy_pages_yml_build -->|DEPLOYS_TO| env_github_pages
     job_deploy_pages_yml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -183,26 +197,33 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["kumarshaz/atruss-code-atlas"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["kumarshaz/atruss-code-atlas"]):::atlasRoot
   subgraph Scheduled_Public_GitHub_Benchmark_0["Scheduled Public GitHub Benchmark"]
     direction TB
-    0_benchmark["benchmark"]
+    0_benchmark["benchmark"]:::atlasJob
   end
   pipeline_root --> 0_benchmark
   subgraph Deploy_Material_UI_to_GitHub_Pages_1["Deploy Material UI to GitHub Pages"]
     direction TB
-    1_build["build"]
-    1_deploy["deploy"]
+    1_build["build"]:::atlasJob
+    1_deploy["deploy"]:::atlasJob
     1_build --> 1_deploy
   end
   pipeline_root --> 1_build
   subgraph CI_Suite_2["CI Suite"]
     direction TB
-    2_lint_and_unit["lint-and-unit"]
-    2_web_check["web-check"]
-    2_integration_and_e2e["integration-and-e2e"]
+    2_lint_and_unit["lint-and-unit"]:::atlasJob
+    2_web_check["web-check"]:::atlasJob
+    2_integration_and_e2e["integration-and-e2e"]:::atlasJob
     2_lint_and_unit --> 2_integration_and_e2e
-    2_agent_workflow_eval["agent-workflow-eval"]
+    2_agent_workflow_eval["agent-workflow-eval"]:::atlasJob
     2_integration_and_e2e --> 2_agent_workflow_eval
   end
   pipeline_root --> 2_lint_and_unit

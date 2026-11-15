@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for TryGhost/knex-migrator
 
 ```mermaid
 graph TD;
-    knex_migrator["knex-migrator : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    knex_migrator["knex-migrator : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -98,22 +105,29 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/knex-migrator"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/knex-migrator"]):::atlasRoot
   subgraph Publish_0["Publish"]
     direction TB
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
   end
   pipeline_root --> 0_publish
   subgraph Test_Suite_1["Test Suite"]
     direction TB
-    1_lint["lint"]
-    1_test["test"]
-    1_ghost_consumer_smoke["ghost-consumer-smoke"]
-    1_required_checks_pass["required-checks-pass"]
+    1_lint["lint"]:::atlasJob
+    1_test["test"]:::atlasJob
+    1_ghost_consumer_smoke["ghost-consumer-smoke"]:::atlasJob
+    1_required_checks_pass["required-checks-pass"]:::atlasJob
     1_lint --> 1_required_checks_pass
     1_test --> 1_required_checks_pass
     1_ghost_consumer_smoke --> 1_required_checks_pass
-    wf_entry_1(["Trigger: Test Suite"])
+    wf_entry_1(["Trigger: Test Suite"]):::atlasWorkflow
     wf_entry_1 --> 1_lint
     wf_entry_1 --> 1_test
     wf_entry_1 --> 1_ghost_consumer_smoke

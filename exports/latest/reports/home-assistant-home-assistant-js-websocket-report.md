@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for home-assistant/home-assistant-js-webs
 
 ```mermaid
 graph TD;
-    home_assistant_js_websocket["home-assistant-js-websocket : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    home_assistant_js_websocket["home-assistant-js-websocket : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -87,19 +94,23 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_22efe112_66e2_429d_b701_92ab3e89a715["22efe112-66e2-429d-b701-92ab3e89a715"]
+        mod_22efe112_66e2_429d_b701_92ab3e89a715["22efe112-66e2-429d-b701-92ab3e89a715"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_build["ci.yml#build"]
-        job_npmpublish_yml_build["npmpublish.yml#build"]
-        job_npmpublish_yml_publish_npm["npmpublish.yml#publish-npm"]
-        job_publish_pages_yml_build["publish-pages.yml#build"]
-        job_publish_pages_yml_deploy["publish-pages.yml#deploy"]
-        job_release_drafter_yaml_update_release_draft["release-drafter.yaml#update_release_draft"]
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
+        job_npmpublish_yml_build["npmpublish.yml#build"]:::atlasJob
+        job_npmpublish_yml_publish_npm["npmpublish.yml#publish-npm"]:::atlasJob
+        job_publish_pages_yml_build["publish-pages.yml#build"]:::atlasJob
+        job_publish_pages_yml_deploy["publish-pages.yml#deploy"]:::atlasJob
+        job_release_drafter_yaml_update_release_draft["release-drafter.yaml#update_release_draft"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_publish_pages_yml_build -->|DEPLOYS_TO| env_github_pages
     job_publish_pages_yml_deploy -->|DEPLOYS_TO| env_github_pages
@@ -125,17 +136,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/home-assistant-js-websocket (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 5 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Node_js_Package["Node.js Package (2 jobs)"]
-  grp_0_Release___Deploy --> wf_1_Node_js_Package
-  wf_2_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]
-  grp_0_Release___Deploy --> wf_2_Deploy_to_GitHub_Pages
-  wf_3_Release_Drafter["Release Drafter (1 jobs)"]
-  grp_0_Release___Deploy --> wf_3_Release_Drafter
-  grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (1 jobs)"]
-  grp_1_CI___Verification --> wf_0_CI
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/home-assistant-js-websocket (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Node_js_Package["Node.js Package (2 jobs)"]
+      direction TB
+      wf_1_Node_js_Package(["Trigger: Node.js Package"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_publish_npm["publish-npm"]:::atlasJob
+      wf_1_Node_js_Package --> job_1_build
+      job_1_build --> job_1_publish_npm
+    end
+    pipeline_root --> wf_1_Node_js_Package
+    subgraph sg_wf_2_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]
+      direction TB
+      wf_2_Deploy_to_GitHub_Pages(["Trigger: Deploy to GitHub Pages"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_Deploy_to_GitHub_Pages --> job_2_build
+      job_2_build --> job_2_deploy
+    end
+    pipeline_root --> wf_2_Deploy_to_GitHub_Pages
+    subgraph sg_wf_3_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_3_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_3_update_release_draft["update_release_draft"]:::atlasJob
+      wf_3_Release_Drafter --> job_3_update_release_draft
+    end
+    pipeline_root --> wf_3_Release_Drafter
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (1 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_CI --> job_0_build
+    end
+    pipeline_root --> wf_0_CI
+  end
 ```

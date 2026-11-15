@@ -41,28 +41,41 @@ description: Arc42 and Pipeline report for apache/activemq
 
 ```mermaid
 graph TD;
-    repo_root(["apache/activemq (79 components)"])
-    dir_0_assembly["assembly (21)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["apache/activemq (79 components)"]):::atlasRoot
+    subgraph sg_dir_0_assembly["assembly (21)"]
+      direction TB
+      dir_0_assembly["assembly (21)"]:::atlasCategory
+      sub_0_0_src["src (20)"]:::atlasWorkflow
+      dir_0_assembly --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_assembly --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_assembly
-    sub_0_0_src["src (20)"]
-    dir_0_assembly --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
-    dir_0_assembly --> sub_0_1__module_root_
-    dir_1_helm["helm (14)"]
+    subgraph sg_dir_1_helm["helm (14)"]
+      direction TB
+      dir_1_helm["helm (14)"]:::atlasCategory
+      sub_1_0_activemq_templates["activemq/templates (10)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_0_activemq_templates
+      sub_1_1_activemq["activemq (2)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_1_activemq
+      sub_1_2_activemq_examples["activemq/examples (2)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_2_activemq_examples
+    end
     repo_root --> dir_1_helm
-    sub_1_0_activemq_templates["activemq/templates (10)"]
-    dir_1_helm --> sub_1_0_activemq_templates
-    sub_1_1_activemq["activemq (2)"]
-    dir_1_helm --> sub_1_1_activemq
-    sub_1_2_activemq_examples["activemq/examples (2)"]
-    dir_1_helm --> sub_1_2_activemq_examples
-    dir_2_activemq_tooling["activemq-tooling (7)"]
+    dir_2_activemq_tooling["activemq-tooling (7)"]:::atlasCategory
     repo_root --> dir_2_activemq_tooling
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_activemq_all["activemq-all (1)"]
+    dir_4_activemq_all["activemq-all (1)"]:::atlasCategory
     repo_root --> dir_4_activemq_all
-    dir_other_modules["+35 more modules (35)"]
+    dir_other_modules["+35 more modules (35)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -206,32 +219,36 @@ Showing top 60 representative components out of 79 across 40 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_activemq_web["activemq-web"]
-        mod_assembly_src_docker["assembly/src/docker"]
-        mod_assembly_src_release_examples_amqp_java["assembly/src/release/examples/amqp/java"]
-        mod_assembly_src_release_examples_mqtt_java["assembly/src/release/examples/mqtt/java"]
-        mod_assembly_src_release_examples_openwire_java["assembly/src/release/examples/openwire/java"]
-        mod_assembly_src_release_examples_stomp_java["assembly/src/release/examples/stomp/java"]
-        mod_helm_activemq["helm/activemq"]
+        mod_activemq_web["activemq-web"]:::atlasCategory
+        mod_assembly_src_docker["assembly/src/docker"]:::atlasCategory
+        mod_assembly_src_release_examples_amqp_java["assembly/src/release/examples/amqp/java"]:::atlasCategory
+        mod_assembly_src_release_examples_mqtt_java["assembly/src/release/examples/mqtt/java"]:::atlasCategory
+        mod_assembly_src_release_examples_openwire_java["assembly/src/release/examples/openwire/java"]:::atlasCategory
+        mod_assembly_src_release_examples_stomp_java["assembly/src/release/examples/stomp/java"]:::atlasCategory
+        mod_helm_activemq["helm/activemq"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_assembly_src_docker_Dockerfile["assembly/src/docker/Dockerfile"]
-        art_assembly_src_docker_docker_compose_yml["assembly/src/docker/docker-compose.yml"]
-        art_helm_activemq_Chart_yaml["helm/activemq/Chart.yaml"]
-        art_helm_activemq_examples_activemq_custom_yaml["helm/activemq/examples/activemq-custom.yaml"]
-        art_helm_activemq_examples_production_yaml["helm/activemq/examples/production.yaml"]
-        art_helm_activemq_templates_configmap_yaml["helm/activemq/templates/configmap.yaml"]
-        art_helm_activemq_templates_ingress_yaml["helm/activemq/templates/ingress.yaml"]
-        art_helm_activemq_templates_poddisruptionbudget_yaml["helm/activemq/templates/poddisruptionbudget.yaml"]
-        art_helm_activemq_templates_secret_yaml["helm/activemq/templates/secret.yaml"]
-        art_helm_activemq_templates_service_web_yaml["helm/activemq/templates/service-web.yaml"]
-        art_helm_activemq_templates_service_yaml["helm/activemq/templates/service.yaml"]
-        art_helm_activemq_templates_serviceaccount_yaml["helm/activemq/templates/serviceaccount.yaml"]
-        art_helm_activemq_templates_servicemonitor_yaml["helm/activemq/templates/servicemonitor.yaml"]
-        art_helm_activemq_templates_statefulset_yaml["helm/activemq/templates/statefulset.yaml"]
-        art_helm_activemq_templates_tests_test_connection_yaml["helm/activemq/templates/tests/test-connection.yaml"]
-        art_helm_activemq_values_yaml["helm/activemq/values.yaml"]
+        art_assembly_src_docker_Dockerfile["assembly/src/docker/Dockerfile"]:::atlasWorkflow
+        art_assembly_src_docker_docker_compose_yml["assembly/src/docker/docker-compose.yml"]:::atlasWorkflow
+        art_helm_activemq_Chart_yaml["helm/activemq/Chart.yaml"]:::atlasWorkflow
+        art_helm_activemq_examples_activemq_custom_yaml["helm/activemq/examples/activemq-custom.yaml"]:::atlasWorkflow
+        art_helm_activemq_examples_production_yaml["helm/activemq/examples/production.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_configmap_yaml["helm/activemq/templates/configmap.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_ingress_yaml["helm/activemq/templates/ingress.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_poddisruptionbudget_yaml["helm/activemq/templates/poddisruptionbudget.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_secret_yaml["helm/activemq/templates/secret.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_service_web_yaml["helm/activemq/templates/service-web.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_service_yaml["helm/activemq/templates/service.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_serviceaccount_yaml["helm/activemq/templates/serviceaccount.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_servicemonitor_yaml["helm/activemq/templates/servicemonitor.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_statefulset_yaml["helm/activemq/templates/statefulset.yaml"]:::atlasWorkflow
+        art_helm_activemq_templates_tests_test_connection_yaml["helm/activemq/templates/tests/test-connection.yaml"]:::atlasWorkflow
+        art_helm_activemq_values_yaml["helm/activemq/values.yaml"]:::atlasWorkflow
     end
     mod_activemq_web -->|PACKAGED_BY| art_helm_activemq_examples_production_yaml
     mod_assembly_src_docker -->|PACKAGED_BY| art_assembly_src_docker_Dockerfile
@@ -301,13 +318,74 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/activemq (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 6 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/activemq (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI_Manual["CI Manual (2 jobs)"]
+      direction TB
+      wf_0_CI_Manual(["Trigger: CI Manual"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      job_0_test["test"]:::atlasJob
+      wf_0_CI_Manual --> job_0_build
+      job_0_build --> job_0_test
+    end
+    pipeline_root --> wf_0_CI_Manual
+    subgraph sg_wf_1_CI_Periodic_Full["CI Periodic Full (2 jobs)"]
+      direction TB
+      wf_1_CI_Periodic_Full(["Trigger: CI Periodic Full"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      wf_1_CI_Periodic_Full --> job_1_build
+      job_1_build --> job_1_test
+    end
+    pipeline_root --> wf_1_CI_Periodic_Full
+    subgraph sg_wf_2_CI_Periodic_Quick["CI Periodic Quick (2 jobs)"]
+      direction TB
+      wf_2_CI_Periodic_Quick(["Trigger: CI Periodic Quick"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_test["test"]:::atlasJob
+      wf_2_CI_Periodic_Quick --> job_2_build
+      job_2_build --> job_2_test
+    end
+    pipeline_root --> wf_2_CI_Periodic_Quick
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CI_Quick["CI Quick (2 jobs)"]
+      direction TB
+      wf_3_CI_Quick(["Trigger: CI Quick"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_test["test"]:::atlasJob
+      wf_3_CI_Quick --> job_3_build
+      job_3_build --> job_3_test
+    end
+    pipeline_root --> wf_3_CI_Quick
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Deploy["Deploy (1 jobs)"]
+      direction TB
+      wf_4_Deploy(["Trigger: Deploy"]):::atlasWorkflow
+      job_4_deploy["deploy"]:::atlasJob
+      wf_4_Deploy --> job_4_deploy
+    end
+    pipeline_root --> wf_4_Deploy
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Mark_stale_issues_and_close_stale_PRs["Mark stale issues and close stale PRs (1 jobs)"]
+      direction TB
+      wf_5_Mark_stale_issues_and_close_stale_PRs(["Trigger: Mark stale issues and close stale PRs"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Mark_stale_issues_and_close_stale_PRs --> job_5_stale
+    end
+    pipeline_root --> wf_5_Mark_stale_issues_and_close_stale_PRs
+  end
 ```

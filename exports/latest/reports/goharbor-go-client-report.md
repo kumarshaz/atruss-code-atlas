@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for goharbor/go-client
 
 ```mermaid
 graph TD;
-    repo_root(["goharbor/go-client (250 components)"])
-    dir_0_pkg_sdk["pkg/sdk (247)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["goharbor/go-client (250 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg_sdk["pkg/sdk (247)"]
+      direction TB
+      dir_0_pkg_sdk["pkg/sdk (247)"]:::atlasCategory
+      sub_0_0_v2_0_client_preheat["v2.0/client/preheat (39)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_0_v2_0_client_preheat
+      sub_0_1_v2_0_client_project["v2.0/client/project (29)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_1_v2_0_client_project
+      sub_0_2_v2_0_client_artifact["v2.0/client/artifact (25)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_2_v2_0_client_artifact
+      sub_0_more["+19 more submodules (154)"]:::atlasMore
+      dir_0_pkg_sdk --> sub_0_more
+    end
     repo_root --> dir_0_pkg_sdk
-    sub_0_0_v2_0_client_preheat["v2.0/client/preheat (39)"]
-    dir_0_pkg_sdk --> sub_0_0_v2_0_client_preheat
-    sub_0_1_v2_0_client_project["v2.0/client/project (29)"]
-    dir_0_pkg_sdk --> sub_0_1_v2_0_client_project
-    sub_0_2_v2_0_client_artifact["v2.0/client/artifact (25)"]
-    dir_0_pkg_sdk --> sub_0_2_v2_0_client_artifact
-    sub_0_more["+19 more submodules (154)"]
-    dir_0_pkg_sdk --> sub_0_more
-    dir_1_pkg_harbor["pkg/harbor (3)"]
+    dir_1_pkg_harbor["pkg/harbor (3)"]:::atlasCategory
     repo_root --> dir_1_pkg_harbor
 ```
 
@@ -178,12 +188,16 @@ Showing top 60 representative components out of 250 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_a81ccd6a_816f_48a1_abcf_d0f3fe4c71f4["a81ccd6a-816f-48a1-abcf-d0f3fe4c71f4"]
+        mod_a81ccd6a_816f_48a1_abcf_d0f3fe4c71f4["a81ccd6a-816f-48a1-abcf-d0f3fe4c71f4"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_prepare_new_version_yml_prepare_new_release["prepare-new-version.yml#prepare_new_release"]
-        job_tag_release_yml_release_version["tag-release.yml#release_version"]
+        job_prepare_new_version_yml_prepare_new_release["prepare-new-version.yml#prepare_new_release"]:::atlasJob
+        job_tag_release_yml_release_version["tag-release.yml#release_version"]:::atlasJob
     end
     mod_a81ccd6a_816f_48a1_abcf_d0f3fe4c71f4 -->|DEPLOYED_BY| job_prepare_new_version_yml_prepare_new_release
     mod_a81ccd6a_816f_48a1_abcf_d0f3fe4c71f4 -->|DEPLOYED_BY| job_tag_release_yml_release_version
@@ -197,15 +211,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/go-client"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/go-client"]):::atlasRoot
   subgraph Prepare_new_Release_0["Prepare new Release"]
     direction TB
-    0_prepare_new_release["prepare_new_release"]
+    0_prepare_new_release["prepare_new_release"]:::atlasJob
   end
   pipeline_root --> 0_prepare_new_release
   subgraph Release_new_Version_Tag_1["Release new Version Tag"]
     direction TB
-    1_release_version["release_version"]
+    1_release_version["release_version"]:::atlasJob
   end
   pipeline_root --> 1_release_version
 ```

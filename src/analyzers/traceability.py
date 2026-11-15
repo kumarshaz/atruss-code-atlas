@@ -633,21 +633,27 @@ def render_code_to_cloud_mermaid(edges: list[CodeToCloudEdge]) -> str:
                 buckets[bucket].append(name)
 
     subgraph_specs = [
-        ("code_modules", "Code Modules"),
-        ("build_artifacts", "Build Artifacts / Containers"),
-        ("ci_jobs", "CI/CD Jobs"),
-        ("runtime_envs", "Runtime Environments"),
+        ("code_modules", "Code Modules", "atlasCategory"),
+        ("build_artifacts", "Build Artifacts / Containers", "atlasWorkflow"),
+        ("ci_jobs", "CI/CD Jobs", "atlasJob"),
+        ("runtime_envs", "Runtime Environments", "atlasTarget"),
     ]
 
-    lines: list[str] = ["flowchart LR"]
-    for bucket_key, title in subgraph_specs:
+    lines: list[str] = [
+        "flowchart LR",
+        "    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb",
+        "    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb",
+        "    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb",
+        "    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6",
+    ]
+    for bucket_key, title, cls_name in subgraph_specs:
         nodes = sorted(buckets.get(bucket_key, []))
         if not nodes:
             continue
         lines.append(f'    subgraph {bucket_key}["{title}"]')
         for node_name in nodes:
             nid = seen_nodes[(bucket_key, node_name)]
-            lines.append(f'        {nid}["{_sanitize_mermaid_label(node_name)}"]')
+            lines.append(f'        {nid}["{_sanitize_mermaid_label(node_name)}"]:::{cls_name}')
         lines.append("    end")
 
     for edge in sorted_edges:

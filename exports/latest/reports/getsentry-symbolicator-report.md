@@ -41,42 +41,64 @@ description: Arc42 and Pipeline report for getsentry/symbolicator
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/symbolicator (154 components)"])
-    dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/symbolicator (154 components)"]):::atlasRoot
+    subgraph sg_dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]
+      direction TB
+      dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]:::atlasCategory
+      sub_0_0_src_download["src/download (14)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_0_src_download
+      sub_0_1_src_caching["src/caching (11)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_1_src_caching
+      sub_0_2_src["src (9)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_2_src
+      sub_0_more["+3 more submodules (15)"]:::atlasMore
+      dir_0_crates_symbolicator_service --> sub_0_more
+    end
     repo_root --> dir_0_crates_symbolicator_service
-    sub_0_0_src_download["src/download (14)"]
-    dir_0_crates_symbolicator_service --> sub_0_0_src_download
-    sub_0_1_src_caching["src/caching (11)"]
-    dir_0_crates_symbolicator_service --> sub_0_1_src_caching
-    sub_0_2_src["src (9)"]
-    dir_0_crates_symbolicator_service --> sub_0_2_src
-    sub_0_more["+3 more submodules (15)"]
-    dir_0_crates_symbolicator_service --> sub_0_more
-    dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]
+    subgraph sg_dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]
+      direction TB
+      dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]:::atlasCategory
+      sub_1_0_src["src (25)"]:::atlasWorkflow
+      dir_1_crates_symbolicator_native --> sub_1_0_src
+      sub_1_1_tests["tests (9)"]:::atlasWorkflow
+      dir_1_crates_symbolicator_native --> sub_1_1_tests
+    end
     repo_root --> dir_1_crates_symbolicator_native
-    sub_1_0_src["src (25)"]
-    dir_1_crates_symbolicator_native --> sub_1_0_src
-    sub_1_1_tests["tests (9)"]
-    dir_1_crates_symbolicator_native --> sub_1_1_tests
-    dir_2_crates_symbolicator["crates/symbolicator (19)"]
+    subgraph sg_dir_2_crates_symbolicator["crates/symbolicator (19)"]
+      direction TB
+      dir_2_crates_symbolicator["crates/symbolicator (19)"]:::atlasCategory
+      sub_2_0_src["src (18)"]:::atlasWorkflow
+      dir_2_crates_symbolicator --> sub_2_0_src
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_crates_symbolicator --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_crates_symbolicator
-    sub_2_0_src["src (18)"]
-    dir_2_crates_symbolicator --> sub_2_0_src
-    sub_2_1__module_root_["(module root) (1)"]
-    dir_2_crates_symbolicator --> sub_2_1__module_root_
-    dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]
+    subgraph sg_dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]
+      direction TB
+      dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]:::atlasCategory
+      sub_3_0_src["src (10)"]:::atlasWorkflow
+      dir_3_crates_symbolicator_js --> sub_3_0_src
+      sub_3_1_tests["tests (4)"]:::atlasWorkflow
+      dir_3_crates_symbolicator_js --> sub_3_1_tests
+    end
     repo_root --> dir_3_crates_symbolicator_js
-    sub_3_0_src["src (10)"]
-    dir_3_crates_symbolicator_js --> sub_3_0_src
-    sub_3_1_tests["tests (4)"]
-    dir_3_crates_symbolicator_js --> sub_3_1_tests
-    dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]
+    subgraph sg_dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]
+      direction TB
+      dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]:::atlasCategory
+      sub_4_0_src["src (7)"]:::atlasWorkflow
+      dir_4_crates_symbolicator_sources --> sub_4_0_src
+      sub_4_1_src_sources["src/sources (6)"]:::atlasWorkflow
+      dir_4_crates_symbolicator_sources --> sub_4_1_src_sources
+    end
     repo_root --> dir_4_crates_symbolicator_sources
-    sub_4_0_src["src (7)"]
-    dir_4_crates_symbolicator_sources --> sub_4_0_src
-    sub_4_1_src_sources["src/sources (6)"]
-    dir_4_crates_symbolicator_sources --> sub_4_1_src_sources
-    dir_other_modules["+8 more modules (25)"]
+    dir_other_modules["+8 more modules (25)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -236,16 +258,20 @@ Showing top 60 representative components out of 154 across 13 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_crates_symbolicator["crates/symbolicator"]
-        mod_ffb9ea05_fbbe_4acf_bd7c_a1dd2be7b8e4["ffb9ea05-fbbe-4acf-bd7c-a1dd2be7b8e4"]
+        mod_crates_symbolicator["crates/symbolicator"]:::atlasCategory
+        mod_ffb9ea05_fbbe_4acf_bd7c_a1dd2be7b8e4["ffb9ea05-fbbe-4acf-bd7c-a1dd2be7b8e4"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_image_yml_assemble["image.yml#assemble"]
-        job_image_yml_prepare_self_hosted_end_to_end["image.yml#prepare-self-hosted-end-to-end"]
+        job_image_yml_assemble["image.yml#assemble"]:::atlasJob
+        job_image_yml_prepare_self_hosted_end_to_end["image.yml#prepare-self-hosted-end-to-end"]:::atlasJob
     end
     mod_crates_symbolicator -->|PACKAGED_BY| art_Dockerfile
     mod_ffb9ea05_fbbe_4acf_bd7c_a1dd2be7b8e4 -->|PACKAGED_BY| art_Dockerfile
@@ -263,11 +289,101 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/symbolicator (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 14 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 8 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/symbolicator (10 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (6 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lints["lints"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      job_1_test_against_latest_sentry["test_against_latest_sentry"]:::atlasJob
+      wf_1_CI --> job_1_lints
+      wf_1_CI --> job_1_test
+      wf_1_CI --> job_1_test_against_latest_sentry
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_3_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
+    end
+    pipeline_root --> wf_3_Enforce_License_Compliance
+    subgraph sg_wf_4_image["image (6 jobs)"]
+      direction TB
+      wf_4_image(["Trigger: image"]):::atlasWorkflow
+      job_4_build_setup["build-setup"]:::atlasJob
+      job_4_build_binaries["build-binaries"]:::atlasJob
+      job_4_assemble["assemble"]:::atlasJob
+      wf_4_image --> job_4_build_setup
+      job_4_build_setup --> job_4_build_binaries
+      job_4_build_setup --> job_4_assemble
+      job_4_build_binaries --> job_4_assemble
+    end
+    pipeline_root --> wf_4_image
+    subgraph sg_wf_5_pre_commit["pre-commit (1 jobs)"]
+      direction TB
+      wf_5_pre_commit(["Trigger: pre-commit"]):::atlasWorkflow
+      job_5_pre_commit["pre-commit"]:::atlasJob
+      wf_5_pre_commit --> job_5_pre_commit
+    end
+    pipeline_root --> wf_5_pre_commit
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_build["Release build (4 jobs)"]
+      direction TB
+      wf_0_Release_build(["Trigger: Release build"]):::atlasWorkflow
+      job_0_linux["linux"]:::atlasJob
+      job_0_mac["mac"]:::atlasJob
+      job_0_windows["windows"]:::atlasJob
+      wf_0_Release_build --> job_0_linux
+      wf_0_Release_build --> job_0_mac
+      wf_0_Release_build --> job_0_windows
+    end
+    pipeline_root --> wf_0_Release_build
+    subgraph sg_wf_2_Publish_Docs["Publish Docs (1 jobs)"]
+      direction TB
+      wf_2_Publish_Docs(["Trigger: Publish Docs"]):::atlasWorkflow
+      job_2_docs["docs"]:::atlasJob
+      wf_2_Publish_Docs --> job_2_docs
+    end
+    pipeline_root --> wf_2_Publish_Docs
+    subgraph sg_wf_6_Release["Release (1 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_Release
+    subgraph sg_wf_8_Validate_Deployment_Pipelines["Validate Deployment Pipelines (2 jobs)"]
+      direction TB
+      wf_8_Validate_Deployment_Pipelines(["Trigger: Validate Deployment Pipelines"]):::atlasWorkflow
+      job_8_files_changed["files-changed"]:::atlasJob
+      job_8_validate["validate"]:::atlasJob
+      wf_8_Validate_Deployment_Pipelines --> job_8_files_changed
+      job_8_files_changed --> job_8_validate
+    end
+    pipeline_root --> wf_8_Validate_Deployment_Pipelines
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Update_Dependencies["Update Dependencies (1 jobs)"]
+      direction TB
+      wf_7_Update_Dependencies(["Trigger: Update Dependencies"]):::atlasWorkflow
+      job_7_native["native"]:::atlasJob
+      wf_7_Update_Dependencies --> job_7_native
+    end
+    pipeline_root --> wf_7_Update_Dependencies
+    wf_9_Weekly_CI["Weekly CI (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Weekly_CI
+  end
 ```

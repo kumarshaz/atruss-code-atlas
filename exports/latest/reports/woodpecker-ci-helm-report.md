@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for woodpecker-ci/helm
 
 ```mermaid
 graph TD;
-    repo_root(["woodpecker-ci/helm (42 components)"])
-    dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["woodpecker-ci/helm (42 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]
+      direction TB
+      dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]:::atlasCategory
+      sub_0_0_server["server (20)"]:::atlasWorkflow
+      dir_0_charts_woodpecker_charts --> sub_0_0_server
+      sub_0_1_agent["agent (17)"]:::atlasWorkflow
+      dir_0_charts_woodpecker_charts --> sub_0_1_agent
+    end
     repo_root --> dir_0_charts_woodpecker_charts
-    sub_0_0_server["server (20)"]
-    dir_0_charts_woodpecker_charts --> sub_0_0_server
-    sub_0_1_agent["agent (17)"]
-    dir_0_charts_woodpecker_charts --> sub_0_1_agent
-    dir_1_charts_woodpecker["charts/woodpecker (2)"]
+    dir_1_charts_woodpecker["charts/woodpecker (2)"]:::atlasCategory
     repo_root --> dir_1_charts_woodpecker
-    dir_2_charts_woodpecker_ci["charts/woodpecker/ci (2)"]
+    dir_2_charts_woodpecker_ci["charts/woodpecker/ci (2)"]:::atlasCategory
     repo_root --> dir_2_charts_woodpecker_ci
-    dir_3_charts_woodpecker_templates["charts/woodpecker/templates (1)"]
+    dir_3_charts_woodpecker_templates["charts/woodpecker/templates (1)"]:::atlasCategory
     repo_root --> dir_3_charts_woodpecker_templates
 ```
 
@@ -120,5 +130,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

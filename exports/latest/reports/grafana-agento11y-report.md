@@ -41,48 +41,70 @@ description: Arc42 and Pipeline report for grafana/agento11y
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/agento11y (281 components)"])
-    dir_0_go["go (137)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/agento11y (281 components)"]):::atlasRoot
+    subgraph sg_dir_0_go["go (137)"]
+      direction TB
+      dir_0_go["go (137)"]:::atlasCategory
+      sub_0_0_agento11y["agento11y (101)"]:::atlasWorkflow
+      dir_0_go --> sub_0_0_agento11y
+      sub_0_1_otelgenai["otelgenai (31)"]:::atlasWorkflow
+      dir_0_go --> sub_0_1_otelgenai
+      sub_0_2_proto["proto (4)"]:::atlasWorkflow
+      dir_0_go --> sub_0_2_proto
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_go --> sub_0_more
+    end
     repo_root --> dir_0_go
-    sub_0_0_agento11y["agento11y (101)"]
-    dir_0_go --> sub_0_0_agento11y
-    sub_0_1_otelgenai["otelgenai (31)"]
-    dir_0_go --> sub_0_1_otelgenai
-    sub_0_2_proto["proto (4)"]
-    dir_0_go --> sub_0_2_proto
-    sub_0_more["+1 more submodules (1)"]
-    dir_0_go --> sub_0_more
-    dir_1_plugins["plugins (58)"]
+    subgraph sg_dir_1_plugins["plugins (58)"]
+      direction TB
+      dir_1_plugins["plugins (58)"]:::atlasCategory
+      sub_1_0_agento11y_internal["agento11y/internal (56)"]:::atlasWorkflow
+      dir_1_plugins --> sub_1_0_agento11y_internal
+      sub_1_1_agento11y_cmd["agento11y/cmd (2)"]:::atlasWorkflow
+      dir_1_plugins --> sub_1_1_agento11y_cmd
+    end
     repo_root --> dir_1_plugins
-    sub_1_0_agento11y_internal["agento11y/internal (56)"]
-    dir_1_plugins --> sub_1_0_agento11y_internal
-    sub_1_1_agento11y_cmd["agento11y/cmd (2)"]
-    dir_1_plugins --> sub_1_1_agento11y_cmd
-    dir_2_go_providers["go-providers (33)"]
+    subgraph sg_dir_2_go_providers["go-providers (33)"]
+      direction TB
+      dir_2_go_providers["go-providers (33)"]:::atlasCategory
+      sub_2_0_anthropic["anthropic (12)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_0_anthropic
+      sub_2_1_openai["openai (11)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_1_openai
+      sub_2_2_gemini["gemini (10)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_2_gemini
+    end
     repo_root --> dir_2_go_providers
-    sub_2_0_anthropic["anthropic (12)"]
-    dir_2_go_providers --> sub_2_0_anthropic
-    sub_2_1_openai["openai (11)"]
-    dir_2_go_providers --> sub_2_1_openai
-    sub_2_2_gemini["gemini (10)"]
-    dir_2_go_providers --> sub_2_2_gemini
-    dir_3_examples["examples (32)"]
+    subgraph sg_dir_3_examples["examples (32)"]
+      direction TB
+      dir_3_examples["examples (32)"]:::atlasCategory
+      sub_3_0_ai_education_assistant["ai-education-assistant (18)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_0_ai_education_assistant
+      sub_3_1_experiments["experiments (12)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_1_experiments
+      sub_3_2_getting_started["getting-started (2)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_2_getting_started
+    end
     repo_root --> dir_3_examples
-    sub_3_0_ai_education_assistant["ai-education-assistant (18)"]
-    dir_3_examples --> sub_3_0_ai_education_assistant
-    sub_3_1_experiments["experiments (12)"]
-    dir_3_examples --> sub_3_1_experiments
-    sub_3_2_getting_started["getting-started (2)"]
-    dir_3_examples --> sub_3_2_getting_started
-    dir_4_dotnet["dotnet (11)"]
+    subgraph sg_dir_4_dotnet["dotnet (11)"]
+      direction TB
+      dir_4_dotnet["dotnet (11)"]:::atlasCategory
+      sub_4_0_src["src (5)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_0_src
+      sub_4_1_tests["tests (5)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_1_tests
+      sub_4_2_examples["examples (1)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_2_examples
+    end
     repo_root --> dir_4_dotnet
-    sub_4_0_src["src (5)"]
-    dir_4_dotnet --> sub_4_0_src
-    sub_4_1_tests["tests (5)"]
-    dir_4_dotnet --> sub_4_1_tests
-    sub_4_2_examples["examples (1)"]
-    dir_4_dotnet --> sub_4_2_examples
-    dir_other_modules["+1 more modules (10)"]
+    dir_other_modules["+1 more modules (10)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_4_1_tests -.->|"4 deps"| sub_4_0_src
     sub_4_2_examples -.->|"4 deps"| sub_4_0_src
@@ -278,74 +300,78 @@ Showing top 60 representative components out of 281 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dotnet["dotnet"]
-        mod_dotnet_src_Grafana_Agento11y["dotnet/src/Grafana.Agento11y"]
-        mod_examples_experiments_python["examples/experiments/python"]
-        mod_examples_getting_started_python["examples/getting-started/python"]
-        mod_go["go"]
-        mod_java["java"]
-        mod_js["js"]
-        mod_js_core["js-core"]
-        mod_plugins_agento11y["plugins/agento11y"]
-        mod_plugins_hermes["plugins/hermes"]
-        mod_python["python"]
-        mod_python_frameworks_claude_agent_sdk["python-frameworks/claude-agent-sdk"]
-        mod_python_frameworks_deepeval["python-frameworks/deepeval"]
-        mod_python_frameworks_google_adk["python-frameworks/google-adk"]
-        mod_python_frameworks_harbor["python-frameworks/harbor"]
-        mod_python_frameworks_langchain["python-frameworks/langchain"]
-        mod_python_frameworks_langgraph["python-frameworks/langgraph"]
-        mod_python_frameworks_litellm["python-frameworks/litellm"]
-        mod_python_frameworks_litellm_example["python-frameworks/litellm/example"]
-        mod_python_frameworks_llamaindex["python-frameworks/llamaindex"]
-        mod_python_frameworks_openai_agents["python-frameworks/openai-agents"]
-        mod_python_frameworks_pydantic_ai["python-frameworks/pydantic-ai"]
-        mod_python_frameworks_strands["python-frameworks/strands"]
-        mod_python_providers_anthropic["python-providers/anthropic"]
-        mod_python_providers_gemini["python-providers/gemini"]
-        mod_python_providers_openai["python-providers/openai"]
+        mod_dotnet["dotnet"]:::atlasCategory
+        mod_dotnet_src_Grafana_Agento11y["dotnet/src/Grafana.Agento11y"]:::atlasCategory
+        mod_examples_experiments_python["examples/experiments/python"]:::atlasCategory
+        mod_examples_getting_started_python["examples/getting-started/python"]:::atlasCategory
+        mod_go["go"]:::atlasCategory
+        mod_java["java"]:::atlasCategory
+        mod_js["js"]:::atlasCategory
+        mod_js_core["js-core"]:::atlasCategory
+        mod_plugins_agento11y["plugins/agento11y"]:::atlasCategory
+        mod_plugins_hermes["plugins/hermes"]:::atlasCategory
+        mod_python["python"]:::atlasCategory
+        mod_python_frameworks_claude_agent_sdk["python-frameworks/claude-agent-sdk"]:::atlasCategory
+        mod_python_frameworks_deepeval["python-frameworks/deepeval"]:::atlasCategory
+        mod_python_frameworks_google_adk["python-frameworks/google-adk"]:::atlasCategory
+        mod_python_frameworks_harbor["python-frameworks/harbor"]:::atlasCategory
+        mod_python_frameworks_langchain["python-frameworks/langchain"]:::atlasCategory
+        mod_python_frameworks_langgraph["python-frameworks/langgraph"]:::atlasCategory
+        mod_python_frameworks_litellm["python-frameworks/litellm"]:::atlasCategory
+        mod_python_frameworks_litellm_example["python-frameworks/litellm/example"]:::atlasCategory
+        mod_python_frameworks_llamaindex["python-frameworks/llamaindex"]:::atlasCategory
+        mod_python_frameworks_openai_agents["python-frameworks/openai-agents"]:::atlasCategory
+        mod_python_frameworks_pydantic_ai["python-frameworks/pydantic-ai"]:::atlasCategory
+        mod_python_frameworks_strands["python-frameworks/strands"]:::atlasCategory
+        mod_python_providers_anthropic["python-providers/anthropic"]:::atlasCategory
+        mod_python_providers_gemini["python-providers/gemini"]:::atlasCategory
+        mod_python_providers_openai["python-providers/openai"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_python_frameworks_litellm_example_Dockerfile["python-frameworks/litellm/example/Dockerfile"]
-        art_python_frameworks_litellm_example_Dockerfile_dockerignore["python-frameworks/litellm/example/Dockerfile.dockerignore"]
-        art_python_frameworks_litellm_example_docker_compose_yaml["python-frameworks/litellm/example/docker-compose.yaml"]
+        art_python_frameworks_litellm_example_Dockerfile["python-frameworks/litellm/example/Dockerfile"]:::atlasWorkflow
+        art_python_frameworks_litellm_example_Dockerfile_dockerignore["python-frameworks/litellm/example/Dockerfile.dockerignore"]:::atlasWorkflow
+        art_python_frameworks_litellm_example_docker_compose_yaml["python-frameworks/litellm/example/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_conformance["ci.yml#conformance"]
-        job_ci_yml_dotnet["ci.yml#dotnet"]
-        job_ci_yml_go["ci.yml#go"]
-        job_ci_yml_go_module["ci.yml#go-module"]
-        job_ci_yml_go_plugin_windows["ci.yml#go-plugin-windows"]
-        job_ci_yml_hermes_test["ci.yml#hermes-test"]
-        job_ci_yml_java["ci.yml#java"]
-        job_ci_yml_typescript["ci.yml#typescript"]
-        job_dotnet_publish_yml_build["dotnet-publish.yml#build"]
-        job_dotnet_publish_yml_publish["dotnet-publish.yml#publish"]
-        job_dotnet_publish_yml_release_pr["dotnet-publish.yml#release-pr"]
-        job_java_publish_yml_build["java-publish.yml#build"]
-        job_java_publish_yml_publish["java-publish.yml#publish"]
-        job_java_publish_yml_release_pr["java-publish.yml#release-pr"]
-        job_js_sdk_publish_yml_build["js-sdk-publish.yml#build"]
-        job_js_sdk_publish_yml_publish["js-sdk-publish.yml#publish"]
-        job_js_sdk_publish_yml_release_pr["js-sdk-publish.yml#release-pr"]
-        job_plugins_publish_yml_prepare["plugins-publish.yml#prepare"]
-        job_plugins_publish_yml_publish["plugins-publish.yml#publish"]
-        job_publish_homebrew_formula_yml_publish["publish-homebrew-formula.yml#publish"]
-        job_python_sdks_publish_yml_build["python-sdks-publish.yml#build"]
-        job_python_sdks_publish_yml_publish_core["python-sdks-publish.yml#publish-core"]
-        job_python_sdks_publish_yml_publish_dependents["python-sdks-publish.yml#publish-dependents"]
-        job_release_agento11y_binaries_yml_release["release-agento11y-binaries.yml#release"]
-        job_release_agento11y_yml_release["release-agento11y.yml#release"]
-        job_release_go_sdk_yml_release["release-go-sdk.yml#release"]
-        job_sdk_github_releases_yml_release["sdk-github-releases.yml#release"]
-        job_tag_agento11y_on_merge_yml_tag["tag-agento11y-on-merge.yml#tag"]
-        job_tag_releases_on_merge_yml_tag["tag-releases-on-merge.yml#tag"]
+        job_ci_yml_conformance["ci.yml#conformance"]:::atlasJob
+        job_ci_yml_dotnet["ci.yml#dotnet"]:::atlasJob
+        job_ci_yml_go["ci.yml#go"]:::atlasJob
+        job_ci_yml_go_module["ci.yml#go-module"]:::atlasJob
+        job_ci_yml_go_plugin_windows["ci.yml#go-plugin-windows"]:::atlasJob
+        job_ci_yml_hermes_test["ci.yml#hermes-test"]:::atlasJob
+        job_ci_yml_java["ci.yml#java"]:::atlasJob
+        job_ci_yml_typescript["ci.yml#typescript"]:::atlasJob
+        job_dotnet_publish_yml_build["dotnet-publish.yml#build"]:::atlasJob
+        job_dotnet_publish_yml_publish["dotnet-publish.yml#publish"]:::atlasJob
+        job_dotnet_publish_yml_release_pr["dotnet-publish.yml#release-pr"]:::atlasJob
+        job_java_publish_yml_build["java-publish.yml#build"]:::atlasJob
+        job_java_publish_yml_publish["java-publish.yml#publish"]:::atlasJob
+        job_java_publish_yml_release_pr["java-publish.yml#release-pr"]:::atlasJob
+        job_js_sdk_publish_yml_build["js-sdk-publish.yml#build"]:::atlasJob
+        job_js_sdk_publish_yml_publish["js-sdk-publish.yml#publish"]:::atlasJob
+        job_js_sdk_publish_yml_release_pr["js-sdk-publish.yml#release-pr"]:::atlasJob
+        job_plugins_publish_yml_prepare["plugins-publish.yml#prepare"]:::atlasJob
+        job_plugins_publish_yml_publish["plugins-publish.yml#publish"]:::atlasJob
+        job_publish_homebrew_formula_yml_publish["publish-homebrew-formula.yml#publish"]:::atlasJob
+        job_python_sdks_publish_yml_build["python-sdks-publish.yml#build"]:::atlasJob
+        job_python_sdks_publish_yml_publish_core["python-sdks-publish.yml#publish-core"]:::atlasJob
+        job_python_sdks_publish_yml_publish_dependents["python-sdks-publish.yml#publish-dependents"]:::atlasJob
+        job_release_agento11y_binaries_yml_release["release-agento11y-binaries.yml#release"]:::atlasJob
+        job_release_agento11y_yml_release["release-agento11y.yml#release"]:::atlasJob
+        job_release_go_sdk_yml_release["release-go-sdk.yml#release"]:::atlasJob
+        job_sdk_github_releases_yml_release["sdk-github-releases.yml#release"]:::atlasJob
+        job_tag_agento11y_on_merge_yml_tag["tag-agento11y-on-merge.yml#tag"]:::atlasJob
+        job_tag_releases_on_merge_yml_tag["tag-releases-on-merge.yml#tag"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_NuGet_org["NuGet.org"]
-        env_npm_publish["npm-publish"]
-        env_pypi["pypi"]
+        env_NuGet_org["NuGet.org"]:::atlasTarget
+        env_npm_publish["npm-publish"]:::atlasTarget
+        env_pypi["pypi"]:::atlasTarget
     end
     job_dotnet_publish_yml_publish -->|DEPLOYS_TO| env_NuGet_org
     job_js_sdk_publish_yml_publish -->|DEPLOYS_TO| env_npm_publish
@@ -470,9 +496,97 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/agento11y (13 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (12 workflows · 21 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (1 workflows · 14 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/agento11y (13 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (12 workflows · 21 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Publish__NET_SDK_to_NuGet["Publish .NET SDK to NuGet (3 jobs)"]
+      direction TB
+      wf_1_Publish__NET_SDK_to_NuGet(["Trigger: Publish .NET SDK to NuGet"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_publish["publish"]:::atlasJob
+      job_1_release_pr["release-pr"]:::atlasJob
+      wf_1_Publish__NET_SDK_to_NuGet --> job_1_build
+      job_1_build --> job_1_publish
+      job_1_build --> job_1_release_pr
+      job_1_publish --> job_1_release_pr
+    end
+    pipeline_root --> wf_1_Publish__NET_SDK_to_NuGet
+    subgraph sg_wf_2_Publish_Java_SDK_to_Maven_Central["Publish Java SDK to Maven Central (3 jobs)"]
+      direction TB
+      wf_2_Publish_Java_SDK_to_Maven_Central(["Trigger: Publish Java SDK to Maven Central"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_publish["publish"]:::atlasJob
+      job_2_release_pr["release-pr"]:::atlasJob
+      wf_2_Publish_Java_SDK_to_Maven_Central --> job_2_build
+      job_2_build --> job_2_publish
+      job_2_build --> job_2_release_pr
+      job_2_publish --> job_2_release_pr
+    end
+    pipeline_root --> wf_2_Publish_Java_SDK_to_Maven_Central
+    subgraph sg_wf_3_Publish_JS_SDK_to_npm["Publish JS SDK to npm (3 jobs)"]
+      direction TB
+      wf_3_Publish_JS_SDK_to_npm(["Trigger: Publish JS SDK to npm"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_publish["publish"]:::atlasJob
+      job_3_release_pr["release-pr"]:::atlasJob
+      wf_3_Publish_JS_SDK_to_npm --> job_3_build
+      job_3_build --> job_3_publish
+      job_3_build --> job_3_release_pr
+      job_3_publish --> job_3_release_pr
+    end
+    pipeline_root --> wf_3_Publish_JS_SDK_to_npm
+    subgraph sg_wf_4_Publish_plugins_to_npm["Publish plugins to npm (2 jobs)"]
+      direction TB
+      wf_4_Publish_plugins_to_npm(["Trigger: Publish plugins to npm"]):::atlasWorkflow
+      job_4_prepare["prepare"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Publish_plugins_to_npm --> job_4_prepare
+      job_4_prepare --> job_4_publish
+    end
+    pipeline_root --> wf_4_Publish_plugins_to_npm
+    subgraph sg_wf_5_Publish_Homebrew_Formula["Publish Homebrew Formula (1 jobs)"]
+      direction TB
+      wf_5_Publish_Homebrew_Formula(["Trigger: Publish Homebrew Formula"]):::atlasWorkflow
+      job_5_publish["publish"]:::atlasJob
+      wf_5_Publish_Homebrew_Formula --> job_5_publish
+    end
+    pipeline_root --> wf_5_Publish_Homebrew_Formula
+    subgraph sg_wf_6_Publish_Python_SDKs_to_PyPI["Publish Python SDKs to PyPI (3 jobs)"]
+      direction TB
+      wf_6_Publish_Python_SDKs_to_PyPI(["Trigger: Publish Python SDKs to PyPI"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_publish_core["publish-core"]:::atlasJob
+      job_6_publish_dependents["publish-dependents"]:::atlasJob
+      wf_6_Publish_Python_SDKs_to_PyPI --> job_6_build
+      job_6_build --> job_6_publish_core
+      job_6_build --> job_6_publish_dependents
+      job_6_publish_core --> job_6_publish_dependents
+    end
+    pipeline_root --> wf_6_Publish_Python_SDKs_to_PyPI
+    subgraph sg_wf_8_Release_plugins_agento11y["Release plugins/agento11y (1 jobs)"]
+      direction TB
+      wf_8_Release_plugins_agento11y(["Trigger: Release plugins/agento11y"]):::atlasWorkflow
+      job_8_release["release"]:::atlasJob
+      wf_8_Release_plugins_agento11y --> job_8_release
+    end
+    pipeline_root --> wf_8_Release_plugins_agento11y
+    wf_9_Release_Go_SDK["Release Go SDK (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Release_Go_SDK
+    wf_10_Publish_SDK_release_notes["Publish SDK release notes (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_Publish_SDK_release_notes
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 14 jobs)"]
+    direction TB
+    wf_0_CI["CI (14 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_CI
+  end
+  wf_more["+3 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

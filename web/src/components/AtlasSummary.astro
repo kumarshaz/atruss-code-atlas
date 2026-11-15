@@ -5,6 +5,7 @@ import OrgHealthStrip from './OrgHealthStrip.astro';
 import LanguageChart from './LanguageChart.astro';
 import RiskFlags from './RiskFlags.astro';
 import RepoGrid from './RepoGrid.astro';
+import atrussLogo from '../assets/atruss-logo.png';
 
 const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (p: string) => `${baseUrl}${p.startsWith('/') ? p : '/' + p}`;
@@ -29,24 +30,81 @@ try {
 
 <div class="m3-atlas-dashboard">
     <section class="m3-card-filled m3-hero-banner">
-        <div class="m3-hero-eyebrow m3-chip m3-chip-tonal-primary">
-            <span class="material-symbols-outlined" aria-hidden="true">hub</span>
-            <span>Multi-Ecosystem Code &amp; Pipeline Atlas</span>
-        </div>
-        <h1>Atruss Code Atlas</h1>
-        <p class="m3-hero-subtitle">
-            Deterministic discovery, CI/CD pipeline DAG analysis, and Arc42 architectural insights
-            across multi-ecosystem repositories.
-        </p>
-        <div class="m3-hero-actions">
-            <a href="#repo-directory" class="m3-btn-filled">
-                <span class="material-symbols-outlined" aria-hidden="true">apps</span>
-                Browse Repositories
-            </a>
-            <a href={withBase('/orgs/')} class="m3-btn-tonal">
-                <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
-                Organization Benchmarks
-            </a>
+        <div class="m3-hero-layout">
+            <div class="m3-hero-main">
+                <div class="m3-hero-eyebrow m3-chip m3-chip-tonal-primary">
+                    <span class="material-symbols-outlined" aria-hidden="true">hub</span>
+                    <span>Multi-Ecosystem Code &amp; Pipeline Atlas</span>
+                </div>
+                <h1>Atruss Code Atlas</h1>
+                <p class="m3-hero-subtitle">
+                    Passive, zero-agent architectural and CI/CD intelligence across 10 ecosystems—combining
+                    Tree-sitter AST &amp; Arc42 blueprints, pipeline &amp; supply-chain diagnostics, 6-Dimension
+                    A–F Scorecards, CycloneDX SBOMs, and AI-ready <code>llms.txt</code> / MCP exports.
+                </p>
+
+                <div class="m3-usecase-grid" aria-label="Core platform use cases">
+                    <div class="m3-usecase-card">
+                        <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">account_tree</span>
+                        <div>
+                            <strong>Architecture &amp; Arc42</strong>
+                            <span>10-ecosystem AST, fitness rules &amp; Code-to-Cloud DAGs</span>
+                        </div>
+                    </div>
+                    <div class="m3-usecase-card">
+                        <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">security</span>
+                        <div>
+                            <strong>CI/CD &amp; Supply-Chain</strong>
+                            <span>14 pipeline rules, OSV CVEs, SBOM &amp; SARIF gates</span>
+                        </div>
+                    </div>
+                    <div class="m3-usecase-card">
+                        <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">grade</span>
+                        <div>
+                            <strong>6-D Scorecards &amp; Drift</strong>
+                            <span>Deterministic A–F grades, debt index &amp; PR diffs</span>
+                        </div>
+                    </div>
+                    <div class="m3-usecase-card">
+                        <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">smart_toy</span>
+                        <div>
+                            <strong>AI-Ready Context</strong>
+                            <span>Portable <code>llms.txt</code> &amp; 10-tool stdio MCP server</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m3-hero-actions">
+                    <a href="#repo-directory" class="m3-btn-filled">
+                        <span class="material-symbols-outlined" aria-hidden="true">apps</span>
+                        Browse Repositories
+                    </a>
+                    <a href={withBase('/orgs/')} class="m3-btn-tonal">
+                        <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
+                        Organization Benchmarks
+                    </a>
+                    <a
+                        href="https://github.com/kumarshaz/atruss-code-atlas/blob/main/docs/metrics-methodology.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="m3-btn-outlined"
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+                        Metrics Methodology
+                    </a>
+                </div>
+            </div>
+
+            <div class="m3-hero-visual" aria-hidden="true">
+                <img
+                    src={atrussLogo.src}
+                    alt=""
+                    class="m3-hero-logo"
+                    width="320"
+                    height="320"
+                    loading="eager"
+                />
+            </div>
         </div>
     </section>
 
@@ -86,8 +144,25 @@ try {
         border-radius: var(--md-sys-shape-corner-extra-large);
     }
 
+    .m3-hero-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    @media (min-width: 900px) {
+        .m3-hero-layout {
+            grid-template-columns: minmax(0, 1.45fr) minmax(240px, 340px);
+        }
+    }
+
+    .m3-hero-main {
+        min-width: 0;
+    }
+
     .m3-hero-eyebrow {
-        margin-bottom: 1rem;
+        margin: 0 0 1rem !important;
     }
 
     .m3-hero-banner h1 {
@@ -99,17 +174,85 @@ try {
     }
 
     .m3-hero-subtitle {
-        margin: 0.75rem 0 1.5rem !important;
+        margin: 0.75rem 0 1.25rem !important;
         font-size: 1.0625rem;
-        max-width: 65ch;
+        max-width: 68ch;
         color: var(--md-sys-color-on-surface-variant);
         line-height: 1.55;
+    }
+
+    .m3-usecase-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin: 0 0 1.5rem !important;
+        align-items: stretch;
+    }
+
+    @media (min-width: 560px) {
+        .m3-usecase-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .m3-usecase-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        height: 100%;
+        margin: 0 !important;
+        padding: 0.9rem 1rem;
+        border-radius: var(--md-sys-shape-corner-large);
+        background-color: var(--md-sys-color-surface-container-low);
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-usecase-icon {
+        color: var(--md-sys-color-primary);
+        font-size: 22px;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+    }
+
+    .m3-usecase-card strong {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 0.15rem;
+    }
+
+    .m3-usecase-card span:not(.material-symbols-outlined) {
+        display: block;
+        font-size: 0.8rem;
+        line-height: 1.35;
+        color: var(--md-sys-color-on-surface-variant);
     }
 
     .m3-hero-actions {
         display: flex;
         flex-wrap: wrap;
+        align-items: center;
         gap: 0.75rem;
+        margin: 0 !important;
+    }
+
+    .m3-hero-actions > * {
+        margin: 0 !important;
+    }
+
+    .m3-hero-visual {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 !important;
+        padding: 0.5rem;
+    }
+
+    .m3-hero-logo {
+        width: clamp(180px, 24vw, 310px);
+        height: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.22));
     }
 
     .m3-empty-dashboard {

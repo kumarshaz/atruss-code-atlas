@@ -41,30 +41,43 @@ description: Arc42 and Pipeline report for getsentry/sentry-laravel
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-laravel (141 components)"])
-    dir_0_src["src (72)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-laravel (141 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (72)"]
+      direction TB
+      dir_0_src["src (72)"]:::atlasCategory
+      sub_0_0_Sentry_Laravel_Features["Sentry/Laravel/Features (35)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_Sentry_Laravel_Features
+      sub_0_1_Sentry_Laravel_Tracing["Sentry/Laravel/Tracing (10)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_Sentry_Laravel_Tracing
+      sub_0_2_Sentry_Laravel["Sentry/Laravel (8)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_Sentry_Laravel
+      sub_0_more["+6 more submodules (19)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_Sentry_Laravel_Features["Sentry/Laravel/Features (35)"]
-    dir_0_src --> sub_0_0_Sentry_Laravel_Features
-    sub_0_1_Sentry_Laravel_Tracing["Sentry/Laravel/Tracing (10)"]
-    dir_0_src --> sub_0_1_Sentry_Laravel_Tracing
-    sub_0_2_Sentry_Laravel["Sentry/Laravel (8)"]
-    dir_0_src --> sub_0_2_Sentry_Laravel
-    sub_0_more["+6 more submodules (19)"]
-    dir_0_src --> sub_0_more
-    dir_1_test["test (66)"]
+    subgraph sg_dir_1_test["test (66)"]
+      direction TB
+      dir_1_test["test (66)"]:::atlasCategory
+      sub_1_0_Sentry["Sentry (59)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_Sentry
+      sub_1_1_stubs["stubs (6)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1_stubs
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_test --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_test
-    sub_1_0_Sentry["Sentry (59)"]
-    dir_1_test --> sub_1_0_Sentry
-    sub_1_1_stubs["stubs (6)"]
-    dir_1_test --> sub_1_1_stubs
-    sub_1_2__module_root_["(module root) (1)"]
-    dir_1_test --> sub_1_2__module_root_
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_config["config (1)"]
+    dir_3_config["config (1)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4_scripts["scripts (1)"]
+    dir_4_scripts["scripts (1)"]:::atlasCategory
     repo_root --> dir_4_scripts
 ```
 
@@ -180,16 +193,20 @@ Showing top 60 representative components out of 141 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_65dbbf81_7655_40cf_8f47_667c1936c336["65dbbf81-7655-40cf-8f47-667c1936c336"]
+        mod_65dbbf81_7655_40cf_8f47_667c1936c336["65dbbf81-7655-40cf-8f47-667c1936c336"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yaml_phpunit["ci.yaml#phpunit"]
-        job_ci_yaml_phpunit_legacy["ci.yaml#phpunit-legacy"]
-        job_cs_yaml_php_cs_fixer["cs.yaml#php-cs-fixer"]
-        job_cs_yaml_phpstan["cs.yaml#phpstan"]
-        job_publish_release_yaml_release["publish-release.yaml#release"]
-        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]
+        job_ci_yaml_phpunit["ci.yaml#phpunit"]:::atlasJob
+        job_ci_yaml_phpunit_legacy["ci.yaml#phpunit-legacy"]:::atlasJob
+        job_cs_yaml_php_cs_fixer["cs.yaml#php-cs-fixer"]:::atlasJob
+        job_cs_yaml_phpstan["cs.yaml#phpstan"]:::atlasJob
+        job_publish_release_yaml_release["publish-release.yaml#release"]:::atlasJob
+        job_validate_pr_yml_validate_pr["validate-pr.yml#validate-pr"]:::atlasJob
     end
     mod_65dbbf81_7655_40cf_8f47_667c1936c336 -->|BUILT_BY| job_ci_yaml_phpunit
     mod_65dbbf81_7655_40cf_8f47_667c1936c336 -->|BUILT_BY| job_ci_yaml_phpunit_legacy
@@ -211,17 +228,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-laravel (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_CI["CI (2 jobs)"]
-  grp_0_CI___Verification --> wf_0_CI
-  wf_1_Code_style_and_static_analysis["Code style and static analysis (2 jobs)"]
-  grp_0_CI___Verification --> wf_1_Code_style_and_static_analysis
-  wf_3_Validate_PR["Validate PR (1 jobs)"]
-  grp_0_CI___Verification --> wf_3_Validate_PR
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Prepare_Release["Prepare Release (1 jobs)"]
-  grp_1_Release___Deploy --> wf_2_Prepare_Release
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-laravel (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (2 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_phpunit["phpunit"]:::atlasJob
+      job_0_phpunit_legacy["phpunit-legacy"]:::atlasJob
+      wf_0_CI --> job_0_phpunit
+      wf_0_CI --> job_0_phpunit_legacy
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_1_Code_style_and_static_analysis["Code style and static analysis (2 jobs)"]
+      direction TB
+      wf_1_Code_style_and_static_analysis(["Trigger: Code style and static analysis"]):::atlasWorkflow
+      job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
+      job_1_phpstan["phpstan"]:::atlasJob
+      wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
+      wf_1_Code_style_and_static_analysis --> job_1_phpstan
+    end
+    pipeline_root --> wf_1_Code_style_and_static_analysis
+    subgraph sg_wf_3_Validate_PR["Validate PR (1 jobs)"]
+      direction TB
+      wf_3_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
+      job_3_validate_pr["validate-pr"]:::atlasJob
+      wf_3_Validate_PR --> job_3_validate_pr
+    end
+    pipeline_root --> wf_3_Validate_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Prepare_Release["Prepare Release (1 jobs)"]
+      direction TB
+      wf_2_Prepare_Release(["Trigger: Prepare Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Prepare_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Prepare_Release
+  end
 ```

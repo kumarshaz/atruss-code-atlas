@@ -41,26 +41,39 @@ description: Arc42 and Pipeline report for plausible/ecto_ch
 
 ```mermaid
 graph TD;
-    repo_root(["plausible/ecto_ch (54 components)"])
-    dir_0_test["test (41)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["plausible/ecto_ch (54 components)"]):::atlasRoot
+    subgraph sg_dir_0_test["test (41)"]
+      direction TB
+      dir_0_test["test (41)"]:::atlasCategory
+      sub_0_0_ecto["ecto (32)"]:::atlasWorkflow
+      dir_0_test --> sub_0_0_ecto
+      sub_0_1_support["support (5)"]:::atlasWorkflow
+      dir_0_test --> sub_0_1_support
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_test --> sub_0_2__module_root_
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_test --> sub_0_more
+    end
     repo_root --> dir_0_test
-    sub_0_0_ecto["ecto (32)"]
-    dir_0_test --> sub_0_0_ecto
-    sub_0_1_support["support (5)"]
-    dir_0_test --> sub_0_1_support
-    sub_0_2__module_root_["(module root) (2)"]
-    dir_0_test --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (2)"]
-    dir_0_test --> sub_0_more
-    dir_1_lib["lib (9)"]
+    subgraph sg_dir_1_lib["lib (9)"]
+      direction TB
+      dir_1_lib["lib (9)"]:::atlasCategory
+      sub_1_0_ecto["ecto (8)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_ecto
+      sub_1_1_mix["mix (1)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1_mix
+    end
     repo_root --> dir_1_lib
-    sub_1_0_ecto["ecto (8)"]
-    dir_1_lib --> sub_1_0_ecto
-    sub_1_1_mix["mix (1)"]
-    dir_1_lib --> sub_1_1_mix
-    dir_2__root_["(root) (3)"]
+    dir_2__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_dev["dev (1)"]
+    dir_3_dev["dev (1)"]:::atlasCategory
     repo_root --> dir_3_dev
 ```
 
@@ -152,11 +165,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_087830c0_f4aa_4f77_a61f_6f9f0ac3d19b["087830c0-f4aa-4f77-a61f-6f9f0ac3d19b"]
+        mod_087830c0_f4aa_4f77_a61f_6f9f0ac3d19b["087830c0-f4aa-4f77-a61f-6f9f0ac3d19b"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_test["ci.yml#test"]
+        job_ci_yml_test["ci.yml#test"]:::atlasJob
     end
     mod_087830c0_f4aa_4f77_a61f_6f9f0ac3d19b -->|BUILT_BY| job_ci_yml_test
 ```
@@ -168,8 +185,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph ci_0["ci"]
     direction TB
-    0_test["test"]
+    0_test["test"]:::atlasJob
   end
 ```

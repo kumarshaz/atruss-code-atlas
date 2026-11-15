@@ -41,22 +41,32 @@ description: Arc42 and Pipeline report for home-assistant/frontend
 
 ```mermaid
 graph TD;
-    repo_root(["home-assistant/frontend (75 components)"])
-    dir_0_src["src (64)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["home-assistant/frontend (75 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (64)"]
+      direction TB
+      dir_0_src["src (64)"]:::atlasCategory
+      sub_0_0_fake_data["fake_data (22)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_fake_data
+      sub_0_1_common["common (16)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_common
+      sub_0_2_data["data (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_data
+      sub_0_more["+3 more submodules (14)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_fake_data["fake_data (22)"]
-    dir_0_src --> sub_0_0_fake_data
-    sub_0_1_common["common (16)"]
-    dir_0_src --> sub_0_1_common
-    sub_0_2_data["data (12)"]
-    dir_0_src --> sub_0_2_data
-    sub_0_more["+3 more submodules (14)"]
-    dir_0_src --> sub_0_more
-    dir_1_gallery["gallery (9)"]
+    dir_1_gallery["gallery (9)"]:::atlasCategory
     repo_root --> dir_1_gallery
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_packages["packages (1)"]
+    dir_3_packages["packages (1)"]:::atlasCategory
     repo_root --> dir_3_packages
     sub_0_1_common -.->|"42 deps"| sub_0_0_fake_data
     sub_0_more -.->|"42 deps"| sub_0_0_fake_data
@@ -202,5 +212,12 @@ Showing top 60 representative components out of 75 across 4 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

@@ -41,19 +41,26 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-gitlab
 
 ```mermaid
 graph TD;
-    mattermost_plugin_gitlab_e2e["mattermost-plugin-gitlab-e2e : MODULE"]
-    gitlab["gitlab : MODULE"]
-    Client["Client : SERVICE"]
-    CreateIssuePostMenuAction["CreateIssuePostMenuAction : UI_COMPONENT"]
-    GitLabIssuesIcon["GitLabIssuesIcon : UI_COMPONENT"]
-    GitLabMergeRequestIcon["GitLabMergeRequestIcon : UI_COMPONENT"]
-    GitLabReviewsIcon["GitLabReviewsIcon : UI_COMPONENT"]
-    GitLabTodosIcon["GitLabTodosIcon : UI_COMPONENT"]
-    GitLabMergeRequestClosedIcon["GitLabMergeRequestClosedIcon : UI_COMPONENT"]
-    GitLabMergedIcon["GitLabMergedIcon : UI_COMPONENT"]
-    GitLabIssueClosedIcon["GitLabIssueClosedIcon : UI_COMPONENT"]
-    GitLabIssueOpenIcon["GitLabIssueOpenIcon : UI_COMPONENT"]
-    repo_root(["mattermost/mattermost-plugin-gitlab"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    mattermost_plugin_gitlab_e2e["mattermost-plugin-gitlab-e2e : MODULE"]:::atlasJob
+    gitlab["gitlab : MODULE"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
+    CreateIssuePostMenuAction["CreateIssuePostMenuAction : UI_COMPONENT"]:::atlasJob
+    GitLabIssuesIcon["GitLabIssuesIcon : UI_COMPONENT"]:::atlasJob
+    GitLabMergeRequestIcon["GitLabMergeRequestIcon : UI_COMPONENT"]:::atlasJob
+    GitLabReviewsIcon["GitLabReviewsIcon : UI_COMPONENT"]:::atlasJob
+    GitLabTodosIcon["GitLabTodosIcon : UI_COMPONENT"]:::atlasJob
+    GitLabMergeRequestClosedIcon["GitLabMergeRequestClosedIcon : UI_COMPONENT"]:::atlasJob
+    GitLabMergedIcon["GitLabMergedIcon : UI_COMPONENT"]:::atlasJob
+    GitLabIssueClosedIcon["GitLabIssueClosedIcon : UI_COMPONENT"]:::atlasJob
+    GitLabIssueOpenIcon["GitLabIssueOpenIcon : UI_COMPONENT"]:::atlasJob
+    repo_root(["mattermost/mattermost-plugin-gitlab"]):::atlasRoot
     repo_root --> Client
     repo_root --> CreateIssuePostMenuAction
     repo_root --> GitLabIssueClosedIcon
@@ -144,13 +151,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_e2e_playwright["e2e/playwright"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_e2e_playwright["e2e/playwright"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
-        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]:::atlasWorkflow
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_e2e_playwright -->|PACKAGED_BY| art__cursor_Dockerfile
@@ -166,20 +177,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-gitlab"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-gitlab"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph CodeQL_1["CodeQL"]
     direction TB
-    1_analyze["analyze"]
+    1_analyze["analyze"]:::atlasJob
   end
   pipeline_root --> 1_analyze
   subgraph e2e_2["e2e"]
     direction TB
-    2_playwright["playwright"]
+    2_playwright["playwright"]:::atlasJob
   end
   pipeline_root --> 2_playwright
 ```

@@ -40,34 +40,50 @@ description: Arc42 and Pipeline report for argoproj/argoproj-deployments
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argoproj-deployments (93 components)"])
-    dir_0_argo_workflows["argo-workflows (21)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argoproj-deployments (93 components)"]):::atlasRoot
+    subgraph sg_dir_0_argo_workflows["argo-workflows (21)"]
+      direction TB
+      dir_0_argo_workflows["argo-workflows (21)"]:::atlasCategory
+      sub_0_0_resources["resources (11)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_0_resources
+      sub_0_1_overlays["overlays (9)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_1_overlays
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_argo_workflows
-    sub_0_0_resources["resources (11)"]
-    dir_0_argo_workflows --> sub_0_0_resources
-    sub_0_1_overlays["overlays (9)"]
-    dir_0_argo_workflows --> sub_0_1_overlays
-    sub_0_2__module_root_["(module root) (1)"]
-    dir_0_argo_workflows --> sub_0_2__module_root_
-    dir_1_argocd["argocd (21)"]
+    subgraph sg_dir_1_argocd["argocd (21)"]
+      direction TB
+      dir_1_argocd["argocd (21)"]:::atlasCategory
+      sub_1_0_base["base (11)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_0_base
+      sub_1_1_overlays["overlays (9)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_1_overlays
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_argocd
-    sub_1_0_base["base (11)"]
-    dir_1_argocd --> sub_1_0_base
-    sub_1_1_overlays["overlays (9)"]
-    dir_1_argocd --> sub_1_1_overlays
-    sub_1_2__module_root_["(module root) (1)"]
-    dir_1_argocd --> sub_1_2__module_root_
-    dir_2_argoproj["argoproj (20)"]
+    subgraph sg_dir_2_argoproj["argoproj (20)"]
+      direction TB
+      dir_2_argoproj["argoproj (20)"]:::atlasCategory
+      sub_2_0_base["base (19)"]:::atlasWorkflow
+      dir_2_argoproj --> sub_2_0_base
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_argoproj --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_argoproj
-    sub_2_0_base["base (19)"]
-    dir_2_argoproj --> sub_2_0_base
-    sub_2_1__module_root_["(module root) (1)"]
-    dir_2_argoproj --> sub_2_1__module_root_
-    dir_3_argo_events["argo-events (7)"]
+    dir_3_argo_events["argo-events (7)"]:::atlasCategory
     repo_root --> dir_3_argo_events
-    dir_4_argocd_extension_metrics["argocd-extension-metrics (4)"]
+    dir_4_argocd_extension_metrics["argocd-extension-metrics (4)"]:::atlasCategory
     repo_root --> dir_4_argocd_extension_metrics
-    dir_other_modules["+7 more modules (20)"]
+    dir_other_modules["+7 more modules (20)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -168,22 +184,26 @@ Showing top 60 representative components out of 93 across 12 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_argoproj["argoproj"]
-        mod_external_dns["external-dns"]
+        mod_argoproj["argoproj"]:::atlasCategory
+        mod_external_dns["external-dns"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_infrastructure_terraform_gcp_gke_providers_tf["infrastructure/terraform/gcp/gke/providers.tf"]
-        art_infrastructure_terraform_gcp_gke_terraform_tf["infrastructure/terraform/gcp/gke/terraform.tf"]
-        art_infrastructure_terraform_gcp_gke_workload_identity_tf["infrastructure/terraform/gcp/gke/workload_identity.tf"]
-        art_infrastructure_terraform_gcp_network_main_tf["infrastructure/terraform/gcp/network/main.tf"]
-        art_infrastructure_terraform_gcp_network_providers_tf["infrastructure/terraform/gcp/network/providers.tf"]
-        art_infrastructure_terraform_gcp_network_terraform_tf["infrastructure/terraform/gcp/network/terraform.tf"]
-        art_infrastructure_terraform_gcp_network_variables_tf["infrastructure/terraform/gcp/network/variables.tf"]
-        art_infrastructure_terraform_gcp_remote_state_providers_tf["infrastructure/terraform/gcp/remote-state/providers.tf"]
-        art_infrastructure_terraform_gcp_remote_state_terraform_tf["infrastructure/terraform/gcp/remote-state/terraform.tf"]
-        art_infrastructure_terraform_gcp_user_access_providers_tf["infrastructure/terraform/gcp/user-access/providers.tf"]
-        art_infrastructure_terraform_gcp_user_access_terraform_tf["infrastructure/terraform/gcp/user-access/terraform.tf"]
+        art_infrastructure_terraform_gcp_gke_providers_tf["infrastructure/terraform/gcp/gke/providers.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_gke_terraform_tf["infrastructure/terraform/gcp/gke/terraform.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_gke_workload_identity_tf["infrastructure/terraform/gcp/gke/workload_identity.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_network_main_tf["infrastructure/terraform/gcp/network/main.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_network_providers_tf["infrastructure/terraform/gcp/network/providers.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_network_terraform_tf["infrastructure/terraform/gcp/network/terraform.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_network_variables_tf["infrastructure/terraform/gcp/network/variables.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_remote_state_providers_tf["infrastructure/terraform/gcp/remote-state/providers.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_remote_state_terraform_tf["infrastructure/terraform/gcp/remote-state/terraform.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_user_access_providers_tf["infrastructure/terraform/gcp/user-access/providers.tf"]:::atlasWorkflow
+        art_infrastructure_terraform_gcp_user_access_terraform_tf["infrastructure/terraform/gcp/user-access/terraform.tf"]:::atlasWorkflow
     end
     mod_argoproj -->|PACKAGED_BY| art_infrastructure_terraform_gcp_gke_providers_tf
     mod_argoproj -->|PACKAGED_BY| art_infrastructure_terraform_gcp_gke_terraform_tf
@@ -217,5 +237,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

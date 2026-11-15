@@ -41,34 +41,47 @@ description: Arc42 and Pipeline report for apache/auron
 
 ```mermaid
 graph TD;
-    repo_root(["apache/auron (232 components)"])
-    dir_0_native_engine["native-engine (201)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["apache/auron (232 components)"]):::atlasRoot
+    subgraph sg_dir_0_native_engine["native-engine (201)"]
+      direction TB
+      dir_0_native_engine["native-engine (201)"]:::atlasCategory
+      sub_0_0_datafusion_ext_plans["datafusion-ext-plans (109)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_0_datafusion_ext_plans
+      sub_0_1_datafusion_ext_commons["datafusion-ext-commons (29)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_1_datafusion_ext_commons
+      sub_0_2_datafusion_ext_functions["datafusion-ext-functions (24)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_2_datafusion_ext_functions
+      sub_0_more["+5 more submodules (39)"]:::atlasMore
+      dir_0_native_engine --> sub_0_more
+    end
     repo_root --> dir_0_native_engine
-    sub_0_0_datafusion_ext_plans["datafusion-ext-plans (109)"]
-    dir_0_native_engine --> sub_0_0_datafusion_ext_plans
-    sub_0_1_datafusion_ext_commons["datafusion-ext-commons (29)"]
-    dir_0_native_engine --> sub_0_1_datafusion_ext_commons
-    sub_0_2_datafusion_ext_functions["datafusion-ext-functions (24)"]
-    dir_0_native_engine --> sub_0_2_datafusion_ext_functions
-    sub_0_more["+5 more submodules (39)"]
-    dir_0_native_engine --> sub_0_more
-    dir_1_auron_spark_tests["auron-spark-tests (9)"]
+    subgraph sg_dir_1_auron_spark_tests["auron-spark-tests (9)"]
+      direction TB
+      dir_1_auron_spark_tests["auron-spark-tests (9)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_0__module_root_
+      sub_1_1_common["common (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_1_common
+      sub_1_2_spark31["spark31 (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_2_spark31
+      sub_1_more["+6 more submodules (6)"]:::atlasMore
+      dir_1_auron_spark_tests --> sub_1_more
+    end
     repo_root --> dir_1_auron_spark_tests
-    sub_1_0__module_root_["(module root) (1)"]
-    dir_1_auron_spark_tests --> sub_1_0__module_root_
-    sub_1_1_common["common (1)"]
-    dir_1_auron_spark_tests --> sub_1_1_common
-    sub_1_2_spark31["spark31 (1)"]
-    dir_1_auron_spark_tests --> sub_1_2_spark31
-    sub_1_more["+6 more submodules (6)"]
-    dir_1_auron_spark_tests --> sub_1_more
-    dir_2_thirdparty["thirdparty (6)"]
+    dir_2_thirdparty["thirdparty (6)"]:::atlasCategory
     repo_root --> dir_2_thirdparty
-    dir_3_auron_flink_extension["auron-flink-extension (4)"]
+    dir_3_auron_flink_extension["auron-flink-extension (4)"]:::atlasCategory
     repo_root --> dir_3_auron_flink_extension
-    dir_4_dev["dev (4)"]
+    dir_4_dev["dev (4)"]:::atlasCategory
     repo_root --> dir_4_dev
-    dir_other_modules["+8 more modules (8)"]
+    dir_other_modules["+8 more modules (8)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -222,40 +235,44 @@ Showing top 60 representative components out of 232 across 13 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_auron_flink_extension["auron-flink-extension"]
-        mod_auron_flink_extension_auron_flink_assembly["auron-flink-extension/auron-flink-assembly"]
-        mod_auron_spark_tests_common["auron-spark-tests/common"]
-        mod_common["common"]
-        mod_dev_auron_it["dev/auron-it"]
-        mod_dev_docker_build["dev/docker-build"]
-        mod_dev_docker_build_azurelinux3["dev/docker-build/azurelinux3"]
-        mod_dev_docker_build_centos7["dev/docker-build/centos7"]
-        mod_dev_docker_build_debian11["dev/docker-build/debian11"]
-        mod_dev_docker_build_rockylinux8["dev/docker-build/rockylinux8"]
-        mod_dev_docker_build_ubuntu24["dev/docker-build/ubuntu24"]
-        mod_dev_mvn_build_helper_assembly["dev/mvn-build-helper/assembly"]
-        mod_dev_mvn_build_helper_proto["dev/mvn-build-helper/proto"]
-        mod_native_engine_auron["native-engine/auron"]
-        mod_spark_extension["spark-extension"]
-        mod_spark_extension_shims_spark["spark-extension-shims-spark"]
-        mod_thirdparty_auron_hudi["thirdparty/auron-hudi"]
-        mod_thirdparty_auron_iceberg["thirdparty/auron-iceberg"]
+        mod_auron_flink_extension["auron-flink-extension"]:::atlasCategory
+        mod_auron_flink_extension_auron_flink_assembly["auron-flink-extension/auron-flink-assembly"]:::atlasCategory
+        mod_auron_spark_tests_common["auron-spark-tests/common"]:::atlasCategory
+        mod_common["common"]:::atlasCategory
+        mod_dev_auron_it["dev/auron-it"]:::atlasCategory
+        mod_dev_docker_build["dev/docker-build"]:::atlasCategory
+        mod_dev_docker_build_azurelinux3["dev/docker-build/azurelinux3"]:::atlasCategory
+        mod_dev_docker_build_centos7["dev/docker-build/centos7"]:::atlasCategory
+        mod_dev_docker_build_debian11["dev/docker-build/debian11"]:::atlasCategory
+        mod_dev_docker_build_rockylinux8["dev/docker-build/rockylinux8"]:::atlasCategory
+        mod_dev_docker_build_ubuntu24["dev/docker-build/ubuntu24"]:::atlasCategory
+        mod_dev_mvn_build_helper_assembly["dev/mvn-build-helper/assembly"]:::atlasCategory
+        mod_dev_mvn_build_helper_proto["dev/mvn-build-helper/proto"]:::atlasCategory
+        mod_native_engine_auron["native-engine/auron"]:::atlasCategory
+        mod_spark_extension["spark-extension"]:::atlasCategory
+        mod_spark_extension_shims_spark["spark-extension-shims-spark"]:::atlasCategory
+        mod_thirdparty_auron_hudi["thirdparty/auron-hudi"]:::atlasCategory
+        mod_thirdparty_auron_iceberg["thirdparty/auron-iceberg"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_dev_docker_build_azurelinux3_Dockerfile["dev/docker-build/azurelinux3/Dockerfile"]
-        art_dev_docker_build_centos7_Dockerfile["dev/docker-build/centos7/Dockerfile"]
-        art_dev_docker_build_debian11_Dockerfile["dev/docker-build/debian11/Dockerfile"]
-        art_dev_docker_build_docker_compose_yml["dev/docker-build/docker-compose.yml"]
-        art_dev_docker_build_rockylinux8_Dockerfile["dev/docker-build/rockylinux8/Dockerfile"]
-        art_dev_docker_build_ubuntu24_Dockerfile["dev/docker-build/ubuntu24/Dockerfile"]
+        art_dev_docker_build_azurelinux3_Dockerfile["dev/docker-build/azurelinux3/Dockerfile"]:::atlasWorkflow
+        art_dev_docker_build_centos7_Dockerfile["dev/docker-build/centos7/Dockerfile"]:::atlasWorkflow
+        art_dev_docker_build_debian11_Dockerfile["dev/docker-build/debian11/Dockerfile"]:::atlasWorkflow
+        art_dev_docker_build_docker_compose_yml["dev/docker-build/docker-compose.yml"]:::atlasWorkflow
+        art_dev_docker_build_rockylinux8_Dockerfile["dev/docker-build/rockylinux8/Dockerfile"]:::atlasWorkflow
+        art_dev_docker_build_ubuntu24_Dockerfile["dev/docker-build/ubuntu24/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_flink_yml_test_flink["flink.yml#test-flink"]
-        job_hudi_yml_test_hudi["hudi.yml#test-hudi"]
-        job_iceberg_yml_test_iceberg["iceberg.yml#test-iceberg"]
-        job_tpcds_reusable_yml_build_auron_jar["tpcds-reusable.yml#build-auron-jar"]
-        job_tpcds_reusable_yml_run_tpcds_test["tpcds-reusable.yml#run-tpcds-test"]
+        job_flink_yml_test_flink["flink.yml#test-flink"]:::atlasJob
+        job_hudi_yml_test_hudi["hudi.yml#test-hudi"]:::atlasJob
+        job_iceberg_yml_test_iceberg["iceberg.yml#test-iceberg"]:::atlasJob
+        job_tpcds_reusable_yml_build_auron_jar["tpcds-reusable.yml#build-auron-jar"]:::atlasJob
+        job_tpcds_reusable_yml_run_tpcds_test["tpcds-reusable.yml#run-tpcds-test"]:::atlasJob
     end
     mod_auron_flink_extension -->|BUILT_BY| job_flink_yml_test_flink
     mod_auron_flink_extension_auron_flink_assembly -->|BUILT_BY| job_flink_yml_test_flink
@@ -323,13 +340,102 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/auron (18 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 19 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/auron (18 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Celeborn["Celeborn (1 jobs)"]
+      direction TB
+      wf_3_Celeborn(["Trigger: Celeborn"]):::atlasWorkflow
+      job_3_test_celeborn["test-celeborn"]:::atlasJob
+      wf_3_Celeborn --> job_3_test_celeborn
+    end
+    pipeline_root --> wf_3_Celeborn
+    subgraph sg_wf_13_Close_inactive_issues_and_PRs["Close inactive issues and PRs (1 jobs)"]
+      direction TB
+      wf_13_Close_inactive_issues_and_PRs(["Trigger: Close inactive issues and PRs"]):::atlasWorkflow
+      job_13_close_issues["close-issues"]:::atlasJob
+      wf_13_Close_inactive_issues_and_PRs --> job_13_close_issues
+    end
+    pipeline_root --> wf_13_Close_inactive_issues_and_PRs
+    subgraph sg_wf_16_TPC_DS["TPC-DS (10 jobs)"]
+      direction TB
+      wf_16_TPC_DS(["Trigger: TPC-DS"]):::atlasWorkflow
+      job_16_test_spark_30["test-spark-30"]:::atlasJob
+      job_16_test_spark_31["test-spark-31"]:::atlasJob
+      job_16_test_spark_32["test-spark-32"]:::atlasJob
+      wf_16_TPC_DS --> job_16_test_spark_30
+      wf_16_TPC_DS --> job_16_test_spark_31
+      wf_16_TPC_DS --> job_16_test_spark_32
+    end
+    pipeline_root --> wf_16_TPC_DS
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]
+      direction TB
+      wf_8_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_8_triage["triage"]:::atlasJob
+      wf_8_Pull_Request_Labeler --> job_8_triage
+    end
+    pipeline_root --> wf_8_Pull_Request_Labeler
+    subgraph sg_wf_9_License_check["License check (1 jobs)"]
+      direction TB
+      wf_9_License_check(["Trigger: License check"]):::atlasWorkflow
+      job_9_rat["rat"]:::atlasJob
+      wf_9_License_check --> job_9_rat
+    end
+    pipeline_root --> wf_9_License_check
+    subgraph sg_wf_11_Pull_Request_Title_Check["Pull Request Title Check (1 jobs)"]
+      direction TB
+      wf_11_Pull_Request_Title_Check(["Trigger: Pull Request Title Check"]):::atlasWorkflow
+      job_11_pr_title_check["pr-title-check"]:::atlasJob
+      wf_11_Pull_Request_Title_Check --> job_11_pr_title_check
+    end
+    pipeline_root --> wf_11_Pull_Request_Title_Check
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_amd64_Releases["Build amd64 Releases (1 jobs)"]
+      direction TB
+      wf_0_Build_amd64_Releases(["Trigger: Build amd64 Releases"]):::atlasWorkflow
+      job_0_build_snapshot["build-snapshot"]:::atlasJob
+      wf_0_Build_amd64_Releases --> job_0_build_snapshot
+    end
+    pipeline_root --> wf_0_Build_amd64_Releases
+    subgraph sg_wf_1_Build_arm_Releases["Build arm Releases (1 jobs)"]
+      direction TB
+      wf_1_Build_arm_Releases(["Trigger: Build arm Releases"]):::atlasWorkflow
+      job_1_build_snapshot["build-snapshot"]:::atlasJob
+      wf_1_Build_arm_Releases --> job_1_build_snapshot
+    end
+    pipeline_root --> wf_1_Build_arm_Releases
+    subgraph sg_wf_2_Build_macOS_Releases["Build macOS Releases (1 jobs)"]
+      direction TB
+      wf_2_Build_macOS_Releases(["Trigger: Build macOS Releases"]):::atlasWorkflow
+      job_2_build_snapshot["build-snapshot"]:::atlasJob
+      wf_2_Build_macOS_Releases --> job_2_build_snapshot
+    end
+    pipeline_root --> wf_2_Build_macOS_Releases
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_15_TPC_DS_Reusable["TPC-DS Reusable (2 jobs)"]
+      direction TB
+      wf_15_TPC_DS_Reusable(["Trigger: TPC-DS Reusable"]):::atlasWorkflow
+      job_15_build_auron_jar["build-auron-jar"]:::atlasJob
+      job_15_run_tpcds_test["run-tpcds-test"]:::atlasJob
+      wf_15_TPC_DS_Reusable --> job_15_build_auron_jar
+      job_15_build_auron_jar --> job_15_run_tpcds_test
+    end
+    pipeline_root --> wf_15_TPC_DS_Reusable
+  end
+  wf_more["+8 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

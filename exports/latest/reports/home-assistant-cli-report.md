@@ -41,16 +41,23 @@ description: Arc42 and Pipeline report for home-assistant/cli
 
 ```mermaid
 graph TD;
-    repo_root(["home-assistant/cli (192 components)"])
-    dir_0_cmd["cmd (177)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["home-assistant/cli (192 components)"]):::atlasRoot
+    dir_0_cmd["cmd (177)"]:::atlasCategory
     repo_root --> dir_0_cmd
-    dir_1_client["client (10)"]
+    dir_1_client["client (10)"]:::atlasCategory
     repo_root --> dir_1_client
-    dir_2_config["config (2)"]
+    dir_2_config["config (2)"]:::atlasCategory
     repo_root --> dir_2_config
-    dir_3_spinner["spinner (2)"]
+    dir_3_spinner["spinner (2)"]:::atlasCategory
     repo_root --> dir_3_spinner
-    dir_4__root_["(root) (1)"]
+    dir_4__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_4__root_
 ```
 
@@ -156,15 +163,19 @@ Showing top 60 representative components out of 192 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0170eb6f_501f_4103_8685_9a5490326cca["0170eb6f-501f-4103-8685-9a5490326cca"]
+        mod_0170eb6f_501f_4103_8685_9a5490326cca["0170eb6f-501f-4103-8685-9a5490326cca"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build["build.yml#build"]
-        job_codespell_yml_codespell["codespell.yml#codespell"]
-        job_golangci_lint_yml_golangci["golangci-lint.yml#golangci"]
-        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]
-        job_test_yml_test["test.yml#test"]
+        job_build_yml_build["build.yml#build"]:::atlasJob
+        job_codespell_yml_codespell["codespell.yml#codespell"]:::atlasJob
+        job_golangci_lint_yml_golangci["golangci-lint.yml#golangci"]:::atlasJob
+        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     mod_0170eb6f_501f_4103_8685_9a5490326cca -->|BUILT_BY| job_build_yml_build
     mod_0170eb6f_501f_4103_8685_9a5490326cca -->|BUILT_BY| job_codespell_yml_codespell
@@ -184,19 +195,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/cli (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_codespell["codespell (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_codespell
-  wf_2_golangci_lint["golangci-lint (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_golangci_lint
-  wf_4_test["test (1 jobs)"]
-  grp_0_CI___Verification --> wf_4_test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_build["build (1 jobs)"]
-  grp_1_Release___Deploy --> wf_0_build
-  wf_3_Release_Drafter["Release Drafter (1 jobs)"]
-  grp_1_Release___Deploy --> wf_3_Release_Drafter
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/cli (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_codespell["codespell (1 jobs)"]
+      direction TB
+      wf_1_codespell(["Trigger: codespell"]):::atlasWorkflow
+      job_1_codespell["codespell"]:::atlasJob
+      wf_1_codespell --> job_1_codespell
+    end
+    pipeline_root --> wf_1_codespell
+    subgraph sg_wf_2_golangci_lint["golangci-lint (1 jobs)"]
+      direction TB
+      wf_2_golangci_lint(["Trigger: golangci-lint"]):::atlasWorkflow
+      job_2_golangci["golangci"]:::atlasJob
+      wf_2_golangci_lint --> job_2_golangci
+    end
+    pipeline_root --> wf_2_golangci_lint
+    subgraph sg_wf_4_test["test (1 jobs)"]
+      direction TB
+      wf_4_test(["Trigger: test"]):::atlasWorkflow
+      job_4_test["test"]:::atlasJob
+      wf_4_test --> job_4_test
+    end
+    pipeline_root --> wf_4_test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_build["build (1 jobs)"]
+      direction TB
+      wf_0_build(["Trigger: build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_build --> job_0_build
+    end
+    pipeline_root --> wf_0_build
+    subgraph sg_wf_3_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_3_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_3_update_release_draft["update_release_draft"]:::atlasJob
+      wf_3_Release_Drafter --> job_3_update_release_draft
+    end
+    pipeline_root --> wf_3_Release_Drafter
+  end
 ```

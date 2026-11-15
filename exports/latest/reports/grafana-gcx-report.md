@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for grafana/gcx
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/gcx (250 components)"])
-    dir_0_cmd["cmd (249)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/gcx (250 components)"]):::atlasRoot
+    subgraph sg_dir_0_cmd["cmd (249)"]
+      direction TB
+      dir_0_cmd["cmd (249)"]:::atlasCategory
+      sub_0_0_gcx_instrumentation["gcx/instrumentation (66)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_gcx_instrumentation
+      sub_0_1_gcx_resources["gcx/resources (42)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_gcx_resources
+      sub_0_2_gcx_fail["gcx/fail (31)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_gcx_fail
+      sub_0_more["+14 more submodules (110)"]:::atlasMore
+      dir_0_cmd --> sub_0_more
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_gcx_instrumentation["gcx/instrumentation (66)"]
-    dir_0_cmd --> sub_0_0_gcx_instrumentation
-    sub_0_1_gcx_resources["gcx/resources (42)"]
-    dir_0_cmd --> sub_0_1_gcx_resources
-    sub_0_2_gcx_fail["gcx/fail (31)"]
-    dir_0_cmd --> sub_0_2_gcx_fail
-    sub_0_more["+14 more submodules (110)"]
-    dir_0_cmd --> sub_0_more
-    dir_1_claude_plugin["claude-plugin (1)"]
+    dir_1_claude_plugin["claude-plugin (1)"]:::atlasCategory
     repo_root --> dir_1_claude_plugin
 ```
 
@@ -180,19 +190,23 @@ Showing top 60 representative components out of 250 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_59d72133_05f6_4b71_8e9c_003403b0ce64["59d72133-05f6-4b71-8e9c-003403b0ce64"]
-        mod_experimental_sandbox["experimental/sandbox"]
+        mod_59d72133_05f6_4b71_8e9c_003403b0ce64["59d72133-05f6-4b71-8e9c-003403b0ce64"]:::atlasCategory
+        mod_experimental_sandbox["experimental/sandbox"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_publish_gcx_wasm_yaml_build["publish-gcx-wasm.yaml#build"]
-        job_publish_gcx_wasm_yaml_precompile["publish-gcx-wasm.yaml#precompile"]
-        job_publish_gcx_wasm_yaml_publish["publish-gcx-wasm.yaml#publish"]
-        job_sandbox_yaml_sandbox["sandbox.yaml#sandbox"]
+        job_publish_gcx_wasm_yaml_build["publish-gcx-wasm.yaml#build"]:::atlasJob
+        job_publish_gcx_wasm_yaml_precompile["publish-gcx-wasm.yaml#precompile"]:::atlasJob
+        job_publish_gcx_wasm_yaml_publish["publish-gcx-wasm.yaml#publish"]:::atlasJob
+        job_sandbox_yaml_sandbox["sandbox.yaml#sandbox"]:::atlasJob
     end
     mod_59d72133_05f6_4b71_8e9c_003403b0ce64 -->|BUILT_BY| job_publish_gcx_wasm_yaml_precompile
     mod_59d72133_05f6_4b71_8e9c_003403b0ce64 -->|PACKAGED_BY| art_Dockerfile
@@ -218,9 +232,90 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/gcx (9 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (5 workflows · 7 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (4 workflows · 8 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/gcx (9 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (5 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Deploy_pr_preview["Deploy pr preview (1 jobs)"]
+      direction TB
+      wf_3_Deploy_pr_preview(["Trigger: Deploy pr preview"]):::atlasWorkflow
+      job_3_deploy_pr_preview["deploy-pr-preview"]:::atlasJob
+      wf_3_Deploy_pr_preview --> job_3_deploy_pr_preview
+    end
+    pipeline_root --> wf_3_Deploy_pr_preview
+    subgraph sg_wf_4_Publish_gcx_wasm["Publish gcx.wasm (3 jobs)"]
+      direction TB
+      wf_4_Publish_gcx_wasm(["Trigger: Publish gcx.wasm"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      job_4_precompile["precompile"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Publish_gcx_wasm --> job_4_build
+      job_4_build --> job_4_precompile
+      job_4_build --> job_4_publish
+      job_4_precompile --> job_4_publish
+    end
+    pipeline_root --> wf_4_Publish_gcx_wasm
+    subgraph sg_wf_5_Publish_Homebrew_Formula["Publish Homebrew Formula (1 jobs)"]
+      direction TB
+      wf_5_Publish_Homebrew_Formula(["Trigger: Publish Homebrew Formula"]):::atlasWorkflow
+      job_5_publish["publish"]:::atlasJob
+      wf_5_Publish_Homebrew_Formula --> job_5_publish
+    end
+    pipeline_root --> wf_5_Publish_Homebrew_Formula
+    subgraph sg_wf_6_Release["Release (1 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_Release
+    subgraph sg_wf_8_Windows_release_smoke["Windows release smoke (1 jobs)"]
+      direction TB
+      wf_8_Windows_release_smoke(["Trigger: Windows release smoke"]):::atlasWorkflow
+      job_8_smoke["smoke"]:::atlasJob
+      wf_8_Windows_release_smoke --> job_8_smoke
+    end
+    pipeline_root --> wf_8_Windows_release_smoke
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (4 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (5 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_linters["linters"]:::atlasJob
+      job_0_tests["tests"]:::atlasJob
+      job_0_windows["windows"]:::atlasJob
+      wf_0_CI --> job_0_linters
+      wf_0_CI --> job_0_tests
+      wf_0_CI --> job_0_windows
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_1_Claude_Code_Review["Claude Code Review (1 jobs)"]
+      direction TB
+      wf_1_Claude_Code_Review(["Trigger: Claude Code Review"]):::atlasWorkflow
+      job_1_claude_review["claude-review"]:::atlasJob
+      wf_1_Claude_Code_Review --> job_1_claude_review
+    end
+    pipeline_root --> wf_1_Claude_Code_Review
+    subgraph sg_wf_2_Claude_Code["Claude Code (1 jobs)"]
+      direction TB
+      wf_2_Claude_Code(["Trigger: Claude Code"]):::atlasWorkflow
+      job_2_claude["claude"]:::atlasJob
+      wf_2_Claude_Code --> job_2_claude
+    end
+    pipeline_root --> wf_2_Claude_Code
+    subgraph sg_wf_7_Sandbox["Sandbox (1 jobs)"]
+      direction TB
+      wf_7_Sandbox(["Trigger: Sandbox"]):::atlasWorkflow
+      job_7_sandbox["sandbox"]:::atlasJob
+      wf_7_Sandbox --> job_7_sandbox
+    end
+    pipeline_root --> wf_7_Sandbox
+  end
 ```

@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for nextcloud/docker
 
 ```mermaid
 graph TD;
-    compose["compose : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    compose["compose : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -72,73 +79,77 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__examples_docker_compose_insecure_mariadb_apache[".examples/docker-compose/insecure/mariadb/apache"]
-        mod__examples_docker_compose_insecure_mariadb_fpm[".examples/docker-compose/insecure/mariadb/fpm"]
-        mod__examples_docker_compose_insecure_postgres_apache[".examples/docker-compose/insecure/postgres/apache"]
-        mod__examples_docker_compose_insecure_postgres_fpm[".examples/docker-compose/insecure/postgres/fpm"]
-        mod__examples_docker_compose_with_nginx_proxy_mariadb_apache[".examples/docker-compose/with-nginx-proxy/mariadb/apache"]
-        mod__examples_docker_compose_with_nginx_proxy_mariadb_apache_proxy[".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy"]
-        mod__examples_docker_compose_with_nginx_proxy_mariadb_fpm[".examples/docker-compose/with-nginx-proxy/mariadb/fpm"]
-        mod__examples_docker_compose_with_nginx_proxy_mariadb_fpm_proxy[".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy"]
-        mod__examples_docker_compose_with_nginx_proxy_postgres_apache[".examples/docker-compose/with-nginx-proxy/postgres/apache"]
-        mod__examples_docker_compose_with_nginx_proxy_postgres_apache_proxy[".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy"]
-        mod__examples_docker_compose_with_nginx_proxy_postgres_fpm[".examples/docker-compose/with-nginx-proxy/postgres/fpm"]
-        mod__examples_docker_compose_with_nginx_proxy_postgres_fpm_proxy[".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy"]
-        mod__examples_dockerfiles_cron_apache[".examples/dockerfiles/cron/apache"]
-        mod__examples_dockerfiles_cron_fpm[".examples/dockerfiles/cron/fpm"]
-        mod__examples_dockerfiles_cron_fpm_alpine[".examples/dockerfiles/cron/fpm-alpine"]
-        mod__examples_dockerfiles_full_apache[".examples/dockerfiles/full/apache"]
-        mod__examples_dockerfiles_full_fpm[".examples/dockerfiles/full/fpm"]
-        mod__examples_dockerfiles_full_fpm_alpine[".examples/dockerfiles/full/fpm-alpine"]
-        mod__examples_dockerfiles_imap_apache[".examples/dockerfiles/imap/apache"]
-        mod__examples_dockerfiles_imap_fpm[".examples/dockerfiles/imap/fpm"]
-        mod__examples_dockerfiles_imap_fpm_alpine[".examples/dockerfiles/imap/fpm-alpine"]
-        mod__examples_dockerfiles_smb_apache[".examples/dockerfiles/smb/apache"]
-        mod__examples_dockerfiles_smb_fpm[".examples/dockerfiles/smb/fpm"]
-        mod__examples_dockerfiles_smb_fpm_alpine[".examples/dockerfiles/smb/fpm-alpine"]
-        mod_32_apache["32/apache"]
-        mod_32_fpm["32/fpm"]
-        mod_32_fpm_alpine["32/fpm-alpine"]
-        mod_33_apache["33/apache"]
-        mod_33_fpm["33/fpm"]
-        mod_33_fpm_alpine["33/fpm-alpine"]
-        mod_34_apache["34/apache"]
-        mod_34_fpm["34/fpm"]
-        mod_34_fpm_alpine["34/fpm-alpine"]
-        mod_35_apache["35/apache"]
-        mod_35_fpm["35/fpm"]
-        mod_35_fpm_alpine["35/fpm-alpine"]
+        mod__examples_docker_compose_insecure_mariadb_apache[".examples/docker-compose/insecure/mariadb/apache"]:::atlasCategory
+        mod__examples_docker_compose_insecure_mariadb_fpm[".examples/docker-compose/insecure/mariadb/fpm"]:::atlasCategory
+        mod__examples_docker_compose_insecure_postgres_apache[".examples/docker-compose/insecure/postgres/apache"]:::atlasCategory
+        mod__examples_docker_compose_insecure_postgres_fpm[".examples/docker-compose/insecure/postgres/fpm"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_mariadb_apache[".examples/docker-compose/with-nginx-proxy/mariadb/apache"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_mariadb_apache_proxy[".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_mariadb_fpm[".examples/docker-compose/with-nginx-proxy/mariadb/fpm"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_mariadb_fpm_proxy[".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_postgres_apache[".examples/docker-compose/with-nginx-proxy/postgres/apache"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_postgres_apache_proxy[".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_postgres_fpm[".examples/docker-compose/with-nginx-proxy/postgres/fpm"]:::atlasCategory
+        mod__examples_docker_compose_with_nginx_proxy_postgres_fpm_proxy[".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy"]:::atlasCategory
+        mod__examples_dockerfiles_cron_apache[".examples/dockerfiles/cron/apache"]:::atlasCategory
+        mod__examples_dockerfiles_cron_fpm[".examples/dockerfiles/cron/fpm"]:::atlasCategory
+        mod__examples_dockerfiles_cron_fpm_alpine[".examples/dockerfiles/cron/fpm-alpine"]:::atlasCategory
+        mod__examples_dockerfiles_full_apache[".examples/dockerfiles/full/apache"]:::atlasCategory
+        mod__examples_dockerfiles_full_fpm[".examples/dockerfiles/full/fpm"]:::atlasCategory
+        mod__examples_dockerfiles_full_fpm_alpine[".examples/dockerfiles/full/fpm-alpine"]:::atlasCategory
+        mod__examples_dockerfiles_imap_apache[".examples/dockerfiles/imap/apache"]:::atlasCategory
+        mod__examples_dockerfiles_imap_fpm[".examples/dockerfiles/imap/fpm"]:::atlasCategory
+        mod__examples_dockerfiles_imap_fpm_alpine[".examples/dockerfiles/imap/fpm-alpine"]:::atlasCategory
+        mod__examples_dockerfiles_smb_apache[".examples/dockerfiles/smb/apache"]:::atlasCategory
+        mod__examples_dockerfiles_smb_fpm[".examples/dockerfiles/smb/fpm"]:::atlasCategory
+        mod__examples_dockerfiles_smb_fpm_alpine[".examples/dockerfiles/smb/fpm-alpine"]:::atlasCategory
+        mod_32_apache["32/apache"]:::atlasCategory
+        mod_32_fpm["32/fpm"]:::atlasCategory
+        mod_32_fpm_alpine["32/fpm-alpine"]:::atlasCategory
+        mod_33_apache["33/apache"]:::atlasCategory
+        mod_33_fpm["33/fpm"]:::atlasCategory
+        mod_33_fpm_alpine["33/fpm-alpine"]:::atlasCategory
+        mod_34_apache["34/apache"]:::atlasCategory
+        mod_34_fpm["34/fpm"]:::atlasCategory
+        mod_34_fpm_alpine["34/fpm-alpine"]:::atlasCategory
+        mod_35_apache["35/apache"]:::atlasCategory
+        mod_35_fpm["35/fpm"]:::atlasCategory
+        mod_35_fpm_alpine["35/fpm-alpine"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__examples_docker_compose_with_nginx_proxy_mariadb_apache_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile"]
-        art__examples_docker_compose_with_nginx_proxy_mariadb_fpm_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile"]
-        art__examples_docker_compose_with_nginx_proxy_postgres_apache_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile"]
-        art__examples_docker_compose_with_nginx_proxy_postgres_fpm_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile"]
-        art__examples_dockerfiles_cron_apache_Dockerfile[".examples/dockerfiles/cron/apache/Dockerfile"]
-        art__examples_dockerfiles_cron_fpm_alpine_Dockerfile[".examples/dockerfiles/cron/fpm-alpine/Dockerfile"]
-        art__examples_dockerfiles_cron_fpm_Dockerfile[".examples/dockerfiles/cron/fpm/Dockerfile"]
-        art__examples_dockerfiles_full_apache_Dockerfile[".examples/dockerfiles/full/apache/Dockerfile"]
-        art__examples_dockerfiles_full_fpm_alpine_Dockerfile[".examples/dockerfiles/full/fpm-alpine/Dockerfile"]
-        art__examples_dockerfiles_full_fpm_Dockerfile[".examples/dockerfiles/full/fpm/Dockerfile"]
-        art__examples_dockerfiles_imap_apache_Dockerfile[".examples/dockerfiles/imap/apache/Dockerfile"]
-        art__examples_dockerfiles_imap_fpm_alpine_Dockerfile[".examples/dockerfiles/imap/fpm-alpine/Dockerfile"]
-        art__examples_dockerfiles_imap_fpm_Dockerfile[".examples/dockerfiles/imap/fpm/Dockerfile"]
-        art__examples_dockerfiles_smb_apache_Dockerfile[".examples/dockerfiles/smb/apache/Dockerfile"]
-        art__examples_dockerfiles_smb_fpm_alpine_Dockerfile[".examples/dockerfiles/smb/fpm-alpine/Dockerfile"]
-        art__examples_dockerfiles_smb_fpm_Dockerfile[".examples/dockerfiles/smb/fpm/Dockerfile"]
-        art_32_apache_Dockerfile["32/apache/Dockerfile"]
-        art_32_fpm_alpine_Dockerfile["32/fpm-alpine/Dockerfile"]
-        art_32_fpm_Dockerfile["32/fpm/Dockerfile"]
-        art_33_apache_Dockerfile["33/apache/Dockerfile"]
-        art_33_fpm_alpine_Dockerfile["33/fpm-alpine/Dockerfile"]
-        art_33_fpm_Dockerfile["33/fpm/Dockerfile"]
-        art_34_apache_Dockerfile["34/apache/Dockerfile"]
-        art_34_fpm_alpine_Dockerfile["34/fpm-alpine/Dockerfile"]
-        art_34_fpm_Dockerfile["34/fpm/Dockerfile"]
-        art_35_apache_Dockerfile["35/apache/Dockerfile"]
-        art_35_fpm_alpine_Dockerfile["35/fpm-alpine/Dockerfile"]
-        art_35_fpm_Dockerfile["35/fpm/Dockerfile"]
+        art__examples_docker_compose_with_nginx_proxy_mariadb_apache_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/mariadb/apache/proxy/Dockerfile"]:::atlasWorkflow
+        art__examples_docker_compose_with_nginx_proxy_mariadb_fpm_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/mariadb/fpm/proxy/Dockerfile"]:::atlasWorkflow
+        art__examples_docker_compose_with_nginx_proxy_postgres_apache_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/postgres/apache/proxy/Dockerfile"]:::atlasWorkflow
+        art__examples_docker_compose_with_nginx_proxy_postgres_fpm_proxy_Dockerfile[".examples/docker-compose/with-nginx-proxy/postgres/fpm/proxy/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_cron_apache_Dockerfile[".examples/dockerfiles/cron/apache/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_cron_fpm_alpine_Dockerfile[".examples/dockerfiles/cron/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_cron_fpm_Dockerfile[".examples/dockerfiles/cron/fpm/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_full_apache_Dockerfile[".examples/dockerfiles/full/apache/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_full_fpm_alpine_Dockerfile[".examples/dockerfiles/full/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_full_fpm_Dockerfile[".examples/dockerfiles/full/fpm/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_imap_apache_Dockerfile[".examples/dockerfiles/imap/apache/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_imap_fpm_alpine_Dockerfile[".examples/dockerfiles/imap/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_imap_fpm_Dockerfile[".examples/dockerfiles/imap/fpm/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_smb_apache_Dockerfile[".examples/dockerfiles/smb/apache/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_smb_fpm_alpine_Dockerfile[".examples/dockerfiles/smb/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art__examples_dockerfiles_smb_fpm_Dockerfile[".examples/dockerfiles/smb/fpm/Dockerfile"]:::atlasWorkflow
+        art_32_apache_Dockerfile["32/apache/Dockerfile"]:::atlasWorkflow
+        art_32_fpm_alpine_Dockerfile["32/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art_32_fpm_Dockerfile["32/fpm/Dockerfile"]:::atlasWorkflow
+        art_33_apache_Dockerfile["33/apache/Dockerfile"]:::atlasWorkflow
+        art_33_fpm_alpine_Dockerfile["33/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art_33_fpm_Dockerfile["33/fpm/Dockerfile"]:::atlasWorkflow
+        art_34_apache_Dockerfile["34/apache/Dockerfile"]:::atlasWorkflow
+        art_34_fpm_alpine_Dockerfile["34/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art_34_fpm_Dockerfile["34/fpm/Dockerfile"]:::atlasWorkflow
+        art_35_apache_Dockerfile["35/apache/Dockerfile"]:::atlasWorkflow
+        art_35_fpm_alpine_Dockerfile["35/fpm-alpine/Dockerfile"]:::atlasWorkflow
+        art_35_fpm_Dockerfile["35/fpm/Dockerfile"]:::atlasWorkflow
     end
     mod__examples_docker_compose_insecure_mariadb_apache -->|PACKAGED_BY| art__examples_dockerfiles_cron_apache_Dockerfile
     mod__examples_docker_compose_insecure_mariadb_apache -->|PACKAGED_BY| art__examples_dockerfiles_full_apache_Dockerfile
@@ -556,19 +567,26 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/docker"]):::atlasRoot
   subgraph Images_0["Images"]
     direction TB
-    0_init["init"]
-    0_test["test"]
+    0_init["init"]:::atlasJob
+    0_test["test"]:::atlasJob
     0_init --> 0_test
-    0_summary["summary"]
+    0_summary["summary"]:::atlasJob
     0_test --> 0_summary
   end
   pipeline_root --> 0_init
   subgraph update_sh_1["update.sh"]
     direction TB
-    1_run_update_sh["run_update_sh"]
+    1_run_update_sh["run_update_sh"]:::atlasJob
   end
   pipeline_root --> 1_run_update_sh
 ```

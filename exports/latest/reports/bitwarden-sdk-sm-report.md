@@ -41,27 +41,40 @@ description: Arc42 and Pipeline report for bitwarden/sdk-sm
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/sdk-sm (80 components)"])
-    dir_0_crates["crates (44)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/sdk-sm (80 components)"]):::atlasRoot
+    subgraph sg_dir_0_crates["crates (44)"]
+      direction TB
+      dir_0_crates["crates (44)"]:::atlasCategory
+      sub_0_0_bitwarden_napi["bitwarden-napi (13)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_bitwarden_napi
+      sub_0_1_bws["bws (11)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_bws
+      sub_0_2_bitwarden_c["bitwarden-c (4)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_bitwarden_c
+      sub_0_more["+6 more submodules (16)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_bitwarden_napi["bitwarden-napi (13)"]
-    dir_0_crates --> sub_0_0_bitwarden_napi
-    sub_0_1_bws["bws (11)"]
-    dir_0_crates --> sub_0_1_bws
-    sub_0_2_bitwarden_c["bitwarden-c (4)"]
-    dir_0_crates --> sub_0_2_bitwarden_c
-    sub_0_more["+6 more submodules (16)"]
-    dir_0_crates --> sub_0_more
-    dir_1_languages["languages (36)"]
+    subgraph sg_dir_1_languages["languages (36)"]
+      direction TB
+      dir_1_languages["languages (36)"]:::atlasCategory
+      sub_1_0_ruby["ruby (10)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_0_ruby
+      sub_1_1_go["go (9)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_1_go
+      sub_1_2_php["php (8)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_2_php
+      sub_1_more["+2 more submodules (9)"]:::atlasMore
+      dir_1_languages --> sub_1_more
+    end
     repo_root --> dir_1_languages
-    sub_1_0_ruby["ruby (10)"]
-    dir_1_languages --> sub_1_0_ruby
-    sub_1_1_go["go (9)"]
-    dir_1_languages --> sub_1_1_go
-    sub_1_2_php["php (8)"]
-    dir_1_languages --> sub_1_2_php
-    sub_1_more["+2 more submodules (9)"]
-    dir_1_languages --> sub_1_more
 ```
 
 ## Component Details
@@ -214,66 +227,70 @@ Showing top 60 representative components out of 80 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_12bcc6ad_73c3_4e17_bd41_9bdf69554ccd["12bcc6ad-73c3-4e17-bd41-9bdf69554ccd"]
-        mod_crates_bitwarden["crates/bitwarden"]
-        mod_crates_bitwarden_napi["crates/bitwarden-napi"]
-        mod_crates_bitwarden_py["crates/bitwarden-py"]
-        mod_crates_bitwarden_wasm["crates/bitwarden-wasm"]
-        mod_crates_bws["crates/bws"]
-        mod_languages_csharp["languages/csharp"]
-        mod_languages_csharp_Bitwarden_Sdk["languages/csharp/Bitwarden.Sdk"]
-        mod_languages_go["languages/go"]
-        mod_languages_go_example["languages/go/example"]
-        mod_languages_java["languages/java"]
-        mod_languages_js_wasm["languages/js/wasm"]
-        mod_languages_php["languages/php"]
-        mod_languages_python["languages/python"]
-        mod_languages_ruby_bitwarden_sdk_secrets["languages/ruby/bitwarden_sdk_secrets"]
+        mod_12bcc6ad_73c3_4e17_bd41_9bdf69554ccd["12bcc6ad-73c3-4e17-bd41-9bdf69554ccd"]:::atlasCategory
+        mod_crates_bitwarden["crates/bitwarden"]:::atlasCategory
+        mod_crates_bitwarden_napi["crates/bitwarden-napi"]:::atlasCategory
+        mod_crates_bitwarden_py["crates/bitwarden-py"]:::atlasCategory
+        mod_crates_bitwarden_wasm["crates/bitwarden-wasm"]:::atlasCategory
+        mod_crates_bws["crates/bws"]:::atlasCategory
+        mod_languages_csharp["languages/csharp"]:::atlasCategory
+        mod_languages_csharp_Bitwarden_Sdk["languages/csharp/Bitwarden.Sdk"]:::atlasCategory
+        mod_languages_go["languages/go"]:::atlasCategory
+        mod_languages_go_example["languages/go/example"]:::atlasCategory
+        mod_languages_java["languages/java"]:::atlasCategory
+        mod_languages_js_wasm["languages/js/wasm"]:::atlasCategory
+        mod_languages_php["languages/php"]:::atlasCategory
+        mod_languages_python["languages/python"]:::atlasCategory
+        mod_languages_ruby_bitwarden_sdk_secrets["languages/ruby/bitwarden_sdk_secrets"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_crates_bitwarden_napi_package_json["crates/bitwarden-napi/package.json"]
-        art_crates_bws_Dockerfile["crates/bws/Dockerfile"]
-        art_crates_bws_Dockerfile_dockerignore["crates/bws/Dockerfile.dockerignore"]
+        art_crates_bitwarden_napi_package_json["crates/bitwarden-napi/package.json"]:::atlasWorkflow
+        art_crates_bws_Dockerfile["crates/bws/Dockerfile"]:::atlasWorkflow
+        art_crates_bws_Dockerfile_dockerignore["crates/bws/Dockerfile.dockerignore"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_cli_docker_yml_build_docker["build-cli-docker.yml#build-docker"]
-        job_build_cli_yml_manpages["build-cli.yml#manpages"]
-        job_build_cli_yml_setup["build-cli.yml#setup"]
-        job_build_cli_yml_third_party["build-cli.yml#third_party"]
-        job_build_dotnet_yml_build_dotnet["build-dotnet.yml#build_dotnet"]
-        job_build_dotnet_yml_version["build-dotnet.yml#version"]
-        job_build_go_yaml_build["build-go.yaml#build"]
-        job_build_java_yml_build_java["build-java.yml#build_java"]
-        job_build_ruby_yml_build["build-ruby.yml#build"]
-        job_build_wasm_yml_build["build-wasm.yml#build"]
-        job_publish_bws_yml_publish_docker["publish-bws.yml#publish-docker"]
-        job_publish_bws_yml_publish_install_script["publish-bws.yml#publish-install-script"]
-        job_publish_napi_yml_npm["publish-napi.yml#npm"]
-        job_publish_php_yml_repo_sync["publish-php.yml#repo-sync"]
-        job_publish_php_yml_setup_php["publish-php.yml#setup-php"]
-        job_publish_php_yml_validate["publish-php.yml#validate"]
-        job_publish_python_yml_publish["publish-python.yml#publish"]
-        job_publish_ruby_yml_publish["publish-ruby.yml#publish"]
-        job_publish_wasm_yml_npm["publish-wasm.yml#npm"]
-        job_release_bws_yml_setup["release-bws.yml#setup"]
-        job_release_dotnet_yml_setup["release-dotnet.yml#setup"]
-        job_release_go_yml_repo_sync["release-go.yml#repo-sync"]
-        job_release_go_yml_validate["release-go.yml#validate"]
-        job_release_java_yml_setup["release-java.yml#setup"]
-        job_release_napi_yml_setup["release-napi.yml#setup"]
-        job_release_python_yml_setup["release-python.yml#setup"]
-        job_rust_test_yml_coverage["rust-test.yml#coverage"]
-        job_rust_test_yml_wasm["rust-test.yml#wasm"]
-        job_rustdoc_yml_deploy["rustdoc.yml#deploy"]
-        job_rustdoc_yml_rustdoc["rustdoc.yml#rustdoc"]
-        job_version_bump_yml_bump_version["version-bump.yml#bump_version"]
+        job_build_cli_docker_yml_build_docker["build-cli-docker.yml#build-docker"]:::atlasJob
+        job_build_cli_yml_manpages["build-cli.yml#manpages"]:::atlasJob
+        job_build_cli_yml_setup["build-cli.yml#setup"]:::atlasJob
+        job_build_cli_yml_third_party["build-cli.yml#third_party"]:::atlasJob
+        job_build_dotnet_yml_build_dotnet["build-dotnet.yml#build_dotnet"]:::atlasJob
+        job_build_dotnet_yml_version["build-dotnet.yml#version"]:::atlasJob
+        job_build_go_yaml_build["build-go.yaml#build"]:::atlasJob
+        job_build_java_yml_build_java["build-java.yml#build_java"]:::atlasJob
+        job_build_ruby_yml_build["build-ruby.yml#build"]:::atlasJob
+        job_build_wasm_yml_build["build-wasm.yml#build"]:::atlasJob
+        job_publish_bws_yml_publish_docker["publish-bws.yml#publish-docker"]:::atlasJob
+        job_publish_bws_yml_publish_install_script["publish-bws.yml#publish-install-script"]:::atlasJob
+        job_publish_napi_yml_npm["publish-napi.yml#npm"]:::atlasJob
+        job_publish_php_yml_repo_sync["publish-php.yml#repo-sync"]:::atlasJob
+        job_publish_php_yml_setup_php["publish-php.yml#setup-php"]:::atlasJob
+        job_publish_php_yml_validate["publish-php.yml#validate"]:::atlasJob
+        job_publish_python_yml_publish["publish-python.yml#publish"]:::atlasJob
+        job_publish_ruby_yml_publish["publish-ruby.yml#publish"]:::atlasJob
+        job_publish_wasm_yml_npm["publish-wasm.yml#npm"]:::atlasJob
+        job_release_bws_yml_setup["release-bws.yml#setup"]:::atlasJob
+        job_release_dotnet_yml_setup["release-dotnet.yml#setup"]:::atlasJob
+        job_release_go_yml_repo_sync["release-go.yml#repo-sync"]:::atlasJob
+        job_release_go_yml_validate["release-go.yml#validate"]:::atlasJob
+        job_release_java_yml_setup["release-java.yml#setup"]:::atlasJob
+        job_release_napi_yml_setup["release-napi.yml#setup"]:::atlasJob
+        job_release_python_yml_setup["release-python.yml#setup"]:::atlasJob
+        job_rust_test_yml_coverage["rust-test.yml#coverage"]:::atlasJob
+        job_rust_test_yml_wasm["rust-test.yml#wasm"]:::atlasJob
+        job_rustdoc_yml_deploy["rustdoc.yml#deploy"]:::atlasJob
+        job_rustdoc_yml_rustdoc["rustdoc.yml#rustdoc"]:::atlasJob
+        job_version_bump_yml_bump_version["version-bump.yml#bump_version"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_Bitwarden_SDK_NAPI___Production["Bitwarden SDK NAPI - Production"]
-        env_Bitwarden_SDK_Python___Production["Bitwarden SDK Python - Production"]
-        env_Bitwarden_SDK_WASM___Production["Bitwarden SDK WASM - Production"]
-        env_github_pages["github-pages"]
+        env_Bitwarden_SDK_NAPI___Production["Bitwarden SDK NAPI - Production"]:::atlasTarget
+        env_Bitwarden_SDK_Python___Production["Bitwarden SDK Python - Production"]:::atlasTarget
+        env_Bitwarden_SDK_WASM___Production["Bitwarden SDK WASM - Production"]:::atlasTarget
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_publish_napi_yml_npm -->|DEPLOYS_TO| env_Bitwarden_SDK_NAPI___Production
     job_publish_python_yml_publish -->|DEPLOYS_TO| env_Bitwarden_SDK_Python___Production
@@ -388,11 +405,94 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/sdk-sm (46 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (21 workflows · 45 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (19 workflows · 41 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (6 workflows · 7 jobs)"]
-  pipeline_root --> grp_2_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/sdk-sm (46 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (21 workflows · 45 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_CLI["Build CLI (7 jobs)"]
+      direction TB
+      wf_1_Build_CLI(["Trigger: Build CLI"]):::atlasWorkflow
+      job_1_setup["setup"]:::atlasJob
+      job_1_build_windows["build-windows"]:::atlasJob
+      job_1_build_macos["build-macos"]:::atlasJob
+      wf_1_Build_CLI --> job_1_setup
+      job_1_setup --> job_1_build_windows
+      job_1_setup --> job_1_build_macos
+    end
+    pipeline_root --> wf_1_Build_CLI
+    subgraph sg_wf_2_Build_C___SDK["Build C++ SDK (3 jobs)"]
+      direction TB
+      wf_2_Build_C___SDK(["Trigger: Build C++ SDK"]):::atlasWorkflow
+      job_2_generate_schemas["generate-schemas"]:::atlasJob
+      job_2_build_rust["build_rust"]:::atlasJob
+      job_2_build["build"]:::atlasJob
+      wf_2_Build_C___SDK --> job_2_generate_schemas
+      wf_2_Build_C___SDK --> job_2_build_rust
+      job_2_generate_schemas --> job_2_build
+      job_2_build_rust --> job_2_build
+    end
+    pipeline_root --> wf_2_Build_C___SDK
+    subgraph sg_wf_3_Build__NET_SDK["Build .NET SDK (4 jobs)"]
+      direction TB
+      wf_3_Build__NET_SDK(["Trigger: Build .NET SDK"]):::atlasWorkflow
+      job_3_generate_schemas["generate_schemas"]:::atlasJob
+      job_3_build_rust["build_rust"]:::atlasJob
+      job_3_version["version"]:::atlasJob
+      wf_3_Build__NET_SDK --> job_3_generate_schemas
+      wf_3_Build__NET_SDK --> job_3_build_rust
+      wf_3_Build__NET_SDK --> job_3_version
+    end
+    pipeline_root --> wf_3_Build__NET_SDK
+    subgraph sg_wf_41_Rust_tests["Rust tests (4 jobs)"]
+      direction TB
+      wf_41_Rust_tests(["Trigger: Rust tests"]):::atlasWorkflow
+      job_41_ci_pass["ci-pass"]:::atlasJob
+      job_41_test["test"]:::atlasJob
+      job_41_coverage["coverage"]:::atlasJob
+      job_41_test --> job_41_ci_pass
+      wf_41_Rust_tests --> job_41_test
+      wf_41_Rust_tests --> job_41_coverage
+    end
+    pipeline_root --> wf_41_Rust_tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (19 workflows · 41 jobs)"]
+    direction TB
+    subgraph sg_wf_20_Publish_bws_CLI["Publish bws CLI (5 jobs)"]
+      direction TB
+      wf_20_Publish_bws_CLI(["Trigger: Publish bws CLI"]):::atlasWorkflow
+      job_20_setup["setup"]:::atlasJob
+      job_20_publish["publish"]:::atlasJob
+      job_20_publish_docker["publish-docker"]:::atlasJob
+      wf_20_Publish_bws_CLI --> job_20_setup
+      job_20_setup --> job_20_publish
+      job_20_setup --> job_20_publish_docker
+    end
+    pipeline_root --> wf_20_Publish_bws_CLI
+    subgraph sg_wf_24_Publish_PHP_SDK["Publish PHP SDK (5 jobs)"]
+      direction TB
+      wf_24_Publish_PHP_SDK(["Trigger: Publish PHP SDK"]):::atlasWorkflow
+      job_24_validate["validate"]:::atlasJob
+      wf_24_Publish_PHP_SDK --> job_24_validate
+    end
+    pipeline_root --> wf_24_Publish_PHP_SDK
+    wf_32_Release_Go_SDK["Release Go SDK (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_32_Release_Go_SDK
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (6 workflows · 7 jobs)"]
+    direction TB
+    wf_16_Enforce_PR_labels["Enforce PR labels (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Enforce_PR_labels
+    wf_40_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_40_Code_Review
+    wf_42_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_42_Rustdoc
+  end
+  wf_more["+36 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,28 +41,41 @@ description: Arc42 and Pipeline report for getsentry/sentry-javascript
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-javascript (1558 components)"])
-    dir_0_dev_packages["dev-packages (1388)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-javascript (1558 components)"]):::atlasRoot
+    subgraph sg_dir_0_dev_packages["dev-packages (1388)"]
+      direction TB
+      dir_0_dev_packages["dev-packages (1388)"]:::atlasCategory
+      sub_0_0_e2e_tests["e2e-tests (1027)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_0_e2e_tests
+      sub_0_1_node_integration_tests["node-integration-tests (309)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_1_node_integration_tests
+      sub_0_2_bundler_plugin_integration_tests["bundler-plugin-integration-tests (28)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_2_bundler_plugin_integration_tests
+      sub_0_more["+12 more submodules (24)"]:::atlasMore
+      dir_0_dev_packages --> sub_0_more
+    end
     repo_root --> dir_0_dev_packages
-    sub_0_0_e2e_tests["e2e-tests (1027)"]
-    dir_0_dev_packages --> sub_0_0_e2e_tests
-    sub_0_1_node_integration_tests["node-integration-tests (309)"]
-    dir_0_dev_packages --> sub_0_1_node_integration_tests
-    sub_0_2_bundler_plugin_integration_tests["bundler-plugin-integration-tests (28)"]
-    dir_0_dev_packages --> sub_0_2_bundler_plugin_integration_tests
-    sub_0_more["+12 more submodules (24)"]
-    dir_0_dev_packages --> sub_0_more
-    dir_1_packages["packages (169)"]
+    subgraph sg_dir_1_packages["packages (169)"]
+      direction TB
+      dir_1_packages["packages (169)"]:::atlasCategory
+      sub_1_0_bundler_plugins["bundler-plugins (40)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_0_bundler_plugins
+      sub_1_1_hono["hono (22)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_1_hono
+      sub_1_2_server_utils["server-utils (12)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_2_server_utils
+      sub_1_more["+46 more submodules (95)"]:::atlasMore
+      dir_1_packages --> sub_1_more
+    end
     repo_root --> dir_1_packages
-    sub_1_0_bundler_plugins["bundler-plugins (40)"]
-    dir_1_packages --> sub_1_0_bundler_plugins
-    sub_1_1_hono["hono (22)"]
-    dir_1_packages --> sub_1_1_hono
-    sub_1_2_server_utils["server-utils (12)"]
-    dir_1_packages --> sub_1_2_server_utils
-    sub_1_more["+46 more submodules (95)"]
-    dir_1_packages --> sub_1_more
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     sub_1_0_bundler_plugins -.->|"88 deps"| sub_0_0_e2e_tests
     sub_1_more -.->|"32 deps"| sub_0_0_e2e_tests
@@ -259,192 +272,196 @@ Showing top 60 representative components out of 1558 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_dev_packages_browser_integration_tests["dev-packages/browser-integration-tests"]
-        mod_dev_packages_browser_min_version_tests["dev-packages/browser-min-version-tests"]
-        mod_dev_packages_bun_integration_tests["dev-packages/bun-integration-tests"]
-        mod_dev_packages_bundler_plugin_integration_tests["dev-packages/bundler-plugin-integration-tests"]
-        mod_dev_packages_cloudflare_integration_tests["dev-packages/cloudflare-integration-tests"]
-        mod_dev_packages_deno_integration_tests["dev-packages/deno-integration-tests"]
-        mod_dev_packages_e2e_tests["dev-packages/e2e-tests"]
-        mod_dev_packages_e2e_tests_test_applications_astro_6["dev-packages/e2e-tests/test-applications/astro-6"]
-        mod_dev_packages_e2e_tests_test_applications_astro_6_cf_workers["dev-packages/e2e-tests/test-applications/astro-6-cf-workers"]
-        mod_dev_packages_e2e_tests_test_applications_astro_7["dev-packages/e2e-tests/test-applications/astro-7"]
-        mod_dev_packages_e2e_tests_test_applications_astro_7_static["dev-packages/e2e-tests/test-applications/astro-7-static"]
-        mod_dev_packages_e2e_tests_test_applications_bun_mysql["dev-packages/e2e-tests/test-applications/bun-mysql"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_local_workers_tests["dev-packages/e2e-tests/test-applications/cloudflare-local-workers/tests"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_mcp_tests["dev-packages/e2e-tests/test-applications/cloudflare-mcp/tests"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_orchestrion_mysql["dev-packages/e2e-tests/test-applications/cloudflare-orchestrion-mysql"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_workers_static_tests["dev-packages/e2e-tests/test-applications/cloudflare-workers-static/tests"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_workers_tests["dev-packages/e2e-tests/test-applications/cloudflare-workers/tests"]
-        mod_dev_packages_e2e_tests_test_applications_cloudflare_workersentrypoint_tests["dev-packages/e2e-tests/test-applications/cloudflare-workersentrypoint/tests"]
-        mod_dev_packages_e2e_tests_test_applications_create_remix_app_v2["dev-packages/e2e-tests/test-applications/create-remix-app-v2"]
-        mod_dev_packages_e2e_tests_test_applications_create_remix_app_v2_static["dev-packages/e2e-tests/test-applications/create-remix-app-v2-static"]
-        mod_dev_packages_e2e_tests_test_applications_deno["dev-packages/e2e-tests/test-applications/deno"]
-        mod_dev_packages_e2e_tests_test_applications_nestjs_bullmq["dev-packages/e2e-tests/test-applications/nestjs-bullmq"]
-        mod_dev_packages_e2e_tests_test_applications_nextjs_16["dev-packages/e2e-tests/test-applications/nextjs-16"]
-        mod_dev_packages_e2e_tests_test_applications_nextjs_16_static["dev-packages/e2e-tests/test-applications/nextjs-16-static"]
-        mod_dev_packages_e2e_tests_test_applications_node_bullmq["dev-packages/e2e-tests/test-applications/node-bullmq"]
-        mod_dev_packages_e2e_tests_test_applications_node_express["dev-packages/e2e-tests/test-applications/node-express"]
-        mod_dev_packages_e2e_tests_test_applications_node_express_esm_loader["dev-packages/e2e-tests/test-applications/node-express-esm-loader"]
-        mod_dev_packages_e2e_tests_test_applications_node_express_v5["dev-packages/e2e-tests/test-applications/node-express-v5"]
-        mod_dev_packages_e2e_tests_test_applications_node_prisma_8["dev-packages/e2e-tests/test-applications/node-prisma-8"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_3_dynamic_import_server["dev-packages/e2e-tests/test-applications/nuxt-3-dynamic-import/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_3_min_server["dev-packages/e2e-tests/test-applications/nuxt-3-min/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_3_top_level_import_server["dev-packages/e2e-tests/test-applications/nuxt-3-top-level-import/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_3_server["dev-packages/e2e-tests/test-applications/nuxt-3/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_4["dev-packages/e2e-tests/test-applications/nuxt-4"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_4_cloudflare["dev-packages/e2e-tests/test-applications/nuxt-4-cloudflare"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_4_static["dev-packages/e2e-tests/test-applications/nuxt-4-static"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_4_static_server["dev-packages/e2e-tests/test-applications/nuxt-4-static/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_4_server["dev-packages/e2e-tests/test-applications/nuxt-4/server"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_5["dev-packages/e2e-tests/test-applications/nuxt-5"]
-        mod_dev_packages_e2e_tests_test_applications_nuxt_5_server["dev-packages/e2e-tests/test-applications/nuxt-5/server"]
-        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework["dev-packages/e2e-tests/test-applications/react-router-7-framework"]
-        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework_instrumentation["dev-packages/e2e-tests/test-applications/react-router-7-framework-instrumentation"]
-        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework_static["dev-packages/e2e-tests/test-applications/react-router-7-framework-static"]
-        mod_dev_packages_e2e_tests_test_applications_react_router_8_framework["dev-packages/e2e-tests/test-applications/react-router-8-framework"]
-        mod_dev_packages_e2e_tests_test_applications_solid["dev-packages/e2e-tests/test-applications/solid"]
-        mod_dev_packages_e2e_tests_test_applications_solidstart["dev-packages/e2e-tests/test-applications/solidstart"]
-        mod_dev_packages_e2e_tests_test_applications_solidstart_static["dev-packages/e2e-tests/test-applications/solidstart-static"]
-        mod_dev_packages_e2e_tests_test_applications_sveltekit_2["dev-packages/e2e-tests/test-applications/sveltekit-2"]
-        mod_dev_packages_e2e_tests_test_applications_sveltekit_2_static["dev-packages/e2e-tests/test-applications/sveltekit-2-static"]
-        mod_dev_packages_e2e_tests_test_applications_sveltekit_cloudflare_pages["dev-packages/e2e-tests/test-applications/sveltekit-cloudflare-pages"]
-        mod_dev_packages_e2e_tests_test_applications_tanstackstart_react["dev-packages/e2e-tests/test-applications/tanstackstart-react"]
-        mod_dev_packages_e2e_tests_test_applications_tanstackstart_react_static["dev-packages/e2e-tests/test-applications/tanstackstart-react-static"]
-        mod_dev_packages_node_integration_tests["dev-packages/node-integration-tests"]
-        mod_dev_packages_node_integration_tests_suites_tracing_amqplib["dev-packages/node-integration-tests/suites/tracing/amqplib"]
-        mod_dev_packages_node_integration_tests_suites_tracing_bullmq["dev-packages/node-integration-tests/suites/tracing/bullmq"]
-        mod_dev_packages_node_integration_tests_suites_tracing_ioredis_dc["dev-packages/node-integration-tests/suites/tracing/ioredis-dc"]
-        mod_dev_packages_node_integration_tests_suites_tracing_kafkajs["dev-packages/node-integration-tests/suites/tracing/kafkajs"]
-        mod_dev_packages_node_integration_tests_suites_tracing_knex_mysql2["dev-packages/node-integration-tests/suites/tracing/knex/mysql2"]
-        mod_dev_packages_node_integration_tests_suites_tracing_knex_pg["dev-packages/node-integration-tests/suites/tracing/knex/pg"]
-        mod_dev_packages_node_integration_tests_suites_tracing_mysql2["dev-packages/node-integration-tests/suites/tracing/mysql2"]
-        mod_dev_packages_node_integration_tests_suites_tracing_mysql2_tracing_channel["dev-packages/node-integration-tests/suites/tracing/mysql2-tracing-channel"]
-        mod_dev_packages_node_integration_tests_suites_tracing_neon["dev-packages/node-integration-tests/suites/tracing/neon"]
-        mod_dev_packages_node_integration_tests_suites_tracing_postgres["dev-packages/node-integration-tests/suites/tracing/postgres"]
-        mod_dev_packages_node_integration_tests_suites_tracing_postgresjs["dev-packages/node-integration-tests/suites/tracing/postgresjs"]
-        mod_dev_packages_node_integration_tests_suites_tracing_postgresjs_tracing_channel["dev-packages/node-integration-tests/suites/tracing/postgresjs-tracing-channel"]
-        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v5["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v5"]
-        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v6["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v6"]
-        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7"]
-        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7_prisma["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7/prisma"]
-        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v8["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v8"]
-        mod_dev_packages_node_integration_tests_suites_tracing_redis["dev-packages/node-integration-tests/suites/tracing/redis"]
-        mod_dev_packages_node_integration_tests_suites_tracing_redis_cache["dev-packages/node-integration-tests/suites/tracing/redis-cache"]
-        mod_dev_packages_node_integration_tests_suites_tracing_redis_dc["dev-packages/node-integration-tests/suites/tracing/redis-dc"]
-        mod_dev_packages_node_integration_tests_suites_tracing_tedious["dev-packages/node-integration-tests/suites/tracing/tedious"]
-        mod_packages_astro_test["packages/astro/test"]
-        mod_packages_aws_serverless_test["packages/aws-serverless/test"]
-        mod_packages_browser["packages/browser"]
-        mod_packages_browser_utils_test["packages/browser-utils/test"]
-        mod_packages_browser_test["packages/browser/test"]
-        mod_packages_bun_test["packages/bun/test"]
-        mod_packages_bundler_plugins_test["packages/bundler-plugins/test"]
-        mod_packages_cloudflare_test["packages/cloudflare/test"]
-        mod_packages_core_test["packages/core/test"]
-        mod_packages_deno["packages/deno"]
-        mod_packages_deno_test["packages/deno/test"]
-        mod_packages_esbuild_plugin_test["packages/esbuild-plugin/test"]
-        mod_packages_gatsby_test["packages/gatsby/test"]
-        mod_packages_google_cloud_serverless_test["packages/google-cloud-serverless/test"]
-        mod_packages_nextjs_test["packages/nextjs/test"]
-        mod_packages_nitro_test["packages/nitro/test"]
-        mod_packages_node_test["packages/node/test"]
-        mod_packages_nuxt_test["packages/nuxt/test"]
-        mod_packages_opentelemetry_test["packages/opentelemetry/test"]
-        mod_packages_profiling_node_test["packages/profiling-node/test"]
-        mod_packages_react_router_test["packages/react-router/test"]
-        mod_packages_react_test["packages/react/test"]
-        mod_packages_remix_test["packages/remix/test"]
-        mod_packages_replay_canvas_test["packages/replay-canvas/test"]
-        mod_packages_replay_internal_test["packages/replay-internal/test"]
-        mod_packages_replay_worker_test["packages/replay-worker/test"]
-        mod_packages_rollup_plugin_test["packages/rollup-plugin/test"]
-        mod_packages_solid_test["packages/solid/test"]
-        mod_packages_solidstart_test["packages/solidstart/test"]
-        mod_packages_svelte_test["packages/svelte/test"]
-        mod_packages_sveltekit_test["packages/sveltekit/test"]
-        mod_packages_tanstackstart_react_test["packages/tanstackstart-react/test"]
-        mod_packages_vercel_edge_test["packages/vercel-edge/test"]
-        mod_packages_vite_plugin_test["packages/vite-plugin/test"]
-        mod_packages_vue_test["packages/vue/test"]
-        mod_packages_wasm_test["packages/wasm/test"]
-        mod_packages_webpack_plugin_test["packages/webpack-plugin/test"]
+        mod_dev_packages_browser_integration_tests["dev-packages/browser-integration-tests"]:::atlasCategory
+        mod_dev_packages_browser_min_version_tests["dev-packages/browser-min-version-tests"]:::atlasCategory
+        mod_dev_packages_bun_integration_tests["dev-packages/bun-integration-tests"]:::atlasCategory
+        mod_dev_packages_bundler_plugin_integration_tests["dev-packages/bundler-plugin-integration-tests"]:::atlasCategory
+        mod_dev_packages_cloudflare_integration_tests["dev-packages/cloudflare-integration-tests"]:::atlasCategory
+        mod_dev_packages_deno_integration_tests["dev-packages/deno-integration-tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests["dev-packages/e2e-tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_astro_6["dev-packages/e2e-tests/test-applications/astro-6"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_astro_6_cf_workers["dev-packages/e2e-tests/test-applications/astro-6-cf-workers"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_astro_7["dev-packages/e2e-tests/test-applications/astro-7"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_astro_7_static["dev-packages/e2e-tests/test-applications/astro-7-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_bun_mysql["dev-packages/e2e-tests/test-applications/bun-mysql"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_local_workers_tests["dev-packages/e2e-tests/test-applications/cloudflare-local-workers/tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_mcp_tests["dev-packages/e2e-tests/test-applications/cloudflare-mcp/tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_orchestrion_mysql["dev-packages/e2e-tests/test-applications/cloudflare-orchestrion-mysql"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_workers_static_tests["dev-packages/e2e-tests/test-applications/cloudflare-workers-static/tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_workers_tests["dev-packages/e2e-tests/test-applications/cloudflare-workers/tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_cloudflare_workersentrypoint_tests["dev-packages/e2e-tests/test-applications/cloudflare-workersentrypoint/tests"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_create_remix_app_v2["dev-packages/e2e-tests/test-applications/create-remix-app-v2"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_create_remix_app_v2_static["dev-packages/e2e-tests/test-applications/create-remix-app-v2-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_deno["dev-packages/e2e-tests/test-applications/deno"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nestjs_bullmq["dev-packages/e2e-tests/test-applications/nestjs-bullmq"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nextjs_16["dev-packages/e2e-tests/test-applications/nextjs-16"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nextjs_16_static["dev-packages/e2e-tests/test-applications/nextjs-16-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_node_bullmq["dev-packages/e2e-tests/test-applications/node-bullmq"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_node_express["dev-packages/e2e-tests/test-applications/node-express"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_node_express_esm_loader["dev-packages/e2e-tests/test-applications/node-express-esm-loader"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_node_express_v5["dev-packages/e2e-tests/test-applications/node-express-v5"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_node_prisma_8["dev-packages/e2e-tests/test-applications/node-prisma-8"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_3_dynamic_import_server["dev-packages/e2e-tests/test-applications/nuxt-3-dynamic-import/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_3_min_server["dev-packages/e2e-tests/test-applications/nuxt-3-min/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_3_top_level_import_server["dev-packages/e2e-tests/test-applications/nuxt-3-top-level-import/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_3_server["dev-packages/e2e-tests/test-applications/nuxt-3/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_4["dev-packages/e2e-tests/test-applications/nuxt-4"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_4_cloudflare["dev-packages/e2e-tests/test-applications/nuxt-4-cloudflare"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_4_static["dev-packages/e2e-tests/test-applications/nuxt-4-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_4_static_server["dev-packages/e2e-tests/test-applications/nuxt-4-static/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_4_server["dev-packages/e2e-tests/test-applications/nuxt-4/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_5["dev-packages/e2e-tests/test-applications/nuxt-5"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_nuxt_5_server["dev-packages/e2e-tests/test-applications/nuxt-5/server"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework["dev-packages/e2e-tests/test-applications/react-router-7-framework"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework_instrumentation["dev-packages/e2e-tests/test-applications/react-router-7-framework-instrumentation"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_react_router_7_framework_static["dev-packages/e2e-tests/test-applications/react-router-7-framework-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_react_router_8_framework["dev-packages/e2e-tests/test-applications/react-router-8-framework"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_solid["dev-packages/e2e-tests/test-applications/solid"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_solidstart["dev-packages/e2e-tests/test-applications/solidstart"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_solidstart_static["dev-packages/e2e-tests/test-applications/solidstart-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_sveltekit_2["dev-packages/e2e-tests/test-applications/sveltekit-2"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_sveltekit_2_static["dev-packages/e2e-tests/test-applications/sveltekit-2-static"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_sveltekit_cloudflare_pages["dev-packages/e2e-tests/test-applications/sveltekit-cloudflare-pages"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_tanstackstart_react["dev-packages/e2e-tests/test-applications/tanstackstart-react"]:::atlasCategory
+        mod_dev_packages_e2e_tests_test_applications_tanstackstart_react_static["dev-packages/e2e-tests/test-applications/tanstackstart-react-static"]:::atlasCategory
+        mod_dev_packages_node_integration_tests["dev-packages/node-integration-tests"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_amqplib["dev-packages/node-integration-tests/suites/tracing/amqplib"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_bullmq["dev-packages/node-integration-tests/suites/tracing/bullmq"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_ioredis_dc["dev-packages/node-integration-tests/suites/tracing/ioredis-dc"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_kafkajs["dev-packages/node-integration-tests/suites/tracing/kafkajs"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_knex_mysql2["dev-packages/node-integration-tests/suites/tracing/knex/mysql2"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_knex_pg["dev-packages/node-integration-tests/suites/tracing/knex/pg"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_mysql2["dev-packages/node-integration-tests/suites/tracing/mysql2"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_mysql2_tracing_channel["dev-packages/node-integration-tests/suites/tracing/mysql2-tracing-channel"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_neon["dev-packages/node-integration-tests/suites/tracing/neon"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_postgres["dev-packages/node-integration-tests/suites/tracing/postgres"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_postgresjs["dev-packages/node-integration-tests/suites/tracing/postgresjs"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_postgresjs_tracing_channel["dev-packages/node-integration-tests/suites/tracing/postgresjs-tracing-channel"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v5["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v5"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v6["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v6"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7_prisma["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7/prisma"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v8["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v8"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_redis["dev-packages/node-integration-tests/suites/tracing/redis"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_redis_cache["dev-packages/node-integration-tests/suites/tracing/redis-cache"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_redis_dc["dev-packages/node-integration-tests/suites/tracing/redis-dc"]:::atlasCategory
+        mod_dev_packages_node_integration_tests_suites_tracing_tedious["dev-packages/node-integration-tests/suites/tracing/tedious"]:::atlasCategory
+        mod_packages_astro_test["packages/astro/test"]:::atlasCategory
+        mod_packages_aws_serverless_test["packages/aws-serverless/test"]:::atlasCategory
+        mod_packages_browser["packages/browser"]:::atlasCategory
+        mod_packages_browser_utils_test["packages/browser-utils/test"]:::atlasCategory
+        mod_packages_browser_test["packages/browser/test"]:::atlasCategory
+        mod_packages_bun_test["packages/bun/test"]:::atlasCategory
+        mod_packages_bundler_plugins_test["packages/bundler-plugins/test"]:::atlasCategory
+        mod_packages_cloudflare_test["packages/cloudflare/test"]:::atlasCategory
+        mod_packages_core_test["packages/core/test"]:::atlasCategory
+        mod_packages_deno["packages/deno"]:::atlasCategory
+        mod_packages_deno_test["packages/deno/test"]:::atlasCategory
+        mod_packages_esbuild_plugin_test["packages/esbuild-plugin/test"]:::atlasCategory
+        mod_packages_gatsby_test["packages/gatsby/test"]:::atlasCategory
+        mod_packages_google_cloud_serverless_test["packages/google-cloud-serverless/test"]:::atlasCategory
+        mod_packages_nextjs_test["packages/nextjs/test"]:::atlasCategory
+        mod_packages_nitro_test["packages/nitro/test"]:::atlasCategory
+        mod_packages_node_test["packages/node/test"]:::atlasCategory
+        mod_packages_nuxt_test["packages/nuxt/test"]:::atlasCategory
+        mod_packages_opentelemetry_test["packages/opentelemetry/test"]:::atlasCategory
+        mod_packages_profiling_node_test["packages/profiling-node/test"]:::atlasCategory
+        mod_packages_react_router_test["packages/react-router/test"]:::atlasCategory
+        mod_packages_react_test["packages/react/test"]:::atlasCategory
+        mod_packages_remix_test["packages/remix/test"]:::atlasCategory
+        mod_packages_replay_canvas_test["packages/replay-canvas/test"]:::atlasCategory
+        mod_packages_replay_internal_test["packages/replay-internal/test"]:::atlasCategory
+        mod_packages_replay_worker_test["packages/replay-worker/test"]:::atlasCategory
+        mod_packages_rollup_plugin_test["packages/rollup-plugin/test"]:::atlasCategory
+        mod_packages_solid_test["packages/solid/test"]:::atlasCategory
+        mod_packages_solidstart_test["packages/solidstart/test"]:::atlasCategory
+        mod_packages_svelte_test["packages/svelte/test"]:::atlasCategory
+        mod_packages_sveltekit_test["packages/sveltekit/test"]:::atlasCategory
+        mod_packages_tanstackstart_react_test["packages/tanstackstart-react/test"]:::atlasCategory
+        mod_packages_vercel_edge_test["packages/vercel-edge/test"]:::atlasCategory
+        mod_packages_vite_plugin_test["packages/vite-plugin/test"]:::atlasCategory
+        mod_packages_vue_test["packages/vue/test"]:::atlasCategory
+        mod_packages_wasm_test["packages/wasm/test"]:::atlasCategory
+        mod_packages_webpack_plugin_test["packages/webpack-plugin/test"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_dev_packages_e2e_tests_test_applications_astro_6_cf_workers_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-6-cf-workers/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_astro_7_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-7-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_astro_7_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-7/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_bun_mysql_docker_compose_yml["dev-packages/e2e-tests/test-applications/bun-mysql/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_cloudflare_orchestrion_mysql_docker_compose_yml["dev-packages/e2e-tests/test-applications/cloudflare-orchestrion-mysql/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_create_remix_app_v2_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/create-remix-app-v2-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_create_remix_app_v2_docker_compose_yml["dev-packages/e2e-tests/test-applications/create-remix-app-v2/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_deno_docker_compose_yml["dev-packages/e2e-tests/test-applications/deno/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nestjs_bullmq_docker_compose_yml["dev-packages/e2e-tests/test-applications/nestjs-bullmq/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nextjs_16_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/nextjs-16-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nextjs_16_docker_compose_yml["dev-packages/e2e-tests/test-applications/nextjs-16/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_node_bullmq_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-bullmq/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_node_express_esm_loader_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-express-esm-loader/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_node_express_v5_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-express-v5/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_node_prisma_8_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-prisma-8/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nuxt_4_cloudflare_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4-cloudflare/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nuxt_4_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nuxt_4_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_nuxt_5_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-5/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_instrumentation_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework-instrumentation/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_react_router_8_framework_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-8-framework/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_solidstart_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/solidstart-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_solidstart_docker_compose_yml["dev-packages/e2e-tests/test-applications/solidstart/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_sveltekit_2_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-2-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_sveltekit_2_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-2/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_sveltekit_cloudflare_pages_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-cloudflare-pages/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_tanstackstart_react_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/tanstackstart-react-static/docker-compose.yml"]
-        art_dev_packages_e2e_tests_test_applications_tanstackstart_react_docker_compose_yml["dev-packages/e2e-tests/test-applications/tanstackstart-react/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_amqplib_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/amqplib/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_bullmq_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/bullmq/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_ioredis_dc_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/ioredis-dc/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_kafkajs_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/kafkajs/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_knex_mysql2_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/knex/mysql2/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_knex_pg_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/knex/pg/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_mysql2_tracing_channel_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/mysql2-tracing-channel/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_mysql2_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/mysql2/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_neon_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/neon/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_postgres_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgres/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_postgresjs_tracing_channel_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgresjs-tracing-channel/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_postgresjs_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgresjs/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v5_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v5/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v6_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v6/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v8_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v8/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_redis_cache_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis-cache/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_redis_dc_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis-dc/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_redis_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis/docker-compose.yml"]
-        art_dev_packages_node_integration_tests_suites_tracing_tedious_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/tedious/docker-compose.yml"]
+        art_dev_packages_e2e_tests_test_applications_astro_6_cf_workers_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-6-cf-workers/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_astro_7_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-7-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_astro_7_docker_compose_yml["dev-packages/e2e-tests/test-applications/astro-7/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_bun_mysql_docker_compose_yml["dev-packages/e2e-tests/test-applications/bun-mysql/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_cloudflare_orchestrion_mysql_docker_compose_yml["dev-packages/e2e-tests/test-applications/cloudflare-orchestrion-mysql/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_create_remix_app_v2_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/create-remix-app-v2-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_create_remix_app_v2_docker_compose_yml["dev-packages/e2e-tests/test-applications/create-remix-app-v2/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_deno_docker_compose_yml["dev-packages/e2e-tests/test-applications/deno/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nestjs_bullmq_docker_compose_yml["dev-packages/e2e-tests/test-applications/nestjs-bullmq/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nextjs_16_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/nextjs-16-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nextjs_16_docker_compose_yml["dev-packages/e2e-tests/test-applications/nextjs-16/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_node_bullmq_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-bullmq/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_node_express_esm_loader_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-express-esm-loader/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_node_express_v5_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-express-v5/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_node_prisma_8_docker_compose_yml["dev-packages/e2e-tests/test-applications/node-prisma-8/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nuxt_4_cloudflare_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4-cloudflare/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nuxt_4_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nuxt_4_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-4/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_nuxt_5_docker_compose_yml["dev-packages/e2e-tests/test-applications/nuxt-5/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_instrumentation_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework-instrumentation/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_react_router_7_framework_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-7-framework/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_react_router_8_framework_docker_compose_yml["dev-packages/e2e-tests/test-applications/react-router-8-framework/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_solidstart_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/solidstart-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_solidstart_docker_compose_yml["dev-packages/e2e-tests/test-applications/solidstart/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_sveltekit_2_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-2-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_sveltekit_2_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-2/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_sveltekit_cloudflare_pages_docker_compose_yml["dev-packages/e2e-tests/test-applications/sveltekit-cloudflare-pages/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_tanstackstart_react_static_docker_compose_yml["dev-packages/e2e-tests/test-applications/tanstackstart-react-static/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_e2e_tests_test_applications_tanstackstart_react_docker_compose_yml["dev-packages/e2e-tests/test-applications/tanstackstart-react/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_amqplib_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/amqplib/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_bullmq_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/bullmq/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_ioredis_dc_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/ioredis-dc/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_kafkajs_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/kafkajs/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_knex_mysql2_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/knex/mysql2/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_knex_pg_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/knex/pg/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_mysql2_tracing_channel_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/mysql2-tracing-channel/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_mysql2_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/mysql2/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_neon_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/neon/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_postgres_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgres/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_postgresjs_tracing_channel_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgresjs-tracing-channel/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_postgresjs_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/postgresjs/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v5_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v5/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v6_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v6/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v7_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v7/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_prisma_orm_v8_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/prisma-orm-v8/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_redis_cache_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis-cache/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_redis_dc_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis-dc/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_redis_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/redis/docker-compose.yml"]:::atlasWorkflow
+        art_dev_packages_node_integration_tests_suites_tracing_tedious_docker_compose_yml["dev-packages/node-integration-tests/suites/tracing/tedious/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_auto_fix_issue_yml_auto_fix_issue["auto-fix-issue.yml#auto-fix-issue"]
-        job_build_yml_job_browser_loader_tests["build.yml#job_browser_loader_tests"]
-        job_build_yml_job_browser_min_version_tests["build.yml#job_browser_min_version_tests"]
-        job_build_yml_job_browser_playwright_tests["build.yml#job_browser_playwright_tests"]
-        job_build_yml_job_build["build.yml#job_build"]
-        job_build_yml_job_bun_integration_tests["build.yml#job_bun_integration_tests"]
-        job_build_yml_job_bundler_plugin_integration_tests["build.yml#job_bundler_plugin_integration_tests"]
-        job_build_yml_job_cloudflare_integration_tests["build.yml#job_cloudflare_integration_tests"]
-        job_build_yml_job_deno_integration_tests["build.yml#job_deno_integration_tests"]
-        job_build_yml_job_deno_unit_tests["build.yml#job_deno_unit_tests"]
-        job_build_yml_job_node_integration_tests["build.yml#job_node_integration_tests"]
-        job_build_yml_job_optional_cloudflare_integration_tests["build.yml#job_optional_cloudflare_integration_tests"]
-        job_build_yml_job_sql_server_integration_tests["build.yml#job_sql_server_integration_tests"]
-        job_canary_yml_job_e2e_prepare["canary.yml#job_e2e_prepare"]
-        job_dependabot_auto_triage_yml_fix_dev["dependabot-auto-triage.yml#fix-dev"]
-        job_dependabot_auto_triage_yml_fix_runtime["dependabot-auto-triage.yml#fix-runtime"]
-        job_track_framework_updates_yml_track_updates["track-framework-updates.yml#track-updates"]
+        job_auto_fix_issue_yml_auto_fix_issue["auto-fix-issue.yml#auto-fix-issue"]:::atlasJob
+        job_build_yml_job_browser_loader_tests["build.yml#job_browser_loader_tests"]:::atlasJob
+        job_build_yml_job_browser_min_version_tests["build.yml#job_browser_min_version_tests"]:::atlasJob
+        job_build_yml_job_browser_playwright_tests["build.yml#job_browser_playwright_tests"]:::atlasJob
+        job_build_yml_job_build["build.yml#job_build"]:::atlasJob
+        job_build_yml_job_bun_integration_tests["build.yml#job_bun_integration_tests"]:::atlasJob
+        job_build_yml_job_bundler_plugin_integration_tests["build.yml#job_bundler_plugin_integration_tests"]:::atlasJob
+        job_build_yml_job_cloudflare_integration_tests["build.yml#job_cloudflare_integration_tests"]:::atlasJob
+        job_build_yml_job_deno_integration_tests["build.yml#job_deno_integration_tests"]:::atlasJob
+        job_build_yml_job_deno_unit_tests["build.yml#job_deno_unit_tests"]:::atlasJob
+        job_build_yml_job_node_integration_tests["build.yml#job_node_integration_tests"]:::atlasJob
+        job_build_yml_job_optional_cloudflare_integration_tests["build.yml#job_optional_cloudflare_integration_tests"]:::atlasJob
+        job_build_yml_job_sql_server_integration_tests["build.yml#job_sql_server_integration_tests"]:::atlasJob
+        job_canary_yml_job_e2e_prepare["canary.yml#job_e2e_prepare"]:::atlasJob
+        job_dependabot_auto_triage_yml_fix_dev["dependabot-auto-triage.yml#fix-dev"]:::atlasJob
+        job_dependabot_auto_triage_yml_fix_runtime["dependabot-auto-triage.yml#fix-runtime"]:::atlasJob
+        job_track_framework_updates_yml_track_updates["track-framework-updates.yml#track-updates"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_ci_triage["ci-triage"]
+        env_ci_triage["ci-triage"]:::atlasTarget
     end
     job_auto_fix_issue_yml_auto_fix_issue -->|DEPLOYS_TO| env_ci_triage
     job_dependabot_auto_triage_yml_fix_dev -->|DEPLOYS_TO| env_ci_triage
@@ -2710,15 +2727,110 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-javascript (27 workflows)"])
-  grp_0_CI___Verification["CI & Verification (10 workflows · 10 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (8 workflows · 39 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-javascript (27 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Automation__Cleanup_E2E_workers["Automation: Cleanup E2E workers (1 jobs)"]
+      direction TB
+      wf_7_Automation__Cleanup_E2E_workers(["Trigger: Automation: Cleanup E2E workers"]):::atlasWorkflow
+      job_7_cleanup["cleanup"]:::atlasJob
+      wf_7_Automation__Cleanup_E2E_workers --> job_7_cleanup
+    end
+    pipeline_root --> wf_7_Automation__Cleanup_E2E_workers
+    subgraph sg_wf_8_Automation__Cleanup_PR_caches["Automation: Cleanup PR caches (1 jobs)"]
+      direction TB
+      wf_8_Automation__Cleanup_PR_caches(["Trigger: Automation: Cleanup PR caches"]):::atlasWorkflow
+      job_8_cleanup["cleanup"]:::atlasJob
+      wf_8_Automation__Cleanup_PR_caches --> job_8_cleanup
+    end
+    pipeline_root --> wf_8_Automation__Cleanup_PR_caches
+    subgraph sg_wf_17_Automation__Label_external_PRs["Automation: Label external PRs (1 jobs)"]
+      direction TB
+      wf_17_Automation__Label_external_PRs(["Trigger: Automation: Label external PRs"]):::atlasWorkflow
+      job_17_label_external_pr["label_external_pr"]:::atlasJob
+      wf_17_Automation__Label_external_PRs --> job_17_label_external_pr
+    end
+    pipeline_root --> wf_17_Automation__Label_external_PRs
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (8 workflows · 39 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CI__Build___Test["CI: Build & Test (30 jobs)"]
+      direction TB
+      wf_4_CI__Build___Test(["Trigger: CI: Build & Test"]):::atlasWorkflow
+      job_4_job_get_metadata["job_get_metadata"]:::atlasJob
+      job_4_job_build["job_build"]:::atlasJob
+      job_4_job_build_layer["job_build_layer"]:::atlasJob
+      wf_4_CI__Build___Test --> job_4_job_get_metadata
+      job_4_job_get_metadata --> job_4_job_build
+      job_4_job_get_metadata --> job_4_job_build_layer
+      job_4_job_build --> job_4_job_build_layer
+    end
+    pipeline_root --> wf_4_CI__Build___Test
+    subgraph sg_wf_5_CI__Canary_Tests["CI: Canary Tests (2 jobs)"]
+      direction TB
+      wf_5_CI__Canary_Tests(["Trigger: CI: Canary Tests"]):::atlasWorkflow
+      job_5_job_e2e_prepare["job_e2e_prepare"]:::atlasJob
+      job_5_job_e2e_tests["job_e2e_tests"]:::atlasJob
+      wf_5_CI__Canary_Tests --> job_5_job_e2e_prepare
+      job_5_job_e2e_prepare --> job_5_job_e2e_tests
+    end
+    pipeline_root --> wf_5_CI__Canary_Tests
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_21_Automation__Add_size_info_to_release["Automation: Add size info to release (1 jobs)"]
+      direction TB
+      wf_21_Automation__Add_size_info_to_release(["Trigger: Automation: Add size info to release"]):::atlasWorkflow
+      job_21_release_size_info["release-size-info"]:::atlasJob
+      wf_21_Automation__Add_size_info_to_release --> job_21_release_size_info
+    end
+    pipeline_root --> wf_21_Automation__Add_size_info_to_release
+    subgraph sg_wf_22_Action__Prepare_Release["Action: Prepare Release (1 jobs)"]
+      direction TB
+      wf_22_Action__Prepare_Release(["Trigger: Action: Prepare Release"]):::atlasWorkflow
+      job_22_release["release"]:::atlasJob
+      wf_22_Action__Prepare_Release --> job_22_release
+    end
+    pipeline_root --> wf_22_Action__Prepare_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_10_CI__CodeQL["CI: CodeQL (1 jobs)"]
+      direction TB
+      wf_10_CI__CodeQL(["Trigger: CI: CodeQL"]):::atlasWorkflow
+      job_10_analyze["analyze"]:::atlasJob
+      wf_10_CI__CodeQL --> job_10_analyze
+    end
+    pipeline_root --> wf_10_CI__CodeQL
+    subgraph sg_wf_11_Dependabot_auto_triage["Dependabot auto-triage (3 jobs)"]
+      direction TB
+      wf_11_Dependabot_auto_triage(["Trigger: Dependabot auto-triage"]):::atlasWorkflow
+      job_11_classify["classify"]:::atlasJob
+      job_11_fix_runtime["fix-runtime"]:::atlasJob
+      job_11_fix_dev["fix-dev"]:::atlasJob
+      wf_11_Dependabot_auto_triage --> job_11_classify
+      job_11_classify --> job_11_fix_runtime
+      job_11_classify --> job_11_fix_dev
+    end
+    pipeline_root --> wf_11_Dependabot_auto_triage
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Get_Metadata["Get Metadata (1 jobs)"]
+      direction TB
+      wf_6_Get_Metadata(["Trigger: Get Metadata"]):::atlasWorkflow
+      job_6_get_metadata["get_metadata"]:::atlasJob
+      wf_6_Get_Metadata --> job_6_get_metadata
+    end
+    pipeline_root --> wf_6_Get_Metadata
+  end
+  wf_more["+17 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

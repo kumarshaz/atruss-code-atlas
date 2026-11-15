@@ -41,34 +41,50 @@ description: Arc42 and Pipeline report for apache/camel-k
 
 ```mermaid
 graph TD;
-    repo_root(["apache/camel-k (300 components)"])
-    dir_0_pkg["pkg (159)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["apache/camel-k (300 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (159)"]
+      direction TB
+      dir_0_pkg["pkg (159)"]:::atlasCategory
+      sub_0_0_apis["apis (132)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_apis
+      sub_0_1_resources["resources (14)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_resources
+      sub_0_2_builder["builder (13)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_builder
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_apis["apis (132)"]
-    dir_0_pkg --> sub_0_0_apis
-    sub_0_1_resources["resources (14)"]
-    dir_0_pkg --> sub_0_1_resources
-    sub_0_2_builder["builder (13)"]
-    dir_0_pkg --> sub_0_2_builder
-    dir_1_e2e["e2e (99)"]
+    subgraph sg_dir_1_e2e["e2e (99)"]
+      direction TB
+      dir_1_e2e["e2e (99)"]:::atlasCategory
+      sub_1_0_common["common (50)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_0_common
+      sub_1_1_advanced["advanced (12)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_1_advanced
+      sub_1_2_support["support (12)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_2_support
+      sub_1_more["+12 more submodules (25)"]:::atlasMore
+      dir_1_e2e --> sub_1_more
+    end
     repo_root --> dir_1_e2e
-    sub_1_0_common["common (50)"]
-    dir_1_e2e --> sub_1_0_common
-    sub_1_1_advanced["advanced (12)"]
-    dir_1_e2e --> sub_1_1_advanced
-    sub_1_2_support["support (12)"]
-    dir_1_e2e --> sub_1_2_support
-    sub_1_more["+12 more submodules (25)"]
-    dir_1_e2e --> sub_1_more
-    dir_2_install["install (28)"]
+    subgraph sg_dir_2_install["install (28)"]
+      direction TB
+      dir_2_install["install (28)"]:::atlasCategory
+      sub_2_0_overlays["overlays (27)"]:::atlasWorkflow
+      dir_2_install --> sub_2_0_overlays
+      sub_2_1_base["base (1)"]:::atlasWorkflow
+      dir_2_install --> sub_2_1_base
+    end
     repo_root --> dir_2_install
-    sub_2_0_overlays["overlays (27)"]
-    dir_2_install --> sub_2_0_overlays
-    sub_2_1_base["base (1)"]
-    dir_2_install --> sub_2_1_base
-    dir_3_helm["helm (8)"]
+    dir_3_helm["helm (8)"]:::atlasCategory
     repo_root --> dir_3_helm
-    dir_4_cmd["cmd (6)"]
+    dir_4_cmd["cmd (6)"]:::atlasCategory
     repo_root --> dir_4_cmd
 ```
 
@@ -202,48 +218,52 @@ Showing top 60 representative components out of 300 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_helm_camel_k["helm/camel-k"]
-        mod_install_base["install/base"]
-        mod_install_overlays_all_namespaces["install/overlays/all-namespaces"]
-        mod_install_overlays_multi_namespace_operator["install/overlays/multi-namespace/operator"]
-        mod_install_overlays_platform["install/overlays/platform"]
-        mod_install_overlays_single_namespace_operator["install/overlays/single-namespace/operator"]
-        mod_pkg_resources_config_helm_namespaced["pkg/resources/config/helm/namespaced"]
-        mod_pkg_resources_config_manager["pkg/resources/config/manager"]
-        mod_pkg_resources_config_prometheus["pkg/resources/config/prometheus"]
-        mod_pkg_resources_config_rbac["pkg/resources/config/rbac"]
-        mod_pkg_resources_config_rbac_namespaced["pkg/resources/config/rbac/namespaced"]
+        mod_helm_camel_k["helm/camel-k"]:::atlasCategory
+        mod_install_base["install/base"]:::atlasCategory
+        mod_install_overlays_all_namespaces["install/overlays/all-namespaces"]:::atlasCategory
+        mod_install_overlays_multi_namespace_operator["install/overlays/multi-namespace/operator"]:::atlasCategory
+        mod_install_overlays_platform["install/overlays/platform"]:::atlasCategory
+        mod_install_overlays_single_namespace_operator["install/overlays/single-namespace/operator"]:::atlasCategory
+        mod_pkg_resources_config_helm_namespaced["pkg/resources/config/helm/namespaced"]:::atlasCategory
+        mod_pkg_resources_config_manager["pkg/resources/config/manager"]:::atlasCategory
+        mod_pkg_resources_config_prometheus["pkg/resources/config/prometheus"]:::atlasCategory
+        mod_pkg_resources_config_rbac["pkg/resources/config/rbac"]:::atlasCategory
+        mod_pkg_resources_config_rbac_namespaced["pkg/resources/config/rbac/namespaced"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_helm_camel_k_Chart_yaml["helm/camel-k/Chart.yaml"]
-        art_helm_camel_k_crds_camel_k_crds_yaml["helm/camel-k/crds/camel-k-crds.yaml"]
-        art_helm_camel_k_templates_operator_deployment_yaml["helm/camel-k/templates/operator-deployment.yaml"]
-        art_helm_camel_k_templates_operator_svcs_yaml["helm/camel-k/templates/operator-svcs.yaml"]
-        art_helm_camel_k_templates_rbacs_common_yaml["helm/camel-k/templates/rbacs-common.yaml"]
-        art_helm_camel_k_templates_rbacs_descoped_yaml["helm/camel-k/templates/rbacs-descoped.yaml"]
-        art_helm_camel_k_templates_rbacs_namespaced_yaml["helm/camel-k/templates/rbacs-namespaced.yaml"]
-        art_helm_camel_k_values_yaml["helm/camel-k/values.yaml"]
+        art_helm_camel_k_Chart_yaml["helm/camel-k/Chart.yaml"]:::atlasWorkflow
+        art_helm_camel_k_crds_camel_k_crds_yaml["helm/camel-k/crds/camel-k-crds.yaml"]:::atlasWorkflow
+        art_helm_camel_k_templates_operator_deployment_yaml["helm/camel-k/templates/operator-deployment.yaml"]:::atlasWorkflow
+        art_helm_camel_k_templates_operator_svcs_yaml["helm/camel-k/templates/operator-svcs.yaml"]:::atlasWorkflow
+        art_helm_camel_k_templates_rbacs_common_yaml["helm/camel-k/templates/rbacs-common.yaml"]:::atlasWorkflow
+        art_helm_camel_k_templates_rbacs_descoped_yaml["helm/camel-k/templates/rbacs-descoped.yaml"]:::atlasWorkflow
+        art_helm_camel_k_templates_rbacs_namespaced_yaml["helm/camel-k/templates/rbacs-namespaced.yaml"]:::atlasWorkflow
+        art_helm_camel_k_values_yaml["helm/camel-k/values.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_arkmq_yml_arkmq_test["arkmq.yml#arkmq-test"]
-        job_camel_monitor_yml_camel_monitor["camel-monitor.yml#camel-monitor"]
-        job_cert_manager_yml_test["cert-manager.yml#test"]
-        job_common_yml_common["common.yml#common"]
-        job_gateway_yml_test["gateway.yml#test"]
-        job_kafka_yml_kafka_test["kafka.yml#kafka-test"]
-        job_keda_yml_keda_test["keda.yml#keda-test"]
-        job_knative_yml_knative_test["knative.yml#knative-test"]
-        job_native_yml_quarkus_native["native.yml#quarkus-native"]
-        job_network_policy_yml_network_policy["network-policy.yml#network-policy"]
-        job_nightly_install_olm_yml_install["nightly-install-olm.yml#install"]
-        job_nightly_multi_yml_common_arm64["nightly-multi.yml#common-arm64"]
-        job_nightly_multi_yml_common_jdk_21["nightly-multi.yml#common-jdk-21"]
-        job_telemetry_yml_telemetry_it["telemetry.yml#telemetry-it"]
-        job_upgrade_yml_upgrade["upgrade.yml#upgrade"]
+        job_arkmq_yml_arkmq_test["arkmq.yml#arkmq-test"]:::atlasJob
+        job_camel_monitor_yml_camel_monitor["camel-monitor.yml#camel-monitor"]:::atlasJob
+        job_cert_manager_yml_test["cert-manager.yml#test"]:::atlasJob
+        job_common_yml_common["common.yml#common"]:::atlasJob
+        job_gateway_yml_test["gateway.yml#test"]:::atlasJob
+        job_kafka_yml_kafka_test["kafka.yml#kafka-test"]:::atlasJob
+        job_keda_yml_keda_test["keda.yml#keda-test"]:::atlasJob
+        job_knative_yml_knative_test["knative.yml#knative-test"]:::atlasJob
+        job_native_yml_quarkus_native["native.yml#quarkus-native"]:::atlasJob
+        job_network_policy_yml_network_policy["network-policy.yml#network-policy"]:::atlasJob
+        job_nightly_install_olm_yml_install["nightly-install-olm.yml#install"]:::atlasJob
+        job_nightly_multi_yml_common_arm64["nightly-multi.yml#common-arm64"]:::atlasJob
+        job_nightly_multi_yml_common_jdk_21["nightly-multi.yml#common-jdk-21"]:::atlasJob
+        job_telemetry_yml_telemetry_it["telemetry.yml#telemetry-it"]:::atlasJob
+        job_upgrade_yml_upgrade["upgrade.yml#upgrade"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_arkmq_yml_arkmq_test -->|DEPLOYS_TO| env_kubernetes
     job_camel_monitor_yml_camel_monitor -->|DEPLOYS_TO| env_kubernetes
@@ -358,15 +378,103 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/camel-k (23 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (17 workflows · 19 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
-  grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/camel-k (23 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (17 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_5_common["common (2 jobs)"]
+      direction TB
+      wf_5_common(["Trigger: common"]):::atlasWorkflow
+      job_5_common["common"]:::atlasJob
+      job_5_advanced["advanced"]:::atlasJob
+      wf_5_common --> job_5_common
+      wf_5_common --> job_5_advanced
+    end
+    pipeline_root --> wf_5_common
+    subgraph sg_wf_13_Nightly_automatic_updates["Nightly automatic updates (1 jobs)"]
+      direction TB
+      wf_13_Nightly_automatic_updates(["Trigger: Nightly automatic updates"]):::atlasWorkflow
+      job_13_auto_updates["auto-updates"]:::atlasJob
+      wf_13_Nightly_automatic_updates --> job_13_auto_updates
+    end
+    pipeline_root --> wf_13_Nightly_automatic_updates
+    subgraph sg_wf_14_Nightly_OLM_test["Nightly OLM test (1 jobs)"]
+      direction TB
+      wf_14_Nightly_OLM_test(["Trigger: Nightly OLM test"]):::atlasWorkflow
+      job_14_install["install"]:::atlasJob
+      wf_14_Nightly_OLM_test --> job_14_install
+    end
+    pipeline_root --> wf_14_Nightly_OLM_test
+    subgraph sg_wf_15_Nightly_check_against_ARM64_architecture_and_JDK21["Nightly check against ARM64 architecture and JDK21 (2 jobs)"]
+      direction TB
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21(["Trigger: Nightly check against ARM64 architecture and JDK21"]):::atlasWorkflow
+      job_15_common_arm64["common-arm64"]:::atlasJob
+      job_15_common_jdk_21["common-jdk-21"]:::atlasJob
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_arm64
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_jdk_21
+    end
+    pipeline_root --> wf_15_Nightly_check_against_ARM64_architecture_and_JDK21
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_17_PR_doc_validation["PR doc validation (1 jobs)"]
+      direction TB
+      wf_17_PR_doc_validation(["Trigger: PR doc validation"]):::atlasWorkflow
+      job_17_check_doc["check-doc"]:::atlasJob
+      wf_17_PR_doc_validation --> job_17_check_doc
+    end
+    pipeline_root --> wf_17_PR_doc_validation
+    subgraph sg_wf_22_validate["validate (1 jobs)"]
+      direction TB
+      wf_22_validate(["Trigger: validate"]):::atlasWorkflow
+      job_22_validate["validate"]:::atlasJob
+      wf_22_validate --> job_22_validate
+    end
+    pipeline_root --> wf_22_validate
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_18_security["security (1 jobs)"]
+      direction TB
+      wf_18_security(["Trigger: security"]):::atlasWorkflow
+      job_18_security["security"]:::atlasJob
+      wf_18_security --> job_18_security
+    end
+    pipeline_root --> wf_18_security
+    subgraph sg_wf_19_Stale["Stale (1 jobs)"]
+      direction TB
+      wf_19_Stale(["Trigger: Stale"]):::atlasWorkflow
+      job_19_stale["stale"]:::atlasJob
+      wf_19_Stale --> job_19_stale
+    end
+    pipeline_root --> wf_19_Stale
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Comment_on_the_pull_request["Comment on the pull request (1 jobs)"]
+      direction TB
+      wf_4_Comment_on_the_pull_request(["Trigger: Comment on the pull request"]):::atlasWorkflow
+      job_4_upload["upload"]:::atlasJob
+      wf_4_Comment_on_the_pull_request --> job_4_upload
+    end
+    pipeline_root --> wf_4_Comment_on_the_pull_request
+  end
+  subgraph sg_grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_16_Nightly_release["Nightly release (1 jobs)"]
+      direction TB
+      wf_16_Nightly_release(["Trigger: Nightly release"]):::atlasWorkflow
+      job_16_release["release"]:::atlasJob
+      wf_16_Nightly_release --> job_16_release
+    end
+    pipeline_root --> wf_16_Nightly_release
+  end
+  wf_more["+13 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

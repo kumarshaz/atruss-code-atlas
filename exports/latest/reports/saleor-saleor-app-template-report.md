@@ -40,19 +40,26 @@ description: Arc42 and Pipeline report for saleor/saleor-app-template
 
 ```mermaid
 graph TD;
-    saleor_app_template["saleor-app-template : MODULE"]
-    OrderExample["OrderExample : UI_COMPONENT"]
-    NoSSRWrapper["NoSSRWrapper : UI_COMPONENT"]
-    ThemeSynchronizer["ThemeSynchronizer : UI_COMPONENT"]
-    API_api_manifest["API_api_manifest : API_ROUTE"]
-    API_api_protected["API_api_protected : API_ROUTE"]
-    API_api_register["API_api_register : API_ROUTE"]
-    API_api_server_widget["API_api_server-widget : API_ROUTE"]
-    API_webhooks_order_created["API_webhooks_order-created : API_ROUTE"]
-    API_webhooks_order_filter_shipping_methods["API_webhooks_order-filter-shipping-methods : API_ROUTE"]
-    GraphQLProvider["GraphQLProvider : UI_COMPONENT"]
-    docker_compose["docker-compose : module"]
-    repo_root(["saleor/saleor-app-template"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    saleor_app_template["saleor-app-template : MODULE"]:::atlasJob
+    OrderExample["OrderExample : UI_COMPONENT"]:::atlasJob
+    NoSSRWrapper["NoSSRWrapper : UI_COMPONENT"]:::atlasJob
+    ThemeSynchronizer["ThemeSynchronizer : UI_COMPONENT"]:::atlasJob
+    API_api_manifest["API_api_manifest : API_ROUTE"]:::atlasJob
+    API_api_protected["API_api_protected : API_ROUTE"]:::atlasJob
+    API_api_register["API_api_register : API_ROUTE"]:::atlasJob
+    API_api_server_widget["API_api_server-widget : API_ROUTE"]:::atlasJob
+    API_webhooks_order_created["API_webhooks_order-created : API_ROUTE"]:::atlasJob
+    API_webhooks_order_filter_shipping_methods["API_webhooks_order-filter-shipping-methods : API_ROUTE"]:::atlasJob
+    GraphQLProvider["GraphQLProvider : UI_COMPONENT"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
+    repo_root(["saleor/saleor-app-template"]):::atlasRoot
     repo_root --> API_api_protected
     repo_root --> API_api_register
     repo_root --> API_api_server_widget
@@ -140,12 +147,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art__devcontainer_docker_compose_yml[".devcontainer/docker-compose.yml"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art__devcontainer_docker_compose_yml[".devcontainer/docker-compose.yml"]:::atlasWorkflow
     end
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_docker_compose_yml
@@ -159,15 +170,43 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/saleor-app-template (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Assign_PR_to_creator["Assign PR to creator (1 jobs)"]
-  grp_0_CI___Verification --> wf_0_Assign_PR_to_creator
-  wf_1_Check_Licenses["Check Licenses (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_Check_Licenses
-  wf_2_QA["QA (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_QA
-  wf_3_Example_branch_management["Example branch management (1 jobs)"]
-  grp_0_CI___Verification --> wf_3_Example_branch_management
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/saleor-app-template (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Assign_PR_to_creator["Assign PR to creator (1 jobs)"]
+      direction TB
+      wf_0_Assign_PR_to_creator(["Trigger: Assign PR to creator"]):::atlasWorkflow
+      job_0_assign_creator["assign_creator"]:::atlasJob
+      wf_0_Assign_PR_to_creator --> job_0_assign_creator
+    end
+    pipeline_root --> wf_0_Assign_PR_to_creator
+    subgraph sg_wf_1_Check_Licenses["Check Licenses (1 jobs)"]
+      direction TB
+      wf_1_Check_Licenses(["Trigger: Check Licenses"]):::atlasWorkflow
+      job_1_default["default"]:::atlasJob
+      wf_1_Check_Licenses --> job_1_default
+    end
+    pipeline_root --> wf_1_Check_Licenses
+    subgraph sg_wf_2_QA["QA (1 jobs)"]
+      direction TB
+      wf_2_QA(["Trigger: QA"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_QA --> job_2_build
+    end
+    pipeline_root --> wf_2_QA
+    subgraph sg_wf_3_Example_branch_management["Example branch management (1 jobs)"]
+      direction TB
+      wf_3_Example_branch_management(["Trigger: Example branch management"]):::atlasWorkflow
+      job_3_example_branches_checks["example-branches-checks"]:::atlasJob
+      wf_3_Example_branch_management --> job_3_example_branches_checks
+    end
+    pipeline_root --> wf_3_Example_branch_management
+  end
 ```

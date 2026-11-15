@@ -41,8 +41,15 @@ description: Arc42 and Pipeline report for zulip/zulipbot
 
 ```mermaid
 graph TD;
-    zulipbot["zulipbot : MODULE"]
-    GET_root["GET_root : API_ROUTE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    zulipbot["zulipbot : MODULE"]:::atlasJob
+    GET_root["GET_root : API_ROUTE"]:::atlasJob
 ```
 
 ## Component Details
@@ -99,12 +106,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_12d337ca_2a71_4512_87cd_a0eb66592f66["12d337ca-2a71-4512-87cd-a0eb66592f66"]
+        mod_12d337ca_2a71_4512_87cd_a0eb66592f66["12d337ca-2a71-4512-87cd-a0eb66592f66"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_node_js_yml_build["node.js.yml#build"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_node_js_yml_build["node.js.yml#build"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     mod_12d337ca_2a71_4512_87cd_a0eb66592f66 -->|BUILT_BY| job_node_js_yml_build
     mod_12d337ca_2a71_4512_87cd_a0eb66592f66 -->|BUILT_BY| job_zizmor_yml_zizmor
@@ -118,15 +129,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/zulipbot"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/zulipbot"]):::atlasRoot
   subgraph Node_js_CI_0["Node.js CI"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph GitHub_Actions_Security_Analysis_with_zizmor_1["GitHub Actions Security Analysis with zizmor"]
     direction TB
-    1_zizmor["zizmor"]
+    1_zizmor["zizmor"]:::atlasJob
   end
   pipeline_root --> 1_zizmor
 ```

@@ -41,22 +41,35 @@ description: Arc42 and Pipeline report for TryGhost/gscan
 
 ```mermaid
 graph TD;
-    repo_root(["TryGhost/gscan (50 components)"])
-    dir_0_packages["packages (37)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["TryGhost/gscan (50 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (37)"]
+      direction TB
+      dir_0_packages["packages (37)"]:::atlasCategory
+      sub_0_0_gscan_test["gscan/test (36)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_gscan_test
+      sub_0_1_gscan["gscan (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_gscan
+    end
     repo_root --> dir_0_packages
-    sub_0_0_gscan_test["gscan/test (36)"]
-    dir_0_packages --> sub_0_0_gscan_test
-    sub_0_1_gscan["gscan (1)"]
-    dir_0_packages --> sub_0_1_gscan
-    dir_1_k8s["k8s (9)"]
+    subgraph sg_dir_1_k8s["k8s (9)"]
+      direction TB
+      dir_1_k8s["k8s (9)"]:::atlasCategory
+      sub_1_0_overlays["overlays (5)"]:::atlasWorkflow
+      dir_1_k8s --> sub_1_0_overlays
+      sub_1_1_base["base (4)"]:::atlasWorkflow
+      dir_1_k8s --> sub_1_1_base
+    end
     repo_root --> dir_1_k8s
-    sub_1_0_overlays["overlays (5)"]
-    dir_1_k8s --> sub_1_0_overlays
-    sub_1_1_base["base (4)"]
-    dir_1_k8s --> sub_1_1_base
-    dir_2_apps["apps (3)"]
+    dir_2_apps["apps (3)"]:::atlasCategory
     repo_root --> dir_2_apps
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
 ```
 
@@ -176,33 +189,37 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2f76fd23_220f_4d63_b872_3a557d1bac7c["2f76fd23-220f-4d63-b872-3a557d1bac7c"]
-        mod_apps_web["apps/web"]
-        mod_k8s_base["k8s/base"]
-        mod_k8s_overlays_development["k8s/overlays/development"]
-        mod_k8s_overlays_staging["k8s/overlays/staging"]
-        mod_packages_gscan["packages/gscan"]
+        mod_2f76fd23_220f_4d63_b872_3a557d1bac7c["2f76fd23-220f-4d63-b872-3a557d1bac7c"]:::atlasCategory
+        mod_apps_web["apps/web"]:::atlasCategory
+        mod_k8s_base["k8s/base"]:::atlasCategory
+        mod_k8s_overlays_development["k8s/overlays/development"]:::atlasCategory
+        mod_k8s_overlays_staging["k8s/overlays/staging"]:::atlasCategory
+        mod_packages_gscan["packages/gscan"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_k8s_base_deployment_yml["k8s/base/deployment.yml"]
-        art_k8s_base_kustomization_yml["k8s/base/kustomization.yml"]
-        art_k8s_base_secret_yml["k8s/base/secret.yml"]
-        art_k8s_base_service_yml["k8s/base/service.yml"]
-        art_k8s_overlays_development_deployment_yml["k8s/overlays/development/deployment.yml"]
-        art_k8s_overlays_development_kustomization_yml["k8s/overlays/development/kustomization.yml"]
-        art_k8s_overlays_staging_deployment_yml["k8s/overlays/staging/deployment.yml"]
-        art_k8s_overlays_staging_kustomization_yml["k8s/overlays/staging/kustomization.yml"]
-        art_k8s_overlays_staging_secret_yml["k8s/overlays/staging/secret.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_k8s_base_deployment_yml["k8s/base/deployment.yml"]:::atlasWorkflow
+        art_k8s_base_kustomization_yml["k8s/base/kustomization.yml"]:::atlasWorkflow
+        art_k8s_base_secret_yml["k8s/base/secret.yml"]:::atlasWorkflow
+        art_k8s_base_service_yml["k8s/base/service.yml"]:::atlasWorkflow
+        art_k8s_overlays_development_deployment_yml["k8s/overlays/development/deployment.yml"]:::atlasWorkflow
+        art_k8s_overlays_development_kustomization_yml["k8s/overlays/development/kustomization.yml"]:::atlasWorkflow
+        art_k8s_overlays_staging_deployment_yml["k8s/overlays/staging/deployment.yml"]:::atlasWorkflow
+        art_k8s_overlays_staging_kustomization_yml["k8s/overlays/staging/kustomization.yml"]:::atlasWorkflow
+        art_k8s_overlays_staging_secret_yml["k8s/overlays/staging/secret.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_check_links_yml_build["check-links.yml#build"]
-        job_deploy_yml_build_and_push["deploy.yml#build-and-push"]
-        job_publish_yml_publish["publish.yml#publish"]
+        job_check_links_yml_build["check-links.yml#build"]:::atlasJob
+        job_deploy_yml_build_and_push["deploy.yml#build-and-push"]:::atlasJob
+        job_publish_yml_publish["publish.yml#publish"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_deploy_yml_build_and_push -->|DEPLOYS_TO| env_kubernetes
     mod_2f76fd23_220f_4d63_b872_3a557d1bac7c -->|BUILT_BY| job_deploy_yml_build_and_push
@@ -268,19 +285,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/gscan (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  wf_2_Deploy["Deploy (1 jobs)"]
-  grp_0_Release___Deploy --> wf_2_Deploy
-  wf_3_Publish["Publish (2 jobs)"]
-  grp_0_Release___Deploy --> wf_3_Publish
-  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_1_CI["CI (2 jobs)"]
-  grp_1_CI___Verification --> wf_1_CI
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_Check_Links["Check Links (1 jobs)"]
-  grp_2_Scheduled___Manual --> wf_0_Check_Links
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/gscan (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Deploy["Deploy (1 jobs)"]
+      direction TB
+      wf_2_Deploy(["Trigger: Deploy"]):::atlasWorkflow
+      job_2_build_and_push["build-and-push"]:::atlasJob
+      wf_2_Deploy --> job_2_build_and_push
+    end
+    pipeline_root --> wf_2_Deploy
+    subgraph sg_wf_3_Publish["Publish (2 jobs)"]
+      direction TB
+      wf_3_Publish(["Trigger: Publish"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      job_3_publish["publish"]:::atlasJob
+      wf_3_Publish --> job_3_test
+      job_3_test --> job_3_publish
+    end
+    pipeline_root --> wf_3_Publish
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (2 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_test["test"]:::atlasJob
+      job_1_required_checks_pass["required-checks-pass"]:::atlasJob
+      wf_1_CI --> job_1_test
+      job_1_test --> job_1_required_checks_pass
+    end
+    pipeline_root --> wf_1_CI
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Check_Links["Check Links (1 jobs)"]
+      direction TB
+      wf_0_Check_Links(["Trigger: Check Links"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Check_Links --> job_0_build
+    end
+    pipeline_root --> wf_0_Check_Links
+  end
 ```

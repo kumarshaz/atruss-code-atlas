@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for TryGhost/Casper
 
 ```mermaid
 graph TD;
-    casper["casper : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    casper["casper : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -94,12 +101,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_336d9ccc_14ca_4f62_b546_268b94e761fa["336d9ccc-14ca-4f62-b546-268b94e761fa"]
+        mod_336d9ccc_14ca_4f62_b546_268b94e761fa["336d9ccc-14ca-4f62-b546-268b94e761fa"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]
-        job_test_yml_test["test.yml#test"]
+        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     mod_336d9ccc_14ca_4f62_b546_268b94e761fa -->|BUILT_BY| job_test_yml_required_checks_pass
     mod_336d9ccc_14ca_4f62_b546_268b94e761fa -->|BUILT_BY| job_test_yml_test
@@ -113,10 +124,17 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Test_0["Test"]
     direction TB
-    0_test["test"]
-    0_required_checks_pass["required-checks-pass"]
+    0_test["test"]:::atlasJob
+    0_required_checks_pass["required-checks-pass"]:::atlasJob
     0_test --> 0_required_checks_pass
   end
 ```

@@ -41,26 +41,36 @@ description: Arc42 and Pipeline report for zulip/zulip
 
 ```mermaid
 graph TD;
-    repo_root(["zulip/zulip (108 components)"])
-    dir_0_zerver["zerver (87)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["zulip/zulip (108 components)"]):::atlasRoot
+    subgraph sg_dir_0_zerver["zerver (87)"]
+      direction TB
+      dir_0_zerver["zerver (87)"]:::atlasCategory
+      sub_0_0_models["models (58)"]:::atlasWorkflow
+      dir_0_zerver --> sub_0_0_models
+      sub_0_1_lib["lib (12)"]:::atlasWorkflow
+      dir_0_zerver --> sub_0_1_lib
+      sub_0_2_views["views (9)"]:::atlasWorkflow
+      dir_0_zerver --> sub_0_2_views
+      sub_0_more["+5 more submodules (8)"]:::atlasMore
+      dir_0_zerver --> sub_0_more
+    end
     repo_root --> dir_0_zerver
-    sub_0_0_models["models (58)"]
-    dir_0_zerver --> sub_0_0_models
-    sub_0_1_lib["lib (12)"]
-    dir_0_zerver --> sub_0_1_lib
-    sub_0_2_views["views (9)"]
-    dir_0_zerver --> sub_0_2_views
-    sub_0_more["+5 more submodules (8)"]
-    dir_0_zerver --> sub_0_more
-    dir_1_zilencer["zilencer (9)"]
+    dir_1_zilencer["zilencer (9)"]:::atlasCategory
     repo_root --> dir_1_zilencer
-    dir_2_corporate["corporate (8)"]
+    dir_2_corporate["corporate (8)"]:::atlasCategory
     repo_root --> dir_2_corporate
-    dir_3_analytics["analytics (2)"]
+    dir_3_analytics["analytics (2)"]:::atlasCategory
     repo_root --> dir_3_analytics
-    dir_4_confirmation["confirmation (1)"]
+    dir_4_confirmation["confirmation (1)"]:::atlasCategory
     repo_root --> dir_4_confirmation
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_2_views -.->|"21 deps"| sub_0_0_models
     dir_1_zilencer -.->|"20 deps"| sub_0_1_lib
@@ -222,19 +232,23 @@ Showing top 60 representative components out of 108 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_starlight_help["starlight_help"]
-        mod_tools_ci["tools/ci"]
-        mod_tools_setup_dev_vagrant_docker["tools/setup/dev-vagrant-docker"]
+        mod_starlight_help["starlight_help"]:::atlasCategory
+        mod_tools_ci["tools/ci"]:::atlasCategory
+        mod_tools_setup_dev_vagrant_docker["tools/setup/dev-vagrant-docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_tools_ci_Dockerfile["tools/ci/Dockerfile"]
-        art_tools_ci_Dockerfile_prod["tools/ci/Dockerfile.prod"]
-        art_tools_setup_dev_vagrant_docker_Dockerfile["tools/setup/dev-vagrant-docker/Dockerfile"]
+        art_tools_ci_Dockerfile["tools/ci/Dockerfile"]:::atlasWorkflow
+        art_tools_ci_Dockerfile_prod["tools/ci/Dockerfile.prod"]:::atlasWorkflow
+        art_tools_setup_dev_vagrant_docker_Dockerfile["tools/setup/dev-vagrant-docker/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_production_suite_yml_production_build["production-suite.yml#production_build"]
-        job_zulip_ci_yml_tests["zulip-ci.yml#tests"]
+        job_production_suite_yml_production_build["production-suite.yml#production_build"]:::atlasJob
+        job_zulip_ci_yml_tests["zulip-ci.yml#tests"]:::atlasJob
     end
     mod_starlight_help -->|BUILT_BY| job_zulip_ci_yml_tests
     mod_tools_ci -->|BUILT_BY| job_production_suite_yml_production_build
@@ -266,13 +280,90 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/zulip (8 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 9 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Automation___Other
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/zulip (8 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_API_Documentation_Update_Check["API Documentation Update Check (2 jobs)"]
+      direction TB
+      wf_0_API_Documentation_Update_Check(["Trigger: API Documentation Update Check"]):::atlasWorkflow
+      job_0_check_feature_level_updated["check-feature-level-updated"]:::atlasJob
+      job_0_notify_if_api_docs_changed["notify-if-api-docs-changed"]:::atlasJob
+      wf_0_API_Documentation_Update_Check --> job_0_check_feature_level_updated
+      job_0_check_feature_level_updated --> job_0_notify_if_api_docs_changed
+    end
+    pipeline_root --> wf_0_API_Documentation_Update_Check
+    subgraph sg_wf_2_Code_scanning["Code scanning (1 jobs)"]
+      direction TB
+      wf_2_Code_scanning(["Trigger: Code scanning"]):::atlasWorkflow
+      job_2_CodeQL["CodeQL"]:::atlasJob
+      wf_2_Code_scanning --> job_2_CodeQL
+    end
+    pipeline_root --> wf_2_Code_scanning
+    subgraph sg_wf_3_Zulip_production_suite["Zulip production suite (4 jobs)"]
+      direction TB
+      wf_3_Zulip_production_suite(["Trigger: Zulip production suite"]):::atlasWorkflow
+      job_3_production_build["production_build"]:::atlasJob
+      job_3_production_install["production_install"]:::atlasJob
+      job_3_production_upgrade["production_upgrade"]:::atlasJob
+      wf_3_Zulip_production_suite --> job_3_production_build
+      job_3_production_build --> job_3_production_install
+      job_3_production_build --> job_3_production_upgrade
+    end
+    pipeline_root --> wf_3_Zulip_production_suite
+    subgraph sg_wf_6_Zulip_CI["Zulip CI (2 jobs)"]
+      direction TB
+      wf_6_Zulip_CI(["Trigger: Zulip CI"]):::atlasWorkflow
+      job_6_tests["tests"]:::atlasJob
+      job_6_required_jobs["required-jobs"]:::atlasJob
+      wf_6_Zulip_CI --> job_6_tests
+      job_6_tests --> job_6_required_jobs
+    end
+    pipeline_root --> wf_6_Zulip_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Update_one_click_apps["Update one click apps (1 jobs)"]
+      direction TB
+      wf_4_Update_one_click_apps(["Trigger: Update one click apps"]):::atlasWorkflow
+      job_4_update_digitalocean_oneclick_app["update-digitalocean-oneclick-app"]:::atlasJob
+      wf_4_Update_one_click_apps --> job_4_update_digitalocean_oneclick_app
+    end
+    pipeline_root --> wf_4_Update_one_click_apps
+    subgraph sg_wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy["Notify of issues resolved in latest Zulip Cloud deploy (2 jobs)"]
+      direction TB
+      wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy(["Trigger: Notify of issues resolved in latest Zulip Cloud deploy"]):::atlasWorkflow
+      job_7_build_messages["build-messages"]:::atlasJob
+      job_7_send_messages["send-messages"]:::atlasJob
+      wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy --> job_7_build_messages
+      job_7_build_messages --> job_7_send_messages
+    end
+    pipeline_root --> wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Auto_add_general_area_label["Auto add general area label (1 jobs)"]
+      direction TB
+      wf_1_Auto_add_general_area_label(["Trigger: Auto add general area label"]):::atlasWorkflow
+      job_1_add_general_label["add-general-label"]:::atlasJob
+      wf_1_Auto_add_general_area_label --> job_1_add_general_label
+    end
+    pipeline_root --> wf_1_Auto_add_general_area_label
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]
+      direction TB
+      wf_5_GitHub_Actions_Security_Analysis_with_zizmor(["Trigger: GitHub Actions Security Analysis with zizmor"]):::atlasWorkflow
+      job_5_zizmor["zizmor"]:::atlasJob
+      wf_5_GitHub_Actions_Security_Analysis_with_zizmor --> job_5_zizmor
+    end
+    pipeline_root --> wf_5_GitHub_Actions_Security_Analysis_with_zizmor
+  end
 ```

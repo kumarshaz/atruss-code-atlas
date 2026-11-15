@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for grafana/grafana-kiosk
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/grafana-kiosk (38 components)"])
-    dir_0_pkg["pkg (37)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/grafana-kiosk (38 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (37)"]
+      direction TB
+      dir_0_pkg["pkg (37)"]:::atlasCategory
+      sub_0_0_kiosk["kiosk (28)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_kiosk
+      sub_0_1_browser["browser (5)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_browser
+      sub_0_2_cmd["cmd (2)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_cmd
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_kiosk["kiosk (28)"]
-    dir_0_pkg --> sub_0_0_kiosk
-    sub_0_1_browser["browser (5)"]
-    dir_0_pkg --> sub_0_1_browser
-    sub_0_2_cmd["cmd (2)"]
-    dir_0_pkg --> sub_0_2_cmd
-    sub_0_more["+1 more submodules (2)"]
-    dir_0_pkg --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -152,17 +162,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0012e551_6fc9_4d7f_94d0_418d01692947["0012e551-6fc9-4d7f-94d0-418d01692947"]
+        mod_0012e551_6fc9_4d7f_94d0_418d01692947["0012e551-6fc9-4d7f-94d0-418d01692947"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_actionlint["ci.yml#actionlint"]
-        job_ci_yml_build["ci.yml#build"]
-        job_ci_yml_integration["ci.yml#integration"]
-        job_cspell_yml_cspell["cspell.yml#cspell"]
-        job_markdownlint_yml_markdownlint["markdownlint.yml#markdownlint"]
-        job_osv_scanner_pr_yml_scan_pr["osv-scanner-pr.yml#scan-pr"]
-        job_stale_yml_stale["stale.yml#stale"]
+        job_ci_yml_actionlint["ci.yml#actionlint"]:::atlasJob
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
+        job_ci_yml_integration["ci.yml#integration"]:::atlasJob
+        job_cspell_yml_cspell["cspell.yml#cspell"]:::atlasJob
+        job_markdownlint_yml_markdownlint["markdownlint.yml#markdownlint"]:::atlasJob
+        job_osv_scanner_pr_yml_scan_pr["osv-scanner-pr.yml#scan-pr"]:::atlasJob
+        job_stale_yml_stale["stale.yml#stale"]:::atlasJob
     end
     mod_0012e551_6fc9_4d7f_94d0_418d01692947 -->|BUILT_BY| job_ci_yml_actionlint
     mod_0012e551_6fc9_4d7f_94d0_418d01692947 -->|BUILT_BY| job_ci_yml_build
@@ -186,21 +200,60 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-kiosk (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Spell_Check["Spell Check (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_Spell_Check
-  wf_2_Markdown_Lint["Markdown Lint (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_Markdown_Lint
-  wf_3_OSV_Scanner_PR_Scan["OSV-Scanner PR Scan (1 jobs)"]
-  grp_0_CI___Verification --> wf_3_OSV_Scanner_PR_Scan
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_Build["Build (3 jobs)"]
-  grp_1_Scheduled___Manual --> wf_0_Build
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
-  grp_2_Security___Governance --> wf_4_Close_stale_issues_and_PRs
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-kiosk (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Spell_Check["Spell Check (1 jobs)"]
+      direction TB
+      wf_1_Spell_Check(["Trigger: Spell Check"]):::atlasWorkflow
+      job_1_cspell["cspell"]:::atlasJob
+      wf_1_Spell_Check --> job_1_cspell
+    end
+    pipeline_root --> wf_1_Spell_Check
+    subgraph sg_wf_2_Markdown_Lint["Markdown Lint (1 jobs)"]
+      direction TB
+      wf_2_Markdown_Lint(["Trigger: Markdown Lint"]):::atlasWorkflow
+      job_2_markdownlint["markdownlint"]:::atlasJob
+      wf_2_Markdown_Lint --> job_2_markdownlint
+    end
+    pipeline_root --> wf_2_Markdown_Lint
+    subgraph sg_wf_3_OSV_Scanner_PR_Scan["OSV-Scanner PR Scan (1 jobs)"]
+      direction TB
+      wf_3_OSV_Scanner_PR_Scan(["Trigger: OSV-Scanner PR Scan"]):::atlasWorkflow
+      job_3_scan_pr["scan-pr"]:::atlasJob
+      wf_3_OSV_Scanner_PR_Scan --> job_3_scan_pr
+    end
+    pipeline_root --> wf_3_OSV_Scanner_PR_Scan
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (3 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_actionlint["actionlint"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      job_0_integration["integration"]:::atlasJob
+      wf_0_Build --> job_0_actionlint
+      wf_0_Build --> job_0_build
+      job_0_build --> job_0_integration
+    end
+    pipeline_root --> wf_0_Build
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_4_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_4_stale["stale"]:::atlasJob
+      wf_4_Close_stale_issues_and_PRs --> job_4_stale
+    end
+    pipeline_root --> wf_4_Close_stale_issues_and_PRs
+  end
 ```

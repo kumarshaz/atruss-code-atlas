@@ -416,10 +416,21 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         </section>
 
         <section class="m3-scorecard-dims-section">
-            <header class="m3-section-header m3-section-mb">
-                <span class="material-symbols-outlined" aria-hidden="true">radar</span>
-                <h4>6-Dimension Scorecard Breakdown</h4>
-            </header>
+            <div class="m3-dims-header-row m3-section-mb">
+                <header class="m3-section-header">
+                    <span class="material-symbols-outlined" aria-hidden="true">radar</span>
+                    <h4>6-Dimension Scorecard Breakdown</h4>
+                </header>
+                <a
+                    href="https://github.com/kumarshaz/atruss-code-atlas/blob/main/docs/metrics-methodology.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="m3-chip m3-chip-tonal-secondary m3-method-link"
+                >
+                    <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+                    How Metrics Are Derived
+                </a>
+            </div>
             <div class="m3-scorecard-dims-grid">
                 {orderedDimensions.map(({ key, data }) => {
                     const dimScore = Number(data?.score ?? 0);
@@ -807,9 +818,13 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         align-items: center;
     }
 
+    .m3-scorecard-hero > * {
+        margin: 0 !important;
+    }
+
     @media (min-width: 900px) {
         .m3-scorecard-hero {
-            grid-template-columns: auto 1fr minmax(220px, 320px);
+            grid-template-columns: auto 1fr minmax(220px, 300px);
         }
     }
 
@@ -817,6 +832,7 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         display: flex;
         align-items: center;
         gap: 1rem;
+        margin: 0 !important;
     }
 
     .m3-scorecard-grade,
@@ -888,21 +904,27 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
 
     .m3-scorecard-kpis {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.65rem;
+        align-items: stretch;
+        margin: 0 !important;
     }
 
     .m3-scorecard-kpi {
-        padding: 0.75rem;
+        height: 100%;
+        margin: 0 !important;
+        padding: 0.75rem 0.9rem;
         border-radius: var(--md-sys-shape-corner-medium);
         background-color: var(--md-sys-color-surface-container);
         border: 1px solid var(--md-sys-color-outline-variant);
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 0.2rem;
     }
 
     .m3-sparkline-box {
+        margin: 0 !important;
         padding: 0.75rem 0.9rem;
         border-radius: var(--md-sys-shape-corner-medium);
         background-color: var(--md-sys-color-surface-container);
@@ -957,9 +979,12 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 0.875rem;
+        align-items: stretch;
     }
 
     .m3-scorecard-dim-card {
+        height: 100%;
+        margin: 0 !important;
         padding: 1rem;
         display: flex;
         flex-direction: column;
@@ -1029,9 +1054,15 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
         gap: 0.65rem;
+        align-items: stretch;
+        max-height: 360px;
+        overflow-y: auto;
+        padding-right: 0.25rem;
     }
 
     .m3-heatmap-tile {
+        height: 100%;
+        margin: 0 !important;
         padding: 0.75rem;
         border-radius: var(--md-sys-shape-corner-medium);
         border: 1px solid var(--md-sys-color-outline-variant);
@@ -1097,9 +1128,12 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.75rem;
         margin-top: 1rem;
+        align-items: stretch;
     }
 
     .m3-baseline-stat {
+        height: 100%;
+        margin: 0 !important;
         padding: 0.875rem;
         border-radius: var(--md-sys-shape-corner-medium);
         background-color: var(--md-sys-color-surface-container);
@@ -1325,5 +1359,28 @@ const analyzeCmd = 'atruss analyze-code --path . --format sarif --exports-dir ex
         height: 1.5rem;
         font-size: 0.7rem;
         font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-dims-header-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+    }
+
+    .m3-method-link {
+        text-decoration: none;
+        font-size: 0.78rem;
+        transition: transform 150ms ease, filter 150ms ease;
+    }
+
+    .m3-method-link:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.06);
+    }
+
+    .m3-method-link .material-symbols-outlined {
+        font-size: 15px;
     }
 </style>

@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for zulip/zulip-desktop
 
 ```mermaid
 graph TD;
-    zulip["zulip : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    zulip["zulip : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -109,22 +116,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_22d00534_2786_4782_b2dd_5c2a3693dc83["22d00534-2786-4782-b2dd-5c2a3693dc83"]
+        mod_22d00534_2786_4782_b2dd_5c2a3693dc83["22d00534-2786-4782-b2dd-5c2a3693dc83"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_codeql_yml_analyze["codeql.yml#analyze"]
-        job_node_js_yml_build["node.js.yml#build"]
-        job_release_yml_linux["release.yml#linux"]
-        job_release_yml_macos["release.yml#macos"]
-        job_release_yml_prepare["release.yml#prepare"]
-        job_release_yml_windows["release.yml#windows"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_codeql_yml_analyze["codeql.yml#analyze"]:::atlasJob
+        job_node_js_yml_build["node.js.yml#build"]:::atlasJob
+        job_release_yml_linux["release.yml#linux"]:::atlasJob
+        job_release_yml_macos["release.yml#macos"]:::atlasJob
+        job_release_yml_prepare["release.yml#prepare"]:::atlasJob
+        job_release_yml_windows["release.yml#windows"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_release_macos["release-macos"]
-        env_release_windows["release-windows"]
+        env_azure["azure"]:::atlasTarget
+        env_release_macos["release-macos"]:::atlasTarget
+        env_release_windows["release-windows"]:::atlasTarget
     end
     job_release_yml_macos -->|DEPLOYS_TO| env_release_macos
     job_release_yml_windows -->|DEPLOYS_TO| env_azure
@@ -154,19 +165,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/zulip-desktop (4 workflows)"])
-  grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_Security___Governance
-  wf_0_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
-  grp_0_Security___Governance --> wf_0_CodeQL_Advanced
-  wf_3_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]
-  grp_0_Security___Governance --> wf_3_GitHub_Actions_Security_Analysis_with_zizmor
-  grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_1_Node_js_CI["Node.js CI (1 jobs)"]
-  grp_1_CI___Verification --> wf_1_Node_js_CI
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  wf_2_Release["Release (4 jobs)"]
-  grp_2_Release___Deploy --> wf_2_Release
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/zulip-desktop (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_0_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_0_analyze["analyze"]:::atlasJob
+      wf_0_CodeQL_Advanced --> job_0_analyze
+    end
+    pipeline_root --> wf_0_CodeQL_Advanced
+    subgraph sg_wf_3_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]
+      direction TB
+      wf_3_GitHub_Actions_Security_Analysis_with_zizmor(["Trigger: GitHub Actions Security Analysis with zizmor"]):::atlasWorkflow
+      job_3_zizmor["zizmor"]:::atlasJob
+      wf_3_GitHub_Actions_Security_Analysis_with_zizmor --> job_3_zizmor
+    end
+    pipeline_root --> wf_3_GitHub_Actions_Security_Analysis_with_zizmor
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Node_js_CI["Node.js CI (1 jobs)"]
+      direction TB
+      wf_1_Node_js_CI(["Trigger: Node.js CI"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Node_js_CI --> job_1_build
+    end
+    pipeline_root --> wf_1_Node_js_CI
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Release["Release (4 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_prepare["prepare"]:::atlasJob
+      job_2_linux["linux"]:::atlasJob
+      job_2_macos["macos"]:::atlasJob
+      wf_2_Release --> job_2_prepare
+      job_2_prepare --> job_2_linux
+      job_2_prepare --> job_2_macos
+    end
+    pipeline_root --> wf_2_Release
+  end
 ```

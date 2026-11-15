@@ -41,30 +41,43 @@ description: Arc42 and Pipeline report for argoproj/argo-cd
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argo-cd (280 components)"])
-    dir_0_applicationset["applicationset (159)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argo-cd (280 components)"]):::atlasRoot
+    subgraph sg_dir_0_applicationset["applicationset (159)"]
+      direction TB
+      dir_0_applicationset["applicationset (159)"]:::atlasCategory
+      sub_0_0_services["services (59)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_0_services
+      sub_0_1_generators["generators (32)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_1_generators
+      sub_0_2_examples["examples (27)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_2_examples
+      sub_0_more["+6 more submodules (41)"]:::atlasMore
+      dir_0_applicationset --> sub_0_more
+    end
     repo_root --> dir_0_applicationset
-    sub_0_0_services["services (59)"]
-    dir_0_applicationset --> sub_0_0_services
-    sub_0_1_generators["generators (32)"]
-    dir_0_applicationset --> sub_0_1_generators
-    sub_0_2_examples["examples (27)"]
-    dir_0_applicationset --> sub_0_2_examples
-    sub_0_more["+6 more submodules (41)"]
-    dir_0_applicationset --> sub_0_more
-    dir_1_cmd["cmd (117)"]
+    subgraph sg_dir_1_cmd["cmd (117)"]
+      direction TB
+      dir_1_cmd["cmd (117)"]:::atlasCategory
+      sub_1_0_argocd["argocd (78)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_0_argocd
+      sub_1_1_util["util (13)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_1_util
+      sub_1_2_argocd_k8s_auth["argocd-k8s-auth (9)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_2_argocd_k8s_auth
+      sub_1_more["+10 more submodules (17)"]:::atlasMore
+      dir_1_cmd --> sub_1_more
+    end
     repo_root --> dir_1_cmd
-    sub_1_0_argocd["argocd (78)"]
-    dir_1_cmd --> sub_1_0_argocd
-    sub_1_1_util["util (13)"]
-    dir_1_cmd --> sub_1_1_util
-    sub_1_2_argocd_k8s_auth["argocd-k8s-auth (9)"]
-    dir_1_cmd --> sub_1_2_argocd_k8s_auth
-    sub_1_more["+10 more submodules (17)"]
-    dir_1_cmd --> sub_1_more
-    dir_2_cmpserver["cmpserver (3)"]
+    dir_2_cmpserver["cmpserver (3)"]:::atlasCategory
     repo_root --> dir_2_cmpserver
-    dir_3_assets["assets (1)"]
+    dir_3_assets["assets (1)"]:::atlasCategory
     repo_root --> dir_3_assets
 ```
 
@@ -209,86 +222,90 @@ Showing top 60 representative components out of 280 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_a15d4c0b_612f_4ca3_8444_1ae36914a530["a15d4c0b-612f-4ca3-8444-1ae36914a530"]
-        mod_applicationset_examples_template_override_default["applicationset/examples/template-override/default"]
-        mod_cmpserver_plugin_testdata_kustomize["cmpserver/plugin/testdata/kustomize"]
-        mod_docs["docs"]
-        mod_examples_plugins_helm["examples/plugins/helm"]
-        mod_gitops_engine["gitops-engine"]
-        mod_gitops_engine_agent_manifests_base["gitops-engine/agent/manifests/base"]
-        mod_hack["hack"]
-        mod_hack_get_previous_release["hack/get-previous-release"]
-        mod_hack_tools["hack/tools"]
-        mod_manifests_base["manifests/base"]
-        mod_manifests_base_application_controller["manifests/base/application-controller"]
-        mod_manifests_base_applicationset_controller["manifests/base/applicationset-controller"]
-        mod_manifests_base_commit_server["manifests/base/commit-server"]
-        mod_manifests_base_config["manifests/base/config"]
-        mod_manifests_base_dex["manifests/base/dex"]
-        mod_manifests_base_notification["manifests/base/notification"]
-        mod_manifests_base_redis["manifests/base/redis"]
-        mod_manifests_base_repo_server["manifests/base/repo-server"]
-        mod_manifests_base_server["manifests/base/server"]
-        mod_manifests_cluster_rbac_application_controller["manifests/cluster-rbac/application-controller"]
-        mod_manifests_cluster_rbac_applicationset_controller["manifests/cluster-rbac/applicationset-controller"]
-        mod_manifests_cluster_rbac_server["manifests/cluster-rbac/server"]
-        mod_manifests_ha_base["manifests/ha/base"]
-        mod_reposerver_repository_testdata_app_parameters_multi["reposerver/repository/testdata/app-parameters/multi"]
-        mod_test_container["test/container"]
-        mod_test_e2e_multiarch_container["test/e2e/multiarch-container"]
-        mod_test_e2e_testdata_helm["test/e2e/testdata/helm"]
-        mod_test_e2e_testdata_https_kustomize_base_local["test/e2e/testdata/https-kustomize-base/local"]
-        mod_test_e2e_testdata_https_kustomize_base_remote["test/e2e/testdata/https-kustomize-base/remote"]
-        mod_test_e2e_testdata_kustomize["test/e2e/testdata/kustomize"]
-        mod_test_e2e_testdata_ssh_kustomize_base_local["test/e2e/testdata/ssh-kustomize-base/local"]
-        mod_test_e2e_testdata_ssh_kustomize_base_remote["test/e2e/testdata/ssh-kustomize-base/remote"]
-        mod_test_manifests_base["test/manifests/base"]
-        mod_test_manifests_cmp["test/manifests/cmp"]
-        mod_test_remote["test/remote"]
-        mod_ui["ui"]
-        mod_ui_src_app["ui/src/app"]
-        mod_util_cmp_testdata_app_applicationset_latest["util/cmp/testdata/app/applicationset/latest"]
-        mod_util_helm_testdata_redis["util/helm/testdata/redis"]
-        mod_util_helm_testdata_tests["util/helm/testdata/tests"]
-        mod_util_io_files_testdata_app_applicationset_latest["util/io/files/testdata/app/applicationset/latest"]
-        mod_util_kustomize_testdata_kustomization_yaml_components_components["util/kustomize/testdata/kustomization_yaml_components/components"]
-        mod_util_kustomize_testdata_kustomization_yaml_components_monorepo_kustomize_apps_hello_world_base["util/kustomize/testdata/kustomization_yaml_components_monorepo/kustomize/apps/hello-world/base"]
-        mod_util_kustomize_testdata_kustomization_yaml_components_monorepo_kustomize_components_all["util/kustomize/testdata/kustomization_yaml_components_monorepo/kustomize/components/all"]
+        mod_a15d4c0b_612f_4ca3_8444_1ae36914a530["a15d4c0b-612f-4ca3-8444-1ae36914a530"]:::atlasCategory
+        mod_applicationset_examples_template_override_default["applicationset/examples/template-override/default"]:::atlasCategory
+        mod_cmpserver_plugin_testdata_kustomize["cmpserver/plugin/testdata/kustomize"]:::atlasCategory
+        mod_docs["docs"]:::atlasCategory
+        mod_examples_plugins_helm["examples/plugins/helm"]:::atlasCategory
+        mod_gitops_engine["gitops-engine"]:::atlasCategory
+        mod_gitops_engine_agent_manifests_base["gitops-engine/agent/manifests/base"]:::atlasCategory
+        mod_hack["hack"]:::atlasCategory
+        mod_hack_get_previous_release["hack/get-previous-release"]:::atlasCategory
+        mod_hack_tools["hack/tools"]:::atlasCategory
+        mod_manifests_base["manifests/base"]:::atlasCategory
+        mod_manifests_base_application_controller["manifests/base/application-controller"]:::atlasCategory
+        mod_manifests_base_applicationset_controller["manifests/base/applicationset-controller"]:::atlasCategory
+        mod_manifests_base_commit_server["manifests/base/commit-server"]:::atlasCategory
+        mod_manifests_base_config["manifests/base/config"]:::atlasCategory
+        mod_manifests_base_dex["manifests/base/dex"]:::atlasCategory
+        mod_manifests_base_notification["manifests/base/notification"]:::atlasCategory
+        mod_manifests_base_redis["manifests/base/redis"]:::atlasCategory
+        mod_manifests_base_repo_server["manifests/base/repo-server"]:::atlasCategory
+        mod_manifests_base_server["manifests/base/server"]:::atlasCategory
+        mod_manifests_cluster_rbac_application_controller["manifests/cluster-rbac/application-controller"]:::atlasCategory
+        mod_manifests_cluster_rbac_applicationset_controller["manifests/cluster-rbac/applicationset-controller"]:::atlasCategory
+        mod_manifests_cluster_rbac_server["manifests/cluster-rbac/server"]:::atlasCategory
+        mod_manifests_ha_base["manifests/ha/base"]:::atlasCategory
+        mod_reposerver_repository_testdata_app_parameters_multi["reposerver/repository/testdata/app-parameters/multi"]:::atlasCategory
+        mod_test_container["test/container"]:::atlasCategory
+        mod_test_e2e_multiarch_container["test/e2e/multiarch-container"]:::atlasCategory
+        mod_test_e2e_testdata_helm["test/e2e/testdata/helm"]:::atlasCategory
+        mod_test_e2e_testdata_https_kustomize_base_local["test/e2e/testdata/https-kustomize-base/local"]:::atlasCategory
+        mod_test_e2e_testdata_https_kustomize_base_remote["test/e2e/testdata/https-kustomize-base/remote"]:::atlasCategory
+        mod_test_e2e_testdata_kustomize["test/e2e/testdata/kustomize"]:::atlasCategory
+        mod_test_e2e_testdata_ssh_kustomize_base_local["test/e2e/testdata/ssh-kustomize-base/local"]:::atlasCategory
+        mod_test_e2e_testdata_ssh_kustomize_base_remote["test/e2e/testdata/ssh-kustomize-base/remote"]:::atlasCategory
+        mod_test_manifests_base["test/manifests/base"]:::atlasCategory
+        mod_test_manifests_cmp["test/manifests/cmp"]:::atlasCategory
+        mod_test_remote["test/remote"]:::atlasCategory
+        mod_ui["ui"]:::atlasCategory
+        mod_ui_src_app["ui/src/app"]:::atlasCategory
+        mod_util_cmp_testdata_app_applicationset_latest["util/cmp/testdata/app/applicationset/latest"]:::atlasCategory
+        mod_util_helm_testdata_redis["util/helm/testdata/redis"]:::atlasCategory
+        mod_util_helm_testdata_tests["util/helm/testdata/tests"]:::atlasCategory
+        mod_util_io_files_testdata_app_applicationset_latest["util/io/files/testdata/app/applicationset/latest"]:::atlasCategory
+        mod_util_kustomize_testdata_kustomization_yaml_components_components["util/kustomize/testdata/kustomization_yaml_components/components"]:::atlasCategory
+        mod_util_kustomize_testdata_kustomization_yaml_components_monorepo_kustomize_apps_hello_world_base["util/kustomize/testdata/kustomization_yaml_components_monorepo/kustomize/apps/hello-world/base"]:::atlasCategory
+        mod_util_kustomize_testdata_kustomization_yaml_components_monorepo_kustomize_components_all["util/kustomize/testdata/kustomization_yaml_components_monorepo/kustomize/components/all"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_dev["Dockerfile.dev"]
-        art_Dockerfile_tilt["Dockerfile.tilt"]
-        art_Dockerfile_ui_tilt["Dockerfile.ui.tilt"]
-        art_hack_Dockerfile_dev_tools["hack/Dockerfile.dev-tools"]
-        art_test_container_Dockerfile["test/container/Dockerfile"]
-        art_test_e2e_multiarch_container_Dockerfile["test/e2e/multiarch-container/Dockerfile"]
-        art_test_remote_Dockerfile["test/remote/Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_dev["Dockerfile.dev"]:::atlasWorkflow
+        art_Dockerfile_tilt["Dockerfile.tilt"]:::atlasWorkflow
+        art_Dockerfile_ui_tilt["Dockerfile.ui.tilt"]:::atlasWorkflow
+        art_hack_Dockerfile_dev_tools["hack/Dockerfile.dev-tools"]:::atlasWorkflow
+        art_test_container_Dockerfile["test/container/Dockerfile"]:::atlasWorkflow
+        art_test_e2e_multiarch_container_Dockerfile["test/e2e/multiarch-container/Dockerfile"]:::atlasWorkflow
+        art_test_remote_Dockerfile["test/remote/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_bump_major_version_yaml_prepare_release["bump-major-version.yaml#prepare-release"]
-        job_cherry_pick_single_yml_cherry_pick["cherry-pick-single.yml#cherry-pick"]
-        job_ci_build_yaml_analyze["ci-build.yaml#analyze"]
-        job_ci_build_yaml_build_go["ci-build.yaml#build-go"]
-        job_ci_build_yaml_build_ui["ci-build.yaml#build-ui"]
-        job_ci_build_yaml_lint_actions["ci-build.yaml#lint-actions"]
-        job_ci_build_yaml_lint_manifests["ci-build.yaml#lint-manifests"]
-        job_ci_build_yaml_shellcheck["ci-build.yaml#shellcheck"]
-        job_ci_build_yaml_test_e2e["ci-build.yaml#test-e2e"]
-        job_ci_build_yaml_test_e2e_composite_result["ci-build.yaml#test-e2e-composite-result"]
-        job_e2e_shard_weights_yaml_refresh["e2e-shard-weights.yaml#refresh"]
-        job_image_reuse_yaml_publish["image-reuse.yaml#publish"]
-        job_image_yaml_set_vars["image.yaml#set-vars"]
-        job_init_release_yaml_prepare_release["init-release.yaml#prepare-release"]
-        job_release_yaml_generate_sbom["release.yaml#generate-sbom"]
-        job_release_yaml_goreleaser["release.yaml#goreleaser"]
-        job_release_yaml_post_release["release.yaml#post-release"]
-        job_renovate_yaml_renovate["renovate.yaml#renovate"]
-        job_update_snyk_yaml_make_report_pr["update-snyk.yaml#make-report-pr"]
+        job_bump_major_version_yaml_prepare_release["bump-major-version.yaml#prepare-release"]:::atlasJob
+        job_cherry_pick_single_yml_cherry_pick["cherry-pick-single.yml#cherry-pick"]:::atlasJob
+        job_ci_build_yaml_analyze["ci-build.yaml#analyze"]:::atlasJob
+        job_ci_build_yaml_build_go["ci-build.yaml#build-go"]:::atlasJob
+        job_ci_build_yaml_build_ui["ci-build.yaml#build-ui"]:::atlasJob
+        job_ci_build_yaml_lint_actions["ci-build.yaml#lint-actions"]:::atlasJob
+        job_ci_build_yaml_lint_manifests["ci-build.yaml#lint-manifests"]:::atlasJob
+        job_ci_build_yaml_shellcheck["ci-build.yaml#shellcheck"]:::atlasJob
+        job_ci_build_yaml_test_e2e["ci-build.yaml#test-e2e"]:::atlasJob
+        job_ci_build_yaml_test_e2e_composite_result["ci-build.yaml#test-e2e-composite-result"]:::atlasJob
+        job_e2e_shard_weights_yaml_refresh["e2e-shard-weights.yaml#refresh"]:::atlasJob
+        job_image_reuse_yaml_publish["image-reuse.yaml#publish"]:::atlasJob
+        job_image_yaml_set_vars["image.yaml#set-vars"]:::atlasJob
+        job_init_release_yaml_prepare_release["init-release.yaml#prepare-release"]:::atlasJob
+        job_release_yaml_generate_sbom["release.yaml#generate-sbom"]:::atlasJob
+        job_release_yaml_goreleaser["release.yaml#goreleaser"]:::atlasJob
+        job_release_yaml_post_release["release.yaml#post-release"]:::atlasJob
+        job_renovate_yaml_renovate["renovate.yaml#renovate"]:::atlasJob
+        job_update_snyk_yaml_make_report_pr["update-snyk.yaml#make-report-pr"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_ci_build_yaml_test_e2e -->|DEPLOYS_TO| env_kubernetes
     mod_a15d4c0b_612f_4ca3_8444_1ae36914a530 -->|DEPLOYED_BY| job_image_reuse_yaml_publish
@@ -505,15 +522,106 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["argoproj/argo-cd (17 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 23 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["argoproj/argo-cd (17 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Cherry_Pick["Cherry Pick (2 jobs)"]
+      direction TB
+      wf_3_Cherry_Pick(["Trigger: Cherry Pick"]):::atlasWorkflow
+      job_3_find_labels["find-labels"]:::atlasJob
+      job_3_cherry_pick["cherry-pick"]:::atlasJob
+      wf_3_Cherry_Pick --> job_3_find_labels
+      job_3_find_labels --> job_3_cherry_pick
+    end
+    pipeline_root --> wf_3_Cherry_Pick
+    subgraph sg_wf_4_Integration_tests["Integration tests (14 jobs)"]
+      direction TB
+      wf_4_Integration_tests(["Trigger: Integration tests"]):::atlasWorkflow
+      job_4_changes["changes"]:::atlasJob
+      job_4_check_go["check-go"]:::atlasJob
+      job_4_build_go["build-go"]:::atlasJob
+      wf_4_Integration_tests --> job_4_changes
+      job_4_changes --> job_4_check_go
+      job_4_changes --> job_4_build_go
+    end
+    pipeline_root --> wf_4_Integration_tests
+    subgraph sg_wf_8_Image["Image (5 jobs)"]
+      direction TB
+      wf_8_Image(["Trigger: Image"]):::atlasWorkflow
+      job_8_set_vars["set-vars"]:::atlasJob
+      job_8_build_only["build-only"]:::atlasJob
+      job_8_build_and_publish["build-and-publish"]:::atlasJob
+      wf_8_Image --> job_8_set_vars
+      job_8_set_vars --> job_8_build_only
+      job_8_set_vars --> job_8_build_and_publish
+    end
+    pipeline_root --> wf_8_Image
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Bump_major_version["Bump major version (1 jobs)"]
+      direction TB
+      wf_1_Bump_major_version(["Trigger: Bump major version"]):::atlasWorkflow
+      job_1_prepare_release["prepare-release"]:::atlasJob
+      wf_1_Bump_major_version --> job_1_prepare_release
+    end
+    pipeline_root --> wf_1_Bump_major_version
+    subgraph sg_wf_15_Snyk_report_update["Snyk report update (2 jobs)"]
+      direction TB
+      wf_15_Snyk_report_update(["Trigger: Snyk report update"]):::atlasWorkflow
+      job_15_snyk_report["snyk-report"]:::atlasJob
+      job_15_make_report_pr["make-report-pr"]:::atlasJob
+      wf_15_Snyk_report_update --> job_15_snyk_report
+      job_15_snyk_report --> job_15_make_report_pr
+    end
+    pipeline_root --> wf_15_Snyk_report_update
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Init_ArgoCD_Release["Init ArgoCD Release (1 jobs)"]
+      direction TB
+      wf_9_Init_ArgoCD_Release(["Trigger: Init ArgoCD Release"]):::atlasWorkflow
+      job_9_prepare_release["prepare-release"]:::atlasJob
+      wf_9_Init_ArgoCD_Release --> job_9_prepare_release
+    end
+    pipeline_root --> wf_9_Init_ArgoCD_Release
+    subgraph sg_wf_11_Publish_ArgoCD_Release["Publish ArgoCD Release (8 jobs)"]
+      direction TB
+      wf_11_Publish_ArgoCD_Release(["Trigger: Publish ArgoCD Release"]):::atlasWorkflow
+      job_11_argocd_image["argocd-image"]:::atlasJob
+      job_11_setup_variables["setup-variables"]:::atlasJob
+      job_11_argocd_image_provenance["argocd-image-provenance"]:::atlasJob
+      job_11_setup_variables --> job_11_argocd_image
+      wf_11_Publish_ArgoCD_Release --> job_11_setup_variables
+      job_11_setup_variables --> job_11_argocd_image_provenance
+      job_11_argocd_image --> job_11_argocd_image_provenance
+    end
+    pipeline_root --> wf_11_Publish_ArgoCD_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_14_Label_stale_issues_and_PRs["Label stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_14_Label_stale_issues_and_PRs(["Trigger: Label stale issues and PRs"]):::atlasWorkflow
+      job_14_stale["stale"]:::atlasJob
+      wf_14_Label_stale_issues_and_PRs --> job_14_stale
+    end
+    pipeline_root --> wf_14_Label_stale_issues_and_PRs
+    wf_16_GitHub_Actions_Security_Analysis["GitHub Actions Security Analysis (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_GitHub_Actions_Security_Analysis
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_2_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Cherry_Pick_Single
+  end
+  wf_more["+7 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

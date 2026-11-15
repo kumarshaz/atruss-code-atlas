@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for apache/wicket
 
 ```mermaid
 graph TD;
-    repo_root(["apache/wicket (41 components)"])
-    dir_0_testing["testing (5)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["apache/wicket (41 components)"]):::atlasRoot
+    dir_0_testing["testing (5)"]:::atlasCategory
     repo_root --> dir_0_testing
-    dir_1_wicket_native_websocket["wicket-native-websocket (4)"]
+    dir_1_wicket_native_websocket["wicket-native-websocket (4)"]:::atlasCategory
     repo_root --> dir_1_wicket_native_websocket
-    dir_2_archetypes["archetypes (2)"]
+    dir_2_archetypes["archetypes (2)"]:::atlasCategory
     repo_root --> dir_2_archetypes
-    dir_3_wicket_examples["wicket-examples (2)"]
+    dir_3_wicket_examples["wicket-examples (2)"]:::atlasCategory
     repo_root --> dir_3_wicket_examples
-    dir_4_wicket_experimental["wicket-experimental (2)"]
+    dir_4_wicket_experimental["wicket-experimental (2)"]:::atlasCategory
     repo_root --> dir_4_wicket_experimental
-    dir_other_modules["+26 more modules (26)"]
+    dir_other_modules["+26 more modules (26)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -161,12 +168,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_wicket["wicket"]
-        mod_wicket_examples["wicket-examples"]
+        mod_wicket["wicket"]:::atlasCategory
+        mod_wicket_examples["wicket-examples"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_wicket_examples_Dockerfile["wicket-examples/Dockerfile"]
+        art_wicket_examples_Dockerfile["wicket-examples/Dockerfile"]:::atlasWorkflow
     end
     mod_wicket -->|PACKAGED_BY| art_wicket_examples_Dockerfile
     mod_wicket_examples -->|PACKAGED_BY| art_wicket_examples_Dockerfile
@@ -180,8 +191,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Java_CI_0["Java CI"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

@@ -41,16 +41,26 @@ description: Arc42 and Pipeline report for mastodon/chart
 
 ```mermaid
 graph TD;
-    repo_root(["mastodon/chart (35 components)"])
-    dir_0_templates["templates (31)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mastodon/chart (35 components)"]):::atlasRoot
+    subgraph sg_dir_0_templates["templates (31)"]
+      direction TB
+      dir_0_templates["templates (31)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (30)"]:::atlasWorkflow
+      dir_0_templates --> sub_0_0__module_root_
+      sub_0_1_tests["tests (1)"]:::atlasWorkflow
+      dir_0_templates --> sub_0_1_tests
+    end
     repo_root --> dir_0_templates
-    sub_0_0__module_root_["(module root) (30)"]
-    dir_0_templates --> sub_0_0__module_root_
-    sub_0_1_tests["tests (1)"]
-    dir_0_templates --> sub_0_1_tests
-    dir_1__root_["(root) (3)"]
+    dir_1__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2__github[".github (1)"]
+    dir_2__github[".github (1)"]:::atlasCategory
     repo_root --> dir_2__github
 ```
 
@@ -110,15 +120,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_1635b4c7_8da3_4f16_a3e7_5ccb0559e4ca["1635b4c7-8da3-4f16-a3e7-5ccb0559e4ca"]
+        mod_1635b4c7_8da3_4f16_a3e7_5ccb0559e4ca["1635b4c7-8da3-4f16-a3e7-5ccb0559e4ca"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_test_chart_yml_lint_templates["test-chart.yml#lint-templates"]
-        job_test_chart_yml_test_install["test-chart.yml#test-install"]
+        job_test_chart_yml_lint_templates["test-chart.yml#lint-templates"]:::atlasJob
+        job_test_chart_yml_test_install["test-chart.yml#test-install"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_test_chart_yml_lint_templates -->|DEPLOYS_TO| env_kubernetes
     job_test_chart_yml_test_install -->|DEPLOYS_TO| env_kubernetes
@@ -136,9 +150,16 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Test_chart_0["Test chart"]
     direction TB
-    0_lint_templates["lint-templates"]
-    0_test_install["test-install"]
+    0_lint_templates["lint-templates"]:::atlasJob
+    0_test_install["test-install"]:::atlasJob
   end
 ```

@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for argoproj/notifications-engine
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/notifications-engine (84 components)"])
-    dir_0_pkg["pkg (81)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/notifications-engine (84 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (81)"]
+      direction TB
+      dir_0_pkg["pkg (81)"]:::atlasCategory
+      sub_0_0_services["services (45)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_services
+      sub_0_1_cmd["cmd (8)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_cmd
+      sub_0_2_util["util (7)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_util
+      sub_0_more["+7 more submodules (21)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_services["services (45)"]
-    dir_0_pkg --> sub_0_0_services
-    sub_0_1_cmd["cmd (8)"]
-    dir_0_pkg --> sub_0_1_cmd
-    sub_0_2_util["util (7)"]
-    dir_0_pkg --> sub_0_2_util
-    sub_0_more["+7 more submodules (21)"]
-    dir_0_pkg --> sub_0_more
-    dir_1_examples["examples (2)"]
+    dir_1_examples["examples (2)"]:::atlasCategory
     repo_root --> dir_1_examples
-    dir_2_docs["docs (1)"]
+    dir_2_docs["docs (1)"]:::atlasCategory
     repo_root --> dir_2_docs
 ```
 
@@ -187,15 +197,19 @@ Showing top 60 representative components out of 84 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2["636845dd-2d9b-492e-8c1e-d438d4b83ac2"]
+        mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2["636845dd-2d9b-492e-8c1e-d438d4b83ac2"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_coverage_out["coverage.out"]
+        art_coverage_out["coverage.out"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yaml_lint_go["ci.yaml#lint-go"]
-        job_ci_yaml_test["ci.yaml#test"]
+        job_ci_yaml_lint_go["ci.yaml#lint-go"]:::atlasJob
+        job_ci_yaml_test["ci.yaml#test"]:::atlasJob
     end
     mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2 -->|BUILT_BY| job_ci_yaml_lint_go
     mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2 -->|BUILT_BY| job_ci_yaml_test
@@ -211,9 +225,16 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_lint_go["lint-go"]
-    0_test["test"]
+    0_lint_go["lint-go"]:::atlasJob
+    0_test["test"]:::atlasJob
   end
 ```

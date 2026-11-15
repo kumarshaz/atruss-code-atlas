@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for plausible/website
 
 ```mermaid
 graph TD;
-    generate_last_changed["generate_last_changed : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    generate_last_changed["generate_last_changed : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -102,15 +109,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_fc5b4c8d_5b3d_4445_b7b8_71a590e38b47["fc5b4c8d-5b3d-4445-b7b8-71a590e38b47"]
+        mod_fc5b4c8d_5b3d_4445_b7b8_71a590e38b47["fc5b4c8d-5b3d-4445-b7b8-71a590e38b47"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_jekyll_yml_build["jekyll.yml#build"]
+        job_jekyll_yml_build["jekyll.yml#build"]:::atlasJob
     end
     mod_fc5b4c8d_5b3d_4445_b7b8_71a590e38b47 -->|DEPLOYED_BY| job_jekyll_yml_build
     mod_fc5b4c8d_5b3d_4445_b7b8_71a590e38b47 -->|PACKAGED_BY| art_Dockerfile
@@ -130,8 +141,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Jekyll_site_CI_0["Jekyll site CI"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

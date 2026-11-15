@@ -47,12 +47,16 @@ description: Arc42 and Pipeline report for home-assistant/version
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_version_yml_signing["version.yml#signing"]
-        job_version_yml_upload["version.yml#upload"]
+        job_version_yml_signing["version.yml#signing"]:::atlasJob
+        job_version_yml_upload["version.yml#upload"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_version_yml_signing -->|DEPLOYS_TO| env_aws
     job_version_yml_upload -->|DEPLOYS_TO| env_aws
@@ -66,17 +70,24 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Version_0["Version"]
     direction TB
-    0_lint["lint"]
-    0_prepare["prepare"]
+    0_lint["lint"]:::atlasJob
+    0_prepare["prepare"]:::atlasJob
     0_lint --> 0_prepare
-    0_signing["signing"]
+    0_signing["signing"]:::atlasJob
     0_prepare --> 0_signing
-    0_upload["upload"]
+    0_upload["upload"]:::atlasJob
     0_signing --> 0_upload
     0_prepare --> 0_upload
-    0_dispatch_full_images["dispatch-full-images"]
+    0_dispatch_full_images["dispatch-full-images"]:::atlasJob
     0_prepare --> 0_dispatch_full_images
     0_upload --> 0_dispatch_full_images
   end

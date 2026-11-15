@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for bitwarden/key-connector
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/key-connector (31 components)"])
-    dir_0_src["src (29)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/key-connector (31 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (29)"]
+      direction TB
+      dir_0_src["src (29)"]:::atlasCategory
+      sub_0_0_KeyConnector_Services["KeyConnector/Services (13)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_KeyConnector_Services
+      sub_0_1_KeyConnector_Repositories["KeyConnector/Repositories (11)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_KeyConnector_Repositories
+      sub_0_2_KeyConnector_Controllers["KeyConnector/Controllers (2)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_KeyConnector_Controllers
+      sub_0_more["+2 more submodules (3)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_KeyConnector_Services["KeyConnector/Services (13)"]
-    dir_0_src --> sub_0_0_KeyConnector_Services
-    sub_0_1_KeyConnector_Repositories["KeyConnector/Repositories (11)"]
-    dir_0_src --> sub_0_1_KeyConnector_Repositories
-    sub_0_2_KeyConnector_Controllers["KeyConnector/Controllers (2)"]
-    dir_0_src --> sub_0_2_KeyConnector_Controllers
-    sub_0_more["+2 more submodules (3)"]
-    dir_0_src --> sub_0_more
-    dir_1_test["test (2)"]
+    dir_1_test["test (2)"]:::atlasCategory
     repo_root --> dir_1_test
     sub_0_more -.->|"2 deps"| sub_0_1_KeyConnector_Repositories
     dir_1_test -.->|"1 dep"| sub_0_more
@@ -187,15 +197,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_src_KeyConnector["src/KeyConnector"]
+        mod_src_KeyConnector["src/KeyConnector"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_src_KeyConnector_Dockerfile["src/KeyConnector/Dockerfile"]
+        art_src_KeyConnector_Dockerfile["src/KeyConnector/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build_artifacts["build.yml#build-artifacts"]
-        job_build_yml_build_docker["build.yml#build-docker"]
+        job_build_yml_build_artifacts["build.yml#build-artifacts"]:::atlasJob
+        job_build_yml_build_docker["build.yml#build-docker"]:::atlasJob
     end
     mod_src_KeyConnector -->|BUILT_BY| job_build_yml_build_artifacts
     mod_src_KeyConnector -->|BUILT_BY| job_build_yml_build_docker
@@ -215,11 +229,65 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/key-connector (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/key-connector (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (2 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_build_artifacts["build-artifacts"]:::atlasJob
+      job_0_build_docker["build-docker"]:::atlasJob
+      wf_0_Build --> job_0_build_artifacts
+      job_0_build_artifacts --> job_0_build_docker
+    end
+    pipeline_root --> wf_0_Build
+    subgraph sg_wf_4_Testing["Testing (1 jobs)"]
+      direction TB
+      wf_4_Testing(["Trigger: Testing"]):::atlasWorkflow
+      job_4_testing["testing"]:::atlasJob
+      wf_4_Testing --> job_4_testing
+    end
+    pipeline_root --> wf_4_Testing
+    subgraph sg_wf_5_Bump_version["Bump version (1 jobs)"]
+      direction TB
+      wf_5_Bump_version(["Trigger: Bump version"]):::atlasWorkflow
+      job_5_bump_version["bump_version"]:::atlasJob
+      wf_5_Bump_version --> job_5_bump_version
+    end
+    pipeline_root --> wf_5_Bump_version
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_2_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_2_respond["respond"]:::atlasJob
+      wf_2_Respond --> job_2_respond
+    end
+    pipeline_root --> wf_2_Respond
+    subgraph sg_wf_3_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_3_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_3_review["review"]:::atlasJob
+      wf_3_Code_Review --> job_3_review
+    end
+    pipeline_root --> wf_3_Code_Review
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Cleanup_Container_Images["Cleanup Container Images (1 jobs)"]
+      direction TB
+      wf_1_Cleanup_Container_Images(["Trigger: Cleanup Container Images"]):::atlasWorkflow
+      job_1_cleanup_images["cleanup-images"]:::atlasJob
+      wf_1_Cleanup_Container_Images --> job_1_cleanup_images
+    end
+    pipeline_root --> wf_1_Cleanup_Container_Images
+  end
 ```

@@ -41,28 +41,35 @@ description: Arc42 and Pipeline report for Azure-Samples/todo-nodejs-mongo-terra
 
 ```mermaid
 graph TD;
-    todo_node_ts_express_mongo["todo-node-ts-express-mongo : MODULE"]
-    GET_root["GET_root : API_ROUTE"]
-    POST_root["POST_root : API_ROUTE"]
-    GET__itemId["GET_:itemId : API_ROUTE"]
-    PUT__itemId["PUT_:itemId : API_ROUTE"]
-    DELETE__itemId["DELETE_:itemId : API_ROUTE"]
-    GET_state__state["GET_state_:state : API_ROUTE"]
-    PUT_state__state["PUT_state_:state : API_ROUTE"]
-    GET__listId["GET_:listId : API_ROUTE"]
-    PUT__listId["PUT_:listId : API_ROUTE"]
-    DELETE__listId["DELETE_:listId : API_ROUTE"]
-    todo_vite["todo-vite : MODULE"]
-    TelemetryProvider["TelemetryProvider : UI_COMPONENT"]
-    TelemetryConsumer["TelemetryConsumer : UI_COMPONENT"]
-    TodoContext["TodoContext : UI_COMPONENT"]
-    TodoItemDetailPane["TodoItemDetailPane : UI_COMPONENT"]
-    ItemService["ItemService : SERVICE"]
-    ListService["ListService : SERVICE"]
-    RestService["RestService : SERVICE"]
-    DarkTheme["DarkTheme : UI_COMPONENT"]
-    tests["tests : MODULE"]
-    repo_root(["Azure-Samples/todo-nodejs-mongo-terraform"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    todo_node_ts_express_mongo["todo-node-ts-express-mongo : MODULE"]:::atlasJob
+    GET_root["GET_root : API_ROUTE"]:::atlasJob
+    POST_root["POST_root : API_ROUTE"]:::atlasJob
+    GET__itemId["GET_:itemId : API_ROUTE"]:::atlasJob
+    PUT__itemId["PUT_:itemId : API_ROUTE"]:::atlasJob
+    DELETE__itemId["DELETE_:itemId : API_ROUTE"]:::atlasJob
+    GET_state__state["GET_state_:state : API_ROUTE"]:::atlasJob
+    PUT_state__state["PUT_state_:state : API_ROUTE"]:::atlasJob
+    GET__listId["GET_:listId : API_ROUTE"]:::atlasJob
+    PUT__listId["PUT_:listId : API_ROUTE"]:::atlasJob
+    DELETE__listId["DELETE_:listId : API_ROUTE"]:::atlasJob
+    todo_vite["todo-vite : MODULE"]:::atlasJob
+    TelemetryProvider["TelemetryProvider : UI_COMPONENT"]:::atlasJob
+    TelemetryConsumer["TelemetryConsumer : UI_COMPONENT"]:::atlasJob
+    TodoContext["TodoContext : UI_COMPONENT"]:::atlasJob
+    TodoItemDetailPane["TodoItemDetailPane : UI_COMPONENT"]:::atlasJob
+    ItemService["ItemService : SERVICE"]:::atlasJob
+    ListService["ListService : SERVICE"]:::atlasJob
+    RestService["RestService : SERVICE"]:::atlasJob
+    DarkTheme["DarkTheme : UI_COMPONENT"]:::atlasJob
+    tests["tests : MODULE"]:::atlasJob
+    repo_root(["Azure-Samples/todo-nodejs-mongo-terraform"]):::atlasRoot
     repo_root --> DELETE__itemId
     repo_root --> DELETE__listId
     repo_root --> DarkTheme
@@ -172,32 +179,36 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_src_api["src/api"]
-        mod_src_web["src/web"]
+        mod_src_api["src/api"]:::atlasCategory
+        mod_src_web["src/web"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_infra_main_tf["infra/main.tf"]
-        art_infra_modules_apim_api_apim_api_tf["infra/modules/apim-api/apim-api.tf"]
-        art_infra_modules_apim_api_apim_api_output_tf["infra/modules/apim-api/apim-api_output.tf"]
-        art_infra_modules_apim_api_apim_api_variables_tf["infra/modules/apim-api/apim-api_variables.tf"]
-        art_infra_modules_apim_apim_tf["infra/modules/apim/apim.tf"]
-        art_infra_modules_apim_apim_output_tf["infra/modules/apim/apim_output.tf"]
-        art_infra_modules_apim_apim_variables_tf["infra/modules/apim/apim_variables.tf"]
-        art_infra_modules_applicationinsights_applicationinsights_tf["infra/modules/applicationinsights/applicationinsights.tf"]
-        art_infra_modules_appservicenode_appservicenode_tf["infra/modules/appservicenode/appservicenode.tf"]
-        art_infra_modules_appservicenode_appservicenode_output_tf["infra/modules/appservicenode/appservicenode_output.tf"]
-        art_infra_modules_appservicenode_appservicenode_variables_tf["infra/modules/appservicenode/appservicenode_variables.tf"]
-        art_infra_output_tf["infra/output.tf"]
-        art_infra_variables_tf["infra/variables.tf"]
-        art_src_api_Dockerfile["src/api/Dockerfile"]
-        art_src_web_Dockerfile["src/web/Dockerfile"]
+        art_infra_main_tf["infra/main.tf"]:::atlasWorkflow
+        art_infra_modules_apim_api_apim_api_tf["infra/modules/apim-api/apim-api.tf"]:::atlasWorkflow
+        art_infra_modules_apim_api_apim_api_output_tf["infra/modules/apim-api/apim-api_output.tf"]:::atlasWorkflow
+        art_infra_modules_apim_api_apim_api_variables_tf["infra/modules/apim-api/apim-api_variables.tf"]:::atlasWorkflow
+        art_infra_modules_apim_apim_tf["infra/modules/apim/apim.tf"]:::atlasWorkflow
+        art_infra_modules_apim_apim_output_tf["infra/modules/apim/apim_output.tf"]:::atlasWorkflow
+        art_infra_modules_apim_apim_variables_tf["infra/modules/apim/apim_variables.tf"]:::atlasWorkflow
+        art_infra_modules_applicationinsights_applicationinsights_tf["infra/modules/applicationinsights/applicationinsights.tf"]:::atlasWorkflow
+        art_infra_modules_appservicenode_appservicenode_tf["infra/modules/appservicenode/appservicenode.tf"]:::atlasWorkflow
+        art_infra_modules_appservicenode_appservicenode_output_tf["infra/modules/appservicenode/appservicenode_output.tf"]:::atlasWorkflow
+        art_infra_modules_appservicenode_appservicenode_variables_tf["infra/modules/appservicenode/appservicenode_variables.tf"]:::atlasWorkflow
+        art_infra_output_tf["infra/output.tf"]:::atlasWorkflow
+        art_infra_variables_tf["infra/variables.tf"]:::atlasWorkflow
+        art_src_api_Dockerfile["src/api/Dockerfile"]:::atlasWorkflow
+        art_src_web_Dockerfile["src/web/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_azure_dev_yml_build["azure-dev.yml#build"]
+        job_azure_dev_yml_build["azure-dev.yml#build"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
+        env_azure["azure"]:::atlasTarget
     end
     job_azure_dev_yml_build -->|DEPLOYS_TO| env_azure
     mod_src_api -->|PACKAGED_BY| art_src_api_Dockerfile
@@ -288,8 +299,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph azure_dev_yml_0["azure-dev.yml"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

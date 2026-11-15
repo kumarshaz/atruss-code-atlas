@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for home-assistant/android
 
 ```mermaid
 graph TD;
-    Home["Home : DATA_ACCESS_LAYER"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Home["Home : DATA_ACCESS_LAYER"]:::atlasJob
 ```
 
 ## Component Details
@@ -83,31 +90,35 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_app["app"]
-        mod_automotive["automotive"]
-        mod_common["common"]
-        mod_lint["lint"]
-        mod_wear["wear"]
+        mod_app["app"]:::atlasCategory
+        mod_automotive["automotive"]:::atlasCategory
+        mod_common["common"]:::atlasCategory
+        mod_lint["lint"]:::atlasCategory
+        mod_wear["wear"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_triage_lock_yml_agent["e2e-triage.lock.yml#agent"]
-        job_e2e_triage_lock_yml_detection["e2e-triage.lock.yml#detection"]
-        job_e2e_yml_maestro["e2e.yml#maestro"]
-        job_onPush_yml_app_build["onPush.yml#app_build"]
-        job_pr_emulator_wtf_yml_check_inputs["pr-emulator-wtf.yml#check_inputs"]
-        job_pr_emulator_wtf_yml_emulator_wtf["pr-emulator-wtf.yml#emulator_wtf"]
-        job_pr_yml_build_emulator_wtf_apks["pr.yml#build_emulator_wtf_apks"]
-        job_pr_yml_ktlint["pr.yml#ktlint"]
-        job_pr_yml_license_check["pr.yml#license_check"]
-        job_pr_yml_lint["pr.yml#lint"]
-        job_pr_yml_pr_build["pr.yml#pr_build"]
-        job_pr_yml_unit_tests["pr.yml#unit_tests"]
-        job_pr_yml_validate_localize_setup["pr.yml#validate_localize_setup"]
-        job_pr_yml_yamllint["pr.yml#yamllint"]
+        job_e2e_triage_lock_yml_agent["e2e-triage.lock.yml#agent"]:::atlasJob
+        job_e2e_triage_lock_yml_detection["e2e-triage.lock.yml#detection"]:::atlasJob
+        job_e2e_yml_maestro["e2e.yml#maestro"]:::atlasJob
+        job_onPush_yml_app_build["onPush.yml#app_build"]:::atlasJob
+        job_pr_emulator_wtf_yml_check_inputs["pr-emulator-wtf.yml#check_inputs"]:::atlasJob
+        job_pr_emulator_wtf_yml_emulator_wtf["pr-emulator-wtf.yml#emulator_wtf"]:::atlasJob
+        job_pr_yml_build_emulator_wtf_apks["pr.yml#build_emulator_wtf_apks"]:::atlasJob
+        job_pr_yml_ktlint["pr.yml#ktlint"]:::atlasJob
+        job_pr_yml_license_check["pr.yml#license_check"]:::atlasJob
+        job_pr_yml_lint["pr.yml#lint"]:::atlasJob
+        job_pr_yml_pr_build["pr.yml#pr_build"]:::atlasJob
+        job_pr_yml_unit_tests["pr.yml#unit_tests"]:::atlasJob
+        job_pr_yml_validate_localize_setup["pr.yml#validate_localize_setup"]:::atlasJob
+        job_pr_yml_yamllint["pr.yml#yamllint"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_ui_test["ui-test"]
+        env_ui_test["ui-test"]:::atlasTarget
     end
     job_e2e_yml_maestro -->|DEPLOYS_TO| env_ui_test
     job_pr_emulator_wtf_yml_emulator_wtf -->|DEPLOYS_TO| env_ui_test
@@ -165,15 +176,106 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/android (12 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 25 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 4 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
-  grp_4_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_4_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/android (12 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 25 jobs)"]
+    direction TB
+    subgraph sg_wf_0_E2E_failure_triage["E2E failure triage (5 jobs)"]
+      direction TB
+      wf_0_E2E_failure_triage(["Trigger: E2E failure triage"]):::atlasWorkflow
+      job_0_activation["activation"]:::atlasJob
+      job_0_agent["agent"]:::atlasJob
+      job_0_conclusion["conclusion"]:::atlasJob
+      wf_0_E2E_failure_triage --> job_0_activation
+      job_0_activation --> job_0_agent
+      job_0_activation --> job_0_conclusion
+      job_0_agent --> job_0_conclusion
+    end
+    pipeline_root --> wf_0_E2E_failure_triage
+    subgraph sg_wf_1_E2E["E2E (3 jobs)"]
+      direction TB
+      wf_1_E2E(["Trigger: E2E"]):::atlasWorkflow
+      job_1_maestro["maestro"]:::atlasJob
+      job_1_triage_failure["triage-failure"]:::atlasJob
+      job_1_close_failure_issue["close-failure-issue"]:::atlasJob
+      wf_1_E2E --> job_1_maestro
+      job_1_maestro --> job_1_triage_failure
+      job_1_maestro --> job_1_close_failure_issue
+    end
+    pipeline_root --> wf_1_E2E
+    subgraph sg_wf_3_On_Push["On Push (2 jobs)"]
+      direction TB
+      wf_3_On_Push(["Trigger: On Push"]):::atlasWorkflow
+      job_3_app_build["app_build"]:::atlasJob
+      job_3_play_publish["play_publish"]:::atlasJob
+      wf_3_On_Push --> job_3_app_build
+      wf_3_On_Push --> job_3_play_publish
+    end
+    pipeline_root --> wf_3_On_Push
+    subgraph sg_wf_5_Pull_Request["Pull Request (13 jobs)"]
+      direction TB
+      wf_5_Pull_Request(["Trigger: Pull Request"]):::atlasWorkflow
+      job_5_validate_localize_setup["validate_localize_setup"]:::atlasJob
+      job_5_yamllint["yamllint"]:::atlasJob
+      job_5_lockfiles["lockfiles"]:::atlasJob
+      wf_5_Pull_Request --> job_5_validate_localize_setup
+      wf_5_Pull_Request --> job_5_yamllint
+      wf_5_Pull_Request --> job_5_lockfiles
+    end
+    pipeline_root --> wf_5_Pull_Request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Production_Deploy["Production Deploy (1 jobs)"]
+      direction TB
+      wf_6_Production_Deploy(["Trigger: Production Deploy"]):::atlasWorkflow
+      job_6_play_promote_production["play_promote_production"]:::atlasJob
+      wf_6_Production_Deploy --> job_6_play_promote_production
+    end
+    pipeline_root --> wf_6_Production_Deploy
+    subgraph sg_wf_10_Tag_Weekly_Release["Tag Weekly Release (1 jobs)"]
+      direction TB
+      wf_10_Tag_Weekly_Release(["Trigger: Tag Weekly Release"]):::atlasWorkflow
+      job_10_tag["tag"]:::atlasJob
+      wf_10_Tag_Weekly_Release --> job_10_tag
+    end
+    pipeline_root --> wf_10_Tag_Weekly_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Auto_update_Renovate_lockfiles["Auto-update Renovate lockfiles (1 jobs)"]
+      direction TB
+      wf_7_Auto_update_Renovate_lockfiles(["Trigger: Auto-update Renovate lockfiles"]):::atlasWorkflow
+      job_7_update_lockfiles["update-lockfiles"]:::atlasJob
+      wf_7_Auto_update_Renovate_lockfiles --> job_7_update_lockfiles
+    end
+    pipeline_root --> wf_7_Auto_update_Renovate_lockfiles
+    subgraph sg_wf_11_Zizmor_GitHub_Actions_security_analysis["Zizmor GitHub Actions security analysis (3 jobs)"]
+      direction TB
+      wf_11_Zizmor_GitHub_Actions_security_analysis(["Trigger: Zizmor GitHub Actions security analysis"]):::atlasWorkflow
+      job_11_zizmor_scan["zizmor_scan"]:::atlasJob
+      job_11_upload_zizmor_reports["upload_zizmor_reports"]:::atlasJob
+      wf_11_Zizmor_GitHub_Actions_security_analysis --> job_11_zizmor_scan
+      job_11_zizmor_scan --> job_11_upload_zizmor_reports
+    end
+    pipeline_root --> wf_11_Zizmor_GitHub_Actions_security_analysis
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_8_Restrict_task_creation["Restrict task creation (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_Restrict_task_creation
+  end
+  subgraph sg_grp_4_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    wf_4_PR_Emulator_wtf["PR Emulator.wtf (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_PR_Emulator_wtf
+  end
+  wf_more["+2 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,24 +41,34 @@ description: Arc42 and Pipeline report for keycloak/keycloak-benchmark
 
 ```mermaid
 graph TD;
-    repo_root(["keycloak/keycloak-benchmark (73 components)"])
-    dir_0_provision["provision (69)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["keycloak/keycloak-benchmark (73 components)"]):::atlasRoot
+    subgraph sg_dir_0_provision["provision (69)"]
+      direction TB
+      dir_0_provision["provision (69)"]:::atlasCategory
+      sub_0_0_minikube["minikube (48)"]:::atlasWorkflow
+      dir_0_provision --> sub_0_0_minikube
+      sub_0_1_keycloak_tasks["keycloak-tasks (7)"]:::atlasWorkflow
+      dir_0_provision --> sub_0_1_keycloak_tasks
+      sub_0_2_infinispan["infinispan (5)"]:::atlasWorkflow
+      dir_0_provision --> sub_0_2_infinispan
+      sub_0_more["+4 more submodules (9)"]:::atlasMore
+      dir_0_provision --> sub_0_more
+    end
     repo_root --> dir_0_provision
-    sub_0_0_minikube["minikube (48)"]
-    dir_0_provision --> sub_0_0_minikube
-    sub_0_1_keycloak_tasks["keycloak-tasks (7)"]
-    dir_0_provision --> sub_0_1_keycloak_tasks
-    sub_0_2_infinispan["infinispan (5)"]
-    dir_0_provision --> sub_0_2_infinispan
-    sub_0_more["+4 more submodules (9)"]
-    dir_0_provision --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_antora["antora (1)"]
+    dir_2_antora["antora (1)"]:::atlasCategory
     repo_root --> dir_2_antora
-    dir_3_benchmark["benchmark (1)"]
+    dir_3_benchmark["benchmark (1)"]:::atlasCategory
     repo_root --> dir_3_benchmark
-    dir_4_dataset["dataset (1)"]
+    dir_4_dataset["dataset (1)"]:::atlasCategory
     repo_root --> dir_4_dataset
 ```
 
@@ -198,44 +208,48 @@ Showing top 60 representative components out of 73 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_antora["antora"]
-        mod_benchmark["benchmark"]
-        mod_benchmark_src_main_python["benchmark/src/main/python"]
-        mod_dataset["dataset"]
-        mod_provision_infinispan_ispn_helm["provision/infinispan/ispn-helm"]
-        mod_provision_minikube_keycloak["provision/minikube/keycloak"]
-        mod_provision_minikube_monitoring["provision/minikube/monitoring"]
-        mod_provision_openshift_monitoring["provision/openshift/monitoring"]
-        mod_provision_rosa_cross_dc_keycloak_benchmark_crossdc_tests["provision/rosa-cross-dc/keycloak-benchmark-crossdc-tests"]
+        mod_antora["antora"]:::atlasCategory
+        mod_benchmark["benchmark"]:::atlasCategory
+        mod_benchmark_src_main_python["benchmark/src/main/python"]:::atlasCategory
+        mod_dataset["dataset"]:::atlasCategory
+        mod_provision_infinispan_ispn_helm["provision/infinispan/ispn-helm"]:::atlasCategory
+        mod_provision_minikube_keycloak["provision/minikube/keycloak"]:::atlasCategory
+        mod_provision_minikube_monitoring["provision/minikube/monitoring"]:::atlasCategory
+        mod_provision_openshift_monitoring["provision/openshift/monitoring"]:::atlasCategory
+        mod_provision_rosa_cross_dc_keycloak_benchmark_crossdc_tests["provision/rosa-cross-dc/keycloak-benchmark-crossdc-tests"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_provision_opentofu_modules_aws_accelerator_main_tf["provision/opentofu/modules/aws/accelerator/main.tf"]
+        art_provision_opentofu_modules_aws_accelerator_main_tf["provision/opentofu/modules/aws/accelerator/main.tf"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_docs_ci_yml_build["docs-ci.yml#build"]
-        job_docs_pages_yml_build["docs-pages.yml#build"]
-        job_docs_pages_yml_github_pages["docs-pages.yml#github-pages"]
-        job_keycloak_chaos_benchmark_yml_run["keycloak-chaos-benchmark.yml#run"]
-        job_keycloak_multi_site_health_check_yml_run["keycloak-multi-site-health-check.yml#run"]
-        job_keycloak_scalability_benchmark_yml_run["keycloak-scalability-benchmark.yml#run"]
-        job_oc_namespace_delete_yml_run["oc-namespace-delete.yml#run"]
-        job_provision_minikube_yml_build["provision-minikube.yml#build"]
-        job_rosa_multi_az_clusters_deploy_yml_deploy_keycloak["rosa-multi-az-clusters-deploy.yml#deploy-keycloak"]
-        job_rosa_multi_az_clusters_undeploy_yml_clear_keycloak_and_infinispan_deployment_with_aurora["rosa-multi-az-clusters-undeploy.yml#clear-keycloak-and-infinispan-deployment-with-aurora"]
-        job_rosa_multi_az_clusters_single_site_deploy_yml_single_site_deploy["rosa-multi-az-clusters_single-site-deploy.yml#single-site-deploy"]
-        job_rosa_multi_az_clusters_single_site_undeploy_yml_single_site_undeploy["rosa-multi-az-clusters_single-site-undeploy.yml#single-site-undeploy"]
-        job_rosa_multi_cluster_benchmark_yml_run["rosa-multi-cluster-benchmark.yml#run"]
-        job_rosa_run_crossdc_func_tests_yml_run_tests["rosa-run-crossdc-func-tests.yml#run-tests"]
-        job_rosa_scheduled_run_yml_check_benchmark_results["rosa-scheduled-run.yml#check-benchmark-results"]
-        job_rosa_single_cluster_benchmark_yml_run["rosa-single-cluster-benchmark.yml#run"]
-        job_rosa_stretched_cluster_yml_monitoring["rosa-stretched-cluster.yml#monitoring"]
-        job_snapshot_yml_build["snapshot.yml#build"]
+        job_docs_ci_yml_build["docs-ci.yml#build"]:::atlasJob
+        job_docs_pages_yml_build["docs-pages.yml#build"]:::atlasJob
+        job_docs_pages_yml_github_pages["docs-pages.yml#github-pages"]:::atlasJob
+        job_keycloak_chaos_benchmark_yml_run["keycloak-chaos-benchmark.yml#run"]:::atlasJob
+        job_keycloak_multi_site_health_check_yml_run["keycloak-multi-site-health-check.yml#run"]:::atlasJob
+        job_keycloak_scalability_benchmark_yml_run["keycloak-scalability-benchmark.yml#run"]:::atlasJob
+        job_oc_namespace_delete_yml_run["oc-namespace-delete.yml#run"]:::atlasJob
+        job_provision_minikube_yml_build["provision-minikube.yml#build"]:::atlasJob
+        job_rosa_multi_az_clusters_deploy_yml_deploy_keycloak["rosa-multi-az-clusters-deploy.yml#deploy-keycloak"]:::atlasJob
+        job_rosa_multi_az_clusters_undeploy_yml_clear_keycloak_and_infinispan_deployment_with_aurora["rosa-multi-az-clusters-undeploy.yml#clear-keycloak-and-infinispan-deployment-with-aurora"]:::atlasJob
+        job_rosa_multi_az_clusters_single_site_deploy_yml_single_site_deploy["rosa-multi-az-clusters_single-site-deploy.yml#single-site-deploy"]:::atlasJob
+        job_rosa_multi_az_clusters_single_site_undeploy_yml_single_site_undeploy["rosa-multi-az-clusters_single-site-undeploy.yml#single-site-undeploy"]:::atlasJob
+        job_rosa_multi_cluster_benchmark_yml_run["rosa-multi-cluster-benchmark.yml#run"]:::atlasJob
+        job_rosa_run_crossdc_func_tests_yml_run_tests["rosa-run-crossdc-func-tests.yml#run-tests"]:::atlasJob
+        job_rosa_scheduled_run_yml_check_benchmark_results["rosa-scheduled-run.yml#check-benchmark-results"]:::atlasJob
+        job_rosa_single_cluster_benchmark_yml_run["rosa-single-cluster-benchmark.yml#run"]:::atlasJob
+        job_rosa_stretched_cluster_yml_monitoring["rosa-stretched-cluster.yml#monitoring"]:::atlasJob
+        job_snapshot_yml_build["snapshot.yml#build"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_github_pages["github-pages"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_github_pages["github-pages"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_docs_ci_yml_build -->|DEPLOYS_TO| env_github_pages
     job_docs_pages_yml_build -->|DEPLOYS_TO| env_github_pages
@@ -305,11 +319,94 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/keycloak-benchmark (30 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (20 workflows · 56 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (9 workflows · 10 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/keycloak-benchmark (30 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (20 workflows · 56 jobs)"]
+    direction TB
+    subgraph sg_wf_2_ROSA_Scheduled_Delete["ROSA Scheduled Delete (5 jobs)"]
+      direction TB
+      wf_2_ROSA_Scheduled_Delete(["Trigger: ROSA Scheduled Delete"]):::atlasWorkflow
+      job_2_accelerator_delete["accelerator-delete"]:::atlasJob
+      job_2_rosa_delete["rosa-delete"]:::atlasJob
+      job_2_aurora_delete["aurora-delete"]:::atlasJob
+      wf_2_ROSA_Scheduled_Delete --> job_2_accelerator_delete
+      job_2_accelerator_delete --> job_2_rosa_delete
+      job_2_rosa_delete --> job_2_aurora_delete
+    end
+    pipeline_root --> wf_2_ROSA_Scheduled_Delete
+    subgraph sg_wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora["Multi-AZ Clusters - Delete ROSA Clusters and Aurora (4 jobs)"]
+      direction TB
+      wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora(["Trigger: Multi-AZ Clusters - Delete ROSA Clusters and Aurora"]):::atlasWorkflow
+      job_18_loadbalancer["loadbalancer"]:::atlasJob
+      job_18_cluster1["cluster1"]:::atlasJob
+      job_18_cluster2["cluster2"]:::atlasJob
+      wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora --> job_18_loadbalancer
+      job_18_loadbalancer --> job_18_cluster1
+      job_18_loadbalancer --> job_18_cluster2
+    end
+    pipeline_root --> wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora
+    subgraph sg_wf_20_Multi_AZ_Clusters___Run_Tests["Multi-AZ Clusters - Run Tests (16 jobs)"]
+      direction TB
+      wf_20_Multi_AZ_Clusters___Run_Tests(["Trigger: Multi-AZ Clusters - Run Tests"]):::atlasWorkflow
+      job_20_create_rosa_clusters["create-rosa-clusters"]:::atlasJob
+      job_20_keycloak_deploy_active_active["keycloak-deploy-active-active"]:::atlasJob
+      job_20_run_active_active_health_checks_after_deploy["run-active-active-health-checks-after-deploy"]:::atlasJob
+      wf_20_Multi_AZ_Clusters___Run_Tests --> job_20_create_rosa_clusters
+      job_20_create_rosa_clusters --> job_20_keycloak_deploy_active_active
+      job_20_keycloak_deploy_active_active --> job_20_run_active_active_health_checks_after_deploy
+    end
+    pipeline_root --> wf_20_Multi_AZ_Clusters___Run_Tests
+    subgraph sg_wf_26_ROSA_Scheduled_Run["ROSA Scheduled Run (5 jobs)"]
+      direction TB
+      wf_26_ROSA_Scheduled_Run(["Trigger: ROSA Scheduled Run"]):::atlasWorkflow
+      job_26_meta["meta"]:::atlasJob
+      job_26_rosa_multi_az_clusters_run_tests["rosa-multi-az-clusters-run-tests"]:::atlasJob
+      job_26_rosa_stretched_cluster["rosa-stretched-cluster"]:::atlasJob
+      wf_26_ROSA_Scheduled_Run --> job_26_meta
+      job_26_meta --> job_26_rosa_multi_az_clusters_run_tests
+      job_26_meta --> job_26_rosa_stretched_cluster
+    end
+    pipeline_root --> wf_26_ROSA_Scheduled_Run
+    subgraph sg_wf_28_ROSA_Stretched_Cluster["ROSA Stretched Cluster (7 jobs)"]
+      direction TB
+      wf_28_ROSA_Stretched_Cluster(["Trigger: ROSA Stretched Cluster"]):::atlasWorkflow
+      job_28_meta["meta"]:::atlasJob
+      job_28_cluster["cluster"]:::atlasJob
+      job_28_monitoring["monitoring"]:::atlasJob
+      wf_28_ROSA_Stretched_Cluster --> job_28_meta
+      job_28_meta --> job_28_cluster
+      job_28_meta --> job_28_monitoring
+      job_28_cluster --> job_28_monitoring
+    end
+    pipeline_root --> wf_28_ROSA_Stretched_Cluster
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (9 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Create_release_branch["Create release branch (1 jobs)"]
+      direction TB
+      wf_4_Create_release_branch(["Trigger: Create release branch"]):::atlasWorkflow
+      job_4_create_release_branch["create-release-branch"]:::atlasJob
+      wf_4_Create_release_branch --> job_4_create_release_branch
+    end
+    pipeline_root --> wf_4_Create_release_branch
+    wf_6_Publishing_Documentation_Site["Publishing Documentation Site (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_Publishing_Documentation_Site
+    wf_9_Keycloak___Create_deployment["Keycloak - Create deployment (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Keycloak___Create_deployment
+    wf_10_Keycloak___Delete_deployment["Keycloak - Delete deployment (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_Keycloak___Delete_deployment
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    wf_5_Testing_Documentation_Site["Testing Documentation Site (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Testing_Documentation_Site
+  end
+  wf_more["+20 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

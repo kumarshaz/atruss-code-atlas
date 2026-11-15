@@ -41,12 +41,19 @@ description: Arc42 and Pipeline report for keycloak/keycloak-nodejs-connect
 
 ```mermaid
 graph TD;
-    repo_root(["keycloak/keycloak-nodejs-connect (30 components)"])
-    dir_0_test["test (17)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["keycloak/keycloak-nodejs-connect (30 components)"]):::atlasRoot
+    dir_0_test["test (17)"]:::atlasCategory
     repo_root --> dir_0_test
-    dir_1__root_["(root) (9)"]
+    dir_1__root_["(root) (9)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_example["example (4)"]
+    dir_2_example["example (4)"]:::atlasCategory
     repo_root --> dir_2_example
 ```
 
@@ -156,17 +163,46 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["keycloak/keycloak-nodejs-connect (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Release_Nightly["Release Nightly (1 jobs)"]
-  grp_0_Release___Deploy --> wf_1_Release_Nightly
-  wf_2_Release["Release (1 jobs)"]
-  grp_0_Release___Deploy --> wf_2_Release
-  wf_3_X_Release["X Release (1 jobs)"]
-  grp_0_Release___Deploy --> wf_3_X_Release
-  grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (1 jobs)"]
-  grp_1_CI___Verification --> wf_0_CI
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["keycloak/keycloak-nodejs-connect (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Release_Nightly["Release Nightly (1 jobs)"]
+      direction TB
+      wf_1_Release_Nightly(["Trigger: Release Nightly"]):::atlasWorkflow
+      job_1_release_nightly["release-nightly"]:::atlasJob
+      wf_1_Release_Nightly --> job_1_release_nightly
+    end
+    pipeline_root --> wf_1_Release_Nightly
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+    subgraph sg_wf_3_X_Release["X Release (1 jobs)"]
+      direction TB
+      wf_3_X_Release(["Trigger: X Release"]):::atlasWorkflow
+      job_3_release_impl["release-impl"]:::atlasJob
+      wf_3_X_Release --> job_3_release_impl
+    end
+    pipeline_root --> wf_3_X_Release
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (1 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_run["run"]:::atlasJob
+      wf_0_CI --> job_0_run
+    end
+    pipeline_root --> wf_0_CI
+  end
 ```

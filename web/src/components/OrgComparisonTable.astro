@@ -10,6 +10,9 @@ interface OrgMaturityScore {
     avg_grade?: string | null;
     open_cves?: number | null;
     fitness_alerts?: number | null;
+    primary_repo_name?: string;
+    primary_repo_href?: string;
+    primary_ecosystem?: string;
 }
 
 interface Props {
@@ -54,9 +57,17 @@ const getScoreBadgeClass = (score: number) => {
                     const score = Math.round(org.maturity_score);
                     const hasSc = typeof org.avg_scorecard === 'number';
                     const hasSec = org.open_cves !== null && org.open_cves !== undefined;
+                    const href = org.primary_repo_href || '';
+                    const isClean = hasSec && (org.open_cves ?? 0) === 0 && (org.fitness_alerts ?? 0) === 0;
 
                     return (
-                        <tr>
+                        <tr
+                            class={href ? 'm3-clickable-row' : undefined}
+                            data-href={href || undefined}
+                            tabindex={href ? 0 : undefined}
+                            role={href ? 'link' : undefined}
+                            aria-label={href ? `Open ${org.org} flagship report (${org.primary_repo_name})` : undefined}
+                        >
                             <td class="m3-rank-cell">
                                 {index < 3 ? (
                                     <span class="m3-chip m3-chip-tonal-primary">
@@ -69,7 +80,30 @@ const getScoreBadgeClass = (score: number) => {
                                     <span class="m3-rank-num">#{index + 1}</span>
                                 )}
                             </td>
-                            <td class="m3-org-cell">{org.org}</td>
+                            <td class="m3-org-cell">
+                                {href ? (
+                                    <a href={href} class="m3-org-link">
+                                        <span class="m3-org-name">
+                                            {org.org}
+                                            <span class="material-symbols-outlined m3-org-arrow" aria-hidden="true">
+                                                arrow_forward
+                                            </span>
+                                        </span>
+                                        {(org.primary_ecosystem || org.primary_repo_name) && (
+                                            <span class="m3-org-sub">
+                                                {org.primary_ecosystem && (
+                                                    <span class="m3-org-eco">{org.primary_ecosystem}</span>
+                                                )}
+                                                {org.primary_repo_name && (
+                                                    <span class="m3-org-repo">→ {org.primary_repo_name}</span>
+                                                )}
+                                            </span>
+                                        )}
+                                    </a>
+                                ) : (
+                                    <span>{org.org}</span>
+                                )}
+                            </td>
                             <td class="m3-numeric-cell">{org.total_repos}</td>
                             <td class="m3-numeric-cell">{org.repos_with_docker}</td>
                             <td>
@@ -98,7 +132,10 @@ const getScoreBadgeClass = (score: number) => {
                             </td>
                             <td class="m3-numeric-cell">
                                 {hasSec ? (
-                                    <span>
+                                    <span class={`m3-chip ${isClean ? 'm3-chip-tonal-success' : 'm3-chip-tonal-warning'}`}>
+                                        <span class="material-symbols-outlined" aria-hidden="true">
+                                            {isClean ? 'verified' : 'warning'}
+                                        </span>
                                         {org.open_cves} CVE · {org.fitness_alerts ?? 0} Rule
                                     </span>
                                 ) : (
@@ -113,7 +150,116 @@ const getScoreBadgeClass = (score: number) => {
     </table>
 </div>
 
+{sortedOrgs.length > 20 && (
+    <nav class="m3-pagination" id="org-table-pagination" aria-label="Organization leaderboard pagination">
+        <button type="button" class="m3-btn-outlined m3-page-btn" id="org-page-prev" disabled>
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            Previous
+        </button>
+        <span class="m3-page-status" id="org-page-status">
+            Page 1 of {Math.ceil(sortedOrgs.length / 20)} ({sortedOrgs.length} organizations)
+        </span>
+        <button type="button" class="m3-btn-outlined m3-page-btn" id="org-page-next">
+            Next
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+    </nav>
+)}
+
+<script>
+    const initClickableLeaderboard = () => {
+        const PAGE_SIZE = 20;
+        const rows = Array.from(
+            document.querySelectorAll<HTMLTableRowElement>('.m3-leaderboard-table tbody tr')
+        );
+        const prevBtn = document.getElementById('org-page-prev') as HTMLButtonElement | null;
+        const nextBtn = document.getElementById('org-page-next') as HTMLButtonElement | null;
+        const statusEl = document.getElementById('org-page-status');
+        let currentPage = 1;
+        const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+
+        const renderPage = () => {
+            if (rows.length > PAGE_SIZE) {
+                const start = (currentPage - 1) * PAGE_SIZE;
+                const end = start + PAGE_SIZE;
+                rows.forEach((r, i) => {
+                    r.hidden = i < start || i >= end;
+                });
+                if (prevBtn) prevBtn.disabled = currentPage <= 1;
+                if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+                if (statusEl) {
+                    statusEl.textContent = `Page ${currentPage} of ${totalPages} (${rows.length} organizations)`;
+                }
+            }
+        };
+
+        if (prevBtn && !prevBtn.dataset.bound) {
+            prevBtn.dataset.bound = '1';
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage();
+                }
+            });
+        }
+        if (nextBtn && !nextBtn.dataset.bound) {
+            nextBtn.dataset.bound = '1';
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage();
+                }
+            });
+        }
+        renderPage();
+
+        document.querySelectorAll<HTMLTableRowElement>('tr.m3-clickable-row[data-href]').forEach((row) => {
+            if (row.dataset.bound === '1') return;
+            row.dataset.bound = '1';
+
+            row.addEventListener('click', (event) => {
+                const target = event.target as HTMLElement | null;
+                if (target && target.closest('a, button')) return;
+                const href = row.dataset.href;
+                if (href) window.location.href = href;
+            });
+
+            row.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const href = row.dataset.href;
+                    if (href) window.location.href = href;
+                }
+            });
+        });
+    };
+
+    initClickableLeaderboard();
+    document.addEventListener('astro:after-swap', initClickableLeaderboard);
+</script>
+
 <style>
+    .m3-pagination {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0 1.5rem;
+    }
+
+    .m3-page-status {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.8125rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-page-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
     .m3-leaderboard-wrap {
         margin: 1.5rem 0;
         overflow-x: auto;
@@ -125,12 +271,27 @@ const getScoreBadgeClass = (score: number) => {
         table-layout: auto;
     }
 
+    tr.m3-clickable-row {
+        cursor: pointer;
+        transition: background-color 150ms ease;
+    }
+
+    tr.m3-clickable-row:hover {
+        background-color: var(--md-sys-color-surface-container-high);
+    }
+
+    tr.m3-clickable-row:focus-visible {
+        outline: 2px solid var(--md-sys-color-primary);
+        outline-offset: -2px;
+    }
+
     .m3-rank-cell {
         width: 80px;
         white-space: nowrap;
     }
 
-    .m3-rank-cell .material-symbols-outlined {
+    .m3-rank-cell .material-symbols-outlined,
+    td .m3-chip .material-symbols-outlined {
         font-size: 16px;
     }
 
@@ -144,6 +305,53 @@ const getScoreBadgeClass = (score: number) => {
         font-weight: 600;
         color: var(--md-sys-color-on-surface);
         overflow-wrap: anywhere;
+    }
+
+    .m3-org-link {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .m3-org-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: var(--md-sys-color-primary);
+    }
+
+    .m3-org-arrow {
+        font-size: 15px;
+        opacity: 0.7;
+        transition: transform 150ms ease, opacity 150ms ease;
+    }
+
+    tr.m3-clickable-row:hover .m3-org-arrow {
+        opacity: 1;
+        transform: translateX(2px);
+    }
+
+    .m3-org-sub {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-org-eco {
+        padding: 0.05rem 0.4rem;
+        border-radius: var(--md-sys-shape-corner-small);
+        background-color: var(--md-sys-color-surface-container-highest);
+        font-family: var(--md-ref-typeface-mono);
+    }
+
+    .m3-org-repo {
+        font-family: var(--md-ref-typeface-mono);
     }
 
     .m3-numeric-cell {

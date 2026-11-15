@@ -40,7 +40,14 @@ description: Arc42 and Pipeline report for apache/airflow-site
 
 ```mermaid
 graph TD;
-    apache_airflow_site["apache-airflow-site : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    apache_airflow_site["apache-airflow-site : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -108,15 +115,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2272c971_6705_4aed_8fdf_91d2361ae4f4["2272c971-6705-4aed-8fdf-91d2361ae4f4"]
-        mod_sphinx_airflow_theme["sphinx_airflow_theme"]
+        mod_2272c971_6705_4aed_8fdf_91d2361ae4f4["2272c971-6705-4aed-8fdf-91d2361ae4f4"]:::atlasCategory
+        mod_sphinx_airflow_theme["sphinx_airflow_theme"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build["build.yml#build"]
+        job_build_yml_build["build.yml#build"]:::atlasJob
     end
     mod_2272c971_6705_4aed_8fdf_91d2361ae4f4 -->|PACKAGED_BY| art_Dockerfile
     mod_sphinx_airflow_theme -->|DEPLOYED_BY| job_build_yml_build
@@ -130,20 +141,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["apache/airflow-site"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["apache/airflow-site"]):::atlasRoot
   subgraph ASF_Allowlist_Check_0["ASF Allowlist Check"]
     direction TB
-    0_asf_allowlist_check["asf-allowlist-check"]
+    0_asf_allowlist_check["asf-allowlist-check"]:::atlasJob
   end
   pipeline_root --> 0_asf_allowlist_check
   subgraph Build_docs_1["Build docs"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
   subgraph Reset_staging_to_main_2["Reset staging to main"]
     direction TB
-    2_reset_staging["reset-staging"]
+    2_reset_staging["reset-staging"]:::atlasJob
   end
   pipeline_root --> 2_reset_staging
 ```

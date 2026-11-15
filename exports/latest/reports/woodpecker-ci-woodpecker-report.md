@@ -41,48 +41,70 @@ description: Arc42 and Pipeline report for woodpecker-ci/woodpecker
 
 ```mermaid
 graph TD;
-    repo_root(["woodpecker-ci/woodpecker (266 components)"])
-    dir_0_cli["cli (121)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["woodpecker-ci/woodpecker (266 components)"]):::atlasRoot
+    subgraph sg_dir_0_cli["cli (121)"]
+      direction TB
+      dir_0_cli["cli (121)"]:::atlasCategory
+      sub_0_0_repo["repo (29)"]:::atlasWorkflow
+      dir_0_cli --> sub_0_0_repo
+      sub_0_1_pipeline["pipeline (21)"]:::atlasWorkflow
+      dir_0_cli --> sub_0_1_pipeline
+      sub_0_2_admin["admin (20)"]:::atlasWorkflow
+      dir_0_cli --> sub_0_2_admin
+      sub_0_more["+10 more submodules (51)"]:::atlasMore
+      dir_0_cli --> sub_0_more
+    end
     repo_root --> dir_0_cli
-    sub_0_0_repo["repo (29)"]
-    dir_0_cli --> sub_0_0_repo
-    sub_0_1_pipeline["pipeline (21)"]
-    dir_0_cli --> sub_0_1_pipeline
-    sub_0_2_admin["admin (20)"]
-    dir_0_cli --> sub_0_2_admin
-    sub_0_more["+10 more submodules (51)"]
-    dir_0_cli --> sub_0_more
-    dir_1_pipeline["pipeline (66)"]
+    subgraph sg_dir_1_pipeline["pipeline (66)"]
+      direction TB
+      dir_1_pipeline["pipeline (66)"]:::atlasCategory
+      sub_1_0_backend["backend (65)"]:::atlasWorkflow
+      dir_1_pipeline --> sub_1_0_backend
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_pipeline --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_pipeline
-    sub_1_0_backend["backend (65)"]
-    dir_1_pipeline --> sub_1_0_backend
-    sub_1_1__module_root_["(module root) (1)"]
-    dir_1_pipeline --> sub_1_1__module_root_
-    dir_2_cmd["cmd (33)"]
+    subgraph sg_dir_2_cmd["cmd (33)"]
+      direction TB
+      dir_2_cmd["cmd (33)"]:::atlasCategory
+      sub_2_0_server["server (15)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_0_server
+      sub_2_1_agent["agent (11)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_1_agent
+      sub_2_2_cli["cli (5)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_2_cli
+      sub_2_more["+1 more submodules (2)"]:::atlasMore
+      dir_2_cmd --> sub_2_more
+    end
     repo_root --> dir_2_cmd
-    sub_2_0_server["server (15)"]
-    dir_2_cmd --> sub_2_0_server
-    sub_2_1_agent["agent (11)"]
-    dir_2_cmd --> sub_2_1_agent
-    sub_2_2_cli["cli (5)"]
-    dir_2_cmd --> sub_2_2_cli
-    sub_2_more["+1 more submodules (2)"]
-    dir_2_cmd --> sub_2_more
-    dir_3_agent["agent (15)"]
+    subgraph sg_dir_3_agent["agent (15)"]
+      direction TB
+      dir_3_agent["agent (15)"]:::atlasCategory
+      sub_3_0_rpc["rpc (8)"]:::atlasWorkflow
+      dir_3_agent --> sub_3_0_rpc
+      sub_3_1__module_root_["(module root) (5)"]:::atlasWorkflow
+      dir_3_agent --> sub_3_1__module_root_
+      sub_3_2_log["log (2)"]:::atlasWorkflow
+      dir_3_agent --> sub_3_2_log
+    end
     repo_root --> dir_3_agent
-    sub_3_0_rpc["rpc (8)"]
-    dir_3_agent --> sub_3_0_rpc
-    sub_3_1__module_root_["(module root) (5)"]
-    dir_3_agent --> sub_3_1__module_root_
-    sub_3_2_log["log (2)"]
-    dir_3_agent --> sub_3_2_log
-    dir_4_e2e["e2e (15)"]
+    subgraph sg_dir_4_e2e["e2e (15)"]
+      direction TB
+      dir_4_e2e["e2e (15)"]:::atlasCategory
+      sub_4_0_scenarios["scenarios (10)"]:::atlasWorkflow
+      dir_4_e2e --> sub_4_0_scenarios
+      sub_4_1_setup["setup (5)"]:::atlasWorkflow
+      dir_4_e2e --> sub_4_1_setup
+    end
     repo_root --> dir_4_e2e
-    sub_4_0_scenarios["scenarios (10)"]
-    dir_4_e2e --> sub_4_0_scenarios
-    sub_4_1_setup["setup (5)"]
-    dir_4_e2e --> sub_4_1_setup
-    dir_other_modules["+2 more modules (16)"]
+    dir_other_modules["+2 more modules (16)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -223,19 +245,23 @@ Showing top 60 representative components out of 266 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_497b4d5c_bb8f_4021_958c_2b27a80ef7f5["497b4d5c-bb8f-4021-958c-2b27a80ef7f5"]
-        mod_docker["docker"]
+        mod_497b4d5c_bb8f_4021_958c_2b27a80ef7f5["497b4d5c-bb8f-4021-958c-2b27a80ef7f5"]:::atlasCategory
+        mod_docker["docker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_example_yaml["docker-compose.example.yaml"]
-        art_docker_Dockerfile_agent_alpine_multiarch["docker/Dockerfile.agent.alpine.multiarch"]
-        art_docker_Dockerfile_agent_multiarch["docker/Dockerfile.agent.multiarch"]
-        art_docker_Dockerfile_cli_alpine_multiarch_rootless["docker/Dockerfile.cli.alpine.multiarch.rootless"]
-        art_docker_Dockerfile_cli_multiarch_rootless["docker/Dockerfile.cli.multiarch.rootless"]
-        art_docker_Dockerfile_make["docker/Dockerfile.make"]
-        art_docker_Dockerfile_server_alpine_multiarch_rootless["docker/Dockerfile.server.alpine.multiarch.rootless"]
-        art_docker_Dockerfile_server_multiarch_rootless["docker/Dockerfile.server.multiarch.rootless"]
+        art_docker_compose_example_yaml["docker-compose.example.yaml"]:::atlasWorkflow
+        art_docker_Dockerfile_agent_alpine_multiarch["docker/Dockerfile.agent.alpine.multiarch"]:::atlasWorkflow
+        art_docker_Dockerfile_agent_multiarch["docker/Dockerfile.agent.multiarch"]:::atlasWorkflow
+        art_docker_Dockerfile_cli_alpine_multiarch_rootless["docker/Dockerfile.cli.alpine.multiarch.rootless"]:::atlasWorkflow
+        art_docker_Dockerfile_cli_multiarch_rootless["docker/Dockerfile.cli.multiarch.rootless"]:::atlasWorkflow
+        art_docker_Dockerfile_make["docker/Dockerfile.make"]:::atlasWorkflow
+        art_docker_Dockerfile_server_alpine_multiarch_rootless["docker/Dockerfile.server.alpine.multiarch.rootless"]:::atlasWorkflow
+        art_docker_Dockerfile_server_multiarch_rootless["docker/Dockerfile.server.multiarch.rootless"]:::atlasWorkflow
     end
     mod_497b4d5c_bb8f_4021_958c_2b27a80ef7f5 -->|PACKAGED_BY| art_docker_compose_example_yaml
     mod_docker -->|PACKAGED_BY| art_docker_compose_example_yaml
@@ -263,5 +289,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

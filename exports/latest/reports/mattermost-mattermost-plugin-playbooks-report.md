@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-playbook
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-plugin-playbooks (274 components)"])
-    dir_0_webapp["webapp (241)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-plugin-playbooks (274 components)"]):::atlasRoot
+    subgraph sg_dir_0_webapp["webapp (241)"]
+      direction TB
+      dir_0_webapp["webapp (241)"]:::atlasCategory
+      sub_0_0_src["src (240)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (240)"]
-    dir_0_webapp --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
-    dir_0_webapp --> sub_0_1__module_root_
-    dir_1_client["client (28)"]
+    dir_1_client["client (28)"]:::atlasCategory
     repo_root --> dir_1_client
-    dir_2_e2e_tests["e2e-tests (4)"]
+    dir_2_e2e_tests["e2e-tests (4)"]:::atlasCategory
     repo_root --> dir_2_e2e_tests
-    dir_3_loadtest["loadtest (1)"]
+    dir_3_loadtest["loadtest (1)"]:::atlasCategory
     repo_root --> dir_3_loadtest
 ```
 
@@ -192,24 +202,28 @@ Showing top 60 representative components out of 274 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_client["client"]
-        mod_e2e_tests_cypress["e2e-tests/cypress"]
-        mod_e2e_tests_playwright["e2e-tests/playwright"]
-        mod_loadtest_browser["loadtest/browser"]
-        mod_webapp["webapp"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_client["client"]:::atlasCategory
+        mod_e2e_tests_cypress["e2e-tests/cypress"]:::atlasCategory
+        mod_e2e_tests_playwright["e2e-tests/playwright"]:::atlasCategory
+        mod_loadtest_browser["loadtest/browser"]:::atlasCategory
+        mod_webapp["webapp"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yaml_lint_web["ci.yaml#lint-web"]
-        job_ci_yaml_upload["ci.yaml#upload"]
-        job_ci_yaml_upload_fips["ci.yaml#upload-fips"]
+        job_ci_yaml_lint_web["ci.yaml#lint-web"]:::atlasJob
+        job_ci_yaml_upload["ci.yaml#upload"]:::atlasJob
+        job_ci_yaml_upload_fips["ci.yaml#upload-fips"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_ci_yaml_upload -->|DEPLOYS_TO| env_aws
     job_ci_yaml_upload_fips -->|DEPLOYS_TO| env_aws
@@ -235,19 +249,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-playbooks (4 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 16 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_ci["ci (15 jobs)"]
-  grp_0_Scheduled___Manual --> wf_0_ci
-  wf_3_PR_Test_Analysis["PR Test Analysis (1 jobs)"]
-  grp_0_Scheduled___Manual --> wf_3_PR_Test_Analysis
-  grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_2_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]
-  grp_1_CI___Verification --> wf_2_PR_Test_Analysis_Override
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_1_CodeQL["CodeQL (1 jobs)"]
-  grp_2_Security___Governance --> wf_1_CodeQL
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-playbooks (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 16 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci["ci (15 jobs)"]
+      direction TB
+      wf_0_ci(["Trigger: ci"]):::atlasWorkflow
+      job_0_buildenv["buildenv"]:::atlasJob
+      job_0_lint_web["lint-web"]:::atlasJob
+      job_0_lint_go["lint-go"]:::atlasJob
+      wf_0_ci --> job_0_buildenv
+      job_0_buildenv --> job_0_lint_web
+      job_0_buildenv --> job_0_lint_go
+    end
+    pipeline_root --> wf_0_ci
+    subgraph sg_wf_3_PR_Test_Analysis["PR Test Analysis (1 jobs)"]
+      direction TB
+      wf_3_PR_Test_Analysis(["Trigger: PR Test Analysis"]):::atlasWorkflow
+      job_3_analyze["analyze"]:::atlasJob
+      wf_3_PR_Test_Analysis --> job_3_analyze
+    end
+    pipeline_root --> wf_3_PR_Test_Analysis
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]
+      direction TB
+      wf_2_PR_Test_Analysis_Override(["Trigger: PR Test Analysis Override"]):::atlasWorkflow
+      job_2_override["override"]:::atlasJob
+      wf_2_PR_Test_Analysis_Override --> job_2_override
+    end
+    pipeline_root --> wf_2_PR_Test_Analysis_Override
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_1_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL
+  end
 ```

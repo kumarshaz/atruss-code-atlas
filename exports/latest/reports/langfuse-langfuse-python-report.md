@@ -41,25 +41,38 @@ description: Arc42 and Pipeline report for langfuse/langfuse-python
 
 ```mermaid
 graph TD;
-    repo_root(["langfuse/langfuse-python (32 components)"])
-    dir_0_tests["tests (22)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["langfuse/langfuse-python (32 components)"]):::atlasRoot
+    subgraph sg_dir_0_tests["tests (22)"]
+      direction TB
+      dir_0_tests["tests (22)"]:::atlasCategory
+      sub_0_0_unit["unit (17)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_0_unit
+      sub_0_1_live_provider["live_provider (4)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_1_live_provider
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_tests
-    sub_0_0_unit["unit (17)"]
-    dir_0_tests --> sub_0_0_unit
-    sub_0_1_live_provider["live_provider (4)"]
-    dir_0_tests --> sub_0_1_live_provider
-    sub_0_2__module_root_["(module root) (1)"]
-    dir_0_tests --> sub_0_2__module_root_
-    dir_1_langfuse["langfuse (10)"]
+    subgraph sg_dir_1_langfuse["langfuse (10)"]
+      direction TB
+      dir_1_langfuse["langfuse (10)"]:::atlasCategory
+      sub_1_0_api["api (6)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_0_api
+      sub_1_1__client["_client (2)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_1__client
+      sub_1_2__task_manager["_task_manager (1)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_2__task_manager
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_langfuse --> sub_1_more
+    end
     repo_root --> dir_1_langfuse
-    sub_1_0_api["api (6)"]
-    dir_1_langfuse --> sub_1_0_api
-    sub_1_1__client["_client (2)"]
-    dir_1_langfuse --> sub_1_1__client
-    sub_1_2__task_manager["_task_manager (1)"]
-    dir_1_langfuse --> sub_1_2__task_manager
-    sub_1_more["+1 more submodules (1)"]
-    dir_1_langfuse --> sub_1_more
     sub_0_0_unit -.->|"6 deps"| sub_1_1__client
     sub_0_0_unit -.->|"4 deps"| sub_1_2__task_manager
     sub_1_1__client -.->|"2 deps"| sub_1_2__task_manager
@@ -161,26 +174,30 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_c9582069_ed42_4614_97b3_39b09904a77c["c9582069-ed42-4614-97b3-39b09904a77c"]
+        mod_c9582069_ed42_4614_97b3_39b09904a77c["c9582069-ed42-4614-97b3-39b09904a77c"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_all_tests_passed["ci.yml#all-tests-passed"]
-        job_ci_yml_e2e_tests["ci.yml#e2e-tests"]
-        job_ci_yml_linting["ci.yml#linting"]
-        job_ci_yml_type_checking["ci.yml#type-checking"]
-        job_ci_yml_unit_tests["ci.yml#unit-tests"]
-        job_cla_gate_yml_evaluate["cla-gate.yml#evaluate"]
-        job_claude_review_maintainer_prs_yml_comment["claude-review-maintainer-prs.yml#comment"]
-        job_codeql_yml_analyze["codeql.yml#analyze"]
-        job_dependabot_merge_yml_dependabot["dependabot-merge.yml#dependabot"]
-        job_package_availability_check_yml_build["package-availability-check.yml#build"]
-        job_release_yml_release_python_sdk["release.yml#release-python-sdk"]
-        job_validate_pr_title_yml_validate_pr_title["validate-pr-title.yml#validate-pr-title"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_ci_yml_all_tests_passed["ci.yml#all-tests-passed"]:::atlasJob
+        job_ci_yml_e2e_tests["ci.yml#e2e-tests"]:::atlasJob
+        job_ci_yml_linting["ci.yml#linting"]:::atlasJob
+        job_ci_yml_type_checking["ci.yml#type-checking"]:::atlasJob
+        job_ci_yml_unit_tests["ci.yml#unit-tests"]:::atlasJob
+        job_cla_gate_yml_evaluate["cla-gate.yml#evaluate"]:::atlasJob
+        job_claude_review_maintainer_prs_yml_comment["claude-review-maintainer-prs.yml#comment"]:::atlasJob
+        job_codeql_yml_analyze["codeql.yml#analyze"]:::atlasJob
+        job_dependabot_merge_yml_dependabot["dependabot-merge.yml#dependabot"]:::atlasJob
+        job_package_availability_check_yml_build["package-availability-check.yml#build"]:::atlasJob
+        job_release_yml_release_python_sdk["release.yml#release-python-sdk"]:::atlasJob
+        job_validate_pr_title_yml_validate_pr_title["validate-pr-title.yml#validate-pr-title"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_protected_branches["protected branches"]
+        env_protected_branches["protected branches"]:::atlasTarget
     end
     job_release_yml_release_python_sdk -->|DEPLOYS_TO| env_protected_branches
     mod_c9582069_ed42_4614_97b3_39b09904a77c -->|BUILT_BY| job_ci_yml_all_tests_passed
@@ -218,13 +235,91 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-python (9 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 7 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-python (9 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CLA_gate["CLA gate (1 jobs)"]
+      direction TB
+      wf_1_CLA_gate(["Trigger: CLA gate"]):::atlasWorkflow
+      job_1_evaluate["evaluate"]:::atlasJob
+      wf_1_CLA_gate --> job_1_evaluate
+    end
+    pipeline_root --> wf_1_CLA_gate
+    subgraph sg_wf_2_Claude_Review_on_Maintainer_PRs["Claude Review on Maintainer PRs (1 jobs)"]
+      direction TB
+      wf_2_Claude_Review_on_Maintainer_PRs(["Trigger: Claude Review on Maintainer PRs"]):::atlasWorkflow
+      job_2_comment["comment"]:::atlasJob
+      wf_2_Claude_Review_on_Maintainer_PRs --> job_2_comment
+    end
+    pipeline_root --> wf_2_Claude_Review_on_Maintainer_PRs
+    subgraph sg_wf_7_Validate_PR_Title["Validate PR Title (1 jobs)"]
+      direction TB
+      wf_7_Validate_PR_Title(["Trigger: Validate PR Title"]):::atlasWorkflow
+      job_7_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_7_Validate_PR_Title --> job_7_validate_pr_title
+    end
+    pipeline_root --> wf_7_Validate_PR_Title
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci_yml["ci.yml (5 jobs)"]
+      direction TB
+      wf_0_ci_yml(["Trigger: ci.yml"]):::atlasWorkflow
+      job_0_linting["linting"]:::atlasJob
+      job_0_type_checking["type-checking"]:::atlasJob
+      job_0_unit_tests["unit-tests"]:::atlasJob
+      wf_0_ci_yml --> job_0_linting
+      wf_0_ci_yml --> job_0_type_checking
+      wf_0_ci_yml --> job_0_unit_tests
+    end
+    pipeline_root --> wf_0_ci_yml
+    subgraph sg_wf_5_Check_availability_of_packages["Check availability of packages (1 jobs)"]
+      direction TB
+      wf_5_Check_availability_of_packages(["Trigger: Check availability of packages"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      wf_5_Check_availability_of_packages --> job_5_build
+    end
+    pipeline_root --> wf_5_Check_availability_of_packages
+    subgraph sg_wf_8_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+      direction TB
+      wf_8_Check_GitHub_Actions(["Trigger: Check GitHub Actions"]):::atlasWorkflow
+      job_8_zizmor["zizmor"]:::atlasJob
+      wf_8_Check_GitHub_Actions --> job_8_zizmor
+    end
+    pipeline_root --> wf_8_Check_GitHub_Actions
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_3_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_3_analyze["analyze"]:::atlasJob
+      wf_3_CodeQL_Advanced --> job_3_analyze
+    end
+    pipeline_root --> wf_3_CodeQL_Advanced
+    subgraph sg_wf_4_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]
+      direction TB
+      wf_4_Dependabot_auto_merge(["Trigger: Dependabot auto-merge"]):::atlasWorkflow
+      job_4_dependabot["dependabot"]:::atlasJob
+      wf_4_Dependabot_auto_merge --> job_4_dependabot
+    end
+    pipeline_root --> wf_4_Dependabot_auto_merge
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release_Python_SDK["Release Python SDK (1 jobs)"]
+      direction TB
+      wf_6_Release_Python_SDK(["Trigger: Release Python SDK"]):::atlasWorkflow
+      job_6_release_python_sdk["release-python-sdk"]:::atlasJob
+      wf_6_Release_Python_SDK --> job_6_release_python_sdk
+    end
+    pipeline_root --> wf_6_Release_Python_SDK
+  end
 ```

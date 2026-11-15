@@ -73,6 +73,10 @@ const atRiskRepos = repos.filter(
 
 <style>
     .m3-risk-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 !important;
         padding: 1.5rem;
     }
 
@@ -108,12 +112,19 @@ const atRiskRepos = repos.filter(
     .m3-risk-list {
         list-style: none;
         padding: 0;
-        margin: 1.125rem 0 0;
+        margin: 1.125rem 0 0 !important;
+        flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        max-height: 240px;
+        max-height: 356px;
         overflow-y: auto;
+        padding-right: 0.25rem;
+    }
+
+    .m3-risk-list > li {
+        margin: 0 !important;
     }
 
     .m3-risk-item {

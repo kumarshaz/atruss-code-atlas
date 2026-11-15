@@ -40,23 +40,36 @@ description: Arc42 and Pipeline report for discourse/rails_failover
 
 ```mermaid
 graph TD;
-    repo_root(["discourse/rails_failover (51 components)"])
-    dir_0_spec["spec (36)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["discourse/rails_failover (51 components)"]):::atlasRoot
+    subgraph sg_dir_0_spec["spec (36)"]
+      direction TB
+      dir_0_spec["spec (36)"]:::atlasCategory
+      sub_0_0_support["support (27)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_0_support
+      sub_0_1_helpers["helpers (5)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_1_helpers
+      sub_0_2_integration["integration (2)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_2_integration
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_spec --> sub_0_more
+    end
     repo_root --> dir_0_spec
-    sub_0_0_support["support (27)"]
-    dir_0_spec --> sub_0_0_support
-    sub_0_1_helpers["helpers (5)"]
-    dir_0_spec --> sub_0_1_helpers
-    sub_0_2_integration["integration (2)"]
-    dir_0_spec --> sub_0_2_integration
-    sub_0_more["+2 more submodules (2)"]
-    dir_0_spec --> sub_0_more
-    dir_1_lib["lib (15)"]
+    subgraph sg_dir_1_lib["lib (15)"]
+      direction TB
+      dir_1_lib["lib (15)"]:::atlasCategory
+      sub_1_0_rails_failover["rails_failover (14)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_rails_failover
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_lib
-    sub_1_0_rails_failover["rails_failover (14)"]
-    dir_1_lib --> sub_1_0_rails_failover
-    sub_1_1__module_root_["(module root) (1)"]
-    dir_1_lib --> sub_1_1__module_root_
 ```
 
 ## Component Details
@@ -148,11 +161,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_spec_support_dummy_app["spec/support/dummy_app"]
+        mod_spec_support_dummy_app["spec/support/dummy_app"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_active_record["ci.yml#active_record"]
+        job_ci_yml_active_record["ci.yml#active_record"]:::atlasJob
     end
     mod_spec_support_dummy_app -->|BUILT_BY| job_ci_yml_active_record
 ```
@@ -164,16 +181,23 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_lint["lint"]
-    0_redis["redis"]
-    0_active_record["active_record"]
-    0_publish["publish"]
+    0_lint["lint"]:::atlasJob
+    0_redis["redis"]:::atlasJob
+    0_active_record["active_record"]:::atlasJob
+    0_publish["publish"]:::atlasJob
     0_lint --> 0_publish
     0_redis --> 0_publish
     0_active_record --> 0_publish
-    wf_entry_0(["Trigger: CI"])
+    wf_entry_0(["Trigger: CI"]):::atlasWorkflow
     wf_entry_0 --> 0_lint
     wf_entry_0 --> 0_redis
     wf_entry_0 --> 0_active_record

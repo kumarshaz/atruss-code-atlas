@@ -40,22 +40,32 @@ description: Arc42 and Pipeline report for owncloud/ocis-charts
 
 ```mermaid
 graph TD;
-    repo_root(["owncloud/ocis-charts (184 components)"])
-    dir_0_charts_ocis_templates["charts/ocis/templates (178)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["owncloud/ocis-charts (184 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_ocis_templates["charts/ocis/templates (178)"]
+      direction TB
+      dir_0_charts_ocis_templates["charts/ocis/templates (178)"]:::atlasCategory
+      sub_0_0_storageusers["storageusers (7)"]:::atlasWorkflow
+      dir_0_charts_ocis_templates --> sub_0_0_storageusers
+      sub_0_1_thumbnails["thumbnails (7)"]:::atlasWorkflow
+      dir_0_charts_ocis_templates --> sub_0_1_thumbnails
+      sub_0_2_authservice["authservice (6)"]:::atlasWorkflow
+      dir_0_charts_ocis_templates --> sub_0_2_authservice
+      sub_0_more["+38 more submodules (158)"]:::atlasMore
+      dir_0_charts_ocis_templates --> sub_0_more
+    end
     repo_root --> dir_0_charts_ocis_templates
-    sub_0_0_storageusers["storageusers (7)"]
-    dir_0_charts_ocis_templates --> sub_0_0_storageusers
-    sub_0_1_thumbnails["thumbnails (7)"]
-    dir_0_charts_ocis_templates --> sub_0_1_thumbnails
-    sub_0_2_authservice["authservice (6)"]
-    dir_0_charts_ocis_templates --> sub_0_2_authservice
-    sub_0_more["+38 more submodules (158)"]
-    dir_0_charts_ocis_templates --> sub_0_more
-    dir_1_charts_ocis_ci["charts/ocis/ci (3)"]
+    dir_1_charts_ocis_ci["charts/ocis/ci (3)"]:::atlasCategory
     repo_root --> dir_1_charts_ocis_ci
-    dir_2_charts_ocis["charts/ocis (2)"]
+    dir_2_charts_ocis["charts/ocis (2)"]:::atlasCategory
     repo_root --> dir_2_charts_ocis
-    dir_3_charts_ocis_docs["charts/ocis/docs (1)"]
+    dir_3_charts_ocis_docs["charts/ocis/docs (1)"]:::atlasCategory
     repo_root --> dir_3_charts_ocis_docs
 ```
 
@@ -163,5 +173,12 @@ Showing top 60 representative components out of 184 across 4 module group(s):
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

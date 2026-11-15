@@ -40,12 +40,19 @@ description: Arc42 and Pipeline report for mattermost/docker
 
 ```mermaid
 graph TD;
-    docker_compose_nginx["docker-compose.nginx : module"]
-    docker_compose_without_nginx["docker-compose.without-nginx : module"]
-    docker_compose["docker-compose : module"]
-    docker_test["docker-test : module"]
-    shellcheck["shellcheck : module"]
-    repo_root(["mattermost/docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    docker_compose_nginx["docker-compose.nginx : module"]:::atlasJob
+    docker_compose_without_nginx["docker-compose.without-nginx : module"]:::atlasJob
+    docker_compose["docker-compose : module"]:::atlasJob
+    docker_test["docker-test : module"]:::atlasJob
+    shellcheck["shellcheck : module"]:::atlasJob
+    repo_root(["mattermost/docker"]):::atlasRoot
     repo_root --> docker_compose
     repo_root --> docker_compose_nginx
     repo_root --> docker_compose_without_nginx
@@ -79,18 +86,22 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_97faa1dc_dbc9_4ad1_8cfd_1ad359fe309e["97faa1dc-dbc9-4ad1-8cfd-1ad359fe309e"]
+        mod_97faa1dc_dbc9_4ad1_8cfd_1ad359fe309e["97faa1dc-dbc9-4ad1-8cfd-1ad359fe309e"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_compose_nginx_yml["docker-compose.nginx.yml"]
-        art_docker_compose_without_nginx_yml["docker-compose.without-nginx.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_docker_compose_nginx_yml["docker-compose.nginx.yml"]:::atlasWorkflow
+        art_docker_compose_without_nginx_yml["docker-compose.without-nginx.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_docker_test_yml_test_docker_deployment["docker-test.yml#test-docker-deployment"]
-        job_docker_test_yml_validate_compose_files["docker-test.yml#validate-compose-files"]
-        job_shellcheck_yml_shellcheck["shellcheck.yml#shellcheck"]
+        job_docker_test_yml_test_docker_deployment["docker-test.yml#test-docker-deployment"]:::atlasJob
+        job_docker_test_yml_validate_compose_files["docker-test.yml#validate-compose-files"]:::atlasJob
+        job_shellcheck_yml_shellcheck["shellcheck.yml#shellcheck"]:::atlasJob
     end
     mod_97faa1dc_dbc9_4ad1_8cfd_1ad359fe309e -->|BUILT_BY| job_shellcheck_yml_shellcheck
     mod_97faa1dc_dbc9_4ad1_8cfd_1ad359fe309e -->|PACKAGED_BY| art_docker_compose_nginx_yml
@@ -118,17 +129,24 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/docker"]):::atlasRoot
   subgraph Docker_Test_0["Docker Test"]
     direction TB
-    0_validate_compose_files["validate-compose-files"]
-    0_test_docker_deployment["test-docker-deployment"]
+    0_validate_compose_files["validate-compose-files"]:::atlasJob
+    0_test_docker_deployment["test-docker-deployment"]:::atlasJob
     0_validate_compose_files --> 0_test_docker_deployment
   end
   pipeline_root --> 0_validate_compose_files
   subgraph ShellCheck_1["ShellCheck"]
     direction TB
-    1_shellcheck["shellcheck"]
+    1_shellcheck["shellcheck"]:::atlasJob
   end
   pipeline_root --> 1_shellcheck
 ```

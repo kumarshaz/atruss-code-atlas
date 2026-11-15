@@ -41,26 +41,39 @@ description: Arc42 and Pipeline report for owncloud/web
 
 ```mermaid
 graph TD;
-    repo_root(["owncloud/web (54 components)"])
-    dir_0_packages["packages (37)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["owncloud/web (54 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (37)"]
+      direction TB
+      dir_0_packages["packages (37)"]:::atlasCategory
+      sub_0_0_web_pkg["web-pkg (13)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_web_pkg
+      sub_0_1_web_runtime["web-runtime (2)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_web_runtime
+      sub_0_2_babel_preset["babel-preset (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_babel_preset
+      sub_0_more["+21 more submodules (21)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_web_pkg["web-pkg (13)"]
-    dir_0_packages --> sub_0_0_web_pkg
-    sub_0_1_web_runtime["web-runtime (2)"]
-    dir_0_packages --> sub_0_1_web_runtime
-    sub_0_2_babel_preset["babel-preset (1)"]
-    dir_0_packages --> sub_0_2_babel_preset
-    sub_0_more["+21 more submodules (21)"]
-    dir_0_packages --> sub_0_more
-    dir_1_tests["tests (11)"]
+    subgraph sg_dir_1_tests["tests (11)"]
+      direction TB
+      dir_1_tests["tests (11)"]:::atlasCategory
+      sub_1_0_e2e_support["e2e/support (10)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_e2e_support
+      sub_1_1_e2e["e2e (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_e2e
+    end
     repo_root --> dir_1_tests
-    sub_1_0_e2e_support["e2e/support (10)"]
-    dir_1_tests --> sub_1_0_e2e_support
-    sub_1_1_e2e["e2e (1)"]
-    dir_1_tests --> sub_1_1_e2e
-    dir_2_deployments["deployments (5)"]
+    dir_2_deployments["deployments (5)"]:::atlasCategory
     repo_root --> dir_2_deployments
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     sub_0_0_web_pkg -.->|"20 deps"| sub_1_0_e2e_support
 ```
@@ -213,22 +226,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_555c8a22_07e0_4f62_af4e_040ff52ea6f1["555c8a22-07e0-4f62-af4e-040ff52ea6f1"]
-        mod_deployments_examples_ocis_web["deployments/examples/ocis_web"]
-        mod_docker["docker"]
-        mod_packages_web_app_external["packages/web-app-external"]
-        mod_tests_e2e["tests/e2e"]
+        mod_555c8a22_07e0_4f62_af4e_040ff52ea6f1["555c8a22-07e0-4f62-af4e-040ff52ea6f1"]:::atlasCategory
+        mod_deployments_examples_ocis_web["deployments/examples/ocis_web"]:::atlasCategory
+        mod_docker["docker"]:::atlasCategory
+        mod_packages_web_app_external["packages/web-app-external"]:::atlasCategory
+        mod_tests_e2e["tests/e2e"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_deployments_examples_ocis_web_docker_compose_yml["deployments/examples/ocis_web/docker-compose.yml"]
-        art_deployments_examples_ocis_web_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_web/monitoring_tracing/docker-compose-additions.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_docker_Dockerfile["docker/Dockerfile"]
+        art_deployments_examples_ocis_web_docker_compose_yml["deployments/examples/ocis_web/docker-compose.yml"]:::atlasWorkflow
+        art_deployments_examples_ocis_web_monitoring_tracing_docker_compose_additions_yml["deployments/examples/ocis_web/monitoring_tracing/docker-compose-additions.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_docker_Dockerfile["docker/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job__e2e_yml_e2e["_e2e.yml#e2e"]
-        job_release_docker_yml_docker["release-docker.yml#docker"]
+        job__e2e_yml_e2e["_e2e.yml#e2e"]:::atlasJob
+        job_release_docker_yml_docker["release-docker.yml#docker"]:::atlasJob
     end
     mod_555c8a22_07e0_4f62_af4e_040ff52ea6f1 -->|BUILT_BY| job_release_docker_yml_docker
     mod_555c8a22_07e0_4f62_af4e_040ff52ea6f1 -->|PACKAGED_BY| art_docker_compose_yml
@@ -258,13 +275,101 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["owncloud/web (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["owncloud/web (10 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (1 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Build --> job_0_build
+    end
+    pipeline_root --> wf_0_Build
+    subgraph sg_wf_2_changelog["changelog (1 jobs)"]
+      direction TB
+      wf_2_changelog(["Trigger: changelog"]):::atlasWorkflow
+      job_2_changelog["changelog"]:::atlasJob
+      wf_2_changelog --> job_2_changelog
+    end
+    pipeline_root --> wf_2_changelog
+    subgraph sg_wf_3_Validate_commit_message["Validate commit message (1 jobs)"]
+      direction TB
+      wf_3_Validate_commit_message(["Trigger: Validate commit message"]):::atlasWorkflow
+      job_3_validate["validate"]:::atlasJob
+      wf_3_Validate_commit_message --> job_3_validate
+    end
+    pipeline_root --> wf_3_Validate_commit_message
+    subgraph sg_wf_8_Test_and_build["Test and build (4 jobs)"]
+      direction TB
+      wf_8_Test_and_build(["Trigger: Test and build"]):::atlasWorkflow
+      job_8_check_flags["check-flags"]:::atlasJob
+      job_8_build["build"]:::atlasJob
+      job_8_e2e["e2e"]:::atlasJob
+      wf_8_Test_and_build --> job_8_check_flags
+      job_8_check_flags --> job_8_build
+      job_8_build --> job_8_e2e
+      job_8_check_flags --> job_8_e2e
+    end
+    pipeline_root --> wf_8_Test_and_build
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Release_Docker["Release Docker (1 jobs)"]
+      direction TB
+      wf_5_Release_Docker(["Trigger: Release Docker"]):::atlasWorkflow
+      job_5_docker["docker"]:::atlasJob
+      wf_5_Release_Docker --> job_5_docker
+    end
+    pipeline_root --> wf_5_Release_Docker
+    subgraph sg_wf_6_Release_NPM["Release NPM (1 jobs)"]
+      direction TB
+      wf_6_Release_NPM(["Trigger: Release NPM"]):::atlasWorkflow
+      job_6_release_npm["release-npm"]:::atlasJob
+      wf_6_Release_NPM --> job_6_release_npm
+    end
+    pipeline_root --> wf_6_Release_NPM
+    subgraph sg_wf_7_Release_Web["Release Web (1 jobs)"]
+      direction TB
+      wf_7_Release_Web(["Trigger: Release Web"]):::atlasWorkflow
+      job_7_release_web["release-web"]:::atlasJob
+      wf_7_Release_Web --> job_7_release_web
+    end
+    pipeline_root --> wf_7_Release_Web
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Nightly["Nightly (2 jobs)"]
+      direction TB
+      wf_4_Nightly(["Trigger: Nightly"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      job_4_e2e["e2e"]:::atlasJob
+      wf_4_Nightly --> job_4_build
+      job_4_build --> job_4_e2e
+    end
+    pipeline_root --> wf_4_Nightly
+    subgraph sg_wf_9_Translation_Sync["Translation Sync (1 jobs)"]
+      direction TB
+      wf_9_Translation_Sync(["Trigger: Translation Sync"]):::atlasWorkflow
+      job_9_sync["sync"]:::atlasJob
+      wf_9_Translation_Sync --> job_9_sync
+    end
+    pipeline_root --> wf_9_Translation_Sync
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_E2E["E2E (1 jobs)"]
+      direction TB
+      wf_1_E2E(["Trigger: E2E"]):::atlasWorkflow
+      job_1_e2e["e2e"]:::atlasJob
+      wf_1_E2E --> job_1_e2e
+    end
+    pipeline_root --> wf_1_E2E
+  end
 ```

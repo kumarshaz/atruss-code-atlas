@@ -41,42 +41,61 @@ description: Arc42 and Pipeline report for discourse/wp-discourse
 
 ```mermaid
 graph TD;
-    repo_root(["discourse/wp-discourse (95 components)"])
-    dir_0_lib["lib (27)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["discourse/wp-discourse (95 components)"]):::atlasRoot
+    subgraph sg_dir_0_lib["lib (27)"]
+      direction TB
+      dir_0_lib["lib (27)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (13)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0__module_root_
+      sub_0_1_logs["logs (5)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_logs
+      sub_0_2_sso_client["sso-client (4)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_sso_client
+      sub_0_more["+3 more submodules (5)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (13)"]
-    dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_logs["logs (5)"]
-    dir_0_lib --> sub_0_1_logs
-    sub_0_2_sso_client["sso-client (4)"]
-    dir_0_lib --> sub_0_2_sso_client
-    sub_0_more["+3 more submodules (5)"]
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (21)"]
+    subgraph sg_dir_1_tests["tests (21)"]
+      direction TB
+      dir_1_tests["tests (21)"]:::atlasCategory
+      sub_1_0_phpunit["phpunit (16)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_phpunit
+      sub_1_1_phpunit_helpers["phpunit/helpers (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_phpunit_helpers
+      sub_1_2_phpunit_multisite["phpunit/multisite (2)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_phpunit_multisite
+    end
     repo_root --> dir_1_tests
-    sub_1_0_phpunit["phpunit (16)"]
-    dir_1_tests --> sub_1_0_phpunit
-    sub_1_1_phpunit_helpers["phpunit/helpers (3)"]
-    dir_1_tests --> sub_1_1_phpunit_helpers
-    sub_1_2_phpunit_multisite["phpunit/multisite (2)"]
-    dir_1_tests --> sub_1_2_phpunit_multisite
-    dir_2_vendor_namespaced["vendor_namespaced (20)"]
+    subgraph sg_dir_2_vendor_namespaced["vendor_namespaced (20)"]
+      direction TB
+      dir_2_vendor_namespaced["vendor_namespaced (20)"]:::atlasCategory
+      sub_2_0_monolog["monolog (11)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_0_monolog
+      sub_2_1_psr["psr (8)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_1_psr
+      sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_vendor_namespaced
-    sub_2_0_monolog["monolog (11)"]
-    dir_2_vendor_namespaced --> sub_2_0_monolog
-    sub_2_1_psr["psr (8)"]
-    dir_2_vendor_namespaced --> sub_2_1_psr
-    sub_2_2__module_root_["(module root) (1)"]
-    dir_2_vendor_namespaced --> sub_2_2__module_root_
-    dir_3_admin["admin (18)"]
+    subgraph sg_dir_3_admin["admin (18)"]
+      direction TB
+      dir_3_admin["admin (18)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
+      dir_3_admin --> sub_3_0__module_root_
+      sub_3_1_discourse_sidebar["discourse-sidebar (2)"]:::atlasWorkflow
+      dir_3_admin --> sub_3_1_discourse_sidebar
+    end
     repo_root --> dir_3_admin
-    sub_3_0__module_root_["(module root) (16)"]
-    dir_3_admin --> sub_3_0__module_root_
-    sub_3_1_discourse_sidebar["discourse-sidebar (2)"]
-    dir_3_admin --> sub_3_1_discourse_sidebar
-    dir_4__root_["(root) (3)"]
+    dir_4__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+2 more modules (6)"]
+    dir_other_modules["+2 more modules (6)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -210,17 +229,46 @@ Showing top 60 representative components out of 95 across 7 module group(s):
 
 ```mermaid
 graph TD;
-  pipeline_root(["discourse/wp-discourse (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_WP_Discourse_Formatting["WP-Discourse Formatting (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_WP_Discourse_Formatting
-  wf_2_WP_Discourse_Metadata["WP Discourse Metadata (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_WP_Discourse_Metadata
-  wf_3_WP_Discourse_Tests["WP-Discourse Tests (1 jobs)"]
-  grp_0_CI___Verification --> wf_3_WP_Discourse_Tests
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Deploy_to_WordPress_org["Deploy to WordPress.org (1 jobs)"]
-  grp_1_Release___Deploy --> wf_0_Deploy_to_WordPress_org
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["discourse/wp-discourse (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_WP_Discourse_Formatting["WP-Discourse Formatting (1 jobs)"]
+      direction TB
+      wf_1_WP_Discourse_Formatting(["Trigger: WP-Discourse Formatting"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_WP_Discourse_Formatting --> job_1_build
+    end
+    pipeline_root --> wf_1_WP_Discourse_Formatting
+    subgraph sg_wf_2_WP_Discourse_Metadata["WP Discourse Metadata (1 jobs)"]
+      direction TB
+      wf_2_WP_Discourse_Metadata(["Trigger: WP Discourse Metadata"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_WP_Discourse_Metadata --> job_2_build
+    end
+    pipeline_root --> wf_2_WP_Discourse_Metadata
+    subgraph sg_wf_3_WP_Discourse_Tests["WP-Discourse Tests (1 jobs)"]
+      direction TB
+      wf_3_WP_Discourse_Tests(["Trigger: WP-Discourse Tests"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_WP_Discourse_Tests --> job_3_build
+    end
+    pipeline_root --> wf_3_WP_Discourse_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Deploy_to_WordPress_org["Deploy to WordPress.org (1 jobs)"]
+      direction TB
+      wf_0_Deploy_to_WordPress_org(["Trigger: Deploy to WordPress.org"]):::atlasWorkflow
+      job_0_tag["tag"]:::atlasJob
+      wf_0_Deploy_to_WordPress_org --> job_0_tag
+    end
+    pipeline_root --> wf_0_Deploy_to_WordPress_org
+  end
 ```

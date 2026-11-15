@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for home-assistant/builder
 
 ```mermaid
 graph TD;
-    config["config : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    config["config : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -66,20 +73,24 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github_tests_app[".github/tests/app"]
+        mod__github_tests_app[".github/tests/app"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__github_tests_app_Dockerfile[".github/tests/app/Dockerfile"]
+        art__github_tests_app_Dockerfile[".github/tests/app/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]
-        job_test_actions_yml_app["test-actions.yml#app"]
-        job_test_actions_yml_check_publish["test-actions.yml#check_publish"]
-        job_test_actions_yml_skip_existing["test-actions.yml#skip_existing"]
-        job_test_build_app_yml_build["test-build-app.yml#build"]
-        job_test_build_app_yml_manifest["test-build-app.yml#manifest"]
-        job_test_build_app_yml_prepare["test-build-app.yml#prepare"]
+        job_release_drafter_yml_update_release_draft["release-drafter.yml#update_release_draft"]:::atlasJob
+        job_test_actions_yml_app["test-actions.yml#app"]:::atlasJob
+        job_test_actions_yml_check_publish["test-actions.yml#check_publish"]:::atlasJob
+        job_test_actions_yml_skip_existing["test-actions.yml#skip_existing"]:::atlasJob
+        job_test_build_app_yml_build["test-build-app.yml#build"]:::atlasJob
+        job_test_build_app_yml_manifest["test-build-app.yml#manifest"]:::atlasJob
+        job_test_build_app_yml_prepare["test-build-app.yml#prepare"]:::atlasJob
     end
     mod__github_tests_app -->|BUILT_BY| job_test_actions_yml_app
     mod__github_tests_app -->|BUILT_BY| job_test_actions_yml_skip_existing
@@ -113,28 +124,35 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/builder"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/builder"]):::atlasRoot
   subgraph Release_Drafter_0["Release Drafter"]
     direction TB
-    0_update_release_draft["update_release_draft"]
+    0_update_release_draft["update_release_draft"]:::atlasJob
   end
   pipeline_root --> 0_update_release_draft
   subgraph Test_actions_1["Test actions"]
     direction TB
-    1_check_publish["check_publish"]
-    1_app["app"]
+    1_check_publish["check_publish"]:::atlasJob
+    1_app["app"]:::atlasJob
     1_check_publish --> 1_app
-    1_skip_existing["skip_existing"]
+    1_skip_existing["skip_existing"]:::atlasJob
     1_check_publish --> 1_skip_existing
     1_app --> 1_skip_existing
   end
   pipeline_root --> 1_check_publish
   subgraph Build_test_app_2["Build test app"]
     direction TB
-    2_prepare["prepare"]
-    2_build["build"]
+    2_prepare["prepare"]:::atlasJob
+    2_build["build"]:::atlasJob
     2_prepare --> 2_build
-    2_manifest["manifest"]
+    2_manifest["manifest"]:::atlasJob
     2_prepare --> 2_manifest
     2_build --> 2_manifest
   end

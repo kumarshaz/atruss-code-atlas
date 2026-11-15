@@ -41,24 +41,37 @@ description: Arc42 and Pipeline report for supabase/etl
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/etl (270 components)"])
-    dir_0_crates["crates (250)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/etl (270 components)"]):::atlasRoot
+    subgraph sg_dir_0_crates["crates (250)"]
+      direction TB
+      dir_0_crates["crates (250)"]:::atlasCategory
+      sub_0_0_etl["etl (137)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_etl
+      sub_0_1_etl_destinations["etl-destinations (90)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_etl_destinations
+      sub_0_2_etl_config["etl-config (18)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_etl_config
+      sub_0_more["+1 more submodules (5)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_etl["etl (137)"]
-    dir_0_crates --> sub_0_0_etl
-    sub_0_1_etl_destinations["etl-destinations (90)"]
-    dir_0_crates --> sub_0_1_etl_destinations
-    sub_0_2_etl_config["etl-config (18)"]
-    dir_0_crates --> sub_0_2_etl_config
-    sub_0_more["+1 more submodules (5)"]
-    dir_0_crates --> sub_0_more
-    dir_1_site["site (16)"]
+    subgraph sg_dir_1_site["site (16)"]
+      direction TB
+      dir_1_site["site (16)"]:::atlasCategory
+      sub_1_0_src["src (15)"]:::atlasWorkflow
+      dir_1_site --> sub_1_0_src
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_site --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_site
-    sub_1_0_src["src (15)"]
-    dir_1_site --> sub_1_0_src
-    sub_1_1__module_root_["(module root) (1)"]
-    dir_1_site --> sub_1_1__module_root_
-    dir_2_scripts["scripts (4)"]
+    dir_2_scripts["scripts (4)"]:::atlasCategory
     repo_root --> dir_2_scripts
 ```
 
@@ -210,35 +223,39 @@ Showing top 60 representative components out of 270 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_crates_etl["crates/etl"]
-        mod_crates_etl_replicator["crates/etl-replicator"]
-        mod_fuzz["fuzz"]
-        mod_scripts_docker["scripts/docker"]
-        mod_scripts_network_tests["scripts/network-tests"]
-        mod_site["site"]
+        mod_crates_etl["crates/etl"]:::atlasCategory
+        mod_crates_etl_replicator["crates/etl-replicator"]:::atlasCategory
+        mod_fuzz["fuzz"]:::atlasCategory
+        mod_scripts_docker["scripts/docker"]:::atlasCategory
+        mod_scripts_network_tests["scripts/network-tests"]:::atlasCategory
+        mod_site["site"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_crates_etl_replicator_Dockerfile["crates/etl-replicator/Dockerfile"]
-        art_scripts_docker_docker_compose_multigres_yaml["scripts/docker/docker-compose-multigres.yaml"]
-        art_scripts_docker_docker_compose_yaml["scripts/docker/docker-compose.yaml"]
-        art_scripts_network_tests_Dockerfile["scripts/network-tests/Dockerfile"]
+        art_crates_etl_replicator_Dockerfile["crates/etl-replicator/Dockerfile"]:::atlasWorkflow
+        art_scripts_docker_docker_compose_multigres_yaml["scripts/docker/docker-compose-multigres.yaml"]:::atlasWorkflow
+        art_scripts_docker_docker_compose_yaml["scripts/docker/docker-compose.yaml"]:::atlasWorkflow
+        art_scripts_network_tests_Dockerfile["scripts/network-tests/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_benchmark_yml_benchmark["benchmark.yml#benchmark"]
-        job_ci_metrics_yml_sync["ci-metrics.yml#sync"]
-        job_ci_yml_clippy["ci.yml#clippy"]
-        job_ci_yml_fuzz_corpus["ci.yml#fuzz-corpus"]
-        job_ci_yml_hostname_connections["ci.yml#hostname-connections"]
-        job_docs_yml_build["docs.yml#build"]
-        job_docs_yml_deploy["docs.yml#deploy"]
-        job_fuzz_yml_fuzz["fuzz.yml#fuzz"]
-        job_prepare_release_yml_prepare["prepare-release.yml#prepare"]
-        job_release_yml_tag["release.yml#tag"]
+        job_benchmark_yml_benchmark["benchmark.yml#benchmark"]:::atlasJob
+        job_ci_metrics_yml_sync["ci-metrics.yml#sync"]:::atlasJob
+        job_ci_yml_clippy["ci.yml#clippy"]:::atlasJob
+        job_ci_yml_fuzz_corpus["ci.yml#fuzz-corpus"]:::atlasJob
+        job_ci_yml_hostname_connections["ci.yml#hostname-connections"]:::atlasJob
+        job_docs_yml_build["docs.yml#build"]:::atlasJob
+        job_docs_yml_deploy["docs.yml#deploy"]:::atlasJob
+        job_fuzz_yml_fuzz["fuzz.yml#fuzz"]:::atlasJob
+        job_prepare_release_yml_prepare["prepare-release.yml#prepare"]:::atlasJob
+        job_release_yml_tag["release.yml#tag"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_ci_metrics["ci-metrics"]
-        env_github_pages["github-pages"]
+        env_ci_metrics["ci-metrics"]:::atlasTarget
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_ci_metrics_yml_sync -->|DEPLOYS_TO| env_ci_metrics
     job_docs_yml_build -->|DEPLOYS_TO| env_github_pages
@@ -310,13 +327,100 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/etl (16 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 24 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 11 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/etl (16 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 24 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Benchmark["Benchmark (2 jobs)"]
+      direction TB
+      wf_0_Benchmark(["Trigger: Benchmark"]):::atlasWorkflow
+      job_0_plan["plan"]:::atlasJob
+      job_0_benchmark["benchmark"]:::atlasJob
+      wf_0_Benchmark --> job_0_plan
+      job_0_plan --> job_0_benchmark
+    end
+    pipeline_root --> wf_0_Benchmark
+    subgraph sg_wf_3_CI["CI (13 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_format["format"]:::atlasJob
+      job_3_clippy["clippy"]:::atlasJob
+      job_3_tls["tls"]:::atlasJob
+      wf_3_CI --> job_3_format
+      wf_3_CI --> job_3_clippy
+      wf_3_CI --> job_3_tls
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_6_Docs["Docs (2 jobs)"]
+      direction TB
+      wf_6_Docs(["Trigger: Docs"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_deploy["deploy"]:::atlasJob
+      wf_6_Docs --> job_6_build
+      job_6_build --> job_6_deploy
+    end
+    pipeline_root --> wf_6_Docs
+    subgraph sg_wf_10_Property_tests["Property tests (2 jobs)"]
+      direction TB
+      wf_10_Property_tests(["Trigger: Property tests"]):::atlasWorkflow
+      job_10_test_build["test-build"]:::atlasJob
+      job_10_test["test"]:::atlasJob
+      wf_10_Property_tests --> job_10_test_build
+      job_10_test_build --> job_10_test
+    end
+    pipeline_root --> wf_10_Property_tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_11_Publish_image["Publish image (3 jobs)"]
+      direction TB
+      wf_11_Publish_image(["Trigger: Publish image"]):::atlasWorkflow
+      job_11_route["route"]:::atlasJob
+      job_11_image["image"]:::atlasJob
+      job_11_release["release"]:::atlasJob
+      wf_11_Publish_image --> job_11_route
+      job_11_route --> job_11_image
+      job_11_route --> job_11_release
+    end
+    pipeline_root --> wf_11_Publish_image
+    subgraph sg_wf_12_Release["Release (3 jobs)"]
+      direction TB
+      wf_12_Release(["Trigger: Release"]):::atlasWorkflow
+      job_12_tag["tag"]:::atlasJob
+      job_12_image["image"]:::atlasJob
+      job_12_release["release"]:::atlasJob
+      wf_12_Release --> job_12_tag
+      job_12_tag --> job_12_image
+      job_12_tag --> job_12_release
+      job_12_image --> job_12_release
+    end
+    pipeline_root --> wf_12_Release
+    subgraph sg_wf_13_Publish_image__reusable_["Publish image (reusable) (4 jobs)"]
+      direction TB
+      wf_13_Publish_image__reusable_(["Trigger: Publish image (reusable)"]):::atlasWorkflow
+      job_13_prepare["prepare"]:::atlasJob
+      wf_13_Publish_image__reusable_ --> job_13_prepare
+    end
+    pipeline_root --> wf_13_Publish_image__reusable_
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_CodeQL
+    wf_5_Dependency_audit["Dependency audit (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Dependency_audit
+  end
+  subgraph sg_grp_3_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    wf_14_Tests__reusable_["Tests (reusable) (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_14_Tests__reusable_
+  end
+  wf_more["+6 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

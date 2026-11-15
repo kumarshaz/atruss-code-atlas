@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for nextcloud/spreed
 
 ```mermaid
 graph TD;
-    repo_root(["nextcloud/spreed (250 components)"])
-    dir_0_lib["lib (247)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["nextcloud/spreed (250 components)"]):::atlasRoot
+    subgraph sg_dir_0_lib["lib (247)"]
+      direction TB
+      dir_0_lib["lib (247)"]:::atlasCategory
+      sub_0_0_Events["Events (73)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_Events
+      sub_0_1_Command["Command (46)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Command
+      sub_0_2_Controller["Controller (33)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Controller
+      sub_0_more["+14 more submodules (95)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0_Events["Events (73)"]
-    dir_0_lib --> sub_0_0_Events
-    sub_0_1_Command["Command (46)"]
-    dir_0_lib --> sub_0_1_Command
-    sub_0_2_Controller["Controller (33)"]
-    dir_0_lib --> sub_0_2_Controller
-    sub_0_more["+14 more submodules (95)"]
-    dir_0_lib --> sub_0_more
-    dir_1__root_["(root) (2)"]
+    dir_1__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_composer["composer (1)"]
+    dir_2_composer["composer (1)"]:::atlasCategory
     repo_root --> dir_2_composer
 ```
 
@@ -189,15 +199,103 @@ Showing top 60 representative components out of 250 across 3 module group(s):
 
 ```mermaid
 graph TD;
-  pipeline_root(["nextcloud/spreed (40 workflows)"])
-  grp_0_CI___Verification["CI & Verification (22 workflows · 42 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (11 workflows · 23 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Release___Deploy
-  grp_4_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["nextcloud/spreed (40 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (22 workflows · 42 jobs)"]
+    direction TB
+    subgraph sg_wf_13_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_13_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_13_changes["changes"]:::atlasJob
+      job_13_lint["lint"]:::atlasJob
+      job_13_summary["summary"]:::atlasJob
+      wf_13_Lint_eslint --> job_13_changes
+      job_13_changes --> job_13_lint
+      job_13_changes --> job_13_summary
+      job_13_lint --> job_13_summary
+    end
+    pipeline_root --> wf_13_Lint_eslint
+    subgraph sg_wf_16_Lint_php["Lint php (3 jobs)"]
+      direction TB
+      wf_16_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_16_matrix["matrix"]:::atlasJob
+      job_16_php_lint["php-lint"]:::atlasJob
+      job_16_summary["summary"]:::atlasJob
+      wf_16_Lint_php --> job_16_matrix
+      job_16_matrix --> job_16_php_lint
+      job_16_php_lint --> job_16_summary
+    end
+    pipeline_root --> wf_16_Lint_php
+    subgraph sg_wf_22_Build_Javascript["Build Javascript (3 jobs)"]
+      direction TB
+      wf_22_Build_Javascript(["Trigger: Build Javascript"]):::atlasWorkflow
+      job_22_changes["changes"]:::atlasJob
+      job_22_build["build"]:::atlasJob
+      job_22_summary["summary"]:::atlasJob
+      wf_22_Build_Javascript --> job_22_changes
+      job_22_changes --> job_22_build
+      job_22_changes --> job_22_summary
+      job_22_build --> job_22_summary
+    end
+    pipeline_root --> wf_22_Build_Javascript
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (11 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Integration_Federation["Integration Federation (3 jobs)"]
+      direction TB
+      wf_6_Integration_Federation(["Trigger: Integration Federation"]):::atlasWorkflow
+      job_6_changes["changes"]:::atlasJob
+      job_6_integration_federation["integration-federation"]:::atlasJob
+      job_6_summary["summary"]:::atlasJob
+      wf_6_Integration_Federation --> job_6_changes
+      job_6_changes --> job_6_integration_federation
+      job_6_changes --> job_6_summary
+      job_6_integration_federation --> job_6_summary
+    end
+    pipeline_root --> wf_6_Integration_Federation
+    subgraph sg_wf_7_Integration_mariadb["Integration mariadb (3 jobs)"]
+      direction TB
+      wf_7_Integration_mariadb(["Trigger: Integration mariadb"]):::atlasWorkflow
+      job_7_changes["changes"]:::atlasJob
+      job_7_integration_mariadb["integration-mariadb"]:::atlasJob
+      job_7_summary["summary"]:::atlasJob
+      wf_7_Integration_mariadb --> job_7_changes
+      job_7_changes --> job_7_integration_mariadb
+      job_7_changes --> job_7_summary
+      job_7_integration_mariadb --> job_7_summary
+    end
+    pipeline_root --> wf_7_Integration_mariadb
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]
+      direction TB
+      wf_4_Auto_approve_Dependabot_PRs(["Trigger: Auto approve Dependabot PRs"]):::atlasWorkflow
+      job_4_auto_approve_merge["auto-approve-merge"]:::atlasJob
+      wf_4_Auto_approve_Dependabot_PRs --> job_4_auto_approve_merge
+    end
+    pipeline_root --> wf_4_Auto_approve_Dependabot_PRs
+    wf_5_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Block_fixup_and_squash_commits
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_1_Build_and_publish_app_release
+    wf_34_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_34_Notify_release_relay_on_release
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    wf_3_OpenAPI_Command["OpenAPI Command (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_OpenAPI_Command
+  end
+  wf_more["+30 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

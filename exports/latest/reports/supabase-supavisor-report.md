@@ -41,34 +41,50 @@ description: Arc42 and Pipeline report for supabase/supavisor
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/supavisor (254 components)"])
-    dir_0_lib["lib (178)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/supavisor (254 components)"]):::atlasRoot
+    subgraph sg_dir_0_lib["lib (178)"]
+      direction TB
+      dir_0_lib["lib (178)"]:::atlasCategory
+      sub_0_0_supavisor["supavisor (149)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_supavisor
+      sub_0_1_supavisor_web["supavisor_web (24)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_supavisor_web
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2__module_root_
+      sub_0_more["+2 more submodules (3)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0_supavisor["supavisor (149)"]
-    dir_0_lib --> sub_0_0_supavisor
-    sub_0_1_supavisor_web["supavisor_web (24)"]
-    dir_0_lib --> sub_0_1_supavisor_web
-    sub_0_2__module_root_["(module root) (2)"]
-    dir_0_lib --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (3)"]
-    dir_0_lib --> sub_0_more
-    dir_1_test["test (32)"]
+    subgraph sg_dir_1_test["test (32)"]
+      direction TB
+      dir_1_test["test (32)"]:::atlasCategory
+      sub_1_0_integration["integration (29)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_integration
+      sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_test
-    sub_1_0_integration["integration (29)"]
-    dir_1_test --> sub_1_0_integration
-    sub_1_1__module_root_["(module root) (3)"]
-    dir_1_test --> sub_1_1__module_root_
-    dir_2_priv["priv (30)"]
+    subgraph sg_dir_2_priv["priv (30)"]
+      direction TB
+      dir_2_priv["priv (30)"]:::atlasCategory
+      sub_2_0_repo_migrations["repo/migrations (27)"]:::atlasWorkflow
+      dir_2_priv --> sub_2_0_repo_migrations
+      sub_2_1_repo["repo (3)"]:::atlasWorkflow
+      dir_2_priv --> sub_2_1_repo
+    end
     repo_root --> dir_2_priv
-    sub_2_0_repo_migrations["repo/migrations (27)"]
-    dir_2_priv --> sub_2_0_repo_migrations
-    sub_2_1_repo["repo (3)"]
-    dir_2_priv --> sub_2_1_repo
-    dir_3_config["config (5)"]
+    dir_3_config["config (5)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4__root_["(root) (4)"]
+    dir_4__root_["(root) (4)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+2 more modules (5)"]
+    dir_other_modules["+2 more modules (5)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -212,32 +228,36 @@ Showing top 60 representative components out of 254 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_a4f54853_dc9a_401f_8f24_10aa95c0f7d6["a4f54853-dc9a-401f-8f24-10aa95c0f7d6"]
-        mod_native["native"]
-        mod_priv_jit["priv/jit"]
-        mod_priv_jit_jit_api_service["priv/jit/jit_api_service"]
-        mod_priv_jit_postgres["priv/jit/postgres"]
-        mod_test_integration_db_shutdown["test/integration/db-shutdown"]
-        mod_test_integration_js["test/integration/js"]
-        mod_test_integration_md5_rejection["test/integration/md5-rejection"]
+        mod_a4f54853_dc9a_401f_8f24_10aa95c0f7d6["a4f54853-dc9a-401f-8f24-10aa95c0f7d6"]:::atlasCategory
+        mod_native["native"]:::atlasCategory
+        mod_priv_jit["priv/jit"]:::atlasCategory
+        mod_priv_jit_jit_api_service["priv/jit/jit_api_service"]:::atlasCategory
+        mod_priv_jit_postgres["priv/jit/postgres"]:::atlasCategory
+        mod_test_integration_db_shutdown["test/integration/db-shutdown"]:::atlasCategory
+        mod_test_integration_js["test/integration/js"]:::atlasCategory
+        mod_test_integration_md5_rejection["test/integration/md5-rejection"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_db_yml["docker-compose.db.yml"]
-        art_docker_compose_jit_yml["docker-compose.jit.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_priv_jit_Dockerfile_builder["priv/jit/Dockerfile.builder"]
-        art_priv_jit_jit_api_service_Dockerfile["priv/jit/jit_api_service/Dockerfile"]
-        art_priv_jit_postgres_Dockerfile["priv/jit/postgres/Dockerfile"]
-        art_test_integration_db_shutdown_docker_compose_yml["test/integration/db-shutdown/docker-compose.yml"]
-        art_test_integration_md5_rejection_docker_compose_yml["test/integration/md5-rejection/docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_db_yml["docker-compose.db.yml"]:::atlasWorkflow
+        art_docker_compose_jit_yml["docker-compose.jit.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_priv_jit_Dockerfile_builder["priv/jit/Dockerfile.builder"]:::atlasWorkflow
+        art_priv_jit_jit_api_service_Dockerfile["priv/jit/jit_api_service/Dockerfile"]:::atlasWorkflow
+        art_priv_jit_postgres_Dockerfile["priv/jit/postgres/Dockerfile"]:::atlasWorkflow
+        art_test_integration_db_shutdown_docker_compose_yml["test/integration/db-shutdown/docker-compose.yml"]:::atlasWorkflow
+        art_test_integration_md5_rejection_docker_compose_yml["test/integration/md5-rejection/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_elixir_yml_integration["elixir.yml#integration"]
-        job_elixir_yml_tests["elixir.yml#tests"]
-        job_publish_docker_yml_build_image["publish_docker.yml#build_image"]
-        job_publish_docker_yml_settings["publish_docker.yml#settings"]
+        job_elixir_yml_integration["elixir.yml#integration"]:::atlasJob
+        job_elixir_yml_tests["elixir.yml#tests"]:::atlasJob
+        job_publish_docker_yml_build_image["publish_docker.yml#build_image"]:::atlasJob
+        job_publish_docker_yml_settings["publish_docker.yml#settings"]:::atlasJob
     end
     mod_a4f54853_dc9a_401f_8f24_10aa95c0f7d6 -->|BUILT_BY| job_publish_docker_yml_build_image
     mod_a4f54853_dc9a_401f_8f24_10aa95c0f7d6 -->|PACKAGED_BY| art_Dockerfile
@@ -295,13 +315,86 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/supavisor (7 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (4 workflows · 7 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (1 workflows · 7 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/supavisor (7 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (4 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Dispatch_base_artifact_build["Dispatch base artifact build (1 jobs)"]
+      direction TB
+      wf_0_Dispatch_base_artifact_build(["Trigger: Dispatch base artifact build"]):::atlasWorkflow
+      job_0_dispatch["dispatch"]:::atlasJob
+      wf_0_Dispatch_base_artifact_build --> job_0_dispatch
+    end
+    pipeline_root --> wf_0_Dispatch_base_artifact_build
+    subgraph sg_wf_1_Dispatch_continuous_deploy["Dispatch continuous deploy (1 jobs)"]
+      direction TB
+      wf_1_Dispatch_continuous_deploy(["Trigger: Dispatch continuous deploy"]):::atlasWorkflow
+      job_1_dispatch["dispatch"]:::atlasJob
+      wf_1_Dispatch_continuous_deploy --> job_1_dispatch
+    end
+    pipeline_root --> wf_1_Dispatch_continuous_deploy
+    subgraph sg_wf_2_Publish_docs["Publish docs (1 jobs)"]
+      direction TB
+      wf_2_Publish_docs(["Trigger: Publish docs"]):::atlasWorkflow
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_Publish_docs --> job_2_deploy
+    end
+    pipeline_root --> wf_2_Publish_docs
+    subgraph sg_wf_5_Release_on_Dockerhub["Release on Dockerhub (4 jobs)"]
+      direction TB
+      wf_5_Release_on_Dockerhub(["Trigger: Release on Dockerhub"]):::atlasWorkflow
+      job_5_settings["settings"]:::atlasJob
+      job_5_build_image["build_image"]:::atlasJob
+      job_5_merge_manifest["merge_manifest"]:::atlasJob
+      wf_5_Release_on_Dockerhub --> job_5_settings
+      job_5_settings --> job_5_build_image
+      job_5_settings --> job_5_merge_manifest
+      job_5_build_image --> job_5_merge_manifest
+    end
+    pipeline_root --> wf_5_Release_on_Dockerhub
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Elixir_tests["Elixir tests (7 jobs)"]
+      direction TB
+      wf_3_Elixir_tests(["Trigger: Elixir tests"]):::atlasWorkflow
+      job_3_deps["deps"]:::atlasJob
+      job_3_format["format"]:::atlasJob
+      job_3_credo["credo"]:::atlasJob
+      wf_3_Elixir_tests --> job_3_deps
+      job_3_deps --> job_3_format
+      job_3_deps --> job_3_credo
+    end
+    pipeline_root --> wf_3_Elixir_tests
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Mirror_Image["Mirror Image (1 jobs)"]
+      direction TB
+      wf_4_Mirror_Image(["Trigger: Mirror Image"]):::atlasWorkflow
+      job_4_mirror["mirror"]:::atlasJob
+      wf_4_Mirror_Image --> job_4_mirror
+    end
+    pipeline_root --> wf_4_Mirror_Image
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Security_checks["Security checks (3 jobs)"]
+      direction TB
+      wf_6_Security_checks(["Trigger: Security checks"]):::atlasWorkflow
+      job_6_deps["deps"]:::atlasJob
+      job_6_audit["audit"]:::atlasJob
+      job_6_sobelow["sobelow"]:::atlasJob
+      wf_6_Security_checks --> job_6_deps
+      job_6_deps --> job_6_audit
+      job_6_deps --> job_6_sobelow
+    end
+    pipeline_root --> wf_6_Security_checks
+  end
 ```

@@ -41,26 +41,39 @@ description: Arc42 and Pipeline report for getsentry/warden
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/warden (61 components)"])
-    dir_0_packages["packages (49)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/warden (61 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (49)"]
+      direction TB
+      dir_0_packages["packages (49)"]:::atlasCategory
+      sub_0_0_warden_service["warden-service (37)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_warden_service
+      sub_0_1_evals["evals (8)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_evals
+      sub_0_2_warden["warden (2)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_warden
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_warden_service["warden-service (37)"]
-    dir_0_packages --> sub_0_0_warden_service
-    sub_0_1_evals["evals (8)"]
-    dir_0_packages --> sub_0_1_evals
-    sub_0_2_warden["warden (2)"]
-    dir_0_packages --> sub_0_2_warden
-    sub_0_more["+2 more submodules (2)"]
-    dir_0_packages --> sub_0_more
-    dir_1_apps["apps (11)"]
+    subgraph sg_dir_1_apps["apps (11)"]
+      direction TB
+      dir_1_apps["apps (11)"]:::atlasCategory
+      sub_1_0_warden_service_src["warden-service/src (9)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_0_warden_service_src
+      sub_1_1_warden_service["warden-service (1)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_1_warden_service
+      sub_1_2_warden_service_api["warden-service/api (1)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_2_warden_service_api
+    end
     repo_root --> dir_1_apps
-    sub_1_0_warden_service_src["warden-service/src (9)"]
-    dir_1_apps --> sub_1_0_warden_service_src
-    sub_1_1_warden_service["warden-service (1)"]
-    dir_1_apps --> sub_1_1_warden_service
-    sub_1_2_warden_service_api["warden-service/api (1)"]
-    dir_1_apps --> sub_1_2_warden_service_api
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -206,11 +219,15 @@ Showing top 60 representative components out of 61 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_warden["packages/warden"]
+        mod_packages_warden["packages/warden"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_build["ci.yml#build"]
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
     end
     mod_packages_warden -->|BUILT_BY| job_ci_yml_build
 ```
@@ -222,15 +239,85 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/warden (8 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Automation___Other
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Scheduled___Manual
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/warden (8 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Action_Bundle["Action Bundle (1 jobs)"]
+      direction TB
+      wf_0_Action_Bundle(["Trigger: Action Bundle"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Action_Bundle --> job_0_build
+    end
+    pipeline_root --> wf_0_Action_Bundle
+    subgraph sg_wf_1_CI["CI (1 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_CI --> job_1_build
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_4_Docs["Docs (1 jobs)"]
+      direction TB
+      wf_4_Docs(["Trigger: Docs"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      wf_4_Docs --> job_4_build
+    end
+    pipeline_root --> wf_4_Docs
+    subgraph sg_wf_7_Warden["Warden (1 jobs)"]
+      direction TB
+      wf_7_Warden(["Trigger: Warden"]):::atlasWorkflow
+      job_7_review["review"]:::atlasJob
+      wf_7_Warden --> job_7_review
+    end
+    pipeline_root --> wf_7_Warden
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Commit_Action_Bundle["Commit Action Bundle (1 jobs)"]
+      direction TB
+      wf_3_Commit_Action_Bundle(["Trigger: Commit Action Bundle"]):::atlasWorkflow
+      job_3_commit["commit"]:::atlasJob
+      wf_3_Commit_Action_Bundle --> job_3_commit
+    end
+    pipeline_root --> wf_3_Commit_Action_Bundle
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release["Release (1 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_Release
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Evals["Evals (2 jobs)"]
+      direction TB
+      wf_5_Evals(["Trigger: Evals"]):::atlasWorkflow
+      job_5_should_run["should-run"]:::atlasJob
+      job_5_evals["evals"]:::atlasJob
+      wf_5_Evals --> job_5_should_run
+      job_5_should_run --> job_5_evals
+    end
+    pipeline_root --> wf_5_Evals
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_2_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_2_analyze["analyze"]:::atlasJob
+      wf_2_CodeQL --> job_2_analyze
+    end
+    pipeline_root --> wf_2_CodeQL
+  end
 ```

@@ -41,52 +41,74 @@ description: Arc42 and Pipeline report for argoproj/argo-workflows
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argo-workflows (294 components)"])
-    dir_0_cmd["cmd (130)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argo-workflows (294 components)"]):::atlasRoot
+    subgraph sg_dir_0_cmd["cmd (130)"]
+      direction TB
+      dir_0_cmd["cmd (130)"]:::atlasCategory
+      sub_0_0_argo["argo (100)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_argo
+      sub_0_1_argoexec["argoexec (29)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_argoexec
+      sub_0_2_workflow_controller["workflow-controller (1)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_workflow_controller
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_argo["argo (100)"]
-    dir_0_cmd --> sub_0_0_argo
-    sub_0_1_argoexec["argoexec (29)"]
-    dir_0_cmd --> sub_0_1_argoexec
-    sub_0_2_workflow_controller["workflow-controller (1)"]
-    dir_0_cmd --> sub_0_2_workflow_controller
-    dir_1_pkg["pkg (56)"]
+    subgraph sg_dir_1_pkg["pkg (56)"]
+      direction TB
+      dir_1_pkg["pkg (56)"]:::atlasCategory
+      sub_1_0_apiclient["apiclient (26)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_0_apiclient
+      sub_1_1_apiclient_http1["apiclient/http1 (13)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_1_apiclient_http1
+      sub_1_2_apiclient_eventsource["apiclient/eventsource (3)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_2_apiclient_eventsource
+      sub_1_more["+7 more submodules (14)"]:::atlasMore
+      dir_1_pkg --> sub_1_more
+    end
     repo_root --> dir_1_pkg
-    sub_1_0_apiclient["apiclient (26)"]
-    dir_1_pkg --> sub_1_0_apiclient
-    sub_1_1_apiclient_http1["apiclient/http1 (13)"]
-    dir_1_pkg --> sub_1_1_apiclient_http1
-    sub_1_2_apiclient_eventsource["apiclient/eventsource (3)"]
-    dir_1_pkg --> sub_1_2_apiclient_eventsource
-    sub_1_more["+7 more submodules (14)"]
-    dir_1_pkg --> sub_1_more
-    dir_2_manifests["manifests (42)"]
+    subgraph sg_dir_2_manifests["manifests (42)"]
+      direction TB
+      dir_2_manifests["manifests (42)"]:::atlasCategory
+      sub_2_0_base["base (27)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_0_base
+      sub_2_1_cluster_install_no_crds["cluster-install-no-crds (10)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_1_cluster_install_no_crds
+      sub_2_2_components["components (4)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_2_components
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_manifests --> sub_2_more
+    end
     repo_root --> dir_2_manifests
-    sub_2_0_base["base (27)"]
-    dir_2_manifests --> sub_2_0_base
-    sub_2_1_cluster_install_no_crds["cluster-install-no-crds (10)"]
-    dir_2_manifests --> sub_2_1_cluster_install_no_crds
-    sub_2_2_components["components (4)"]
-    dir_2_manifests --> sub_2_2_components
-    sub_2_more["+1 more submodules (1)"]
-    dir_2_manifests --> sub_2_more
-    dir_3_hack["hack (27)"]
+    subgraph sg_dir_3_hack["hack (27)"]
+      direction TB
+      dir_3_hack["hack (27)"]:::atlasCategory
+      sub_3_0_docs["docs (7)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_0_docs
+      sub_3_1_api["api (6)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_1_api
+      sub_3_2_featuregen["featuregen (5)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_2_featuregen
+      sub_3_more["+4 more submodules (9)"]:::atlasMore
+      dir_3_hack --> sub_3_more
+    end
     repo_root --> dir_3_hack
-    sub_3_0_docs["docs (7)"]
-    dir_3_hack --> sub_3_0_docs
-    sub_3_1_api["api (6)"]
-    dir_3_hack --> sub_3_1_api
-    sub_3_2_featuregen["featuregen (5)"]
-    dir_3_hack --> sub_3_2_featuregen
-    sub_3_more["+4 more submodules (9)"]
-    dir_3_hack --> sub_3_more
-    dir_4_persist["persist (16)"]
+    subgraph sg_dir_4_persist["persist (16)"]
+      direction TB
+      dir_4_persist["persist (16)"]:::atlasCategory
+      sub_4_0_sqldb["sqldb (14)"]:::atlasWorkflow
+      dir_4_persist --> sub_4_0_sqldb
+      sub_4_1_sqldb_mocks["sqldb/mocks (2)"]:::atlasWorkflow
+      dir_4_persist --> sub_4_1_sqldb_mocks
+    end
     repo_root --> dir_4_persist
-    sub_4_0_sqldb["sqldb (14)"]
-    dir_4_persist --> sub_4_0_sqldb
-    sub_4_1_sqldb_mocks["sqldb/mocks (2)"]
-    dir_4_persist --> sub_4_1_sqldb_mocks
-    dir_other_modules["+7 more modules (23)"]
+    dir_other_modules["+7 more modules (23)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -236,50 +258,54 @@ Showing top 60 representative components out of 294 across 12 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer_builder[".devcontainer/builder"]
-        mod__github_pr_readiness[".github/pr-readiness"]
-        mod_1b353365_cc1e_456b_9041_96498d34bff0["1b353365-cc1e-456b-9041-96498d34bff0"]
-        mod_dev_nix["dev/nix"]
-        mod_docs["docs"]
-        mod_manifests_base_crds_full["manifests/base/crds/full"]
-        mod_manifests_base_workflow_controller["manifests/base/workflow-controller"]
-        mod_manifests_components_sso_dex["manifests/components/sso/dex"]
-        mod_manifests_quick_start_base["manifests/quick-start/base"]
-        mod_test_e2e_images_argosay_v1["test/e2e/images/argosay/v1"]
-        mod_test_e2e_images_argosay_v2["test/e2e/images/argosay/v2"]
-        mod_test_e2e_manifests_components_base["test/e2e/manifests/components/base"]
-        mod_ui["ui"]
+        mod__devcontainer_builder[".devcontainer/builder"]:::atlasCategory
+        mod__github_pr_readiness[".github/pr-readiness"]:::atlasCategory
+        mod_1b353365_cc1e_456b_9041_96498d34bff0["1b353365-cc1e-456b-9041-96498d34bff0"]:::atlasCategory
+        mod_dev_nix["dev/nix"]:::atlasCategory
+        mod_docs["docs"]:::atlasCategory
+        mod_manifests_base_crds_full["manifests/base/crds/full"]:::atlasCategory
+        mod_manifests_base_workflow_controller["manifests/base/workflow-controller"]:::atlasCategory
+        mod_manifests_components_sso_dex["manifests/components/sso/dex"]:::atlasCategory
+        mod_manifests_quick_start_base["manifests/quick-start/base"]:::atlasCategory
+        mod_test_e2e_images_argosay_v1["test/e2e/images/argosay/v1"]:::atlasCategory
+        mod_test_e2e_images_argosay_v2["test/e2e/images/argosay/v2"]:::atlasCategory
+        mod_test_e2e_manifests_components_base["test/e2e/manifests/components/base"]:::atlasCategory
+        mod_ui["ui"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_builder_Dockerfile[".devcontainer/builder/Dockerfile"]
-        art_Dockerfile["Dockerfile"]
-        art_Dockerfile_windows["Dockerfile.windows"]
-        art_test_e2e_images_argosay_v1_Dockerfile["test/e2e/images/argosay/v1/Dockerfile"]
-        art_test_e2e_images_argosay_v2_Dockerfile["test/e2e/images/argosay/v2/Dockerfile"]
+        art__devcontainer_builder_Dockerfile[".devcontainer/builder/Dockerfile"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_Dockerfile_windows["Dockerfile.windows"]:::atlasWorkflow
+        art_test_e2e_images_argosay_v1_Dockerfile["test/e2e/images/argosay/v1/Dockerfile"]:::atlasWorkflow
+        art_test_e2e_images_argosay_v2_Dockerfile["test/e2e/images/argosay/v2/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_cherry_pick_single_yml_cherry_pick["cherry-pick-single.yml#cherry-pick"]
-        job_ci_build_yaml_e2e_tests["ci-build.yaml#e2e-tests"]
-        job_ci_build_yaml_e2e_tests_composite_result["ci-build.yaml#e2e-tests-composite-result"]
-        job_ci_build_yaml_e2e_ui["ci-build.yaml#e2e-ui"]
-        job_ci_build_yaml_tests_windows["ci-build.yaml#tests-windows"]
-        job_ci_build_yaml_ui["ci-build.yaml#ui"]
-        job_devcontainer_yaml_build["devcontainer.yaml#build"]
-        job_docs_yaml_docs["docs.yaml#docs"]
-        job_pr_feature_yaml_feature_pr_handling["pr-feature.yaml#feature-pr-handling"]
-        job_pr_readiness_test_yaml_test["pr-readiness-test.yaml#test"]
-        job_release_yaml_build_linux["release.yaml#build-linux"]
-        job_release_yaml_build_ui["release.yaml#build-ui"]
-        job_release_yaml_build_windows["release.yaml#build-windows"]
-        job_release_yaml_publish_release["release.yaml#publish-release"]
-        job_retest_yaml_retest["retest.yaml#retest"]
-        job_snyk_yml_golang["snyk.yml#golang"]
-        job_snyk_yml_node["snyk.yml#node"]
-        job_update_gomod2nix_yml_gomod2nix["update-gomod2nix.yml#gomod2nix"]
+        job_cherry_pick_single_yml_cherry_pick["cherry-pick-single.yml#cherry-pick"]:::atlasJob
+        job_ci_build_yaml_e2e_tests["ci-build.yaml#e2e-tests"]:::atlasJob
+        job_ci_build_yaml_e2e_tests_composite_result["ci-build.yaml#e2e-tests-composite-result"]:::atlasJob
+        job_ci_build_yaml_e2e_ui["ci-build.yaml#e2e-ui"]:::atlasJob
+        job_ci_build_yaml_tests_windows["ci-build.yaml#tests-windows"]:::atlasJob
+        job_ci_build_yaml_ui["ci-build.yaml#ui"]:::atlasJob
+        job_devcontainer_yaml_build["devcontainer.yaml#build"]:::atlasJob
+        job_docs_yaml_docs["docs.yaml#docs"]:::atlasJob
+        job_pr_feature_yaml_feature_pr_handling["pr-feature.yaml#feature-pr-handling"]:::atlasJob
+        job_pr_readiness_test_yaml_test["pr-readiness-test.yaml#test"]:::atlasJob
+        job_release_yaml_build_linux["release.yaml#build-linux"]:::atlasJob
+        job_release_yaml_build_ui["release.yaml#build-ui"]:::atlasJob
+        job_release_yaml_build_windows["release.yaml#build-windows"]:::atlasJob
+        job_release_yaml_publish_release["release.yaml#publish-release"]:::atlasJob
+        job_retest_yaml_retest["retest.yaml#retest"]:::atlasJob
+        job_snyk_yml_golang["snyk.yml#golang"]:::atlasJob
+        job_snyk_yml_node["snyk.yml#node"]:::atlasJob
+        job_update_gomod2nix_yml_gomod2nix["update-gomod2nix.yml#gomod2nix"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_ci_build_yaml_e2e_tests -->|DEPLOYS_TO| env_kubernetes
     mod__devcontainer_builder -->|PACKAGED_BY| art__devcontainer_builder_Dockerfile
@@ -377,15 +403,112 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["argoproj/argo-workflows (18 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 23 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Security___Governance
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Automation___Other
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 8 jobs)"]
-  pipeline_root --> grp_3_Release___Deploy
-  grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_4_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["argoproj/argo-workflows (18 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Changelog["Changelog (1 jobs)"]
+      direction TB
+      wf_0_Changelog(["Trigger: Changelog"]):::atlasWorkflow
+      job_0_generate_changelog["generate_changelog"]:::atlasJob
+      wf_0_Changelog --> job_0_generate_changelog
+    end
+    pipeline_root --> wf_0_Changelog
+    subgraph sg_wf_2_Cherry_Pick["Cherry Pick (2 jobs)"]
+      direction TB
+      wf_2_Cherry_Pick(["Trigger: Cherry Pick"]):::atlasWorkflow
+      job_2_find_labels["find-labels"]:::atlasJob
+      job_2_cherry_pick["cherry-pick"]:::atlasJob
+      wf_2_Cherry_Pick --> job_2_find_labels
+      job_2_find_labels --> job_2_cherry_pick
+    end
+    pipeline_root --> wf_2_Cherry_Pick
+    subgraph sg_wf_3_CI["CI (10 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_changed_files["changed-files"]:::atlasJob
+      job_3_tests["tests"]:::atlasJob
+      job_3_tests_windows["tests-windows"]:::atlasJob
+      wf_3_CI --> job_3_changed_files
+      job_3_changed_files --> job_3_tests
+      job_3_changed_files --> job_3_tests_windows
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_5_Dev_Container["Dev Container (1 jobs)"]
+      direction TB
+      wf_5_Dev_Container(["Trigger: Dev Container"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      wf_5_Dev_Container --> job_5_build
+    end
+    pipeline_root --> wf_5_Dev_Container
+    subgraph sg_wf_13_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]
+      direction TB
+      wf_13_Detect_and_Trigger_Retest(["Trigger: Detect and Trigger Retest"]):::atlasWorkflow
+      job_13_retest["retest"]:::atlasJob
+      wf_13_Detect_and_Trigger_Retest --> job_13_retest
+    end
+    pipeline_root --> wf_13_Detect_and_Trigger_Retest
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]
+      direction TB
+      wf_4_Approve_and_enable_auto_merge_for_dependabot(["Trigger: Approve and enable auto-merge for dependabot"]):::atlasWorkflow
+      job_4_review["review"]:::atlasJob
+      wf_4_Approve_and_enable_auto_merge_for_dependabot --> job_4_review
+    end
+    pipeline_root --> wf_4_Approve_and_enable_auto_merge_for_dependabot
+    subgraph sg_wf_16_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_16_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_16_stale["stale"]:::atlasJob
+      wf_16_Mark_stale_issues_and_pull_requests --> job_16_stale
+    end
+    pipeline_root --> wf_16_Mark_stale_issues_and_pull_requests
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]
+      direction TB
+      wf_1_Cherry_Pick_Single(["Trigger: Cherry Pick Single"]):::atlasWorkflow
+      job_1_cherry_pick["cherry-pick"]:::atlasJob
+      wf_1_Cherry_Pick_Single --> job_1_cherry_pick
+    end
+    pipeline_root --> wf_1_Cherry_Pick_Single
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_11_Release["Release (8 jobs)"]
+      direction TB
+      wf_11_Release(["Trigger: Release"]):::atlasWorkflow
+      job_11_build_linux["build-linux"]:::atlasJob
+      job_11_build_windows["build-windows"]:::atlasJob
+      job_11_push_images["push-images"]:::atlasJob
+      wf_11_Release --> job_11_build_linux
+      wf_11_Release --> job_11_build_windows
+      job_11_build_linux --> job_11_push_images
+      job_11_build_windows --> job_11_push_images
+    end
+    pipeline_root --> wf_11_Release
+  end
+  subgraph sg_grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_15_Snyk["Snyk (2 jobs)"]
+      direction TB
+      wf_15_Snyk(["Trigger: Snyk"]):::atlasWorkflow
+      job_15_golang["golang"]:::atlasJob
+      job_15_node["node"]:::atlasJob
+      wf_15_Snyk --> job_15_golang
+      wf_15_Snyk --> job_15_node
+    end
+    pipeline_root --> wf_15_Snyk
+  end
+  wf_more["+8 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

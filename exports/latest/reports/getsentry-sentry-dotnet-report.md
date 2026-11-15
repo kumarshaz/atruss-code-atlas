@@ -41,40 +41,56 @@ description: Arc42 and Pipeline report for getsentry/sentry-dotnet
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-dotnet (156 components)"])
-    dir_0_samples["samples (60)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-dotnet (156 components)"]):::atlasRoot
+    subgraph sg_dir_0_samples["samples (60)"]
+      direction TB
+      dir_0_samples["samples (60)"]:::atlasCategory
+      sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore["Sentry.Samples.OpenTelemetry.AspNetCore (6)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore
+      sub_0_1_Sentry_Samples_GraphQL_Server["Sentry.Samples.GraphQL.Server (4)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_1_Sentry_Samples_GraphQL_Server
+      sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server["Sentry.Samples.AspNetCore.Blazor.Server (3)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server
+      sub_0_more["+33 more submodules (47)"]:::atlasMore
+      dir_0_samples --> sub_0_more
+    end
     repo_root --> dir_0_samples
-    sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore["Sentry.Samples.OpenTelemetry.AspNetCore (6)"]
-    dir_0_samples --> sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore
-    sub_0_1_Sentry_Samples_GraphQL_Server["Sentry.Samples.GraphQL.Server (4)"]
-    dir_0_samples --> sub_0_1_Sentry_Samples_GraphQL_Server
-    sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server["Sentry.Samples.AspNetCore.Blazor.Server (3)"]
-    dir_0_samples --> sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server
-    sub_0_more["+33 more submodules (47)"]
-    dir_0_samples --> sub_0_more
-    dir_1_test["test (54)"]
+    subgraph sg_dir_1_test["test (54)"]
+      direction TB
+      dir_1_test["test (54)"]:::atlasCategory
+      sub_1_0_Sentry_AspNetCore_Tests["Sentry.AspNetCore.Tests (6)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_Sentry_AspNetCore_Tests
+      sub_1_1_Sentry_Testing["Sentry.Testing (5)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1_Sentry_Testing
+      sub_1_2_Sentry_AspNetCore_Grpc_Tests["Sentry.AspNetCore.Grpc.Tests (3)"]:::atlasWorkflow
+      dir_1_test --> sub_1_2_Sentry_AspNetCore_Grpc_Tests
+      sub_1_more["+34 more submodules (40)"]:::atlasMore
+      dir_1_test --> sub_1_more
+    end
     repo_root --> dir_1_test
-    sub_1_0_Sentry_AspNetCore_Tests["Sentry.AspNetCore.Tests (6)"]
-    dir_1_test --> sub_1_0_Sentry_AspNetCore_Tests
-    sub_1_1_Sentry_Testing["Sentry.Testing (5)"]
-    dir_1_test --> sub_1_1_Sentry_Testing
-    sub_1_2_Sentry_AspNetCore_Grpc_Tests["Sentry.AspNetCore.Grpc.Tests (3)"]
-    dir_1_test --> sub_1_2_Sentry_AspNetCore_Grpc_Tests
-    sub_1_more["+34 more submodules (40)"]
-    dir_1_test --> sub_1_more
-    dir_2_src["src (37)"]
+    subgraph sg_dir_2_src["src (37)"]
+      direction TB
+      dir_2_src["src (37)"]:::atlasCategory
+      sub_2_0_Sentry["Sentry (10)"]:::atlasWorkflow
+      dir_2_src --> sub_2_0_Sentry
+      sub_2_1_Sentry_Extensions_Hosting["Sentry.Extensions.Hosting (2)"]:::atlasWorkflow
+      dir_2_src --> sub_2_1_Sentry_Extensions_Hosting
+      sub_2_2_Sentry_Analyzers["Sentry.Analyzers (1)"]:::atlasWorkflow
+      dir_2_src --> sub_2_2_Sentry_Analyzers
+      sub_2_more["+24 more submodules (24)"]:::atlasMore
+      dir_2_src --> sub_2_more
+    end
     repo_root --> dir_2_src
-    sub_2_0_Sentry["Sentry (10)"]
-    dir_2_src --> sub_2_0_Sentry
-    sub_2_1_Sentry_Extensions_Hosting["Sentry.Extensions.Hosting (2)"]
-    dir_2_src --> sub_2_1_Sentry_Extensions_Hosting
-    sub_2_2_Sentry_Analyzers["Sentry.Analyzers (1)"]
-    dir_2_src --> sub_2_2_Sentry_Analyzers
-    sub_2_more["+24 more submodules (24)"]
-    dir_2_src --> sub_2_more
-    dir_3_benchmarks["benchmarks (3)"]
+    dir_3_benchmarks["benchmarks (3)"]:::atlasCategory
     repo_root --> dir_3_benchmarks
-    dir_4_integration_test["integration-test (2)"]
+    dir_4_integration_test["integration-test (2)"]:::atlasCategory
     repo_root --> dir_4_integration_test
     sub_1_more -.->|"37 deps"| sub_2_more
     sub_0_more -.->|"30 deps"| sub_2_more
@@ -233,23 +249,27 @@ Showing top 60 representative components out of 156 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__github_alpine[".github/alpine"]
-        mod_samples_Sentry_Samples_Maui["samples/Sentry.Samples.Maui"]
-        mod_test_Sentry_AspNetCore_Blazor_WebAssembly_PlaywrightTests["test/Sentry.AspNetCore.Blazor.WebAssembly.PlaywrightTests"]
-        mod_test_Sentry_MauiTrimTest["test/Sentry.MauiTrimTest"]
-        mod_test_Sentry_Tests["test/Sentry.Tests"]
-        mod_test_Sentry_TrimTest["test/Sentry.TrimTest"]
+        mod__github_alpine[".github/alpine"]:::atlasCategory
+        mod_samples_Sentry_Samples_Maui["samples/Sentry.Samples.Maui"]:::atlasCategory
+        mod_test_Sentry_AspNetCore_Blazor_WebAssembly_PlaywrightTests["test/Sentry.AspNetCore.Blazor.WebAssembly.PlaywrightTests"]:::atlasCategory
+        mod_test_Sentry_MauiTrimTest["test/Sentry.MauiTrimTest"]:::atlasCategory
+        mod_test_Sentry_Tests["test/Sentry.Tests"]:::atlasCategory
+        mod_test_Sentry_TrimTest["test/Sentry.TrimTest"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__github_alpine_Dockerfile[".github/alpine/Dockerfile"]
+        art__github_alpine_Dockerfile[".github/alpine/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_alpine_yml_build["alpine.yml#build"]
-        job_build_yml_ms_build["build.yml#ms-build"]
-        job_build_yml_trim_analysis["build.yml#trim-analysis"]
-        job_format_code_yml_format_code["format-code.yml#format-code"]
-        job_playwright_blazor_wasm_yml_playwright["playwright-blazor-wasm.yml#playwright"]
+        job_alpine_yml_build["alpine.yml#build"]:::atlasJob
+        job_build_yml_ms_build["build.yml#ms-build"]:::atlasJob
+        job_build_yml_trim_analysis["build.yml#trim-analysis"]:::atlasJob
+        job_format_code_yml_format_code["format-code.yml#format-code"]:::atlasJob
+        job_playwright_blazor_wasm_yml_playwright["playwright-blazor-wasm.yml#playwright"]:::atlasJob
     end
     mod__github_alpine -->|BUILT_BY| job_alpine_yml_build
     mod__github_alpine -->|PACKAGED_BY| art__github_alpine_Dockerfile
@@ -277,13 +297,108 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-dotnet (19 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 18 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (8 workflows · 9 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-dotnet (19 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 18 jobs)"]
+    direction TB
+    subgraph sg_wf_1_build["build (7 jobs)"]
+      direction TB
+      wf_1_build(["Trigger: build"]):::atlasWorkflow
+      job_1_build_sentry_native["build-sentry-native"]:::atlasJob
+      job_1_build_sentry["build-sentry"]:::atlasJob
+      job_1_integration_test["integration-test"]:::atlasJob
+      wf_1_build --> job_1_build_sentry_native
+      job_1_build_sentry_native --> job_1_build_sentry
+      job_1_build_sentry_native --> job_1_integration_test
+    end
+    pipeline_root --> wf_1_build
+    subgraph sg_wf_6_Android_Device_Tests["Android Device Tests (3 jobs)"]
+      direction TB
+      wf_6_Android_Device_Tests(["Trigger: Android Device Tests"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_android["android"]:::atlasJob
+      job_6_android_integration_tests["android-integration-tests"]:::atlasJob
+      wf_6_Android_Device_Tests --> job_6_build
+      job_6_build --> job_6_android
+      wf_6_Android_Device_Tests --> job_6_android_integration_tests
+    end
+    pipeline_root --> wf_6_Android_Device_Tests
+    subgraph sg_wf_7_iOS_Device_Tests["iOS Device Tests (2 jobs)"]
+      direction TB
+      wf_7_iOS_Device_Tests(["Trigger: iOS Device Tests"]):::atlasWorkflow
+      job_7_ios_tests["ios-tests"]:::atlasJob
+      job_7_ios_integration_tests["ios-integration-tests"]:::atlasJob
+      wf_7_iOS_Device_Tests --> job_7_ios_tests
+      wf_7_iOS_Device_Tests --> job_7_ios_integration_tests
+    end
+    pipeline_root --> wf_7_iOS_Device_Tests
+    subgraph sg_wf_10_Blazor_WASM_Playwright_Tests["Blazor WASM Playwright Tests (1 jobs)"]
+      direction TB
+      wf_10_Blazor_WASM_Playwright_Tests(["Trigger: Blazor WASM Playwright Tests"]):::atlasWorkflow
+      job_10_playwright["playwright"]:::atlasJob
+      wf_10_Blazor_WASM_Playwright_Tests --> job_10_playwright
+    end
+    pipeline_root --> wf_10_Blazor_WASM_Playwright_Tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (8 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Changelog_Guard["Changelog Guard (1 jobs)"]
+      direction TB
+      wf_2_Changelog_Guard(["Trigger: Changelog Guard"]):::atlasWorkflow
+      job_2_no_manual_unreleased_entries["no-manual-unreleased-entries"]:::atlasJob
+      wf_2_Changelog_Guard --> job_2_no_manual_unreleased_entries
+    end
+    pipeline_root --> wf_2_Changelog_Guard
+    subgraph sg_wf_3_Changelog_Preview["Changelog Preview (1 jobs)"]
+      direction TB
+      wf_3_Changelog_Preview(["Trigger: Changelog Preview"]):::atlasWorkflow
+      job_3_changelog_preview["changelog-preview"]:::atlasJob
+      wf_3_Changelog_Preview --> job_3_changelog_preview
+    end
+    pipeline_root --> wf_3_Changelog_Preview
+    subgraph sg_wf_5_Danger["Danger (1 jobs)"]
+      direction TB
+      wf_5_Danger(["Trigger: Danger"]):::atlasWorkflow
+      job_5_danger["danger"]:::atlasJob
+      wf_5_Danger --> job_5_danger
+    end
+    pipeline_root --> wf_5_Danger
+    subgraph sg_wf_15_verify_api["verify api (2 jobs)"]
+      direction TB
+      wf_15_verify_api(["Trigger: verify api"]):::atlasWorkflow
+      job_15_run_api_tests["run-api-tests"]:::atlasJob
+      job_15_accept_api_changes["accept-api-changes"]:::atlasJob
+      wf_15_verify_api --> job_15_run_api_tests
+      job_15_run_api_tests --> job_15_accept_api_changes
+    end
+    pipeline_root --> wf_15_verify_api
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_12_Release["Release (1 jobs)"]
+      direction TB
+      wf_12_Release(["Trigger: Release"]):::atlasWorkflow
+      job_12_job_release["job_release"]:::atlasJob
+      wf_12_Release --> job_12_job_release
+    end
+    pipeline_root --> wf_12_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_4_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_CodeQL --> job_4_analyze
+    end
+    pipeline_root --> wf_4_CodeQL
+  end
+  wf_more["+9 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -40,13 +40,20 @@ description: Arc42 and Pipeline report for TryGhost/ghost-docker
 
 ```mermaid
 graph TD;
-    compose_ipv6["compose.ipv6 : module"]
-    compose["compose : module"]
-    next_docker_beta["next-docker-beta : module"]
-    launcher["launcher : module"]
-    release["release : module"]
-    shellcheck["shellcheck : module"]
-    repo_root(["TryGhost/ghost-docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    compose_ipv6["compose.ipv6 : module"]:::atlasJob
+    compose["compose : module"]:::atlasJob
+    next_docker_beta["next-docker-beta : module"]:::atlasJob
+    launcher["launcher : module"]:::atlasJob
+    release["release : module"]:::atlasJob
+    shellcheck["shellcheck : module"]:::atlasJob
+    repo_root(["TryGhost/ghost-docker"]):::atlasRoot
     repo_root --> compose
     repo_root --> compose_ipv6
     repo_root --> launcher
@@ -82,11 +89,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_tinybird["tinybird"]
+        mod_tinybird["tinybird"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_tinybird_Dockerfile["tinybird/Dockerfile"]
+        art_tinybird_Dockerfile["tinybird/Dockerfile"]:::atlasWorkflow
     end
     mod_tinybird -->|PACKAGED_BY| art_tinybird_Dockerfile
 ```
@@ -98,20 +109,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/ghost-docker"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/ghost-docker"]):::atlasRoot
   subgraph Served_launcher_0["Served launcher"]
     direction TB
-    0_refuse["refuse"]
+    0_refuse["refuse"]:::atlasJob
   end
   pipeline_root --> 0_refuse
   subgraph Release_1["Release"]
     direction TB
-    1_refuse["refuse"]
+    1_refuse["refuse"]:::atlasJob
   end
   pipeline_root --> 1_refuse
   subgraph ShellCheck_2["ShellCheck"]
     direction TB
-    2_shellcheck["shellcheck"]
+    2_shellcheck["shellcheck"]:::atlasJob
   end
   pipeline_root --> 2_shellcheck
 ```

@@ -41,22 +41,35 @@ description: Arc42 and Pipeline report for argoproj/argo-ui
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argo-ui (102 components)"])
-    dir_0_v2["v2 (48)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argo-ui (102 components)"]):::atlasRoot
+    subgraph sg_dir_0_v2["v2 (48)"]
+      direction TB
+      dir_0_v2["v2 (48)"]:::atlasCategory
+      sub_0_0_components["components (42)"]:::atlasWorkflow
+      dir_0_v2 --> sub_0_0_components
+      sub_0_1_shared["shared (6)"]:::atlasWorkflow
+      dir_0_v2 --> sub_0_1_shared
+    end
     repo_root --> dir_0_v2
-    sub_0_0_components["components (42)"]
-    dir_0_v2 --> sub_0_0_components
-    sub_0_1_shared["shared (6)"]
-    dir_0_v2 --> sub_0_1_shared
-    dir_1_stories["stories (28)"]
+    dir_1_stories["stories (28)"]:::atlasCategory
     repo_root --> dir_1_stories
-    dir_2_src["src (25)"]
+    subgraph sg_dir_2_src["src (25)"]
+      direction TB
+      dir_2_src["src (25)"]:::atlasCategory
+      sub_2_0_components["components (24)"]:::atlasWorkflow
+      dir_2_src --> sub_2_0_components
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_src --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_src
-    sub_2_0_components["components (24)"]
-    dir_2_src --> sub_2_0_components
-    sub_2_1__module_root_["(module root) (1)"]
-    dir_2_src --> sub_2_1__module_root_
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     dir_1_stories -.->|"63 deps"| sub_2_0_components
     dir_1_stories -.->|"22 deps"| sub_0_0_components
@@ -199,16 +212,20 @@ Showing top 60 representative components out of 102 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_afbfeb62_6f64_4a27_b147_102a07ee7d2c["afbfeb62-6f64-4a27-b147-102a07ee7d2c"]
+        mod_afbfeb62_6f64_4a27_b147_102a07ee7d2c["afbfeb62-6f64-4a27-b147-102a07ee7d2c"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_docs_yml_build_docs["build-docs.yml#build-docs"]
-        job_build_v1_yml_build["build-v1.yml#build"]
-        job_dependabot_reviewer_yml_review["dependabot-reviewer.yml#review"]
-        job_npm_publish_v1_yml_publish["npm-publish-v1.yml#publish"]
-        job_npm_publish_yml_publish["npm-publish.yml#publish"]
-        job_stale_yml_stale["stale.yml#stale"]
+        job_build_docs_yml_build_docs["build-docs.yml#build-docs"]:::atlasJob
+        job_build_v1_yml_build["build-v1.yml#build"]:::atlasJob
+        job_dependabot_reviewer_yml_review["dependabot-reviewer.yml#review"]:::atlasJob
+        job_npm_publish_v1_yml_publish["npm-publish-v1.yml#publish"]:::atlasJob
+        job_npm_publish_yml_publish["npm-publish.yml#publish"]:::atlasJob
+        job_stale_yml_stale["stale.yml#stale"]:::atlasJob
     end
     mod_afbfeb62_6f64_4a27_b147_102a07ee7d2c -->|BUILT_BY| job_build_docs_yml_build_docs
     mod_afbfeb62_6f64_4a27_b147_102a07ee7d2c -->|BUILT_BY| job_build_v1_yml_build
@@ -230,11 +247,63 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["argoproj/argo-ui (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["argoproj/argo-ui (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_Storybook_Docs_v2["Build Storybook Docs v2 (1 jobs)"]
+      direction TB
+      wf_0_Build_Storybook_Docs_v2(["Trigger: Build Storybook Docs v2"]):::atlasWorkflow
+      job_0_build_docs["build-docs"]:::atlasJob
+      wf_0_Build_Storybook_Docs_v2 --> job_0_build_docs
+    end
+    pipeline_root --> wf_0_Build_Storybook_Docs_v2
+    subgraph sg_wf_1_Build_v1["Build v1 (1 jobs)"]
+      direction TB
+      wf_1_Build_v1(["Trigger: Build v1"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_v1 --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_v1
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Release_NPM_package_v1["Release NPM package v1 (1 jobs)"]
+      direction TB
+      wf_3_Release_NPM_package_v1(["Trigger: Release NPM package v1"]):::atlasWorkflow
+      job_3_publish["publish"]:::atlasJob
+      wf_3_Release_NPM_package_v1 --> job_3_publish
+    end
+    pipeline_root --> wf_3_Release_NPM_package_v1
+    subgraph sg_wf_4_Release_NPM_package_v2["Release NPM package v2 (1 jobs)"]
+      direction TB
+      wf_4_Release_NPM_package_v2(["Trigger: Release NPM package v2"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Release_NPM_package_v2 --> job_4_publish
+    end
+    pipeline_root --> wf_4_Release_NPM_package_v2
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]
+      direction TB
+      wf_2_Approve_and_enable_auto_merge_for_dependabot(["Trigger: Approve and enable auto-merge for dependabot"]):::atlasWorkflow
+      job_2_review["review"]:::atlasJob
+      wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
+    end
+    pipeline_root --> wf_2_Approve_and_enable_auto_merge_for_dependabot
+    subgraph sg_wf_5_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_5_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Mark_stale_issues_and_pull_requests --> job_5_stale
+    end
+    pipeline_root --> wf_5_Mark_stale_issues_and_pull_requests
+  end
 ```

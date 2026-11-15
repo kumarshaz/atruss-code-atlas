@@ -41,30 +41,43 @@ description: Arc42 and Pipeline report for PostHog/posthog-rs
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/posthog-rs (146 components)"])
-    dir_0_src["src (96)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/posthog-rs (146 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (96)"]
+      direction TB
+      dir_0_src["src (96)"]:::atlasCategory
+      sub_0_0_mcp["mcp (63)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_mcp
+      sub_0_1__module_root_["(module root) (15)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1__module_root_
+      sub_0_2_client["client (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_client
+      sub_0_more["+1 more submodules (6)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_mcp["mcp (63)"]
-    dir_0_src --> sub_0_0_mcp
-    sub_0_1__module_root_["(module root) (15)"]
-    dir_0_src --> sub_0_1__module_root_
-    sub_0_2_client["client (12)"]
-    dir_0_src --> sub_0_2_client
-    sub_0_more["+1 more submodules (6)"]
-    dir_0_src --> sub_0_more
-    dir_1_tests["tests (39)"]
+    subgraph sg_dir_1_tests["tests (39)"]
+      direction TB
+      dir_1_tests["tests (39)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (33)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0__module_root_
+      sub_1_1_mcp_support["mcp_support (4)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_mcp_support
+      sub_1_2_common["common (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_common
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_tests --> sub_1_more
+    end
     repo_root --> dir_1_tests
-    sub_1_0__module_root_["(module root) (33)"]
-    dir_1_tests --> sub_1_0__module_root_
-    sub_1_1_mcp_support["mcp_support (4)"]
-    dir_1_tests --> sub_1_1_mcp_support
-    sub_1_2_common["common (1)"]
-    dir_1_tests --> sub_1_2_common
-    sub_1_more["+1 more submodules (1)"]
-    dir_1_tests --> sub_1_more
-    dir_2_examples["examples (8)"]
+    dir_2_examples["examples (8)"]:::atlasCategory
     repo_root --> dir_2_examples
-    dir_3_compliance["compliance (3)"]
+    dir_3_compliance["compliance (3)"]:::atlasCategory
     repo_root --> dir_3_compliance
 ```
 
@@ -203,22 +216,26 @@ Showing top 60 representative components out of 146 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_compliance_adapter["compliance/adapter"]
-        mod_compliance_v0["compliance/v0"]
-        mod_compliance_v1["compliance/v1"]
+        mod_compliance_adapter["compliance/adapter"]:::atlasCategory
+        mod_compliance_v0["compliance/v0"]:::atlasCategory
+        mod_compliance_v1["compliance/v1"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_compliance_v0_Dockerfile["compliance/v0/Dockerfile"]
-        art_compliance_v0_docker_compose_yml["compliance/v0/docker-compose.yml"]
-        art_compliance_v1_Dockerfile["compliance/v1/Dockerfile"]
-        art_compliance_v1_docker_compose_yml["compliance/v1/docker-compose.yml"]
+        art_compliance_v0_Dockerfile["compliance/v0/Dockerfile"]:::atlasWorkflow
+        art_compliance_v0_docker_compose_yml["compliance/v0/docker-compose.yml"]:::atlasWorkflow
+        art_compliance_v1_Dockerfile["compliance/v1/Dockerfile"]:::atlasWorkflow
+        art_compliance_v1_docker_compose_yml["compliance/v1/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_release["release.yml#release"]
+        job_release_yml_release["release.yml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_Release["Release"]
+        env_Release["Release"]:::atlasTarget
     end
     job_release_yml_release -->|DEPLOYS_TO| env_Release
     mod_compliance_adapter -->|PACKAGED_BY| art_compliance_v0_Dockerfile
@@ -246,13 +263,95 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/posthog-rs (9 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_CI___Verification["CI & Verification (1 workflows · 6 jobs)"]
-  pipeline_root --> grp_3_CI___Verification
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/posthog-rs (9 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Generate_references["Generate references (1 jobs)"]
+      direction TB
+      wf_2_Generate_references(["Trigger: Generate references"]):::atlasWorkflow
+      job_2_generate_references["generate-references"]:::atlasJob
+      wf_2_Generate_references --> job_2_generate_references
+    end
+    pipeline_root --> wf_2_Generate_references
+    subgraph sg_wf_3_PostHog_Upgrade["PostHog Upgrade (1 jobs)"]
+      direction TB
+      wf_3_PostHog_Upgrade(["Trigger: PostHog Upgrade"]):::atlasWorkflow
+      job_3_posthog_upgrade["posthog-upgrade"]:::atlasJob
+      wf_3_PostHog_Upgrade --> job_3_posthog_upgrade
+    end
+    pipeline_root --> wf_3_PostHog_Upgrade
+    subgraph sg_wf_6_SDK_Compliance_Tests__V0_Capture_["SDK Compliance Tests (V0 Capture) (1 jobs)"]
+      direction TB
+      wf_6_SDK_Compliance_Tests__V0_Capture_(["Trigger: SDK Compliance Tests (V0 Capture)"]):::atlasWorkflow
+      job_6_test_rust_sdk_v0["test-rust-sdk-v0"]:::atlasJob
+      wf_6_SDK_Compliance_Tests__V0_Capture_ --> job_6_test_rust_sdk_v0
+    end
+    pipeline_root --> wf_6_SDK_Compliance_Tests__V0_Capture_
+    subgraph sg_wf_7_SDK_Compliance_Tests__V1_Capture_["SDK Compliance Tests (V1 Capture) (1 jobs)"]
+      direction TB
+      wf_7_SDK_Compliance_Tests__V1_Capture_(["Trigger: SDK Compliance Tests (V1 Capture)"]):::atlasWorkflow
+      job_7_test_rust_sdk_v1["test-rust-sdk-v1"]:::atlasJob
+      wf_7_SDK_Compliance_Tests__V1_Capture_ --> job_7_test_rust_sdk_v1
+    end
+    pipeline_root --> wf_7_SDK_Compliance_Tests__V1_Capture_
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release_failure_notification["Release failure notification (1 jobs)"]
+      direction TB
+      wf_4_Release_failure_notification(["Trigger: Release failure notification"]):::atlasWorkflow
+      job_4_notify_failed["notify-failed"]:::atlasJob
+      wf_4_Release_failure_notification --> job_4_notify_failed
+    end
+    pipeline_root --> wf_4_Release_failure_notification
+    subgraph sg_wf_5_Release["Release (5 jobs)"]
+      direction TB
+      wf_5_Release(["Trigger: Release"]):::atlasWorkflow
+      job_5_check_changesets["check-changesets"]:::atlasJob
+      job_5_notify_approval_needed["notify-approval-needed"]:::atlasJob
+      job_5_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+      wf_5_Release --> job_5_check_changesets
+      job_5_check_changesets --> job_5_notify_approval_needed
+      job_5_notify_approval_needed --> job_5_preserve_slack_thread
+    end
+    pipeline_root --> wf_5_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_1_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL_Advanced --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL_Advanced
+    subgraph sg_wf_8_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_8_Handle_stale_issues_and_PRs(["Trigger: Handle stale issues and PRs"]):::atlasWorkflow
+      job_8_stale["stale"]:::atlasJob
+      wf_8_Handle_stale_issues_and_PRs --> job_8_stale
+    end
+    pipeline_root --> wf_8_Handle_stale_issues_and_PRs
+  end
+  subgraph sg_grp_3_CI___Verification["CI & Verification (1 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (6 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_fmt["fmt"]:::atlasJob
+      job_0_clippy["clippy"]:::atlasJob
+      job_0_public_api["public-api"]:::atlasJob
+      wf_0_CI --> job_0_fmt
+      wf_0_CI --> job_0_clippy
+      wf_0_CI --> job_0_public_api
+    end
+    pipeline_root --> wf_0_CI
+  end
 ```

@@ -40,19 +40,26 @@ description: Arc42 and Pipeline report for metabase/dataset-generator
 
 ```mermaid
 graph TD;
-    dataset_generator["dataset-generator : MODULE"]
-    RootLayout["RootLayout : UI_COMPONENT"]
-    Home["Home : UI_COMPONENT"]
-    API_clear_route["API_clear_route : API_ROUTE"]
-    API_stats_route["API_stats_route : API_ROUTE"]
-    API_generate_route["API_generate_route : API_ROUTE"]
-    API_start_route["API_start_route : API_ROUTE"]
-    API_status_route["API_status_route : API_ROUTE"]
-    API_stop_route["API_stop_route : API_ROUTE"]
-    DataTable["DataTable : UI_COMPONENT"]
-    ExportButtons["ExportButtons : UI_COMPONENT"]
-    MultiSelect["MultiSelect : UI_COMPONENT"]
-    repo_root(["metabase/dataset-generator"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    dataset_generator["dataset-generator : MODULE"]:::atlasJob
+    RootLayout["RootLayout : UI_COMPONENT"]:::atlasJob
+    Home["Home : UI_COMPONENT"]:::atlasJob
+    API_clear_route["API_clear_route : API_ROUTE"]:::atlasJob
+    API_stats_route["API_stats_route : API_ROUTE"]:::atlasJob
+    API_generate_route["API_generate_route : API_ROUTE"]:::atlasJob
+    API_start_route["API_start_route : API_ROUTE"]:::atlasJob
+    API_status_route["API_status_route : API_ROUTE"]:::atlasJob
+    API_stop_route["API_stop_route : API_ROUTE"]:::atlasJob
+    DataTable["DataTable : UI_COMPONENT"]:::atlasJob
+    ExportButtons["ExportButtons : UI_COMPONENT"]:::atlasJob
+    MultiSelect["MultiSelect : UI_COMPONENT"]:::atlasJob
+    repo_root(["metabase/dataset-generator"]):::atlasRoot
     repo_root --> API_clear_route
     repo_root --> API_generate_route
     repo_root --> API_start_route
@@ -143,12 +150,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0d3c241a_a0f5_4c7b_832b_7d9acb80d274["0d3c241a-a0f5-4c7b-832b-7d9acb80d274"]
+        mod_0d3c241a_a0f5_4c7b_832b_7d9acb80d274["0d3c241a-a0f5-4c7b-832b-7d9acb80d274"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     mod_0d3c241a_a0f5_4c7b_832b_7d9acb80d274 -->|PACKAGED_BY| art_Dockerfile
     mod_0d3c241a_a0f5_4c7b_832b_7d9acb80d274 -->|PACKAGED_BY| art_docker_compose_yml
@@ -162,5 +173,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

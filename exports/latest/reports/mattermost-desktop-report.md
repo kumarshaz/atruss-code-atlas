@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for mattermost/desktop
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/desktop (230 components)"])
-    dir_0_src["src (223)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/desktop (230 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (223)"]
+      direction TB
+      dir_0_src["src (223)"]:::atlasCategory
+      sub_0_0_common["common (197)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_common
+      sub_0_1_renderer["renderer (25)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_renderer
+      sub_0_2_main["main (1)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_main
+    end
     repo_root --> dir_0_src
-    sub_0_0_common["common (197)"]
-    dir_0_src --> sub_0_0_common
-    sub_0_1_renderer["renderer (25)"]
-    dir_0_src --> sub_0_1_renderer
-    sub_0_2_main["main (1)"]
-    dir_0_src --> sub_0_2_main
-    dir_1_e2e["e2e (5)"]
+    dir_1_e2e["e2e (5)"]:::atlasCategory
     repo_root --> dir_1_e2e
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3_api_types["api-types (1)"]
+    dir_3_api_types["api-types (1)"]:::atlasCategory
     repo_root --> dir_3_api_types
 ```
 
@@ -196,28 +206,32 @@ Showing top 60 representative components out of 230 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_e2e["e2e"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_compatibility_matrix_testing_yml_calculate_commit_hash["compatibility-matrix-testing.yml#calculate-commit-hash"]
-        job_compatibility_matrix_testing_yml_cmt_triage["compatibility-matrix-testing.yml#cmt-triage"]
-        job_compatibility_matrix_testing_yml_update_initial_status["compatibility-matrix-testing.yml#update-initial-status"]
-        job_e2e_functional_template_yml_e2e["e2e-functional-template.yml#e2e"]
-        job_e2e_functional_yml_prepare_matrix["e2e-functional.yml#prepare-matrix"]
-        job_e2e_functional_yml_tsio_triage["e2e-functional.yml#tsio-triage"]
-        job_e2e_policy_yml_policy["e2e-policy.yml#policy"]
-        job_nightly_main_yml_upload_to_s3["nightly-main.yml#upload-to-s3"]
-        job_nightly_rainforest_yml_upload_to_s3_daily["nightly-rainforest.yml#upload-to-s3-daily"]
-        job_release_yaml_upload_to_s3["release.yaml#upload-to-s3"]
-        job_update_latest_version_yml_update_latest_version["update-latest-version.yml#update-latest-version"]
+        job_compatibility_matrix_testing_yml_calculate_commit_hash["compatibility-matrix-testing.yml#calculate-commit-hash"]:::atlasJob
+        job_compatibility_matrix_testing_yml_cmt_triage["compatibility-matrix-testing.yml#cmt-triage"]:::atlasJob
+        job_compatibility_matrix_testing_yml_update_initial_status["compatibility-matrix-testing.yml#update-initial-status"]:::atlasJob
+        job_e2e_functional_template_yml_e2e["e2e-functional-template.yml#e2e"]:::atlasJob
+        job_e2e_functional_yml_prepare_matrix["e2e-functional.yml#prepare-matrix"]:::atlasJob
+        job_e2e_functional_yml_tsio_triage["e2e-functional.yml#tsio-triage"]:::atlasJob
+        job_e2e_policy_yml_policy["e2e-policy.yml#policy"]:::atlasJob
+        job_nightly_main_yml_upload_to_s3["nightly-main.yml#upload-to-s3"]:::atlasJob
+        job_nightly_rainforest_yml_upload_to_s3_daily["nightly-rainforest.yml#upload-to-s3-daily"]:::atlasJob
+        job_release_yaml_upload_to_s3["release.yaml#upload-to-s3"]:::atlasJob
+        job_update_latest_version_yml_update_latest_version["update-latest-version.yml#update-latest-version"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_nightly_main_yml_upload_to_s3 -->|DEPLOYS_TO| env_aws
     job_nightly_rainforest_yml_upload_to_s3_daily -->|DEPLOYS_TO| env_aws
@@ -251,15 +265,100 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/desktop (26 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 45 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (7 workflows · 14 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
-  grp_4_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_4_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/desktop (26 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 45 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Compatibility_Matrix_Testing["Compatibility Matrix Testing (11 jobs)"]
+      direction TB
+      wf_4_Compatibility_Matrix_Testing(["Trigger: Compatibility Matrix Testing"]):::atlasWorkflow
+      job_4_upload_cmt_server_detals["upload-cmt-server-detals"]:::atlasJob
+      job_4_calculate_commit_hash["calculate-commit-hash"]:::atlasJob
+      job_4_update_initial_status["update-initial-status"]:::atlasJob
+      wf_4_Compatibility_Matrix_Testing --> job_4_upload_cmt_server_detals
+      wf_4_Compatibility_Matrix_Testing --> job_4_calculate_commit_hash
+      job_4_calculate_commit_hash --> job_4_update_initial_status
+    end
+    pipeline_root --> wf_4_Compatibility_Matrix_Testing
+    subgraph sg_wf_8_Electron_Playwright_Tests["Electron Playwright Tests (17 jobs)"]
+      direction TB
+      wf_8_Electron_Playwright_Tests(["Trigger: Electron Playwright Tests"]):::atlasWorkflow
+      job_8_prepare_matrix["prepare-matrix"]:::atlasJob
+      job_8_update_initial_status["update-initial-status"]:::atlasJob
+      job_8_e2e_linux_install["e2e-linux-install"]:::atlasJob
+      wf_8_Electron_Playwright_Tests --> job_8_prepare_matrix
+      job_8_prepare_matrix --> job_8_update_initial_status
+      job_8_prepare_matrix --> job_8_e2e_linux_install
+      job_8_update_initial_status --> job_8_e2e_linux_install
+    end
+    pipeline_root --> wf_8_Electron_Playwright_Tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (7 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_build_for_pr["build-for-pr (4 jobs)"]
+      direction TB
+      wf_0_build_for_pr(["Trigger: build-for-pr"]):::atlasWorkflow
+      job_0_build_linux_for_pr["build-linux-for-pr"]:::atlasJob
+      job_0_windows_install_deps["windows-install-deps"]:::atlasJob
+      job_0_build_win_for_pr["build-win-for-pr"]:::atlasJob
+      wf_0_build_for_pr --> job_0_build_linux_for_pr
+      wf_0_build_for_pr --> job_0_windows_install_deps
+      job_0_windows_install_deps --> job_0_build_win_for_pr
+    end
+    pipeline_root --> wf_0_build_for_pr
+    subgraph sg_wf_1_ci["ci (5 jobs)"]
+      direction TB
+      wf_1_ci(["Trigger: ci"]):::atlasWorkflow
+      job_1_build_linux["build-linux"]:::atlasJob
+      job_1_windows_install_deps["windows-install-deps"]:::atlasJob
+      job_1_build_win_no_installer["build-win-no-installer"]:::atlasJob
+      wf_1_ci --> job_1_build_linux
+      wf_1_ci --> job_1_windows_install_deps
+      job_1_windows_install_deps --> job_1_build_win_no_installer
+    end
+    pipeline_root --> wf_1_ci
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_21_release["release (7 jobs)"]
+      direction TB
+      wf_21_release(["Trigger: release"]):::atlasWorkflow
+      job_21_begin_notification["begin-notification"]:::atlasJob
+      job_21_build_linux["build-linux"]:::atlasJob
+      job_21_build_msi_installer["build-msi-installer"]:::atlasJob
+      wf_21_release --> job_21_begin_notification
+      job_21_begin_notification --> job_21_build_linux
+      job_21_begin_notification --> job_21_build_msi_installer
+    end
+    pipeline_root --> wf_21_release
+    subgraph sg_wf_22_Run_Release_Script["Run Release Script (1 jobs)"]
+      direction TB
+      wf_22_Run_Release_Script(["Trigger: Run Release Script"]):::atlasWorkflow
+      job_22_run_release["run-release"]:::atlasJob
+      wf_22_Run_Release_Script --> job_22_run_release
+    end
+    pipeline_root --> wf_22_Run_Release_Script
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]
+    direction TB
+    wf_10_E2E_Label_Cleanup["E2E Label Cleanup (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_E2E_Label_Cleanup
+    wf_12_E2E_post_OS_commit_status["E2E post OS commit status (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_12_E2E_post_OS_commit_status
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_CodeQL
+    wf_23_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_23_Scorecards_supply_chain_security
+  end
+  wf_more["+16 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

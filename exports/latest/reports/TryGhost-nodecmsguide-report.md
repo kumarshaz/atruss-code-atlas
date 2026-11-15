@@ -41,10 +41,17 @@ description: Arc42 and Pipeline report for TryGhost/nodecmsguide
 
 ```mermaid
 graph TD;
-    nodecmsguide["nodecmsguide : MODULE"]
-    nodecmsguide_typecheck["nodecmsguide-typecheck : MODULE"]
-    ProjectFilter["ProjectFilter : UI_COMPONENT"]
-    ShareButtons["ShareButtons : UI_COMPONENT"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    nodecmsguide["nodecmsguide : MODULE"]:::atlasJob
+    nodecmsguide_typecheck["nodecmsguide-typecheck : MODULE"]:::atlasJob
+    ProjectFilter["ProjectFilter : UI_COMPONENT"]:::atlasJob
+    ShareButtons["ShareButtons : UI_COMPONENT"]:::atlasJob
 ```
 
 ## Component Details
@@ -113,19 +120,26 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/nodecmsguide"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/nodecmsguide"]):::atlasRoot
   subgraph CI_0["CI"]
     direction TB
-    0_lint_and_typecheck["lint-and-typecheck"]
-    0_unit_tests["unit-tests"]
-    0_build["build"]
-    0_e2e["e2e"]
-    0_required_checks_pass["required-checks-pass"]
+    0_lint_and_typecheck["lint-and-typecheck"]:::atlasJob
+    0_unit_tests["unit-tests"]:::atlasJob
+    0_build["build"]:::atlasJob
+    0_e2e["e2e"]:::atlasJob
+    0_required_checks_pass["required-checks-pass"]:::atlasJob
     0_lint_and_typecheck --> 0_required_checks_pass
     0_unit_tests --> 0_required_checks_pass
     0_build --> 0_required_checks_pass
     0_e2e --> 0_required_checks_pass
-    wf_entry_0(["Trigger: CI"])
+    wf_entry_0(["Trigger: CI"]):::atlasWorkflow
     wf_entry_0 --> 0_lint_and_typecheck
     wf_entry_0 --> 0_unit_tests
     wf_entry_0 --> 0_build
@@ -134,7 +148,7 @@ graph TD;
   pipeline_root --> wf_entry_0
   subgraph Smoke__real_GitHub__1["Smoke (real GitHub)"]
     direction TB
-    1_smoke["smoke"]
+    1_smoke["smoke"]:::atlasJob
   end
   pipeline_root --> 1_smoke
 ```

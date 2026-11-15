@@ -41,14 +41,24 @@ description: Arc42 and Pipeline report for supabase/supabase-js
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/supabase-js (44 components)"])
-    dir_0_packages["packages (43)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/supabase-js (44 components)"]):::atlasRoot
+    subgraph sg_dir_0_packages["packages (43)"]
+      direction TB
+      dir_0_packages["packages (43)"]:::atlasCategory
+      sub_0_0_core["core (42)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_core
+      sub_0_1_shared["shared (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_shared
+    end
     repo_root --> dir_0_packages
-    sub_0_0_core["core (42)"]
-    dir_0_packages --> sub_0_0_core
-    sub_0_1_shared["shared (1)"]
-    dir_0_packages --> sub_0_1_shared
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```
 
@@ -187,42 +197,46 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_packages_core_auth_js["packages/core/auth-js"]
-        mod_packages_core_auth_js_example_react["packages/core/auth-js/example/react"]
-        mod_packages_core_auth_js_infra["packages/core/auth-js/infra"]
-        mod_packages_core_functions_js["packages/core/functions-js"]
-        mod_packages_core_postgrest_js["packages/core/postgrest-js"]
-        mod_packages_core_postgrest_js_test_v12["packages/core/postgrest-js/test/v12"]
-        mod_packages_core_realtime_js["packages/core/realtime-js"]
-        mod_packages_core_realtime_js_example["packages/core/realtime-js/example"]
-        mod_packages_core_storage_js["packages/core/storage-js"]
-        mod_packages_core_supabase_js["packages/core/supabase-js"]
-        mod_packages_core_supabase_js_test_integration_bun["packages/core/supabase-js/test/integration/bun"]
-        mod_packages_core_supabase_js_test_integration_expo["packages/core/supabase-js/test/integration/expo"]
-        mod_packages_core_supabase_js_test_integration_next["packages/core/supabase-js/test/integration/next"]
+        mod_packages_core_auth_js["packages/core/auth-js"]:::atlasCategory
+        mod_packages_core_auth_js_example_react["packages/core/auth-js/example/react"]:::atlasCategory
+        mod_packages_core_auth_js_infra["packages/core/auth-js/infra"]:::atlasCategory
+        mod_packages_core_functions_js["packages/core/functions-js"]:::atlasCategory
+        mod_packages_core_postgrest_js["packages/core/postgrest-js"]:::atlasCategory
+        mod_packages_core_postgrest_js_test_v12["packages/core/postgrest-js/test/v12"]:::atlasCategory
+        mod_packages_core_realtime_js["packages/core/realtime-js"]:::atlasCategory
+        mod_packages_core_realtime_js_example["packages/core/realtime-js/example"]:::atlasCategory
+        mod_packages_core_storage_js["packages/core/storage-js"]:::atlasCategory
+        mod_packages_core_supabase_js["packages/core/supabase-js"]:::atlasCategory
+        mod_packages_core_supabase_js_test_integration_bun["packages/core/supabase-js/test/integration/bun"]:::atlasCategory
+        mod_packages_core_supabase_js_test_integration_expo["packages/core/supabase-js/test/integration/expo"]:::atlasCategory
+        mod_packages_core_supabase_js_test_integration_next["packages/core/supabase-js/test/integration/next"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_packages_core_auth_js_infra_docker_compose_yml["packages/core/auth-js/infra/docker-compose.yml"]
-        art_packages_core_postgrest_js_test_v12_docker_compose_yml["packages/core/postgrest-js/test/v12/docker-compose.yml"]
+        art_packages_core_auth_js_infra_docker_compose_yml["packages/core/auth-js/infra/docker-compose.yml"]:::atlasWorkflow
+        art_packages_core_postgrest_js_test_v12_docker_compose_yml["packages/core/postgrest-js/test/v12/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_core_yml_test_auth_cli["ci-core.yml#test-auth-cli"]
-        job_ci_core_yml_test_auth_js_docker["ci-core.yml#test-auth-js-docker"]
-        job_ci_core_yml_test_postgrest_js["ci-core.yml#test-postgrest-js"]
-        job_deprecate_version_yml_deprecate["deprecate-version.yml#deprecate"]
-        job_docs_yml_docs["docs.yml#docs"]
-        job_integration_tests_yml_integration_tests["integration-tests.yml#integration-tests"]
-        job_preview_release_yml_preview["preview-release.yml#preview"]
-        job_publish_yml_release_beta["publish.yml#release-beta"]
-        job_publish_yml_release_canary["publish.yml#release-canary"]
-        job_publish_yml_release_next["publish.yml#release-next"]
-        job_publish_yml_release_stable["publish.yml#release-stable"]
+        job_ci_core_yml_test_auth_cli["ci-core.yml#test-auth-cli"]:::atlasJob
+        job_ci_core_yml_test_auth_js_docker["ci-core.yml#test-auth-js-docker"]:::atlasJob
+        job_ci_core_yml_test_postgrest_js["ci-core.yml#test-postgrest-js"]:::atlasJob
+        job_deprecate_version_yml_deprecate["deprecate-version.yml#deprecate"]:::atlasJob
+        job_docs_yml_docs["docs.yml#docs"]:::atlasJob
+        job_integration_tests_yml_integration_tests["integration-tests.yml#integration-tests"]:::atlasJob
+        job_preview_release_yml_preview["preview-release.yml#preview"]:::atlasJob
+        job_publish_yml_release_beta["publish.yml#release-beta"]:::atlasJob
+        job_publish_yml_release_canary["publish.yml#release-canary"]:::atlasJob
+        job_publish_yml_release_next["publish.yml#release-next"]:::atlasJob
+        job_publish_yml_release_stable["publish.yml#release-stable"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_docs_publish["docs-publish"]
-        env_npm_deprecate["npm-deprecate"]
-        env_npm_publish["npm-publish"]
+        env_docs_publish["docs-publish"]:::atlasTarget
+        env_npm_deprecate["npm-deprecate"]:::atlasTarget
+        env_npm_publish["npm-publish"]:::atlasTarget
     end
     job_deprecate_version_yml_deprecate -->|DEPLOYS_TO| env_npm_deprecate
     job_docs_yml_docs -->|DEPLOYS_TO| env_docs_publish
@@ -294,15 +308,104 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/supabase-js (17 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 19 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 22 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (3 workflows · 4 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/supabase-js (17 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Core_packages_tests["Core packages tests (10 jobs)"]
+      direction TB
+      wf_1_Core_packages_tests(["Trigger: Core packages tests"]):::atlasWorkflow
+      job_1_check_affected["check-affected"]:::atlasJob
+      job_1_build["build"]:::atlasJob
+      job_1_test_fast["test-fast"]:::atlasJob
+      wf_1_Core_packages_tests --> job_1_check_affected
+      job_1_check_affected --> job_1_build
+      job_1_check_affected --> job_1_test_fast
+      job_1_build --> job_1_test_fast
+    end
+    pipeline_root --> wf_1_Core_packages_tests
+    subgraph sg_wf_2_Supabase_JS_tests["Supabase JS tests (3 jobs)"]
+      direction TB
+      wf_2_Supabase_JS_tests(["Trigger: Supabase JS tests"]):::atlasWorkflow
+      job_2_build_package["build-package"]:::atlasJob
+      job_2_test["test"]:::atlasJob
+      job_2_module_resolution["module-resolution"]:::atlasJob
+      wf_2_Supabase_JS_tests --> job_2_build_package
+      job_2_build_package --> job_2_test
+      job_2_build_package --> job_2_module_resolution
+    end
+    pipeline_root --> wf_2_Supabase_JS_tests
+    subgraph sg_wf_3_CI__Pull_Requests_["CI (Pull Requests) (3 jobs)"]
+      direction TB
+      wf_3_CI__Pull_Requests_(["Trigger: CI (Pull Requests)"]):::atlasWorkflow
+      job_3_ci_core["ci-core"]:::atlasJob
+      job_3_ci_supabase_js["ci-supabase-js"]:::atlasJob
+      job_3_coveralls_finish["coveralls-finish"]:::atlasJob
+      wf_3_CI__Pull_Requests_ --> job_3_ci_core
+      wf_3_CI__Pull_Requests_ --> job_3_ci_supabase_js
+      job_3_ci_core --> job_3_coveralls_finish
+      job_3_ci_supabase_js --> job_3_coveralls_finish
+    end
+    pipeline_root --> wf_3_CI__Pull_Requests_
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Deprecate_package_versions["Deprecate package versions (3 jobs)"]
+      direction TB
+      wf_4_Deprecate_package_versions(["Trigger: Deprecate package versions"]):::atlasWorkflow
+      job_4_deprecate["deprecate"]:::atlasJob
+      job_4_notify_success["notify-success"]:::atlasJob
+      job_4_notify_failure["notify-failure"]:::atlasJob
+      wf_4_Deprecate_package_versions --> job_4_deprecate
+      job_4_deprecate --> job_4_notify_success
+      job_4_deprecate --> job_4_notify_failure
+    end
+    pipeline_root --> wf_4_Deprecate_package_versions
+    subgraph sg_wf_6_Dogfood["Dogfood (1 jobs)"]
+      direction TB
+      wf_6_Dogfood(["Trigger: Dogfood"]):::atlasWorkflow
+      job_6_trigger_downstream["trigger-downstream"]:::atlasJob
+      wf_6_Dogfood --> job_6_trigger_downstream
+    end
+    pipeline_root --> wf_6_Dogfood
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 22 jobs)"]
+    direction TB
+    subgraph sg_wf_10_Preview_release["Preview release (2 jobs)"]
+      direction TB
+      wf_10_Preview_release(["Trigger: Preview release"]):::atlasWorkflow
+      job_10_preview["preview"]:::atlasJob
+      job_10_integration_tests["integration-tests"]:::atlasJob
+      wf_10_Preview_release --> job_10_preview
+      job_10_preview --> job_10_integration_tests
+    end
+    pipeline_root --> wf_10_Preview_release
+    subgraph sg_wf_11_Publish_releases["Publish releases (19 jobs)"]
+      direction TB
+      wf_11_Publish_releases(["Trigger: Publish releases"]):::atlasWorkflow
+      job_11_release_stable["release-stable"]:::atlasJob
+      wf_11_Publish_releases --> job_11_release_stable
+    end
+    pipeline_root --> wf_11_Publish_releases
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (3 workflows · 4 jobs)"]
+    direction TB
+    wf_0_Block_WIP_Draft_Merges["Block WIP/Draft Merges (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_Block_WIP_Draft_Merges
+    wf_14_Mark_as_Stale_and_Close_Stale_Issues["Mark as Stale and Close Stale Issues (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_14_Mark_as_Stale_and_Close_Stale_Issues
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_13_Reusable_Slack_Notification["Reusable Slack Notification (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_13_Reusable_Slack_Notification
+  end
+  wf_more["+7 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

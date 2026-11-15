@@ -41,15 +41,22 @@ description: Arc42 and Pipeline report for twentyhq/favicon
 
 ```mermaid
 graph TD;
-    favicon["favicon : MODULE"]
-    FaviconController["FaviconController : API_ROUTE"]
-    FaviconService["FaviconService : SERVICE"]
-    FileService["FileService : SERVICE"]
-    DomainCommandService["DomainCommandService : SERVICE"]
-    EnvironmentService["EnvironmentService : SERVICE"]
-    FileStorageService["FileStorageService : SERVICE"]
-    TasksService["TasksService : SERVICE"]
-    repo_root(["twentyhq/favicon"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    favicon["favicon : MODULE"]:::atlasJob
+    FaviconController["FaviconController : API_ROUTE"]:::atlasJob
+    FaviconService["FaviconService : SERVICE"]:::atlasJob
+    FileService["FileService : SERVICE"]:::atlasJob
+    DomainCommandService["DomainCommandService : SERVICE"]:::atlasJob
+    EnvironmentService["EnvironmentService : SERVICE"]:::atlasJob
+    FileStorageService["FileStorageService : SERVICE"]:::atlasJob
+    TasksService["TasksService : SERVICE"]:::atlasJob
+    repo_root(["twentyhq/favicon"]):::atlasRoot
     repo_root --> EnvironmentService
     repo_root --> FileStorageService
     repo_root --> favicon
@@ -128,11 +135,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_deploy_prod["deploy/prod"]
+        mod_deploy_prod["deploy/prod"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_deploy_prod_Dockerfile["deploy/prod/Dockerfile"]
+        art_deploy_prod_Dockerfile["deploy/prod/Dockerfile"]:::atlasWorkflow
     end
     mod_deploy_prod -->|PACKAGED_BY| art_deploy_prod_Dockerfile
 ```
@@ -144,8 +155,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_test["test"]
+    0_test["test"]:::atlasJob
   end
 ```

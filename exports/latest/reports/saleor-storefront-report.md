@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for saleor/storefront
 
 ```mermaid
 graph TD;
-    repo_root(["saleor/storefront (313 components)"])
-    dir_0_src["src (312)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["saleor/storefront (313 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (312)"]
+      direction TB
+      dir_0_src["src (312)"]:::atlasCategory
+      sub_0_0_ui["ui (173)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_ui
+      sub_0_1_checkout["checkout (91)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_checkout
+      sub_0_2_app["app (42)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_app
+      sub_0_more["+2 more submodules (6)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_ui["ui (173)"]
-    dir_0_src --> sub_0_0_ui
-    sub_0_1_checkout["checkout (91)"]
-    dir_0_src --> sub_0_1_checkout
-    sub_0_2_app["app (42)"]
-    dir_0_src --> sub_0_2_app
-    sub_0_more["+2 more submodules (6)"]
-    dir_0_src --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_checkout -.->|"1 dep"| sub_0_0_ui
 ```
@@ -192,20 +202,24 @@ Showing top 60 representative components out of 313 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_185fb09e_36a0_4d21_8249_ec0195dbedf1["185fb09e-36a0-4d21-8249-ec0195dbedf1"]
+        mod_185fb09e_36a0_4d21_8249_ec0195dbedf1["185fb09e-36a0-4d21-8249-ec0195dbedf1"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_agent_skills_yml_restore["agent-skills.yml#restore"]
-        job_build_yml_build["build.yml#build"]
-        job_check_licenses_yaml_default["check-licenses.yaml#default"]
-        job_e2e_preview_yml_e2e["e2e-preview.yml#e2e"]
-        job_lint_yml_lint["lint.yml#lint"]
-        job_update_types_yml_check_saleor_release["update_types.yml#check_saleor_release"]
+        job_agent_skills_yml_restore["agent-skills.yml#restore"]:::atlasJob
+        job_build_yml_build["build.yml#build"]:::atlasJob
+        job_check_licenses_yaml_default["check-licenses.yaml#default"]:::atlasJob
+        job_e2e_preview_yml_e2e["e2e-preview.yml#e2e"]:::atlasJob
+        job_lint_yml_lint["lint.yml#lint"]:::atlasJob
+        job_update_types_yml_check_saleor_release["update_types.yml#check_saleor_release"]:::atlasJob
     end
     mod_185fb09e_36a0_4d21_8249_ec0195dbedf1 -->|BUILT_BY| job_agent_skills_yml_restore
     mod_185fb09e_36a0_4d21_8249_ec0195dbedf1 -->|BUILT_BY| job_build_yml_build
@@ -235,11 +249,63 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/storefront (6 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/storefront (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_3_E2E__Vercel_preview_["E2E (Vercel preview) (1 jobs)"]
+      direction TB
+      wf_3_E2E__Vercel_preview_(["Trigger: E2E (Vercel preview)"]):::atlasWorkflow
+      job_3_e2e["e2e"]:::atlasJob
+      wf_3_E2E__Vercel_preview_ --> job_3_e2e
+    end
+    pipeline_root --> wf_3_E2E__Vercel_preview_
+    subgraph sg_wf_4_Lint_on_deployment["Lint on deployment (1 jobs)"]
+      direction TB
+      wf_4_Lint_on_deployment(["Trigger: Lint on deployment"]):::atlasWorkflow
+      job_4_lint["lint"]:::atlasJob
+      wf_4_Lint_on_deployment --> job_4_lint
+    end
+    pipeline_root --> wf_4_Lint_on_deployment
+    subgraph sg_wf_5_Check_Saleor_release_and_update_types["Check Saleor release and update types (1 jobs)"]
+      direction TB
+      wf_5_Check_Saleor_release_and_update_types(["Trigger: Check Saleor release and update types"]):::atlasWorkflow
+      job_5_check_saleor_release["check_saleor_release"]:::atlasJob
+      wf_5_Check_Saleor_release_and_update_types --> job_5_check_saleor_release
+    end
+    pipeline_root --> wf_5_Check_Saleor_release_and_update_types
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build["Build (1 jobs)"]
+      direction TB
+      wf_1_Build(["Trigger: Build"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build --> job_1_build
+    end
+    pipeline_root --> wf_1_Build
+    subgraph sg_wf_2_Check_Licenses["Check Licenses (1 jobs)"]
+      direction TB
+      wf_2_Check_Licenses(["Trigger: Check Licenses"]):::atlasWorkflow
+      job_2_default["default"]:::atlasJob
+      wf_2_Check_Licenses --> job_2_default
+    end
+    pipeline_root --> wf_2_Check_Licenses
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Agent_skills["Agent skills (1 jobs)"]
+      direction TB
+      wf_0_Agent_skills(["Trigger: Agent skills"]):::atlasWorkflow
+      job_0_restore["restore"]:::atlasJob
+      wf_0_Agent_skills --> job_0_restore
+    end
+    pipeline_root --> wf_0_Agent_skills
+  end
 ```

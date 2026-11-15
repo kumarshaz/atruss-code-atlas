@@ -41,24 +41,37 @@ description: Arc42 and Pipeline report for langfuse/langfuse-k8s
 
 ```mermaid
 graph TD;
-    repo_root(["langfuse/langfuse-k8s (67 components)"])
-    dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["langfuse/langfuse-k8s (67 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]
+      direction TB
+      dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (27)"]:::atlasWorkflow
+      dir_0_charts_langfuse_tests --> sub_0_0__module_root_
+      sub_0_1_values["values (9)"]:::atlasWorkflow
+      dir_0_charts_langfuse_tests --> sub_0_1_values
+    end
     repo_root --> dir_0_charts_langfuse_tests
-    sub_0_0__module_root_["(module root) (27)"]
-    dir_0_charts_langfuse_tests --> sub_0_0__module_root_
-    sub_0_1_values["values (9)"]
-    dir_0_charts_langfuse_tests --> sub_0_1_values
-    dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]
+    subgraph sg_dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]
+      direction TB
+      dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_0__module_root_
+      sub_1_1_web["web (6)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_1_web
+      sub_1_2_gateway["gateway (5)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_2_gateway
+      sub_1_more["+3 more submodules (9)"]:::atlasMore
+      dir_1_charts_langfuse_templates --> sub_1_more
+    end
     repo_root --> dir_1_charts_langfuse_templates
-    sub_1_0__module_root_["(module root) (7)"]
-    dir_1_charts_langfuse_templates --> sub_1_0__module_root_
-    sub_1_1_web["web (6)"]
-    dir_1_charts_langfuse_templates --> sub_1_1_web
-    sub_1_2_gateway["gateway (5)"]
-    dir_1_charts_langfuse_templates --> sub_1_2_gateway
-    sub_1_more["+3 more submodules (9)"]
-    dir_1_charts_langfuse_templates --> sub_1_more
-    dir_2_charts_langfuse["charts/langfuse (4)"]
+    dir_2_charts_langfuse["charts/langfuse (4)"]:::atlasCategory
     repo_root --> dir_2_charts_langfuse
 ```
 
@@ -158,19 +171,23 @@ Showing top 60 representative components out of 67 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_langfuse["charts/langfuse"]
+        mod_charts_langfuse["charts/langfuse"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yaml_release["release.yaml#release"]
-        job_test_yaml_unit_tests["test.yaml#unit-tests"]
-        job_update_langfuse_version_yml_check_and_update["update-langfuse-version.yml#check-and-update"]
-        job_validate_yaml_validate["validate.yaml#validate"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_release_yaml_release["release.yaml#release"]:::atlasJob
+        job_test_yaml_unit_tests["test.yaml#unit-tests"]:::atlasJob
+        job_update_langfuse_version_yml_check_and_update["update-langfuse-version.yml#check-and-update"]:::atlasJob
+        job_validate_yaml_validate["validate.yaml#validate"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_release_yaml_release -->|DEPLOYS_TO| env_azure
     job_release_yaml_release -->|DEPLOYS_TO| env_kubernetes
@@ -202,21 +219,56 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-k8s (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Unit_Tests["Unit Tests (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_Unit_Tests
-  wf_3_Validate_Helm_Charts["Validate Helm Charts (1 jobs)"]
-  grp_0_CI___Verification --> wf_3_Validate_Helm_Charts
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_2_Update_Langfuse_Version["Update Langfuse Version (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_2_Update_Langfuse_Version
-  wf_4_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_4_Check_GitHub_Actions
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  wf_0_Release_Charts["Release Charts (1 jobs)"]
-  grp_2_Release___Deploy --> wf_0_Release_Charts
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-k8s (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Unit_Tests["Unit Tests (1 jobs)"]
+      direction TB
+      wf_1_Unit_Tests(["Trigger: Unit Tests"]):::atlasWorkflow
+      job_1_unit_tests["unit-tests"]:::atlasJob
+      wf_1_Unit_Tests --> job_1_unit_tests
+    end
+    pipeline_root --> wf_1_Unit_Tests
+    subgraph sg_wf_3_Validate_Helm_Charts["Validate Helm Charts (1 jobs)"]
+      direction TB
+      wf_3_Validate_Helm_Charts(["Trigger: Validate Helm Charts"]):::atlasWorkflow
+      job_3_validate["validate"]:::atlasJob
+      wf_3_Validate_Helm_Charts --> job_3_validate
+    end
+    pipeline_root --> wf_3_Validate_Helm_Charts
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Update_Langfuse_Version["Update Langfuse Version (1 jobs)"]
+      direction TB
+      wf_2_Update_Langfuse_Version(["Trigger: Update Langfuse Version"]):::atlasWorkflow
+      job_2_check_and_update["check-and-update"]:::atlasJob
+      wf_2_Update_Langfuse_Version --> job_2_check_and_update
+    end
+    pipeline_root --> wf_2_Update_Langfuse_Version
+    subgraph sg_wf_4_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+      direction TB
+      wf_4_Check_GitHub_Actions(["Trigger: Check GitHub Actions"]):::atlasWorkflow
+      job_4_zizmor["zizmor"]:::atlasJob
+      wf_4_Check_GitHub_Actions --> job_4_zizmor
+    end
+    pipeline_root --> wf_4_Check_GitHub_Actions
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_Charts["Release Charts (1 jobs)"]
+      direction TB
+      wf_0_Release_Charts(["Trigger: Release Charts"]):::atlasWorkflow
+      job_0_release["release"]:::atlasJob
+      wf_0_Release_Charts --> job_0_release
+    end
+    pipeline_root --> wf_0_Release_Charts
+  end
 ```

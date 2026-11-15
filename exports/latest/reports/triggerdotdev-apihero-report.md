@@ -41,30 +41,43 @@ description: Arc42 and Pipeline report for triggerdotdev/apihero
 
 ```mermaid
 graph TD;
-    repo_root(["triggerdotdev/apihero (232 components)"])
-    dir_0_apps["apps (164)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["triggerdotdev/apihero (232 components)"]):::atlasRoot
+    subgraph sg_dir_0_apps["apps (164)"]
+      direction TB
+      dir_0_apps["apps (164)"]:::atlasCategory
+      sub_0_0_webapp["webapp (161)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_webapp
+      sub_0_1_proxy["proxy (2)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_proxy
+      sub_0_2_logs["logs (1)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_2_logs
+    end
     repo_root --> dir_0_apps
-    sub_0_0_webapp["webapp (161)"]
-    dir_0_apps --> sub_0_0_webapp
-    sub_0_1_proxy["proxy (2)"]
-    dir_0_apps --> sub_0_1_proxy
-    sub_0_2_logs["logs (1)"]
-    dir_0_apps --> sub_0_2_logs
-    dir_1_packages["packages (55)"]
+    subgraph sg_dir_1_packages["packages (55)"]
+      direction TB
+      dir_1_packages["packages (55)"]:::atlasCategory
+      sub_1_0_interceptors_js["interceptors-js (27)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_0_interceptors_js
+      sub_1_1_apihero_node["apihero-node (12)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_1_apihero_node
+      sub_1_2_apihero_browser["apihero-browser (10)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_2_apihero_browser
+      sub_1_more["+3 more submodules (6)"]:::atlasMore
+      dir_1_packages --> sub_1_more
+    end
     repo_root --> dir_1_packages
-    sub_1_0_interceptors_js["interceptors-js (27)"]
-    dir_1_packages --> sub_1_0_interceptors_js
-    sub_1_1_apihero_node["apihero-node (12)"]
-    dir_1_packages --> sub_1_1_apihero_node
-    sub_1_2_apihero_browser["apihero-browser (10)"]
-    dir_1_packages --> sub_1_2_apihero_browser
-    sub_1_more["+3 more submodules (6)"]
-    dir_1_packages --> sub_1_more
-    dir_2_examples["examples (7)"]
+    dir_2_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_2_examples
-    dir_3_config_packages["config-packages (5)"]
+    dir_3_config_packages["config-packages (5)"]:::atlasCategory
     repo_root --> dir_3_config_packages
-    dir_4__root_["(root) (1)"]
+    dir_4__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_4__root_
     sub_1_1_apihero_node -.->|"9 deps"| sub_1_0_interceptors_js
     sub_1_2_apihero_browser -.->|"3 deps"| sub_1_0_interceptors_js
@@ -226,28 +239,32 @@ Showing top 60 representative components out of 232 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_a93ce632_2141_4e29_8d3e_118b1500489f["a93ce632-2141-4e29-8d3e-118b1500489f"]
-        mod_apps_logs["apps/logs"]
-        mod_apps_logs_test["apps/logs/test"]
-        mod_apps_proxy_test["apps/proxy/test"]
-        mod_apps_webapp["apps/webapp"]
-        mod_packages_apihero_node["packages/apihero-node"]
-        mod_packages_internal_logs["packages/internal-logs"]
+        mod_a93ce632_2141_4e29_8d3e_118b1500489f["a93ce632-2141-4e29-8d3e-118b1500489f"]:::atlasCategory
+        mod_apps_logs["apps/logs"]:::atlasCategory
+        mod_apps_logs_test["apps/logs/test"]:::atlasCategory
+        mod_apps_proxy_test["apps/proxy/test"]:::atlasCategory
+        mod_apps_webapp["apps/webapp"]:::atlasCategory
+        mod_packages_apihero_node["packages/apihero-node"]:::atlasCategory
+        mod_packages_internal_logs["packages/internal-logs"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_apps_logs_Dockerfile["apps/logs/Dockerfile"]
-        art_apps_logs_fly_toml["apps/logs/fly.toml"]
-        art_apps_webapp_Dockerfile["apps/webapp/Dockerfile"]
-        art_apps_webapp_fly_toml["apps/webapp/fly.toml"]
-        art_docker_compose_ci_yml["docker-compose-ci.yml"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art_apps_logs_Dockerfile["apps/logs/Dockerfile"]:::atlasWorkflow
+        art_apps_logs_fly_toml["apps/logs/fly.toml"]:::atlasWorkflow
+        art_apps_webapp_Dockerfile["apps/webapp/Dockerfile"]:::atlasWorkflow
+        art_apps_webapp_fly_toml["apps/webapp/fly.toml"]:::atlasWorkflow
+        art_docker_compose_ci_yml["docker-compose-ci.yml"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_logs_yml_build["logs.yml#build"]
-        job_logs_yml_deploy["logs.yml#deploy"]
-        job_webapp_yml_build["webapp.yml#build"]
-        job_webapp_yml_deploy["webapp.yml#deploy"]
+        job_logs_yml_build["logs.yml#build"]:::atlasJob
+        job_logs_yml_deploy["logs.yml#deploy"]:::atlasJob
+        job_webapp_yml_build["webapp.yml#build"]:::atlasJob
+        job_webapp_yml_deploy["webapp.yml#deploy"]:::atlasJob
     end
     mod_a93ce632_2141_4e29_8d3e_118b1500489f -->|BUILT_BY| job_logs_yml_build
     mod_a93ce632_2141_4e29_8d3e_118b1500489f -->|BUILT_BY| job_webapp_yml_build
@@ -303,17 +320,24 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["triggerdotdev/apihero"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["triggerdotdev/apihero"]):::atlasRoot
   subgraph __Logs_CI_0["🚀 Logs CI"]
     direction TB
-    0_lint["lint"]
-    0_typecheck["typecheck"]
-    0_build["build"]
-    0_deploy["deploy"]
+    0_lint["lint"]:::atlasJob
+    0_typecheck["typecheck"]:::atlasJob
+    0_build["build"]:::atlasJob
+    0_deploy["deploy"]:::atlasJob
     0_lint --> 0_deploy
     0_typecheck --> 0_deploy
     0_build --> 0_deploy
-    wf_entry_0(["Trigger: 🚀 Logs CI"])
+    wf_entry_0(["Trigger: 🚀 Logs CI"]):::atlasWorkflow
     wf_entry_0 --> 0_lint
     wf_entry_0 --> 0_typecheck
     wf_entry_0 --> 0_build
@@ -321,23 +345,23 @@ graph TD;
   pipeline_root --> wf_entry_0
   subgraph __Deploy_Proxy_1["🚀 Deploy Proxy"]
     direction TB
-    1_typecheck["typecheck"]
-    1_tests["tests"]
-    1_deploy["deploy"]
+    1_typecheck["typecheck"]:::atlasJob
+    1_tests["tests"]:::atlasJob
+    1_deploy["deploy"]:::atlasJob
     1_typecheck --> 1_deploy
     1_tests --> 1_deploy
   end
   pipeline_root --> 1_typecheck
   subgraph __WebApp_CI_2["🚀 WebApp CI"]
     direction TB
-    2_lint["lint"]
-    2_typecheck["typecheck"]
-    2_build["build"]
-    2_deploy["deploy"]
+    2_lint["lint"]:::atlasJob
+    2_typecheck["typecheck"]:::atlasJob
+    2_build["build"]:::atlasJob
+    2_deploy["deploy"]:::atlasJob
     2_lint --> 2_deploy
     2_typecheck --> 2_deploy
     2_build --> 2_deploy
-    wf_entry_2(["Trigger: 🚀 WebApp CI"])
+    wf_entry_2(["Trigger: 🚀 WebApp CI"]):::atlasWorkflow
     wf_entry_2 --> 2_lint
     wf_entry_2 --> 2_typecheck
     wf_entry_2 --> 2_build

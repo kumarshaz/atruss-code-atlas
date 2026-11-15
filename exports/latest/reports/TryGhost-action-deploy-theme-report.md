@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for TryGhost/action-deploy-theme
 
 ```mermaid
 graph TD;
-    action_deploy_theme["action-deploy-theme : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    action_deploy_theme["action-deploy-theme : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -89,17 +96,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_fb8332e4_82f3_43fa_8d5b_310cc9c56f69["fb8332e4-82f3-43fa-8d5b-310cc9c56f69"]
+        mod_fb8332e4_82f3_43fa_8d5b_310cc9c56f69["fb8332e4-82f3-43fa-8d5b-310cc9c56f69"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_major_yml_update_major["major.yml#update-major"]
-        job_sync_dist_yml_rebuild_dist["sync-dist.yml#rebuild-dist"]
-        job_sync_dist_yml_sync_dist["sync-dist.yml#sync-dist"]
-        job_test_yml_check_dist["test.yml#check-dist"]
-        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]
-        job_test_yml_test["test.yml#test"]
-        job_test_yml_validate["test.yml#validate"]
+        job_major_yml_update_major["major.yml#update-major"]:::atlasJob
+        job_sync_dist_yml_rebuild_dist["sync-dist.yml#rebuild-dist"]:::atlasJob
+        job_sync_dist_yml_sync_dist["sync-dist.yml#sync-dist"]:::atlasJob
+        job_test_yml_check_dist["test.yml#check-dist"]:::atlasJob
+        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
+        job_test_yml_validate["test.yml#validate"]:::atlasJob
     end
     mod_fb8332e4_82f3_43fa_8d5b_310cc9c56f69 -->|BUILT_BY| job_major_yml_update_major
     mod_fb8332e4_82f3_43fa_8d5b_310cc9c56f69 -->|BUILT_BY| job_sync_dist_yml_rebuild_dist
@@ -123,29 +134,36 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/action-deploy-theme"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/action-deploy-theme"]):::atlasRoot
   subgraph Update_Major_Version_Tag_0["Update Major Version Tag"]
     direction TB
-    0_update_major["update-major"]
+    0_update_major["update-major"]:::atlasJob
   end
   pipeline_root --> 0_update_major
   subgraph Sync_dist_1["Sync dist"]
     direction TB
-    1_rebuild_dist["rebuild-dist"]
-    1_sync_dist["sync-dist"]
+    1_rebuild_dist["rebuild-dist"]:::atlasJob
+    1_sync_dist["sync-dist"]:::atlasJob
     1_rebuild_dist --> 1_sync_dist
   end
   pipeline_root --> 1_rebuild_dist
   subgraph CI_2["CI"]
     direction TB
-    2_validate["validate"]
-    2_test["test"]
-    2_check_dist["check-dist"]
-    2_required_checks_pass["required-checks-pass"]
+    2_validate["validate"]:::atlasJob
+    2_test["test"]:::atlasJob
+    2_check_dist["check-dist"]:::atlasJob
+    2_required_checks_pass["required-checks-pass"]:::atlasJob
     2_validate --> 2_required_checks_pass
     2_test --> 2_required_checks_pass
     2_check_dist --> 2_required_checks_pass
-    wf_entry_2(["Trigger: CI"])
+    wf_entry_2(["Trigger: CI"]):::atlasWorkflow
     wf_entry_2 --> 2_validate
     wf_entry_2 --> 2_test
     wf_entry_2 --> 2_check_dist

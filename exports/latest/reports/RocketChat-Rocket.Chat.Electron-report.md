@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for RocketChat/Rocket.Chat.Electron
 
 ```mermaid
 graph TD;
-    repo_root(["RocketChat/Rocket.Chat.Electron (178 components)"])
-    dir_0_src["src (176)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["RocketChat/Rocket.Chat.Electron (178 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (176)"]
+      direction TB
+      dir_0_src["src (176)"]:::atlasCategory
+      sub_0_0_ui["ui (138)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_ui
+      sub_0_1_logViewerWindow["logViewerWindow (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_logViewerWindow
+      sub_0_2_settingsWindow["settingsWindow (11)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_settingsWindow
+      sub_0_more["+6 more submodules (15)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_ui["ui (138)"]
-    dir_0_src --> sub_0_0_ui
-    sub_0_1_logViewerWindow["logViewerWindow (12)"]
-    dir_0_src --> sub_0_1_logViewerWindow
-    sub_0_2_settingsWindow["settingsWindow (11)"]
-    dir_0_src --> sub_0_2_settingsWindow
-    sub_0_more["+6 more submodules (15)"]
-    dir_0_src --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_workspaces["workspaces (1)"]
+    dir_2_workspaces["workspaces (1)"]:::atlasCategory
     repo_root --> dir_2_workspaces
     sub_0_2_settingsWindow -.->|"207 deps"| sub_0_0_ui
     sub_0_more -.->|"161 deps"| sub_0_0_ui
@@ -203,11 +213,15 @@ Showing top 60 representative components out of 178 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pull_request_build_yml_build["pull-request-build.yml#build"]
+        job_pull_request_build_yml_build["pull-request-build.yml#build"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_pull_request_build_yml_build -->|DEPLOYS_TO| env_aws
 ```
@@ -219,17 +233,50 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["RocketChat/Rocket.Chat.Electron (4 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_PowerShell_Lint["PowerShell Lint (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_PowerShell_Lint
-  wf_2_Build_pull_request_artifacts["Build pull request artifacts (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_Build_pull_request_artifacts
-  wf_3_Validate_pull_request["Validate pull request (2 jobs)"]
-  grp_0_CI___Verification --> wf_3_Validate_pull_request
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_release["Build release (2 jobs)"]
-  grp_1_Release___Deploy --> wf_0_Build_release
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["RocketChat/Rocket.Chat.Electron (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_PowerShell_Lint["PowerShell Lint (1 jobs)"]
+      direction TB
+      wf_1_PowerShell_Lint(["Trigger: PowerShell Lint"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      wf_1_PowerShell_Lint --> job_1_lint
+    end
+    pipeline_root --> wf_1_PowerShell_Lint
+    subgraph sg_wf_2_Build_pull_request_artifacts["Build pull request artifacts (1 jobs)"]
+      direction TB
+      wf_2_Build_pull_request_artifacts(["Trigger: Build pull request artifacts"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_Build_pull_request_artifacts --> job_2_build
+    end
+    pipeline_root --> wf_2_Build_pull_request_artifacts
+    subgraph sg_wf_3_Validate_pull_request["Validate pull request (2 jobs)"]
+      direction TB
+      wf_3_Validate_pull_request(["Trigger: Validate pull request"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      job_3_build["build"]:::atlasJob
+      wf_3_Validate_pull_request --> job_3_test
+      wf_3_Validate_pull_request --> job_3_build
+    end
+    pipeline_root --> wf_3_Validate_pull_request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_release["Build release (2 jobs)"]
+      direction TB
+      wf_0_Build_release(["Trigger: Build release"]):::atlasWorkflow
+      job_0_prepare["prepare"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      wf_0_Build_release --> job_0_prepare
+      job_0_prepare --> job_0_build
+    end
+    pipeline_root --> wf_0_Build_release
+  end
 ```

@@ -41,10 +41,17 @@ description: Arc42 and Pipeline report for goharbor/harbor-helm
 
 ```mermaid
 graph TD;
-    test["test : module"]
-    base["base : module"]
-    ingress_test["ingress_test : module"]
-    node_port_test["node_port_test : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    test["test : module"]:::atlasJob
+    base["base : module"]:::atlasJob
+    ingress_test["ingress_test : module"]:::atlasJob
+    node_port_test["node_port_test : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -84,22 +91,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_test["test"]
-        mod_test_e2e["test/e2e"]
+        mod_test["test"]:::atlasCategory
+        mod_test_e2e["test/e2e"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_test_e2e_Dockerfile["test/e2e/Dockerfile"]
+        art_test_e2e_Dockerfile["test/e2e/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_integration_yaml_integration_test["integration.yaml#integration-test"]
-        job_lint_yaml_lint["lint.yaml#lint"]
-        job_publish_release_yaml_release["publish_release.yaml#release"]
-        job_unittest_yaml_unit_test["unittest.yaml#unit-test"]
+        job_integration_yaml_integration_test["integration.yaml#integration-test"]:::atlasJob
+        job_lint_yaml_lint["lint.yaml#lint"]:::atlasJob
+        job_publish_release_yaml_release["publish_release.yaml#release"]:::atlasJob
+        job_unittest_yaml_unit_test["unittest.yaml#unit-test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_integration_yaml_integration_test -->|DEPLOYS_TO| env_kubernetes
     job_lint_yaml_lint -->|DEPLOYS_TO| env_azure
@@ -131,21 +142,56 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/harbor-helm (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Integration_test["Integration test (1 jobs)"]
-  grp_0_CI___Verification --> wf_1_Integration_test
-  wf_2_Lint["Lint (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_Lint
-  wf_4_Unit_test["Unit test (1 jobs)"]
-  grp_0_CI___Verification --> wf_4_Unit_test
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Publish_Release["Publish Release (1 jobs)"]
-  grp_1_Release___Deploy --> wf_3_Publish_Release
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_0_Housekeeping___Close_stale_issues_and_PRs["Housekeeping - Close stale issues and PRs (1 jobs)"]
-  grp_2_Security___Governance --> wf_0_Housekeeping___Close_stale_issues_and_PRs
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/harbor-helm (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Integration_test["Integration test (1 jobs)"]
+      direction TB
+      wf_1_Integration_test(["Trigger: Integration test"]):::atlasWorkflow
+      job_1_integration_test["integration-test"]:::atlasJob
+      wf_1_Integration_test --> job_1_integration_test
+    end
+    pipeline_root --> wf_1_Integration_test
+    subgraph sg_wf_2_Lint["Lint (1 jobs)"]
+      direction TB
+      wf_2_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_2_lint["lint"]:::atlasJob
+      wf_2_Lint --> job_2_lint
+    end
+    pipeline_root --> wf_2_Lint
+    subgraph sg_wf_4_Unit_test["Unit test (1 jobs)"]
+      direction TB
+      wf_4_Unit_test(["Trigger: Unit test"]):::atlasWorkflow
+      job_4_unit_test["unit-test"]:::atlasJob
+      wf_4_Unit_test --> job_4_unit_test
+    end
+    pipeline_root --> wf_4_Unit_test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Publish_Release["Publish Release (1 jobs)"]
+      direction TB
+      wf_3_Publish_Release(["Trigger: Publish Release"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Publish_Release --> job_3_release
+    end
+    pipeline_root --> wf_3_Publish_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Housekeeping___Close_stale_issues_and_PRs["Housekeeping - Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_0_Housekeeping___Close_stale_issues_and_PRs(["Trigger: Housekeeping - Close stale issues and PRs"]):::atlasWorkflow
+      job_0_stale["stale"]:::atlasJob
+      wf_0_Housekeeping___Close_stale_issues_and_PRs --> job_0_stale
+    end
+    pipeline_root --> wf_0_Housekeeping___Close_stale_issues_and_PRs
+  end
 ```

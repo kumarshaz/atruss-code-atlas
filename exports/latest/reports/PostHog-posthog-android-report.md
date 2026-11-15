@@ -41,9 +41,16 @@ description: Arc42 and Pipeline report for PostHog/posthog-android
 
 ```mermaid
 graph TD;
-    ActionController["ActionController : API_ROUTE"]
-    PostHogConfiguration["PostHogConfiguration : CONFIG"]
-    PostHogSpringSampleApplication["PostHogSpringSampleApplication : CONFIG"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ActionController["ActionController : API_ROUTE"]:::atlasJob
+    PostHogConfiguration["PostHogConfiguration : CONFIG"]:::atlasJob
+    PostHogSpringSampleApplication["PostHogSpringSampleApplication : CONFIG"]:::atlasJob
 ```
 
 ## Component Details
@@ -141,24 +148,28 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_posthog["posthog"]
-        mod_posthog_android["posthog-android"]
-        mod_posthog_android_gradle_plugin["posthog-android-gradle-plugin"]
-        mod_posthog_android_surveys_compose["posthog-android-surveys-compose"]
-        mod_posthog_server["posthog-server"]
-        mod_posthog_server_openfeature["posthog-server-openfeature"]
-        mod_sdk_compliance_adapter["sdk_compliance_adapter"]
+        mod_posthog["posthog"]:::atlasCategory
+        mod_posthog_android["posthog-android"]:::atlasCategory
+        mod_posthog_android_gradle_plugin["posthog-android-gradle-plugin"]:::atlasCategory
+        mod_posthog_android_surveys_compose["posthog-android-surveys-compose"]:::atlasCategory
+        mod_posthog_server["posthog-server"]:::atlasCategory
+        mod_posthog_server_openfeature["posthog-server-openfeature"]:::atlasCategory
+        mod_sdk_compliance_adapter["sdk_compliance_adapter"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]
-        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]
+        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]:::atlasWorkflow
+        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_version_bump["release.yml#version-bump"]
+        job_release_yml_version_bump["release.yml#version-bump"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_Release["Release"]
+        env_Release["Release"]:::atlasTarget
     end
     job_release_yml_version_bump -->|DEPLOYS_TO| env_Release
     mod_posthog -->|DEPLOYED_BY| job_release_yml_version_bump
@@ -190,13 +201,100 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/posthog-android (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (4 workflows · 5 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 8 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/posthog-android (10 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build___Test["Build & Test (2 jobs)"]
+      direction TB
+      wf_0_Build___Test(["Trigger: Build & Test"]):::atlasWorkflow
+      job_0_detect_markdown_only["detect-markdown-only"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      wf_0_Build___Test --> job_0_detect_markdown_only
+      job_0_detect_markdown_only --> job_0_build
+    end
+    pipeline_root --> wf_0_Build___Test
+    subgraph sg_wf_1_Changeset_hygiene["Changeset hygiene (1 jobs)"]
+      direction TB
+      wf_1_Changeset_hygiene(["Trigger: Changeset hygiene"]):::atlasWorkflow
+      job_1_check["check"]:::atlasJob
+      wf_1_Changeset_hygiene --> job_1_check
+    end
+    pipeline_root --> wf_1_Changeset_hygiene
+    subgraph sg_wf_4_Validate_Gradle_Wrapper["Validate Gradle Wrapper (1 jobs)"]
+      direction TB
+      wf_4_Validate_Gradle_Wrapper(["Trigger: Validate Gradle Wrapper"]):::atlasWorkflow
+      job_4_validation["validation"]:::atlasJob
+      wf_4_Validate_Gradle_Wrapper --> job_4_validation
+    end
+    pipeline_root --> wf_4_Validate_Gradle_Wrapper
+    subgraph sg_wf_5_Lint_PR["Lint PR (1 jobs)"]
+      direction TB
+      wf_5_Lint_PR(["Trigger: Lint PR"]):::atlasWorkflow
+      job_5_lint_pr["lint-pr"]:::atlasJob
+      wf_5_Lint_PR --> job_5_lint_pr
+    end
+    pipeline_root --> wf_5_Lint_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release_failure_notification["Release failure notification (1 jobs)"]
+      direction TB
+      wf_6_Release_failure_notification(["Trigger: Release failure notification"]):::atlasWorkflow
+      job_6_notify_failed["notify-failed"]:::atlasJob
+      wf_6_Release_failure_notification --> job_6_notify_failed
+    end
+    pipeline_root --> wf_6_Release_failure_notification
+    subgraph sg_wf_7_Release["Release (7 jobs)"]
+      direction TB
+      wf_7_Release(["Trigger: Release"]):::atlasWorkflow
+      job_7_check_changesets["check-changesets"]:::atlasJob
+      job_7_notify_approval_needed["notify-approval-needed"]:::atlasJob
+      job_7_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+      wf_7_Release --> job_7_check_changesets
+      job_7_check_changesets --> job_7_notify_approval_needed
+      job_7_notify_approval_needed --> job_7_preserve_slack_thread
+    end
+    pipeline_root --> wf_7_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Generate_references["Generate references (1 jobs)"]
+      direction TB
+      wf_3_Generate_references(["Trigger: Generate references"]):::atlasWorkflow
+      job_3_generate_references["generate-references"]:::atlasJob
+      wf_3_Generate_references --> job_3_generate_references
+    end
+    pipeline_root --> wf_3_Generate_references
+    subgraph sg_wf_8_SDK_Compliance_Tests["SDK Compliance Tests (1 jobs)"]
+      direction TB
+      wf_8_SDK_Compliance_Tests(["Trigger: SDK Compliance Tests"]):::atlasWorkflow
+      job_8_test_android_sdk["test-android-sdk"]:::atlasJob
+      wf_8_SDK_Compliance_Tests --> job_8_test_android_sdk
+    end
+    pipeline_root --> wf_8_SDK_Compliance_Tests
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_2_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_2_analyze["analyze"]:::atlasJob
+      wf_2_CodeQL_Advanced --> job_2_analyze
+    end
+    pipeline_root --> wf_2_CodeQL_Advanced
+    subgraph sg_wf_9_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_9_Handle_stale_issues_and_PRs(["Trigger: Handle stale issues and PRs"]):::atlasWorkflow
+      job_9_stale["stale"]:::atlasJob
+      wf_9_Handle_stale_issues_and_PRs --> job_9_stale
+    end
+    pipeline_root --> wf_9_Handle_stale_issues_and_PRs
+  end
 ```

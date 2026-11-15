@@ -41,48 +41,70 @@ description: Arc42 and Pipeline report for grafana/helm-charts
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/helm-charts (253 components)"])
-    dir_0_charts_loki_distributed["charts/loki-distributed (93)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/helm-charts (253 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_loki_distributed["charts/loki-distributed (93)"]
+      direction TB
+      dir_0_charts_loki_distributed["charts/loki-distributed (93)"]:::atlasCategory
+      sub_0_0_templates["templates (86)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_0_templates
+      sub_0_1_ci["ci (4)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_1_ci
+      sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_charts_loki_distributed
-    sub_0_0_templates["templates (86)"]
-    dir_0_charts_loki_distributed --> sub_0_0_templates
-    sub_0_1_ci["ci (4)"]
-    dir_0_charts_loki_distributed --> sub_0_1_ci
-    sub_0_2__module_root_["(module root) (3)"]
-    dir_0_charts_loki_distributed --> sub_0_2__module_root_
-    dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]
+    subgraph sg_dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]
+      direction TB
+      dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]:::atlasCategory
+      sub_1_0_templates["templates (36)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (6)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_1__module_root_
+      sub_1_2_ci["ci (1)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_2_ci
+    end
     repo_root --> dir_1_charts_enterprise_metrics
-    sub_1_0_templates["templates (36)"]
-    dir_1_charts_enterprise_metrics --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (6)"]
-    dir_1_charts_enterprise_metrics --> sub_1_1__module_root_
-    sub_1_2_ci["ci (1)"]
-    dir_1_charts_enterprise_metrics --> sub_1_2_ci
-    dir_2_charts_promtail["charts/promtail (26)"]
+    subgraph sg_dir_2_charts_promtail["charts/promtail (26)"]
+      direction TB
+      dir_2_charts_promtail["charts/promtail (26)"]:::atlasCategory
+      sub_2_0_templates["templates (19)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_0_templates
+      sub_2_1_ci["ci (5)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_1_ci
+      sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_charts_promtail
-    sub_2_0_templates["templates (19)"]
-    dir_2_charts_promtail --> sub_2_0_templates
-    sub_2_1_ci["ci (5)"]
-    dir_2_charts_promtail --> sub_2_1_ci
-    sub_2_2__module_root_["(module root) (2)"]
-    dir_2_charts_promtail --> sub_2_2__module_root_
-    dir_3_charts_rollout_operator["charts/rollout-operator (20)"]
+    subgraph sg_dir_3_charts_rollout_operator["charts/rollout-operator (20)"]
+      direction TB
+      dir_3_charts_rollout_operator["charts/rollout-operator (20)"]:::atlasCategory
+      sub_3_0_templates["templates (14)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_0_templates
+      sub_3_1_charts["charts (4)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_1_charts
+      sub_3_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_2__module_root_
+    end
     repo_root --> dir_3_charts_rollout_operator
-    sub_3_0_templates["templates (14)"]
-    dir_3_charts_rollout_operator --> sub_3_0_templates
-    sub_3_1_charts["charts (4)"]
-    dir_3_charts_rollout_operator --> sub_3_1_charts
-    sub_3_2__module_root_["(module root) (2)"]
-    dir_3_charts_rollout_operator --> sub_3_2__module_root_
-    dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]
+    subgraph sg_dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]
+      direction TB
+      dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]:::atlasCategory
+      sub_4_0_templates["templates (14)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_0_templates
+      sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_1__module_root_
+      sub_4_2_ci["ci (1)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_2_ci
+    end
     repo_root --> dir_4_charts_enterprise_logs
-    sub_4_0_templates["templates (14)"]
-    dir_4_charts_enterprise_logs --> sub_4_0_templates
-    sub_4_1__module_root_["(module root) (3)"]
-    dir_4_charts_enterprise_logs --> sub_4_1__module_root_
-    sub_4_2_ci["ci (1)"]
-    dir_4_charts_enterprise_logs --> sub_4_2_ci
-    dir_other_modules["+7 more modules (53)"]
+    dir_other_modules["+7 more modules (53)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -183,18 +205,22 @@ Showing top 60 representative components out of 253 across 12 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_enterprise_metrics["charts/enterprise-metrics"]
-        mod_charts_snyk_exporter["charts/snyk-exporter"]
+        mod_charts_enterprise_metrics["charts/enterprise-metrics"]:::atlasCategory
+        mod_charts_snyk_exporter["charts/snyk-exporter"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_test_yaml_lint_test_matrix["lint-test.yaml#lint-test-matrix"]
-        job_release_yaml_release["release.yaml#release"]
-        job_update_helm_repo_yaml_release["update-helm-repo.yaml#release"]
+        job_lint_test_yaml_lint_test_matrix["lint-test.yaml#lint-test-matrix"]:::atlasJob
+        job_release_yaml_release["release.yaml#release"]:::atlasJob
+        job_update_helm_repo_yaml_release["update-helm-repo.yaml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_lint_test_yaml_lint_test_matrix -->|DEPLOYS_TO| env_azure
     job_lint_test_yaml_lint_test_matrix -->|DEPLOYS_TO| env_kubernetes
@@ -220,9 +246,89 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/helm-charts (9 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 9 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 4 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/helm-charts (9 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Check_CODEOWNERS["Check CODEOWNERS (1 jobs)"]
+      direction TB
+      wf_0_Check_CODEOWNERS(["Trigger: Check CODEOWNERS"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Check_CODEOWNERS --> job_0_build
+    end
+    pipeline_root --> wf_0_Check_CODEOWNERS
+    subgraph sg_wf_1_CI["CI (3 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_call_check_codeowners["call-check-codeowners"]:::atlasJob
+      job_1_call_lint["call-lint"]:::atlasJob
+      job_1_call_lint_test["call-lint-test"]:::atlasJob
+      wf_1_CI --> job_1_call_check_codeowners
+      wf_1_CI --> job_1_call_lint
+      wf_1_CI --> job_1_call_lint_test
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Lint_and_Test_Charts["Lint and Test Charts (2 jobs)"]
+      direction TB
+      wf_2_Lint_and_Test_Charts(["Trigger: Lint and Test Charts"]):::atlasWorkflow
+      job_2_lint_test_matrix["lint-test-matrix"]:::atlasJob
+      job_2_lint_test["lint-test"]:::atlasJob
+      wf_2_Lint_and_Test_Charts --> job_2_lint_test_matrix
+      job_2_lint_test_matrix --> job_2_lint_test
+    end
+    pipeline_root --> wf_2_Lint_and_Test_Charts
+    subgraph sg_wf_3_Lint_Code_Base["Lint Code Base (1 jobs)"]
+      direction TB
+      wf_3_Lint_Code_Base(["Trigger: Lint Code Base"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_Lint_Code_Base --> job_3_build
+    end
+    pipeline_root --> wf_3_Lint_Code_Base
+    subgraph sg_wf_6_sync_readme_yaml["sync-readme.yaml (1 jobs)"]
+      direction TB
+      wf_6_sync_readme_yaml(["Trigger: sync-readme.yaml"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      wf_6_sync_readme_yaml --> job_6_build
+    end
+    pipeline_root --> wf_6_sync_readme_yaml
+    subgraph sg_wf_8_Validate_Pull_Request["Validate Pull Request (1 jobs)"]
+      direction TB
+      wf_8_Validate_Pull_Request(["Trigger: Validate Pull Request"]):::atlasWorkflow
+      job_8_validate["validate"]:::atlasJob
+      wf_8_Validate_Pull_Request --> job_8_validate
+    end
+    pipeline_root --> wf_8_Validate_Pull_Request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Publish_public_signing_key["Publish public signing key (1 jobs)"]
+      direction TB
+      wf_4_Publish_public_signing_key(["Trigger: Publish public signing key"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Publish_public_signing_key --> job_4_publish
+    end
+    pipeline_root --> wf_4_Publish_public_signing_key
+    subgraph sg_wf_5_Release_Charts["Release Charts (1 jobs)"]
+      direction TB
+      wf_5_Release_Charts(["Trigger: Release Charts"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      wf_5_Release_Charts --> job_5_release
+    end
+    pipeline_root --> wf_5_Release_Charts
+    subgraph sg_wf_7_Release_a_chart["Release a chart (2 jobs)"]
+      direction TB
+      wf_7_Release_a_chart(["Trigger: Release a chart"]):::atlasWorkflow
+      job_7_setup["setup"]:::atlasJob
+      job_7_release["release"]:::atlasJob
+      wf_7_Release_a_chart --> job_7_setup
+      job_7_setup --> job_7_release
+    end
+    pipeline_root --> wf_7_Release_a_chart
+  end
 ```

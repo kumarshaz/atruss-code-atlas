@@ -40,50 +40,72 @@ description: Arc42 and Pipeline report for argoproj/argo-helm
 
 ```mermaid
 graph TD;
-    repo_root(["argoproj/argo-helm (297 components)"])
-    dir_0_charts_argo_cd["charts/argo-cd (155)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["argoproj/argo-helm (297 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_argo_cd["charts/argo-cd (155)"]
+      direction TB
+      dir_0_charts_argo_cd["charts/argo-cd (155)"]:::atlasCategory
+      sub_0_0_templates["templates (135)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_0_templates
+      sub_0_1_ci["ci (18)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_1_ci
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_charts_argo_cd
-    sub_0_0_templates["templates (135)"]
-    dir_0_charts_argo_cd --> sub_0_0_templates
-    sub_0_1_ci["ci (18)"]
-    dir_0_charts_argo_cd --> sub_0_1_ci
-    sub_0_2__module_root_["(module root) (2)"]
-    dir_0_charts_argo_cd --> sub_0_2__module_root_
-    dir_1_charts_argo_workflows["charts/argo-workflows (52)"]
+    subgraph sg_dir_1_charts_argo_workflows["charts/argo-workflows (52)"]
+      direction TB
+      dir_1_charts_argo_workflows["charts/argo-workflows (52)"]:::atlasCategory
+      sub_1_0_templates["templates (33)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_0_templates
+      sub_1_1_ci["ci (9)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_1_ci
+      sub_1_2_files["files (8)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_2_files
+      sub_1_more["+1 more submodules (2)"]:::atlasMore
+      dir_1_charts_argo_workflows --> sub_1_more
+    end
     repo_root --> dir_1_charts_argo_workflows
-    sub_1_0_templates["templates (33)"]
-    dir_1_charts_argo_workflows --> sub_1_0_templates
-    sub_1_1_ci["ci (9)"]
-    dir_1_charts_argo_workflows --> sub_1_1_ci
-    sub_1_2_files["files (8)"]
-    dir_1_charts_argo_workflows --> sub_1_2_files
-    sub_1_more["+1 more submodules (2)"]
-    dir_1_charts_argo_workflows --> sub_1_more
-    dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]
+    subgraph sg_dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]
+      direction TB
+      dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]:::atlasCategory
+      sub_2_0_templates["templates (27)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_0_templates
+      sub_2_1_ci["ci (3)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_1_ci
+      sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_charts_argo_rollouts
-    sub_2_0_templates["templates (27)"]
-    dir_2_charts_argo_rollouts --> sub_2_0_templates
-    sub_2_1_ci["ci (3)"]
-    dir_2_charts_argo_rollouts --> sub_2_1_ci
-    sub_2_2__module_root_["(module root) (2)"]
-    dir_2_charts_argo_rollouts --> sub_2_2__module_root_
-    dir_3_charts_argo_events["charts/argo-events (21)"]
+    subgraph sg_dir_3_charts_argo_events["charts/argo-events (21)"]
+      direction TB
+      dir_3_charts_argo_events["charts/argo-events (21)"]:::atlasCategory
+      sub_3_0_templates["templates (18)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_0_templates
+      sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_1__module_root_
+      sub_3_2_ci["ci (1)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_2_ci
+    end
     repo_root --> dir_3_charts_argo_events
-    sub_3_0_templates["templates (18)"]
-    dir_3_charts_argo_events --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]
-    dir_3_charts_argo_events --> sub_3_1__module_root_
-    sub_3_2_ci["ci (1)"]
-    dir_3_charts_argo_events --> sub_3_2_ci
-    dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]
+    subgraph sg_dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]
+      direction TB
+      dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]:::atlasCategory
+      sub_4_0_templates["templates (15)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_0_templates
+      sub_4_1_ci["ci (4)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_1_ci
+      sub_4_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_2__module_root_
+    end
     repo_root --> dir_4_charts_argocd_image_updater
-    sub_4_0_templates["templates (15)"]
-    dir_4_charts_argocd_image_updater --> sub_4_0_templates
-    sub_4_1_ci["ci (4)"]
-    dir_4_charts_argocd_image_updater --> sub_4_1_ci
-    sub_4_2__module_root_["(module root) (2)"]
-    dir_4_charts_argocd_image_updater --> sub_4_2__module_root_
-    dir_other_modules["+1 more modules (16)"]
+    dir_other_modules["+1 more modules (16)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -191,21 +213,25 @@ Showing top 60 representative components out of 297 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_argo_cd["charts/argo-cd"]
-        mod_scripts_release_analysis["scripts/release-analysis"]
+        mod_charts_argo_cd["charts/argo-cd"]:::atlasCategory
+        mod_scripts_release_analysis["scripts/release-analysis"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_scripts_release_analysis_Dockerfile["scripts/release-analysis/Dockerfile"]
+        art_scripts_release_analysis_Dockerfile["scripts/release-analysis/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_and_test_yml_chart_test["lint-and-test.yml#chart-test"]
-        job_publish_yml_package["publish.yml#package"]
-        job_publish_yml_release["publish.yml#release"]
+        job_lint_and_test_yml_chart_test["lint-and-test.yml#chart-test"]:::atlasJob
+        job_publish_yml_package["publish.yml#package"]:::atlasJob
+        job_publish_yml_release["publish.yml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_lint_and_test_yml_chart_test -->|DEPLOYS_TO| env_azure
     job_lint_and_test_yml_chart_test -->|DEPLOYS_TO| env_kubernetes
@@ -231,13 +257,107 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["argoproj/argo-helm (10 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 9 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["argoproj/argo-helm (10 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Actions_Lint["Actions Lint (3 jobs)"]
+      direction TB
+      wf_0_Actions_Lint(["Trigger: Actions Lint"]):::atlasWorkflow
+      job_0_actionlint["actionlint"]:::atlasJob
+      job_0_shellcheck["shellcheck"]:::atlasJob
+      job_0_zizmor["zizmor"]:::atlasJob
+      wf_0_Actions_Lint --> job_0_actionlint
+      wf_0_Actions_Lint --> job_0_shellcheck
+      wf_0_Actions_Lint --> job_0_zizmor
+    end
+    pipeline_root --> wf_0_Actions_Lint
+    subgraph sg_wf_1_Linting_and_Testing["Linting and Testing (2 jobs)"]
+      direction TB
+      wf_1_Linting_and_Testing(["Trigger: Linting and Testing"]):::atlasWorkflow
+      job_1_linter_artifacthub["linter-artifacthub"]:::atlasJob
+      job_1_chart_test["chart-test"]:::atlasJob
+      wf_1_Linting_and_Testing --> job_1_linter_artifacthub
+      wf_1_Linting_and_Testing --> job_1_chart_test
+    end
+    pipeline_root --> wf_1_Linting_and_Testing
+    subgraph sg_wf_2_PR_Lifecycle["PR Lifecycle (1 jobs)"]
+      direction TB
+      wf_2_PR_Lifecycle(["Trigger: PR Lifecycle"]):::atlasWorkflow
+      job_2_lifecycle["lifecycle"]:::atlasJob
+      wf_2_PR_Lifecycle --> job_2_lifecycle
+    end
+    pipeline_root --> wf_2_PR_Lifecycle
+    subgraph sg_wf_3_PR_Labeling["PR Labeling (2 jobs)"]
+      direction TB
+      wf_3_PR_Labeling(["Trigger: PR Labeling"]):::atlasWorkflow
+      job_3_triage["triage"]:::atlasJob
+      job_3_size_label["size-label"]:::atlasJob
+      wf_3_PR_Labeling --> job_3_triage
+      wf_3_PR_Labeling --> job_3_size_label
+    end
+    pipeline_root --> wf_3_PR_Labeling
+    subgraph sg_wf_4_Lint_PR["Lint PR (1 jobs)"]
+      direction TB
+      wf_4_Lint_PR(["Trigger: Lint PR"]):::atlasWorkflow
+      job_4_main["main"]:::atlasJob
+      wf_4_Lint_PR --> job_4_main
+    end
+    pipeline_root --> wf_4_Lint_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Publish_OSPS_Baseline_results["Publish OSPS Baseline results (1 jobs)"]
+      direction TB
+      wf_5_Publish_OSPS_Baseline_results(["Trigger: Publish OSPS Baseline results"]):::atlasWorkflow
+      job_5_results["results"]:::atlasJob
+      wf_5_Publish_OSPS_Baseline_results --> job_5_results
+    end
+    pipeline_root --> wf_5_Publish_OSPS_Baseline_results
+    subgraph sg_wf_6_Chart_Publish["Chart Publish (3 jobs)"]
+      direction TB
+      wf_6_Chart_Publish(["Trigger: Chart Publish"]):::atlasWorkflow
+      job_6_fold["fold"]:::atlasJob
+      job_6_package["package"]:::atlasJob
+      job_6_release["release"]:::atlasJob
+      wf_6_Chart_Publish --> job_6_fold
+      job_6_fold --> job_6_package
+      job_6_fold --> job_6_release
+      job_6_package --> job_6_release
+    end
+    pipeline_root --> wf_6_Chart_Publish
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]
+      direction TB
+      wf_8_Scorecard_supply_chain_security(["Trigger: Scorecard supply-chain security"]):::atlasWorkflow
+      job_8_analysis["analysis"]:::atlasJob
+      wf_8_Scorecard_supply_chain_security --> job_8_analysis
+    end
+    pipeline_root --> wf_8_Scorecard_supply_chain_security
+    subgraph sg_wf_9_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_9_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_9_stale["stale"]:::atlasJob
+      wf_9_Mark_stale_issues_and_pull_requests --> job_9_stale
+    end
+    pipeline_root --> wf_9_Mark_stale_issues_and_pull_requests
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Renovate["Renovate (1 jobs)"]
+      direction TB
+      wf_7_Renovate(["Trigger: Renovate"]):::atlasWorkflow
+      job_7_renovate["renovate"]:::atlasJob
+      wf_7_Renovate --> job_7_renovate
+    end
+    pipeline_root --> wf_7_Renovate
+  end
 ```

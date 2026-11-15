@@ -82,12 +82,16 @@ description: Arc42 and Pipeline report for mastodon/mastodon-android
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_mastodon["mastodon"]
+        mod_mastodon["mastodon"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_and_deploy_yml_deploy["build_and_deploy.yml#deploy"]
-        job_build_and_deploy_beta_yml_deploy["build_and_deploy_beta.yml#deploy"]
+        job_build_and_deploy_yml_deploy["build_and_deploy.yml#deploy"]:::atlasJob
+        job_build_and_deploy_beta_yml_deploy["build_and_deploy_beta.yml#deploy"]:::atlasJob
     end
     mod_mastodon -->|DEPLOYED_BY| job_build_and_deploy_yml_deploy
     mod_mastodon -->|DEPLOYED_BY| job_build_and_deploy_beta_yml_deploy
@@ -101,17 +105,46 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mastodon/mastodon-android (4 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Build_and_deploy_production["Build and deploy production (1 jobs)"]
-  grp_0_Release___Deploy --> wf_0_Build_and_deploy_production
-  wf_1_Build_and_deploy_beta["Build and deploy beta (1 jobs)"]
-  grp_0_Release___Deploy --> wf_1_Build_and_deploy_beta
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_2_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_2_Crowdin___Download_translations
-  wf_3_Crowdin___Upload_translations["Crowdin / Upload translations (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_3_Crowdin___Upload_translations
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mastodon/mastodon-android (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_deploy_production["Build and deploy production (1 jobs)"]
+      direction TB
+      wf_0_Build_and_deploy_production(["Trigger: Build and deploy production"]):::atlasWorkflow
+      job_0_deploy["deploy"]:::atlasJob
+      wf_0_Build_and_deploy_production --> job_0_deploy
+    end
+    pipeline_root --> wf_0_Build_and_deploy_production
+    subgraph sg_wf_1_Build_and_deploy_beta["Build and deploy beta (1 jobs)"]
+      direction TB
+      wf_1_Build_and_deploy_beta(["Trigger: Build and deploy beta"]):::atlasWorkflow
+      job_1_deploy["deploy"]:::atlasJob
+      wf_1_Build_and_deploy_beta --> job_1_deploy
+    end
+    pipeline_root --> wf_1_Build_and_deploy_beta
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]
+      direction TB
+      wf_2_Crowdin___Download_translations(["Trigger: Crowdin / Download translations"]):::atlasWorkflow
+      job_2_download_translations["download-translations"]:::atlasJob
+      wf_2_Crowdin___Download_translations --> job_2_download_translations
+    end
+    pipeline_root --> wf_2_Crowdin___Download_translations
+    subgraph sg_wf_3_Crowdin___Upload_translations["Crowdin / Upload translations (1 jobs)"]
+      direction TB
+      wf_3_Crowdin___Upload_translations(["Trigger: Crowdin / Upload translations"]):::atlasWorkflow
+      job_3_upload_translations["upload-translations"]:::atlasJob
+      wf_3_Crowdin___Upload_translations --> job_3_upload_translations
+    end
+    pipeline_root --> wf_3_Crowdin___Upload_translations
+  end
 ```

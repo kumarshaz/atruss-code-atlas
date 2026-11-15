@@ -61,15 +61,19 @@ description: Arc42 and Pipeline report for zulip/zulip-archive
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_5cb625c3_50f2_4bb4_ab00_9c0b92234ab8["5cb625c3-50f2-4bb4-ab00-9c0b92234ab8"]
+        mod_5cb625c3_50f2_4bb4_ab00_9c0b92234ab8["5cb625c3-50f2-4bb4-ab00-9c0b92234ab8"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_yml_black["lint.yml#black"]
-        job_test_yml_test["test.yml#test"]
+        job_lint_yml_black["lint.yml#black"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     mod_5cb625c3_50f2_4bb4_ab00_9c0b92234ab8 -->|BUILT_BY| job_lint_yml_black
     mod_5cb625c3_50f2_4bb4_ab00_9c0b92234ab8 -->|BUILT_BY| job_test_yml_test
@@ -85,15 +89,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["zulip/zulip-archive"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["zulip/zulip-archive"]):::atlasRoot
   subgraph Linting_0["Linting"]
     direction TB
-    0_black["black"]
+    0_black["black"]:::atlasJob
   end
   pipeline_root --> 0_black
   subgraph build_1["build"]
     direction TB
-    1_test["test"]
+    1_test["test"]:::atlasJob
   end
   pipeline_root --> 1_test
 ```

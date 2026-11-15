@@ -41,13 +41,20 @@ description: Arc42 and Pipeline report for github-samples/pets-workshop
 
 ```mermaid
 graph TD;
-    dog_shelter["dog-shelter : MODULE"]
-    get_dogs["get_dogs : API_ROUTE"]
-    get_dog["get_dog : API_ROUTE"]
-    BaseModel["BaseModel : DATA_ACCESS_LAYER"]
-    Breed["Breed : DATA_ACCESS_LAYER"]
-    Dog["Dog : DATA_ACCESS_LAYER"]
-    repo_root(["github-samples/pets-workshop"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    dog_shelter["dog-shelter : MODULE"]:::atlasJob
+    get_dogs["get_dogs : API_ROUTE"]:::atlasJob
+    get_dog["get_dog : API_ROUTE"]:::atlasJob
+    BaseModel["BaseModel : DATA_ACCESS_LAYER"]:::atlasJob
+    Breed["Breed : DATA_ACCESS_LAYER"]:::atlasJob
+    Dog["Dog : DATA_ACCESS_LAYER"]:::atlasJob
+    repo_root(["github-samples/pets-workshop"]):::atlasRoot
     repo_root --> dog_shelter
     Breed --> BaseModel
     Dog --> BaseModel
@@ -125,12 +132,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_app_client["app/client"]
-        mod_app_server["app/server"]
+        mod_app_client["app/client"]:::atlasCategory
+        mod_app_server["app/server"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_app_client_Dockerfile["app/client/Dockerfile"]
+        art_app_client_Dockerfile["app/client/Dockerfile"]:::atlasWorkflow
     end
     mod_app_client -->|PACKAGED_BY| art_app_client_Dockerfile
     mod_app_server -->|PACKAGED_BY| art_app_client_Dockerfile
@@ -144,5 +155,12 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

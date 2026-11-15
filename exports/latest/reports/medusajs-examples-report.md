@@ -41,34 +41,50 @@ description: Arc42 and Pipeline report for medusajs/examples
 
 ```mermaid
 graph TD;
-    repo_root(["medusajs/examples (72 components)"])
-    dir_0_customer_tiers["customer-tiers (11)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["medusajs/examples (72 components)"]):::atlasRoot
+    subgraph sg_dir_0_customer_tiers["customer-tiers (11)"]
+      direction TB
+      dir_0_customer_tiers["customer-tiers (11)"]:::atlasCategory
+      sub_0_0_src["src (10)"]:::atlasWorkflow
+      dir_0_customer_tiers --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_customer_tiers --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_customer_tiers
-    sub_0_0_src["src (10)"]
-    dir_0_customer_tiers --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]
-    dir_0_customer_tiers --> sub_0_1__module_root_
-    dir_1_express_checkout_storefront["express-checkout-storefront (11)"]
+    subgraph sg_dir_1_express_checkout_storefront["express-checkout-storefront (11)"]
+      direction TB
+      dir_1_express_checkout_storefront["express-checkout-storefront (11)"]:::atlasCategory
+      sub_1_0_components["components (7)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_0_components
+      sub_1_1_providers["providers (2)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_1_providers
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_2__module_root_
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_express_checkout_storefront --> sub_1_more
+    end
     repo_root --> dir_1_express_checkout_storefront
-    sub_1_0_components["components (7)"]
-    dir_1_express_checkout_storefront --> sub_1_0_components
-    sub_1_1_providers["providers (2)"]
-    dir_1_express_checkout_storefront --> sub_1_1_providers
-    sub_1_2__module_root_["(module root) (1)"]
-    dir_1_express_checkout_storefront --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (1)"]
-    dir_1_express_checkout_storefront --> sub_1_more
-    dir_2_digital_product["digital-product (9)"]
+    subgraph sg_dir_2_digital_product["digital-product (9)"]
+      direction TB
+      dir_2_digital_product["digital-product (9)"]:::atlasCategory
+      sub_2_0_src["src (8)"]:::atlasWorkflow
+      dir_2_digital_product --> sub_2_0_src
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_digital_product --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_digital_product
-    sub_2_0_src["src (8)"]
-    dir_2_digital_product --> sub_2_0_src
-    sub_2_1__module_root_["(module root) (1)"]
-    dir_2_digital_product --> sub_2_1__module_root_
-    dir_3_category_images["category-images (8)"]
+    dir_3_category_images["category-images (8)"]:::atlasCategory
     repo_root --> dir_3_category_images
-    dir_4_agentic_commerce["agentic-commerce (6)"]
+    dir_4_agentic_commerce["agentic-commerce (6)"]:::atlasCategory
     repo_root --> dir_4_agentic_commerce
-    dir_other_modules["+7 more modules (27)"]
+    dir_other_modules["+7 more modules (27)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_1_0_components -.->|"8 deps"| sub_1_1_providers
     sub_1_more -.->|"2 deps"| sub_1_1_providers
@@ -215,8 +231,15 @@ Showing top 60 representative components out of 72 across 12 module group(s):
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Medusa_NextJS_Template_Tests_0["Medusa NextJS Template Tests"]
     direction TB
-    0_e2e_test_runner["e2e-test-runner"]
+    0_e2e_test_runner["e2e-test-runner"]:::atlasJob
   end
 ```

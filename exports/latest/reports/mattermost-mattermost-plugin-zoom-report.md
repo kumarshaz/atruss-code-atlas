@@ -41,13 +41,20 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-zoom
 
 ```mermaid
 graph TD;
-    mattermost_plugin_zoom_e2e["mattermost-plugin-zoom-e2e : MODULE"]
-    zoom["zoom : MODULE"]
-    Client["Client : SERVICE"]
-    AISummaryButton["AISummaryButton : UI_COMPONENT"]
-    PostTypeChat["PostTypeChat : UI_COMPONENT"]
-    PostTypeTranscription["PostTypeTranscription : UI_COMPONENT"]
-    repo_root(["mattermost/mattermost-plugin-zoom"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    mattermost_plugin_zoom_e2e["mattermost-plugin-zoom-e2e : MODULE"]:::atlasJob
+    zoom["zoom : MODULE"]:::atlasJob
+    Client["Client : SERVICE"]:::atlasJob
+    AISummaryButton["AISummaryButton : UI_COMPONENT"]:::atlasJob
+    PostTypeChat["PostTypeChat : UI_COMPONENT"]:::atlasJob
+    PostTypeTranscription["PostTypeTranscription : UI_COMPONENT"]:::atlasJob
+    repo_root(["mattermost/mattermost-plugin-zoom"]):::atlasRoot
     repo_root --> Client
     repo_root --> mattermost_plugin_zoom_e2e
     repo_root --> zoom
@@ -129,18 +136,22 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_e2e_playwright["e2e/playwright"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_e2e_playwright["e2e/playwright"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
-        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_yml_contract_drift["e2e.yml#contract-drift"]
-        job_e2e_yml_playwright["e2e.yml#playwright"]
-        job_e2e_yml_visual["e2e.yml#visual"]
+        job_e2e_yml_contract_drift["e2e.yml#contract-drift"]:::atlasJob
+        job_e2e_yml_playwright["e2e.yml#playwright"]:::atlasJob
+        job_e2e_yml_visual["e2e.yml#visual"]:::atlasJob
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_e2e_playwright -->|BUILT_BY| job_e2e_yml_contract_drift
@@ -168,19 +179,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-zoom (4 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_ci["ci (1 jobs)"]
-  grp_0_Scheduled___Manual --> wf_0_ci
-  wf_2_e2e["e2e (3 jobs)"]
-  grp_0_Scheduled___Manual --> wf_2_e2e
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Automation___Other
-  wf_3_issue_add["issue_add (1 jobs)"]
-  grp_1_Automation___Other --> wf_3_issue_add
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_1_CodeQL["CodeQL (1 jobs)"]
-  grp_2_Security___Governance --> wf_1_CodeQL
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-zoom (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci["ci (1 jobs)"]
+      direction TB
+      wf_0_ci(["Trigger: ci"]):::atlasWorkflow
+      job_0_plugin_ci["plugin-ci"]:::atlasJob
+      wf_0_ci --> job_0_plugin_ci
+    end
+    pipeline_root --> wf_0_ci
+    subgraph sg_wf_2_e2e["e2e (3 jobs)"]
+      direction TB
+      wf_2_e2e(["Trigger: e2e"]):::atlasWorkflow
+      job_2_playwright["playwright"]:::atlasJob
+      job_2_visual["visual"]:::atlasJob
+      job_2_contract_drift["contract-drift"]:::atlasJob
+      wf_2_e2e --> job_2_playwright
+      wf_2_e2e --> job_2_visual
+      wf_2_e2e --> job_2_contract_drift
+    end
+    pipeline_root --> wf_2_e2e
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_issue_add["issue_add (1 jobs)"]
+      direction TB
+      wf_3_issue_add(["Trigger: issue_add"]):::atlasWorkflow
+      job_3_add_to_project["add-to-project"]:::atlasJob
+      wf_3_issue_add --> job_3_add_to_project
+    end
+    pipeline_root --> wf_3_issue_add
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_1_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL
+  end
 ```

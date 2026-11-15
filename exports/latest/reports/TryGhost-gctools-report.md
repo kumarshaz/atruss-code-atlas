@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for TryGhost/gctools
 
 ```mermaid
 graph TD;
-    gctools["gctools : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    gctools["gctools : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,12 +114,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_54514a2e_d96a_4cd9_8653_2ebc83f5224f["54514a2e-d96a-4cd9-8653-2ebc83f5224f"]
+        mod_54514a2e_d96a_4cd9_8653_2ebc83f5224f["54514a2e-d96a-4cd9-8653-2ebc83f5224f"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_test_yml_build["test.yml#build"]
-        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]
+        job_test_yml_build["test.yml#build"]:::atlasJob
+        job_test_yml_required_checks_pass["test.yml#required-checks-pass"]:::atlasJob
     end
     mod_54514a2e_d96a_4cd9_8653_2ebc83f5224f -->|BUILT_BY| job_test_yml_build
     mod_54514a2e_d96a_4cd9_8653_2ebc83f5224f -->|BUILT_BY| job_test_yml_required_checks_pass
@@ -126,10 +137,17 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Test_0["Test"]
     direction TB
-    0_build["build"]
-    0_required_checks_pass["required-checks-pass"]
+    0_build["build"]:::atlasJob
+    0_required_checks_pass["required-checks-pass"]:::atlasJob
     0_build --> 0_required_checks_pass
   end
 ```

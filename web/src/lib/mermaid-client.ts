@@ -1,4 +1,13 @@
 import mermaid from 'mermaid';
+import elkLayouts from '@mermaid-js/layout-elk';
+
+let elkRegistered = false;
+function ensureLayoutLoaders(): void {
+    if (!elkRegistered && typeof mermaid.registerLayoutLoaders === 'function') {
+        mermaid.registerLayoutLoaders(elkLayouts);
+        elkRegistered = true;
+    }
+}
 
 /** Normalize an arbitrary string into a safe Mermaid node identifier. */
 export function safeId(raw: string): string {
@@ -17,20 +26,116 @@ export function safeLabel(raw: string): string {
         .replace(/>/g, '&gt;');
 }
 
-/** Configure Mermaid with theme-aware dark/light styling and safe size caps. */
+/** Return semantic Mermaid `classDef` lines aligned with the active light/dark theme. */
+export function getMermaidClassDefs(isDark?: boolean): string[] {
+    const dark =
+        typeof isDark === 'boolean'
+            ? isDark
+            : typeof document !== 'undefined' &&
+              document.documentElement.getAttribute('data-theme') !== 'light';
+
+    if (dark) {
+        return [
+            '  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff,font-weight:600',
+            '  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb,font-weight:600',
+            '  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb',
+            '  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb',
+            '  classDef atlasStage fill:#3c4858,stroke:#bbc7db,stroke-width:1px,color:#d7e3f7',
+            '  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6',
+            '  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6',
+            '  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf',
+        ];
+    }
+
+    return [
+        '  classDef atlasRoot fill:#d3e4ff,stroke:#004882,stroke-width:2px,color:#001d36,font-weight:600',
+        '  classDef atlasCategory fill:#FAF9F5,stroke:#C84B20,stroke-width:1.5px,color:#111111,font-weight:600',
+        '  classDef atlasWorkflow fill:#FAF9F5,stroke:#4338ca,stroke-width:1.5px,color:#181c22',
+        '  classDef atlasJob fill:#f1f5f9,stroke:#64748b,stroke-width:1px,color:#181c22',
+        '  classDef atlasStage fill:#e2e8f0,stroke:#475569,stroke-width:1px,color:#1e293b',
+        '  classDef atlasTarget fill:#dcfce7,stroke:#15803d,stroke-width:1.5px,color:#14532d',
+        '  classDef atlasAlert fill:#fee2e2,stroke:#b91c1c,stroke-width:1.5px,color:#7f1d1d',
+        '  classDef atlasMore fill:#E7E5DD,stroke:#64748b,stroke-dasharray:4 4,color:#334155',
+    ];
+}
+
+/** Configure Mermaid with theme-aware dark/light blueprint/M3 styling and safe size caps. */
 export function configureMermaid(htmlLabels = true): void {
+    ensureLayoutLoaders();
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     mermaid.initialize({
         startOnLoad: false,
-        theme: isDark ? 'dark' : 'default',
+        layout: 'elk',
+        theme: 'base',
+        themeVariables: isDark
+            ? {
+                  fontFamily:
+                      "'Roboto Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+                  fontSize: '13px',
+                  background: '#0f141a',
+                  primaryColor: '#212428',
+                  primaryTextColor: '#dfe3eb',
+                  primaryBorderColor: '#E87A48',
+                  lineColor: '#9A968E',
+                  secondaryColor: '#1b2026',
+                  secondaryTextColor: '#dfe3eb',
+                  secondaryBorderColor: '#43474e',
+                  tertiaryColor: '#191B1E',
+                  tertiaryTextColor: '#c3c6cf',
+                  tertiaryBorderColor: '#43474e',
+                  clusterBkg: '#191B1E',
+                  clusterBorder: '#43474e',
+                  edgeLabelBackground: '#171c22',
+                  nodeTextColor: '#dfe3eb',
+              }
+            : {
+                  fontFamily:
+                      "'Roboto Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+                  fontSize: '13px',
+                  background: '#f8f9ff',
+                  primaryColor: '#FAF9F5',
+                  primaryTextColor: '#111111',
+                  primaryBorderColor: '#C84B20',
+                  lineColor: '#262523',
+                  secondaryColor: '#E7E5DD',
+                  secondaryTextColor: '#181c22',
+                  secondaryBorderColor: '#94a3b8',
+                  tertiaryColor: '#f1f5f9',
+                  tertiaryTextColor: '#181c22',
+                  tertiaryBorderColor: '#cbd5e1',
+                  clusterBkg: '#f1f5f9',
+                  clusterBorder: '#94a3b8',
+                  edgeLabelBackground: '#FAF9F5',
+                  nodeTextColor: '#111111',
+              },
         maxTextSize: 200000,
         flowchart: {
             useMaxWidth: true,
             htmlLabels,
             nodeSpacing: 28,
             rankSpacing: 44,
+            curve: 'basis',
         },
     });
+}
+
+/**
+ * Replace any statically baked `classDef atlas*` lines with the active light/dark theme palette
+ * so static Arc42 Markdown diagrams remain high-contrast in both light and dark modes.
+ */
+export function adaptMermaidSourceToTheme(source: string): string {
+    if (!source || !source.includes('classDef atlas')) return source;
+    const rawLines = source.split(/\r?\n/);
+    const filtered = rawLines.filter((line) => !/^\s*classDef\s+atlas[A-Za-z0-9_]+\b/.test(line));
+    const headerIdx = filtered.findIndex((line) =>
+        /^\s*(?:graph|flowchart)\s+(?:TD|TB|LR|RL|BT)\b/i.test(line)
+    );
+    const activeDefs = getMermaidClassDefs();
+    if (headerIdx >= 0) {
+        filtered.splice(headerIdx + 1, 0, ...activeDefs);
+        return filtered.join('\n');
+    }
+    return [...activeDefs, ...filtered].join('\n');
 }
 
 /** Render a Mermaid definition string into SVG markup using the active theme. */
@@ -40,8 +145,9 @@ export async function renderMermaidSvg(
     htmlLabels = true
 ): Promise<string> {
     configureMermaid(htmlLabels);
+    const themedDef = adaptMermaidSourceToTheme(graphDef);
     const renderId = `${safeId(prefix)}-${Math.random().toString(36).slice(2, 10)}`;
-    const { svg } = await mermaid.render(renderId, graphDef);
+    const { svg } = await mermaid.render(renderId, themedDef);
     if (!htmlLabels) configureMermaid(true);
     return svg;
 }
@@ -61,9 +167,17 @@ export function applyResponsiveSvgStyle(svgEl: SVGSVGElement | null): void {
     svgEl.style.margin = '0 auto';
 }
 
-/** Check whether an existing Mermaid SVG failed layout due to hidden-container rendering. */
+/** Check whether an existing Mermaid SVG failed layout or was rendered for a different theme. */
 export function needsVisibleMermaidRepair(preEl: HTMLElement): boolean {
-    if (preEl.dataset.archRenderedVisible === 'true') return false;
+    const activeTheme =
+        typeof document !== 'undefined' &&
+        document.documentElement.getAttribute('data-theme') === 'light'
+            ? 'light'
+            : 'dark';
+    if (preEl.dataset.archRenderedVisible === 'true' && preEl.dataset.archTheme === activeTheme) {
+        return false;
+    }
+    if (preEl.dataset.archTheme !== activeTheme) return true;
     const svgEl = preEl.querySelector<SVGSVGElement>('svg');
     if (!svgEl) return true;
     const vb = (svgEl.getAttribute('viewBox') || '').trim();
@@ -72,11 +186,16 @@ export function needsVisibleMermaidRepair(preEl: HTMLElement): boolean {
     return rect.width <= 24 || rect.height <= 24;
 }
 
-/** Re-render visible `<pre class="mermaid">` blocks in a container (fixing hidden-tab 16x16 SVGs). */
+/** Re-render visible `<pre class="mermaid">` blocks in a container (fixing hidden-tab & theme contrast). */
 export async function repairVisibleMermaidBlocks(
     container: ParentNode,
     force = false
 ): Promise<void> {
+    const activeTheme =
+        typeof document !== 'undefined' &&
+        document.documentElement.getAttribute('data-theme') === 'light'
+            ? 'light'
+            : 'dark';
     const blocks = Array.from(container.querySelectorAll<HTMLElement>('pre.mermaid'));
     for (const preEl of blocks) {
         if (preEl.closest('[hidden]')) continue;
@@ -94,6 +213,7 @@ export async function repairVisibleMermaidBlocks(
             preEl.innerHTML = svg;
             preEl.setAttribute('data-processed', 'true');
             preEl.dataset.archRenderedVisible = 'true';
+            preEl.dataset.archTheme = activeTheme;
             applyResponsiveSvgStyle(preEl.querySelector('svg'));
         } catch (err) {
             console.error('Mermaid static block render failed:', err);

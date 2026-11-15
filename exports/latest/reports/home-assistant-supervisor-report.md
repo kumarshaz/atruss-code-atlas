@@ -41,25 +41,38 @@ description: Arc42 and Pipeline report for home-assistant/supervisor
 
 ```mermaid
 graph TD;
-    repo_root(["home-assistant/supervisor (27 components)"])
-    dir_0_supervisor["supervisor (17)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["home-assistant/supervisor (27 components)"]):::atlasRoot
+    subgraph sg_dir_0_supervisor["supervisor (17)"]
+      direction TB
+      dir_0_supervisor["supervisor (17)"]:::atlasCategory
+      sub_0_0_host["host (3)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_0_host
+      sub_0_1_services["services (3)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_1_services
+      sub_0_2_dbus["dbus (2)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_2_dbus
+      sub_0_more["+8 more submodules (9)"]:::atlasMore
+      dir_0_supervisor --> sub_0_more
+    end
     repo_root --> dir_0_supervisor
-    sub_0_0_host["host (3)"]
-    dir_0_supervisor --> sub_0_0_host
-    sub_0_1_services["services (3)"]
-    dir_0_supervisor --> sub_0_1_services
-    sub_0_2_dbus["dbus (2)"]
-    dir_0_supervisor --> sub_0_2_dbus
-    sub_0_more["+8 more submodules (9)"]
-    dir_0_supervisor --> sub_0_more
-    dir_1_tests["tests (10)"]
+    subgraph sg_dir_1_tests["tests (10)"]
+      direction TB
+      dir_1_tests["tests (10)"]:::atlasCategory
+      sub_1_0_fixtures["fixtures (6)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_fixtures
+      sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_dbus_service_mocks
+      sub_1_2_dbus["dbus (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_dbus
+    end
     repo_root --> dir_1_tests
-    sub_1_0_fixtures["fixtures (6)"]
-    dir_1_tests --> sub_1_0_fixtures
-    sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]
-    dir_1_tests --> sub_1_1_dbus_service_mocks
-    sub_1_2_dbus["dbus (1)"]
-    dir_1_tests --> sub_1_2_dbus
     sub_0_0_host -.->|"1 dep"| sub_0_1_services
     sub_0_2_dbus -.->|"1 dep"| sub_0_0_host
     sub_0_2_dbus -.->|"1 dep"| sub_1_1_dbus_service_mocks
@@ -157,5 +170,12 @@ graph TD;
 
 ```mermaid
 graph TD;
-  NoWorkflows[No Workflows Detected]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  NoWorkflows[No Workflows Detected]:::atlasMore
 ```

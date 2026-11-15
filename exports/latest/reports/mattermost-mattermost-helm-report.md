@@ -41,50 +41,72 @@ description: Arc42 and Pipeline report for mattermost/mattermost-helm
 
 ```mermaid
 graph TD;
-    repo_root(["mattermost/mattermost-helm (125 components)"])
-    dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["mattermost/mattermost-helm (125 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]
+      direction TB
+      dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]:::atlasCategory
+      sub_0_0_charts["charts (19)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_0_charts
+      sub_0_1_templates["templates (13)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_1_templates
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_2__module_root_
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_more
+    end
     repo_root --> dir_0_charts_mattermost_enterprise_edition
-    sub_0_0_charts["charts (19)"]
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_0_charts
-    sub_0_1_templates["templates (13)"]
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_1_templates
-    sub_0_2__module_root_["(module root) (2)"]
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_more
-    dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]
+    subgraph sg_dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]
+      direction TB
+      dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]:::atlasCategory
+      sub_1_0_templates["templates (12)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_1__module_root_
+      sub_1_2_ci["ci (2)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_2_ci
+    end
     repo_root --> dir_1_charts_mattermost_team_edition
-    sub_1_0_templates["templates (12)"]
-    dir_1_charts_mattermost_team_edition --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (2)"]
-    dir_1_charts_mattermost_team_edition --> sub_1_1__module_root_
-    sub_1_2_ci["ci (2)"]
-    dir_1_charts_mattermost_team_edition --> sub_1_2_ci
-    dir_2_charts_mattermost["charts/mattermost (14)"]
+    subgraph sg_dir_2_charts_mattermost["charts/mattermost (14)"]
+      direction TB
+      dir_2_charts_mattermost["charts/mattermost (14)"]:::atlasCategory
+      sub_2_0_templates["templates (10)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_0_templates
+      sub_2_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_1__module_root_
+      sub_2_2_ci["ci (1)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_2_ci
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_charts_mattermost --> sub_2_more
+    end
     repo_root --> dir_2_charts_mattermost
-    sub_2_0_templates["templates (10)"]
-    dir_2_charts_mattermost --> sub_2_0_templates
-    sub_2_1__module_root_["(module root) (2)"]
-    dir_2_charts_mattermost --> sub_2_1__module_root_
-    sub_2_2_ci["ci (1)"]
-    dir_2_charts_mattermost --> sub_2_2_ci
-    sub_2_more["+1 more submodules (1)"]
-    dir_2_charts_mattermost --> sub_2_more
-    dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]
+    subgraph sg_dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]
+      direction TB
+      dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]:::atlasCategory
+      sub_3_0_templates["templates (12)"]:::atlasWorkflow
+      dir_3_charts_mattermost_calls_offloader --> sub_3_0_templates
+      sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_mattermost_calls_offloader --> sub_3_1__module_root_
+    end
     repo_root --> dir_3_charts_mattermost_calls_offloader
-    sub_3_0_templates["templates (12)"]
-    dir_3_charts_mattermost_calls_offloader --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]
-    dir_3_charts_mattermost_calls_offloader --> sub_3_1__module_root_
-    dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]
+    subgraph sg_dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]
+      direction TB
+      dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]:::atlasCategory
+      sub_4_0_templates["templates (5)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_0_templates
+      sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_1__module_root_
+      sub_4_2_crds["crds (3)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_2_crds
+    end
     repo_root --> dir_4_charts_mattermost_operator
-    sub_4_0_templates["templates (5)"]
-    dir_4_charts_mattermost_operator --> sub_4_0_templates
-    sub_4_1__module_root_["(module root) (3)"]
-    dir_4_charts_mattermost_operator --> sub_4_1__module_root_
-    sub_4_2_crds["crds (3)"]
-    dir_4_charts_mattermost_operator --> sub_4_2_crds
-    dir_other_modules["+4 more modules (34)"]
+    dir_other_modules["+4 more modules (34)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -182,12 +204,16 @@ Showing top 60 representative components out of 125 across 9 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_mattermost["charts/mattermost"]
-        mod_docker_app["docker/app"]
+        mod_charts_mattermost["charts/mattermost"]:::atlasCategory
+        mod_docker_app["docker/app"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_app_Dockerfile["docker/app/Dockerfile"]
+        art_docker_app_Dockerfile["docker/app/Dockerfile"]:::atlasWorkflow
     end
     mod_charts_mattermost -->|PACKAGED_BY| art_docker_app_Dockerfile
     mod_docker_app -->|PACKAGED_BY| art_docker_app_Dockerfile
@@ -201,17 +227,24 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-helm"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-helm"]):::atlasRoot
   subgraph Validate_PR_0["Validate PR"]
     direction TB
-    0_lint["lint"]
-    0_test["test"]
+    0_lint["lint"]:::atlasJob
+    0_test["test"]:::atlasJob
     0_lint --> 0_test
   end
   pipeline_root --> 0_lint
   subgraph Release_1["Release"]
     direction TB
-    1_release_charts["release-charts"]
+    1_release_charts["release-charts"]:::atlasJob
   end
   pipeline_root --> 1_release_charts
 ```

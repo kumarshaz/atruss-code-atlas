@@ -41,15 +41,22 @@ description: Arc42 and Pipeline report for benchmark-action/github-action-benchm
 
 ```mermaid
 graph TD;
-    benchmark_example["benchmark-example : MODULE"]
-    github_action_benchmark["github-action-benchmark : MODULE"]
-    Sample["Sample : MODULE"]
-    bench["bench : module"]
-    lib["lib : module"]
-    fib["fib : module"]
-    fib_test["fib_test : module"]
-    jmh_sample["jmh-sample : MODULE"]
-    repo_root(["benchmark-action/github-action-benchmark"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    benchmark_example["benchmark-example : MODULE"]:::atlasJob
+    github_action_benchmark["github-action-benchmark : MODULE"]:::atlasJob
+    Sample["Sample : MODULE"]:::atlasJob
+    bench["bench : module"]:::atlasJob
+    lib["lib : module"]:::atlasJob
+    fib["fib : module"]:::atlasJob
+    fib_test["fib_test : module"]:::atlasJob
+    jmh_sample["jmh-sample : MODULE"]:::atlasJob
+    repo_root(["benchmark-action/github-action-benchmark"]):::atlasRoot
     repo_root --> Sample
     repo_root --> bench
     repo_root --> benchmark_example
@@ -133,41 +140,45 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_examples_benchmarkdotnet["examples/benchmarkdotnet"]
-        mod_examples_benchmarkjs["examples/benchmarkjs"]
-        mod_examples_criterion_rs["examples/criterion-rs"]
-        mod_examples_go["examples/go"]
-        mod_examples_java["examples/java"]
-        mod_examples_pytest["examples/pytest"]
-        mod_examples_rust["examples/rust"]
+        mod_examples_benchmarkdotnet["examples/benchmarkdotnet"]:::atlasCategory
+        mod_examples_benchmarkjs["examples/benchmarkjs"]:::atlasCategory
+        mod_examples_criterion_rs["examples/criterion-rs"]:::atlasCategory
+        mod_examples_go["examples/go"]:::atlasCategory
+        mod_examples_java["examples/java"]:::atlasCategory
+        mod_examples_pytest["examples/pytest"]:::atlasCategory
+        mod_examples_rust["examples/rust"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_benchmarkdotnet_yml_benchmark["benchmarkdotnet.yml#benchmark"]
-        job_benchmarkjs_yml_benchmark["benchmarkjs.yml#benchmark"]
-        job_ci_results_repo_yml_benchmarkdotnet_framework["ci-results-repo.yml#benchmarkdotnet-framework"]
-        job_ci_results_repo_yml_benchmarkjs["ci-results-repo.yml#benchmarkjs"]
-        job_ci_results_repo_yml_go["ci-results-repo.yml#go"]
-        job_ci_results_repo_yml_java_jmh["ci-results-repo.yml#java-jmh"]
-        job_ci_results_repo_yml_only_alert_with_cache["ci-results-repo.yml#only-alert-with-cache"]
-        job_ci_results_repo_yml_pytest_benchmark["ci-results-repo.yml#pytest-benchmark"]
-        job_ci_results_repo_yml_rust["ci-results-repo.yml#rust"]
-        job_ci_results_repo_yml_rust_criterion_rs_framework["ci-results-repo.yml#rust-criterion-rs-framework"]
-        job_ci_yml_benchmarkdotnet_framework["ci.yml#benchmarkdotnet-framework"]
-        job_ci_yml_benchmarkjs["ci.yml#benchmarkjs"]
-        job_ci_yml_go["ci.yml#go"]
-        job_ci_yml_java_jmh["ci.yml#java-jmh"]
-        job_ci_yml_only_alert_with_cache["ci.yml#only-alert-with-cache"]
-        job_ci_yml_pytest_benchmark["ci.yml#pytest-benchmark"]
-        job_ci_yml_rust["ci.yml#rust"]
-        job_ci_yml_rust_criterion_rs_framework["ci.yml#rust-criterion-rs-framework"]
-        job_commit_comment_yml_benchmark["commit-comment.yml#benchmark"]
-        job_go_yml_benchmark["go.yml#benchmark"]
-        job_java_yml_benchmark["java.yml#benchmark"]
-        job_minimal_yml_benchmark["minimal.yml#benchmark"]
-        job_pytest_yml_benchmark["pytest.yml#benchmark"]
-        job_rust_criterion_rs_yml_benchmark["rust-criterion-rs.yml#benchmark"]
-        job_rust_yml_benchmark["rust.yml#benchmark"]
+        job_benchmarkdotnet_yml_benchmark["benchmarkdotnet.yml#benchmark"]:::atlasJob
+        job_benchmarkjs_yml_benchmark["benchmarkjs.yml#benchmark"]:::atlasJob
+        job_ci_results_repo_yml_benchmarkdotnet_framework["ci-results-repo.yml#benchmarkdotnet-framework"]:::atlasJob
+        job_ci_results_repo_yml_benchmarkjs["ci-results-repo.yml#benchmarkjs"]:::atlasJob
+        job_ci_results_repo_yml_go["ci-results-repo.yml#go"]:::atlasJob
+        job_ci_results_repo_yml_java_jmh["ci-results-repo.yml#java-jmh"]:::atlasJob
+        job_ci_results_repo_yml_only_alert_with_cache["ci-results-repo.yml#only-alert-with-cache"]:::atlasJob
+        job_ci_results_repo_yml_pytest_benchmark["ci-results-repo.yml#pytest-benchmark"]:::atlasJob
+        job_ci_results_repo_yml_rust["ci-results-repo.yml#rust"]:::atlasJob
+        job_ci_results_repo_yml_rust_criterion_rs_framework["ci-results-repo.yml#rust-criterion-rs-framework"]:::atlasJob
+        job_ci_yml_benchmarkdotnet_framework["ci.yml#benchmarkdotnet-framework"]:::atlasJob
+        job_ci_yml_benchmarkjs["ci.yml#benchmarkjs"]:::atlasJob
+        job_ci_yml_go["ci.yml#go"]:::atlasJob
+        job_ci_yml_java_jmh["ci.yml#java-jmh"]:::atlasJob
+        job_ci_yml_only_alert_with_cache["ci.yml#only-alert-with-cache"]:::atlasJob
+        job_ci_yml_pytest_benchmark["ci.yml#pytest-benchmark"]:::atlasJob
+        job_ci_yml_rust["ci.yml#rust"]:::atlasJob
+        job_ci_yml_rust_criterion_rs_framework["ci.yml#rust-criterion-rs-framework"]:::atlasJob
+        job_commit_comment_yml_benchmark["commit-comment.yml#benchmark"]:::atlasJob
+        job_go_yml_benchmark["go.yml#benchmark"]:::atlasJob
+        job_java_yml_benchmark["java.yml#benchmark"]:::atlasJob
+        job_minimal_yml_benchmark["minimal.yml#benchmark"]:::atlasJob
+        job_pytest_yml_benchmark["pytest.yml#benchmark"]:::atlasJob
+        job_rust_criterion_rs_yml_benchmark["rust-criterion-rs.yml#benchmark"]:::atlasJob
+        job_rust_yml_benchmark["rust.yml#benchmark"]:::atlasJob
     end
     mod_examples_benchmarkdotnet -->|BUILT_BY| job_benchmarkdotnet_yml_benchmark
     mod_examples_benchmarkdotnet -->|BUILT_BY| job_ci_results_repo_yml_benchmarkdotnet_framework
@@ -227,9 +238,98 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["benchmark-action/github-action-benchmark (16 workflows)"])
-  grp_0_CI___Verification["CI & Verification (15 workflows · 39 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["benchmark-action/github-action-benchmark (16 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (15 workflows · 39 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Benchmark_Net_Example["Benchmark.Net Example (1 jobs)"]
+      direction TB
+      wf_0_Benchmark_Net_Example(["Trigger: Benchmark.Net Example"]):::atlasWorkflow
+      job_0_benchmark["benchmark"]:::atlasJob
+      wf_0_Benchmark_Net_Example --> job_0_benchmark
+    end
+    pipeline_root --> wf_0_Benchmark_Net_Example
+    subgraph sg_wf_1_Benchmark_js_Example["Benchmark.js Example (1 jobs)"]
+      direction TB
+      wf_1_Benchmark_js_Example(["Trigger: Benchmark.js Example"]):::atlasWorkflow
+      job_1_benchmark["benchmark"]:::atlasJob
+      wf_1_Benchmark_js_Example --> job_1_benchmark
+    end
+    pipeline_root --> wf_1_Benchmark_js_Example
+    subgraph sg_wf_2_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]
+      direction TB
+      wf_2_Catch2_C___Example(["Trigger: Catch2 C++ Example"]):::atlasWorkflow
+      job_2_benchmark["benchmark"]:::atlasJob
+      wf_2_Catch2_C___Example --> job_2_benchmark
+    end
+    pipeline_root --> wf_2_Catch2_C___Example
+    subgraph sg_wf_3_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]
+      direction TB
+      wf_3_Catch2_C___Example(["Trigger: Catch2 C++ Example"]):::atlasWorkflow
+      job_3_benchmark["benchmark"]:::atlasJob
+      wf_3_Catch2_C___Example --> job_3_benchmark
+    end
+    pipeline_root --> wf_3_Catch2_C___Example
+    subgraph sg_wf_4_CI___separate_results_repo["CI - separate results repo (12 jobs)"]
+      direction TB
+      wf_4_CI___separate_results_repo(["Trigger: CI - separate results repo"]):::atlasWorkflow
+      job_4_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
+      job_4_benchmarkjs["benchmarkjs"]:::atlasJob
+      job_4_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
+      wf_4_CI___separate_results_repo --> job_4_benchmarkdotnet_framework
+      wf_4_CI___separate_results_repo --> job_4_benchmarkjs
+      wf_4_CI___separate_results_repo --> job_4_catch2_v2_framework
+    end
+    pipeline_root --> wf_4_CI___separate_results_repo
+    subgraph sg_wf_5_CI["CI (14 jobs)"]
+      direction TB
+      wf_5_CI(["Trigger: CI"]):::atlasWorkflow
+      job_5_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
+      job_5_benchmarkjs["benchmarkjs"]:::atlasJob
+      job_5_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
+      wf_5_CI --> job_5_benchmarkdotnet_framework
+      wf_5_CI --> job_5_benchmarkjs
+      wf_5_CI --> job_5_catch2_v2_framework
+    end
+    pipeline_root --> wf_5_CI
+    subgraph sg_wf_6_Example_for_alert_with_commit_comment["Example for alert with commit comment (1 jobs)"]
+      direction TB
+      wf_6_Example_for_alert_with_commit_comment(["Trigger: Example for alert with commit comment"]):::atlasWorkflow
+      job_6_benchmark["benchmark"]:::atlasJob
+      wf_6_Example_for_alert_with_commit_comment --> job_6_benchmark
+    end
+    pipeline_root --> wf_6_Example_for_alert_with_commit_comment
+    subgraph sg_wf_7_C___Example["C++ Example (1 jobs)"]
+      direction TB
+      wf_7_C___Example(["Trigger: C++ Example"]):::atlasWorkflow
+      job_7_benchmark["benchmark"]:::atlasJob
+      wf_7_C___Example --> job_7_benchmark
+    end
+    pipeline_root --> wf_7_C___Example
+    subgraph sg_wf_13_Criterion_rs_Example["Criterion.rs Example (1 jobs)"]
+      direction TB
+      wf_13_Criterion_rs_Example(["Trigger: Criterion.rs Example"]):::atlasWorkflow
+      job_13_benchmark["benchmark"]:::atlasJob
+      wf_13_Criterion_rs_Example --> job_13_benchmark
+    end
+    pipeline_root --> wf_13_Criterion_rs_Example
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_15_Validate_action_typings["Validate action typings (1 jobs)"]
+      direction TB
+      wf_15_Validate_action_typings(["Trigger: Validate action typings"]):::atlasWorkflow
+      job_15_validate_typings["validate-typings"]:::atlasJob
+      wf_15_Validate_action_typings --> job_15_validate_typings
+    end
+    pipeline_root --> wf_15_Validate_action_typings
+  end
+  wf_more["+6 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

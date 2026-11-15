@@ -41,22 +41,35 @@ description: Arc42 and Pipeline report for grafana/grafana
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/grafana (261 components)"])
-    dir_0_apps["apps (249)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/grafana (261 components)"]):::atlasRoot
+    subgraph sg_dir_0_apps["apps (249)"]
+      direction TB
+      dir_0_apps["apps (249)"]:::atlasCategory
+      sub_0_0_alerting["alerting (180)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_alerting
+      sub_0_1_advisor["advisor (69)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_advisor
+    end
     repo_root --> dir_0_apps
-    sub_0_0_alerting["alerting (180)"]
-    dir_0_apps --> sub_0_0_alerting
-    sub_0_1_advisor["advisor (69)"]
-    dir_0_apps --> sub_0_1_advisor
-    dir_1_devenv["devenv (10)"]
+    subgraph sg_dir_1_devenv["devenv (10)"]
+      direction TB
+      dir_1_devenv["devenv (10)"]:::atlasCategory
+      sub_1_0_docker_blocks_auth["docker/blocks/auth (9)"]:::atlasWorkflow
+      dir_1_devenv --> sub_1_0_docker_blocks_auth
+      sub_1_1_docker_blocks_alert_webhook_listener["docker/blocks/alert_webhook_listener (1)"]:::atlasWorkflow
+      dir_1_devenv --> sub_1_1_docker_blocks_alert_webhook_listener
+    end
     repo_root --> dir_1_devenv
-    sub_1_0_docker_blocks_auth["docker/blocks/auth (9)"]
-    dir_1_devenv --> sub_1_0_docker_blocks_auth
-    sub_1_1_docker_blocks_alert_webhook_listener["docker/blocks/alert_webhook_listener (1)"]
-    dir_1_devenv --> sub_1_1_docker_blocks_alert_webhook_listener
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
-    dir_3__github[".github (1)"]
+    dir_3__github[".github (1)"]:::atlasCategory
     repo_root --> dir_3__github
 ```
 
@@ -236,210 +249,214 @@ Showing top 60 representative components out of 261 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__citools_src_cue[".citools/src/cue"]
-        mod__citools_src_govulncheck[".citools/src/govulncheck"]
-        mod__github_actions_changelog[".github/actions/changelog"]
-        mod_apps_dashboard["apps/dashboard"]
-        mod_devenv_docker_blocks_alert_webhook_listener["devenv/docker/blocks/alert_webhook_listener"]
-        mod_devenv_docker_blocks_auth_apache_proxy["devenv/docker/blocks/auth/apache_proxy"]
-        mod_devenv_docker_blocks_auth_apache_proxy_mac["devenv/docker/blocks/auth/apache_proxy_mac"]
-        mod_devenv_docker_blocks_auth_authentik["devenv/docker/blocks/auth/authentik"]
-        mod_devenv_docker_blocks_auth_freeipa["devenv/docker/blocks/auth/freeipa"]
-        mod_devenv_docker_blocks_auth_jwt_proxy["devenv/docker/blocks/auth/jwt_proxy"]
-        mod_devenv_docker_blocks_auth_nginx_proxy["devenv/docker/blocks/auth/nginx_proxy"]
-        mod_devenv_docker_blocks_auth_nginx_proxy_mac["devenv/docker/blocks/auth/nginx_proxy_mac"]
-        mod_devenv_docker_blocks_auth_oauth["devenv/docker/blocks/auth/oauth"]
-        mod_devenv_docker_blocks_auth_openldap["devenv/docker/blocks/auth/openldap"]
-        mod_devenv_docker_blocks_auth_openldap_multiple["devenv/docker/blocks/auth/openldap-multiple"]
-        mod_devenv_docker_blocks_auth_prometheus_basic_auth_proxy["devenv/docker/blocks/auth/prometheus_basic_auth_proxy"]
-        mod_devenv_docker_blocks_auth_prometheus_oauth2_proxy_azure["devenv/docker/blocks/auth/prometheus_oauth2_proxy_azure"]
-        mod_devenv_docker_blocks_caddy_tls["devenv/docker/blocks/caddy_tls"]
-        mod_devenv_docker_blocks_clickhouse["devenv/docker/blocks/clickhouse"]
-        mod_devenv_docker_blocks_collectd["devenv/docker/blocks/collectd"]
-        mod_devenv_docker_blocks_elastic["devenv/docker/blocks/elastic"]
-        mod_devenv_docker_blocks_elastic_data["devenv/docker/blocks/elastic/data"]
-        mod_devenv_docker_blocks_elasticstack["devenv/docker/blocks/elasticstack"]
-        mod_devenv_docker_blocks_etcd["devenv/docker/blocks/etcd"]
-        mod_devenv_docker_blocks_grafana["devenv/docker/blocks/grafana"]
-        mod_devenv_docker_blocks_graphite["devenv/docker/blocks/graphite"]
-        mod_devenv_docker_blocks_graphite1["devenv/docker/blocks/graphite1"]
-        mod_devenv_docker_blocks_influxdb["devenv/docker/blocks/influxdb"]
-        mod_devenv_docker_blocks_influxdb1["devenv/docker/blocks/influxdb1"]
-        mod_devenv_docker_blocks_jaeger["devenv/docker/blocks/jaeger"]
-        mod_devenv_docker_blocks_jaegeronly["devenv/docker/blocks/jaegeronly"]
-        mod_devenv_docker_blocks_loki["devenv/docker/blocks/loki"]
-        mod_devenv_docker_blocks_loki_promtail["devenv/docker/blocks/loki-promtail"]
-        mod_devenv_docker_blocks_loki_data["devenv/docker/blocks/loki/data"]
-        mod_devenv_docker_blocks_maildev["devenv/docker/blocks/maildev"]
-        mod_devenv_docker_blocks_mariadb["devenv/docker/blocks/mariadb"]
-        mod_devenv_docker_blocks_memcached["devenv/docker/blocks/memcached"]
-        mod_devenv_docker_blocks_mimir_backend["devenv/docker/blocks/mimir_backend"]
-        mod_devenv_docker_blocks_mqtt["devenv/docker/blocks/mqtt"]
-        mod_devenv_docker_blocks_mssql["devenv/docker/blocks/mssql"]
-        mod_devenv_docker_blocks_mssql_arm64["devenv/docker/blocks/mssql_arm64"]
-        mod_devenv_docker_blocks_mssql_tests["devenv/docker/blocks/mssql_tests"]
-        mod_devenv_docker_blocks_mssql_tls["devenv/docker/blocks/mssql_tls"]
-        mod_devenv_docker_blocks_mysql["devenv/docker/blocks/mysql"]
-        mod_devenv_docker_blocks_mysql_exporter["devenv/docker/blocks/mysql_exporter"]
-        mod_devenv_docker_blocks_mysql_opendata["devenv/docker/blocks/mysql_opendata"]
-        mod_devenv_docker_blocks_mysql_tests["devenv/docker/blocks/mysql_tests"]
-        mod_devenv_docker_blocks_opentsdb["devenv/docker/blocks/opentsdb"]
-        mod_devenv_docker_blocks_pgvector["devenv/docker/blocks/pgvector"]
-        mod_devenv_docker_blocks_postgres["devenv/docker/blocks/postgres"]
-        mod_devenv_docker_blocks_postgres_tests["devenv/docker/blocks/postgres_tests"]
-        mod_devenv_docker_blocks_prometheus["devenv/docker/blocks/prometheus"]
-        mod_devenv_docker_blocks_prometheus_high_card["devenv/docker/blocks/prometheus_high_card"]
-        mod_devenv_docker_blocks_prometheus_random_data["devenv/docker/blocks/prometheus_random_data"]
-        mod_devenv_docker_blocks_prometheus_utf8["devenv/docker/blocks/prometheus_utf8"]
-        mod_devenv_docker_blocks_pyroscope["devenv/docker/blocks/pyroscope"]
-        mod_devenv_docker_blocks_redis["devenv/docker/blocks/redis"]
-        mod_devenv_docker_blocks_self_instrumentation["devenv/docker/blocks/self-instrumentation"]
-        mod_devenv_docker_blocks_sensugo["devenv/docker/blocks/sensugo"]
-        mod_devenv_docker_blocks_slow_proxy["devenv/docker/blocks/slow_proxy"]
-        mod_devenv_docker_blocks_smtp["devenv/docker/blocks/smtp"]
-        mod_devenv_docker_blocks_stateful_webhook["devenv/docker/blocks/stateful_webhook"]
-        mod_devenv_docker_blocks_tempo["devenv/docker/blocks/tempo"]
-        mod_devenv_docker_blocks_traefik["devenv/docker/blocks/traefik"]
-        mod_devenv_docker_blocks_webdav["devenv/docker/blocks/webdav"]
-        mod_devenv_docker_blocks_zipkin["devenv/docker/blocks/zipkin"]
-        mod_devenv_docker_buildcontainer["devenv/docker/buildcontainer"]
-        mod_devenv_docker_debtest["devenv/docker/debtest"]
-        mod_devenv_docker_ha_test_unified_alerting["devenv/docker/ha-test-unified-alerting"]
-        mod_devenv_docker_ha_test["devenv/docker/ha_test"]
-        mod_devenv_frontend_service["devenv/frontend-service"]
-        mod_devenv_local_npm["devenv/local-npm"]
-        mod_devenv_local_cdn["devenv/local_cdn"]
-        mod_emails["emails"]
-        mod_github_com_grafana_grafana["github.com/grafana/grafana"]
-        mod_hack["hack"]
-        mod_packages_grafana_data["packages/grafana-data"]
-        mod_packages_grafana_e2e_selectors["packages/grafana-e2e-selectors"]
-        mod_packages_grafana_schema["packages/grafana-schema"]
-        mod_packaging_docker_custom["packaging/docker/custom"]
-        mod_pkg_storage_dbproxy["pkg/storage/dbproxy"]
-        mod_pkg_storage_unified_resourcepb["pkg/storage/unified/resourcepb"]
-        mod_scripts_cli["scripts/cli"]
-        mod_scripts_modowners["scripts/modowners"]
-        mod_scripts_verify_repo_update["scripts/verify-repo-update"]
+        mod__citools_src_cue[".citools/src/cue"]:::atlasCategory
+        mod__citools_src_govulncheck[".citools/src/govulncheck"]:::atlasCategory
+        mod__github_actions_changelog[".github/actions/changelog"]:::atlasCategory
+        mod_apps_dashboard["apps/dashboard"]:::atlasCategory
+        mod_devenv_docker_blocks_alert_webhook_listener["devenv/docker/blocks/alert_webhook_listener"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_apache_proxy["devenv/docker/blocks/auth/apache_proxy"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_apache_proxy_mac["devenv/docker/blocks/auth/apache_proxy_mac"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_authentik["devenv/docker/blocks/auth/authentik"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_freeipa["devenv/docker/blocks/auth/freeipa"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_jwt_proxy["devenv/docker/blocks/auth/jwt_proxy"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_nginx_proxy["devenv/docker/blocks/auth/nginx_proxy"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_nginx_proxy_mac["devenv/docker/blocks/auth/nginx_proxy_mac"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_oauth["devenv/docker/blocks/auth/oauth"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_openldap["devenv/docker/blocks/auth/openldap"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_openldap_multiple["devenv/docker/blocks/auth/openldap-multiple"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_prometheus_basic_auth_proxy["devenv/docker/blocks/auth/prometheus_basic_auth_proxy"]:::atlasCategory
+        mod_devenv_docker_blocks_auth_prometheus_oauth2_proxy_azure["devenv/docker/blocks/auth/prometheus_oauth2_proxy_azure"]:::atlasCategory
+        mod_devenv_docker_blocks_caddy_tls["devenv/docker/blocks/caddy_tls"]:::atlasCategory
+        mod_devenv_docker_blocks_clickhouse["devenv/docker/blocks/clickhouse"]:::atlasCategory
+        mod_devenv_docker_blocks_collectd["devenv/docker/blocks/collectd"]:::atlasCategory
+        mod_devenv_docker_blocks_elastic["devenv/docker/blocks/elastic"]:::atlasCategory
+        mod_devenv_docker_blocks_elastic_data["devenv/docker/blocks/elastic/data"]:::atlasCategory
+        mod_devenv_docker_blocks_elasticstack["devenv/docker/blocks/elasticstack"]:::atlasCategory
+        mod_devenv_docker_blocks_etcd["devenv/docker/blocks/etcd"]:::atlasCategory
+        mod_devenv_docker_blocks_grafana["devenv/docker/blocks/grafana"]:::atlasCategory
+        mod_devenv_docker_blocks_graphite["devenv/docker/blocks/graphite"]:::atlasCategory
+        mod_devenv_docker_blocks_graphite1["devenv/docker/blocks/graphite1"]:::atlasCategory
+        mod_devenv_docker_blocks_influxdb["devenv/docker/blocks/influxdb"]:::atlasCategory
+        mod_devenv_docker_blocks_influxdb1["devenv/docker/blocks/influxdb1"]:::atlasCategory
+        mod_devenv_docker_blocks_jaeger["devenv/docker/blocks/jaeger"]:::atlasCategory
+        mod_devenv_docker_blocks_jaegeronly["devenv/docker/blocks/jaegeronly"]:::atlasCategory
+        mod_devenv_docker_blocks_loki["devenv/docker/blocks/loki"]:::atlasCategory
+        mod_devenv_docker_blocks_loki_promtail["devenv/docker/blocks/loki-promtail"]:::atlasCategory
+        mod_devenv_docker_blocks_loki_data["devenv/docker/blocks/loki/data"]:::atlasCategory
+        mod_devenv_docker_blocks_maildev["devenv/docker/blocks/maildev"]:::atlasCategory
+        mod_devenv_docker_blocks_mariadb["devenv/docker/blocks/mariadb"]:::atlasCategory
+        mod_devenv_docker_blocks_memcached["devenv/docker/blocks/memcached"]:::atlasCategory
+        mod_devenv_docker_blocks_mimir_backend["devenv/docker/blocks/mimir_backend"]:::atlasCategory
+        mod_devenv_docker_blocks_mqtt["devenv/docker/blocks/mqtt"]:::atlasCategory
+        mod_devenv_docker_blocks_mssql["devenv/docker/blocks/mssql"]:::atlasCategory
+        mod_devenv_docker_blocks_mssql_arm64["devenv/docker/blocks/mssql_arm64"]:::atlasCategory
+        mod_devenv_docker_blocks_mssql_tests["devenv/docker/blocks/mssql_tests"]:::atlasCategory
+        mod_devenv_docker_blocks_mssql_tls["devenv/docker/blocks/mssql_tls"]:::atlasCategory
+        mod_devenv_docker_blocks_mysql["devenv/docker/blocks/mysql"]:::atlasCategory
+        mod_devenv_docker_blocks_mysql_exporter["devenv/docker/blocks/mysql_exporter"]:::atlasCategory
+        mod_devenv_docker_blocks_mysql_opendata["devenv/docker/blocks/mysql_opendata"]:::atlasCategory
+        mod_devenv_docker_blocks_mysql_tests["devenv/docker/blocks/mysql_tests"]:::atlasCategory
+        mod_devenv_docker_blocks_opentsdb["devenv/docker/blocks/opentsdb"]:::atlasCategory
+        mod_devenv_docker_blocks_pgvector["devenv/docker/blocks/pgvector"]:::atlasCategory
+        mod_devenv_docker_blocks_postgres["devenv/docker/blocks/postgres"]:::atlasCategory
+        mod_devenv_docker_blocks_postgres_tests["devenv/docker/blocks/postgres_tests"]:::atlasCategory
+        mod_devenv_docker_blocks_prometheus["devenv/docker/blocks/prometheus"]:::atlasCategory
+        mod_devenv_docker_blocks_prometheus_high_card["devenv/docker/blocks/prometheus_high_card"]:::atlasCategory
+        mod_devenv_docker_blocks_prometheus_random_data["devenv/docker/blocks/prometheus_random_data"]:::atlasCategory
+        mod_devenv_docker_blocks_prometheus_utf8["devenv/docker/blocks/prometheus_utf8"]:::atlasCategory
+        mod_devenv_docker_blocks_pyroscope["devenv/docker/blocks/pyroscope"]:::atlasCategory
+        mod_devenv_docker_blocks_redis["devenv/docker/blocks/redis"]:::atlasCategory
+        mod_devenv_docker_blocks_self_instrumentation["devenv/docker/blocks/self-instrumentation"]:::atlasCategory
+        mod_devenv_docker_blocks_sensugo["devenv/docker/blocks/sensugo"]:::atlasCategory
+        mod_devenv_docker_blocks_slow_proxy["devenv/docker/blocks/slow_proxy"]:::atlasCategory
+        mod_devenv_docker_blocks_smtp["devenv/docker/blocks/smtp"]:::atlasCategory
+        mod_devenv_docker_blocks_stateful_webhook["devenv/docker/blocks/stateful_webhook"]:::atlasCategory
+        mod_devenv_docker_blocks_tempo["devenv/docker/blocks/tempo"]:::atlasCategory
+        mod_devenv_docker_blocks_traefik["devenv/docker/blocks/traefik"]:::atlasCategory
+        mod_devenv_docker_blocks_webdav["devenv/docker/blocks/webdav"]:::atlasCategory
+        mod_devenv_docker_blocks_zipkin["devenv/docker/blocks/zipkin"]:::atlasCategory
+        mod_devenv_docker_buildcontainer["devenv/docker/buildcontainer"]:::atlasCategory
+        mod_devenv_docker_debtest["devenv/docker/debtest"]:::atlasCategory
+        mod_devenv_docker_ha_test_unified_alerting["devenv/docker/ha-test-unified-alerting"]:::atlasCategory
+        mod_devenv_docker_ha_test["devenv/docker/ha_test"]:::atlasCategory
+        mod_devenv_frontend_service["devenv/frontend-service"]:::atlasCategory
+        mod_devenv_local_npm["devenv/local-npm"]:::atlasCategory
+        mod_devenv_local_cdn["devenv/local_cdn"]:::atlasCategory
+        mod_emails["emails"]:::atlasCategory
+        mod_github_com_grafana_grafana["github.com/grafana/grafana"]:::atlasCategory
+        mod_hack["hack"]:::atlasCategory
+        mod_packages_grafana_data["packages/grafana-data"]:::atlasCategory
+        mod_packages_grafana_e2e_selectors["packages/grafana-e2e-selectors"]:::atlasCategory
+        mod_packages_grafana_schema["packages/grafana-schema"]:::atlasCategory
+        mod_packaging_docker_custom["packaging/docker/custom"]:::atlasCategory
+        mod_pkg_storage_dbproxy["pkg/storage/dbproxy"]:::atlasCategory
+        mod_pkg_storage_unified_resourcepb["pkg/storage/unified/resourcepb"]:::atlasCategory
+        mod_scripts_cli["scripts/cli"]:::atlasCategory
+        mod_scripts_modowners["scripts/modowners"]:::atlasCategory
+        mod_scripts_verify_repo_update["scripts/verify-repo-update"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_devenv_docker_blocks_alert_webhook_listener_Dockerfile["devenv/docker/blocks/alert_webhook_listener/Dockerfile"]
-        art_devenv_docker_blocks_alert_webhook_listener_docker_compose_yaml["devenv/docker/blocks/alert_webhook_listener/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_apache_proxy_Dockerfile["devenv/docker/blocks/auth/apache_proxy/Dockerfile"]
-        art_devenv_docker_blocks_auth_apache_proxy_docker_compose_yaml["devenv/docker/blocks/auth/apache_proxy/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_apache_proxy_mac_Dockerfile["devenv/docker/blocks/auth/apache_proxy_mac/Dockerfile"]
-        art_devenv_docker_blocks_auth_apache_proxy_mac_docker_compose_yaml["devenv/docker/blocks/auth/apache_proxy_mac/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_authentik_docker_compose_yaml["devenv/docker/blocks/auth/authentik/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_freeipa_docker_compose_yaml["devenv/docker/blocks/auth/freeipa/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_jwt_proxy_docker_compose_yaml["devenv/docker/blocks/auth/jwt_proxy/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_nginx_proxy_docker_compose_yaml["devenv/docker/blocks/auth/nginx_proxy/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_nginx_proxy_mac_Dockerfile["devenv/docker/blocks/auth/nginx_proxy_mac/Dockerfile"]
-        art_devenv_docker_blocks_auth_nginx_proxy_mac_docker_compose_yaml["devenv/docker/blocks/auth/nginx_proxy_mac/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_oauth_docker_compose_yaml["devenv/docker/blocks/auth/oauth/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_openldap_multiple_docker_compose_yaml["devenv/docker/blocks/auth/openldap-multiple/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_openldap_docker_compose_yaml["devenv/docker/blocks/auth/openldap/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_prometheus_basic_auth_proxy_Dockerfile["devenv/docker/blocks/auth/prometheus_basic_auth_proxy/Dockerfile"]
-        art_devenv_docker_blocks_auth_prometheus_basic_auth_proxy_docker_compose_yaml["devenv/docker/blocks/auth/prometheus_basic_auth_proxy/docker-compose.yaml"]
-        art_devenv_docker_blocks_auth_prometheus_oauth2_proxy_azure_docker_compose_yaml["devenv/docker/blocks/auth/prometheus_oauth2_proxy_azure/docker-compose.yaml"]
-        art_devenv_docker_blocks_caddy_tls_docker_compose_yaml["devenv/docker/blocks/caddy_tls/docker-compose.yaml"]
-        art_devenv_docker_blocks_clickhouse_docker_compose_yaml["devenv/docker/blocks/clickhouse/docker-compose.yaml"]
-        art_devenv_docker_blocks_collectd_Dockerfile["devenv/docker/blocks/collectd/Dockerfile"]
-        art_devenv_docker_blocks_collectd_docker_compose_yaml["devenv/docker/blocks/collectd/docker-compose.yaml"]
-        art_devenv_docker_blocks_elastic_data_Dockerfile["devenv/docker/blocks/elastic/data/Dockerfile"]
-        art_devenv_docker_blocks_elastic_docker_compose_yaml["devenv/docker/blocks/elastic/docker-compose.yaml"]
-        art_devenv_docker_blocks_elasticstack_docker_compose_yaml["devenv/docker/blocks/elasticstack/docker-compose.yaml"]
-        art_devenv_docker_blocks_etcd_docker_compose_yaml["devenv/docker/blocks/etcd/docker-compose.yaml"]
-        art_devenv_docker_blocks_grafana_docker_compose_yaml["devenv/docker/blocks/grafana/docker-compose.yaml"]
-        art_devenv_docker_blocks_graphite_docker_compose_yaml["devenv/docker/blocks/graphite/docker-compose.yaml"]
-        art_devenv_docker_blocks_graphite1_docker_compose_yaml["devenv/docker/blocks/graphite1/docker-compose.yaml"]
-        art_devenv_docker_blocks_influxdb_docker_compose_yaml["devenv/docker/blocks/influxdb/docker-compose.yaml"]
-        art_devenv_docker_blocks_influxdb1_docker_compose_yaml["devenv/docker/blocks/influxdb1/docker-compose.yaml"]
-        art_devenv_docker_blocks_jaeger_docker_compose_yaml["devenv/docker/blocks/jaeger/docker-compose.yaml"]
-        art_devenv_docker_blocks_jaegeronly_docker_compose_yaml["devenv/docker/blocks/jaegeronly/docker-compose.yaml"]
-        art_devenv_docker_blocks_loki_promtail_docker_compose_yaml["devenv/docker/blocks/loki-promtail/docker-compose.yaml"]
-        art_devenv_docker_blocks_loki_data_Dockerfile["devenv/docker/blocks/loki/data/Dockerfile"]
-        art_devenv_docker_blocks_loki_docker_compose_yaml["devenv/docker/blocks/loki/docker-compose.yaml"]
-        art_devenv_docker_blocks_maildev_docker_compose_yaml["devenv/docker/blocks/maildev/docker-compose.yaml"]
-        art_devenv_docker_blocks_mariadb_docker_compose_yaml["devenv/docker/blocks/mariadb/docker-compose.yaml"]
-        art_devenv_docker_blocks_memcached_docker_compose_yaml["devenv/docker/blocks/memcached/docker-compose.yaml"]
-        art_devenv_docker_blocks_mimir_backend_docker_compose_yaml["devenv/docker/blocks/mimir_backend/docker-compose.yaml"]
-        art_devenv_docker_blocks_mqtt_docker_compose_yaml["devenv/docker/blocks/mqtt/docker-compose.yaml"]
-        art_devenv_docker_blocks_mssql_docker_compose_yaml["devenv/docker/blocks/mssql/docker-compose.yaml"]
-        art_devenv_docker_blocks_mssql_arm64_docker_compose_yaml["devenv/docker/blocks/mssql_arm64/docker-compose.yaml"]
-        art_devenv_docker_blocks_mssql_tests_docker_compose_yaml["devenv/docker/blocks/mssql_tests/docker-compose.yaml"]
-        art_devenv_docker_blocks_mssql_tls_docker_compose_yaml["devenv/docker/blocks/mssql_tls/docker-compose.yaml"]
-        art_devenv_docker_blocks_mysql_docker_compose_yaml["devenv/docker/blocks/mysql/docker-compose.yaml"]
-        art_devenv_docker_blocks_mysql_exporter_docker_compose_yaml["devenv/docker/blocks/mysql_exporter/docker-compose.yaml"]
-        art_devenv_docker_blocks_mysql_opendata_Dockerfile["devenv/docker/blocks/mysql_opendata/Dockerfile"]
-        art_devenv_docker_blocks_mysql_opendata_docker_compose_yaml["devenv/docker/blocks/mysql_opendata/docker-compose.yaml"]
-        art_devenv_docker_blocks_mysql_tests_Dockerfile["devenv/docker/blocks/mysql_tests/Dockerfile"]
-        art_devenv_docker_blocks_mysql_tests_docker_compose_yaml["devenv/docker/blocks/mysql_tests/docker-compose.yaml"]
-        art_devenv_docker_blocks_opentsdb_docker_compose_yaml["devenv/docker/blocks/opentsdb/docker-compose.yaml"]
-        art_devenv_docker_blocks_pgvector_docker_compose_yaml["devenv/docker/blocks/pgvector/docker-compose.yaml"]
-        art_devenv_docker_blocks_postgres_docker_compose_yaml["devenv/docker/blocks/postgres/docker-compose.yaml"]
-        art_devenv_docker_blocks_postgres_tests_Dockerfile["devenv/docker/blocks/postgres_tests/Dockerfile"]
-        art_devenv_docker_blocks_postgres_tests_docker_compose_yaml["devenv/docker/blocks/postgres_tests/docker-compose.yaml"]
-        art_devenv_docker_blocks_prometheus_Dockerfile["devenv/docker/blocks/prometheus/Dockerfile"]
-        art_devenv_docker_blocks_prometheus_docker_compose_yaml["devenv/docker/blocks/prometheus/docker-compose.yaml"]
-        art_devenv_docker_blocks_prometheus_high_card_Dockerfile["devenv/docker/blocks/prometheus_high_card/Dockerfile"]
-        art_devenv_docker_blocks_prometheus_high_card_docker_compose_yaml["devenv/docker/blocks/prometheus_high_card/docker-compose.yaml"]
-        art_devenv_docker_blocks_prometheus_random_data_Dockerfile["devenv/docker/blocks/prometheus_random_data/Dockerfile"]
-        art_devenv_docker_blocks_prometheus_utf8_Dockerfile["devenv/docker/blocks/prometheus_utf8/Dockerfile"]
-        art_devenv_docker_blocks_prometheus_utf8_docker_compose_yaml["devenv/docker/blocks/prometheus_utf8/docker-compose.yaml"]
-        art_devenv_docker_blocks_pyroscope_docker_compose_yaml["devenv/docker/blocks/pyroscope/docker-compose.yaml"]
-        art_devenv_docker_blocks_redis_docker_compose_yaml["devenv/docker/blocks/redis/docker-compose.yaml"]
-        art_devenv_docker_blocks_self_instrumentation_docker_compose_yaml["devenv/docker/blocks/self-instrumentation/docker-compose.yaml"]
-        art_devenv_docker_blocks_sensugo_docker_compose_yaml["devenv/docker/blocks/sensugo/docker-compose.yaml"]
-        art_devenv_docker_blocks_slow_proxy_Dockerfile["devenv/docker/blocks/slow_proxy/Dockerfile"]
-        art_devenv_docker_blocks_slow_proxy_docker_compose_yaml["devenv/docker/blocks/slow_proxy/docker-compose.yaml"]
-        art_devenv_docker_blocks_smtp_Dockerfile["devenv/docker/blocks/smtp/Dockerfile"]
-        art_devenv_docker_blocks_smtp_docker_compose_yaml["devenv/docker/blocks/smtp/docker-compose.yaml"]
-        art_devenv_docker_blocks_stateful_webhook_Dockerfile["devenv/docker/blocks/stateful_webhook/Dockerfile"]
-        art_devenv_docker_blocks_stateful_webhook_docker_compose_yaml["devenv/docker/blocks/stateful_webhook/docker-compose.yaml"]
-        art_devenv_docker_blocks_tempo_docker_compose_yaml["devenv/docker/blocks/tempo/docker-compose.yaml"]
-        art_devenv_docker_blocks_traefik_docker_compose_yml["devenv/docker/blocks/traefik/docker-compose.yml"]
-        art_devenv_docker_blocks_webdav_docker_compose_yaml["devenv/docker/blocks/webdav/docker-compose.yaml"]
-        art_devenv_docker_blocks_zipkin_docker_compose_yaml["devenv/docker/blocks/zipkin/docker-compose.yaml"]
-        art_devenv_docker_buildcontainer_Dockerfile["devenv/docker/buildcontainer/Dockerfile"]
-        art_devenv_docker_debtest_Dockerfile["devenv/docker/debtest/Dockerfile"]
-        art_devenv_docker_ha_test_unified_alerting_Dockerfile["devenv/docker/ha-test-unified-alerting/Dockerfile"]
-        art_devenv_docker_ha_test_unified_alerting_docker_compose_yaml["devenv/docker/ha-test-unified-alerting/docker-compose.yaml"]
-        art_devenv_docker_ha_test_docker_compose_yaml["devenv/docker/ha_test/docker-compose.yaml"]
-        art_devenv_frontend_service_docker_compose_yaml["devenv/frontend-service/docker-compose.yaml"]
-        art_devenv_local_npm_docker_compose_yaml["devenv/local-npm/docker-compose.yaml"]
-        art_devenv_local_cdn_docker_compose_yaml["devenv/local_cdn/docker-compose.yaml"]
-        art_packaging_docker_custom_Dockerfile["packaging/docker/custom/Dockerfile"]
-        art_scripts_verify_repo_update_Dockerfile_deb["scripts/verify-repo-update/Dockerfile.deb"]
-        art_scripts_verify_repo_update_Dockerfile_rpm["scripts/verify-repo-update/Dockerfile.rpm"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_alert_webhook_listener_Dockerfile["devenv/docker/blocks/alert_webhook_listener/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_alert_webhook_listener_docker_compose_yaml["devenv/docker/blocks/alert_webhook_listener/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_apache_proxy_Dockerfile["devenv/docker/blocks/auth/apache_proxy/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_apache_proxy_docker_compose_yaml["devenv/docker/blocks/auth/apache_proxy/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_apache_proxy_mac_Dockerfile["devenv/docker/blocks/auth/apache_proxy_mac/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_apache_proxy_mac_docker_compose_yaml["devenv/docker/blocks/auth/apache_proxy_mac/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_authentik_docker_compose_yaml["devenv/docker/blocks/auth/authentik/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_freeipa_docker_compose_yaml["devenv/docker/blocks/auth/freeipa/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_jwt_proxy_docker_compose_yaml["devenv/docker/blocks/auth/jwt_proxy/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_nginx_proxy_docker_compose_yaml["devenv/docker/blocks/auth/nginx_proxy/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_nginx_proxy_mac_Dockerfile["devenv/docker/blocks/auth/nginx_proxy_mac/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_nginx_proxy_mac_docker_compose_yaml["devenv/docker/blocks/auth/nginx_proxy_mac/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_oauth_docker_compose_yaml["devenv/docker/blocks/auth/oauth/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_openldap_multiple_docker_compose_yaml["devenv/docker/blocks/auth/openldap-multiple/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_openldap_docker_compose_yaml["devenv/docker/blocks/auth/openldap/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_prometheus_basic_auth_proxy_Dockerfile["devenv/docker/blocks/auth/prometheus_basic_auth_proxy/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_prometheus_basic_auth_proxy_docker_compose_yaml["devenv/docker/blocks/auth/prometheus_basic_auth_proxy/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_auth_prometheus_oauth2_proxy_azure_docker_compose_yaml["devenv/docker/blocks/auth/prometheus_oauth2_proxy_azure/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_caddy_tls_docker_compose_yaml["devenv/docker/blocks/caddy_tls/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_clickhouse_docker_compose_yaml["devenv/docker/blocks/clickhouse/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_collectd_Dockerfile["devenv/docker/blocks/collectd/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_collectd_docker_compose_yaml["devenv/docker/blocks/collectd/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_elastic_data_Dockerfile["devenv/docker/blocks/elastic/data/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_elastic_docker_compose_yaml["devenv/docker/blocks/elastic/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_elasticstack_docker_compose_yaml["devenv/docker/blocks/elasticstack/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_etcd_docker_compose_yaml["devenv/docker/blocks/etcd/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_grafana_docker_compose_yaml["devenv/docker/blocks/grafana/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_graphite_docker_compose_yaml["devenv/docker/blocks/graphite/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_graphite1_docker_compose_yaml["devenv/docker/blocks/graphite1/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_influxdb_docker_compose_yaml["devenv/docker/blocks/influxdb/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_influxdb1_docker_compose_yaml["devenv/docker/blocks/influxdb1/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_jaeger_docker_compose_yaml["devenv/docker/blocks/jaeger/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_jaegeronly_docker_compose_yaml["devenv/docker/blocks/jaegeronly/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_loki_promtail_docker_compose_yaml["devenv/docker/blocks/loki-promtail/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_loki_data_Dockerfile["devenv/docker/blocks/loki/data/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_loki_docker_compose_yaml["devenv/docker/blocks/loki/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_maildev_docker_compose_yaml["devenv/docker/blocks/maildev/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mariadb_docker_compose_yaml["devenv/docker/blocks/mariadb/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_memcached_docker_compose_yaml["devenv/docker/blocks/memcached/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mimir_backend_docker_compose_yaml["devenv/docker/blocks/mimir_backend/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mqtt_docker_compose_yaml["devenv/docker/blocks/mqtt/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mssql_docker_compose_yaml["devenv/docker/blocks/mssql/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mssql_arm64_docker_compose_yaml["devenv/docker/blocks/mssql_arm64/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mssql_tests_docker_compose_yaml["devenv/docker/blocks/mssql_tests/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mssql_tls_docker_compose_yaml["devenv/docker/blocks/mssql_tls/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_docker_compose_yaml["devenv/docker/blocks/mysql/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_exporter_docker_compose_yaml["devenv/docker/blocks/mysql_exporter/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_opendata_Dockerfile["devenv/docker/blocks/mysql_opendata/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_opendata_docker_compose_yaml["devenv/docker/blocks/mysql_opendata/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_tests_Dockerfile["devenv/docker/blocks/mysql_tests/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_mysql_tests_docker_compose_yaml["devenv/docker/blocks/mysql_tests/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_opentsdb_docker_compose_yaml["devenv/docker/blocks/opentsdb/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_pgvector_docker_compose_yaml["devenv/docker/blocks/pgvector/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_postgres_docker_compose_yaml["devenv/docker/blocks/postgres/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_postgres_tests_Dockerfile["devenv/docker/blocks/postgres_tests/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_postgres_tests_docker_compose_yaml["devenv/docker/blocks/postgres_tests/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_Dockerfile["devenv/docker/blocks/prometheus/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_docker_compose_yaml["devenv/docker/blocks/prometheus/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_high_card_Dockerfile["devenv/docker/blocks/prometheus_high_card/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_high_card_docker_compose_yaml["devenv/docker/blocks/prometheus_high_card/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_random_data_Dockerfile["devenv/docker/blocks/prometheus_random_data/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_utf8_Dockerfile["devenv/docker/blocks/prometheus_utf8/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_prometheus_utf8_docker_compose_yaml["devenv/docker/blocks/prometheus_utf8/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_pyroscope_docker_compose_yaml["devenv/docker/blocks/pyroscope/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_redis_docker_compose_yaml["devenv/docker/blocks/redis/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_self_instrumentation_docker_compose_yaml["devenv/docker/blocks/self-instrumentation/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_sensugo_docker_compose_yaml["devenv/docker/blocks/sensugo/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_slow_proxy_Dockerfile["devenv/docker/blocks/slow_proxy/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_slow_proxy_docker_compose_yaml["devenv/docker/blocks/slow_proxy/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_smtp_Dockerfile["devenv/docker/blocks/smtp/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_smtp_docker_compose_yaml["devenv/docker/blocks/smtp/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_stateful_webhook_Dockerfile["devenv/docker/blocks/stateful_webhook/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_blocks_stateful_webhook_docker_compose_yaml["devenv/docker/blocks/stateful_webhook/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_tempo_docker_compose_yaml["devenv/docker/blocks/tempo/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_traefik_docker_compose_yml["devenv/docker/blocks/traefik/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_docker_blocks_webdav_docker_compose_yaml["devenv/docker/blocks/webdav/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_blocks_zipkin_docker_compose_yaml["devenv/docker/blocks/zipkin/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_buildcontainer_Dockerfile["devenv/docker/buildcontainer/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_debtest_Dockerfile["devenv/docker/debtest/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_ha_test_unified_alerting_Dockerfile["devenv/docker/ha-test-unified-alerting/Dockerfile"]:::atlasWorkflow
+        art_devenv_docker_ha_test_unified_alerting_docker_compose_yaml["devenv/docker/ha-test-unified-alerting/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_docker_ha_test_docker_compose_yaml["devenv/docker/ha_test/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_frontend_service_docker_compose_yaml["devenv/frontend-service/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_local_npm_docker_compose_yaml["devenv/local-npm/docker-compose.yaml"]:::atlasWorkflow
+        art_devenv_local_cdn_docker_compose_yaml["devenv/local_cdn/docker-compose.yaml"]:::atlasWorkflow
+        art_packaging_docker_custom_Dockerfile["packaging/docker/custom/Dockerfile"]:::atlasWorkflow
+        art_scripts_verify_repo_update_Dockerfile_deb["scripts/verify-repo-update/Dockerfile.deb"]:::atlasWorkflow
+        art_scripts_verify_repo_update_Dockerfile_rpm["scripts/verify-repo-update/Dockerfile.rpm"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_backend_code_checks_yml_validate_configs["backend-code-checks.yml#validate-configs"]
-        job_changelog_yml_main["changelog.yml#main"]
-        job_deploy_frontend_preview_yml_deploy["deploy-frontend-preview.yml#deploy"]
-        job_deploy_storybook_preview_yml_deploy_storybook_preview["deploy-storybook-preview.yml#deploy-storybook-preview"]
-        job_external_fr_weekly_digest_yml_digest["external-fr-weekly-digest.yml#digest"]
-        job_external_issue_weekly_digest_yml_digest["external-issue-weekly-digest.yml#digest"]
-        job_external_pr_weekly_digest_yml_report["external-pr-weekly-digest.yml#report"]
-        job_govulncheck_yml_govulncheck["govulncheck.yml#govulncheck"]
-        job_modowners_reviewers_yml_request["modowners-reviewers.yml#request"]
-        job_pr_bundle_size_yml_build["pr-bundle-size.yml#build"]
-        job_pr_bundle_size_yml_bundle_size["pr-bundle-size.yml#bundle-size"]
-        job_pr_frontend_unit_tests_yml_generate_golden_files["pr-frontend-unit-tests.yml#generate-golden-files"]
-        job_pr_k8s_codegen_check_yml_check["pr-k8s-codegen-check.yml#check"]
-        job_pr_resource_search_result_format_yml_check["pr-resource-search-result-format.yml#check"]
-        job_pr_test_integration_yml_postgres["pr-test-integration.yml#postgres"]
-        job_pr_test_integration_yml_postgres_enterprise["pr-test-integration.yml#postgres-enterprise"]
-        job_proto_breaking_changes_yml_generated["proto-breaking-changes.yml#generated"]
-        job_release_npm_yml_publish["release-npm.yml#publish"]
-        job_release_pr_yml_create_prs["release-pr.yml#create-prs"]
+        job_backend_code_checks_yml_validate_configs["backend-code-checks.yml#validate-configs"]:::atlasJob
+        job_changelog_yml_main["changelog.yml#main"]:::atlasJob
+        job_deploy_frontend_preview_yml_deploy["deploy-frontend-preview.yml#deploy"]:::atlasJob
+        job_deploy_storybook_preview_yml_deploy_storybook_preview["deploy-storybook-preview.yml#deploy-storybook-preview"]:::atlasJob
+        job_external_fr_weekly_digest_yml_digest["external-fr-weekly-digest.yml#digest"]:::atlasJob
+        job_external_issue_weekly_digest_yml_digest["external-issue-weekly-digest.yml#digest"]:::atlasJob
+        job_external_pr_weekly_digest_yml_report["external-pr-weekly-digest.yml#report"]:::atlasJob
+        job_govulncheck_yml_govulncheck["govulncheck.yml#govulncheck"]:::atlasJob
+        job_modowners_reviewers_yml_request["modowners-reviewers.yml#request"]:::atlasJob
+        job_pr_bundle_size_yml_build["pr-bundle-size.yml#build"]:::atlasJob
+        job_pr_bundle_size_yml_bundle_size["pr-bundle-size.yml#bundle-size"]:::atlasJob
+        job_pr_frontend_unit_tests_yml_generate_golden_files["pr-frontend-unit-tests.yml#generate-golden-files"]:::atlasJob
+        job_pr_k8s_codegen_check_yml_check["pr-k8s-codegen-check.yml#check"]:::atlasJob
+        job_pr_resource_search_result_format_yml_check["pr-resource-search-result-format.yml#check"]:::atlasJob
+        job_pr_test_integration_yml_postgres["pr-test-integration.yml#postgres"]:::atlasJob
+        job_pr_test_integration_yml_postgres_enterprise["pr-test-integration.yml#postgres-enterprise"]:::atlasJob
+        job_proto_breaking_changes_yml_generated["proto-breaking-changes.yml#generated"]:::atlasJob
+        job_release_npm_yml_publish["release-npm.yml#publish"]:::atlasJob
+        job_release_pr_yml_create_prs["release-pr.yml#create-prs"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_____github_event_name_____workflow_dispatch______manual_trigger__________["${{ github.event_name == 'workflow_dispatch' && 'manual-trigger' || '' }}"]
-        env_frontend_preview_pr_____needs_check_outputs_pr_number___["frontend-preview-pr-${{ needs.check.outputs.pr-number }}"]
-        env_npm_publish["npm-publish"]
-        env_storybook_pr_preview_____github_event_pull_request_number___["storybook-pr-preview-${{ github.event.pull_request.number }}"]
+        env_____github_event_name_____workflow_dispatch______manual_trigger__________["${{ github.event_name == 'workflow_dispatch' && 'manual-trigger' || '' }}"]:::atlasTarget
+        env_frontend_preview_pr_____needs_check_outputs_pr_number___["frontend-preview-pr-${{ needs.check.outputs.pr-number }}"]:::atlasTarget
+        env_npm_publish["npm-publish"]:::atlasTarget
+        env_storybook_pr_preview_____github_event_pull_request_number___["storybook-pr-preview-${{ github.event.pull_request.number }}"]:::atlasTarget
     end
     job_deploy_frontend_preview_yml_deploy -->|DEPLOYS_TO| env_frontend_preview_pr_____needs_check_outputs_pr_number___
     job_deploy_storybook_preview_yml_deploy_storybook_preview -->|DEPLOYS_TO| env_storybook_pr_preview_____github_event_pull_request_number___
@@ -776,15 +793,99 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana (100 workflows)"])
-  grp_0_CI___Verification["CI & Verification (48 workflows · 99 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (24 workflows · 38 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (17 workflows · 68 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (7 workflows · 8 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
-  grp_4_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_4_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana (100 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (48 workflows · 99 jobs)"]
+    direction TB
+    subgraph sg_wf_46_Lint_Frontend["Lint Frontend (12 jobs)"]
+      direction TB
+      wf_46_Lint_Frontend(["Trigger: Lint Frontend"]):::atlasWorkflow
+      job_46_detect_changes["detect-changes"]:::atlasJob
+      job_46_lint_frontend_prettier["lint-frontend-prettier"]:::atlasJob
+      job_46_lint_frontend_prettier_enterprise["lint-frontend-prettier-enterprise"]:::atlasJob
+      wf_46_Lint_Frontend --> job_46_detect_changes
+      job_46_detect_changes --> job_46_lint_frontend_prettier
+      job_46_detect_changes --> job_46_lint_frontend_prettier_enterprise
+    end
+    pipeline_root --> wf_46_Lint_Frontend
+    subgraph sg_wf_66_End_to_end_tests["End-to-end tests (9 jobs)"]
+      direction TB
+      wf_66_End_to_end_tests(["Trigger: End-to-end tests"]):::atlasWorkflow
+      job_66_detect_changes["detect-changes"]:::atlasJob
+      job_66_build_backend["build-backend"]:::atlasJob
+      job_66_build_frontend["build-frontend"]:::atlasJob
+      wf_66_End_to_end_tests --> job_66_detect_changes
+      job_66_detect_changes --> job_66_build_backend
+      job_66_detect_changes --> job_66_build_frontend
+    end
+    pipeline_root --> wf_66_End_to_end_tests
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (24 workflows · 38 jobs)"]
+    direction TB
+    subgraph sg_wf_55_Run_commands_when_issues_are_opened["Run commands when issues are opened (5 jobs)"]
+      direction TB
+      wf_55_Run_commands_when_issues_are_opened(["Trigger: Run commands when issues are opened"]):::atlasWorkflow
+      job_55_main["main"]:::atlasJob
+      job_55_auto_triage["auto-triage"]:::atlasJob
+      job_55_auto_label_internal_issues["auto-label-internal-issues"]:::atlasJob
+      wf_55_Run_commands_when_issues_are_opened --> job_55_main
+      job_55_main --> job_55_auto_triage
+      job_55_main --> job_55_auto_label_internal_issues
+    end
+    pipeline_root --> wf_55_Run_commands_when_issues_are_opened
+    subgraph sg_wf_61_PR_build_Docker_image["PR build Docker image (7 jobs)"]
+      direction TB
+      wf_61_PR_build_Docker_image(["Trigger: PR build Docker image"]):::atlasWorkflow
+      job_61_detect_changes["detect-changes"]:::atlasJob
+      job_61_build_frontend["build-frontend"]:::atlasJob
+      job_61_build_backend["build-backend"]:::atlasJob
+      wf_61_PR_build_Docker_image --> job_61_detect_changes
+      job_61_detect_changes --> job_61_build_frontend
+      job_61_detect_changes --> job_61_build_backend
+    end
+    pipeline_root --> wf_61_PR_build_Docker_image
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (17 workflows · 68 jobs)"]
+    direction TB
+    subgraph sg_wf_82_Build_Release_Packages["Build Release Packages (26 jobs)"]
+      direction TB
+      wf_82_Build_Release_Packages(["Trigger: Build Release Packages"]):::atlasWorkflow
+      job_82_setup["setup"]:::atlasJob
+      job_82_downstream["downstream"]:::atlasJob
+      job_82_build_frontend["build-frontend"]:::atlasJob
+      wf_82_Build_Release_Packages --> job_82_setup
+      job_82_setup --> job_82_downstream
+      job_82_setup --> job_82_build_frontend
+    end
+    pipeline_root --> wf_82_Build_Release_Packages
+    subgraph sg_wf_83_Post_release["Post-release (11 jobs)"]
+      direction TB
+      wf_83_Post_release(["Trigger: Post-release"]):::atlasWorkflow
+      job_83_setup["setup"]:::atlasJob
+      wf_83_Post_release --> job_83_setup
+    end
+    pipeline_root --> wf_83_Post_release
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (7 workflows · 8 jobs)"]
+    direction TB
+    wf_9_Backport__workflow_["Backport (workflow) (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Backport__workflow_
+    wf_16_Run_commands_when_issues_are_labeled_or_comments_added["Run commands when issues are labeled or comments added (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Run_commands_when_issues_are_labeled_or_comments_added
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
+    direction TB
+    wf_21_Create_security_branch["Create security branch (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_21_Create_security_branch
+    wf_94_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_94_Close_stale_issues_and_PRs
+  end
+  wf_more["+90 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

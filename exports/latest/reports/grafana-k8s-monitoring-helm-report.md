@@ -41,32 +41,45 @@ description: Arc42 and Pipeline report for grafana/k8s-monitoring-helm
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/k8s-monitoring-helm (250 components)"])
-    dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/k8s-monitoring-helm (250 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]
+      direction TB
+      dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]:::atlasCategory
+      sub_0_0_feature_integrations["feature-integrations (39)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_0_feature_integrations
+      sub_0_1_feature_cluster_metrics["feature-cluster-metrics (22)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_1_feature_cluster_metrics
+      sub_0_2_feature_host_metrics["feature-host-metrics (16)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_2_feature_host_metrics
+      sub_0_more["+18 more submodules (135)"]:::atlasMore
+      dir_0_charts_k8s_monitoring_charts --> sub_0_more
+    end
     repo_root --> dir_0_charts_k8s_monitoring_charts
-    sub_0_0_feature_integrations["feature-integrations (39)"]
-    dir_0_charts_k8s_monitoring_charts --> sub_0_0_feature_integrations
-    sub_0_1_feature_cluster_metrics["feature-cluster-metrics (22)"]
-    dir_0_charts_k8s_monitoring_charts --> sub_0_1_feature_cluster_metrics
-    sub_0_2_feature_host_metrics["feature-host-metrics (16)"]
-    dir_0_charts_k8s_monitoring_charts --> sub_0_2_feature_host_metrics
-    sub_0_more["+18 more submodules (135)"]
-    dir_0_charts_k8s_monitoring_charts --> sub_0_more
-    dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]
+    subgraph sg_dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]
+      direction TB
+      dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]:::atlasCategory
+      sub_1_0_presets["presets (22)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_0_presets
+      sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_1__module_root_
+      sub_1_2_upstream["upstream (1)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_2_upstream
+    end
     repo_root --> dir_1_charts_k8s_monitoring_collectors
-    sub_1_0_presets["presets (22)"]
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_0_presets
-    sub_1_1__module_root_["(module root) (3)"]
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_1__module_root_
-    sub_1_2_upstream["upstream (1)"]
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_2_upstream
-    dir_2_charts_k8s_monitoring["charts/k8s-monitoring (4)"]
+    dir_2_charts_k8s_monitoring["charts/k8s-monitoring (4)"]:::atlasCategory
     repo_root --> dir_2_charts_k8s_monitoring
-    dir_3_charts_k8s_monitoring_destinations["charts/k8s-monitoring/destinations (4)"]
+    dir_3_charts_k8s_monitoring_destinations["charts/k8s-monitoring/destinations (4)"]:::atlasCategory
     repo_root --> dir_3_charts_k8s_monitoring_destinations
-    dir_4_charts_k8s_monitoring_dataProcessors["charts/k8s-monitoring/dataProcessors (3)"]
+    dir_4_charts_k8s_monitoring_dataProcessors["charts/k8s-monitoring/dataProcessors (3)"]:::atlasCategory
     repo_root --> dir_4_charts_k8s_monitoring_dataProcessors
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -168,36 +181,40 @@ Showing top 60 representative components out of 250 across 6 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_k8s_monitoring["charts/k8s-monitoring"]
-        mod_scripts_textlint["scripts/textlint"]
+        mod_charts_k8s_monitoring["charts/k8s-monitoring"]:::atlasCategory
+        mod_scripts_textlint["scripts/textlint"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_grafana_k8s_monitoring_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/grafana-k8s-monitoring.tf"]
-        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_provider_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/provider.tf"]
-        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_vars_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/vars.tf"]
-        art_charts_k8s_monitoring_tests_platform_eks_addon_with_terraform_addon_tf["charts/k8s-monitoring/tests/platform/eks-addon-with-terraform/addon.tf"]
-        art_charts_k8s_monitoring_tests_platform_eks_addon_with_terraform_provider_tf["charts/k8s-monitoring/tests/platform/eks-addon-with-terraform/provider.tf"]
-        art_scripts_textlint_Dockerfile["scripts/textlint/Dockerfile"]
+        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_grafana_k8s_monitoring_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/grafana-k8s-monitoring.tf"]:::atlasWorkflow
+        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_provider_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/provider.tf"]:::atlasWorkflow
+        art_charts_k8s_monitoring_docs_examples_deployment_alternatives_terraform_vars_tf["charts/k8s-monitoring/docs/examples/deployment-alternatives/terraform/vars.tf"]:::atlasWorkflow
+        art_charts_k8s_monitoring_tests_platform_eks_addon_with_terraform_addon_tf["charts/k8s-monitoring/tests/platform/eks-addon-with-terraform/addon.tf"]:::atlasWorkflow
+        art_charts_k8s_monitoring_tests_platform_eks_addon_with_terraform_provider_tf["charts/k8s-monitoring/tests/platform/eks-addon-with-terraform/provider.tf"]:::atlasWorkflow
+        art_scripts_textlint_Dockerfile["scripts/textlint/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_integration_test_yml_list_tests["integration-test.yml#list-tests"]
-        job_integration_test_yml_run_tests["integration-test.yml#run-tests"]
-        job_platform_test_yml_list_tests["platform-test.yml#list-tests"]
-        job_platform_test_yml_run_tests["platform-test.yml#run-tests"]
-        job_regenerate_files_yml_regenerate["regenerate-files.yml#regenerate"]
-        job_release_yml_release["release.yml#release"]
-        job_release_yml_verify_signatures["release.yml#verify-signatures"]
-        job_test_release_yml_test_release["test-release.yml#test-release"]
-        job_unit_test_yml_check_generated_files["unit-test.yml#check-generated-files"]
-        job_unit_test_yml_lint_configs["unit-test.yml#lint-configs"]
-        job_unit_test_yml_lint_helm["unit-test.yml#lint-helm"]
-        job_unit_test_yml_test_features["unit-test.yml#test-features"]
-        job_unit_test_yml_unittest["unit-test.yml#unittest"]
+        job_integration_test_yml_list_tests["integration-test.yml#list-tests"]:::atlasJob
+        job_integration_test_yml_run_tests["integration-test.yml#run-tests"]:::atlasJob
+        job_platform_test_yml_list_tests["platform-test.yml#list-tests"]:::atlasJob
+        job_platform_test_yml_run_tests["platform-test.yml#run-tests"]:::atlasJob
+        job_regenerate_files_yml_regenerate["regenerate-files.yml#regenerate"]:::atlasJob
+        job_release_yml_release["release.yml#release"]:::atlasJob
+        job_release_yml_verify_signatures["release.yml#verify-signatures"]:::atlasJob
+        job_test_release_yml_test_release["test-release.yml#test-release"]:::atlasJob
+        job_unit_test_yml_check_generated_files["unit-test.yml#check-generated-files"]:::atlasJob
+        job_unit_test_yml_lint_configs["unit-test.yml#lint-configs"]:::atlasJob
+        job_unit_test_yml_lint_helm["unit-test.yml#lint-helm"]:::atlasJob
+        job_unit_test_yml_test_features["unit-test.yml#test-features"]:::atlasJob
+        job_unit_test_yml_unittest["unit-test.yml#unittest"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_integration_test_yml_run_tests -->|DEPLOYS_TO| env_azure
     job_platform_test_yml_run_tests -->|DEPLOYS_TO| env_azure
@@ -277,11 +294,93 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/k8s-monitoring-helm (8 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 19 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/k8s-monitoring-helm (8 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Integration_Test["Integration Test (2 jobs)"]
+      direction TB
+      wf_0_Integration_Test(["Trigger: Integration Test"]):::atlasWorkflow
+      job_0_list_tests["list-tests"]:::atlasJob
+      job_0_run_tests["run-tests"]:::atlasJob
+      wf_0_Integration_Test --> job_0_list_tests
+      job_0_list_tests --> job_0_run_tests
+    end
+    pipeline_root --> wf_0_Integration_Test
+    subgraph sg_wf_1_Lint["Lint (9 jobs)"]
+      direction TB
+      wf_1_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_1_markdown["markdown"]:::atlasJob
+      job_1_misspell["misspell"]:::atlasJob
+      job_1_alex["alex"]:::atlasJob
+      wf_1_Lint --> job_1_markdown
+      wf_1_Lint --> job_1_misspell
+      wf_1_Lint --> job_1_alex
+    end
+    pipeline_root --> wf_1_Lint
+    subgraph sg_wf_2_Platform_Test["Platform Test (2 jobs)"]
+      direction TB
+      wf_2_Platform_Test(["Trigger: Platform Test"]):::atlasWorkflow
+      job_2_list_tests["list-tests"]:::atlasJob
+      job_2_run_tests["run-tests"]:::atlasJob
+      wf_2_Platform_Test --> job_2_list_tests
+      job_2_list_tests --> job_2_run_tests
+    end
+    pipeline_root --> wf_2_Platform_Test
+    subgraph sg_wf_6_Unit_Test["Unit Test (6 jobs)"]
+      direction TB
+      wf_6_Unit_Test(["Trigger: Unit Test"]):::atlasWorkflow
+      job_6_detect_changed_charts["detect-changed-charts"]:::atlasJob
+      job_6_unittest["unittest"]:::atlasJob
+      job_6_lint_helm["lint-helm"]:::atlasJob
+      wf_6_Unit_Test --> job_6_detect_changed_charts
+      job_6_detect_changed_charts --> job_6_unittest
+      job_6_detect_changed_charts --> job_6_lint_helm
+    end
+    pipeline_root --> wf_6_Unit_Test
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Regenerate_Files["Regenerate Files (1 jobs)"]
+      direction TB
+      wf_3_Regenerate_Files(["Trigger: Regenerate Files"]):::atlasWorkflow
+      job_3_regenerate["regenerate"]:::atlasJob
+      wf_3_Regenerate_Files --> job_3_regenerate
+    end
+    pipeline_root --> wf_3_Regenerate_Files
+    subgraph sg_wf_7_Verify_Commits["Verify Commits (1 jobs)"]
+      direction TB
+      wf_7_Verify_Commits(["Trigger: Verify Commits"]):::atlasWorkflow
+      job_7_verify_commits["verify-commits"]:::atlasJob
+      wf_7_Verify_Commits --> job_7_verify_commits
+    end
+    pipeline_root --> wf_7_Verify_Commits
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release_Helm_chart["Release Helm chart (3 jobs)"]
+      direction TB
+      wf_4_Release_Helm_chart(["Trigger: Release Helm chart"]):::atlasWorkflow
+      job_4_verify_signatures["verify-signatures"]:::atlasJob
+      job_4_release_chart["release-chart"]:::atlasJob
+      job_4_release["release"]:::atlasJob
+      wf_4_Release_Helm_chart --> job_4_verify_signatures
+      job_4_verify_signatures --> job_4_release_chart
+      job_4_release_chart --> job_4_release
+    end
+    pipeline_root --> wf_4_Release_Helm_chart
+    subgraph sg_wf_5_Test_Release["Test Release (1 jobs)"]
+      direction TB
+      wf_5_Test_Release(["Trigger: Test Release"]):::atlasWorkflow
+      job_5_test_release["test-release"]:::atlasJob
+      wf_5_Test_Release --> job_5_test_release
+    end
+    pipeline_root --> wf_5_Test_Release
+  end
 ```

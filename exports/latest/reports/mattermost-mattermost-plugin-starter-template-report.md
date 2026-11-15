@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-starter-
 
 ```mermaid
 graph TD;
-    configuration["configuration : module"]
-    job["job : module"]
-    main["main : module"]
-    plugin["plugin : module"]
-    api["api : module"]
-    api_test["api_test : module"]
-    channelstatus["channelstatus : module"]
-    channelstatus_test["channelstatus_test : module"]
-    command["command : module"]
-    command_test["command_test : module"]
-    mock_commands["mock_commands : module"]
-    kvstore["kvstore : module"]
-    mock_kvstore["mock_kvstore : module"]
-    webapp["webapp : MODULE"]
-    STATUS_OPTIONS["STATUS_OPTIONS : UI_COMPONENT"]
-    ChannelStatusSidebar["ChannelStatusSidebar : UI_COMPONENT"]
-    ChannelStatusTag["ChannelStatusTag : UI_COMPONENT"]
-    repo_root(["mattermost/mattermost-plugin-starter-template"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    configuration["configuration : module"]:::atlasJob
+    job["job : module"]:::atlasJob
+    main["main : module"]:::atlasJob
+    plugin["plugin : module"]:::atlasJob
+    api["api : module"]:::atlasJob
+    api_test["api_test : module"]:::atlasJob
+    channelstatus["channelstatus : module"]:::atlasJob
+    channelstatus_test["channelstatus_test : module"]:::atlasJob
+    command["command : module"]:::atlasJob
+    command_test["command_test : module"]:::atlasJob
+    mock_commands["mock_commands : module"]:::atlasJob
+    kvstore["kvstore : module"]:::atlasJob
+    mock_kvstore["mock_kvstore : module"]:::atlasJob
+    webapp["webapp : MODULE"]:::atlasJob
+    STATUS_OPTIONS["STATUS_OPTIONS : UI_COMPONENT"]:::atlasJob
+    ChannelStatusSidebar["ChannelStatusSidebar : UI_COMPONENT"]:::atlasJob
+    ChannelStatusTag["ChannelStatusTag : UI_COMPONENT"]:::atlasJob
+    repo_root(["mattermost/mattermost-plugin-starter-template"]):::atlasRoot
     repo_root --> ChannelStatusSidebar
     repo_root --> ChannelStatusTag
     repo_root --> STATUS_OPTIONS
@@ -158,21 +165,28 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-starter-template"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-starter-template"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
-    0_min_server_version["min-server-version"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
+    0_min_server_version["min-server-version"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph CodeQL_1["CodeQL"]
     direction TB
-    1_analyze["analyze"]
+    1_analyze["analyze"]:::atlasJob
   end
   pipeline_root --> 1_analyze
   subgraph Scorecards_supply_chain_security_2["Scorecards supply-chain security"]
     direction TB
-    2_analysis["analysis"]
+    2_analysis["analysis"]:::atlasJob
   end
   pipeline_root --> 2_analysis
 ```

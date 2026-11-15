@@ -143,4 +143,35 @@ def test_render_pipeline_mermaid_large_multi_workflow_tree():
     assert "Security & Governance" in mermaid
     assert "Release & Deploy" in mermaid
     assert "Scheduled & Manual" in mermaid
-    assert "subgraph" not in mermaid
+    assert "subgraph " in mermaid
+    assert "classDef atlasRoot" in mermaid
+
+
+def test_render_pipeline_mermaid_over_five_workflows_still_shows_workflows_and_jobs():
+    """Repos with >5 workflows across categories must still render workflow & job nodes."""
+    artifact = PortableArtifact(
+        repository="acme/huge-ci",
+        sha="cafebabe",
+        ecosystem="go",
+        pipelines=[
+            PipelineWorkflow(
+                name="CI Build",
+                triggers=["push"],
+                jobs={"lint": {}, "test": {"needs": ["lint"]}, "package": {"needs": ["test"]}},
+            ),
+            PipelineWorkflow(name="CI Integration", triggers=["pull_request"], jobs={"e2e": {}}),
+            PipelineWorkflow(name="CodeQL", triggers=["push"], jobs={"scan": {}}),
+            PipelineWorkflow(name="Release", triggers=["release"], jobs={"publish": {}}),
+            PipelineWorkflow(name="Nightly", triggers=["schedule"], jobs={"bench": {}}),
+            PipelineWorkflow(name="Docs", triggers=["workflow_dispatch"], jobs={"deploy_docs": {}}),
+        ],
+    )
+
+    mermaid = _render_pipeline_mermaid(artifact)
+    assert 'pipeline_root(["acme/huge-ci (6 workflows)"]):::atlasRoot' in mermaid
+    assert "CI Build (3 jobs)" in mermaid
+    assert "Release (1 jobs)" in mermaid
+    assert '["lint"]:::atlasJob' in mermaid
+    assert '["test"]:::atlasJob' in mermaid
+    assert "--> job_0_test" in mermaid
+

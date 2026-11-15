@@ -41,38 +41,54 @@ description: Arc42 and Pipeline report for getsentry/sentry-go
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/sentry-go (235 components)"])
-    dir_0__root_["(root) (63)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/sentry-go (235 components)"]):::atlasRoot
+    dir_0__root_["(root) (63)"]:::atlasCategory
     repo_root --> dir_0__root_
-    dir_1_internal["internal (55)"]
+    subgraph sg_dir_1_internal["internal (55)"]
+      direction TB
+      dir_1_internal["internal (55)"]:::atlasCategory
+      sub_1_0_telemetry["telemetry (17)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_0_telemetry
+      sub_1_1_ratelimit["ratelimit (10)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_1_ratelimit
+      sub_1_2_testutils["testutils (8)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_2_testutils
+      sub_1_more["+8 more submodules (20)"]:::atlasMore
+      dir_1_internal --> sub_1_more
+    end
     repo_root --> dir_1_internal
-    sub_1_0_telemetry["telemetry (17)"]
-    dir_1_internal --> sub_1_0_telemetry
-    sub_1_1_ratelimit["ratelimit (10)"]
-    dir_1_internal --> sub_1_1_ratelimit
-    sub_1_2_testutils["testutils (8)"]
-    dir_1_internal --> sub_1_2_testutils
-    sub_1_more["+8 more submodules (20)"]
-    dir_1_internal --> sub_1_more
-    dir_2__examples["_examples (30)"]
+    subgraph sg_dir_2__examples["_examples (30)"]
+      direction TB
+      dir_2__examples["_examples (30)"]:::atlasCategory
+      sub_2_0_grpc["grpc (4)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_0_grpc
+      sub_2_1_basic["basic (1)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_1_basic
+      sub_2_2_crons["crons (1)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_2_crons
+      sub_2_more["+24 more submodules (24)"]:::atlasMore
+      dir_2__examples --> sub_2_more
+    end
     repo_root --> dir_2__examples
-    sub_2_0_grpc["grpc (4)"]
-    dir_2__examples --> sub_2_0_grpc
-    sub_2_1_basic["basic (1)"]
-    dir_2__examples --> sub_2_1_basic
-    sub_2_2_crons["crons (1)"]
-    dir_2__examples --> sub_2_2_crons
-    sub_2_more["+24 more submodules (24)"]
-    dir_2__examples --> sub_2_more
-    dir_3_sql["sql (18)"]
+    subgraph sg_dir_3_sql["sql (18)"]
+      direction TB
+      dir_3_sql["sql (18)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (14)"]:::atlasWorkflow
+      dir_3_sql --> sub_3_0__module_root_
+      sub_3_1_internal["internal (4)"]:::atlasWorkflow
+      dir_3_sql --> sub_3_1_internal
+    end
     repo_root --> dir_3_sql
-    sub_3_0__module_root_["(module root) (14)"]
-    dir_3_sql --> sub_3_0__module_root_
-    sub_3_1_internal["internal (4)"]
-    dir_3_sql --> sub_3_1_internal
-    dir_4_protocol["protocol (7)"]
+    dir_4_protocol["protocol (7)"]:::atlasCategory
     repo_root --> dir_4_protocol
-    dir_other_modules["+19 more modules (62)"]
+    dir_other_modules["+19 more modules (62)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -232,11 +248,15 @@ Showing top 60 representative components out of 235 across 24 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_echo["echo"]
+        mod_echo["echo"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_yml_golangci_lint["lint.yml#golangci-lint"]
+        job_lint_yml_golangci_lint["lint.yml#golangci-lint"]:::atlasJob
     end
     mod_echo -->|BUILT_BY| job_lint_yml_golangci_lint
 ```
@@ -248,11 +268,63 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/sentry-go (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Security___Governance
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/sentry-go (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Lint["Lint (1 jobs)"]
+      direction TB
+      wf_2_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_2_golangci_lint["golangci-lint"]:::atlasJob
+      wf_2_Lint --> job_2_golangci_lint
+    end
+    pipeline_root --> wf_2_Lint
+    subgraph sg_wf_4_Test["Test (1 jobs)"]
+      direction TB
+      wf_4_Test(["Trigger: Test"]):::atlasWorkflow
+      job_4_test["test"]:::atlasJob
+      wf_4_Test --> job_4_test
+    end
+    pipeline_root --> wf_4_Test
+    subgraph sg_wf_5_Validate_PR["Validate PR (1 jobs)"]
+      direction TB
+      wf_5_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
+      job_5_validate_pr["validate-pr"]:::atlasJob
+      wf_5_Validate_PR --> job_5_validate_pr
+    end
+    pipeline_root --> wf_5_Validate_PR
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_0_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_0_analyze["analyze"]:::atlasJob
+      wf_0_CodeQL --> job_0_analyze
+    end
+    pipeline_root --> wf_0_CodeQL
+    subgraph sg_wf_1_Go_vulnerability_audit["Go vulnerability audit (1 jobs)"]
+      direction TB
+      wf_1_Go_vulnerability_audit(["Trigger: Go vulnerability audit"]):::atlasWorkflow
+      job_1_govulncheck["govulncheck"]:::atlasJob
+      wf_1_Go_vulnerability_audit --> job_1_govulncheck
+    end
+    pipeline_root --> wf_1_Go_vulnerability_audit
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Prepare_Release["Prepare Release (1 jobs)"]
+      direction TB
+      wf_3_Prepare_Release(["Trigger: Prepare Release"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Prepare_Release --> job_3_release
+    end
+    pipeline_root --> wf_3_Prepare_Release
+  end
 ```

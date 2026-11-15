@@ -41,12 +41,19 @@ description: Arc42 and Pipeline report for supabase/mcp
 
 ```mermaid
 graph TD;
-    ee3cdaab_f649_4cb3_8889_f1b53d170ce7["ee3cdaab-f649-4cb3-8889-f1b53d170ce7 : MODULE"]
-    _supabase_mcp_server_postgrest["@supabase/mcp-server-postgrest : MODULE"]
-    _supabase_mcp_server_supabase["@supabase/mcp-server-supabase : MODULE"]
-    _supabase_mcp_utils["@supabase/mcp-utils : MODULE"]
-    GraphQLClient["GraphQLClient : SERVICE"]
-    repo_root(["supabase/mcp"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    ee3cdaab_f649_4cb3_8889_f1b53d170ce7["ee3cdaab-f649-4cb3-8889-f1b53d170ce7 : MODULE"]:::atlasJob
+    _supabase_mcp_server_postgrest["@supabase/mcp-server-postgrest : MODULE"]:::atlasJob
+    _supabase_mcp_server_supabase["@supabase/mcp-server-supabase : MODULE"]:::atlasJob
+    _supabase_mcp_utils["@supabase/mcp-utils : MODULE"]:::atlasJob
+    GraphQLClient["GraphQLClient : SERVICE"]:::atlasJob
+    repo_root(["supabase/mcp"]):::atlasRoot
     repo_root --> GraphQLClient
     repo_root --> _supabase_mcp_server_postgrest
     repo_root --> _supabase_mcp_server_supabase
@@ -133,20 +140,24 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_ee3cdaab_f649_4cb3_8889_f1b53d170ce7["ee3cdaab-f649-4cb3-8889-f1b53d170ce7"]
-        mod_packages_mcp_server_postgrest["packages/mcp-server-postgrest"]
-        mod_packages_mcp_server_supabase["packages/mcp-server-supabase"]
-        mod_packages_mcp_utils["packages/mcp-utils"]
+        mod_ee3cdaab_f649_4cb3_8889_f1b53d170ce7["ee3cdaab-f649-4cb3-8889-f1b53d170ce7"]:::atlasCategory
+        mod_packages_mcp_server_postgrest["packages/mcp-server-postgrest"]:::atlasCategory
+        mod_packages_mcp_server_supabase["packages/mcp-server-supabase"]:::atlasCategory
+        mod_packages_mcp_utils["packages/mcp-utils"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_lcov_info["lcov.info"]
+        art_lcov_info["lcov.info"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_check_management_api_types_yml_check["check-management-api-types.yml#check"]
-        job_publish_preview_yml_preview["publish-preview.yml#preview"]
-        job_release_yml_release_please["release.yml#release-please"]
-        job_tests_yml_coveralls["tests.yml#coveralls"]
+        job_check_management_api_types_yml_check["check-management-api-types.yml#check"]:::atlasJob
+        job_publish_preview_yml_preview["publish-preview.yml#preview"]:::atlasJob
+        job_release_yml_release_please["release.yml#release-please"]:::atlasJob
+        job_tests_yml_coveralls["tests.yml#coveralls"]:::atlasJob
     end
     mod_ee3cdaab_f649_4cb3_8889_f1b53d170ce7 -->|BUILT_BY| job_tests_yml_coveralls
     mod_ee3cdaab_f649_4cb3_8889_f1b53d170ce7 -->|PACKAGED_BY| art_lcov_info
@@ -174,11 +185,65 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/mcp (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/mcp (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Code_Quality["Code Quality (1 jobs)"]
+      direction TB
+      wf_0_Code_Quality(["Trigger: Code Quality"]):::atlasWorkflow
+      job_0_quality["quality"]:::atlasJob
+      wf_0_Code_Quality --> job_0_quality
+    end
+    pipeline_root --> wf_0_Code_Quality
+    subgraph sg_wf_1_Check_Management_API_Types["Check Management API Types (1 jobs)"]
+      direction TB
+      wf_1_Check_Management_API_Types(["Trigger: Check Management API Types"]):::atlasWorkflow
+      job_1_check["check"]:::atlasJob
+      wf_1_Check_Management_API_Types --> job_1_check
+    end
+    pipeline_root --> wf_1_Check_Management_API_Types
+    subgraph sg_wf_5_Tests["Tests (2 jobs)"]
+      direction TB
+      wf_5_Tests(["Trigger: Tests"]):::atlasWorkflow
+      job_5_test["test"]:::atlasJob
+      job_5_coveralls["coveralls"]:::atlasJob
+      wf_5_Tests --> job_5_test
+      job_5_test --> job_5_coveralls
+    end
+    pipeline_root --> wf_5_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Publish_preview["Publish preview (1 jobs)"]
+      direction TB
+      wf_2_Publish_preview(["Trigger: Publish preview"]):::atlasWorkflow
+      job_2_preview["preview"]:::atlasJob
+      wf_2_Publish_preview --> job_2_preview
+    end
+    pipeline_root --> wf_2_Publish_preview
+    subgraph sg_wf_3_Release["Release (1 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_release_please["release-please"]:::atlasJob
+      wf_3_Release --> job_3_release_please
+    end
+    pipeline_root --> wf_3_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Sync_Management_API_Types["Sync Management API Types (1 jobs)"]
+      direction TB
+      wf_4_Sync_Management_API_Types(["Trigger: Sync Management API Types"]):::atlasWorkflow
+      job_4_sync["sync"]:::atlasJob
+      wf_4_Sync_Management_API_Types --> job_4_sync
+    end
+    pipeline_root --> wf_4_Sync_Management_API_Types
+  end
 ```

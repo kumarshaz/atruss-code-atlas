@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for chatwoot/charts
 
 ```mermaid
 graph TD;
-    Chart["Chart : module"]
-    values_ci["values.ci : module"]
-    values["values : module"]
-    env_configmap["env-configmap : module"]
-    ingress["ingress : module"]
-    migrations_job["migrations-job : module"]
-    serviceaccount["serviceaccount : module"]
-    web_deployment["web-deployment : module"]
-    web_service["web-service : module"]
-    worker_deployment["worker-deployment : module"]
-    test_connection["test-connection : module"]
-    repo_root(["chatwoot/charts"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Chart["Chart : module"]:::atlasJob
+    values_ci["values.ci : module"]:::atlasJob
+    values["values : module"]:::atlasJob
+    env_configmap["env-configmap : module"]:::atlasJob
+    ingress["ingress : module"]:::atlasJob
+    migrations_job["migrations-job : module"]:::atlasJob
+    serviceaccount["serviceaccount : module"]:::atlasJob
+    web_deployment["web-deployment : module"]:::atlasJob
+    web_service["web-service : module"]:::atlasJob
+    worker_deployment["worker-deployment : module"]:::atlasJob
+    test_connection["test-connection : module"]:::atlasJob
+    repo_root(["chatwoot/charts"]):::atlasRoot
     repo_root --> Chart
     repo_root --> env_configmap
     repo_root --> ingress
@@ -98,16 +105,20 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_chatwoot["charts/chatwoot"]
+        mod_charts_chatwoot["charts/chatwoot"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_test_yaml_lint_test["lint-test.yaml#lint-test"]
-        job_release_yaml_release["release.yaml#release"]
+        job_lint_test_yaml_lint_test["lint-test.yaml#lint-test"]:::atlasJob
+        job_release_yaml_release["release.yaml#release"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_lint_test_yaml_lint_test -->|DEPLOYS_TO| env_azure
     job_lint_test_yaml_lint_test -->|DEPLOYS_TO| env_kubernetes
@@ -129,15 +140,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["chatwoot/charts"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["chatwoot/charts"]):::atlasRoot
   subgraph Lint_and_Test_Charts_0["Lint and Test Charts"]
     direction TB
-    0_lint_test["lint-test"]
+    0_lint_test["lint-test"]:::atlasJob
   end
   pipeline_root --> 0_lint_test
   subgraph Release_Charts_1["Release Charts"]
     direction TB
-    1_release["release"]
+    1_release["release"]:::atlasJob
   end
   pipeline_root --> 1_release
 ```

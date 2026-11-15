@@ -41,19 +41,32 @@ description: Arc42 and Pipeline report for supabase/postgres
 
 ```mermaid
 graph TD;
-    repo_root(["supabase/postgres (54 components)"])
-    dir_0_nix_packages_supascan["nix/packages/supascan (38)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["supabase/postgres (54 components)"]):::atlasRoot
+    subgraph sg_dir_0_nix_packages_supascan["nix/packages/supascan (38)"]
+      direction TB
+      dir_0_nix_packages_supascan["nix/packages/supascan (38)"]:::atlasCategory
+      sub_0_0_internal["internal (32)"]:::atlasWorkflow
+      dir_0_nix_packages_supascan --> sub_0_0_internal
+      sub_0_1_cmd["cmd (6)"]:::atlasWorkflow
+      dir_0_nix_packages_supascan --> sub_0_1_cmd
+    end
     repo_root --> dir_0_nix_packages_supascan
-    sub_0_0_internal["internal (32)"]
-    dir_0_nix_packages_supascan --> sub_0_0_internal
-    sub_0_1_cmd["cmd (6)"]
-    dir_0_nix_packages_supascan --> sub_0_1_cmd
-    dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]
+    subgraph sg_dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]
+      direction TB
+      dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]:::atlasCategory
+      sub_1_0_internal["internal (14)"]:::atlasWorkflow
+      dir_1_nix_packages_pg_startup_profiler --> sub_1_0_internal
+      sub_1_1_cmd["cmd (2)"]:::atlasWorkflow
+      dir_1_nix_packages_pg_startup_profiler --> sub_1_1_cmd
+    end
     repo_root --> dir_1_nix_packages_pg_startup_profiler
-    sub_1_0_internal["internal (14)"]
-    dir_1_nix_packages_pg_startup_profiler --> sub_1_0_internal
-    sub_1_1_cmd["cmd (2)"]
-    dir_1_nix_packages_pg_startup_profiler --> sub_1_1_cmd
 ```
 
 ## Component Details
@@ -182,17 +195,21 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ami_release_nix_yml_build["ami-release-nix.yml#build"]
-        job_publish_migrations_prod_yml_build["publish-migrations-prod.yml#build"]
-        job_publish_migrations_staging_yml_release_migrations_staging["publish-migrations-staging.yml#release-migrations-staging"]
-        job_publish_nix_pgupgrade_bin_flake_version_yml_publish_prod["publish-nix-pgupgrade-bin-flake-version.yml#publish-prod"]
-        job_publish_nix_pgupgrade_bin_flake_version_yml_publish_staging["publish-nix-pgupgrade-bin-flake-version.yml#publish-staging"]
-        job_publish_nix_pgupgrade_scripts_yml_publish_prod["publish-nix-pgupgrade-scripts.yml#publish-prod"]
-        job_publish_nix_pgupgrade_scripts_yml_publish_staging["publish-nix-pgupgrade-scripts.yml#publish-staging"]
+        job_ami_release_nix_yml_build["ami-release-nix.yml#build"]:::atlasJob
+        job_publish_migrations_prod_yml_build["publish-migrations-prod.yml#build"]:::atlasJob
+        job_publish_migrations_staging_yml_release_migrations_staging["publish-migrations-staging.yml#release-migrations-staging"]:::atlasJob
+        job_publish_nix_pgupgrade_bin_flake_version_yml_publish_prod["publish-nix-pgupgrade-bin-flake-version.yml#publish-prod"]:::atlasJob
+        job_publish_nix_pgupgrade_bin_flake_version_yml_publish_staging["publish-nix-pgupgrade-bin-flake-version.yml#publish-staging"]:::atlasJob
+        job_publish_nix_pgupgrade_scripts_yml_publish_prod["publish-nix-pgupgrade-scripts.yml#publish-prod"]:::atlasJob
+        job_publish_nix_pgupgrade_scripts_yml_publish_staging["publish-nix-pgupgrade-scripts.yml#publish-staging"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
+        env_aws["aws"]:::atlasTarget
     end
     job_ami_release_nix_yml_build -->|DEPLOYS_TO| env_aws
     job_publish_migrations_prod_yml_build -->|DEPLOYS_TO| env_aws
@@ -216,15 +233,102 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["supabase/postgres (23 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 26 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_Release___Deploy["Release & Deploy (8 workflows · 25 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  grp_3_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_3_CI___Verification
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["supabase/postgres (23 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 26 jobs)"]
+    direction TB
+    subgraph sg_wf_5_CLI_Smoke_Test["CLI Smoke Test (3 jobs)"]
+      direction TB
+      wf_5_CLI_Smoke_Test(["Trigger: CLI Smoke Test"]):::atlasWorkflow
+      job_5_check_changes["check-changes"]:::atlasJob
+      job_5_cli_smoke_test["cli-smoke-test"]:::atlasJob
+      job_5_skip_notification["skip-notification"]:::atlasJob
+      wf_5_CLI_Smoke_Test --> job_5_check_changes
+      job_5_check_changes --> job_5_cli_smoke_test
+      job_5_check_changes --> job_5_skip_notification
+    end
+    pipeline_root --> wf_5_CLI_Smoke_Test
+    subgraph sg_wf_6_Docker_Image_Test["Docker Image Test (3 jobs)"]
+      direction TB
+      wf_6_Docker_Image_Test(["Trigger: Docker Image Test"]):::atlasWorkflow
+      job_6_check_changes["check-changes"]:::atlasJob
+      job_6_docker_image_test["docker-image-test"]:::atlasJob
+      job_6_skip_notification["skip-notification"]:::atlasJob
+      wf_6_Docker_Image_Test --> job_6_check_changes
+      job_6_check_changes --> job_6_docker_image_test
+      job_6_check_changes --> job_6_skip_notification
+    end
+    pipeline_root --> wf_6_Docker_Image_Test
+    subgraph sg_wf_11_Nix_CI["Nix CI (10 jobs)"]
+      direction TB
+      wf_11_Nix_CI(["Trigger: Nix CI"]):::atlasWorkflow
+      job_11_nix_eval["nix-eval"]:::atlasJob
+      job_11_nix_build_packages_aarch64_linux["nix-build-packages-aarch64-linux"]:::atlasJob
+      job_11_nix_build_checks_aarch64_linux["nix-build-checks-aarch64-linux"]:::atlasJob
+      wf_11_Nix_CI --> job_11_nix_eval
+      job_11_nix_eval --> job_11_nix_build_packages_aarch64_linux
+      job_11_nix_eval --> job_11_nix_build_checks_aarch64_linux
+      job_11_nix_build_packages_aarch64_linux --> job_11_nix_build_checks_aarch64_linux
+    end
+    pipeline_root --> wf_11_Nix_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (8 workflows · 25 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Release_all_major_versions_on_Dockerhub["Release all major versions on Dockerhub (6 jobs)"]
+      direction TB
+      wf_7_Release_all_major_versions_on_Dockerhub(["Trigger: Release all major versions on Dockerhub"]):::atlasWorkflow
+      job_7_prepare["prepare"]:::atlasJob
+      job_7_build["build"]:::atlasJob
+      job_7_build_release_image["build_release_image"]:::atlasJob
+      wf_7_Release_all_major_versions_on_Dockerhub --> job_7_prepare
+      job_7_prepare --> job_7_build
+      job_7_prepare --> job_7_build_release_image
+      job_7_build --> job_7_build_release_image
+    end
+    pipeline_root --> wf_7_Release_all_major_versions_on_Dockerhub
+    subgraph sg_wf_8_Manual_Docker_Artifacts_Release["Manual Docker Artifacts Release (6 jobs)"]
+      direction TB
+      wf_8_Manual_Docker_Artifacts_Release(["Trigger: Manual Docker Artifacts Release"]):::atlasWorkflow
+      job_8_prepare["prepare"]:::atlasJob
+      job_8_build["build"]:::atlasJob
+      job_8_build_release_image["build_release_image"]:::atlasJob
+      wf_8_Manual_Docker_Artifacts_Release --> job_8_prepare
+      job_8_prepare --> job_8_build
+      job_8_prepare --> job_8_build_release_image
+      job_8_build --> job_8_build_release_image
+    end
+    pipeline_root --> wf_8_Manual_Docker_Artifacts_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Cleanup_Stale_EC2_Instances["Cleanup Stale EC2 Instances (1 jobs)"]
+      direction TB
+      wf_3_Cleanup_Stale_EC2_Instances(["Trigger: Cleanup Stale EC2 Instances"]):::atlasWorkflow
+      job_3_cleanup["cleanup"]:::atlasJob
+      wf_3_Cleanup_Stale_EC2_Instances --> job_3_cleanup
+    end
+    pipeline_root --> wf_3_Cleanup_Stale_EC2_Instances
+    wf_22_Update_Flake_Lock["Update Flake Lock (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_22_Update_Flake_Lock
+  end
+  subgraph sg_grp_3_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+    direction TB
+    wf_2_Check_merge_requirements["Check merge requirements (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Check_merge_requirements
+    wf_9_Mirror_PostgREST["Mirror PostgREST (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Mirror_PostgREST
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_13_Nix_Eval["Nix Eval (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_13_Nix_Eval
+  end
+  wf_more["+13 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

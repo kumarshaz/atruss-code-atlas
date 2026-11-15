@@ -41,12 +41,19 @@ description: Arc42 and Pipeline report for TryGhost/express-hbs
 
 ```mermaid
 graph TD;
-    repo_root(["TryGhost/express-hbs (20 components)"])
-    dir_0_example["example (12)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["TryGhost/express-hbs (20 components)"]):::atlasRoot
+    dir_0_example["example (12)"]:::atlasCategory
     repo_root --> dir_0_example
-    dir_1_test["test (7)"]
+    dir_1_test["test (7)"]:::atlasCategory
     repo_root --> dir_1_test
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_0_example -.->|"60 deps"| dir_1_test
     dir_1_test -.->|"28 deps"| dir_0_example
@@ -161,16 +168,23 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["TryGhost/express-hbs"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["TryGhost/express-hbs"]):::atlasRoot
   subgraph Publish_0["Publish"]
     direction TB
-    0_publish["publish"]
+    0_publish["publish"]:::atlasJob
   end
   pipeline_root --> 0_publish
   subgraph Test_1["Test"]
     direction TB
-    1_build["build"]
-    1_required_checks_pass["required-checks-pass"]
+    1_build["build"]:::atlasJob
+    1_required_checks_pass["required-checks-pass"]:::atlasJob
     1_build --> 1_required_checks_pass
   end
   pipeline_root --> 1_build

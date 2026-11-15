@@ -41,43 +41,62 @@ description: Arc42 and Pipeline report for grafana/loki
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/loki (270 components)"])
-    dir_0_pkg["pkg (111)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/loki (270 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (111)"]
+      direction TB
+      dir_0_pkg["pkg (111)"]:::atlasCategory
+      sub_0_0_bloombuild["bloombuild (36)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_bloombuild
+      sub_0_1_bloomgateway["bloomgateway (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_bloomgateway
+      sub_0_2_columnar["columnar (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_columnar
+      sub_0_more["+3 more submodules (35)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_bloombuild["bloombuild (36)"]
-    dir_0_pkg --> sub_0_0_bloombuild
-    sub_0_1_bloomgateway["bloomgateway (20)"]
-    dir_0_pkg --> sub_0_1_bloomgateway
-    sub_0_2_columnar["columnar (20)"]
-    dir_0_pkg --> sub_0_2_columnar
-    sub_0_more["+3 more submodules (35)"]
-    dir_0_pkg --> sub_0_more
-    dir_1_clients["clients (97)"]
+    subgraph sg_dir_1_clients["clients (97)"]
+      direction TB
+      dir_1_clients["clients (97)"]:::atlasCategory
+      sub_1_0_pkg["pkg (69)"]:::atlasWorkflow
+      dir_1_clients --> sub_1_0_pkg
+      sub_1_1_cmd["cmd (28)"]:::atlasWorkflow
+      dir_1_clients --> sub_1_1_cmd
+    end
     repo_root --> dir_1_clients
-    sub_1_0_pkg["pkg (69)"]
-    dir_1_clients --> sub_1_0_pkg
-    sub_1_1_cmd["cmd (28)"]
-    dir_1_clients --> sub_1_1_cmd
-    dir_2_cmd["cmd (41)"]
+    subgraph sg_dir_2_cmd["cmd (41)"]
+      direction TB
+      dir_2_cmd["cmd (41)"]:::atlasCategory
+      sub_2_0_logline_util["logline-util (12)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_0_logline_util
+      sub_2_1_loki["loki (11)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_1_loki
+      sub_2_2_chunks_inspect["chunks-inspect (5)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_2_chunks_inspect
+      sub_2_more["+7 more submodules (13)"]:::atlasMore
+      dir_2_cmd --> sub_2_more
+    end
     repo_root --> dir_2_cmd
-    sub_2_0_logline_util["logline-util (12)"]
-    dir_2_cmd --> sub_2_0_logline_util
-    sub_2_1_loki["loki (11)"]
-    dir_2_cmd --> sub_2_1_loki
-    sub_2_2_chunks_inspect["chunks-inspect (5)"]
-    dir_2_cmd --> sub_2_2_chunks_inspect
-    sub_2_more["+7 more submodules (13)"]
-    dir_2_cmd --> sub_2_more
-    dir_3_integration["integration (21)"]
+    subgraph sg_dir_3_integration["integration (21)"]
+      direction TB
+      dir_3_integration["integration (21)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_0__module_root_
+      sub_3_1_cluster["cluster (3)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_1_cluster
+      sub_3_2_client["client (1)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_2_client
+      sub_3_more["+1 more submodules (1)"]:::atlasMore
+      dir_3_integration --> sub_3_more
+    end
     repo_root --> dir_3_integration
-    sub_3_0__module_root_["(module root) (16)"]
-    dir_3_integration --> sub_3_0__module_root_
-    sub_3_1_cluster["cluster (3)"]
-    dir_3_integration --> sub_3_1_cluster
-    sub_3_2_client["client (1)"]
-    dir_3_integration --> sub_3_2_client
-    sub_3_more["+1 more submodules (1)"]
-    dir_3_integration --> sub_3_more
 ```
 
 ## Component Details
@@ -212,84 +231,88 @@ Showing top 60 representative components out of 270 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_9c7bd5ec_d172_47c8_bbb4_31f9c525e9ef["9c7bd5ec-d172-47c8-bbb4-31f9c525e9ef"]
-        mod_clients_cmd_docker_driver["clients/cmd/docker-driver"]
-        mod_clients_cmd_fluent_bit["clients/cmd/fluent-bit"]
-        mod_clients_cmd_fluentd["clients/cmd/fluentd"]
-        mod_clients_cmd_fluentd_docker["clients/cmd/fluentd/docker"]
-        mod_clients_cmd_logstash["clients/cmd/logstash"]
-        mod_cmd_logcli["cmd/logcli"]
-        mod_cmd_logql_analyzer["cmd/logql-analyzer"]
-        mod_cmd_loki["cmd/loki"]
-        mod_cmd_loki_canary["cmd/loki-canary"]
-        mod_cmd_loki_canary_boringcrypto["cmd/loki-canary-boringcrypto"]
-        mod_cmd_migrate["cmd/migrate"]
-        mod_cmd_querytee["cmd/querytee"]
-        mod_debug["debug"]
-        mod_examples_getting_started["examples/getting-started"]
-        mod_examples_ha_monolithic["examples/ha-monolithic"]
-        mod_loki_build_image["loki-build-image"]
-        mod_pkg_push["pkg/push"]
-        mod_production_docker["production/docker"]
-        mod_production_helm_loki["production/helm/loki"]
-        mod_production_helm_loki_src_helm_test["production/helm/loki/src/helm-test"]
-        mod_tools_dev_kafka["tools/dev/kafka"]
-        mod_tools_dev_loki_tsdb_storage_s3["tools/dev/loki-tsdb-storage-s3"]
-        mod_tools_kafka_plain["tools/kafka/plain"]
-        mod_tools_kafka_sasl_plain["tools/kafka/sasl-plain"]
-        mod_tools_kafka_sasl_scram["tools/kafka/sasl-scram"]
-        mod_tools_kafka_sasl_ssl["tools/kafka/sasl-ssl"]
-        mod_tools_kafka_ssl["tools/kafka/ssl"]
-        mod_tools_stream_generator["tools/stream-generator"]
+        mod_9c7bd5ec_d172_47c8_bbb4_31f9c525e9ef["9c7bd5ec-d172-47c8-bbb4-31f9c525e9ef"]:::atlasCategory
+        mod_clients_cmd_docker_driver["clients/cmd/docker-driver"]:::atlasCategory
+        mod_clients_cmd_fluent_bit["clients/cmd/fluent-bit"]:::atlasCategory
+        mod_clients_cmd_fluentd["clients/cmd/fluentd"]:::atlasCategory
+        mod_clients_cmd_fluentd_docker["clients/cmd/fluentd/docker"]:::atlasCategory
+        mod_clients_cmd_logstash["clients/cmd/logstash"]:::atlasCategory
+        mod_cmd_logcli["cmd/logcli"]:::atlasCategory
+        mod_cmd_logql_analyzer["cmd/logql-analyzer"]:::atlasCategory
+        mod_cmd_loki["cmd/loki"]:::atlasCategory
+        mod_cmd_loki_canary["cmd/loki-canary"]:::atlasCategory
+        mod_cmd_loki_canary_boringcrypto["cmd/loki-canary-boringcrypto"]:::atlasCategory
+        mod_cmd_migrate["cmd/migrate"]:::atlasCategory
+        mod_cmd_querytee["cmd/querytee"]:::atlasCategory
+        mod_debug["debug"]:::atlasCategory
+        mod_examples_getting_started["examples/getting-started"]:::atlasCategory
+        mod_examples_ha_monolithic["examples/ha-monolithic"]:::atlasCategory
+        mod_loki_build_image["loki-build-image"]:::atlasCategory
+        mod_pkg_push["pkg/push"]:::atlasCategory
+        mod_production_docker["production/docker"]:::atlasCategory
+        mod_production_helm_loki["production/helm/loki"]:::atlasCategory
+        mod_production_helm_loki_src_helm_test["production/helm/loki/src/helm-test"]:::atlasCategory
+        mod_tools_dev_kafka["tools/dev/kafka"]:::atlasCategory
+        mod_tools_dev_loki_tsdb_storage_s3["tools/dev/loki-tsdb-storage-s3"]:::atlasCategory
+        mod_tools_kafka_plain["tools/kafka/plain"]:::atlasCategory
+        mod_tools_kafka_sasl_plain["tools/kafka/sasl-plain"]:::atlasCategory
+        mod_tools_kafka_sasl_scram["tools/kafka/sasl-scram"]:::atlasCategory
+        mod_tools_kafka_sasl_ssl["tools/kafka/sasl-ssl"]:::atlasCategory
+        mod_tools_kafka_ssl["tools/kafka/ssl"]:::atlasCategory
+        mod_tools_stream_generator["tools/stream-generator"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_clients_cmd_docker_driver_Dockerfile["clients/cmd/docker-driver/Dockerfile"]
-        art_clients_cmd_docker_driver_docker_compose_yaml["clients/cmd/docker-driver/docker-compose.yaml"]
-        art_clients_cmd_fluent_bit_Dockerfile["clients/cmd/fluent-bit/Dockerfile"]
-        art_clients_cmd_fluentd_Dockerfile["clients/cmd/fluentd/Dockerfile"]
-        art_clients_cmd_fluentd_docker_docker_compose_yml["clients/cmd/fluentd/docker/docker-compose.yml"]
-        art_clients_cmd_logstash_Dockerfile["clients/cmd/logstash/Dockerfile"]
-        art_cmd_logcli_Dockerfile["cmd/logcli/Dockerfile"]
-        art_cmd_logql_analyzer_Dockerfile["cmd/logql-analyzer/Dockerfile"]
-        art_cmd_logql_analyzer_docker_compose_yaml["cmd/logql-analyzer/docker-compose.yaml"]
-        art_cmd_loki_canary_boringcrypto_Dockerfile["cmd/loki-canary-boringcrypto/Dockerfile"]
-        art_cmd_loki_canary_Dockerfile["cmd/loki-canary/Dockerfile"]
-        art_cmd_loki_canary_Dockerfile_cross["cmd/loki-canary/Dockerfile.cross"]
-        art_cmd_loki_Dockerfile["cmd/loki/Dockerfile"]
-        art_cmd_loki_Dockerfile_cross["cmd/loki/Dockerfile.cross"]
-        art_cmd_loki_Dockerfile_debug["cmd/loki/Dockerfile.debug"]
-        art_cmd_migrate_Dockerfile["cmd/migrate/Dockerfile"]
-        art_cmd_querytee_Dockerfile["cmd/querytee/Dockerfile"]
-        art_debug_docker_compose_yaml["debug/docker-compose.yaml"]
-        art_examples_getting_started_docker_compose_yaml["examples/getting-started/docker-compose.yaml"]
-        art_examples_ha_monolithic_docker_compose_yaml["examples/ha-monolithic/docker-compose.yaml"]
-        art_loki_build_image_Dockerfile["loki-build-image/Dockerfile"]
-        art_production_docker_docker_compose_yaml["production/docker/docker-compose.yaml"]
-        art_production_helm_loki_src_helm_test_Dockerfile["production/helm/loki/src/helm-test/Dockerfile"]
-        art_production_terraform_modules_s3_main_tf["production/terraform/modules/s3/main.tf"]
-        art_production_terraform_modules_s3_outputs_tf["production/terraform/modules/s3/outputs.tf"]
-        art_production_terraform_modules_s3_variables_tf["production/terraform/modules/s3/variables.tf"]
-        art_tools_dev_kafka_docker_compose_yaml["tools/dev/kafka/docker-compose.yaml"]
-        art_tools_dev_loki_tsdb_storage_s3_docker_compose_yml["tools/dev/loki-tsdb-storage-s3/docker-compose.yml"]
-        art_tools_kafka_plain_docker_compose_yml["tools/kafka/plain/docker-compose.yml"]
-        art_tools_kafka_sasl_plain_docker_compose_yml["tools/kafka/sasl-plain/docker-compose.yml"]
-        art_tools_kafka_sasl_scram_docker_compose_yml["tools/kafka/sasl-scram/docker-compose.yml"]
-        art_tools_kafka_sasl_ssl_docker_compose_yml["tools/kafka/sasl-ssl/docker-compose.yml"]
-        art_tools_kafka_ssl_docker_compose_yml["tools/kafka/ssl/docker-compose.yml"]
-        art_tools_stream_generator_Dockerfile["tools/stream-generator/Dockerfile"]
-        art_tools_stream_generator_docker_compose_yaml["tools/stream-generator/docker-compose.yaml"]
+        art_clients_cmd_docker_driver_Dockerfile["clients/cmd/docker-driver/Dockerfile"]:::atlasWorkflow
+        art_clients_cmd_docker_driver_docker_compose_yaml["clients/cmd/docker-driver/docker-compose.yaml"]:::atlasWorkflow
+        art_clients_cmd_fluent_bit_Dockerfile["clients/cmd/fluent-bit/Dockerfile"]:::atlasWorkflow
+        art_clients_cmd_fluentd_Dockerfile["clients/cmd/fluentd/Dockerfile"]:::atlasWorkflow
+        art_clients_cmd_fluentd_docker_docker_compose_yml["clients/cmd/fluentd/docker/docker-compose.yml"]:::atlasWorkflow
+        art_clients_cmd_logstash_Dockerfile["clients/cmd/logstash/Dockerfile"]:::atlasWorkflow
+        art_cmd_logcli_Dockerfile["cmd/logcli/Dockerfile"]:::atlasWorkflow
+        art_cmd_logql_analyzer_Dockerfile["cmd/logql-analyzer/Dockerfile"]:::atlasWorkflow
+        art_cmd_logql_analyzer_docker_compose_yaml["cmd/logql-analyzer/docker-compose.yaml"]:::atlasWorkflow
+        art_cmd_loki_canary_boringcrypto_Dockerfile["cmd/loki-canary-boringcrypto/Dockerfile"]:::atlasWorkflow
+        art_cmd_loki_canary_Dockerfile["cmd/loki-canary/Dockerfile"]:::atlasWorkflow
+        art_cmd_loki_canary_Dockerfile_cross["cmd/loki-canary/Dockerfile.cross"]:::atlasWorkflow
+        art_cmd_loki_Dockerfile["cmd/loki/Dockerfile"]:::atlasWorkflow
+        art_cmd_loki_Dockerfile_cross["cmd/loki/Dockerfile.cross"]:::atlasWorkflow
+        art_cmd_loki_Dockerfile_debug["cmd/loki/Dockerfile.debug"]:::atlasWorkflow
+        art_cmd_migrate_Dockerfile["cmd/migrate/Dockerfile"]:::atlasWorkflow
+        art_cmd_querytee_Dockerfile["cmd/querytee/Dockerfile"]:::atlasWorkflow
+        art_debug_docker_compose_yaml["debug/docker-compose.yaml"]:::atlasWorkflow
+        art_examples_getting_started_docker_compose_yaml["examples/getting-started/docker-compose.yaml"]:::atlasWorkflow
+        art_examples_ha_monolithic_docker_compose_yaml["examples/ha-monolithic/docker-compose.yaml"]:::atlasWorkflow
+        art_loki_build_image_Dockerfile["loki-build-image/Dockerfile"]:::atlasWorkflow
+        art_production_docker_docker_compose_yaml["production/docker/docker-compose.yaml"]:::atlasWorkflow
+        art_production_helm_loki_src_helm_test_Dockerfile["production/helm/loki/src/helm-test/Dockerfile"]:::atlasWorkflow
+        art_production_terraform_modules_s3_main_tf["production/terraform/modules/s3/main.tf"]:::atlasWorkflow
+        art_production_terraform_modules_s3_outputs_tf["production/terraform/modules/s3/outputs.tf"]:::atlasWorkflow
+        art_production_terraform_modules_s3_variables_tf["production/terraform/modules/s3/variables.tf"]:::atlasWorkflow
+        art_tools_dev_kafka_docker_compose_yaml["tools/dev/kafka/docker-compose.yaml"]:::atlasWorkflow
+        art_tools_dev_loki_tsdb_storage_s3_docker_compose_yml["tools/dev/loki-tsdb-storage-s3/docker-compose.yml"]:::atlasWorkflow
+        art_tools_kafka_plain_docker_compose_yml["tools/kafka/plain/docker-compose.yml"]:::atlasWorkflow
+        art_tools_kafka_sasl_plain_docker_compose_yml["tools/kafka/sasl-plain/docker-compose.yml"]:::atlasWorkflow
+        art_tools_kafka_sasl_scram_docker_compose_yml["tools/kafka/sasl-scram/docker-compose.yml"]:::atlasWorkflow
+        art_tools_kafka_sasl_ssl_docker_compose_yml["tools/kafka/sasl-ssl/docker-compose.yml"]:::atlasWorkflow
+        art_tools_kafka_ssl_docker_compose_yml["tools/kafka/ssl/docker-compose.yml"]:::atlasWorkflow
+        art_tools_stream_generator_Dockerfile["tools/stream-generator/Dockerfile"]:::atlasWorkflow
+        art_tools_stream_generator_docker_compose_yaml["tools/stream-generator/docker-compose.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_helm_ci_yml_call_test["helm-ci.yml#call-test"]
-        job_helm_ci_yml_run_integration_tests["helm-ci.yml#run-integration-tests"]
-        job_helm_diff_ci_yml_helm_diff["helm-diff-ci.yml#helm-diff"]
-        job_helm_diff_ci_yml_summary_diff_outputs["helm-diff-ci.yml#summary-diff-outputs"]
-        job_querytee_images_yml_loki_query_tee_image["querytee-images.yml#loki-query-tee-image"]
+        job_helm_ci_yml_call_test["helm-ci.yml#call-test"]:::atlasJob
+        job_helm_ci_yml_run_integration_tests["helm-ci.yml#run-integration-tests"]:::atlasJob
+        job_helm_diff_ci_yml_helm_diff["helm-diff-ci.yml#helm-diff"]:::atlasJob
+        job_helm_diff_ci_yml_summary_diff_outputs["helm-diff-ci.yml#summary-diff-outputs"]:::atlasJob
+        job_querytee_images_yml_loki_query_tee_image["querytee-images.yml#loki-query-tee-image"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_helm_ci_yml_call_test -->|DEPLOYS_TO| env_azure
     job_helm_ci_yml_call_test -->|DEPLOYS_TO| env_kubernetes
@@ -515,13 +538,99 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/loki (26 workflows)"])
-  grp_0_CI___Verification["CI & Verification (13 workflows · 17 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (11 workflows · 65 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/loki (26 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 17 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Backport_PR_Creator["Backport PR Creator (1 jobs)"]
+      direction TB
+      wf_0_Backport_PR_Creator(["Trigger: Backport PR Creator"]):::atlasWorkflow
+      job_0_main["main"]:::atlasJob
+      wf_0_Backport_PR_Creator --> job_0_main
+    end
+    pipeline_root --> wf_0_Backport_PR_Creator
+    subgraph sg_wf_8_helm_ci["helm-ci (3 jobs)"]
+      direction TB
+      wf_8_helm_ci(["Trigger: helm-ci"]):::atlasWorkflow
+      job_8_call_test["call-test"]:::atlasJob
+      job_8_list_integration_tests["list-integration-tests"]:::atlasJob
+      job_8_run_integration_tests["run-integration-tests"]:::atlasJob
+      wf_8_helm_ci --> job_8_call_test
+      wf_8_helm_ci --> job_8_list_integration_tests
+      job_8_list_integration_tests --> job_8_run_integration_tests
+    end
+    pipeline_root --> wf_8_helm_ci
+    subgraph sg_wf_9_Helm_Loki_Diff_CI["Helm Loki Diff CI (2 jobs)"]
+      direction TB
+      wf_9_Helm_Loki_Diff_CI(["Trigger: Helm Loki Diff CI"]):::atlasWorkflow
+      job_9_helm_diff["helm-diff"]:::atlasJob
+      job_9_summary_diff_outputs["summary-diff-outputs"]:::atlasJob
+      wf_9_Helm_Loki_Diff_CI --> job_9_helm_diff
+      job_9_helm_diff --> job_9_summary_diff_outputs
+    end
+    pipeline_root --> wf_9_Helm_Loki_Diff_CI
+    subgraph sg_wf_18_Lint_And_Build_Nix_Flake["Lint And Build Nix Flake (2 jobs)"]
+      direction TB
+      wf_18_Lint_And_Build_Nix_Flake(["Trigger: Lint And Build Nix Flake"]):::atlasWorkflow
+      job_18_lint["lint"]:::atlasJob
+      job_18_packages["packages"]:::atlasJob
+      wf_18_Lint_And_Build_Nix_Flake --> job_18_lint
+      wf_18_Lint_And_Build_Nix_Flake --> job_18_packages
+    end
+    pipeline_root --> wf_18_Lint_And_Build_Nix_Flake
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (11 workflows · 65 jobs)"]
+    direction TB
+    subgraph sg_wf_13_Publish_images["Publish images (11 jobs)"]
+      direction TB
+      wf_13_Publish_images(["Trigger: Publish images"]):::atlasWorkflow
+      job_13_check["check"]:::atlasJob
+      job_13_logql_analyzer_image["logql-analyzer-image"]:::atlasJob
+      job_13_logql_analyzer_manifest["logql-analyzer-manifest"]:::atlasJob
+      wf_13_Publish_images --> job_13_check
+      job_13_check --> job_13_logql_analyzer_image
+      job_13_logql_analyzer_image --> job_13_logql_analyzer_manifest
+    end
+    pipeline_root --> wf_13_Publish_images
+    subgraph sg_wf_16_Prepare_Major_Release_PR["Prepare Major Release PR (14 jobs)"]
+      direction TB
+      wf_16_Prepare_Major_Release_PR(["Trigger: Prepare Major Release PR"]):::atlasWorkflow
+      job_16_check["check"]:::atlasJob
+      job_16_create_release_pr["create-release-pr"]:::atlasJob
+      job_16_dist["dist"]:::atlasJob
+      wf_16_Prepare_Major_Release_PR --> job_16_check
+      job_16_dist --> job_16_create_release_pr
+      wf_16_Prepare_Major_Release_PR --> job_16_dist
+    end
+    pipeline_root --> wf_16_Prepare_Major_Release_PR
+    subgraph sg_wf_17_Prepare_Minor_Release_PR_from_Weekly["Prepare Minor Release PR from Weekly (14 jobs)"]
+      direction TB
+      wf_17_Prepare_Minor_Release_PR_from_Weekly(["Trigger: Prepare Minor Release PR from Weekly"]):::atlasWorkflow
+      job_17_check["check"]:::atlasJob
+      job_17_create_release_pr["create-release-pr"]:::atlasJob
+      wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_check
+      wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_create_release_pr
+    end
+    pipeline_root --> wf_17_Prepare_Minor_Release_PR_from_Weekly
+    wf_19_Prepare_Patch_Release_PR["Prepare Patch Release PR (14 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_19_Prepare_Patch_Release_PR
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    wf_22_Relyance_Compliance_Inspection["Relyance Compliance Inspection (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_22_Relyance_Compliance_Inspection
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_24_TruffleHog_Secrets_Scan["TruffleHog Secrets Scan (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_24_TruffleHog_Secrets_Scan
+  end
+  wf_more["+16 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

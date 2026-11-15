@@ -9,6 +9,7 @@ interface Repo {
     RepositoryName: string;
     HasPipeline?: boolean;
     HasDockerfile?: boolean;
+    PrimaryLanguage?: string;
 }
 
 interface OrgMaturityScore {
@@ -24,21 +25,50 @@ interface OrgMaturityScore {
     fitness_alerts?: number | null;
 }
 
-let repos: Repo[] = [];
+const rootBaseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const prefixBase = (p: string) => `${rootBaseUrl}${p.startsWith('/') ? p : '/' + p}`;
+
+let precomputedOrgs: OrgMaturityScore[] | null = null;
 try {
-    const candidates = [
-        path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
-        path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+    const summaryCandidates = [
+        path.resolve(process.cwd(), '../exports/latest/orgs-summary.json'),
+        path.resolve(process.cwd(), 'src/data/latest/orgs-summary.json'),
     ];
-    for (const jsonPath of candidates) {
-        if (fs.existsSync(jsonPath)) {
-            const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-            repos = data.items || data;
-            break;
+    for (const summaryPath of summaryCandidates) {
+        if (fs.existsSync(summaryPath)) {
+            const parsed = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                precomputedOrgs = parsed.map((item: any) => ({
+                    ...item,
+                    primary_repo_href: item.primary_repo_slug
+                        ? prefixBase(item.primary_repo_slug)
+                        : '',
+                }));
+                break;
+            }
         }
     }
 } catch (e) {
-    console.error('Error loading repositories.json:', e);
+    console.error('Error loading orgs-summary.json:', e);
+}
+
+let repos: Repo[] = [];
+if (!precomputedOrgs) {
+    try {
+        const candidates = [
+            path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
+            path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+        ];
+        for (const jsonPath of candidates) {
+            if (fs.existsSync(jsonPath)) {
+                const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+                repos = data.items || data;
+                break;
+            }
+        }
+    } catch (e) {
+        console.error('Error loading repositories.json:', e);
+    }
 }
 
 const orgMap: Record<string, Repo[]> = {};
@@ -121,7 +151,7 @@ const gradeFromScore = (score: number): string => {
     return 'F';
 };
 
-const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) => {
+const scores: OrgMaturityScore[] = precomputedOrgs ?? Object.entries(orgMap).map(([org, orgRepos]) => {
     const total_repos = orgRepos.length;
     const repos_with_pipeline = orgRepos.filter((r) => r.HasPipeline).length;
     const repos_with_docker = orgRepos.filter((r) => r.HasDockerfile).length;
@@ -149,18 +179,43 @@ const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) 
         score = 0;
     }
 
+    const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+    const withBase = (p: string) => `${baseUrl}${p.startsWith('/') ? p : '/' + p}`;
+    const normalizeSlug = (segment: string) =>
+        segment
+            .trim()
+            .toLowerCase()
+            .replace(/^\.+/, '')
+            .replace(/\./g, '');
+
     let scorecardSum = 0;
     let scorecardCount = 0;
     let cveCount = 0;
     let fitnessCount = 0;
     let h2Analyzed = 0;
 
+    let bestRepo: any = null;
+    let bestRepoScore = -1;
+    const langCounts = new Map<string, number>();
+
     orgRepos.forEach((r) => {
+        const lang = String(r.PrimaryLanguage || '').trim();
+        if (lang && lang !== 'Unknown') {
+            langCounts.set(lang, (langCounts.get(lang) || 0) + 1);
+        }
         const aj = getAnalysisJson(org, r.RepositoryName);
         if (!aj) return;
+        let repoSc = -1;
         if (aj.scorecard && typeof aj.scorecard.overall_score === 'number') {
-            scorecardSum += Number(aj.scorecard.overall_score);
+            repoSc = Number(aj.scorecard.overall_score);
+            scorecardSum += repoSc;
             scorecardCount++;
+        }
+        const nameBonus =
+            String(r.RepositoryName || '').toLowerCase() === org.toLowerCase() ? 1000 : 0;
+        if (repoSc + nameBonus > bestRepoScore) {
+            bestRepoScore = repoSc + nameBonus;
+            bestRepo = r;
         }
         if (Array.isArray(aj.vulnerabilities)) {
             cveCount += aj.vulnerabilities.length;
@@ -171,6 +226,17 @@ const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) 
             h2Analyzed++;
         }
     });
+
+    const fallbackRepo =
+        bestRepo ||
+        orgRepos.find((r) => String(r.RepositoryName || '').toLowerCase() === org.toLowerCase()) ||
+        orgRepos[0];
+    const primary_repo_name = fallbackRepo?.RepositoryName || '';
+    const primary_repo_href = fallbackRepo
+        ? withBase(`/reports/${normalizeSlug(org)}/${normalizeSlug(fallbackRepo.RepositoryName)}/`)
+        : '';
+    const primary_ecosystem =
+        Array.from(langCounts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
 
     const avg_scorecard = scorecardCount > 0 ? Math.round(scorecardSum / scorecardCount) : null;
 
@@ -185,6 +251,9 @@ const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) 
         avg_grade: avg_scorecard !== null ? gradeFromScore(avg_scorecard) : null,
         open_cves: h2Analyzed > 0 ? cveCount : null,
         fitness_alerts: h2Analyzed > 0 ? fitnessCount : null,
+        primary_repo_name,
+        primary_repo_href,
+        primary_ecosystem,
     };
 });
 
@@ -196,16 +265,45 @@ const avgMaturity =
 
 <div class="m3-leaderboard-shell">
     <section class="m3-card-filled m3-leaderboard-hero">
-        <div class="m3-chip m3-chip-tonal-primary">
-            <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
-            <span>Organization Benchmarks</span>
+        <div class="m3-leaderboard-top">
+            <div class="m3-chip m3-chip-tonal-primary">
+                <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
+                <span>Organization Benchmarks</span>
+            </div>
+            <a
+                href="https://github.com/kumarshaz/atruss-code-atlas/blob/main/docs/metrics-methodology.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="m3-chip m3-chip-tonal-secondary m3-method-link"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+                How Metrics Are Derived
+            </a>
         </div>
         <h2>Engineering Maturity Leaderboard</h2>
         <p>
-            Weighted index combining CI/CD pipeline adoption (60%), clean anti-pattern
-            compliance (40%), and 6-D architecture scorecards across {scores.length}{' '}
-            organization(s). Average score: <strong>{avgMaturity} / 100</strong>.
+            Portfolio index across <strong>{scores.length}</strong> organization(s) with an average
+            maturity score of <strong>{avgMaturity} / 100</strong>. Click any organization row below
+            to open its flagship repository report.
         </p>
+        <div class="m3-leaderboard-cues" aria-label="Maturity index weights and signals">
+            <span class="m3-chip">
+                <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+                60% CI/CD Pipeline Adoption
+            </span>
+            <span class="m3-chip">
+                <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+                40% Clean Anti-Pattern Compliance
+            </span>
+            <span class="m3-chip m3-chip-tonal-tertiary">
+                <span class="material-symbols-outlined" aria-hidden="true">grade</span>
+                6-D Health Grade (A–F)
+            </span>
+            <span class="m3-chip m3-chip-tonal-warning">
+                <span class="material-symbols-outlined" aria-hidden="true">bug_report</span>
+                OSV CVEs &amp; Fitness Rules
+            </span>
+        </div>
     </section>
 
     <OrgComparisonTable orgs={scores} />
@@ -217,6 +315,18 @@ const avgMaturity =
         padding: 1.5rem;
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: var(--md-sys-shape-corner-extra-large);
+    }
+
+    .m3-leaderboard-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+    }
+
+    .m3-method-link {
+        text-decoration: none;
     }
 
     .m3-leaderboard-hero .material-symbols-outlined {
@@ -232,5 +342,12 @@ const avgMaturity =
     .m3-leaderboard-hero p {
         margin: 0 !important;
         color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-leaderboard-cues {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
     }
 </style>

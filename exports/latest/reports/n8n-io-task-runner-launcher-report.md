@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for n8n-io/task-runner-launcher
 
 ```mermaid
 graph TD;
-    repo_root(["n8n-io/task-runner-launcher (30 components)"])
-    dir_0_internal["internal (29)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["n8n-io/task-runner-launcher (30 components)"]):::atlasRoot
+    subgraph sg_dir_0_internal["internal (29)"]
+      direction TB
+      dir_0_internal["internal (29)"]:::atlasCategory
+      sub_0_0_http["http (8)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_http
+      sub_0_1_config["config (6)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_config
+      sub_0_2_logs["logs (4)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_2_logs
+      sub_0_more["+6 more submodules (11)"]:::atlasMore
+      dir_0_internal --> sub_0_more
+    end
     repo_root --> dir_0_internal
-    sub_0_0_http["http (8)"]
-    dir_0_internal --> sub_0_0_http
-    sub_0_1_config["config (6)"]
-    dir_0_internal --> sub_0_1_config
-    sub_0_2_logs["logs (4)"]
-    dir_0_internal --> sub_0_2_logs
-    sub_0_more["+6 more submodules (11)"]
-    dir_0_internal --> sub_0_more
-    dir_1_cmd["cmd (1)"]
+    dir_1_cmd["cmd (1)"]:::atlasCategory
     repo_root --> dir_1_cmd
 ```
 
@@ -123,16 +133,20 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_73800295_fd34_4825_9dec_4f9faef974ea["73800295-fd34-4825-9dec-4f9faef974ea"]
+        mod_73800295_fd34_4825_9dec_4f9faef974ea["73800295-fd34-4825-9dec-4f9faef974ea"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_coverage_out["coverage.out"]
+        art_coverage_out["coverage.out"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_checks_yml_checks["checks.yml#checks"]
-        job_notify_pr_status_yml_notify["notify-pr-status.yml#notify"]
-        job_release_yml_releases_matrix["release.yml#releases-matrix"]
+        job_checks_yml_checks["checks.yml#checks"]:::atlasJob
+        job_notify_pr_status_yml_notify["notify-pr-status.yml#notify"]:::atlasJob
+        job_release_yml_releases_matrix["release.yml#releases-matrix"]:::atlasJob
     end
     mod_73800295_fd34_4825_9dec_4f9faef974ea -->|BUILT_BY| job_checks_yml_checks
     mod_73800295_fd34_4825_9dec_4f9faef974ea -->|BUILT_BY| job_notify_pr_status_yml_notify
@@ -150,20 +164,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["n8n-io/task-runner-launcher"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["n8n-io/task-runner-launcher"]):::atlasRoot
   subgraph checks_yml_0["checks.yml"]
     direction TB
-    0_checks["checks"]
+    0_checks["checks"]:::atlasJob
   end
   pipeline_root --> 0_checks
   subgraph Notify_PR_status_changed_1["Notify PR status changed"]
     direction TB
-    1_notify["notify"]
+    1_notify["notify"]:::atlasJob
   end
   pipeline_root --> 1_notify
   subgraph release_yml_2["release.yml"]
     direction TB
-    2_releases_matrix["releases-matrix"]
+    2_releases_matrix["releases-matrix"]:::atlasJob
   end
   pipeline_root --> 2_releases_matrix
 ```

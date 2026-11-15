@@ -41,18 +41,25 @@ description: Arc42 and Pipeline report for mattermost/mattermost-plugin-jira
 
 ```mermaid
 graph TD;
-    mattermost_plugin_jira_e2e["mattermost-plugin-jira-e2e : MODULE"]
-    webapp["webapp : MODULE"]
-    AttachCommentToIssueModal["AttachCommentToIssueModal : UI_COMPONENT"]
-    EmptyChannelSubscriptionFilter["EmptyChannelSubscriptionFilter : UI_COMPONENT"]
-    ConnectModal["ConnectModal : UI_COMPONENT"]
-    CreateIssueModal["CreateIssueModal : UI_COMPONENT"]
-    DisconnectModal["DisconnectModal : UI_COMPONENT"]
-    SVGIcons["SVGIcons : UI_COMPONENT"]
-    AttachCommentToIssuePostMenuAction["AttachCommentToIssuePostMenuAction : UI_COMPONENT"]
-    CreateIssuePostMenuAction["CreateIssuePostMenuAction : UI_COMPONENT"]
-    FIELD_KEY_STATUS["FIELD_KEY_STATUS : UI_COMPONENT"]
-    repo_root(["mattermost/mattermost-plugin-jira"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    mattermost_plugin_jira_e2e["mattermost-plugin-jira-e2e : MODULE"]:::atlasJob
+    webapp["webapp : MODULE"]:::atlasJob
+    AttachCommentToIssueModal["AttachCommentToIssueModal : UI_COMPONENT"]:::atlasJob
+    EmptyChannelSubscriptionFilter["EmptyChannelSubscriptionFilter : UI_COMPONENT"]:::atlasJob
+    ConnectModal["ConnectModal : UI_COMPONENT"]:::atlasJob
+    CreateIssueModal["CreateIssueModal : UI_COMPONENT"]:::atlasJob
+    DisconnectModal["DisconnectModal : UI_COMPONENT"]:::atlasJob
+    SVGIcons["SVGIcons : UI_COMPONENT"]:::atlasJob
+    AttachCommentToIssuePostMenuAction["AttachCommentToIssuePostMenuAction : UI_COMPONENT"]:::atlasJob
+    CreateIssuePostMenuAction["CreateIssuePostMenuAction : UI_COMPONENT"]:::atlasJob
+    FIELD_KEY_STATUS["FIELD_KEY_STATUS : UI_COMPONENT"]:::atlasJob
+    repo_root(["mattermost/mattermost-plugin-jira"]):::atlasRoot
     repo_root --> AttachCommentToIssueModal
     repo_root --> AttachCommentToIssuePostMenuAction
     repo_root --> ConnectModal
@@ -141,22 +148,26 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__cursor[".cursor"]
-        mod_bbefcdf5_b501_4ac4_b2db_1db7e245e439["bbefcdf5-b501-4ac4-b2db-1db7e245e439"]
-        mod_e2e_playwright["e2e/playwright"]
+        mod__cursor[".cursor"]:::atlasCategory
+        mod_bbefcdf5_b501_4ac4_b2db_1db7e245e439["bbefcdf5-b501-4ac4-b2db-1db7e245e439"]:::atlasCategory
+        mod_e2e_playwright["e2e/playwright"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__cursor_Dockerfile[".cursor/Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
-        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]
+        art__cursor_Dockerfile[".cursor/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
+        art_e2e_playwright_docker_compose_yml["e2e/playwright/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_yml_contract_drift["e2e.yml#contract-drift"]
-        job_e2e_yml_playwright["e2e.yml#playwright"]
-        job_e2e_yml_real_cloud_parity["e2e.yml#real-cloud-parity"]
-        job_e2e_yml_real_jira["e2e.yml#real-jira"]
-        job_e2e_yml_visual["e2e.yml#visual"]
+        job_e2e_yml_contract_drift["e2e.yml#contract-drift"]:::atlasJob
+        job_e2e_yml_playwright["e2e.yml#playwright"]:::atlasJob
+        job_e2e_yml_real_cloud_parity["e2e.yml#real-cloud-parity"]:::atlasJob
+        job_e2e_yml_real_jira["e2e.yml#real-jira"]:::atlasJob
+        job_e2e_yml_visual["e2e.yml#visual"]:::atlasJob
     end
     mod__cursor -->|PACKAGED_BY| art__cursor_Dockerfile
     mod_bbefcdf5_b501_4ac4_b2db_1db7e245e439 -->|PACKAGED_BY| art_docker_compose_yml
@@ -194,26 +205,33 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["mattermost/mattermost-plugin-jira"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["mattermost/mattermost-plugin-jira"]):::atlasRoot
   subgraph ci_0["ci"]
     direction TB
-    0_plugin_ci["plugin-ci"]
-    0_dist["dist"]
+    0_plugin_ci["plugin-ci"]:::atlasJob
+    0_dist["dist"]:::atlasJob
   end
   pipeline_root --> 0_plugin_ci
   subgraph CodeQL_1["CodeQL"]
     direction TB
-    1_analyze["analyze"]
+    1_analyze["analyze"]:::atlasJob
   end
   pipeline_root --> 1_analyze
   subgraph e2e_2["e2e"]
     direction TB
-    2_playwright["playwright"]
-    2_visual["visual"]
-    2_contract_drift["contract-drift"]
-    2_real_cloud_parity["real-cloud-parity"]
-    2_real_jira["real-jira"]
-    wf_entry_2(["Trigger: e2e"])
+    2_playwright["playwright"]:::atlasJob
+    2_visual["visual"]:::atlasJob
+    2_contract_drift["contract-drift"]:::atlasJob
+    2_real_cloud_parity["real-cloud-parity"]:::atlasJob
+    2_real_jira["real-jira"]:::atlasJob
+    wf_entry_2(["Trigger: e2e"]):::atlasWorkflow
     wf_entry_2 --> 2_playwright
     wf_entry_2 --> 2_visual
     wf_entry_2 --> 2_contract_drift

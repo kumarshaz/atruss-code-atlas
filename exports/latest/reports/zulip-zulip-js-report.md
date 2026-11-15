@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for zulip/zulip-js
 
 ```mermaid
 graph TD;
-    zulip_js["zulip-js : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    zulip_js["zulip-js : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,11 +114,15 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_4a87d1ee_4638_4d3f_8724_ecc8f5bbb7a6["4a87d1ee-4638-4d3f-8724-ecc8f5bbb7a6"]
+        mod_4a87d1ee_4638_4d3f_8724_ecc8f5bbb7a6["4a87d1ee-4638-4d3f-8724-ecc8f5bbb7a6"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_node_js_yml_build["node.js.yml#build"]
+        job_node_js_yml_build["node.js.yml#build"]:::atlasJob
     end
     mod_4a87d1ee_4638_4d3f_8724_ecc8f5bbb7a6 -->|BUILT_BY| job_node_js_yml_build
 ```
@@ -123,8 +134,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph Node_js_CI_0["Node.js CI"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

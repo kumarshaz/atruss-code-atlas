@@ -41,38 +41,54 @@ description: Arc42 and Pipeline report for plausible/analytics
 
 ```mermaid
 graph TD;
-    repo_root(["plausible/analytics (459 components)"])
-    dir_0_assets["assets (204)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["plausible/analytics (459 components)"]):::atlasRoot
+    subgraph sg_dir_0_assets["assets (204)"]
+      direction TB
+      dir_0_assets["assets (204)"]:::atlasCategory
+      sub_0_0_js["js (201)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_0_js
+      sub_0_1_test_utils["test-utils (2)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_1_test_utils
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_assets
-    sub_0_0_js["js (201)"]
-    dir_0_assets --> sub_0_0_js
-    sub_0_1_test_utils["test-utils (2)"]
-    dir_0_assets --> sub_0_1_test_utils
-    sub_0_2__module_root_["(module root) (1)"]
-    dir_0_assets --> sub_0_2__module_root_
-    dir_1_lib["lib (130)"]
+    subgraph sg_dir_1_lib["lib (130)"]
+      direction TB
+      dir_1_lib["lib (130)"]:::atlasCategory
+      sub_1_0_plausible["plausible (116)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_plausible
+      sub_1_1_mix["mix (7)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1_mix
+      sub_1_2__module_root_["(module root) (5)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_2__module_root_
+      sub_1_more["+1 more submodules (2)"]:::atlasMore
+      dir_1_lib --> sub_1_more
+    end
     repo_root --> dir_1_lib
-    sub_1_0_plausible["plausible (116)"]
-    dir_1_lib --> sub_1_0_plausible
-    sub_1_1_mix["mix (7)"]
-    dir_1_lib --> sub_1_1_mix
-    sub_1_2__module_root_["(module root) (5)"]
-    dir_1_lib --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (2)"]
-    dir_1_lib --> sub_1_more
-    dir_2_extra["extra (105)"]
+    subgraph sg_dir_2_extra["extra (105)"]
+      direction TB
+      dir_2_extra["extra (105)"]:::atlasCategory
+      sub_2_0_lib_plausible["lib/plausible (60)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_0_lib_plausible
+      sub_2_1_lib_plausible_web["lib/plausible_web (44)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_1_lib_plausible_web
+      sub_2_2_lib["lib (1)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_2_lib
+    end
     repo_root --> dir_2_extra
-    sub_2_0_lib_plausible["lib/plausible (60)"]
-    dir_2_extra --> sub_2_0_lib_plausible
-    sub_2_1_lib_plausible_web["lib/plausible_web (44)"]
-    dir_2_extra --> sub_2_1_lib_plausible_web
-    sub_2_2_lib["lib (1)"]
-    dir_2_extra --> sub_2_2_lib
-    dir_3_config["config (10)"]
+    dir_3_config["config (10)"]:::atlasCategory
     repo_root --> dir_3_config
-    dir_4__root_["(root) (5)"]
+    dir_4__root_["(root) (5)"]:::atlasCategory
     repo_root --> dir_4__root_
-    dir_other_modules["+2 more modules (5)"]
+    dir_other_modules["+2 more modules (5)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_1_test_utils -.->|"14 deps"| sub_0_0_js
 ```
@@ -244,27 +260,31 @@ Showing top 60 representative components out of 459 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a["7d260fe6-fa1b-4363-bd35-7b34918a3c9a"]
-        mod_assets["assets"]
-        mod_e2e["e2e"]
-        mod_tracker["tracker"]
-        mod_tracker_npm_package["tracker/npm_package"]
+        mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a["7d260fe6-fa1b-4363-bd35-7b34918a3c9a"]:::atlasCategory
+        mod_assets["assets"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_tracker["tracker"]:::atlasCategory
+        mod_tracker_npm_package["tracker/npm_package"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_test_e2e_main_tf["test/e2e/main.tf"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_test_e2e_main_tf["test/e2e/main.tf"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_elixir_yml_build["elixir.yml#build"]
-        job_elixir_yml_e2e["elixir.yml#e2e"]
-        job_elixir_yml_merge_sharded_e2e_test_report["elixir.yml#merge-sharded-e2e-test-report"]
-        job_elixir_yml_static["elixir.yml#static"]
-        job_node_yml_build["node.yml#build"]
-        job_tracker_script_npm_release_yml_tracker_release_npm["tracker-script-npm-release.yml#tracker-release-npm"]
-        job_tracker_script_update_yml_tracker_script_update["tracker-script-update.yml#tracker-script-update"]
-        job_tracker_yml_merge_sharded_test_report["tracker.yml#merge-sharded-test-report"]
-        job_tracker_yml_test["tracker.yml#test"]
+        job_elixir_yml_build["elixir.yml#build"]:::atlasJob
+        job_elixir_yml_e2e["elixir.yml#e2e"]:::atlasJob
+        job_elixir_yml_merge_sharded_e2e_test_report["elixir.yml#merge-sharded-e2e-test-report"]:::atlasJob
+        job_elixir_yml_static["elixir.yml#static"]:::atlasJob
+        job_node_yml_build["node.yml#build"]:::atlasJob
+        job_tracker_script_npm_release_yml_tracker_release_npm["tracker-script-npm-release.yml#tracker-release-npm"]:::atlasJob
+        job_tracker_script_update_yml_tracker_script_update["tracker-script-update.yml#tracker-script-update"]:::atlasJob
+        job_tracker_yml_merge_sharded_test_report["tracker.yml#merge-sharded-test-report"]:::atlasJob
+        job_tracker_yml_test["tracker.yml#test"]:::atlasJob
     end
     mod_7d260fe6_fa1b_4363_bd35_7b34918a3c9a -->|PACKAGED_BY| art_Dockerfile
     mod_assets -->|BUILT_BY| job_elixir_yml_e2e
@@ -310,13 +330,104 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["plausible/analytics (15 workflows)"])
-  grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["plausible/analytics (15 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_All_checks_pass["All checks pass (1 jobs)"]
+      direction TB
+      wf_0_All_checks_pass(["Trigger: All checks pass"]):::atlasWorkflow
+      job_0_enforce_all_checks["enforce-all-checks"]:::atlasJob
+      wf_0_All_checks_pass --> job_0_enforce_all_checks
+    end
+    pipeline_root --> wf_0_All_checks_pass
+    subgraph sg_wf_1_Build_Private_Images_GHCR["Build Private Images GHCR (1 jobs)"]
+      direction TB
+      wf_1_Build_Private_Images_GHCR(["Trigger: Build Private Images GHCR"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_Private_Images_GHCR --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_Private_Images_GHCR
+    subgraph sg_wf_2_Build_Public_Images_GHCR["Build Public Images GHCR (2 jobs)"]
+      direction TB
+      wf_2_Build_Public_Images_GHCR(["Trigger: Build Public Images GHCR"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_push["push"]:::atlasJob
+      wf_2_Build_Public_Images_GHCR --> job_2_build
+      job_2_build --> job_2_push
+    end
+    pipeline_root --> wf_2_Build_Public_Images_GHCR
+    subgraph sg_wf_3_Add_preview_environment_URL_to_PR["Add preview environment URL to PR (1 jobs)"]
+      direction TB
+      wf_3_Add_preview_environment_URL_to_PR(["Trigger: Add preview environment URL to PR"]):::atlasWorkflow
+      job_3_comment["comment"]:::atlasJob
+      wf_3_Add_preview_environment_URL_to_PR --> job_3_comment
+    end
+    pipeline_root --> wf_3_Add_preview_environment_URL_to_PR
+    subgraph sg_wf_4_Elixir_CI["Elixir CI (4 jobs)"]
+      direction TB
+      wf_4_Elixir_CI(["Trigger: Elixir CI"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      job_4_e2e["e2e"]:::atlasJob
+      job_4_merge_sharded_e2e_test_report["merge-sharded-e2e-test-report"]:::atlasJob
+      wf_4_Elixir_CI --> job_4_build
+      wf_4_Elixir_CI --> job_4_e2e
+      job_4_e2e --> job_4_merge_sharded_e2e_test_report
+    end
+    pipeline_root --> wf_4_Elixir_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Publish_Elixir_documentation["Publish Elixir documentation (1 jobs)"]
+      direction TB
+      wf_9_Publish_Elixir_documentation(["Trigger: Publish Elixir documentation"]):::atlasWorkflow
+      job_9_build["build"]:::atlasJob
+      wf_9_Publish_Elixir_documentation --> job_9_build
+    end
+    pipeline_root --> wf_9_Publish_Elixir_documentation
+    subgraph sg_wf_11_Tracker__publish_NPM_release["Tracker: publish NPM release (1 jobs)"]
+      direction TB
+      wf_11_Tracker__publish_NPM_release(["Trigger: Tracker: publish NPM release"]):::atlasWorkflow
+      job_11_tracker_release_npm["tracker-release-npm"]:::atlasJob
+      wf_11_Tracker__publish_NPM_release --> job_11_tracker_release_npm
+    end
+    pipeline_root --> wf_11_Tracker__publish_NPM_release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_6_IANA_registry_check["IANA registry check (1 jobs)"]
+      direction TB
+      wf_6_IANA_registry_check(["Trigger: IANA registry check"]):::atlasWorkflow
+      job_6_check_iana_registries["check-iana-registries"]:::atlasJob
+      wf_6_IANA_registry_check --> job_6_check_iana_registries
+    end
+    pipeline_root --> wf_6_IANA_registry_check
+    subgraph sg_wf_13_Tracker_CI["Tracker CI (2 jobs)"]
+      direction TB
+      wf_13_Tracker_CI(["Trigger: Tracker CI"]):::atlasWorkflow
+      job_13_test["test"]:::atlasJob
+      job_13_merge_sharded_test_report["merge-sharded-test-report"]:::atlasJob
+      wf_13_Tracker_CI --> job_13_test
+      job_13_test --> job_13_merge_sharded_test_report
+    end
+    pipeline_root --> wf_13_Tracker_CI
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Hex_audit["Hex audit (1 jobs)"]
+      direction TB
+      wf_5_Hex_audit(["Trigger: Hex audit"]):::atlasWorkflow
+      job_5_audit["audit"]:::atlasJob
+      wf_5_Hex_audit --> job_5_audit
+    end
+    pipeline_root --> wf_5_Hex_audit
+  end
+  wf_more["+5 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,22 +41,35 @@ description: Arc42 and Pipeline report for getsentry/snuba
 
 ```mermaid
 graph TD;
-    repo_root(["getsentry/snuba (180 components)"])
-    dir_0_snuba["snuba (99)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["getsentry/snuba (180 components)"]):::atlasRoot
+    subgraph sg_dir_0_snuba["snuba (99)"]
+      direction TB
+      dir_0_snuba["snuba (99)"]:::atlasCategory
+      sub_0_0_admin["admin (49)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_0_admin
+      sub_0_1_cli["cli (36)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_1_cli
+      sub_0_2_web["web (14)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_2_web
+    end
     repo_root --> dir_0_snuba
-    sub_0_0_admin["admin (49)"]
-    dir_0_snuba --> sub_0_0_admin
-    sub_0_1_cli["cli (36)"]
-    dir_0_snuba --> sub_0_1_cli
-    sub_0_2_web["web (14)"]
-    dir_0_snuba --> sub_0_2_web
-    dir_1_rust_snuba["rust_snuba (79)"]
+    subgraph sg_dir_1_rust_snuba["rust_snuba (79)"]
+      direction TB
+      dir_1_rust_snuba["rust_snuba (79)"]:::atlasCategory
+      sub_1_0_src["src (78)"]:::atlasWorkflow
+      dir_1_rust_snuba --> sub_1_0_src
+      sub_1_1_benches["benches (1)"]:::atlasWorkflow
+      dir_1_rust_snuba --> sub_1_1_benches
+    end
     repo_root --> dir_1_rust_snuba
-    sub_1_0_src["src (78)"]
-    dir_1_rust_snuba --> sub_1_0_src
-    sub_1_1_benches["benches (1)"]
-    dir_1_rust_snuba --> sub_1_1_benches
-    dir_2_tests["tests (2)"]
+    dir_2_tests["tests (2)"]:::atlasCategory
     repo_root --> dir_2_tests
     sub_0_0_admin -.->|"36 deps"| sub_0_2_web
     sub_0_2_web -.->|"26 deps"| sub_0_1_cli
@@ -200,22 +213,26 @@ Showing top 60 representative components out of 180 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_6329521d_2747_45d8_914a_6766ecbbc6d4["6329521d-2747-45d8-914a-6766ecbbc6d4"]
-        mod_rust_snuba["rust_snuba"]
-        mod_snuba_admin["snuba/admin"]
+        mod_6329521d_2747_45d8_914a_6766ecbbc6d4["6329521d-2747-45d8-914a-6766ecbbc6d4"]:::atlasCategory
+        mod_rust_snuba["rust_snuba"]:::atlasCategory
+        mod_snuba_admin["snuba/admin"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_docker_compose_gcb_yml["docker-compose.gcb.yml"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_docker_compose_gcb_yml["docker-compose.gcb.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_bump_version_yml_bump_version["bump-version.yml#bump-version"]
-        job_ci_yml_admin_tests["ci.yml#admin-tests"]
-        job_ci_yml_clickhouse_versions["ci.yml#clickhouse-versions"]
-        job_ci_yml_image_smoke_test["ci.yml#image-smoke-test"]
-        job_ci_yml_snuba_image["ci.yml#snuba-image"]
-        job_ci_yml_tests["ci.yml#tests"]
+        job_bump_version_yml_bump_version["bump-version.yml#bump-version"]:::atlasJob
+        job_ci_yml_admin_tests["ci.yml#admin-tests"]:::atlasJob
+        job_ci_yml_clickhouse_versions["ci.yml#clickhouse-versions"]:::atlasJob
+        job_ci_yml_image_smoke_test["ci.yml#image-smoke-test"]:::atlasJob
+        job_ci_yml_snuba_image["ci.yml#snuba-image"]:::atlasJob
+        job_ci_yml_tests["ci.yml#tests"]:::atlasJob
     end
     mod_6329521d_2747_45d8_914a_6766ecbbc6d4 -->|BUILT_BY| job_ci_yml_image_smoke_test
     mod_6329521d_2747_45d8_914a_6766ecbbc6d4 -->|BUILT_BY| job_ci_yml_snuba_image
@@ -253,13 +270,108 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["getsentry/snuba (15 workflows)"])
-  grp_0_CI___Verification["CI & Verification (10 workflows · 28 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["getsentry/snuba (15 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 28 jobs)"]
+    direction TB
+    subgraph sg_wf_2_ci["ci (13 jobs)"]
+      direction TB
+      wf_2_ci(["Trigger: ci"]):::atlasWorkflow
+      job_2_files_changed["files-changed"]:::atlasJob
+      job_2_bump_version_test["bump-version-test"]:::atlasJob
+      job_2_linting["linting"]:::atlasJob
+      wf_2_ci --> job_2_files_changed
+      wf_2_ci --> job_2_bump_version_test
+      wf_2_ci --> job_2_linting
+    end
+    pipeline_root --> wf_2_ci
+    subgraph sg_wf_5_Dependency_Review["Dependency Review (1 jobs)"]
+      direction TB
+      wf_5_Dependency_Review(["Trigger: Dependency Review"]):::atlasWorkflow
+      job_5_dependency_review["dependency-review"]:::atlasJob
+      wf_5_Dependency_Review --> job_5_dependency_review
+    end
+    pipeline_root --> wf_5_Dependency_Review
+    subgraph sg_wf_8_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_8_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_8_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_8_Enforce_License_Compliance --> job_8_enforce_license_compliance
+    end
+    pipeline_root --> wf_8_Enforce_License_Compliance
+    subgraph sg_wf_10_image_yml["image.yml (6 jobs)"]
+      direction TB
+      wf_10_image_yml(["Trigger: image.yml"]):::atlasWorkflow
+      job_10_build_multiplatform["build-multiplatform"]:::atlasJob
+      job_10_build_production["build-production"]:::atlasJob
+      job_10_build_debug_multiplatform["build-debug-multiplatform"]:::atlasJob
+      wf_10_image_yml --> job_10_build_multiplatform
+      wf_10_image_yml --> job_10_build_production
+      wf_10_image_yml --> job_10_build_debug_multiplatform
+    end
+    pipeline_root --> wf_10_image_yml
+    subgraph sg_wf_14_Validate_Sentry_Options_Schema["Validate Sentry Options Schema (2 jobs)"]
+      direction TB
+      wf_14_Validate_Sentry_Options_Schema(["Trigger: Validate Sentry Options Schema"]):::atlasWorkflow
+      job_14_cli_version["cli-version"]:::atlasJob
+      job_14_validate_schema["validate-schema"]:::atlasJob
+      wf_14_Validate_Sentry_Options_Schema --> job_14_cli_version
+      job_14_cli_version --> job_14_validate_schema
+    end
+    pipeline_root --> wf_14_Validate_Sentry_Options_Schema
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_12_release["release (1 jobs)"]
+      direction TB
+      wf_12_release(["Trigger: release"]):::atlasWorkflow
+      job_12_release["release"]:::atlasJob
+      wf_12_release --> job_12_release
+    end
+    pipeline_root --> wf_12_release
+    subgraph sg_wf_13_Validate_Deployment_Pipelines["Validate Deployment Pipelines (2 jobs)"]
+      direction TB
+      wf_13_Validate_Deployment_Pipelines(["Trigger: Validate Deployment Pipelines"]):::atlasWorkflow
+      job_13_files_changed["files-changed"]:::atlasJob
+      job_13_validate["validate"]:::atlasJob
+      wf_13_Validate_Deployment_Pipelines --> job_13_files_changed
+      job_13_files_changed --> job_13_validate
+    end
+    pipeline_root --> wf_13_Validate_Deployment_Pipelines
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Bump_a_dependency["Bump a dependency (1 jobs)"]
+      direction TB
+      wf_1_Bump_a_dependency(["Trigger: Bump a dependency"]):::atlasWorkflow
+      job_1_bump_version["bump-version"]:::atlasJob
+      wf_1_Bump_a_dependency --> job_1_bump_version
+    end
+    pipeline_root --> wf_1_Bump_a_dependency
+    subgraph sg_wf_9_fast_revert_yml["fast-revert.yml (1 jobs)"]
+      direction TB
+      wf_9_fast_revert_yml(["Trigger: fast-revert.yml"]):::atlasWorkflow
+      job_9_revert["revert"]:::atlasJob
+      wf_9_fast_revert_yml --> job_9_revert
+    end
+    pipeline_root --> wf_9_fast_revert_yml
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_3_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_3_analyze["analyze"]:::atlasJob
+      wf_3_CodeQL --> job_3_analyze
+    end
+    pipeline_root --> wf_3_CodeQL
+  end
+  wf_more["+5 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

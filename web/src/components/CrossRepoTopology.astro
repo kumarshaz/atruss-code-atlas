@@ -202,28 +202,47 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         applyResponsiveSvgStyle,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        getMermaidClassDefs,
         renderMermaidSvg,
         safeId,
         safeLabel,
     } from '../lib/mermaid-client';
 
     function buildCrossTopologyGraph(edges: Array<{ kind: string; source: string; target: string }>): string {
-        const lines = ['flowchart TD'];
-        const declared = new Set<string>();
-        edges.forEach((edge, idx) => {
+        const lines = ['flowchart TD', ...getMermaidClassDefs()];
+        const srcNodes = new Map<string, string>();
+        const targetNodes = new Map<string, { label: string; cls: string }>();
+
+        edges.slice(0, 28).forEach((edge) => {
             const sId = `n_${safeId(edge.source)}`;
             const tId = `n_${safeId(edge.target)}`;
-            if (!declared.has(sId)) {
-                declared.add(sId);
-                lines.push(`  ${sId}["${safeLabel(edge.source)}"]`);
+            if (!srcNodes.has(sId)) srcNodes.set(sId, safeLabel(edge.source));
+            if (!targetNodes.has(tId)) {
+                const cls = edge.target.startsWith('env:') ? ':::atlasTarget' : ':::atlasCategory';
+                targetNodes.set(tId, { label: safeLabel(edge.target), cls });
             }
-            if (!declared.has(tId)) {
-                declared.add(tId);
-                lines.push(`  ${tId}["${safeLabel(edge.target)}"]`);
+        });
+
+        lines.push('  subgraph Repositories["Repositories & Workspaces"]');
+        lines.push('    direction TB');
+        for (const [id, label] of srcNodes.entries()) {
+            if (!targetNodes.has(id)) {
+                lines.push(`    ${id}["${label}"]:::atlasWorkflow`);
             }
-            if (idx < 28) {
-                lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);
-            }
+        }
+        lines.push('  end');
+
+        lines.push('  subgraph SharedTargets["Shared Targets & Packages"]');
+        lines.push('    direction TB');
+        for (const [id, info] of targetNodes.entries()) {
+            lines.push(`    ${id}["${info.label}"]${info.cls}`);
+        }
+        lines.push('  end');
+
+        edges.slice(0, 28).forEach((edge) => {
+            const sId = `n_${safeId(edge.source)}`;
+            const tId = `n_${safeId(edge.target)}`;
+            lines.push(`  ${sId} -->|"${safeLabel(edge.kind)}"| ${tId}`);
         });
         return lines.join('\n');
     }
@@ -284,9 +303,12 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 0.65rem;
+        align-items: stretch;
     }
 
     .m3-cross-edge-pill {
+        height: 100%;
+        margin: 0 !important;
         padding: 0.7rem 0.85rem;
         border-radius: var(--md-sys-shape-corner-medium);
         background-color: var(--md-sys-color-surface-container);
@@ -294,6 +316,10 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
+    }
+
+    .m3-cross-edge-pill > * {
+        margin: 0 !important;
     }
 
     .m3-cross-kind {

@@ -41,24 +41,34 @@ description: Arc42 and Pipeline report for grafana/unused
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/unused (50 components)"])
-    dir_0_cmd["cmd (23)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/unused (50 components)"]):::atlasRoot
+    subgraph sg_dir_0_cmd["cmd (23)"]
+      direction TB
+      dir_0_cmd["cmd (23)"]:::atlasCategory
+      sub_0_0_unused["unused (11)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_unused
+      sub_0_1_internal["internal (7)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_internal
+      sub_0_2_unused_exporter["unused-exporter (5)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_unused_exporter
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_unused["unused (11)"]
-    dir_0_cmd --> sub_0_0_unused
-    sub_0_1_internal["internal (7)"]
-    dir_0_cmd --> sub_0_1_internal
-    sub_0_2_unused_exporter["unused-exporter (5)"]
-    dir_0_cmd --> sub_0_2_unused_exporter
-    dir_1__root_["(root) (7)"]
+    dir_1__root_["(root) (7)"]:::atlasCategory
     repo_root --> dir_1__root_
-    dir_2_unusedtest["unusedtest (6)"]
+    dir_2_unusedtest["unusedtest (6)"]:::atlasCategory
     repo_root --> dir_2_unusedtest
-    dir_3_aws["aws (4)"]
+    dir_3_aws["aws (4)"]:::atlasCategory
     repo_root --> dir_3_aws
-    dir_4_azure["azure (4)"]
+    dir_4_azure["azure (4)"]:::atlasCategory
     repo_root --> dir_4_azure
-    dir_other_modules["+2 more modules (6)"]
+    dir_other_modules["+2 more modules (6)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -170,15 +180,19 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_05e1b349_97cb_4d8e_9f76_57259e527b13["05e1b349-97cb-4d8e-9f76-57259e527b13"]
+        mod_05e1b349_97cb_4d8e_9f76_57259e527b13["05e1b349-97cb-4d8e-9f76-57259e527b13"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile_exporter["Dockerfile.exporter"]
+        art_Dockerfile_exporter["Dockerfile.exporter"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_go_yml_build["go.yml#build"]
-        job_publish_yml_publish["publish.yml#publish"]
+        job_go_yml_build["go.yml#build"]:::atlasJob
+        job_publish_yml_publish["publish.yml#publish"]:::atlasJob
     end
     mod_05e1b349_97cb_4d8e_9f76_57259e527b13 -->|BUILT_BY| job_go_yml_build
     mod_05e1b349_97cb_4d8e_9f76_57259e527b13 -->|DEPLOYED_BY| job_publish_yml_publish
@@ -196,15 +210,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/unused"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/unused"]):::atlasRoot
   subgraph Go_0["Go"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph Publish_1["Publish"]
     direction TB
-    1_publish["publish"]
+    1_publish["publish"]:::atlasJob
   end
   pipeline_root --> 1_publish
 ```

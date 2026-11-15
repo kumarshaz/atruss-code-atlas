@@ -41,24 +41,31 @@ description: Arc42 and Pipeline report for appwrite/mcp
 
 ```mermaid
 graph TD;
-    Service["Service : SERVICE"]
-    ToolManager["ToolManager : SERVICE"]
-    Provider["Provider : DATA_ACCESS_LAYER"]
-    Payload["Payload : DATA_ACCESS_LAYER"]
-    FunctionsService["FunctionsService : SERVICE"]
-    FailingSdkService["FailingSdkService : SERVICE"]
-    SuccessfulSdkService["SuccessfulSdkService : SERVICE"]
-    FailingService["FailingService : SERVICE"]
-    SuccessfulService["SuccessfulService : SERVICE"]
-    FirstService["FirstService : SERVICE"]
-    SecondService["SecondService : SERVICE"]
-    AvatarService["AvatarService : SERVICE"]
-    StorageService["StorageService : SERVICE"]
-    UsersService["UsersService : SERVICE"]
-    ExampleService["ExampleService : SERVICE"]
-    BinaryService["BinaryService : SERVICE"]
-    QueryService["QueryService : SERVICE"]
-    repo_root(["appwrite/mcp"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Service["Service : SERVICE"]:::atlasJob
+    ToolManager["ToolManager : SERVICE"]:::atlasJob
+    Provider["Provider : DATA_ACCESS_LAYER"]:::atlasJob
+    Payload["Payload : DATA_ACCESS_LAYER"]:::atlasJob
+    FunctionsService["FunctionsService : SERVICE"]:::atlasJob
+    FailingSdkService["FailingSdkService : SERVICE"]:::atlasJob
+    SuccessfulSdkService["SuccessfulSdkService : SERVICE"]:::atlasJob
+    FailingService["FailingService : SERVICE"]:::atlasJob
+    SuccessfulService["SuccessfulService : SERVICE"]:::atlasJob
+    FirstService["FirstService : SERVICE"]:::atlasJob
+    SecondService["SecondService : SERVICE"]:::atlasJob
+    AvatarService["AvatarService : SERVICE"]:::atlasJob
+    StorageService["StorageService : SERVICE"]:::atlasJob
+    UsersService["UsersService : SERVICE"]:::atlasJob
+    ExampleService["ExampleService : SERVICE"]:::atlasJob
+    BinaryService["BinaryService : SERVICE"]:::atlasJob
+    QueryService["QueryService : SERVICE"]:::atlasJob
+    repo_root(["appwrite/mcp"]):::atlasRoot
     repo_root --> Payload
     repo_root --> Provider
     AvatarService --> ToolManager
@@ -163,25 +170,29 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2a63f5ff_f36e_4da1_b4d1_9eb9b4e2dbd7["2a63f5ff-f36e-4da1-b4d1-9eb9b4e2dbd7"]
+        mod_2a63f5ff_f36e_4da1_b4d1_9eb9b4e2dbd7["2a63f5ff-f36e-4da1-b4d1-9eb9b4e2dbd7"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_ci_yml_docker["ci.yml#docker"]
-        job_ci_yml_e2e["ci.yml#e2e"]
-        job_ci_yml_integration["ci.yml#integration"]
-        job_ci_yml_lint["ci.yml#lint"]
-        job_ci_yml_unit["ci.yml#unit"]
-        job_production_yml_build["production.yml#build"]
-        job_production_yml_deploy["production.yml#deploy"]
-        job_publish_yml_publish["publish.yml#publish"]
-        job_publish_yml_publish_mcp_registry["publish.yml#publish-mcp-registry"]
-        job_staging_yml_build["staging.yml#build"]
-        job_staging_yml_deploy["staging.yml#deploy"]
-        job_update_docs_index_yml_update["update-docs-index.yml#update"]
+        job_ci_yml_docker["ci.yml#docker"]:::atlasJob
+        job_ci_yml_e2e["ci.yml#e2e"]:::atlasJob
+        job_ci_yml_integration["ci.yml#integration"]:::atlasJob
+        job_ci_yml_lint["ci.yml#lint"]:::atlasJob
+        job_ci_yml_unit["ci.yml#unit"]:::atlasJob
+        job_production_yml_build["production.yml#build"]:::atlasJob
+        job_production_yml_deploy["production.yml#deploy"]:::atlasJob
+        job_publish_yml_publish["publish.yml#publish"]:::atlasJob
+        job_publish_yml_publish_mcp_registry["publish.yml#publish-mcp-registry"]:::atlasJob
+        job_staging_yml_build["staging.yml#build"]:::atlasJob
+        job_staging_yml_deploy["staging.yml#deploy"]:::atlasJob
+        job_update_docs_index_yml_update["update-docs-index.yml#update"]:::atlasJob
     end
     mod_2a63f5ff_f36e_4da1_b4d1_9eb9b4e2dbd7 -->|BUILT_BY| job_ci_yml_docker
     mod_2a63f5ff_f36e_4da1_b4d1_9eb9b4e2dbd7 -->|BUILT_BY| job_ci_yml_e2e
@@ -229,21 +240,66 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["appwrite/mcp (5 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Production_deployment["Production deployment (2 jobs)"]
-  grp_0_Release___Deploy --> wf_1_Production_deployment
-  wf_2_Publish["Publish (2 jobs)"]
-  grp_0_Release___Deploy --> wf_2_Publish
-  wf_3_Staging_deployment["Staging deployment (2 jobs)"]
-  grp_0_Release___Deploy --> wf_3_Staging_deployment
-  grp_1_CI___Verification["CI & Verification (1 workflows · 5 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (5 jobs)"]
-  grp_1_CI___Verification --> wf_0_CI
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_Docs["Docs (1 jobs)"]
-  grp_2_Scheduled___Manual --> wf_4_Docs
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["appwrite/mcp (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Production_deployment["Production deployment (2 jobs)"]
+      direction TB
+      wf_1_Production_deployment(["Trigger: Production deployment"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_deploy["deploy"]:::atlasJob
+      wf_1_Production_deployment --> job_1_build
+      job_1_build --> job_1_deploy
+    end
+    pipeline_root --> wf_1_Production_deployment
+    subgraph sg_wf_2_Publish["Publish (2 jobs)"]
+      direction TB
+      wf_2_Publish(["Trigger: Publish"]):::atlasWorkflow
+      job_2_publish["publish"]:::atlasJob
+      job_2_publish_mcp_registry["publish-mcp-registry"]:::atlasJob
+      wf_2_Publish --> job_2_publish
+      job_2_publish --> job_2_publish_mcp_registry
+    end
+    pipeline_root --> wf_2_Publish
+    subgraph sg_wf_3_Staging_deployment["Staging deployment (2 jobs)"]
+      direction TB
+      wf_3_Staging_deployment(["Trigger: Staging deployment"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_deploy["deploy"]:::atlasJob
+      wf_3_Staging_deployment --> job_3_build
+      job_3_build --> job_3_deploy
+    end
+    pipeline_root --> wf_3_Staging_deployment
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (5 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      job_0_unit["unit"]:::atlasJob
+      job_0_e2e["e2e"]:::atlasJob
+      wf_0_CI --> job_0_lint
+      wf_0_CI --> job_0_unit
+      wf_0_CI --> job_0_e2e
+    end
+    pipeline_root --> wf_0_CI
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Docs["Docs (1 jobs)"]
+      direction TB
+      wf_4_Docs(["Trigger: Docs"]):::atlasWorkflow
+      job_4_update["update"]:::atlasJob
+      wf_4_Docs --> job_4_update
+    end
+    pipeline_root --> wf_4_Docs
+  end
 ```

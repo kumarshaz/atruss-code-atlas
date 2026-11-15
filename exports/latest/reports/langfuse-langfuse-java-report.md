@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for langfuse/langfuse-java
 
 ```mermaid
 graph TD;
-    langfuse_java["langfuse-java : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    langfuse_java["langfuse-java : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -87,13 +94,17 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_97acad44_4778_4a94_941e_e25fc1bf05cc["97acad44-4778-4a94-941e-e25fc1bf05cc"]
+        mod_97acad44_4778_4a94_941e_e25fc1bf05cc["97acad44-4778-4a94-941e-e25fc1bf05cc"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_yml_build["build.yml#build"]
-        job_deploy_yml_publish["deploy.yml#publish"]
-        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]
+        job_build_yml_build["build.yml#build"]:::atlasJob
+        job_deploy_yml_publish["deploy.yml#publish"]:::atlasJob
+        job_zizmor_yml_zizmor["zizmor.yml#zizmor"]:::atlasJob
     end
     mod_97acad44_4778_4a94_941e_e25fc1bf05cc -->|BUILT_BY| job_build_yml_build
     mod_97acad44_4778_4a94_941e_e25fc1bf05cc -->|BUILT_BY| job_zizmor_yml_zizmor
@@ -109,20 +120,27 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["langfuse/langfuse-java"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["langfuse/langfuse-java"]):::atlasRoot
   subgraph Build_0["Build"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph Publish_1["Publish"]
     direction TB
-    1_publish["publish"]
+    1_publish["publish"]:::atlasJob
   end
   pipeline_root --> 1_publish
   subgraph Check_GitHub_Actions_2["Check GitHub Actions"]
     direction TB
-    2_zizmor["zizmor"]
+    2_zizmor["zizmor"]:::atlasJob
   end
   pipeline_root --> 2_zizmor
 ```

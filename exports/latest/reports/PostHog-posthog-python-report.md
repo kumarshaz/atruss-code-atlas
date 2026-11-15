@@ -41,26 +41,39 @@ description: Arc42 and Pipeline report for PostHog/posthog-python
 
 ```mermaid
 graph TD;
-    repo_root(["PostHog/posthog-python (45 components)"])
-    dir_0_posthog["posthog (21)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["PostHog/posthog-python (45 components)"]):::atlasRoot
+    subgraph sg_dir_0_posthog["posthog (21)"]
+      direction TB
+      dir_0_posthog["posthog (21)"]:::atlasCategory
+      sub_0_0_test["test (17)"]:::atlasWorkflow
+      dir_0_posthog --> sub_0_0_test
+      sub_0_1_tracing["tracing (2)"]:::atlasWorkflow
+      dir_0_posthog --> sub_0_1_tracing
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_posthog --> sub_0_2__module_root_
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_posthog --> sub_0_more
+    end
     repo_root --> dir_0_posthog
-    sub_0_0_test["test (17)"]
-    dir_0_posthog --> sub_0_0_test
-    sub_0_1_tracing["tracing (2)"]
-    dir_0_posthog --> sub_0_1_tracing
-    sub_0_2__module_root_["(module root) (1)"]
-    dir_0_posthog --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (1)"]
-    dir_0_posthog --> sub_0_more
-    dir_1_playgrounds["playgrounds (12)"]
+    subgraph sg_dir_1_playgrounds["playgrounds (12)"]
+      direction TB
+      dir_1_playgrounds["playgrounds (12)"]:::atlasCategory
+      sub_1_0_fastapi_async_client["fastapi-async-client (10)"]:::atlasWorkflow
+      dir_1_playgrounds --> sub_1_0_fastapi_async_client
+      sub_1_1_fastapi_exception_capture["fastapi-exception-capture (2)"]:::atlasWorkflow
+      dir_1_playgrounds --> sub_1_1_fastapi_exception_capture
+    end
     repo_root --> dir_1_playgrounds
-    sub_1_0_fastapi_async_client["fastapi-async-client (10)"]
-    dir_1_playgrounds --> sub_1_0_fastapi_async_client
-    sub_1_1_fastapi_exception_capture["fastapi-exception-capture (2)"]
-    dir_1_playgrounds --> sub_1_1_fastapi_exception_capture
-    dir_2_sdk_compliance_adapter["sdk_compliance_adapter (11)"]
+    dir_2_sdk_compliance_adapter["sdk_compliance_adapter (11)"]:::atlasCategory
     repo_root --> dir_2_sdk_compliance_adapter
-    dir_3_examples["examples (1)"]
+    dir_3_examples["examples (1)"]:::atlasCategory
     repo_root --> dir_3_examples
     sub_0_0_test -.->|"2 deps"| sub_0_more
     sub_0_0_test -.->|"1 dep"| sub_0_1_tracing
@@ -187,27 +200,31 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_benchmarks["benchmarks"]
-        mod_integration_tests_django5["integration_tests/django5"]
-        mod_openfeature_provider["openfeature-provider"]
-        mod_sdk_compliance_adapter["sdk_compliance_adapter"]
+        mod_benchmarks["benchmarks"]:::atlasCategory
+        mod_integration_tests_django5["integration_tests/django5"]:::atlasCategory
+        mod_openfeature_provider["openfeature-provider"]:::atlasCategory
+        mod_sdk_compliance_adapter["sdk_compliance_adapter"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]
-        art_sdk_compliance_adapter_Dockerfile_v1["sdk_compliance_adapter/Dockerfile.v1"]
-        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]
+        art_sdk_compliance_adapter_Dockerfile["sdk_compliance_adapter/Dockerfile"]:::atlasWorkflow
+        art_sdk_compliance_adapter_Dockerfile_v1["sdk_compliance_adapter/Dockerfile.v1"]:::atlasWorkflow
+        art_sdk_compliance_adapter_docker_compose_yml["sdk_compliance_adapter/docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_benchmarks_yml_benchmark["benchmarks.yml#benchmark"]
-        job_ci_yml_django5_integration["ci.yml#django5-integration"]
-        job_ci_yml_openfeature_provider["ci.yml#openfeature-provider"]
-        job_release_yml_dry_run_testpypi["release.yml#dry-run-testpypi"]
-        job_release_yml_version_bump["release.yml#version-bump"]
-        job_sdk_compliance_yml_adapter_tests["sdk-compliance.yml#adapter-tests"]
+        job_benchmarks_yml_benchmark["benchmarks.yml#benchmark"]:::atlasJob
+        job_ci_yml_django5_integration["ci.yml#django5-integration"]:::atlasJob
+        job_ci_yml_openfeature_provider["ci.yml#openfeature-provider"]:::atlasJob
+        job_release_yml_dry_run_testpypi["release.yml#dry-run-testpypi"]:::atlasJob
+        job_release_yml_version_bump["release.yml#version-bump"]:::atlasJob
+        job_sdk_compliance_yml_adapter_tests["sdk-compliance.yml#adapter-tests"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_Release["Release"]
+        env_Release["Release"]:::atlasTarget
     end
     job_release_yml_version_bump -->|DEPLOYS_TO| env_Release
     mod_benchmarks -->|BUILT_BY| job_benchmarks_yml_benchmark
@@ -243,15 +260,108 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["PostHog/posthog-python (12 workflows)"])
-  grp_0_CI___Verification["CI & Verification (5 workflows · 19 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 9 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["PostHog/posthog-python (12 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Python_SDK_benchmarks["Python SDK benchmarks (2 jobs)"]
+      direction TB
+      wf_1_Python_SDK_benchmarks(["Trigger: Python SDK benchmarks"]):::atlasWorkflow
+      job_1_benchmark["benchmark"]:::atlasJob
+      job_1_collect["collect"]:::atlasJob
+      wf_1_Python_SDK_benchmarks --> job_1_benchmark
+      job_1_benchmark --> job_1_collect
+    end
+    pipeline_root --> wf_1_Python_SDK_benchmarks
+    subgraph sg_wf_3_CI["CI (12 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_ruff_format["ruff-format"]:::atlasJob
+      job_3_ruff_lint["ruff-lint"]:::atlasJob
+      job_3_mypy["mypy"]:::atlasJob
+      wf_3_CI --> job_3_ruff_format
+      wf_3_CI --> job_3_ruff_lint
+      wf_3_CI --> job_3_mypy
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_10_SDK_Compliance_Tests["SDK Compliance Tests (3 jobs)"]
+      direction TB
+      wf_10_SDK_Compliance_Tests(["Trigger: SDK Compliance Tests"]):::atlasWorkflow
+      job_10_adapter_tests["adapter-tests"]:::atlasJob
+      job_10_compliance["compliance"]:::atlasJob
+      job_10_compliance_v1["compliance-v1"]:::atlasJob
+      wf_10_SDK_Compliance_Tests --> job_10_adapter_tests
+      wf_10_SDK_Compliance_Tests --> job_10_compliance
+      wf_10_SDK_Compliance_Tests --> job_10_compliance_v1
+    end
+    pipeline_root --> wf_10_SDK_Compliance_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Release_failure_notification["Release failure notification (1 jobs)"]
+      direction TB
+      wf_8_Release_failure_notification(["Trigger: Release failure notification"]):::atlasWorkflow
+      job_8_notify_failed["notify-failed"]:::atlasJob
+      wf_8_Release_failure_notification --> job_8_notify_failed
+    end
+    pipeline_root --> wf_8_Release_failure_notification
+    subgraph sg_wf_9_Release["Release (8 jobs)"]
+      direction TB
+      wf_9_Release(["Trigger: Release"]):::atlasWorkflow
+      job_9_check_changesets["check-changesets"]:::atlasJob
+      job_9_notify_approval_needed["notify-approval-needed"]:::atlasJob
+      job_9_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+      wf_9_Release --> job_9_check_changesets
+      job_9_check_changesets --> job_9_notify_approval_needed
+      job_9_notify_approval_needed --> job_9_preserve_slack_thread
+    end
+    pipeline_root --> wf_9_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Generate_references["Generate references (1 jobs)"]
+      direction TB
+      wf_5_Generate_references(["Trigger: Generate references"]):::atlasWorkflow
+      job_5_generate_references["generate-references"]:::atlasJob
+      wf_5_Generate_references --> job_5_generate_references
+    end
+    pipeline_root --> wf_5_Generate_references
+    subgraph sg_wf_7_PostHog_Upgrade["PostHog Upgrade (1 jobs)"]
+      direction TB
+      wf_7_PostHog_Upgrade(["Trigger: PostHog Upgrade"]):::atlasWorkflow
+      job_7_posthog_upgrade["posthog-upgrade"]:::atlasJob
+      wf_7_PostHog_Upgrade --> job_7_posthog_upgrade
+    end
+    pipeline_root --> wf_7_PostHog_Upgrade
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_4_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_CodeQL_Advanced --> job_4_analyze
+    end
+    pipeline_root --> wf_4_CodeQL_Advanced
+    subgraph sg_wf_11_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_11_Handle_stale_issues_and_PRs(["Trigger: Handle stale issues and PRs"]):::atlasWorkflow
+      job_11_stale["stale"]:::atlasJob
+      wf_11_Handle_stale_issues_and_PRs --> job_11_stale
+    end
+    pipeline_root --> wf_11_Handle_stale_issues_and_PRs
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_0_Python_SDK_benchmark_report["Python SDK benchmark report (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_Python_SDK_benchmark_report
+  end
+  wf_more["+2 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

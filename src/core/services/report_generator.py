@@ -9,6 +9,16 @@ MAX_CHILD_BRANCHES = 3
 MAX_CROSS_EDGES = 12
 MAX_DETAIL_ROWS = 60
 
+MERMAID_CLASS_DEFS = [
+    "  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff",
+    "  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb",
+    "  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb",
+    "  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb",
+    "  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6",
+    "  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6",
+    "  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf",
+]
+
 
 def _mermaid_safe_id(raw: str) -> str:
     cleaned = re.sub(r"[^a-zA-Z0-9_]", "_", raw)
@@ -75,7 +85,9 @@ def _render_top_level_tree(
     lines: list[str] = []
     edge_count = 0
     root_id = "repo_root"
-    lines.append(f'    {root_id}(["{_mermaid_label(repo_name)} ({len(components)} components)"])')
+    lines.append(
+        f'    {root_id}(["{_mermaid_label(repo_name)} ({len(components)} components)"]):::atlasRoot'
+    )
 
     # Find adaptive base depth if a single top folder contains >80% of all components
     all_segs = [_dir_segments(c.get("file", "")) for c in components]
@@ -108,9 +120,6 @@ def _render_top_level_tree(
     for idx, (top_key, group_comps) in enumerate(shown_top):
         top_label = "/".join(top_key)
         top_id = f"dir_{idx}_{_mermaid_safe_id(top_label)}"
-        lines.append(f'    {top_id}["{_mermaid_label(top_label)} ({len(group_comps)})"]')
-        lines.append(f"    {root_id} --> {top_id}")
-        edge_count += 1
 
         # Skip intermediate single-child wrapper folders (e.g. src/specify_cli or src/openai)
         # so large single-package roots expand into their actual sub-modules.
@@ -138,6 +147,12 @@ def _render_top_level_tree(
             child_groups[sub_name].append(comp)
 
         if len(group_comps) > 8 and len(child_groups) > 1:
+            sg_id = f"sg_{top_id}"
+            sg_lbl = f"{_mermaid_label(top_label)} ({len(group_comps)})"
+            lines.append(f'    subgraph {sg_id}["{sg_lbl}"]')
+            lines.append("      direction TB")
+            lines.append(f'      {top_id}["{sg_lbl}"]:::atlasCategory')
+
             ranked_children = sorted(
                 child_groups.items(),
                 key=lambda item: (-len(item[1]), item[0]),
@@ -147,8 +162,9 @@ def _render_top_level_tree(
 
             for c_idx, (child_name, child_comps) in enumerate(shown_children):
                 child_id = f"sub_{idx}_{c_idx}_{_mermaid_safe_id(child_name)}"
-                lines.append(f'    {child_id}["{_mermaid_label(child_name)} ({len(child_comps)})"]')
-                lines.append(f"    {top_id} --> {child_id}")
+                child_lbl = f"{_mermaid_label(child_name)} ({len(child_comps)})"
+                lines.append(f'      {child_id}["{child_lbl}"]:::atlasWorkflow')
+                lines.append(f"      {top_id} --> {child_id}")
                 edge_count += 1
                 for comp in child_comps:
                     comp_to_node.setdefault(comp["name"], child_id)
@@ -156,22 +172,32 @@ def _render_top_level_tree(
             if tail_children:
                 tail_count = sum(len(items) for _, items in tail_children)
                 tail_id = f"sub_{idx}_more"
-                lines.append(
-                    f'    {tail_id}["+{len(tail_children)} more submodules ({tail_count})"]'
-                )
-                lines.append(f"    {top_id} --> {tail_id}")
+                tail_lbl = f"+{len(tail_children)} more submodules ({tail_count})"
+                lines.append(f'      {tail_id}["{tail_lbl}"]:::atlasMore')
+                lines.append(f"      {top_id} --> {tail_id}")
                 edge_count += 1
                 for _, child_comps in tail_children:
                     for comp in child_comps:
                         comp_to_node.setdefault(comp["name"], tail_id)
+
+            lines.append("    end")
+            lines.append(f"    {root_id} --> {top_id}")
+            edge_count += 1
         else:
+            lines.append(
+                f'    {top_id}["{_mermaid_label(top_label)} ({len(group_comps)})"]:::atlasCategory'
+            )
+            lines.append(f"    {root_id} --> {top_id}")
+            edge_count += 1
             for comp in group_comps:
                 comp_to_node.setdefault(comp["name"], top_id)
 
     if tail_top:
         other_count = sum(len(items) for _, items in tail_top)
         other_id = "dir_other_modules"
-        lines.append(f'    {other_id}["+{len(tail_top)} more modules ({other_count})"]')
+        lines.append(
+            f'    {other_id}["+{len(tail_top)} more modules ({other_count})"]:::atlasMore'
+        )
         lines.append(f"    {root_id} --> {other_id}")
         edge_count += 1
         for _, group_comps in tail_top:
@@ -501,6 +527,7 @@ def generate_arc42_markdown(
         "",
         "```mermaid",
         "graph TD;",
+        *MERMAID_CLASS_DEFS,
     ])
 
     violating_pairs = _collect_violating_pairs(fitness_violations)
@@ -510,7 +537,7 @@ def generate_arc42_markdown(
     total_raw_edges = sum(len(c.get("dependencies", [])) for c in components)
 
     if not components:
-        lines.append("    Empty[No Architecture Components Detected]")
+        lines.append("    Empty[No Architecture Components Detected]:::atlasMore")
     elif len(components) <= MAX_DIRECT_COMPONENTS and total_raw_edges <= MAX_DIRECT_EDGES:
         # Small repository: keep exact deduplicated component nodes and dependency edges
         name_to_id = {c["name"]: _mermaid_safe_id(c["name"]) for c in components}
@@ -525,7 +552,9 @@ def generate_arc42_markdown(
             if nid not in declared_ids:
                 declared_ids.add(nid)
                 ctype = c.get("type", "COMPONENT")
-                lines.append(f'    {nid}["{_mermaid_label(src_name)} : {_mermaid_label(ctype)}"]')
+                lines.append(
+                    f'    {nid}["{_mermaid_label(src_name)} : {_mermaid_label(ctype)}"]:::atlasJob'
+                )
             for dep in c.get("dependencies", []):
                 dep_str = str(dep)
                 dep_id = name_to_id.get(dep_str, _mermaid_safe_id(dep_str))
@@ -541,7 +570,7 @@ def generate_arc42_markdown(
             nid for nid in declared_ids if nid not in has_outgoing and nid not in referenced_targets
         )
         if len(declared_ids) > 4 and isolated:
-            lines.append(f'    repo_root(["{_mermaid_label(repo_name)}"])')
+            lines.append(f'    repo_root(["{_mermaid_label(repo_name)}"]):::atlasRoot')
             for nid in isolated:
                 lines.append(f"    repo_root --> {nid}")
                 edge_idx += 1

@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for n8n-io/n8n-hosting
 
 ```mermaid
 graph TD;
-    repo_root(["n8n-io/n8n-hosting (189 components)"])
-    dir_0_charts["charts (185)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["n8n-io/n8n-hosting (189 components)"]):::atlasRoot
+    subgraph sg_dir_0_charts["charts (185)"]
+      direction TB
+      dir_0_charts["charts (185)"]:::atlasCategory
+      sub_0_0_n8n_tests["n8n/tests (129)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_0_n8n_tests
+      sub_0_1_n8n_templates["n8n/templates (23)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_1_n8n_templates
+      sub_0_2_n8n_ci["n8n/ci (18)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_2_n8n_ci
+      sub_0_more["+2 more submodules (15)"]:::atlasMore
+      dir_0_charts --> sub_0_more
+    end
     repo_root --> dir_0_charts
-    sub_0_0_n8n_tests["n8n/tests (129)"]
-    dir_0_charts --> sub_0_0_n8n_tests
-    sub_0_1_n8n_templates["n8n/templates (23)"]
-    dir_0_charts --> sub_0_1_n8n_templates
-    sub_0_2_n8n_ci["n8n/ci (18)"]
-    dir_0_charts --> sub_0_2_n8n_ci
-    sub_0_more["+2 more submodules (15)"]
-    dir_0_charts --> sub_0_more
-    dir_1_docker_compose["docker-compose (3)"]
+    dir_1_docker_compose["docker-compose (3)"]:::atlasCategory
     repo_root --> dir_1_docker_compose
-    dir_2_docker_caddy["docker-caddy (1)"]
+    dir_2_docker_caddy["docker-caddy (1)"]:::atlasCategory
     repo_root --> dir_2_docker_caddy
 ```
 
@@ -153,44 +163,48 @@ Showing top 60 representative components out of 189 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_charts_n8n["charts/n8n"]
-        mod_docker_caddy["docker-caddy"]
-        mod_docker_compose_subfolderWithSSL["docker-compose/subfolderWithSSL"]
-        mod_docker_compose_withPostgres["docker-compose/withPostgres"]
-        mod_docker_compose_withPostgresAndWorker["docker-compose/withPostgresAndWorker"]
+        mod_charts_n8n["charts/n8n"]:::atlasCategory
+        mod_docker_caddy["docker-caddy"]:::atlasCategory
+        mod_docker_compose_subfolderWithSSL["docker-compose/subfolderWithSSL"]:::atlasCategory
+        mod_docker_compose_withPostgres["docker-compose/withPostgres"]:::atlasCategory
+        mod_docker_compose_withPostgresAndWorker["docker-compose/withPostgresAndWorker"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_docker_caddy_docker_compose_yml["docker-caddy/docker-compose.yml"]
-        art_docker_compose_subfolderWithSSL_docker_compose_yml["docker-compose/subfolderWithSSL/docker-compose.yml"]
-        art_docker_compose_withPostgres_docker_compose_yml["docker-compose/withPostgres/docker-compose.yml"]
-        art_docker_compose_withPostgresAndWorker_docker_compose_yml["docker-compose/withPostgresAndWorker/docker-compose.yml"]
-        art_kubernetes_n8n_claim0_persistentvolumeclaim_yaml["kubernetes/n8n-claim0-persistentvolumeclaim.yaml"]
-        art_kubernetes_n8n_deployment_yaml["kubernetes/n8n-deployment.yaml"]
-        art_kubernetes_n8n_service_yaml["kubernetes/n8n-service.yaml"]
-        art_kubernetes_namespace_yaml["kubernetes/namespace.yaml"]
-        art_kubernetes_postgres_claim0_persistentvolumeclaim_yaml["kubernetes/postgres-claim0-persistentvolumeclaim.yaml"]
-        art_kubernetes_postgres_configmap_yaml["kubernetes/postgres-configmap.yaml"]
-        art_kubernetes_postgres_deployment_yaml["kubernetes/postgres-deployment.yaml"]
-        art_kubernetes_postgres_secret_yaml["kubernetes/postgres-secret.yaml"]
-        art_kubernetes_postgres_service_yaml["kubernetes/postgres-service.yaml"]
+        art_docker_caddy_docker_compose_yml["docker-caddy/docker-compose.yml"]:::atlasWorkflow
+        art_docker_compose_subfolderWithSSL_docker_compose_yml["docker-compose/subfolderWithSSL/docker-compose.yml"]:::atlasWorkflow
+        art_docker_compose_withPostgres_docker_compose_yml["docker-compose/withPostgres/docker-compose.yml"]:::atlasWorkflow
+        art_docker_compose_withPostgresAndWorker_docker_compose_yml["docker-compose/withPostgresAndWorker/docker-compose.yml"]:::atlasWorkflow
+        art_kubernetes_n8n_claim0_persistentvolumeclaim_yaml["kubernetes/n8n-claim0-persistentvolumeclaim.yaml"]:::atlasWorkflow
+        art_kubernetes_n8n_deployment_yaml["kubernetes/n8n-deployment.yaml"]:::atlasWorkflow
+        art_kubernetes_n8n_service_yaml["kubernetes/n8n-service.yaml"]:::atlasWorkflow
+        art_kubernetes_namespace_yaml["kubernetes/namespace.yaml"]:::atlasWorkflow
+        art_kubernetes_postgres_claim0_persistentvolumeclaim_yaml["kubernetes/postgres-claim0-persistentvolumeclaim.yaml"]:::atlasWorkflow
+        art_kubernetes_postgres_configmap_yaml["kubernetes/postgres-configmap.yaml"]:::atlasWorkflow
+        art_kubernetes_postgres_deployment_yaml["kubernetes/postgres-deployment.yaml"]:::atlasWorkflow
+        art_kubernetes_postgres_secret_yaml["kubernetes/postgres-secret.yaml"]:::atlasWorkflow
+        art_kubernetes_postgres_service_yaml["kubernetes/postgres-service.yaml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_bump_n8n_version_yml_bump["bump-n8n-version.yml#bump"]
-        job_ci_yml_gate["ci.yml#gate"]
-        job_ci_yml_install_test["ci.yml#install-test"]
-        job_ci_yml_kubeconform["ci.yml#kubeconform"]
-        job_ci_yml_lint["ci.yml#lint"]
-        job_ci_yml_migrate_values["ci.yml#migrate-values"]
-        job_ci_yml_template_validation["ci.yml#template-validation"]
-        job_ci_yml_unittest["ci.yml#unittest"]
-        job_ci_yml_upgrade_test["ci.yml#upgrade-test"]
-        job_preview_chart_yml_publish["preview-chart.yml#publish"]
-        job_release_yml_publish["release.yml#publish"]
+        job_bump_n8n_version_yml_bump["bump-n8n-version.yml#bump"]:::atlasJob
+        job_ci_yml_gate["ci.yml#gate"]:::atlasJob
+        job_ci_yml_install_test["ci.yml#install-test"]:::atlasJob
+        job_ci_yml_kubeconform["ci.yml#kubeconform"]:::atlasJob
+        job_ci_yml_lint["ci.yml#lint"]:::atlasJob
+        job_ci_yml_migrate_values["ci.yml#migrate-values"]:::atlasJob
+        job_ci_yml_template_validation["ci.yml#template-validation"]:::atlasJob
+        job_ci_yml_unittest["ci.yml#unittest"]:::atlasJob
+        job_ci_yml_upgrade_test["ci.yml#upgrade-test"]:::atlasJob
+        job_preview_chart_yml_publish["preview-chart.yml#publish"]:::atlasJob
+        job_release_yml_publish["release.yml#publish"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_ci_yml_install_test -->|DEPLOYS_TO| env_azure
     job_ci_yml_install_test -->|DEPLOYS_TO| env_kubernetes
@@ -285,11 +299,69 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["n8n-io/n8n-hosting (6 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 11 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["n8n-io/n8n-hosting (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Artifact_Hub_metadata["Artifact Hub metadata (1 jobs)"]
+      direction TB
+      wf_0_Artifact_Hub_metadata(["Trigger: Artifact Hub metadata"]):::atlasWorkflow
+      job_0_push["push"]:::atlasJob
+      wf_0_Artifact_Hub_metadata --> job_0_push
+    end
+    pipeline_root --> wf_0_Artifact_Hub_metadata
+    subgraph sg_wf_2_Bump_n8n_version["Bump n8n version (1 jobs)"]
+      direction TB
+      wf_2_Bump_n8n_version(["Trigger: Bump n8n version"]):::atlasWorkflow
+      job_2_bump["bump"]:::atlasJob
+      wf_2_Bump_n8n_version --> job_2_bump
+    end
+    pipeline_root --> wf_2_Bump_n8n_version
+    subgraph sg_wf_4_Preview_chart["Preview chart (1 jobs)"]
+      direction TB
+      wf_4_Preview_chart(["Trigger: Preview chart"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Preview_chart --> job_4_publish
+    end
+    pipeline_root --> wf_4_Preview_chart
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Backport["Backport (1 jobs)"]
+      direction TB
+      wf_1_Backport(["Trigger: Backport"]):::atlasWorkflow
+      job_1_backport["backport"]:::atlasJob
+      wf_1_Backport --> job_1_backport
+    end
+    pipeline_root --> wf_1_Backport
+    subgraph sg_wf_3_CI["CI (10 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_gate["gate"]:::atlasJob
+      job_3_lint["lint"]:::atlasJob
+      job_3_unittest["unittest"]:::atlasJob
+      wf_3_CI --> job_3_gate
+      wf_3_CI --> job_3_lint
+      wf_3_CI --> job_3_unittest
+    end
+    pipeline_root --> wf_3_CI
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Release["Release (2 jobs)"]
+      direction TB
+      wf_5_Release(["Trigger: Release"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      job_5_publish["publish"]:::atlasJob
+      wf_5_Release --> job_5_release
+      job_5_release --> job_5_publish
+    end
+    pipeline_root --> wf_5_Release
+  end
 ```

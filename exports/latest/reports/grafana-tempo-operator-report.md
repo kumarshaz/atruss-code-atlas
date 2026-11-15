@@ -41,43 +41,62 @@ description: Arc42 and Pipeline report for grafana/tempo-operator
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/tempo-operator (300 components)"])
-    dir_0_internal["internal (217)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/tempo-operator (300 components)"]):::atlasRoot
+    subgraph sg_dir_0_internal["internal (217)"]
+      direction TB
+      dir_0_internal["internal (217)"]:::atlasCategory
+      sub_0_0_manifests["manifests (120)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_manifests
+      sub_0_1_handlers["handlers (19)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_handlers
+      sub_0_2_certrotation["certrotation (17)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_2_certrotation
+      sub_0_more["+8 more submodules (61)"]:::atlasMore
+      dir_0_internal --> sub_0_more
+    end
     repo_root --> dir_0_internal
-    sub_0_0_manifests["manifests (120)"]
-    dir_0_internal --> sub_0_0_manifests
-    sub_0_1_handlers["handlers (19)"]
-    dir_0_internal --> sub_0_1_handlers
-    sub_0_2_certrotation["certrotation (17)"]
-    dir_0_internal --> sub_0_2_certrotation
-    sub_0_more["+8 more submodules (61)"]
-    dir_0_internal --> sub_0_more
-    dir_1_config["config (50)"]
+    subgraph sg_dir_1_config["config (50)"]
+      direction TB
+      dir_1_config["config (50)"]:::atlasCategory
+      sub_1_0_rbac["rbac (14)"]:::atlasWorkflow
+      dir_1_config --> sub_1_0_rbac
+      sub_1_1_crd["crd (10)"]:::atlasWorkflow
+      dir_1_config --> sub_1_1_crd
+      sub_1_2_overlays["overlays (9)"]:::atlasWorkflow
+      dir_1_config --> sub_1_2_overlays
+      sub_1_more["+5 more submodules (17)"]:::atlasMore
+      dir_1_config --> sub_1_more
+    end
     repo_root --> dir_1_config
-    sub_1_0_rbac["rbac (14)"]
-    dir_1_config --> sub_1_0_rbac
-    sub_1_1_crd["crd (10)"]
-    dir_1_config --> sub_1_1_crd
-    sub_1_2_overlays["overlays (9)"]
-    dir_1_config --> sub_1_2_overlays
-    sub_1_more["+5 more submodules (17)"]
-    dir_1_config --> sub_1_more
-    dir_2_api["api (20)"]
+    subgraph sg_dir_2_api["api (20)"]
+      direction TB
+      dir_2_api["api (20)"]:::atlasCategory
+      sub_2_0_tempo["tempo (14)"]:::atlasWorkflow
+      dir_2_api --> sub_2_0_tempo
+      sub_2_1_config["config (6)"]:::atlasWorkflow
+      dir_2_api --> sub_2_1_config
+    end
     repo_root --> dir_2_api
-    sub_2_0_tempo["tempo (14)"]
-    dir_2_api --> sub_2_0_tempo
-    sub_2_1_config["config (6)"]
-    dir_2_api --> sub_2_1_config
-    dir_3_cmd["cmd (13)"]
+    subgraph sg_dir_3_cmd["cmd (13)"]
+      direction TB
+      dir_3_cmd["cmd (13)"]:::atlasCategory
+      sub_3_0_gather["gather (5)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_0_gather
+      sub_3_1_root["root (3)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_1_root
+      sub_3_2_generate["generate (2)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_2_generate
+      sub_3_more["+3 more submodules (3)"]:::atlasMore
+      dir_3_cmd --> sub_3_more
+    end
     repo_root --> dir_3_cmd
-    sub_3_0_gather["gather (5)"]
-    dir_3_cmd --> sub_3_0_gather
-    sub_3_1_root["root (3)"]
-    dir_3_cmd --> sub_3_1_root
-    sub_3_2_generate["generate (2)"]
-    dir_3_cmd --> sub_3_2_generate
-    sub_3_more["+3 more submodules (3)"]
-    dir_3_cmd --> sub_3_more
 ```
 
 ## Component Details
@@ -226,31 +245,35 @@ Showing top 60 representative components out of 300 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_17a4a6db_ffe2_4eef_8118_0cc01a7684a6["17a4a6db-ffe2-4eef-8118-0cc01a7684a6"]
-        mod_cmd_gather["cmd/gather"]
-        mod_config_manager["config/manager"]
-        mod_config_manifests_openshift["config/manifests/openshift"]
-        mod_config_overlays_openshift["config/overlays/openshift"]
-        mod_config_samples_openshift["config/samples/openshift"]
-        mod_tests["tests"]
+        mod_17a4a6db_ffe2_4eef_8118_0cc01a7684a6["17a4a6db-ffe2-4eef-8118-0cc01a7684a6"]:::atlasCategory
+        mod_cmd_gather["cmd/gather"]:::atlasCategory
+        mod_config_manager["config/manager"]:::atlasCategory
+        mod_config_manifests_openshift["config/manifests/openshift"]:::atlasCategory
+        mod_config_overlays_openshift["config/overlays/openshift"]:::atlasCategory
+        mod_config_samples_openshift["config/samples/openshift"]:::atlasCategory
+        mod_tests["tests"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
-        art_cmd_gather_Dockerfile["cmd/gather/Dockerfile"]
-        art_tests_Dockerfile["tests/Dockerfile"]
-        art_tests_Dockerfile_utils["tests/Dockerfile.utils"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
+        art_cmd_gather_Dockerfile["cmd/gather/Dockerfile"]:::atlasWorkflow
+        art_tests_Dockerfile["tests/Dockerfile"]:::atlasWorkflow
+        art_tests_Dockerfile_utils["tests/Dockerfile.utils"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_e2e_yaml_e2e_tests["e2e.yaml#e2e-tests"]
-        job_e2e_yaml_upgrade_tests["e2e.yaml#upgrade-tests"]
-        job_publish_test_utils_image_yaml_test_utils["publish-test-utils-image.yaml#test-utils"]
-        job_reusable_publish_images_yaml_publish["reusable-publish-images.yaml#publish"]
-        job_scorecard_yaml_scorecard_tests["scorecard.yaml#scorecard-tests"]
-        job_validate_test_utils_image_yaml_validate["validate-test-utils-image.yaml#validate"]
+        job_e2e_yaml_e2e_tests["e2e.yaml#e2e-tests"]:::atlasJob
+        job_e2e_yaml_upgrade_tests["e2e.yaml#upgrade-tests"]:::atlasJob
+        job_publish_test_utils_image_yaml_test_utils["publish-test-utils-image.yaml#test-utils"]:::atlasJob
+        job_reusable_publish_images_yaml_publish["reusable-publish-images.yaml#publish"]:::atlasJob
+        job_scorecard_yaml_scorecard_tests["scorecard.yaml#scorecard-tests"]:::atlasJob
+        job_validate_test_utils_image_yaml_validate["validate-test-utils-image.yaml#validate"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_kubernetes["kubernetes"]
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_e2e_yaml_e2e_tests -->|DEPLOYS_TO| env_kubernetes
     job_e2e_yaml_upgrade_tests -->|DEPLOYS_TO| env_kubernetes
@@ -308,11 +331,105 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/tempo-operator (13 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 10 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (6 workflows · 10 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/tempo-operator (13 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Actionlint["Actionlint (1 jobs)"]
+      direction TB
+      wf_0_Actionlint(["Trigger: Actionlint"]):::atlasWorkflow
+      job_0_run_actionlint["run-actionlint"]:::atlasJob
+      wf_0_Actionlint --> job_0_run_actionlint
+    end
+    pipeline_root --> wf_0_Actionlint
+    subgraph sg_wf_2_Continuous_Integration["Continuous Integration (4 jobs)"]
+      direction TB
+      wf_2_Continuous_Integration(["Trigger: Continuous Integration"]):::atlasWorkflow
+      job_2_unit_tests["unit-tests"]:::atlasJob
+      job_2_security["security"]:::atlasJob
+      job_2_dependency_review["dependency-review"]:::atlasJob
+      wf_2_Continuous_Integration --> job_2_unit_tests
+      wf_2_Continuous_Integration --> job_2_security
+      wf_2_Continuous_Integration --> job_2_dependency_review
+    end
+    pipeline_root --> wf_2_Continuous_Integration
+    subgraph sg_wf_3_End_to_end_tests["End-to-end tests (2 jobs)"]
+      direction TB
+      wf_3_End_to_end_tests(["Trigger: End-to-end tests"]):::atlasWorkflow
+      job_3_e2e_tests["e2e-tests"]:::atlasJob
+      job_3_upgrade_tests["upgrade-tests"]:::atlasJob
+      wf_3_End_to_end_tests --> job_3_e2e_tests
+      wf_3_End_to_end_tests --> job_3_upgrade_tests
+    end
+    pipeline_root --> wf_3_End_to_end_tests
+    subgraph sg_wf_11_Scorecard_tests["Scorecard tests (1 jobs)"]
+      direction TB
+      wf_11_Scorecard_tests(["Trigger: Scorecard tests"]):::atlasWorkflow
+      job_11_scorecard_tests["scorecard-tests"]:::atlasJob
+      wf_11_Scorecard_tests --> job_11_scorecard_tests
+    end
+    pipeline_root --> wf_11_Scorecard_tests
+    subgraph sg_wf_12_Validate_test_utils_image["Validate test utils image (1 jobs)"]
+      direction TB
+      wf_12_Validate_test_utils_image(["Trigger: Validate test utils image"]):::atlasWorkflow
+      job_12_validate["validate"]:::atlasJob
+      wf_12_Validate_test_utils_image --> job_12_validate
+    end
+    pipeline_root --> wf_12_Validate_test_utils_image
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (6 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Publish_to_operatorHUB["Publish to operatorHUB (2 jobs)"]
+      direction TB
+      wf_4_Publish_to_operatorHUB(["Trigger: Publish to operatorHUB"]):::atlasWorkflow
+      job_4_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
+      job_4_operator_hub_community_release["operator-hub-community-release"]:::atlasJob
+      wf_4_Publish_to_operatorHUB --> job_4_operator_hub_prod_release
+      wf_4_Publish_to_operatorHUB --> job_4_operator_hub_community_release
+    end
+    pipeline_root --> wf_4_Publish_to_operatorHUB
+    subgraph sg_wf_5_Prepare_the_release["Prepare the release (1 jobs)"]
+      direction TB
+      wf_5_Prepare_the_release(["Trigger: Prepare the release"]):::atlasWorkflow
+      job_5_prepare_release["prepare-release"]:::atlasJob
+      wf_5_Prepare_the_release --> job_5_prepare_release
+    end
+    pipeline_root --> wf_5_Prepare_the_release
+    subgraph sg_wf_6_Publish_operator["Publish operator (1 jobs)"]
+      direction TB
+      wf_6_Publish_operator(["Trigger: Publish operator"]):::atlasWorkflow
+      job_6_publish_images["publish-images"]:::atlasJob
+      wf_6_Publish_operator --> job_6_publish_images
+    end
+    pipeline_root --> wf_6_Publish_operator
+    subgraph sg_wf_8_Release["Release (4 jobs)"]
+      direction TB
+      wf_8_Release(["Trigger: Release"]):::atlasWorkflow
+      job_8_release["release"]:::atlasJob
+      job_8_publish_images["publish-images"]:::atlasJob
+      job_8_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
+      wf_8_Release --> job_8_release
+      job_8_release --> job_8_publish_images
+      job_8_publish_images --> job_8_operator_hub_prod_release
+    end
+    pipeline_root --> wf_8_Release
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Reusable___Create_operator_hub_pull_request["Reusable - Create operator hub pull request (1 jobs)"]
+      direction TB
+      wf_9_Reusable___Create_operator_hub_pull_request(["Trigger: Reusable - Create operator hub pull request"]):::atlasWorkflow
+      job_9_create_operator_pull_request["create-operator-pull-request"]:::atlasJob
+      wf_9_Reusable___Create_operator_hub_pull_request --> job_9_create_operator_pull_request
+    end
+    pipeline_root --> wf_9_Reusable___Create_operator_hub_pull_request
+  end
+  wf_more["+3 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

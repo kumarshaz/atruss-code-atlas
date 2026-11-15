@@ -41,7 +41,14 @@ description: Arc42 and Pipeline report for triggerdotdev/schema-infer
 
 ```mermaid
 graph TD;
-    _jsonhero_schema_infer["@jsonhero/schema-infer : MODULE"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    _jsonhero_schema_infer["@jsonhero/schema-infer : MODULE"]:::atlasJob
 ```
 
 ## Component Details
@@ -107,12 +114,16 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_0607462d_6dd5_446c_9e11_bd618322c07f["0607462d-6dd5-446c-9e11-bd618322c07f"]
+        mod_0607462d_6dd5_446c_9e11_bd618322c07f["0607462d-6dd5-446c-9e11-bd618322c07f"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_release_yml_build["release.yml#build"]
-        job_test_yml_build["test.yml#build"]
+        job_release_yml_build["release.yml#build"]:::atlasJob
+        job_test_yml_build["test.yml#build"]:::atlasJob
     end
     mod_0607462d_6dd5_446c_9e11_bd618322c07f -->|BUILT_BY| job_release_yml_build
     mod_0607462d_6dd5_446c_9e11_bd618322c07f -->|BUILT_BY| job_test_yml_build
@@ -126,15 +137,22 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["triggerdotdev/schema-infer"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["triggerdotdev/schema-infer"]):::atlasRoot
   subgraph Publish_Package_to_npmjs_0["Publish Package to npmjs"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
   pipeline_root --> 0_build
   subgraph Tests_1["Tests"]
     direction TB
-    1_build["build"]
+    1_build["build"]:::atlasJob
   end
   pipeline_root --> 1_build
 ```

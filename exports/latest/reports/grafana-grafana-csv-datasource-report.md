@@ -41,17 +41,24 @@ description: Arc42 and Pipeline report for grafana/grafana-csv-datasource
 
 ```mermaid
 graph TD;
-    Magefile["Magefile : module"]
-    csv["csv : module"]
-    csv_test["csv_test : module"]
-    datasource["datasource : module"]
-    http_storage["http_storage : module"]
-    http_storage_test["http_storage_test : module"]
-    local_storage["local_storage : module"]
-    main["main : module"]
-    settings["settings : module"]
-    dsconfig_test["dsconfig_test : module"]
-    repo_root(["grafana/grafana-csv-datasource"])
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    Magefile["Magefile : module"]:::atlasJob
+    csv["csv : module"]:::atlasJob
+    csv_test["csv_test : module"]:::atlasJob
+    datasource["datasource : module"]:::atlasJob
+    http_storage["http_storage : module"]:::atlasJob
+    http_storage_test["http_storage_test : module"]:::atlasJob
+    local_storage["local_storage : module"]:::atlasJob
+    main["main : module"]:::atlasJob
+    settings["settings : module"]:::atlasJob
+    dsconfig_test["dsconfig_test : module"]:::atlasJob
+    repo_root(["grafana/grafana-csv-datasource"]):::atlasRoot
     repo_root --> Magefile
     repo_root --> csv
     repo_root --> csv_test
@@ -133,14 +140,18 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__config[".config"]
-        mod_bc69a8e2_5e50_4c94_a52f_0bffb36a3ea5["bc69a8e2-5e50-4c94-a52f-0bffb36a3ea5"]
+        mod__config[".config"]:::atlasCategory
+        mod_bc69a8e2_5e50_4c94_a52f_0bffb36a3ea5["bc69a8e2-5e50-4c94-a52f-0bffb36a3ea5"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__config_Dockerfile[".config/Dockerfile"]
-        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]
-        art_docker_compose_yaml["docker-compose.yaml"]
+        art__config_Dockerfile[".config/Dockerfile"]:::atlasWorkflow
+        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]:::atlasWorkflow
+        art_docker_compose_yaml["docker-compose.yaml"]:::atlasWorkflow
     end
     mod__config -->|PACKAGED_BY| art__config_Dockerfile
     mod__config -->|PACKAGED_BY| art__config_docker_compose_base_yaml
@@ -160,21 +171,56 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-csv-datasource (5 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project["Add issues & PRs to Grafana Data Source Plugins Squad project (1 jobs)"]
-  grp_0_CI___Verification --> wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project
-  wf_2_Plugins___CI["Plugins - CI (1 jobs)"]
-  grp_0_CI___Verification --> wf_2_Plugins___CI
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Plugins___CD["Plugins - CD (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_1_Plugins___CD
-  wf_4_Create_Plugin_Update["Create Plugin Update (1 jobs)"]
-  grp_1_Scheduled___Manual --> wf_4_Create_Plugin_Update
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
-  grp_2_Security___Governance --> wf_3_Close_stale_issues_and_PRs
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-csv-datasource (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project["Add issues & PRs to Grafana Data Source Plugins Squad project (1 jobs)"]
+      direction TB
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project(["Trigger: Add issues & PRs to Grafana Data Source Plugins Squad project"]):::atlasWorkflow
+      job_0_add_to_project["add-to-project"]:::atlasJob
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project --> job_0_add_to_project
+    end
+    pipeline_root --> wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project
+    subgraph sg_wf_2_Plugins___CI["Plugins - CI (1 jobs)"]
+      direction TB
+      wf_2_Plugins___CI(["Trigger: Plugins - CI"]):::atlasWorkflow
+      job_2_ci["ci"]:::atlasJob
+      wf_2_Plugins___CI --> job_2_ci
+    end
+    pipeline_root --> wf_2_Plugins___CI
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Plugins___CD["Plugins - CD (1 jobs)"]
+      direction TB
+      wf_1_Plugins___CD(["Trigger: Plugins - CD"]):::atlasWorkflow
+      job_1_cd["cd"]:::atlasJob
+      wf_1_Plugins___CD --> job_1_cd
+    end
+    pipeline_root --> wf_1_Plugins___CD
+    subgraph sg_wf_4_Create_Plugin_Update["Create Plugin Update (1 jobs)"]
+      direction TB
+      wf_4_Create_Plugin_Update(["Trigger: Create Plugin Update"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Create_Plugin_Update --> job_4_release
+    end
+    pipeline_root --> wf_4_Create_Plugin_Update
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_3_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_3_stale["stale"]:::atlasJob
+      wf_3_Close_stale_issues_and_PRs --> job_3_stale
+    end
+    pipeline_root --> wf_3_Close_stale_issues_and_PRs
+  end
 ```

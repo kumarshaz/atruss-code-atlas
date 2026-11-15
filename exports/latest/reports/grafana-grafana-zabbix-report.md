@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for grafana/grafana-zabbix
 
 ```mermaid
 graph TD;
-    repo_root(["grafana/grafana-zabbix (69 components)"])
-    dir_0_pkg["pkg (63)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["grafana/grafana-zabbix (69 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (63)"]
+      direction TB
+      dir_0_pkg["pkg (63)"]:::atlasCategory
+      sub_0_0_datasource["datasource (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_datasource
+      sub_0_1_zabbix["zabbix (12)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_zabbix
+      sub_0_2_zabbixapi["zabbixapi (11)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_zabbixapi
+      sub_0_more["+7 more submodules (20)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_datasource["datasource (20)"]
-    dir_0_pkg --> sub_0_0_datasource
-    sub_0_1_zabbix["zabbix (12)"]
-    dir_0_pkg --> sub_0_1_zabbix
-    sub_0_2_zabbixapi["zabbixapi (11)"]
-    dir_0_pkg --> sub_0_2_zabbixapi
-    sub_0_more["+7 more submodules (20)"]
-    dir_0_pkg --> sub_0_more
-    dir_1_devenv["devenv (5)"]
+    dir_1_devenv["devenv (5)"]:::atlasCategory
     repo_root --> dir_1_devenv
-    dir_2__root_["(root) (1)"]
+    dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```
 
@@ -183,39 +193,43 @@ Showing top 60 representative components out of 69 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__config[".config"]
-        mod_39ef70e7_6540_4e14_b7de_419996ebf995["39ef70e7-6540-4e14-b7de-419996ebf995"]
-        mod_devenv_zabbix50["devenv/zabbix50"]
-        mod_devenv_zabbix50_bootstrap["devenv/zabbix50/bootstrap"]
-        mod_devenv_zabbix60["devenv/zabbix60"]
-        mod_devenv_zabbix60_bootstrap["devenv/zabbix60/bootstrap"]
-        mod_devenv_zabbix70["devenv/zabbix70"]
-        mod_devenv_zabbix70_bootstrap["devenv/zabbix70/bootstrap"]
-        mod_devenv_zabbix72["devenv/zabbix72"]
-        mod_devenv_zabbix72_bootstrap["devenv/zabbix72/bootstrap"]
-        mod_devenv_zabbix74["devenv/zabbix74"]
-        mod_devenv_zabbix74_bootstrap["devenv/zabbix74/bootstrap"]
-        mod_devenv_zas_agent["devenv/zas-agent"]
+        mod__config[".config"]:::atlasCategory
+        mod_39ef70e7_6540_4e14_b7de_419996ebf995["39ef70e7-6540-4e14-b7de-419996ebf995"]:::atlasCategory
+        mod_devenv_zabbix50["devenv/zabbix50"]:::atlasCategory
+        mod_devenv_zabbix50_bootstrap["devenv/zabbix50/bootstrap"]:::atlasCategory
+        mod_devenv_zabbix60["devenv/zabbix60"]:::atlasCategory
+        mod_devenv_zabbix60_bootstrap["devenv/zabbix60/bootstrap"]:::atlasCategory
+        mod_devenv_zabbix70["devenv/zabbix70"]:::atlasCategory
+        mod_devenv_zabbix70_bootstrap["devenv/zabbix70/bootstrap"]:::atlasCategory
+        mod_devenv_zabbix72["devenv/zabbix72"]:::atlasCategory
+        mod_devenv_zabbix72_bootstrap["devenv/zabbix72/bootstrap"]:::atlasCategory
+        mod_devenv_zabbix74["devenv/zabbix74"]:::atlasCategory
+        mod_devenv_zabbix74_bootstrap["devenv/zabbix74/bootstrap"]:::atlasCategory
+        mod_devenv_zas_agent["devenv/zas-agent"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__config_Dockerfile[".config/Dockerfile"]
-        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]
-        art_devenv_zabbix50_bootstrap_Dockerfile["devenv/zabbix50/bootstrap/Dockerfile"]
-        art_devenv_zabbix50_docker_compose_yml["devenv/zabbix50/docker-compose.yml"]
-        art_devenv_zabbix60_bootstrap_Dockerfile["devenv/zabbix60/bootstrap/Dockerfile"]
-        art_devenv_zabbix60_docker_compose_yml["devenv/zabbix60/docker-compose.yml"]
-        art_devenv_zabbix70_bootstrap_Dockerfile["devenv/zabbix70/bootstrap/Dockerfile"]
-        art_devenv_zabbix70_docker_compose_yml["devenv/zabbix70/docker-compose.yml"]
-        art_devenv_zabbix72_bootstrap_Dockerfile["devenv/zabbix72/bootstrap/Dockerfile"]
-        art_devenv_zabbix72_docker_compose_yml["devenv/zabbix72/docker-compose.yml"]
-        art_devenv_zabbix74_bootstrap_Dockerfile["devenv/zabbix74/bootstrap/Dockerfile"]
-        art_devenv_zabbix74_docker_compose_yml["devenv/zabbix74/docker-compose.yml"]
-        art_devenv_zas_agent_Dockerfile["devenv/zas-agent/Dockerfile"]
-        art_docker_compose_yml["docker-compose.yml"]
+        art__config_Dockerfile[".config/Dockerfile"]:::atlasWorkflow
+        art__config_docker_compose_base_yaml[".config/docker-compose-base.yaml"]:::atlasWorkflow
+        art_devenv_zabbix50_bootstrap_Dockerfile["devenv/zabbix50/bootstrap/Dockerfile"]:::atlasWorkflow
+        art_devenv_zabbix50_docker_compose_yml["devenv/zabbix50/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_zabbix60_bootstrap_Dockerfile["devenv/zabbix60/bootstrap/Dockerfile"]:::atlasWorkflow
+        art_devenv_zabbix60_docker_compose_yml["devenv/zabbix60/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_zabbix70_bootstrap_Dockerfile["devenv/zabbix70/bootstrap/Dockerfile"]:::atlasWorkflow
+        art_devenv_zabbix70_docker_compose_yml["devenv/zabbix70/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_zabbix72_bootstrap_Dockerfile["devenv/zabbix72/bootstrap/Dockerfile"]:::atlasWorkflow
+        art_devenv_zabbix72_docker_compose_yml["devenv/zabbix72/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_zabbix74_bootstrap_Dockerfile["devenv/zabbix74/bootstrap/Dockerfile"]:::atlasWorkflow
+        art_devenv_zabbix74_docker_compose_yml["devenv/zabbix74/docker-compose.yml"]:::atlasWorkflow
+        art_devenv_zas_agent_Dockerfile["devenv/zas-agent/Dockerfile"]:::atlasWorkflow
+        art_docker_compose_yml["docker-compose.yml"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_integration_yml_integration["integration.yml#integration"]
+        job_integration_yml_integration["integration.yml#integration"]:::atlasJob
     end
     mod__config -->|PACKAGED_BY| art__config_Dockerfile
     mod__config -->|PACKAGED_BY| art__config_docker_compose_base_yaml
@@ -342,11 +356,70 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["grafana/grafana-zabbix (7 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["grafana/grafana-zabbix (7 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Integration_tests["Integration tests (1 jobs)"]
+      direction TB
+      wf_1_Integration_tests(["Trigger: Integration tests"]):::atlasWorkflow
+      job_1_integration["integration"]:::atlasJob
+      wf_1_Integration_tests --> job_1_integration
+    end
+    pipeline_root --> wf_1_Integration_tests
+    subgraph sg_wf_2_Compatibility_check["Compatibility check (1 jobs)"]
+      direction TB
+      wf_2_Compatibility_check(["Trigger: Compatibility check"]):::atlasWorkflow
+      job_2_compatibilitycheck["compatibilitycheck"]:::atlasJob
+      wf_2_Compatibility_check --> job_2_compatibilitycheck
+    end
+    pipeline_root --> wf_2_Compatibility_check
+    subgraph sg_wf_3_Plugins___CD["Plugins - CD (1 jobs)"]
+      direction TB
+      wf_3_Plugins___CD(["Trigger: Plugins - CD"]):::atlasWorkflow
+      job_3_cd["cd"]:::atlasJob
+      wf_3_Plugins___CD --> job_3_cd
+    end
+    pipeline_root --> wf_3_Plugins___CD
+    subgraph sg_wf_6_Create_Plugin_Update["Create Plugin Update (1 jobs)"]
+      direction TB
+      wf_6_Create_Plugin_Update(["Trigger: Create Plugin Update"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Create_Plugin_Update --> job_6_release
+    end
+    pipeline_root --> wf_6_Create_Plugin_Update
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project["Add issues & PRs to Grafana Data Source Plugins Squad project (1 jobs)"]
+      direction TB
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project(["Trigger: Add issues & PRs to Grafana Data Source Plugins Squad project"]):::atlasWorkflow
+      job_0_add_to_project["add-to-project"]:::atlasJob
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project --> job_0_add_to_project
+    end
+    pipeline_root --> wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project
+    subgraph sg_wf_4_Plugins___CI["Plugins - CI (1 jobs)"]
+      direction TB
+      wf_4_Plugins___CI(["Trigger: Plugins - CI"]):::atlasWorkflow
+      job_4_ci["ci"]:::atlasJob
+      wf_4_Plugins___CI --> job_4_ci
+    end
+    pipeline_root --> wf_4_Plugins___CI
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_5_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Close_stale_issues_and_PRs --> job_5_stale
+    end
+    pipeline_root --> wf_5_Close_stale_issues_and_PRs
+  end
 ```

@@ -41,26 +41,36 @@ description: Arc42 and Pipeline report for saleor/saleor-dashboard
 
 ```mermaid
 graph TD;
-    repo_root(["saleor/saleor-dashboard (3152 components)"])
-    dir_0_src["src (3143)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["saleor/saleor-dashboard (3152 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (3143)"]
+      direction TB
+      dir_0_src["src (3143)"]:::atlasCategory
+      sub_0_0_components["components (828)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_components
+      sub_0_1_graphql["graphql (707)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_graphql
+      sub_0_2_orders["orders (381)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_orders
+      sub_0_more["+41 more submodules (1227)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_components["components (828)"]
-    dir_0_src --> sub_0_0_components
-    sub_0_1_graphql["graphql (707)"]
-    dir_0_src --> sub_0_1_graphql
-    sub_0_2_orders["orders (381)"]
-    dir_0_src --> sub_0_2_orders
-    sub_0_more["+41 more submodules (1227)"]
-    dir_0_src --> sub_0_more
-    dir_1_e2e_legacy["e2e-legacy (3)"]
+    dir_1_e2e_legacy["e2e-legacy (3)"]:::atlasCategory
     repo_root --> dir_1_e2e_legacy
-    dir_2_testUtils["testUtils (2)"]
+    dir_2_testUtils["testUtils (2)"]:::atlasCategory
     repo_root --> dir_2_testUtils
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4__devcontainer[".devcontainer (1)"]
+    dir_4__devcontainer[".devcontainer (1)"]:::atlasCategory
     repo_root --> dir_4__devcontainer
-    dir_other_modules["+2 more modules (2)"]
+    dir_other_modules["+2 more modules (2)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_0_components -.->|"1313 deps"| sub_0_more
     sub_0_2_orders -.->|"331 deps"| sub_0_more
@@ -245,33 +255,37 @@ Showing top 60 representative components out of 3152 across 7 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod__github_scripts[".github/scripts"]
-        mod_712c9639_1432_43a0_a5e1_f69acd0e6283["712c9639-1432-43a0-a5e1-f69acd0e6283"]
-        mod_e2e["e2e"]
-        mod_scripts["scripts"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod__github_scripts[".github/scripts"]:::atlasCategory
+        mod_712c9639_1432_43a0_a5e1_f69acd0e6283["712c9639-1432-43a0-a5e1-f69acd0e6283"]:::atlasCategory
+        mod_e2e["e2e"]:::atlasCategory
+        mod_scripts["scripts"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art__devcontainer_docker_compose_yaml[".devcontainer/docker-compose.yaml"]
-        art_Dockerfile["Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art__devcontainer_docker_compose_yaml[".devcontainer/docker-compose.yaml"]:::atlasWorkflow
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_automation_tests_on_repository_dispatch_yml_extract_version["automation-tests-on-repository-dispatch.yml#extract-version"]
-        job_deploy_cloud_yaml_deploy["deploy-cloud.yaml#deploy"]
-        job_deploy_dev_yaml_build["deploy-dev.yaml#build"]
-        job_deploy_master_staging_yaml_deploy["deploy-master-staging.yaml#deploy"]
-        job_deploy_staging_and_prepare_release_yaml_deploy["deploy-staging-and-prepare-release.yaml#deploy"]
-        job_e2e_local_yml_e2e["e2e-local.yml#e2e"]
-        job_e2e_local_yml_summarize_failure["e2e-local.yml#summarize-failure"]
-        job_pr_automation_yml_deploy["pr-automation.yml#deploy"]
-        job_test_env_cleanup_yml_cleanup["test-env-cleanup.yml#cleanup"]
+        job_automation_tests_on_repository_dispatch_yml_extract_version["automation-tests-on-repository-dispatch.yml#extract-version"]:::atlasJob
+        job_deploy_cloud_yaml_deploy["deploy-cloud.yaml#deploy"]:::atlasJob
+        job_deploy_dev_yaml_build["deploy-dev.yaml#build"]:::atlasJob
+        job_deploy_master_staging_yaml_deploy["deploy-master-staging.yaml#deploy"]:::atlasJob
+        job_deploy_staging_and_prepare_release_yaml_deploy["deploy-staging-and-prepare-release.yaml#deploy"]:::atlasJob
+        job_e2e_local_yml_e2e["e2e-local.yml#e2e"]:::atlasJob
+        job_e2e_local_yml_summarize_failure["e2e-local.yml#summarize-failure"]:::atlasJob
+        job_pr_automation_yml_deploy["pr-automation.yml#deploy"]:::atlasJob
+        job_test_env_cleanup_yml_cleanup["test-env-cleanup.yml#cleanup"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_aws["aws"]
-        env_deploy_cloud["deploy-cloud"]
-        env_deploy_staging["deploy-staging"]
+        env_aws["aws"]:::atlasTarget
+        env_deploy_cloud["deploy-cloud"]:::atlasTarget
+        env_deploy_staging["deploy-staging"]:::atlasTarget
     end
     job_deploy_cloud_yaml_deploy -->|DEPLOYS_TO| env_aws
     job_deploy_cloud_yaml_deploy -->|DEPLOYS_TO| env_deploy_cloud
@@ -325,15 +339,101 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["saleor/saleor-dashboard (27 workflows)"])
-  grp_0_Release___Deploy["Release & Deploy (11 workflows · 34 jobs)"]
-  pipeline_root --> grp_0_Release___Deploy
-  grp_1_CI___Verification["CI & Verification (9 workflows · 16 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Scheduled___Manual["Scheduled & Manual (5 workflows · 16 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_4_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["saleor/saleor-dashboard (27 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (11 workflows · 34 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Create_Draft_Release["Create Draft Release (4 jobs)"]
+      direction TB
+      wf_6_Create_Draft_Release(["Trigger: Create Draft Release"]):::atlasWorkflow
+      job_6_prepare_draft_release["prepare-draft-release"]:::atlasJob
+      job_6_create_draft_release["create-draft-release"]:::atlasJob
+      job_6_load_failure_secrets["load-failure-secrets"]:::atlasJob
+      wf_6_Create_Draft_Release --> job_6_prepare_draft_release
+      job_6_prepare_draft_release --> job_6_create_draft_release
+      job_6_create_draft_release --> job_6_load_failure_secrets
+    end
+    pipeline_root --> wf_6_Create_Draft_Release
+    subgraph sg_wf_11_Deploy_Dashboard_to_staging["Deploy Dashboard to staging (7 jobs)"]
+      direction TB
+      wf_11_Deploy_Dashboard_to_staging(["Trigger: Deploy Dashboard to staging"]):::atlasWorkflow
+      job_11_prepare_release["prepare-release"]:::atlasJob
+      job_11_prepare_build["prepare-build"]:::atlasJob
+      job_11_build["build"]:::atlasJob
+      wf_11_Deploy_Dashboard_to_staging --> job_11_prepare_release
+      job_11_prepare_release --> job_11_prepare_build
+      job_11_prepare_build --> job_11_build
+      job_11_prepare_release --> job_11_build
+    end
+    pipeline_root --> wf_11_Deploy_Dashboard_to_staging
+    subgraph sg_wf_22_Publish_container_image["Publish container image (5 jobs)"]
+      direction TB
+      wf_22_Publish_container_image(["Trigger: Publish container image"]):::atlasWorkflow
+      job_22_prepare_variables["prepare-variables"]:::atlasJob
+      job_22_build_push["build-push"]:::atlasJob
+      job_22_summary["summary"]:::atlasJob
+      wf_22_Publish_container_image --> job_22_prepare_variables
+      job_22_prepare_variables --> job_22_build_push
+      job_22_prepare_variables --> job_22_summary
+      job_22_build_push --> job_22_summary
+    end
+    pipeline_root --> wf_22_Publish_container_image
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (9 workflows · 16 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Execute_automation_tests["Execute automation tests (3 jobs)"]
+      direction TB
+      wf_1_Execute_automation_tests(["Trigger: Execute automation tests"]):::atlasWorkflow
+      job_1_extract_version["extract-version"]:::atlasJob
+      job_1_run_tests_on_release["run-tests-on-release"]:::atlasJob
+      job_1_add_comment_to_release_pr["add-comment-to-release-pr"]:::atlasJob
+      wf_1_Execute_automation_tests --> job_1_extract_version
+      job_1_extract_version --> job_1_run_tests_on_release
+      job_1_run_tests_on_release --> job_1_add_comment_to_release_pr
+    end
+    pipeline_root --> wf_1_Execute_automation_tests
+    subgraph sg_wf_7_MacawUI_migration["MacawUI migration (2 jobs)"]
+      direction TB
+      wf_7_MacawUI_migration(["Trigger: MacawUI migration"]):::atlasWorkflow
+      job_7_current_state["current_state"]:::atlasJob
+      job_7_check_migation_status["check_migation_status"]:::atlasJob
+      wf_7_MacawUI_migration --> job_7_current_state
+      job_7_current_state --> job_7_check_migation_status
+    end
+    pipeline_root --> wf_7_MacawUI_migration
+    subgraph sg_wf_17_QA["QA (5 jobs)"]
+      direction TB
+      wf_17_QA(["Trigger: QA"]):::atlasWorkflow
+      job_17_tsc_and_linters["tsc-and-linters"]:::atlasJob
+      job_17_jest_tests["jest-tests"]:::atlasJob
+      wf_17_QA --> job_17_tsc_and_linters
+      wf_17_QA --> job_17_jest_tests
+    end
+    pipeline_root --> wf_17_QA
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (5 workflows · 16 jobs)"]
+    direction TB
+    wf_12_E2E__local_stack_["E2E (local stack) (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_12_E2E__local_stack_
+    wf_19_PR_automation["PR automation (7 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_19_PR_automation
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_14_Notify_Discord_on_Help_Wanted_Issue["Notify Discord on Help Wanted Issue (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_14_Notify_Discord_on_Help_Wanted_Issue
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_5_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_CodeQL_Advanced
+  end
+  wf_more["+17 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

@@ -41,18 +41,28 @@ description: Arc42 and Pipeline report for triggerdotdev/jsonhero-web
 
 ```mermaid
 graph TD;
-    repo_root(["triggerdotdev/jsonhero-web (147 components)"])
-    dir_0_app["app (146)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["triggerdotdev/jsonhero-web (147 components)"]):::atlasRoot
+    subgraph sg_dir_0_app["app (146)"]
+      direction TB
+      dir_0_app["app (146)"]:::atlasCategory
+      sub_0_0_components["components (132)"]:::atlasWorkflow
+      dir_0_app --> sub_0_0_components
+      sub_0_1_routes["routes (7)"]:::atlasWorkflow
+      dir_0_app --> sub_0_1_routes
+      sub_0_2_hooks["hooks (6)"]:::atlasWorkflow
+      dir_0_app --> sub_0_2_hooks
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_app --> sub_0_more
+    end
     repo_root --> dir_0_app
-    sub_0_0_components["components (132)"]
-    dir_0_app --> sub_0_0_components
-    sub_0_1_routes["routes (7)"]
-    dir_0_app --> sub_0_1_routes
-    sub_0_2_hooks["hooks (6)"]
-    dir_0_app --> sub_0_2_hooks
-    sub_0_more["+1 more submodules (1)"]
-    dir_0_app --> sub_0_more
-    dir_1__root_["(root) (1)"]
+    dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_0_components -.->|"8 deps"| sub_0_2_hooks
     sub_0_more -.->|"1 dep"| sub_0_0_components
@@ -188,14 +198,18 @@ Showing top 60 representative components out of 147 across 2 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_b2656973_efb1_4bd5_8777_bb344a28d4b3["b2656973-efb1-4bd5-8777-bb344a28d4b3"]
+        mod_b2656973_efb1_4bd5_8777_bb344a28d4b3["b2656973-efb1-4bd5-8777-bb344a28d4b3"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_Dockerfile["Dockerfile"]
+        art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_main_yml_build["main.yml#build"]
+        job_main_yml_build["main.yml#build"]:::atlasJob
     end
     mod_b2656973_efb1_4bd5_8777_bb344a28d4b3 -->|BUILT_BY| job_main_yml_build
     mod_b2656973_efb1_4bd5_8777_bb344a28d4b3 -->|PACKAGED_BY| art_Dockerfile
@@ -209,8 +223,15 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   subgraph CI_0["CI"]
     direction TB
-    0_build["build"]
+    0_build["build"]:::atlasJob
   end
 ```

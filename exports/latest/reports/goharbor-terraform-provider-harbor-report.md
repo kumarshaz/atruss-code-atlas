@@ -41,14 +41,21 @@ description: Arc42 and Pipeline report for goharbor/terraform-provider-harbor
 
 ```mermaid
 graph TD;
-    repo_root(["goharbor/terraform-provider-harbor (99 components)"])
-    dir_0_provider["provider (56)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["goharbor/terraform-provider-harbor (99 components)"]):::atlasRoot
+    dir_0_provider["provider (56)"]:::atlasCategory
     repo_root --> dir_0_provider
-    dir_1_client["client (22)"]
+    dir_1_client["client (22)"]:::atlasCategory
     repo_root --> dir_1_client
-    dir_2_models["models (20)"]
+    dir_2_models["models (20)"]:::atlasCategory
     repo_root --> dir_2_models
-    dir_3__root_["(root) (1)"]
+    dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
 ```
 
@@ -178,20 +185,24 @@ Showing top 60 representative components out of 99 across 4 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_01fbd68d_e9d3_4b20_8a24_076bdbcbb541["01fbd68d-e9d3-4b20-8a24-076bdbcbb541"]
+        mod_01fbd68d_e9d3_4b20_8a24_076bdbcbb541["01fbd68d-e9d3-4b20-8a24-076bdbcbb541"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_codeql_yml_analyze["codeql.yml#analyze"]
-        job_release_yml_goreleaser["release.yml#goreleaser"]
-        job_scorecard_yml_analysis["scorecard.yml#analysis"]
-        job_test_yml_build["test.yml#build"]
-        job_test_yml_generate["test.yml#generate"]
-        job_test_yml_test["test.yml#test"]
+        job_codeql_yml_analyze["codeql.yml#analyze"]:::atlasJob
+        job_release_yml_goreleaser["release.yml#goreleaser"]:::atlasJob
+        job_scorecard_yml_analysis["scorecard.yml#analysis"]:::atlasJob
+        job_test_yml_build["test.yml#build"]:::atlasJob
+        job_test_yml_generate["test.yml#generate"]:::atlasJob
+        job_test_yml_test["test.yml#test"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_azure["azure"]
-        env_kubernetes["kubernetes"]
+        env_azure["azure"]:::atlasTarget
+        env_kubernetes["kubernetes"]:::atlasTarget
     end
     job_test_yml_test -->|DEPLOYS_TO| env_azure
     job_test_yml_test -->|DEPLOYS_TO| env_kubernetes
@@ -217,19 +228,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["goharbor/terraform-provider-harbor (4 workflows)"])
-  grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_Security___Governance
-  wf_0_CodeQL["CodeQL (1 jobs)"]
-  grp_0_Security___Governance --> wf_0_CodeQL
-  wf_2_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]
-  grp_0_Security___Governance --> wf_2_Scorecard_supply_chain_security
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_Tests["Tests (3 jobs)"]
-  grp_1_CI___Verification --> wf_3_Tests
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  wf_1_release["release (1 jobs)"]
-  grp_2_Release___Deploy --> wf_1_release
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["goharbor/terraform-provider-harbor (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_0_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_0_analyze["analyze"]:::atlasJob
+      wf_0_CodeQL --> job_0_analyze
+    end
+    pipeline_root --> wf_0_CodeQL
+    subgraph sg_wf_2_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]
+      direction TB
+      wf_2_Scorecard_supply_chain_security(["Trigger: Scorecard supply-chain security"]):::atlasWorkflow
+      job_2_analysis["analysis"]:::atlasJob
+      wf_2_Scorecard_supply_chain_security --> job_2_analysis
+    end
+    pipeline_root --> wf_2_Scorecard_supply_chain_security
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Tests["Tests (3 jobs)"]
+      direction TB
+      wf_3_Tests(["Trigger: Tests"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_generate["generate"]:::atlasJob
+      job_3_test["test"]:::atlasJob
+      wf_3_Tests --> job_3_build
+      wf_3_Tests --> job_3_generate
+      job_3_build --> job_3_test
+    end
+    pipeline_root --> wf_3_Tests
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_release["release (1 jobs)"]
+      direction TB
+      wf_1_release(["Trigger: release"]):::atlasWorkflow
+      job_1_goreleaser["goreleaser"]:::atlasJob
+      wf_1_release --> job_1_goreleaser
+    end
+    pipeline_root --> wf_1_release
+  end
 ```

@@ -40,9 +40,16 @@ description: Arc42 and Pipeline report for home-assistant/apps
 
 ```mermaid
 graph TD;
-    build["build : module"]
-    config["config : module"]
-    en["en : module"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    build["build : module"]:::atlasJob
+    config["config : module"]:::atlasJob
+    en["en : module"]:::atlasJob
 ```
 
 ## Component Details
@@ -78,19 +85,23 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_assist_microphone["assist_microphone"]
+        mod_assist_microphone["assist_microphone"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_assist_microphone_Dockerfile["assist_microphone/Dockerfile"]
+        art_assist_microphone_Dockerfile["assist_microphone/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_lint_yml_hadolint["lint.yml#hadolint"]
-        job_lint_yml_shellcheck["lint.yml#shellcheck"]
-        job_lint_yml_yamllint["lint.yml#yamllint"]
-        job_repository_updater_yaml_update["repository-updater.yaml#update"]
-        job_restrict_task_creation_yml_check_authorization["restrict-task-creation.yml#check-authorization"]
-        job_stale_yml_stale["stale.yml#stale"]
+        job_lint_yml_hadolint["lint.yml#hadolint"]:::atlasJob
+        job_lint_yml_shellcheck["lint.yml#shellcheck"]:::atlasJob
+        job_lint_yml_yamllint["lint.yml#yamllint"]:::atlasJob
+        job_repository_updater_yaml_update["repository-updater.yaml#update"]:::atlasJob
+        job_restrict_task_creation_yml_check_authorization["restrict-task-creation.yml#check-authorization"]:::atlasJob
+        job_stale_yml_stale["stale.yml#stale"]:::atlasJob
     end
     mod_assist_microphone -->|BUILT_BY| job_lint_yml_hadolint
     mod_assist_microphone -->|BUILT_BY| job_lint_yml_shellcheck
@@ -114,19 +125,53 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["home-assistant/apps (4 workflows)"])
-  grp_0_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_0_Automation___Other
-  wf_1_Repository_updater["Repository updater (1 jobs)"]
-  grp_0_Automation___Other --> wf_1_Repository_updater
-  wf_2_Restrict_task_creation["Restrict task creation (1 jobs)"]
-  grp_0_Automation___Other --> wf_2_Restrict_task_creation
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Lint["Lint (3 jobs)"]
-  grp_1_CI___Verification --> wf_0_Lint
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_Stale["Stale (1 jobs)"]
-  grp_2_Security___Governance --> wf_3_Stale
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/apps (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Repository_updater["Repository updater (1 jobs)"]
+      direction TB
+      wf_1_Repository_updater(["Trigger: Repository updater"]):::atlasWorkflow
+      job_1_update["update"]:::atlasJob
+      wf_1_Repository_updater --> job_1_update
+    end
+    pipeline_root --> wf_1_Repository_updater
+    subgraph sg_wf_2_Restrict_task_creation["Restrict task creation (1 jobs)"]
+      direction TB
+      wf_2_Restrict_task_creation(["Trigger: Restrict task creation"]):::atlasWorkflow
+      job_2_check_authorization["check-authorization"]:::atlasJob
+      wf_2_Restrict_task_creation --> job_2_check_authorization
+    end
+    pipeline_root --> wf_2_Restrict_task_creation
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Lint["Lint (3 jobs)"]
+      direction TB
+      wf_0_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_0_hadolint["hadolint"]:::atlasJob
+      job_0_yamllint["yamllint"]:::atlasJob
+      job_0_shellcheck["shellcheck"]:::atlasJob
+      wf_0_Lint --> job_0_hadolint
+      wf_0_Lint --> job_0_yamllint
+      wf_0_Lint --> job_0_shellcheck
+    end
+    pipeline_root --> wf_0_Lint
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Stale["Stale (1 jobs)"]
+      direction TB
+      wf_3_Stale(["Trigger: Stale"]):::atlasWorkflow
+      job_3_stale["stale"]:::atlasJob
+      wf_3_Stale --> job_3_stale
+    end
+    pipeline_root --> wf_3_Stale
+  end
 ```

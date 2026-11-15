@@ -41,28 +41,41 @@ description: Arc42 and Pipeline report for bitwarden/sdk-internal
 
 ```mermaid
 graph TD;
-    repo_root(["bitwarden/sdk-internal (257 components)"])
-    dir_0_crates["crates (148)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["bitwarden/sdk-internal (257 components)"]):::atlasRoot
+    subgraph sg_dir_0_crates["crates (148)"]
+      direction TB
+      dir_0_crates["crates (148)"]:::atlasCategory
+      sub_0_0_bitwarden_api_api["bitwarden-api-api (132)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_bitwarden_api_api
+      sub_0_1_bitwarden_access_token_crypto["bitwarden-access-token-crypto (8)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_bitwarden_access_token_crypto
+      sub_0_2_bitwarden_access_token["bitwarden-access-token (6)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_bitwarden_access_token
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_bitwarden_api_api["bitwarden-api-api (132)"]
-    dir_0_crates --> sub_0_0_bitwarden_api_api
-    sub_0_1_bitwarden_access_token_crypto["bitwarden-access-token-crypto (8)"]
-    dir_0_crates --> sub_0_1_bitwarden_access_token_crypto
-    sub_0_2_bitwarden_access_token["bitwarden-access-token (6)"]
-    dir_0_crates --> sub_0_2_bitwarden_access_token
-    sub_0_more["+1 more submodules (2)"]
-    dir_0_crates --> sub_0_more
-    dir_1_bitwarden_license["bitwarden_license (104)"]
+    subgraph sg_dir_1_bitwarden_license["bitwarden_license (104)"]
+      direction TB
+      dir_1_bitwarden_license["bitwarden_license (104)"]:::atlasCategory
+      sub_1_0_bitwarden_access_connector["bitwarden-access-connector (40)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_0_bitwarden_access_connector
+      sub_1_1_bitwarden_pam["bitwarden-pam (34)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_1_bitwarden_pam
+      sub_1_2_bitwarden_sm["bitwarden-sm (21)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_2_bitwarden_sm
+      sub_1_more["+3 more submodules (9)"]:::atlasMore
+      dir_1_bitwarden_license --> sub_1_more
+    end
     repo_root --> dir_1_bitwarden_license
-    sub_1_0_bitwarden_access_connector["bitwarden-access-connector (40)"]
-    dir_1_bitwarden_license --> sub_1_0_bitwarden_access_connector
-    sub_1_1_bitwarden_pam["bitwarden-pam (34)"]
-    dir_1_bitwarden_license --> sub_1_1_bitwarden_pam
-    sub_1_2_bitwarden_sm["bitwarden-sm (21)"]
-    dir_1_bitwarden_license --> sub_1_2_bitwarden_sm
-    sub_1_more["+3 more submodules (9)"]
-    dir_1_bitwarden_license --> sub_1_more
-    dir_2_e2e["e2e (5)"]
+    dir_2_e2e["e2e (5)"]:::atlasCategory
     repo_root --> dir_2_e2e
 ```
 
@@ -279,40 +292,44 @@ Showing top 60 representative components out of 257 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_489ab28b_39e7_46e0_a06e_7fc296dc5a47["489ab28b-39e7-46e0-a06e-7fc296dc5a47"]
-        mod_bitwarden_license_bitwarden_access_connector["bitwarden_license/bitwarden-access-connector"]
-        mod_crates_bitwarden_api_api["crates/bitwarden-api-api"]
-        mod_crates_bitwarden_api_identity["crates/bitwarden-api-identity"]
-        mod_crates_bitwarden_uniffi["crates/bitwarden-uniffi"]
-        mod_crates_bitwarden_uniffi_kotlin["crates/bitwarden-uniffi/kotlin"]
-        mod_crates_bitwarden_uniffi_kotlin_app["crates/bitwarden-uniffi/kotlin/app"]
-        mod_crates_bitwarden_uniffi_kotlin_sdk["crates/bitwarden-uniffi/kotlin/sdk"]
-        mod_crates_bitwarden_wasm_internal["crates/bitwarden-wasm-internal"]
-        mod_crates_memory_testing["crates/memory-testing"]
-        mod_e2e_kotlin["e2e/kotlin"]
-        mod_e2e_wasm["e2e/wasm"]
+        mod_489ab28b_39e7_46e0_a06e_7fc296dc5a47["489ab28b-39e7-46e0-a06e-7fc296dc5a47"]:::atlasCategory
+        mod_bitwarden_license_bitwarden_access_connector["bitwarden_license/bitwarden-access-connector"]:::atlasCategory
+        mod_crates_bitwarden_api_api["crates/bitwarden-api-api"]:::atlasCategory
+        mod_crates_bitwarden_api_identity["crates/bitwarden-api-identity"]:::atlasCategory
+        mod_crates_bitwarden_uniffi["crates/bitwarden-uniffi"]:::atlasCategory
+        mod_crates_bitwarden_uniffi_kotlin["crates/bitwarden-uniffi/kotlin"]:::atlasCategory
+        mod_crates_bitwarden_uniffi_kotlin_app["crates/bitwarden-uniffi/kotlin/app"]:::atlasCategory
+        mod_crates_bitwarden_uniffi_kotlin_sdk["crates/bitwarden-uniffi/kotlin/sdk"]:::atlasCategory
+        mod_crates_bitwarden_wasm_internal["crates/bitwarden-wasm-internal"]:::atlasCategory
+        mod_crates_memory_testing["crates/memory-testing"]:::atlasCategory
+        mod_e2e_kotlin["e2e/kotlin"]:::atlasCategory
+        mod_e2e_wasm["e2e/wasm"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art_crates_memory_testing_Dockerfile["crates/memory-testing/Dockerfile"]
-        art_crates_memory_testing_Dockerfile_dockerignore["crates/memory-testing/Dockerfile.dockerignore"]
+        art_crates_memory_testing_Dockerfile["crates/memory-testing/Dockerfile"]:::atlasWorkflow
+        art_crates_memory_testing_Dockerfile_dockerignore["crates/memory-testing/Dockerfile.dockerignore"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_build_access_connector_yml_build["build-access-connector.yml#build"]
-        job_build_android_yml_combine["build-android.yml#combine"]
-        job_build_android_yml_e2e_tests["build-android.yml#e2e-tests"]
-        job_build_swift_yml_build["build-swift.yml#build"]
-        job_build_wasm_internal_yml_build["build-wasm-internal.yml#build"]
-        job_build_wasm_internal_yml_e2e_tests["build-wasm-internal.yml#e2e-tests"]
-        job_detect_breaking_changes_yml_detect_breaking_changes["detect-breaking-changes.yml#detect-breaking-changes"]
-        job_memory_testing_yml_memory_test["memory-testing.yml#memory-test"]
-        job_release_swift_yml_release["release-swift.yml#release"]
-        job_rustdoc_yml_deploy["rustdoc.yml#deploy"]
-        job_rustdoc_yml_rustdoc["rustdoc.yml#rustdoc"]
-        job_update_api_bindings_yml_download["update-api-bindings.yml#download"]
+        job_build_access_connector_yml_build["build-access-connector.yml#build"]:::atlasJob
+        job_build_android_yml_combine["build-android.yml#combine"]:::atlasJob
+        job_build_android_yml_e2e_tests["build-android.yml#e2e-tests"]:::atlasJob
+        job_build_swift_yml_build["build-swift.yml#build"]:::atlasJob
+        job_build_wasm_internal_yml_build["build-wasm-internal.yml#build"]:::atlasJob
+        job_build_wasm_internal_yml_e2e_tests["build-wasm-internal.yml#e2e-tests"]:::atlasJob
+        job_detect_breaking_changes_yml_detect_breaking_changes["detect-breaking-changes.yml#detect-breaking-changes"]:::atlasJob
+        job_memory_testing_yml_memory_test["memory-testing.yml#memory-test"]:::atlasJob
+        job_release_swift_yml_release["release-swift.yml#release"]:::atlasJob
+        job_rustdoc_yml_deploy["rustdoc.yml#deploy"]:::atlasJob
+        job_rustdoc_yml_rustdoc["rustdoc.yml#rustdoc"]:::atlasJob
+        job_update_api_bindings_yml_download["update-api-bindings.yml#download"]:::atlasJob
     end
     subgraph runtime_envs["Runtime Environments"]
-        env_github_pages["github-pages"]
+        env_github_pages["github-pages"]:::atlasTarget
     end
     job_rustdoc_yml_deploy -->|DEPLOYS_TO| env_github_pages
     job_rustdoc_yml_rustdoc -->|DEPLOYS_TO| env_github_pages
@@ -366,13 +383,97 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["bitwarden/sdk-internal (25 workflows)"])
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 34 jobs)"]
-  pipeline_root --> grp_0_Scheduled___Manual
-  grp_1_CI___Verification["CI & Verification (6 workflows · 11 jobs)"]
-  pipeline_root --> grp_1_CI___Verification
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Automation___Other
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["bitwarden/sdk-internal (25 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 34 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_Android["Build Android (5 jobs)"]
+      direction TB
+      wf_2_Build_Android(["Trigger: Build Android"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_combine["combine"]:::atlasJob
+      job_2_e2e_tests["e2e-tests"]:::atlasJob
+      wf_2_Build_Android --> job_2_build
+      job_2_build --> job_2_combine
+      wf_2_Build_Android --> job_2_e2e_tests
+    end
+    pipeline_root --> wf_2_Build_Android
+    subgraph sg_wf_4_Build_Swift_Package["Build Swift Package (4 jobs)"]
+      direction TB
+      wf_4_Build_Swift_Package(["Trigger: Build Swift Package"]):::atlasWorkflow
+      job_4_version["version"]:::atlasJob
+      job_4_build["build"]:::atlasJob
+      job_4_e2e_tests["e2e-tests"]:::atlasJob
+      wf_4_Build_Swift_Package --> job_4_version
+      job_4_version --> job_4_build
+      job_4_version --> job_4_e2e_tests
+      job_4_build --> job_4_e2e_tests
+    end
+    pipeline_root --> wf_4_Build_Swift_Package
+    subgraph sg_wf_5_Build__bitwarden_sdk_internal["Build @bitwarden/sdk-internal (4 jobs)"]
+      direction TB
+      wf_5_Build__bitwarden_sdk_internal(["Trigger: Build @bitwarden/sdk-internal"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      job_5_e2e_tests["e2e-tests"]:::atlasJob
+      job_5_trigger_wasm_publish["trigger-wasm-publish"]:::atlasJob
+      wf_5_Build__bitwarden_sdk_internal --> job_5_build
+      job_5_build --> job_5_e2e_tests
+      job_5_build --> job_5_trigger_wasm_publish
+    end
+    pipeline_root --> wf_5_Build__bitwarden_sdk_internal
+    subgraph sg_wf_20_Rust_tests["Rust tests (4 jobs)"]
+      direction TB
+      wf_20_Rust_tests(["Trigger: Rust tests"]):::atlasWorkflow
+      job_20_ci_pass["ci-pass"]:::atlasJob
+      job_20_test["test"]:::atlasJob
+      job_20_test_wasm["test-wasm"]:::atlasJob
+      job_20_test --> job_20_ci_pass
+      wf_20_Rust_tests --> job_20_test
+      wf_20_Rust_tests --> job_20_test_wasm
+    end
+    pipeline_root --> wf_20_Rust_tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (6 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Breaking_change_check__Fork_PR_["Breaking change check (Fork PR) (5 jobs)"]
+      direction TB
+      wf_0_Breaking_change_check__Fork_PR_(["Trigger: Breaking change check (Fork PR)"]):::atlasWorkflow
+      job_0_check_run["check-run"]:::atlasJob
+      job_0_remove_label["remove-label"]:::atlasJob
+      job_0_check_approval["check-approval"]:::atlasJob
+      wf_0_Breaking_change_check__Fork_PR_ --> job_0_check_run
+      job_0_check_run --> job_0_remove_label
+      job_0_check_run --> job_0_check_approval
+    end
+    pipeline_root --> wf_0_Breaking_change_check__Fork_PR_
+    subgraph sg_wf_19_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_19_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_19_review["review"]:::atlasJob
+      wf_19_Code_Review --> job_19_review
+    end
+    pipeline_root --> wf_19_Code_Review
+    wf_21_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_21_Rustdoc
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    wf_16_Publish_Rust_crates["Publish Rust crates (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Publish_Rust_crates
+    wf_17_Release_Swift_Package["Release Swift Package (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Release_Swift_Package
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_9_SDK_Breaking_Change_Detection["SDK Breaking Change Detection (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_SDK_Breaking_Change_Detection
+  end
+  wf_more["+15 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

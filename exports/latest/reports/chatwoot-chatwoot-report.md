@@ -41,20 +41,30 @@ description: Arc42 and Pipeline report for chatwoot/chatwoot
 
 ```mermaid
 graph TD;
-    repo_root(["chatwoot/chatwoot (253 components)"])
-    dir_0_app["app (250)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["chatwoot/chatwoot (253 components)"]):::atlasRoot
+    subgraph sg_dir_0_app["app (250)"]
+      direction TB
+      dir_0_app["app (250)"]:::atlasCategory
+      sub_0_0_controllers["controllers (207)"]:::atlasWorkflow
+      dir_0_app --> sub_0_0_controllers
+      sub_0_1_builders["builders (38)"]:::atlasWorkflow
+      dir_0_app --> sub_0_1_builders
+      sub_0_2_channels["channels (3)"]:::atlasWorkflow
+      dir_0_app --> sub_0_2_channels
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_app --> sub_0_more
+    end
     repo_root --> dir_0_app
-    sub_0_0_controllers["controllers (207)"]
-    dir_0_app --> sub_0_0_controllers
-    sub_0_1_builders["builders (38)"]
-    dir_0_app --> sub_0_1_builders
-    sub_0_2_channels["channels (3)"]
-    dir_0_app --> sub_0_2_channels
-    sub_0_more["+1 more submodules (2)"]
-    dir_0_app --> sub_0_more
-    dir_1__devcontainer[".devcontainer (2)"]
+    dir_1__devcontainer[".devcontainer (2)"]:::atlasCategory
     repo_root --> dir_1__devcontainer
-    dir_2_tests["tests (1)"]
+    dir_2_tests["tests (1)"]:::atlasCategory
     repo_root --> dir_2_tests
 ```
 
@@ -183,28 +193,32 @@ Showing top 60 representative components out of 253 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod__devcontainer[".devcontainer"]
-        mod_docker["docker"]
-        mod_f5e6f6f3_e2e6_4ee7_9b46_2bee843660d1["f5e6f6f3-e2e6-4ee7-9b46-2bee843660d1"]
+        mod__devcontainer[".devcontainer"]:::atlasCategory
+        mod_docker["docker"]:::atlasCategory
+        mod_f5e6f6f3_e2e6_4ee7_9b46_2bee843660d1["f5e6f6f3-e2e6-4ee7-9b46-2bee843660d1"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
-        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]
-        art__devcontainer_Dockerfile_base[".devcontainer/Dockerfile.base"]
-        art__devcontainer_docker_compose_base_yml[".devcontainer/docker-compose.base.yml"]
-        art__devcontainer_docker_compose_yml[".devcontainer/docker-compose.yml"]
-        art_docker_compose_production_yaml["docker-compose.production.yaml"]
-        art_docker_compose_test_yaml["docker-compose.test.yaml"]
-        art_docker_compose_yaml["docker-compose.yaml"]
-        art_docker_Dockerfile["docker/Dockerfile"]
+        art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
+        art__devcontainer_Dockerfile_base[".devcontainer/Dockerfile.base"]:::atlasWorkflow
+        art__devcontainer_docker_compose_base_yml[".devcontainer/docker-compose.base.yml"]:::atlasWorkflow
+        art__devcontainer_docker_compose_yml[".devcontainer/docker-compose.yml"]:::atlasWorkflow
+        art_docker_compose_production_yaml["docker-compose.production.yaml"]:::atlasWorkflow
+        art_docker_compose_test_yaml["docker-compose.test.yaml"]:::atlasWorkflow
+        art_docker_compose_yaml["docker-compose.yaml"]:::atlasWorkflow
+        art_docker_Dockerfile["docker/Dockerfile"]:::atlasWorkflow
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_publish_codespace_image_yml_publish_code_space_image["publish_codespace_image.yml#publish-code-space-image"]
-        job_publish_ee_docker_yml_build["publish_ee_docker.yml#build"]
-        job_publish_ee_docker_yml_merge["publish_ee_docker.yml#merge"]
-        job_publish_foss_docker_yml_build["publish_foss_docker.yml#build"]
-        job_publish_foss_docker_yml_merge["publish_foss_docker.yml#merge"]
-        job_test_docker_build_yml_test_build["test_docker_build.yml#test-build"]
+        job_publish_codespace_image_yml_publish_code_space_image["publish_codespace_image.yml#publish-code-space-image"]:::atlasJob
+        job_publish_ee_docker_yml_build["publish_ee_docker.yml#build"]:::atlasJob
+        job_publish_ee_docker_yml_merge["publish_ee_docker.yml#merge"]:::atlasJob
+        job_publish_foss_docker_yml_build["publish_foss_docker.yml#build"]:::atlasJob
+        job_publish_foss_docker_yml_merge["publish_foss_docker.yml#merge"]:::atlasJob
+        job_test_docker_build_yml_test_build["test_docker_build.yml#test-build"]:::atlasJob
     end
     mod__devcontainer -->|DEPLOYED_BY| job_publish_codespace_image_yml_publish_code_space_image
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
@@ -274,13 +288,104 @@ flowchart LR
 
 ```mermaid
 graph TD;
-  pipeline_root(["chatwoot/chatwoot (17 workflows)"])
-  grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Release___Deploy["Release & Deploy (5 workflows · 7 jobs)"]
-  pipeline_root --> grp_1_Release___Deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 8 jobs)"]
-  pipeline_root --> grp_2_Scheduled___Manual
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["chatwoot/chatwoot (17 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Auto_assign_PR_to_Author["Auto-assign PR to Author (1 jobs)"]
+      direction TB
+      wf_0_Auto_assign_PR_to_Author(["Trigger: Auto-assign PR to Author"]):::atlasWorkflow
+      job_0_auto_assign["auto-assign"]:::atlasJob
+      wf_0_Auto_assign_PR_to_Author --> job_0_auto_assign
+    end
+    pipeline_root --> wf_0_Auto_assign_PR_to_Author
+    subgraph sg_wf_2_Frontend_Lint___Test["Frontend Lint & Test (1 jobs)"]
+      direction TB
+      wf_2_Frontend_Lint___Test(["Trigger: Frontend Lint & Test"]):::atlasWorkflow
+      job_2_test["test"]:::atlasJob
+      wf_2_Frontend_Lint___Test --> job_2_test
+    end
+    pipeline_root --> wf_2_Frontend_Lint___Test
+    subgraph sg_wf_4_Lint_PR["Lint PR (1 jobs)"]
+      direction TB
+      wf_4_Lint_PR(["Trigger: Lint PR"]):::atlasWorkflow
+      job_4_main["main"]:::atlasJob
+      wf_4_Lint_PR --> job_4_main
+    end
+    pipeline_root --> wf_4_Lint_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (5 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Deploy_Check["Deploy Check (1 jobs)"]
+      direction TB
+      wf_1_Deploy_Check(["Trigger: Deploy Check"]):::atlasWorkflow
+      job_1_deployment_check["deployment_check"]:::atlasJob
+      wf_1_Deploy_Check --> job_1_deployment_check
+    end
+    pipeline_root --> wf_1_Deploy_Check
+    subgraph sg_wf_10_Publish_Chatwoot_EE_docker_images["Publish Chatwoot EE docker images (2 jobs)"]
+      direction TB
+      wf_10_Publish_Chatwoot_EE_docker_images(["Trigger: Publish Chatwoot EE docker images"]):::atlasWorkflow
+      job_10_build["build"]:::atlasJob
+      job_10_merge["merge"]:::atlasJob
+      wf_10_Publish_Chatwoot_EE_docker_images --> job_10_build
+      job_10_build --> job_10_merge
+    end
+    pipeline_root --> wf_10_Publish_Chatwoot_EE_docker_images
+    subgraph sg_wf_11_Publish_Chatwoot_CE_docker_images["Publish Chatwoot CE docker images (2 jobs)"]
+      direction TB
+      wf_11_Publish_Chatwoot_CE_docker_images(["Trigger: Publish Chatwoot CE docker images"]):::atlasWorkflow
+      job_11_build["build"]:::atlasJob
+      job_11_merge["merge"]:::atlasJob
+      wf_11_Publish_Chatwoot_CE_docker_images --> job_11_build
+      job_11_build --> job_11_merge
+    end
+    pipeline_root --> wf_11_Publish_Chatwoot_CE_docker_images
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Run_Linux_nightly_installer["Run Linux nightly installer (1 jobs)"]
+      direction TB
+      wf_8_Run_Linux_nightly_installer(["Trigger: Run Linux nightly installer"]):::atlasWorkflow
+      job_8_nightly["nightly"]:::atlasJob
+      wf_8_Run_Linux_nightly_installer --> job_8_nightly
+    end
+    pipeline_root --> wf_8_Run_Linux_nightly_installer
+    subgraph sg_wf_12_Run_Chatwoot_CE_spec["Run Chatwoot CE spec (5 jobs)"]
+      direction TB
+      wf_12_Run_Chatwoot_CE_spec(["Trigger: Run Chatwoot CE spec"]):::atlasWorkflow
+      job_12_lint_backend["lint-backend"]:::atlasJob
+      job_12_security_scan["security-scan"]:::atlasJob
+      job_12_lint_frontend["lint-frontend"]:::atlasJob
+      wf_12_Run_Chatwoot_CE_spec --> job_12_lint_backend
+      wf_12_Run_Chatwoot_CE_spec --> job_12_security_scan
+      wf_12_Run_Chatwoot_CE_spec --> job_12_lint_frontend
+    end
+    pipeline_root --> wf_12_Run_Chatwoot_CE_spec
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Lock_Threads["Lock Threads (1 jobs)"]
+      direction TB
+      wf_5_Lock_Threads(["Trigger: Lock Threads"]):::atlasWorkflow
+      job_5_action["action"]:::atlasJob
+      wf_5_Lock_Threads --> job_5_action
+    end
+    pipeline_root --> wf_5_Lock_Threads
+    subgraph sg_wf_15_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_15_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_15_stale["stale"]:::atlasJob
+      wf_15_Mark_stale_issues_and_pull_requests --> job_15_stale
+    end
+    pipeline_root --> wf_15_Mark_stale_issues_and_pull_requests
+  end
+  wf_more["+7 more workflows"]:::atlasMore
+  pipeline_root --> wf_more
 ```

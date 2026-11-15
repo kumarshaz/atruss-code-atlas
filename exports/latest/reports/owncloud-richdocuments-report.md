@@ -41,30 +41,43 @@ description: Arc42 and Pipeline report for owncloud/richdocuments
 
 ```mermaid
 graph TD;
-    repo_root(["owncloud/richdocuments (47 components)"])
-    dir_0_lib["lib (20)"]
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    repo_root(["owncloud/richdocuments (47 components)"]):::atlasRoot
+    subgraph sg_dir_0_lib["lib (20)"]
+      direction TB
+      dir_0_lib["lib (20)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0__module_root_
+      sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Controller
+      sub_0_2_Db["Db (2)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Db
+      sub_0_more["+4 more submodules (5)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (7)"]
-    dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_Controller["Controller (6)"]
-    dir_0_lib --> sub_0_1_Controller
-    sub_0_2_Db["Db (2)"]
-    dir_0_lib --> sub_0_2_Db
-    sub_0_more["+4 more submodules (5)"]
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (15)"]
+    subgraph sg_dir_1_tests["tests (15)"]
+      direction TB
+      dir_1_tests["tests (15)"]:::atlasCategory
+      sub_1_0_unit["unit (11)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_unit
+      sub_1_1_acceptance["acceptance (4)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_acceptance
+    end
     repo_root --> dir_1_tests
-    sub_1_0_unit["unit (11)"]
-    dir_1_tests --> sub_1_0_unit
-    sub_1_1_acceptance["acceptance (4)"]
-    dir_1_tests --> sub_1_1_acceptance
-    dir_2_appinfo["appinfo (5)"]
+    dir_2_appinfo["appinfo (5)"]:::atlasCategory
     repo_root --> dir_2_appinfo
-    dir_3__root_["(root) (3)"]
+    dir_3__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_3__root_
-    dir_4_templates["templates (3)"]
+    dir_4_templates["templates (3)"]:::atlasCategory
     repo_root --> dir_4_templates
-    dir_other_modules["+1 more modules (1)"]
+    dir_other_modules["+1 more modules (1)"]:::atlasMore
     repo_root --> dir_other_modules
 ```
 
@@ -174,13 +187,70 @@ graph TD;
 
 ```mermaid
 graph TD;
-  pipeline_root(["owncloud/richdocuments (6 workflows)"])
-  grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]
-  pipeline_root --> grp_0_CI___Verification
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
-  pipeline_root --> grp_1_Scheduled___Manual
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_2_Release___Deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
-  pipeline_root --> grp_3_Security___Governance
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["owncloud/richdocuments (6 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Lint_PR_title["Lint PR title (1 jobs)"]
+      direction TB
+      wf_0_Lint_PR_title(["Trigger: Lint PR title"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      wf_0_Lint_PR_title --> job_0_lint
+    end
+    pipeline_root --> wf_0_Lint_PR_title
+    subgraph sg_wf_1_CI["CI (7 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_get_vars["get-vars"]:::atlasJob
+      job_1_semantic_git_messages["semantic-git-messages"]:::atlasJob
+      job_1_php_code_style["php-code-style"]:::atlasJob
+      wf_1_CI --> job_1_get_vars
+      wf_1_CI --> job_1_semantic_git_messages
+      job_1_get_vars --> job_1_php_code_style
+    end
+    pipeline_root --> wf_1_CI
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Translation_Sync["Translation Sync (1 jobs)"]
+      direction TB
+      wf_4_Translation_Sync(["Trigger: Translation Sync"]):::atlasWorkflow
+      job_4_sync["sync"]:::atlasJob
+      wf_4_Translation_Sync --> job_4_sync
+    end
+    pipeline_root --> wf_4_Translation_Sync
+    subgraph sg_wf_5_Zizmor["Zizmor (1 jobs)"]
+      direction TB
+      wf_5_Zizmor(["Trigger: Zizmor"]):::atlasWorkflow
+      job_5_zizmor["zizmor"]:::atlasJob
+      wf_5_Zizmor --> job_5_zizmor
+    end
+    pipeline_root --> wf_5_Zizmor
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Security_Scan["Security Scan (1 jobs)"]
+      direction TB
+      wf_3_Security_Scan(["Trigger: Security Scan"]):::atlasWorkflow
+      job_3_trivy["trivy"]:::atlasJob
+      wf_3_Security_Scan --> job_3_trivy
+    end
+    pipeline_root --> wf_3_Security_Scan
+  end
 ```
