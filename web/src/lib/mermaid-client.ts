@@ -108,6 +108,25 @@ export function configureMermaid(htmlLabels = true): void {
     });
 }
 
+/**
+ * Replace any statically baked `classDef atlas*` lines with the active light/dark theme palette
+ * so static Arc42 Markdown diagrams remain high-contrast in both light and dark modes.
+ */
+export function adaptMermaidSourceToTheme(source: string): string {
+    if (!source || !source.includes('classDef atlas')) return source;
+    const rawLines = source.split(/\r?\n/);
+    const filtered = rawLines.filter((line) => !/^\s*classDef\s+atlas[A-Za-z0-9_]+\b/.test(line));
+    const headerIdx = filtered.findIndex((line) =>
+        /^\s*(?:graph|flowchart)\s+(?:TD|TB|LR|RL|BT)\b/i.test(line)
+    );
+    const activeDefs = getMermaidClassDefs();
+    if (headerIdx >= 0) {
+        filtered.splice(headerIdx + 1, 0, ...activeDefs);
+        return filtered.join('\n');
+    }
+    return [...activeDefs, ...filtered].join('\n');
+}
+
 /** Render a Mermaid definition string into SVG markup using the active theme. */
 export async function renderMermaidSvg(
     prefix: string,
@@ -115,8 +134,9 @@ export async function renderMermaidSvg(
     htmlLabels = true
 ): Promise<string> {
     configureMermaid(htmlLabels);
+    const themedDef = adaptMermaidSourceToTheme(graphDef);
     const renderId = `${safeId(prefix)}-${Math.random().toString(36).slice(2, 10)}`;
-    const { svg } = await mermaid.render(renderId, graphDef);
+    const { svg } = await mermaid.render(renderId, themedDef);
     if (!htmlLabels) configureMermaid(true);
     return svg;
 }
@@ -136,9 +156,17 @@ export function applyResponsiveSvgStyle(svgEl: SVGSVGElement | null): void {
     svgEl.style.margin = '0 auto';
 }
 
-/** Check whether an existing Mermaid SVG failed layout due to hidden-container rendering. */
+/** Check whether an existing Mermaid SVG failed layout or was rendered for a different theme. */
 export function needsVisibleMermaidRepair(preEl: HTMLElement): boolean {
-    if (preEl.dataset.archRenderedVisible === 'true') return false;
+    const activeTheme =
+        typeof document !== 'undefined' &&
+        document.documentElement.getAttribute('data-theme') === 'light'
+            ? 'light'
+            : 'dark';
+    if (preEl.dataset.archRenderedVisible === 'true' && preEl.dataset.archTheme === activeTheme) {
+        return false;
+    }
+    if (preEl.dataset.archTheme !== activeTheme) return true;
     const svgEl = preEl.querySelector<SVGSVGElement>('svg');
     if (!svgEl) return true;
     const vb = (svgEl.getAttribute('viewBox') || '').trim();
@@ -147,11 +175,16 @@ export function needsVisibleMermaidRepair(preEl: HTMLElement): boolean {
     return rect.width <= 24 || rect.height <= 24;
 }
 
-/** Re-render visible `<pre class="mermaid">` blocks in a container (fixing hidden-tab 16x16 SVGs). */
+/** Re-render visible `<pre class="mermaid">` blocks in a container (fixing hidden-tab & theme contrast). */
 export async function repairVisibleMermaidBlocks(
     container: ParentNode,
     force = false
 ): Promise<void> {
+    const activeTheme =
+        typeof document !== 'undefined' &&
+        document.documentElement.getAttribute('data-theme') === 'light'
+            ? 'light'
+            : 'dark';
     const blocks = Array.from(container.querySelectorAll<HTMLElement>('pre.mermaid'));
     for (const preEl of blocks) {
         if (preEl.closest('[hidden]')) continue;
@@ -169,6 +202,7 @@ export async function repairVisibleMermaidBlocks(
             preEl.innerHTML = svg;
             preEl.setAttribute('data-processed', 'true');
             preEl.dataset.archRenderedVisible = 'true';
+            preEl.dataset.archTheme = activeTheme;
             applyResponsiveSvgStyle(preEl.querySelector('svg'));
         } catch (err) {
             console.error('Mermaid static block render failed:', err);

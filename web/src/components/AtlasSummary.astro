@@ -35,9 +35,42 @@ try {
         </div>
         <h1>Atruss Code Atlas</h1>
         <p class="m3-hero-subtitle">
-            Deterministic discovery, CI/CD pipeline DAG analysis, and Arc42 architectural insights
-            across multi-ecosystem repositories.
+            Passive, zero-agent architectural and CI/CD intelligence across 10 ecosystems—combining
+            Tree-sitter AST &amp; Arc42 blueprints, pipeline &amp; supply-chain diagnostics, 6-Dimension
+            A–F Scorecards, CycloneDX SBOMs, and AI-ready <code>llms.txt</code> / MCP exports.
         </p>
+
+        <div class="m3-usecase-grid" aria-label="Core platform use cases">
+            <div class="m3-usecase-card">
+                <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">account_tree</span>
+                <div>
+                    <strong>Architecture &amp; Arc42</strong>
+                    <span>10-ecosystem AST, fitness rules &amp; Code-to-Cloud DAGs</span>
+                </div>
+            </div>
+            <div class="m3-usecase-card">
+                <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">security</span>
+                <div>
+                    <strong>CI/CD &amp; Supply-Chain</strong>
+                    <span>14 pipeline rules, OSV CVEs, SBOM &amp; SARIF gates</span>
+                </div>
+            </div>
+            <div class="m3-usecase-card">
+                <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">grade</span>
+                <div>
+                    <strong>6-D Scorecards &amp; Drift</strong>
+                    <span>Deterministic A–F grades, debt index &amp; PR diffs</span>
+                </div>
+            </div>
+            <div class="m3-usecase-card">
+                <span class="material-symbols-outlined m3-usecase-icon" aria-hidden="true">smart_toy</span>
+                <div>
+                    <strong>AI-Ready Context</strong>
+                    <span>Portable <code>llms.txt</code> &amp; 10-tool stdio MCP server</span>
+                </div>
+            </div>
+        </div>
+
         <div class="m3-hero-actions">
             <a href="#repo-directory" class="m3-btn-filled">
                 <span class="material-symbols-outlined" aria-hidden="true">apps</span>
@@ -46,6 +79,15 @@ try {
             <a href={withBase('/orgs/')} class="m3-btn-tonal">
                 <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
                 Organization Benchmarks
+            </a>
+            <a
+                href="https://github.com/kumarshaz/atruss-code-atlas/blob/main/docs/metrics-methodology.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="m3-btn-outlined"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+                Metrics Methodology
             </a>
         </div>
     </section>
@@ -99,11 +141,49 @@ try {
     }
 
     .m3-hero-subtitle {
-        margin: 0.75rem 0 1.5rem !important;
+        margin: 0.75rem 0 1.25rem !important;
         font-size: 1.0625rem;
-        max-width: 65ch;
+        max-width: 72ch;
         color: var(--md-sys-color-on-surface-variant);
         line-height: 1.55;
+    }
+
+    .m3-usecase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .m3-usecase-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.85rem 1rem;
+        border-radius: var(--md-sys-shape-corner-large);
+        background-color: var(--md-sys-color-surface-container-low);
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .m3-usecase-icon {
+        color: var(--md-sys-color-primary);
+        font-size: 22px;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+    }
+
+    .m3-usecase-card strong {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 0.15rem;
+    }
+
+    .m3-usecase-card span:not(.material-symbols-outlined) {
+        display: block;
+        font-size: 0.8rem;
+        line-height: 1.35;
+        color: var(--md-sys-color-on-surface-variant);
     }
 
     .m3-hero-actions {

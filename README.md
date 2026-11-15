@@ -9,6 +9,7 @@ Atruss Code Atlas is a fast, lightweight CLI and static **Material Design 3 (Ast
 - **Unified SpecKit Specification (`FR-001`–`FR-030`)**: [`docs/atruss-code-atlas-unified-spec.md`](./docs/atruss-code-atlas-unified-spec.md) & [`specs/009-unified-atlas-spec/spec.md`](./specs/009-unified-atlas-spec/spec.md)
 - **Agentic SDLC Playbook (SpecKit vs. Antigravity Native)**: [`docs/agentic-sdlc-guide.md`](./docs/agentic-sdlc-guide.md)
 - **Agentic SDLC Research & Update Plan (QRSPI & Harness Engineering)**: [`docs/agentic-sdlc-research-and-update-plan.md`](./docs/agentic-sdlc-research-and-update-plan.md)
+- **Metrics & Scoring Methodology (6-D Scorecard, Complexity & Leaderboard)**: [`docs/metrics-methodology.md`](./docs/metrics-methodology.md)
 
 ---
 
