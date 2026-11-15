@@ -49,28 +49,37 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["medusajs/examples (72 components)"]):::atlasRoot
-    dir_0_customer_tiers["customer-tiers (11)"]:::atlasCategory
+    subgraph sg_dir_0_customer_tiers["customer-tiers (11)"]
+      direction TB
+      dir_0_customer_tiers["customer-tiers (11)"]:::atlasCategory
+      sub_0_0_src["src (10)"]:::atlasWorkflow
+      dir_0_customer_tiers --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_customer_tiers --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_customer_tiers
-    sub_0_0_src["src (10)"]:::atlasWorkflow
-    dir_0_customer_tiers --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_customer_tiers --> sub_0_1__module_root_
-    dir_1_express_checkout_storefront["express-checkout-storefront (11)"]:::atlasCategory
+    subgraph sg_dir_1_express_checkout_storefront["express-checkout-storefront (11)"]
+      direction TB
+      dir_1_express_checkout_storefront["express-checkout-storefront (11)"]:::atlasCategory
+      sub_1_0_components["components (7)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_0_components
+      sub_1_1_providers["providers (2)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_1_providers
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_express_checkout_storefront --> sub_1_2__module_root_
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_express_checkout_storefront --> sub_1_more
+    end
     repo_root --> dir_1_express_checkout_storefront
-    sub_1_0_components["components (7)"]:::atlasWorkflow
-    dir_1_express_checkout_storefront --> sub_1_0_components
-    sub_1_1_providers["providers (2)"]:::atlasWorkflow
-    dir_1_express_checkout_storefront --> sub_1_1_providers
-    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_express_checkout_storefront --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_express_checkout_storefront --> sub_1_more
-    dir_2_digital_product["digital-product (9)"]:::atlasCategory
+    subgraph sg_dir_2_digital_product["digital-product (9)"]
+      direction TB
+      dir_2_digital_product["digital-product (9)"]:::atlasCategory
+      sub_2_0_src["src (8)"]:::atlasWorkflow
+      dir_2_digital_product --> sub_2_0_src
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_digital_product --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_digital_product
-    sub_2_0_src["src (8)"]:::atlasWorkflow
-    dir_2_digital_product --> sub_2_0_src
-    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_digital_product --> sub_2_1__module_root_
     dir_3_category_images["category-images (8)"]:::atlasCategory
     repo_root --> dir_3_category_images
     dir_4_agentic_commerce["agentic-commerce (6)"]:::atlasCategory

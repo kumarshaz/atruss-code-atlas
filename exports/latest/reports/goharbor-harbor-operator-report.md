@@ -49,40 +49,55 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["goharbor/harbor-operator (362 components)"]):::atlasRoot
-    dir_0_controllers["controllers (140)"]:::atlasCategory
+    subgraph sg_dir_0_controllers["controllers (140)"]
+      direction TB
+      dir_0_controllers["controllers (140)"]:::atlasCategory
+      sub_0_0_goharbor["goharbor (138)"]:::atlasWorkflow
+      dir_0_controllers --> sub_0_0_goharbor
+      sub_0_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_controllers --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_controllers
-    sub_0_0_goharbor["goharbor (138)"]:::atlasWorkflow
-    dir_0_controllers --> sub_0_0_goharbor
-    sub_0_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_controllers --> sub_0_1__module_root_
-    dir_1_apis["apis (97)"]:::atlasCategory
+    subgraph sg_dir_1_apis["apis (97)"]
+      direction TB
+      dir_1_apis["apis (97)"]:::atlasCategory
+      sub_1_0_goharbor_io["goharbor.io (78)"]:::atlasWorkflow
+      dir_1_apis --> sub_1_0_goharbor_io
+      sub_1_1_meta["meta (19)"]:::atlasWorkflow
+      dir_1_apis --> sub_1_1_meta
+    end
     repo_root --> dir_1_apis
-    sub_1_0_goharbor_io["goharbor.io (78)"]:::atlasWorkflow
-    dir_1_apis --> sub_1_0_goharbor_io
-    sub_1_1_meta["meta (19)"]:::atlasWorkflow
-    dir_1_apis --> sub_1_1_meta
-    dir_2_config["config (97)"]:::atlasCategory
+    subgraph sg_dir_2_config["config (97)"]
+      direction TB
+      dir_2_config["config (97)"]:::atlasCategory
+      sub_2_0_crd["crd (30)"]:::atlasWorkflow
+      dir_2_config --> sub_2_0_crd
+      sub_2_1_helm["helm (29)"]:::atlasWorkflow
+      dir_2_config --> sub_2_1_helm
+      sub_2_2_config["config (16)"]:::atlasWorkflow
+      dir_2_config --> sub_2_2_config
+      sub_2_more["+3 more submodules (22)"]:::atlasMore
+      dir_2_config --> sub_2_more
+    end
     repo_root --> dir_2_config
-    sub_2_0_crd["crd (30)"]:::atlasWorkflow
-    dir_2_config --> sub_2_0_crd
-    sub_2_1_helm["helm (29)"]:::atlasWorkflow
-    dir_2_config --> sub_2_1_helm
-    sub_2_2_config["config (16)"]:::atlasWorkflow
-    dir_2_config --> sub_2_2_config
-    sub_2_more["+3 more submodules (22)"]:::atlasMore
-    dir_2_config --> sub_2_more
-    dir_3_charts["charts (15)"]:::atlasCategory
+    subgraph sg_dir_3_charts["charts (15)"]
+      direction TB
+      dir_3_charts["charts (15)"]:::atlasCategory
+      sub_3_0_harbor_operator_templates["harbor-operator/templates (13)"]:::atlasWorkflow
+      dir_3_charts --> sub_3_0_harbor_operator_templates
+      sub_3_1_harbor_operator["harbor-operator (2)"]:::atlasWorkflow
+      dir_3_charts --> sub_3_1_harbor_operator
+    end
     repo_root --> dir_3_charts
-    sub_3_0_harbor_operator_templates["harbor-operator/templates (13)"]:::atlasWorkflow
-    dir_3_charts --> sub_3_0_harbor_operator_templates
-    sub_3_1_harbor_operator["harbor-operator (2)"]:::atlasWorkflow
-    dir_3_charts --> sub_3_1_harbor_operator
-    dir_4_pkg["pkg (11)"]:::atlasCategory
+    subgraph sg_dir_4_pkg["pkg (11)"]
+      direction TB
+      dir_4_pkg["pkg (11)"]:::atlasCategory
+      sub_4_0_cluster["cluster (10)"]:::atlasWorkflow
+      dir_4_pkg --> sub_4_0_cluster
+      sub_4_1_builder["builder (1)"]:::atlasWorkflow
+      dir_4_pkg --> sub_4_1_builder
+    end
     repo_root --> dir_4_pkg
-    sub_4_0_cluster["cluster (10)"]:::atlasWorkflow
-    dir_4_pkg --> sub_4_0_cluster
-    sub_4_1_builder["builder (1)"]:::atlasWorkflow
-    dir_4_pkg --> sub_4_1_builder
     dir_other_modules["+1 more modules (2)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

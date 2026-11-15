@@ -49,28 +49,37 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-java (117 components)"]):::atlasRoot
-    dir_0_sentry_samples["sentry-samples (71)"]:::atlasCategory
+    subgraph sg_dir_0_sentry_samples["sentry-samples (71)"]
+      direction TB
+      dir_0_sentry_samples["sentry-samples (71)"]:::atlasCategory
+      sub_0_0_sentry_samples_spring_boot_jakarta["sentry-samples-spring-boot-jakarta (9)"]:::atlasWorkflow
+      dir_0_sentry_samples --> sub_0_0_sentry_samples_spring_boot_jakarta
+      sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry["sentry-samples-spring-boot-jakarta-opentelemetry (9)"]:::atlasWorkflow
+      dir_0_sentry_samples --> sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry
+      sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent["sentry-samples-spring-boot-jakarta-opentelemetry-noagent (9)"]:::atlasWorkflow
+      dir_0_sentry_samples --> sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent
+      sub_0_more["+8 more submodules (44)"]:::atlasMore
+      dir_0_sentry_samples --> sub_0_more
+    end
     repo_root --> dir_0_sentry_samples
-    sub_0_0_sentry_samples_spring_boot_jakarta["sentry-samples-spring-boot-jakarta (9)"]:::atlasWorkflow
-    dir_0_sentry_samples --> sub_0_0_sentry_samples_spring_boot_jakarta
-    sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry["sentry-samples-spring-boot-jakarta-opentelemetry (9)"]:::atlasWorkflow
-    dir_0_sentry_samples --> sub_0_1_sentry_samples_spring_boot_jakarta_opentelemetry
-    sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent["sentry-samples-spring-boot-jakarta-opentelemetry-noagent (9)"]:::atlasWorkflow
-    dir_0_sentry_samples --> sub_0_2_sentry_samples_spring_boot_jakarta_opentelemetry_noagent
-    sub_0_more["+8 more submodules (44)"]:::atlasMore
-    dir_0_sentry_samples --> sub_0_more
-    dir_1_sentry_spring_jakarta["sentry-spring-jakarta (17)"]:::atlasCategory
+    subgraph sg_dir_1_sentry_spring_jakarta["sentry-spring-jakarta (17)"]
+      direction TB
+      dir_1_sentry_spring_jakarta["sentry-spring-jakarta (17)"]:::atlasCategory
+      sub_1_0_src_main["src/main (13)"]:::atlasWorkflow
+      dir_1_sentry_spring_jakarta --> sub_1_0_src_main
+      sub_1_1_src_test["src/test (4)"]:::atlasWorkflow
+      dir_1_sentry_spring_jakarta --> sub_1_1_src_test
+    end
     repo_root --> dir_1_sentry_spring_jakarta
-    sub_1_0_src_main["src/main (13)"]:::atlasWorkflow
-    dir_1_sentry_spring_jakarta --> sub_1_0_src_main
-    sub_1_1_src_test["src/test (4)"]:::atlasWorkflow
-    dir_1_sentry_spring_jakarta --> sub_1_1_src_test
-    dir_2_sentry_spring["sentry-spring (16)"]:::atlasCategory
+    subgraph sg_dir_2_sentry_spring["sentry-spring (16)"]
+      direction TB
+      dir_2_sentry_spring["sentry-spring (16)"]:::atlasCategory
+      sub_2_0_src_main["src/main (12)"]:::atlasWorkflow
+      dir_2_sentry_spring --> sub_2_0_src_main
+      sub_2_1_src_test["src/test (4)"]:::atlasWorkflow
+      dir_2_sentry_spring --> sub_2_1_src_test
+    end
     repo_root --> dir_2_sentry_spring
-    sub_2_0_src_main["src/main (12)"]:::atlasWorkflow
-    dir_2_sentry_spring --> sub_2_0_src_main
-    sub_2_1_src_test["src/test (4)"]:::atlasWorkflow
-    dir_2_sentry_spring --> sub_2_1_src_test
     dir_3_sentry_spring_boot_jakarta["sentry-spring-boot-jakarta (7)"]:::atlasCategory
     repo_root --> dir_3_sentry_spring_boot_jakarta
     dir_4_sentry_spring_boot["sentry-spring-boot (6)"]:::atlasCategory

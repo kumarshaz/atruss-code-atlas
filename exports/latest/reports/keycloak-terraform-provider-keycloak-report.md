@@ -51,12 +51,15 @@ graph TD;
     repo_root(["keycloak/terraform-provider-keycloak (250 components)"]):::atlasRoot
     dir_0_provider["provider (125)"]:::atlasCategory
     repo_root --> dir_0_provider
-    dir_1_keycloak["keycloak (122)"]:::atlasCategory
+    subgraph sg_dir_1_keycloak["keycloak (122)"]
+      direction TB
+      dir_1_keycloak["keycloak (122)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (118)"]:::atlasWorkflow
+      dir_1_keycloak --> sub_1_0__module_root_
+      sub_1_1_types["types (4)"]:::atlasWorkflow
+      dir_1_keycloak --> sub_1_1_types
+    end
     repo_root --> dir_1_keycloak
-    sub_1_0__module_root_["(module root) (118)"]:::atlasWorkflow
-    dir_1_keycloak --> sub_1_0__module_root_
-    sub_1_1_types["types (4)"]:::atlasWorkflow
-    dir_1_keycloak --> sub_1_1_types
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_helper["helper (1)"]:::atlasCategory

@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["nextcloud/notifications (77 components)"]):::atlasRoot
-    dir_0_lib["lib (48)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (48)"]
+      direction TB
+      dir_0_lib["lib (48)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0__module_root_
+      sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Controller
+      sub_0_2_Migration["Migration (6)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Migration
+      sub_0_more["+10 more submodules (29)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_Controller
-    sub_0_2_Migration["Migration (6)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_Migration
-    sub_0_more["+10 more submodules (29)"]:::atlasMore
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (24)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (24)"]
+      direction TB
+      dir_1_tests["tests (24)"]:::atlasCategory
+      sub_1_0_Unit["Unit (17)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_Unit
+      sub_1_1_Integration["Integration (6)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_Integration
+      sub_1_2_stubs["stubs (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_stubs
+    end
     repo_root --> dir_1_tests
-    sub_1_0_Unit["Unit (17)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_Unit
-    sub_1_1_Integration["Integration (6)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_Integration
-    sub_1_2_stubs["stubs (1)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_stubs
     dir_2__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_templates["templates (2)"]:::atlasCategory

@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["open-runtimes/open-runtimes (98 components)"]):::atlasRoot
-    dir_0_tests["tests (56)"]:::atlasCategory
+    subgraph sg_dir_0_tests["tests (56)"]
+      direction TB
+      dir_0_tests["tests (56)"]:::atlasCategory
+      sub_0_0_resources_functions_remix["resources/functions/remix (10)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_0_resources_functions_remix
+      sub_0_1_resources_functions_tanstack_start_native["resources/functions/tanstack_start_native (9)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_1_resources_functions_tanstack_start_native
+      sub_0_2_resources_functions_tanstack_start_nitro_listener["resources/functions/tanstack_start_nitro_listener (9)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_2_resources_functions_tanstack_start_nitro_listener
+      sub_0_more["+11 more submodules (28)"]:::atlasMore
+      dir_0_tests --> sub_0_more
+    end
     repo_root --> dir_0_tests
-    sub_0_0_resources_functions_remix["resources/functions/remix (10)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_0_resources_functions_remix
-    sub_0_1_resources_functions_tanstack_start_native["resources/functions/tanstack_start_native (9)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_1_resources_functions_tanstack_start_native
-    sub_0_2_resources_functions_tanstack_start_nitro_listener["resources/functions/tanstack_start_nitro_listener (9)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_2_resources_functions_tanstack_start_nitro_listener
-    sub_0_more["+11 more submodules (28)"]:::atlasMore
-    dir_0_tests --> sub_0_more
-    dir_1_runtimes["runtimes (41)"]:::atlasCategory
+    subgraph sg_dir_1_runtimes["runtimes (41)"]
+      direction TB
+      dir_1_runtimes["runtimes (41)"]:::atlasCategory
+      sub_1_0_dart["dart (20)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_0_dart
+      sub_1_1_ruby["ruby (6)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_1_ruby
+      sub_1_2_dotnet["dotnet (4)"]:::atlasWorkflow
+      dir_1_runtimes --> sub_1_2_dotnet
+      sub_1_more["+6 more submodules (11)"]:::atlasMore
+      dir_1_runtimes --> sub_1_more
+    end
     repo_root --> dir_1_runtimes
-    sub_1_0_dart["dart (20)"]:::atlasWorkflow
-    dir_1_runtimes --> sub_1_0_dart
-    sub_1_1_ruby["ruby (6)"]:::atlasWorkflow
-    dir_1_runtimes --> sub_1_1_ruby
-    sub_1_2_dotnet["dotnet (4)"]:::atlasWorkflow
-    dir_1_runtimes --> sub_1_2_dotnet
-    sub_1_more["+6 more submodules (11)"]:::atlasMore
-    dir_1_runtimes --> sub_1_more
     dir_2__github[".github (1)"]:::atlasCategory
     repo_root --> dir_2__github
 ```

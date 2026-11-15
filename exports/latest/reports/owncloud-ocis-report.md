@@ -49,44 +49,59 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["owncloud/ocis (316 components)"]):::atlasRoot
-    dir_0_ocis_pkg["ocis-pkg (158)"]:::atlasCategory
+    subgraph sg_dir_0_ocis_pkg["ocis-pkg (158)"]
+      direction TB
+      dir_0_ocis_pkg["ocis-pkg (158)"]:::atlasCategory
+      sub_0_0_config["config (14)"]:::atlasWorkflow
+      dir_0_ocis_pkg --> sub_0_0_config
+      sub_0_1_service["service (12)"]:::atlasWorkflow
+      dir_0_ocis_pkg --> sub_0_1_service
+      sub_0_2_kql["kql (11)"]:::atlasWorkflow
+      dir_0_ocis_pkg --> sub_0_2_kql
+      sub_0_more["+35 more submodules (121)"]:::atlasMore
+      dir_0_ocis_pkg --> sub_0_more
+    end
     repo_root --> dir_0_ocis_pkg
-    sub_0_0_config["config (14)"]:::atlasWorkflow
-    dir_0_ocis_pkg --> sub_0_0_config
-    sub_0_1_service["service (12)"]:::atlasWorkflow
-    dir_0_ocis_pkg --> sub_0_1_service
-    sub_0_2_kql["kql (11)"]:::atlasWorkflow
-    dir_0_ocis_pkg --> sub_0_2_kql
-    sub_0_more["+35 more submodules (121)"]:::atlasMore
-    dir_0_ocis_pkg --> sub_0_more
-    dir_1_deployments["deployments (65)"]:::atlasCategory
+    subgraph sg_dir_1_deployments["deployments (65)"]
+      direction TB
+      dir_1_deployments["deployments (65)"]:::atlasCategory
+      sub_1_0_examples_ocis_full["examples/ocis_full (33)"]:::atlasWorkflow
+      dir_1_deployments --> sub_1_0_examples_ocis_full
+      sub_1_1_examples_ocis_ocm["examples/ocis_ocm (18)"]:::atlasWorkflow
+      dir_1_deployments --> sub_1_1_examples_ocis_ocm
+      sub_1_2_examples_ocis_multi["examples/ocis_multi (5)"]:::atlasWorkflow
+      dir_1_deployments --> sub_1_2_examples_ocis_multi
+      sub_1_more["+3 more submodules (9)"]:::atlasMore
+      dir_1_deployments --> sub_1_more
+    end
     repo_root --> dir_1_deployments
-    sub_1_0_examples_ocis_full["examples/ocis_full (33)"]:::atlasWorkflow
-    dir_1_deployments --> sub_1_0_examples_ocis_full
-    sub_1_1_examples_ocis_ocm["examples/ocis_ocm (18)"]:::atlasWorkflow
-    dir_1_deployments --> sub_1_1_examples_ocis_ocm
-    sub_1_2_examples_ocis_multi["examples/ocis_multi (5)"]:::atlasWorkflow
-    dir_1_deployments --> sub_1_2_examples_ocis_multi
-    sub_1_more["+3 more submodules (9)"]:::atlasMore
-    dir_1_deployments --> sub_1_more
-    dir_2_ocis["ocis (35)"]:::atlasCategory
+    subgraph sg_dir_2_ocis["ocis (35)"]
+      direction TB
+      dir_2_ocis["ocis (35)"]:::atlasCategory
+      sub_2_0_pkg["pkg (34)"]:::atlasWorkflow
+      dir_2_ocis --> sub_2_0_pkg
+      sub_2_1_cmd["cmd (1)"]:::atlasWorkflow
+      dir_2_ocis --> sub_2_1_cmd
+    end
     repo_root --> dir_2_ocis
-    sub_2_0_pkg["pkg (34)"]:::atlasWorkflow
-    dir_2_ocis --> sub_2_0_pkg
-    sub_2_1_cmd["cmd (1)"]:::atlasWorkflow
-    dir_2_ocis --> sub_2_1_cmd
-    dir_3_protogen["protogen (34)"]:::atlasCategory
+    subgraph sg_dir_3_protogen["protogen (34)"]
+      direction TB
+      dir_3_protogen["protogen (34)"]:::atlasCategory
+      sub_3_0_gen_ocis_services["gen/ocis/services (20)"]:::atlasWorkflow
+      dir_3_protogen --> sub_3_0_gen_ocis_services
+      sub_3_1_gen_ocis_messages["gen/ocis/messages (14)"]:::atlasWorkflow
+      dir_3_protogen --> sub_3_1_gen_ocis_messages
+    end
     repo_root --> dir_3_protogen
-    sub_3_0_gen_ocis_services["gen/ocis/services (20)"]:::atlasWorkflow
-    dir_3_protogen --> sub_3_0_gen_ocis_services
-    sub_3_1_gen_ocis_messages["gen/ocis/messages (14)"]:::atlasWorkflow
-    dir_3_protogen --> sub_3_1_gen_ocis_messages
-    dir_4_services["services (21)"]:::atlasCategory
+    subgraph sg_dir_4_services["services (21)"]
+      direction TB
+      dir_4_services["services (21)"]:::atlasCategory
+      sub_4_0_activitylog_pkg["activitylog/pkg (20)"]:::atlasWorkflow
+      dir_4_services --> sub_4_0_activitylog_pkg
+      sub_4_1_activitylog_cmd["activitylog/cmd (1)"]:::atlasWorkflow
+      dir_4_services --> sub_4_1_activitylog_cmd
+    end
     repo_root --> dir_4_services
-    sub_4_0_activitylog_pkg["activitylog/pkg (20)"]:::atlasWorkflow
-    dir_4_services --> sub_4_0_activitylog_pkg
-    sub_4_1_activitylog_cmd["activitylog/cmd (1)"]:::atlasWorkflow
-    dir_4_services --> sub_4_1_activitylog_cmd
     dir_other_modules["+2 more modules (3)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/grafana-zabbix (69 components)"]):::atlasRoot
-    dir_0_pkg["pkg (63)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (63)"]
+      direction TB
+      dir_0_pkg["pkg (63)"]:::atlasCategory
+      sub_0_0_datasource["datasource (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_datasource
+      sub_0_1_zabbix["zabbix (12)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_zabbix
+      sub_0_2_zabbixapi["zabbixapi (11)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_zabbixapi
+      sub_0_more["+7 more submodules (20)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_datasource["datasource (20)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_datasource
-    sub_0_1_zabbix["zabbix (12)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_zabbix
-    sub_0_2_zabbixapi["zabbixapi (11)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_zabbixapi
-    sub_0_more["+7 more submodules (20)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
     dir_1_devenv["devenv (5)"]:::atlasCategory
     repo_root --> dir_1_devenv
     dir_2__root_["(root) (1)"]:::atlasCategory

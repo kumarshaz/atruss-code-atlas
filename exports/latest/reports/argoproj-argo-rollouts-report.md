@@ -49,52 +49,67 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-rollouts (299 components)"]):::atlasRoot
-    dir_0_pkg["pkg (113)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (113)"]
+      direction TB
+      dir_0_pkg["pkg (113)"]:::atlasCategory
+      sub_0_0_kubectl_argo_rollouts["kubectl-argo-rollouts (55)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_kubectl_argo_rollouts
+      sub_0_1_client["client (37)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_client
+      sub_0_2_apis["apis (15)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_apis
+      sub_0_more["+2 more submodules (6)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_kubectl_argo_rollouts["kubectl-argo-rollouts (55)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_kubectl_argo_rollouts
-    sub_0_1_client["client (37)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_client
-    sub_0_2_apis["apis (15)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_apis
-    sub_0_more["+2 more submodules (6)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
-    dir_1_rollout["rollout (49)"]:::atlasCategory
+    subgraph sg_dir_1_rollout["rollout (49)"]
+      direction TB
+      dir_1_rollout["rollout (49)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (33)"]:::atlasWorkflow
+      dir_1_rollout --> sub_1_0__module_root_
+      sub_1_1_steps["steps (10)"]:::atlasWorkflow
+      dir_1_rollout --> sub_1_1_steps
+      sub_1_2_trafficrouting["trafficrouting (5)"]:::atlasWorkflow
+      dir_1_rollout --> sub_1_2_trafficrouting
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_rollout --> sub_1_more
+    end
     repo_root --> dir_1_rollout
-    sub_1_0__module_root_["(module root) (33)"]:::atlasWorkflow
-    dir_1_rollout --> sub_1_0__module_root_
-    sub_1_1_steps["steps (10)"]:::atlasWorkflow
-    dir_1_rollout --> sub_1_1_steps
-    sub_1_2_trafficrouting["trafficrouting (5)"]:::atlasWorkflow
-    dir_1_rollout --> sub_1_2_trafficrouting
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_rollout --> sub_1_more
-    dir_2_metricproviders["metricproviders (44)"]:::atlasCategory
+    subgraph sg_dir_2_metricproviders["metricproviders (44)"]
+      direction TB
+      dir_2_metricproviders["metricproviders (44)"]:::atlasCategory
+      sub_2_0_datadog["datadog (6)"]:::atlasWorkflow
+      dir_2_metricproviders --> sub_2_0_datadog
+      sub_2_1_graphite["graphite (5)"]:::atlasWorkflow
+      dir_2_metricproviders --> sub_2_1_graphite
+      sub_2_2_plugin["plugin (5)"]:::atlasWorkflow
+      dir_2_metricproviders --> sub_2_2_plugin
+      sub_2_more["+11 more submodules (28)"]:::atlasMore
+      dir_2_metricproviders --> sub_2_more
+    end
     repo_root --> dir_2_metricproviders
-    sub_2_0_datadog["datadog (6)"]:::atlasWorkflow
-    dir_2_metricproviders --> sub_2_0_datadog
-    sub_2_1_graphite["graphite (5)"]:::atlasWorkflow
-    dir_2_metricproviders --> sub_2_1_graphite
-    sub_2_2_plugin["plugin (5)"]:::atlasWorkflow
-    dir_2_metricproviders --> sub_2_2_plugin
-    sub_2_more["+11 more submodules (28)"]:::atlasMore
-    dir_2_metricproviders --> sub_2_more
-    dir_3_manifests["manifests (36)"]:::atlasCategory
+    subgraph sg_dir_3_manifests["manifests (36)"]
+      direction TB
+      dir_3_manifests["manifests (36)"]:::atlasCategory
+      sub_3_0_notifications["notifications (11)"]:::atlasWorkflow
+      dir_3_manifests --> sub_3_0_notifications
+      sub_3_1_base["base (7)"]:::atlasWorkflow
+      dir_3_manifests --> sub_3_1_base
+      sub_3_2_crds["crds (6)"]:::atlasWorkflow
+      dir_3_manifests --> sub_3_2_crds
+      sub_3_more["+3 more submodules (12)"]:::atlasMore
+      dir_3_manifests --> sub_3_more
+    end
     repo_root --> dir_3_manifests
-    sub_3_0_notifications["notifications (11)"]:::atlasWorkflow
-    dir_3_manifests --> sub_3_0_notifications
-    sub_3_1_base["base (7)"]:::atlasWorkflow
-    dir_3_manifests --> sub_3_1_base
-    sub_3_2_crds["crds (6)"]:::atlasWorkflow
-    dir_3_manifests --> sub_3_2_crds
-    sub_3_more["+3 more submodules (12)"]:::atlasMore
-    dir_3_manifests --> sub_3_more
-    dir_4_controller["controller (18)"]:::atlasCategory
+    subgraph sg_dir_4_controller["controller (18)"]
+      direction TB
+      dir_4_controller["controller (18)"]:::atlasCategory
+      sub_4_0_metrics["metrics (13)"]:::atlasWorkflow
+      dir_4_controller --> sub_4_0_metrics
+      sub_4_1__module_root_["(module root) (5)"]:::atlasWorkflow
+      dir_4_controller --> sub_4_1__module_root_
+    end
     repo_root --> dir_4_controller
-    sub_4_0_metrics["metrics (13)"]:::atlasWorkflow
-    dir_4_controller --> sub_4_0_metrics
-    sub_4_1__module_root_["(module root) (5)"]:::atlasWorkflow
-    dir_4_controller --> sub_4_1__module_root_
     dir_other_modules["+8 more modules (39)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

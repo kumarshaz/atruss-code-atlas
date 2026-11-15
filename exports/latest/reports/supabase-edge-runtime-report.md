@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/edge-runtime (131 components)"]):::atlasRoot
-    dir_0_deno["deno (59)"]:::atlasCategory
+    subgraph sg_dir_0_deno["deno (59)"]
+      direction TB
+      dir_0_deno["deno (59)"]:::atlasCategory
+      sub_0_0_cache["cache (13)"]:::atlasWorkflow
+      dir_0_deno --> sub_0_0_cache
+      sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
+      dir_0_deno --> sub_0_1__module_root_
+      sub_0_2_util["util (12)"]:::atlasWorkflow
+      dir_0_deno --> sub_0_2_util
+      sub_0_more["+5 more submodules (22)"]:::atlasMore
+      dir_0_deno --> sub_0_more
+    end
     repo_root --> dir_0_deno
-    sub_0_0_cache["cache (13)"]:::atlasWorkflow
-    dir_0_deno --> sub_0_0_cache
-    sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
-    dir_0_deno --> sub_0_1__module_root_
-    sub_0_2_util["util (12)"]:::atlasWorkflow
-    dir_0_deno --> sub_0_2_util
-    sub_0_more["+5 more submodules (22)"]:::atlasMore
-    dir_0_deno --> sub_0_more
-    dir_1_crates["crates (58)"]:::atlasCategory
+    subgraph sg_dir_1_crates["crates (58)"]
+      direction TB
+      dir_1_crates["crates (58)"]:::atlasCategory
+      sub_1_0_base["base (19)"]:::atlasWorkflow
+      dir_1_crates --> sub_1_0_base
+      sub_1_1_deno_facade["deno_facade (16)"]:::atlasWorkflow
+      dir_1_crates --> sub_1_1_deno_facade
+      sub_1_2_fs["fs (11)"]:::atlasWorkflow
+      dir_1_crates --> sub_1_2_fs
+      sub_1_more["+5 more submodules (12)"]:::atlasMore
+      dir_1_crates --> sub_1_more
+    end
     repo_root --> dir_1_crates
-    sub_1_0_base["base (19)"]:::atlasWorkflow
-    dir_1_crates --> sub_1_0_base
-    sub_1_1_deno_facade["deno_facade (16)"]:::atlasWorkflow
-    dir_1_crates --> sub_1_1_deno_facade
-    sub_1_2_fs["fs (11)"]:::atlasWorkflow
-    dir_1_crates --> sub_1_2_fs
-    sub_1_more["+5 more submodules (12)"]:::atlasMore
-    dir_1_crates --> sub_1_more
     dir_2_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_2_examples
     dir_3_cli["cli (5)"]:::atlasCategory

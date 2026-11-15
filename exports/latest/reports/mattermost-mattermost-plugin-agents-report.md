@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost-plugin-agents (437 components)"]):::atlasRoot
-    dir_0_webapp["webapp (168)"]:::atlasCategory
+    subgraph sg_dir_0_webapp["webapp (168)"]
+      direction TB
+      dir_0_webapp["webapp (168)"]:::atlasCategory
+      sub_0_0_src["src (163)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_0_src
+      sub_0_1_tests["tests (2)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_1_tests
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_2__module_root_
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_webapp --> sub_0_more
+    end
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (163)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_0_src
-    sub_0_1_tests["tests (2)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_1_tests
-    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (2)"]:::atlasMore
-    dir_0_webapp --> sub_0_more
     dir_1_api["api (80)"]:::atlasCategory
     repo_root --> dir_1_api
     dir_2_bifrost["bifrost (45)"]:::atlasCategory

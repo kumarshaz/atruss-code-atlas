@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/passwordless-server (83 components)"]):::atlasRoot
-    dir_0_src["src (72)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (72)"]
+      direction TB
+      dir_0_src["src (72)"]:::atlasCategory
+      sub_0_0_Api["Api (29)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_Api
+      sub_0_1_AdminConsole["AdminConsole (27)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_AdminConsole
+      sub_0_2_Service["Service (13)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_Service
+      sub_0_more["+1 more submodules (3)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_Api["Api (29)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_Api
-    sub_0_1_AdminConsole["AdminConsole (27)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_AdminConsole
-    sub_0_2_Service["Service (13)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_Service
-    sub_0_more["+1 more submodules (3)"]:::atlasMore
-    dir_0_src --> sub_0_more
     dir_1_tests["tests (8)"]:::atlasCategory
     repo_root --> dir_1_tests
     dir_2_self_host["self-host (3)"]:::atlasCategory

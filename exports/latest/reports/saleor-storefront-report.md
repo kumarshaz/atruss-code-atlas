@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["saleor/storefront (313 components)"]):::atlasRoot
-    dir_0_src["src (312)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (312)"]
+      direction TB
+      dir_0_src["src (312)"]:::atlasCategory
+      sub_0_0_ui["ui (173)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_ui
+      sub_0_1_checkout["checkout (91)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_checkout
+      sub_0_2_app["app (42)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_app
+      sub_0_more["+2 more submodules (6)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_ui["ui (173)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_ui
-    sub_0_1_checkout["checkout (91)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_checkout
-    sub_0_2_app["app (42)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_app
-    sub_0_more["+2 more submodules (6)"]:::atlasMore
-    dir_0_src --> sub_0_more
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_checkout -.->|"1 dep"| sub_0_0_ui

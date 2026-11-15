@@ -49,48 +49,63 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost-load-test-ng (218 components)"]):::atlasRoot
-    dir_0_loadtest["loadtest (86)"]:::atlasCategory
+    subgraph sg_dir_0_loadtest["loadtest (86)"]
+      direction TB
+      dir_0_loadtest["loadtest (86)"]:::atlasCategory
+      sub_0_0_control["control (44)"]:::atlasWorkflow
+      dir_0_loadtest --> sub_0_0_control
+      sub_0_1_user["user (17)"]:::atlasWorkflow
+      dir_0_loadtest --> sub_0_1_user
+      sub_0_2_store["store (9)"]:::atlasWorkflow
+      dir_0_loadtest --> sub_0_2_store
+      sub_0_more["+3 more submodules (16)"]:::atlasMore
+      dir_0_loadtest --> sub_0_more
+    end
     repo_root --> dir_0_loadtest
-    sub_0_0_control["control (44)"]:::atlasWorkflow
-    dir_0_loadtest --> sub_0_0_control
-    sub_0_1_user["user (17)"]:::atlasWorkflow
-    dir_0_loadtest --> sub_0_1_user
-    sub_0_2_store["store (9)"]:::atlasWorkflow
-    dir_0_loadtest --> sub_0_2_store
-    sub_0_more["+3 more submodules (16)"]:::atlasMore
-    dir_0_loadtest --> sub_0_more
-    dir_1_deployment["deployment (39)"]:::atlasCategory
+    subgraph sg_dir_1_deployment["deployment (39)"]
+      direction TB
+      dir_1_deployment["deployment (39)"]:::atlasCategory
+      sub_1_0_terraform["terraform (31)"]:::atlasWorkflow
+      dir_1_deployment --> sub_1_0_terraform
+      sub_1_1__module_root_["(module root) (5)"]:::atlasWorkflow
+      dir_1_deployment --> sub_1_1__module_root_
+      sub_1_2_opensearch["opensearch (3)"]:::atlasWorkflow
+      dir_1_deployment --> sub_1_2_opensearch
+    end
     repo_root --> dir_1_deployment
-    sub_1_0_terraform["terraform (31)"]:::atlasWorkflow
-    dir_1_deployment --> sub_1_0_terraform
-    sub_1_1__module_root_["(module root) (5)"]:::atlasWorkflow
-    dir_1_deployment --> sub_1_1__module_root_
-    sub_1_2_opensearch["opensearch (3)"]:::atlasWorkflow
-    dir_1_deployment --> sub_1_2_opensearch
-    dir_2_cmd["cmd (30)"]:::atlasCategory
+    subgraph sg_dir_2_cmd["cmd (30)"]
+      direction TB
+      dir_2_cmd["cmd (30)"]:::atlasCategory
+      sub_2_0_ltctl["ltctl (10)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_0_ltctl
+      sub_2_1_metricswatcher["metricswatcher (6)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_1_metricswatcher
+      sub_2_2_ltagent["ltagent (3)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_2_ltagent
+      sub_2_more["+7 more submodules (11)"]:::atlasMore
+      dir_2_cmd --> sub_2_more
+    end
     repo_root --> dir_2_cmd
-    sub_2_0_ltctl["ltctl (10)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_0_ltctl
-    sub_2_1_metricswatcher["metricswatcher (6)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_1_metricswatcher
-    sub_2_2_ltagent["ltagent (3)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_2_ltagent
-    sub_2_more["+7 more submodules (11)"]:::atlasMore
-    dir_2_cmd --> sub_2_more
-    dir_3_coordinator["coordinator (22)"]:::atlasCategory
+    subgraph sg_dir_3_coordinator["coordinator (22)"]
+      direction TB
+      dir_3_coordinator["coordinator (22)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
+      dir_3_coordinator --> sub_3_0__module_root_
+      sub_3_1_performance["performance (8)"]:::atlasWorkflow
+      dir_3_coordinator --> sub_3_1_performance
+      sub_3_2_cluster["cluster (5)"]:::atlasWorkflow
+      dir_3_coordinator --> sub_3_2_cluster
+    end
     repo_root --> dir_3_coordinator
-    sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
-    dir_3_coordinator --> sub_3_0__module_root_
-    sub_3_1_performance["performance (8)"]:::atlasWorkflow
-    dir_3_coordinator --> sub_3_1_performance
-    sub_3_2_cluster["cluster (5)"]:::atlasWorkflow
-    dir_3_coordinator --> sub_3_2_cluster
-    dir_4_api["api (12)"]:::atlasCategory
+    subgraph sg_dir_4_api["api (12)"]
+      direction TB
+      dir_4_api["api (12)"]:::atlasCategory
+      sub_4_0__module_root_["(module root) (8)"]:::atlasWorkflow
+      dir_4_api --> sub_4_0__module_root_
+      sub_4_1_client["client (4)"]:::atlasWorkflow
+      dir_4_api --> sub_4_1_client
+    end
     repo_root --> dir_4_api
-    sub_4_0__module_root_["(module root) (8)"]:::atlasWorkflow
-    dir_4_api --> sub_4_0__module_root_
-    sub_4_1_client["client (4)"]:::atlasWorkflow
-    dir_4_api --> sub_4_1_client
     dir_other_modules["+11 more modules (29)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

@@ -51,18 +51,24 @@ graph TD;
     repo_root(["PostHog/posthog-go (208 components)"]):::atlasRoot
     dir_0__root_["(root) (126)"]:::atlasCategory
     repo_root --> dir_0__root_
-    dir_1_posthogmcp["posthogmcp (23)"]:::atlasCategory
+    subgraph sg_dir_1_posthogmcp["posthogmcp (23)"]
+      direction TB
+      dir_1_posthogmcp["posthogmcp (23)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (22)"]:::atlasWorkflow
+      dir_1_posthogmcp --> sub_1_0__module_root_
+      sub_1_1_testdata["testdata (1)"]:::atlasWorkflow
+      dir_1_posthogmcp --> sub_1_1_testdata
+    end
     repo_root --> dir_1_posthogmcp
-    sub_1_0__module_root_["(module root) (22)"]:::atlasWorkflow
-    dir_1_posthogmcp --> sub_1_0__module_root_
-    sub_1_1_testdata["testdata (1)"]:::atlasWorkflow
-    dir_1_posthogmcp --> sub_1_1_testdata
-    dir_2_otel["otel (14)"]:::atlasCategory
+    subgraph sg_dir_2_otel["otel (14)"]
+      direction TB
+      dir_2_otel["otel (14)"]:::atlasCategory
+      sub_2_0__module_root_["(module root) (13)"]:::atlasWorkflow
+      dir_2_otel --> sub_2_0__module_root_
+      sub_2_1_example["example (1)"]:::atlasWorkflow
+      dir_2_otel --> sub_2_1_example
+    end
     repo_root --> dir_2_otel
-    sub_2_0__module_root_["(module root) (13)"]:::atlasWorkflow
-    dir_2_otel --> sub_2_0__module_root_
-    sub_2_1_example["example (1)"]:::atlasWorkflow
-    dir_2_otel --> sub_2_1_example
     dir_3_posthogmcpsdk["posthogmcpsdk (14)"]:::atlasCategory
     repo_root --> dir_3_posthogmcpsdk
     dir_4_posthogmcpgo["posthogmcpgo (13)"]:::atlasCategory

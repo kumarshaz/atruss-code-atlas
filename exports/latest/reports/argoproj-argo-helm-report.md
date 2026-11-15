@@ -48,48 +48,63 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-helm (297 components)"]):::atlasRoot
-    dir_0_charts_argo_cd["charts/argo-cd (155)"]:::atlasCategory
+    subgraph sg_dir_0_charts_argo_cd["charts/argo-cd (155)"]
+      direction TB
+      dir_0_charts_argo_cd["charts/argo-cd (155)"]:::atlasCategory
+      sub_0_0_templates["templates (135)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_0_templates
+      sub_0_1_ci["ci (18)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_1_ci
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_charts_argo_cd --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_charts_argo_cd
-    sub_0_0_templates["templates (135)"]:::atlasWorkflow
-    dir_0_charts_argo_cd --> sub_0_0_templates
-    sub_0_1_ci["ci (18)"]:::atlasWorkflow
-    dir_0_charts_argo_cd --> sub_0_1_ci
-    sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_charts_argo_cd --> sub_0_2__module_root_
-    dir_1_charts_argo_workflows["charts/argo-workflows (52)"]:::atlasCategory
+    subgraph sg_dir_1_charts_argo_workflows["charts/argo-workflows (52)"]
+      direction TB
+      dir_1_charts_argo_workflows["charts/argo-workflows (52)"]:::atlasCategory
+      sub_1_0_templates["templates (33)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_0_templates
+      sub_1_1_ci["ci (9)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_1_ci
+      sub_1_2_files["files (8)"]:::atlasWorkflow
+      dir_1_charts_argo_workflows --> sub_1_2_files
+      sub_1_more["+1 more submodules (2)"]:::atlasMore
+      dir_1_charts_argo_workflows --> sub_1_more
+    end
     repo_root --> dir_1_charts_argo_workflows
-    sub_1_0_templates["templates (33)"]:::atlasWorkflow
-    dir_1_charts_argo_workflows --> sub_1_0_templates
-    sub_1_1_ci["ci (9)"]:::atlasWorkflow
-    dir_1_charts_argo_workflows --> sub_1_1_ci
-    sub_1_2_files["files (8)"]:::atlasWorkflow
-    dir_1_charts_argo_workflows --> sub_1_2_files
-    sub_1_more["+1 more submodules (2)"]:::atlasMore
-    dir_1_charts_argo_workflows --> sub_1_more
-    dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]:::atlasCategory
+    subgraph sg_dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]
+      direction TB
+      dir_2_charts_argo_rollouts["charts/argo-rollouts (32)"]:::atlasCategory
+      sub_2_0_templates["templates (27)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_0_templates
+      sub_2_1_ci["ci (3)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_1_ci
+      sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_argo_rollouts --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_charts_argo_rollouts
-    sub_2_0_templates["templates (27)"]:::atlasWorkflow
-    dir_2_charts_argo_rollouts --> sub_2_0_templates
-    sub_2_1_ci["ci (3)"]:::atlasWorkflow
-    dir_2_charts_argo_rollouts --> sub_2_1_ci
-    sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_2_charts_argo_rollouts --> sub_2_2__module_root_
-    dir_3_charts_argo_events["charts/argo-events (21)"]:::atlasCategory
+    subgraph sg_dir_3_charts_argo_events["charts/argo-events (21)"]
+      direction TB
+      dir_3_charts_argo_events["charts/argo-events (21)"]:::atlasCategory
+      sub_3_0_templates["templates (18)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_0_templates
+      sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_1__module_root_
+      sub_3_2_ci["ci (1)"]:::atlasWorkflow
+      dir_3_charts_argo_events --> sub_3_2_ci
+    end
     repo_root --> dir_3_charts_argo_events
-    sub_3_0_templates["templates (18)"]:::atlasWorkflow
-    dir_3_charts_argo_events --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_3_charts_argo_events --> sub_3_1__module_root_
-    sub_3_2_ci["ci (1)"]:::atlasWorkflow
-    dir_3_charts_argo_events --> sub_3_2_ci
-    dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]:::atlasCategory
+    subgraph sg_dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]
+      direction TB
+      dir_4_charts_argocd_image_updater["charts/argocd-image-updater (21)"]:::atlasCategory
+      sub_4_0_templates["templates (15)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_0_templates
+      sub_4_1_ci["ci (4)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_1_ci
+      sub_4_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_4_charts_argocd_image_updater --> sub_4_2__module_root_
+    end
     repo_root --> dir_4_charts_argocd_image_updater
-    sub_4_0_templates["templates (15)"]:::atlasWorkflow
-    dir_4_charts_argocd_image_updater --> sub_4_0_templates
-    sub_4_1_ci["ci (4)"]:::atlasWorkflow
-    dir_4_charts_argocd_image_updater --> sub_4_1_ci
-    sub_4_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_4_charts_argocd_image_updater --> sub_4_2__module_root_
     dir_other_modules["+1 more modules (16)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

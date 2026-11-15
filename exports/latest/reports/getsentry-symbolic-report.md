@@ -49,44 +49,56 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/symbolic (131 components)"]):::atlasRoot
-    dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]:::atlasCategory
+    subgraph sg_dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]
+      direction TB
+      dir_0_symbolic_debuginfo["symbolic-debuginfo (28)"]:::atlasCategory
+      sub_0_0_src["src (23)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_0_src
+      sub_0_1_tests["tests (3)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_1_tests
+      sub_0_2_benches["benches (1)"]:::atlasWorkflow
+      dir_0_symbolic_debuginfo --> sub_0_2_benches
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_symbolic_debuginfo --> sub_0_more
+    end
     repo_root --> dir_0_symbolic_debuginfo
-    sub_0_0_src["src (23)"]:::atlasWorkflow
-    dir_0_symbolic_debuginfo --> sub_0_0_src
-    sub_0_1_tests["tests (3)"]:::atlasWorkflow
-    dir_0_symbolic_debuginfo --> sub_0_1_tests
-    sub_0_2_benches["benches (1)"]:::atlasWorkflow
-    dir_0_symbolic_debuginfo --> sub_0_2_benches
-    sub_0_more["+1 more submodules (1)"]:::atlasMore
-    dir_0_symbolic_debuginfo --> sub_0_more
-    dir_1_symbolic_symcache["symbolic-symcache (20)"]:::atlasCategory
+    subgraph sg_dir_1_symbolic_symcache["symbolic-symcache (20)"]
+      direction TB
+      dir_1_symbolic_symcache["symbolic-symcache (20)"]:::atlasCategory
+      sub_1_0_src["src (14)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_0_src
+      sub_1_1_tests["tests (4)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_1_tests
+      sub_1_2_benches["benches (1)"]:::atlasWorkflow
+      dir_1_symbolic_symcache --> sub_1_2_benches
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_symbolic_symcache --> sub_1_more
+    end
     repo_root --> dir_1_symbolic_symcache
-    sub_1_0_src["src (14)"]:::atlasWorkflow
-    dir_1_symbolic_symcache --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]:::atlasWorkflow
-    dir_1_symbolic_symcache --> sub_1_1_tests
-    sub_1_2_benches["benches (1)"]:::atlasWorkflow
-    dir_1_symbolic_symcache --> sub_1_2_benches
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_symbolic_symcache --> sub_1_more
-    dir_2_symbolic_ppdb["symbolic-ppdb (15)"]:::atlasCategory
+    subgraph sg_dir_2_symbolic_ppdb["symbolic-ppdb (15)"]
+      direction TB
+      dir_2_symbolic_ppdb["symbolic-ppdb (15)"]:::atlasCategory
+      sub_2_0_src["src (12)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_0_src
+      sub_2_1_tests["tests (2)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_1_tests
+      sub_2_2_fuzz["fuzz (1)"]:::atlasWorkflow
+      dir_2_symbolic_ppdb --> sub_2_2_fuzz
+    end
     repo_root --> dir_2_symbolic_ppdb
-    sub_2_0_src["src (12)"]:::atlasWorkflow
-    dir_2_symbolic_ppdb --> sub_2_0_src
-    sub_2_1_tests["tests (2)"]:::atlasWorkflow
-    dir_2_symbolic_ppdb --> sub_2_1_tests
-    sub_2_2_fuzz["fuzz (1)"]:::atlasWorkflow
-    dir_2_symbolic_ppdb --> sub_2_2_fuzz
-    dir_3_examples["examples (9)"]:::atlasCategory
+    subgraph sg_dir_3_examples["examples (9)"]
+      direction TB
+      dir_3_examples["examples (9)"]:::atlasCategory
+      sub_3_0_addr2line["addr2line (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_0_addr2line
+      sub_3_1_debuginfo_debug["debuginfo_debug (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_1_debuginfo_debug
+      sub_3_2_dump_cfi["dump_cfi (1)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_2_dump_cfi
+      sub_3_more["+6 more submodules (6)"]:::atlasMore
+      dir_3_examples --> sub_3_more
+    end
     repo_root --> dir_3_examples
-    sub_3_0_addr2line["addr2line (1)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_0_addr2line
-    sub_3_1_debuginfo_debug["debuginfo_debug (1)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_1_debuginfo_debug
-    sub_3_2_dump_cfi["dump_cfi (1)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_2_dump_cfi
-    sub_3_more["+6 more submodules (6)"]:::atlasMore
-    dir_3_examples --> sub_3_more
     dir_4_symbolic_cabi["symbolic-cabi (9)"]:::atlasCategory
     repo_root --> dir_4_symbolic_cabi
     dir_other_modules["+9 more modules (50)"]:::atlasMore

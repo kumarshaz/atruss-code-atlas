@@ -1,4 +1,13 @@
 import mermaid from 'mermaid';
+import elkLayouts from '@mermaid-js/layout-elk';
+
+let elkRegistered = false;
+function ensureLayoutLoaders(): void {
+    if (!elkRegistered && typeof mermaid.registerLayoutLoaders === 'function') {
+        mermaid.registerLayoutLoaders(elkLayouts);
+        elkRegistered = true;
+    }
+}
 
 /** Normalize an arbitrary string into a safe Mermaid node identifier. */
 export function safeId(raw: string): string {
@@ -52,9 +61,11 @@ export function getMermaidClassDefs(isDark?: boolean): string[] {
 
 /** Configure Mermaid with theme-aware dark/light blueprint/M3 styling and safe size caps. */
 export function configureMermaid(htmlLabels = true): void {
+    ensureLayoutLoaders();
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     mermaid.initialize({
         startOnLoad: false,
+        layout: 'elk',
         theme: 'base',
         themeVariables: isDark
             ? {

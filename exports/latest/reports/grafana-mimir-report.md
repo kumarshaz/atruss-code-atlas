@@ -49,36 +49,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/mimir (306 components)"]):::atlasRoot
-    dir_0_pkg["pkg (183)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (183)"]
+      direction TB
+      dir_0_pkg["pkg (183)"]:::atlasCategory
+      sub_0_0_compactor["compactor (55)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_compactor
+      sub_0_1_alertmanager["alertmanager (45)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_alertmanager
+      sub_0_2_blockbuilder["blockbuilder (29)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_blockbuilder
+      sub_0_more["+6 more submodules (54)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_compactor["compactor (55)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_compactor
-    sub_0_1_alertmanager["alertmanager (45)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_alertmanager
-    sub_0_2_blockbuilder["blockbuilder (29)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_blockbuilder
-    sub_0_more["+6 more submodules (54)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
-    dir_1_integration["integration (57)"]:::atlasCategory
+    subgraph sg_dir_1_integration["integration (57)"]
+      direction TB
+      dir_1_integration["integration (57)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (48)"]:::atlasWorkflow
+      dir_1_integration --> sub_1_0__module_root_
+      sub_1_1_e2emimir["e2emimir (7)"]:::atlasWorkflow
+      dir_1_integration --> sub_1_1_e2emimir
+      sub_1_2_ca["ca (1)"]:::atlasWorkflow
+      dir_1_integration --> sub_1_2_ca
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_integration --> sub_1_more
+    end
     repo_root --> dir_1_integration
-    sub_1_0__module_root_["(module root) (48)"]:::atlasWorkflow
-    dir_1_integration --> sub_1_0__module_root_
-    sub_1_1_e2emimir["e2emimir (7)"]:::atlasWorkflow
-    dir_1_integration --> sub_1_1_e2emimir
-    sub_1_2_ca["ca (1)"]:::atlasWorkflow
-    dir_1_integration --> sub_1_2_ca
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_integration --> sub_1_more
-    dir_2_development["development (46)"]:::atlasCategory
+    subgraph sg_dir_2_development["development (46)"]
+      direction TB
+      dir_2_development["development (46)"]:::atlasCategory
+      sub_2_0_mimir_microservices_mode["mimir-microservices-mode (13)"]:::atlasWorkflow
+      dir_2_development --> sub_2_0_mimir_microservices_mode
+      sub_2_1_mimir_monolithic_mode["mimir-monolithic-mode (10)"]:::atlasWorkflow
+      dir_2_development --> sub_2_1_mimir_monolithic_mode
+      sub_2_2_mimir_compartments["mimir-compartments (9)"]:::atlasWorkflow
+      dir_2_development --> sub_2_2_mimir_compartments
+      sub_2_more["+2 more submodules (14)"]:::atlasMore
+      dir_2_development --> sub_2_more
+    end
     repo_root --> dir_2_development
-    sub_2_0_mimir_microservices_mode["mimir-microservices-mode (13)"]:::atlasWorkflow
-    dir_2_development --> sub_2_0_mimir_microservices_mode
-    sub_2_1_mimir_monolithic_mode["mimir-monolithic-mode (10)"]:::atlasWorkflow
-    dir_2_development --> sub_2_1_mimir_monolithic_mode
-    sub_2_2_mimir_compartments["mimir-compartments (9)"]:::atlasWorkflow
-    dir_2_development --> sub_2_2_mimir_compartments
-    sub_2_more["+2 more submodules (14)"]:::atlasMore
-    dir_2_development --> sub_2_more
     dir_3_cmd["cmd (7)"]:::atlasCategory
     repo_root --> dir_3_cmd
     dir_4_operations["operations (7)"]:::atlasCategory

@@ -48,12 +48,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["medusajs/dtc-starter (48 components)"]):::atlasRoot
-    dir_0_apps["apps (47)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (47)"]
+      direction TB
+      dir_0_apps["apps (47)"]:::atlasCategory
+      sub_0_0_storefront["storefront (44)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_storefront
+      sub_0_1_backend["backend (3)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_backend
+    end
     repo_root --> dir_0_apps
-    sub_0_0_storefront["storefront (44)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_storefront
-    sub_0_1_backend["backend (3)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_backend
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```

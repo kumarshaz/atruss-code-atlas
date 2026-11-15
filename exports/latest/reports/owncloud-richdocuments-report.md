@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["owncloud/richdocuments (47 components)"]):::atlasRoot
-    dir_0_lib["lib (20)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (20)"]
+      direction TB
+      dir_0_lib["lib (20)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0__module_root_
+      sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Controller
+      sub_0_2_Db["Db (2)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Db
+      sub_0_more["+4 more submodules (5)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (7)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_Controller["Controller (6)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_Controller
-    sub_0_2_Db["Db (2)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_Db
-    sub_0_more["+4 more submodules (5)"]:::atlasMore
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (15)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (15)"]
+      direction TB
+      dir_1_tests["tests (15)"]:::atlasCategory
+      sub_1_0_unit["unit (11)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_unit
+      sub_1_1_acceptance["acceptance (4)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_acceptance
+    end
     repo_root --> dir_1_tests
-    sub_1_0_unit["unit (11)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_unit
-    sub_1_1_acceptance["acceptance (4)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_acceptance
     dir_2_appinfo["appinfo (5)"]:::atlasCategory
     repo_root --> dir_2_appinfo
     dir_3__root_["(root) (3)"]:::atlasCategory

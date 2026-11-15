@@ -49,18 +49,24 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["TryGhost/gscan (50 components)"]):::atlasRoot
-    dir_0_packages["packages (37)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (37)"]
+      direction TB
+      dir_0_packages["packages (37)"]:::atlasCategory
+      sub_0_0_gscan_test["gscan/test (36)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_gscan_test
+      sub_0_1_gscan["gscan (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_gscan
+    end
     repo_root --> dir_0_packages
-    sub_0_0_gscan_test["gscan/test (36)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_gscan_test
-    sub_0_1_gscan["gscan (1)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_gscan
-    dir_1_k8s["k8s (9)"]:::atlasCategory
+    subgraph sg_dir_1_k8s["k8s (9)"]
+      direction TB
+      dir_1_k8s["k8s (9)"]:::atlasCategory
+      sub_1_0_overlays["overlays (5)"]:::atlasWorkflow
+      dir_1_k8s --> sub_1_0_overlays
+      sub_1_1_base["base (4)"]:::atlasWorkflow
+      dir_1_k8s --> sub_1_1_base
+    end
     repo_root --> dir_1_k8s
-    sub_1_0_overlays["overlays (5)"]:::atlasWorkflow
-    dir_1_k8s --> sub_1_0_overlays
-    sub_1_1_base["base (4)"]:::atlasWorkflow
-    dir_1_k8s --> sub_1_1_base
     dir_2_apps["apps (3)"]:::atlasCategory
     repo_root --> dir_2_apps
     dir_3__root_["(root) (1)"]:::atlasCategory

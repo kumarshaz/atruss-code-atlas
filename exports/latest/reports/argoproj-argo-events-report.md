@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-events (281 components)"]):::atlasRoot
-    dir_0_pkg["pkg (235)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (235)"]
+      direction TB
+      dir_0_pkg["pkg (235)"]:::atlasCategory
+      sub_0_0_eventsources["eventsources (134)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_eventsources
+      sub_0_1_apis["apis (37)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_apis
+      sub_0_2_eventbus["eventbus (35)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_eventbus
+      sub_0_more["+1 more submodules (29)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_eventsources["eventsources (134)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_eventsources
-    sub_0_1_apis["apis (37)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_apis
-    sub_0_2_eventbus["eventbus (35)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_eventbus
-    sub_0_more["+1 more submodules (29)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
-    dir_1_manifests["manifests (27)"]:::atlasCategory
+    subgraph sg_dir_1_manifests["manifests (27)"]
+      direction TB
+      dir_1_manifests["manifests (27)"]:::atlasCategory
+      sub_1_0_base["base (9)"]:::atlasWorkflow
+      dir_1_manifests --> sub_1_0_base
+      sub_1_1_cluster_install["cluster-install (7)"]:::atlasWorkflow
+      dir_1_manifests --> sub_1_1_cluster_install
+      sub_1_2_extensions["extensions (7)"]:::atlasWorkflow
+      dir_1_manifests --> sub_1_2_extensions
+      sub_1_more["+1 more submodules (4)"]:::atlasMore
+      dir_1_manifests --> sub_1_more
+    end
     repo_root --> dir_1_manifests
-    sub_1_0_base["base (9)"]:::atlasWorkflow
-    dir_1_manifests --> sub_1_0_base
-    sub_1_1_cluster_install["cluster-install (7)"]:::atlasWorkflow
-    dir_1_manifests --> sub_1_1_cluster_install
-    sub_1_2_extensions["extensions (7)"]:::atlasWorkflow
-    dir_1_manifests --> sub_1_2_extensions
-    sub_1_more["+1 more submodules (4)"]:::atlasMore
-    dir_1_manifests --> sub_1_more
     dir_2_cmd["cmd (8)"]:::atlasCategory
     repo_root --> dir_2_cmd
     dir_3_hack["hack (6)"]:::atlasCategory

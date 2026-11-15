@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/posthog-rs (146 components)"]):::atlasRoot
-    dir_0_src["src (96)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (96)"]
+      direction TB
+      dir_0_src["src (96)"]:::atlasCategory
+      sub_0_0_mcp["mcp (63)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_mcp
+      sub_0_1__module_root_["(module root) (15)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1__module_root_
+      sub_0_2_client["client (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_client
+      sub_0_more["+1 more submodules (6)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_mcp["mcp (63)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_mcp
-    sub_0_1__module_root_["(module root) (15)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1__module_root_
-    sub_0_2_client["client (12)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_client
-    sub_0_more["+1 more submodules (6)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_tests["tests (39)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (39)"]
+      direction TB
+      dir_1_tests["tests (39)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (33)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0__module_root_
+      sub_1_1_mcp_support["mcp_support (4)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_mcp_support
+      sub_1_2_common["common (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_common
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_tests --> sub_1_more
+    end
     repo_root --> dir_1_tests
-    sub_1_0__module_root_["(module root) (33)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0__module_root_
-    sub_1_1_mcp_support["mcp_support (4)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_mcp_support
-    sub_1_2_common["common (1)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_common
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_tests --> sub_1_more
     dir_2_examples["examples (8)"]:::atlasCategory
     repo_root --> dir_2_examples
     dir_3_compliance["compliance (3)"]:::atlasCategory

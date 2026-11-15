@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["discourse/logster (55 components)"]):::atlasRoot
-    dir_0_lib["lib (22)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (22)"]
+      direction TB
+      dir_0_lib["lib (22)"]:::atlasCategory
+      sub_0_0_logster["logster (20)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_logster
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1__module_root_
+      sub_0_2_examples["examples (1)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_examples
+    end
     repo_root --> dir_0_lib
-    sub_0_0_logster["logster (20)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0_logster
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1__module_root_
-    sub_0_2_examples["examples (1)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_examples
-    dir_1_test["test (22)"]:::atlasCategory
+    subgraph sg_dir_1_test["test (22)"]
+      direction TB
+      dir_1_test["test (22)"]:::atlasCategory
+      sub_1_0_logster["logster (13)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_logster
+      sub_1_1__module_root_["(module root) (4)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1__module_root_
+      sub_1_2_dummy["dummy (3)"]:::atlasWorkflow
+      dir_1_test --> sub_1_2_dummy
+      sub_1_more["+2 more submodules (2)"]:::atlasMore
+      dir_1_test --> sub_1_more
+    end
     repo_root --> dir_1_test
-    sub_1_0_logster["logster (13)"]:::atlasWorkflow
-    dir_1_test --> sub_1_0_logster
-    sub_1_1__module_root_["(module root) (4)"]:::atlasWorkflow
-    dir_1_test --> sub_1_1__module_root_
-    sub_1_2_dummy["dummy (3)"]:::atlasWorkflow
-    dir_1_test --> sub_1_2_dummy
-    sub_1_more["+2 more submodules (2)"]:::atlasMore
-    dir_1_test --> sub_1_more
     dir_2_website["website (5)"]:::atlasCategory
     repo_root --> dir_2_website
     dir_3_client_app["client-app (4)"]:::atlasCategory

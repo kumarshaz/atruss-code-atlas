@@ -49,48 +49,63 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost-helm (125 components)"]):::atlasRoot
-    dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]:::atlasCategory
+    subgraph sg_dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]
+      direction TB
+      dir_0_charts_mattermost_enterprise_edition["charts/mattermost-enterprise-edition (36)"]:::atlasCategory
+      sub_0_0_charts["charts (19)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_0_charts
+      sub_0_1_templates["templates (13)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_1_templates
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_2__module_root_
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_charts_mattermost_enterprise_edition --> sub_0_more
+    end
     repo_root --> dir_0_charts_mattermost_enterprise_edition
-    sub_0_0_charts["charts (19)"]:::atlasWorkflow
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_0_charts
-    sub_0_1_templates["templates (13)"]:::atlasWorkflow
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_1_templates
-    sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_charts_mattermost_enterprise_edition --> sub_0_more
-    dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]:::atlasCategory
+    subgraph sg_dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]
+      direction TB
+      dir_1_charts_mattermost_team_edition["charts/mattermost-team-edition (16)"]:::atlasCategory
+      sub_1_0_templates["templates (12)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_1__module_root_
+      sub_1_2_ci["ci (2)"]:::atlasWorkflow
+      dir_1_charts_mattermost_team_edition --> sub_1_2_ci
+    end
     repo_root --> dir_1_charts_mattermost_team_edition
-    sub_1_0_templates["templates (12)"]:::atlasWorkflow
-    dir_1_charts_mattermost_team_edition --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_1_charts_mattermost_team_edition --> sub_1_1__module_root_
-    sub_1_2_ci["ci (2)"]:::atlasWorkflow
-    dir_1_charts_mattermost_team_edition --> sub_1_2_ci
-    dir_2_charts_mattermost["charts/mattermost (14)"]:::atlasCategory
+    subgraph sg_dir_2_charts_mattermost["charts/mattermost (14)"]
+      direction TB
+      dir_2_charts_mattermost["charts/mattermost (14)"]:::atlasCategory
+      sub_2_0_templates["templates (10)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_0_templates
+      sub_2_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_1__module_root_
+      sub_2_2_ci["ci (1)"]:::atlasWorkflow
+      dir_2_charts_mattermost --> sub_2_2_ci
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_charts_mattermost --> sub_2_more
+    end
     repo_root --> dir_2_charts_mattermost
-    sub_2_0_templates["templates (10)"]:::atlasWorkflow
-    dir_2_charts_mattermost --> sub_2_0_templates
-    sub_2_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_2_charts_mattermost --> sub_2_1__module_root_
-    sub_2_2_ci["ci (1)"]:::atlasWorkflow
-    dir_2_charts_mattermost --> sub_2_2_ci
-    sub_2_more["+1 more submodules (1)"]:::atlasMore
-    dir_2_charts_mattermost --> sub_2_more
-    dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]:::atlasCategory
+    subgraph sg_dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]
+      direction TB
+      dir_3_charts_mattermost_calls_offloader["charts/mattermost-calls-offloader (14)"]:::atlasCategory
+      sub_3_0_templates["templates (12)"]:::atlasWorkflow
+      dir_3_charts_mattermost_calls_offloader --> sub_3_0_templates
+      sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_mattermost_calls_offloader --> sub_3_1__module_root_
+    end
     repo_root --> dir_3_charts_mattermost_calls_offloader
-    sub_3_0_templates["templates (12)"]:::atlasWorkflow
-    dir_3_charts_mattermost_calls_offloader --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_3_charts_mattermost_calls_offloader --> sub_3_1__module_root_
-    dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]:::atlasCategory
+    subgraph sg_dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]
+      direction TB
+      dir_4_charts_mattermost_operator["charts/mattermost-operator (11)"]:::atlasCategory
+      sub_4_0_templates["templates (5)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_0_templates
+      sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_1__module_root_
+      sub_4_2_crds["crds (3)"]:::atlasWorkflow
+      dir_4_charts_mattermost_operator --> sub_4_2_crds
+    end
     repo_root --> dir_4_charts_mattermost_operator
-    sub_4_0_templates["templates (5)"]:::atlasWorkflow
-    dir_4_charts_mattermost_operator --> sub_4_0_templates
-    sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_4_charts_mattermost_operator --> sub_4_1__module_root_
-    sub_4_2_crds["crds (3)"]:::atlasWorkflow
-    dir_4_charts_mattermost_operator --> sub_4_2_crds
     dir_other_modules["+4 more modules (34)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

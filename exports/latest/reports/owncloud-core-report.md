@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["owncloud/core (250 components)"]):::atlasRoot
-    dir_0_apps["apps (241)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (241)"]
+      direction TB
+      dir_0_apps["apps (241)"]:::atlasCategory
+      sub_0_0_dav["dav (227)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_dav
+      sub_0_1_comments["comments (14)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_comments
+    end
     repo_root --> dir_0_apps
-    sub_0_0_dav["dav (227)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_dav
-    sub_0_1_comments["comments (14)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_comments
     dir_1__root_["(root) (7)"]:::atlasCategory
     repo_root --> dir_1__root_
     dir_2__phan[".phan (2)"]:::atlasCategory

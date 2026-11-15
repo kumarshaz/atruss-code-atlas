@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/realtime (253 components)"]):::atlasRoot
-    dir_0_lib["lib (212)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (212)"]
+      direction TB
+      dir_0_lib["lib (212)"]:::atlasCategory
+      sub_0_0_realtime["realtime (198)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_realtime
+      sub_0_1_extensions["extensions (10)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_extensions
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2__module_root_
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0_realtime["realtime (198)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0_realtime
-    sub_0_1_extensions["extensions (10)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_extensions
-    sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_lib --> sub_0_more
-    dir_1_forum["forum (21)"]:::atlasCategory
+    subgraph sg_dir_1_forum["forum (21)"]
+      direction TB
+      dir_1_forum["forum (21)"]:::atlasCategory
+      sub_1_0_lib["lib (11)"]:::atlasWorkflow
+      dir_1_forum --> sub_1_0_lib
+      sub_1_1_test["test (7)"]:::atlasWorkflow
+      dir_1_forum --> sub_1_1_test
+      sub_1_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_1_forum --> sub_1_2__module_root_
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_forum --> sub_1_more
+    end
     repo_root --> dir_1_forum
-    sub_1_0_lib["lib (11)"]:::atlasWorkflow
-    dir_1_forum --> sub_1_0_lib
-    sub_1_1_test["test (7)"]:::atlasWorkflow
-    dir_1_forum --> sub_1_1_test
-    sub_1_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_1_forum --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_forum --> sub_1_more
     dir_2_dev["dev (7)"]:::atlasCategory
     repo_root --> dir_2_dev
     dir_3_config["config (5)"]:::atlasCategory

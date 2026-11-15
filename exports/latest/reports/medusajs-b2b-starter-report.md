@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["medusajs/b2b-starter (151 components)"]):::atlasRoot
-    dir_0_apps["apps (150)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (150)"]
+      direction TB
+      dir_0_apps["apps (150)"]:::atlasCategory
+      sub_0_0_backend["backend (93)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_backend
+      sub_0_1_storefront["storefront (57)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_storefront
+    end
     repo_root --> dir_0_apps
-    sub_0_0_backend["backend (93)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_backend
-    sub_0_1_storefront["storefront (57)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_storefront
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_0_backend -.->|"42 deps"| sub_0_1_storefront

@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["keycloak/keycloak-quickstarts (60 components)"]):::atlasRoot
-    dir_0_extension["extension (31)"]:::atlasCategory
+    subgraph sg_dir_0_extension["extension (31)"]
+      direction TB
+      dir_0_extension["extension (31)"]:::atlasCategory
+      sub_0_0_extend_account_console_node["extend-account-console-node (13)"]:::atlasWorkflow
+      dir_0_extension --> sub_0_0_extend_account_console_node
+      sub_0_1_extend_admin_console_node["extend-admin-console-node (6)"]:::atlasWorkflow
+      dir_0_extension --> sub_0_1_extend_admin_console_node
+      sub_0_2_extend_account_console["extend-account-console (2)"]:::atlasWorkflow
+      dir_0_extension --> sub_0_2_extend_account_console
+      sub_0_more["+9 more submodules (10)"]:::atlasMore
+      dir_0_extension --> sub_0_more
+    end
     repo_root --> dir_0_extension
-    sub_0_0_extend_account_console_node["extend-account-console-node (13)"]:::atlasWorkflow
-    dir_0_extension --> sub_0_0_extend_account_console_node
-    sub_0_1_extend_admin_console_node["extend-admin-console-node (6)"]:::atlasWorkflow
-    dir_0_extension --> sub_0_1_extend_admin_console_node
-    sub_0_2_extend_account_console["extend-account-console (2)"]:::atlasWorkflow
-    dir_0_extension --> sub_0_2_extend_account_console
-    sub_0_more["+9 more submodules (10)"]:::atlasMore
-    dir_0_extension --> sub_0_more
     dir_1_proxy["proxy (8)"]:::atlasCategory
     repo_root --> dir_1_proxy
     dir_2_device["device (4)"]:::atlasCategory

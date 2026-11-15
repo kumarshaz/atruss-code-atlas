@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/hoglake (57 components)"]):::atlasRoot
-    dir_0_webui["webui (34)"]:::atlasCategory
+    subgraph sg_dir_0_webui["webui (34)"]
+      direction TB
+      dir_0_webui["webui (34)"]:::atlasCategory
+      sub_0_0_src["src (33)"]:::atlasWorkflow
+      dir_0_webui --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webui --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_webui
-    sub_0_0_src["src (33)"]:::atlasWorkflow
-    dir_0_webui --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_webui --> sub_0_1__module_root_
-    dir_1_pyhoglake_variant_codec["pyhoglake-variant-codec (17)"]:::atlasCategory
+    subgraph sg_dir_1_pyhoglake_variant_codec["pyhoglake-variant-codec (17)"]
+      direction TB
+      dir_1_pyhoglake_variant_codec["pyhoglake-variant-codec (17)"]:::atlasCategory
+      sub_1_0_src["src (11)"]:::atlasWorkflow
+      dir_1_pyhoglake_variant_codec --> sub_1_0_src
+      sub_1_1_tests["tests (4)"]:::atlasWorkflow
+      dir_1_pyhoglake_variant_codec --> sub_1_1_tests
+      sub_1_2_fuzz["fuzz (2)"]:::atlasWorkflow
+      dir_1_pyhoglake_variant_codec --> sub_1_2_fuzz
+    end
     repo_root --> dir_1_pyhoglake_variant_codec
-    sub_1_0_src["src (11)"]:::atlasWorkflow
-    dir_1_pyhoglake_variant_codec --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]:::atlasWorkflow
-    dir_1_pyhoglake_variant_codec --> sub_1_1_tests
-    sub_1_2_fuzz["fuzz (2)"]:::atlasWorkflow
-    dir_1_pyhoglake_variant_codec --> sub_1_2_fuzz
     dir_2_millrace["millrace (3)"]:::atlasCategory
     repo_root --> dir_2_millrace
     dir_3_hedgerow["hedgerow (2)"]:::atlasCategory

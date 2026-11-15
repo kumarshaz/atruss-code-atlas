@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-symfony (222 components)"]):::atlasRoot
-    dir_0_tests["tests (150)"]:::atlasCategory
+    subgraph sg_dir_0_tests["tests (150)"]
+      direction TB
+      dir_0_tests["tests (150)"]:::atlasCategory
+      sub_0_0_End2End["End2End (67)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_0_End2End
+      sub_0_1_DependencyInjection["DependencyInjection (38)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_1_DependencyInjection
+      sub_0_2_Tracing["Tracing (21)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_2_Tracing
+      sub_0_more["+7 more submodules (24)"]:::atlasMore
+      dir_0_tests --> sub_0_more
+    end
     repo_root --> dir_0_tests
-    sub_0_0_End2End["End2End (67)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_0_End2End
-    sub_0_1_DependencyInjection["DependencyInjection (38)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_1_DependencyInjection
-    sub_0_2_Tracing["Tracing (21)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_2_Tracing
-    sub_0_more["+7 more submodules (24)"]:::atlasMore
-    dir_0_tests --> sub_0_more
-    dir_1_src["src (71)"]:::atlasCategory
+    subgraph sg_dir_1_src["src (71)"]
+      direction TB
+      dir_1_src["src (71)"]:::atlasCategory
+      sub_1_0_Tracing["Tracing (33)"]:::atlasWorkflow
+      dir_1_src --> sub_1_0_Tracing
+      sub_1_1_EventListener["EventListener (15)"]:::atlasWorkflow
+      dir_1_src --> sub_1_1_EventListener
+      sub_1_2_DependencyInjection["DependencyInjection (11)"]:::atlasWorkflow
+      dir_1_src --> sub_1_2_DependencyInjection
+      sub_1_more["+6 more submodules (12)"]:::atlasMore
+      dir_1_src --> sub_1_more
+    end
     repo_root --> dir_1_src
-    sub_1_0_Tracing["Tracing (33)"]:::atlasWorkflow
-    dir_1_src --> sub_1_0_Tracing
-    sub_1_1_EventListener["EventListener (15)"]:::atlasWorkflow
-    dir_1_src --> sub_1_1_EventListener
-    sub_1_2_DependencyInjection["DependencyInjection (11)"]:::atlasWorkflow
-    dir_1_src --> sub_1_2_DependencyInjection
-    sub_1_more["+6 more submodules (12)"]:::atlasMore
-    dir_1_src --> sub_1_more
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```

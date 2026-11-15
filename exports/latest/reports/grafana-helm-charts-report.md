@@ -49,46 +49,61 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/helm-charts (253 components)"]):::atlasRoot
-    dir_0_charts_loki_distributed["charts/loki-distributed (93)"]:::atlasCategory
+    subgraph sg_dir_0_charts_loki_distributed["charts/loki-distributed (93)"]
+      direction TB
+      dir_0_charts_loki_distributed["charts/loki-distributed (93)"]:::atlasCategory
+      sub_0_0_templates["templates (86)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_0_templates
+      sub_0_1_ci["ci (4)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_1_ci
+      sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_0_charts_loki_distributed --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_charts_loki_distributed
-    sub_0_0_templates["templates (86)"]:::atlasWorkflow
-    dir_0_charts_loki_distributed --> sub_0_0_templates
-    sub_0_1_ci["ci (4)"]:::atlasWorkflow
-    dir_0_charts_loki_distributed --> sub_0_1_ci
-    sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_0_charts_loki_distributed --> sub_0_2__module_root_
-    dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]:::atlasCategory
+    subgraph sg_dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]
+      direction TB
+      dir_1_charts_enterprise_metrics["charts/enterprise-metrics (43)"]:::atlasCategory
+      sub_1_0_templates["templates (36)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (6)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_1__module_root_
+      sub_1_2_ci["ci (1)"]:::atlasWorkflow
+      dir_1_charts_enterprise_metrics --> sub_1_2_ci
+    end
     repo_root --> dir_1_charts_enterprise_metrics
-    sub_1_0_templates["templates (36)"]:::atlasWorkflow
-    dir_1_charts_enterprise_metrics --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (6)"]:::atlasWorkflow
-    dir_1_charts_enterprise_metrics --> sub_1_1__module_root_
-    sub_1_2_ci["ci (1)"]:::atlasWorkflow
-    dir_1_charts_enterprise_metrics --> sub_1_2_ci
-    dir_2_charts_promtail["charts/promtail (26)"]:::atlasCategory
+    subgraph sg_dir_2_charts_promtail["charts/promtail (26)"]
+      direction TB
+      dir_2_charts_promtail["charts/promtail (26)"]:::atlasCategory
+      sub_2_0_templates["templates (19)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_0_templates
+      sub_2_1_ci["ci (5)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_1_ci
+      sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_charts_promtail --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_charts_promtail
-    sub_2_0_templates["templates (19)"]:::atlasWorkflow
-    dir_2_charts_promtail --> sub_2_0_templates
-    sub_2_1_ci["ci (5)"]:::atlasWorkflow
-    dir_2_charts_promtail --> sub_2_1_ci
-    sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_2_charts_promtail --> sub_2_2__module_root_
-    dir_3_charts_rollout_operator["charts/rollout-operator (20)"]:::atlasCategory
+    subgraph sg_dir_3_charts_rollout_operator["charts/rollout-operator (20)"]
+      direction TB
+      dir_3_charts_rollout_operator["charts/rollout-operator (20)"]:::atlasCategory
+      sub_3_0_templates["templates (14)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_0_templates
+      sub_3_1_charts["charts (4)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_1_charts
+      sub_3_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_charts_rollout_operator --> sub_3_2__module_root_
+    end
     repo_root --> dir_3_charts_rollout_operator
-    sub_3_0_templates["templates (14)"]:::atlasWorkflow
-    dir_3_charts_rollout_operator --> sub_3_0_templates
-    sub_3_1_charts["charts (4)"]:::atlasWorkflow
-    dir_3_charts_rollout_operator --> sub_3_1_charts
-    sub_3_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_3_charts_rollout_operator --> sub_3_2__module_root_
-    dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]:::atlasCategory
+    subgraph sg_dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]
+      direction TB
+      dir_4_charts_enterprise_logs["charts/enterprise-logs (18)"]:::atlasCategory
+      sub_4_0_templates["templates (14)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_0_templates
+      sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_1__module_root_
+      sub_4_2_ci["ci (1)"]:::atlasWorkflow
+      dir_4_charts_enterprise_logs --> sub_4_2_ci
+    end
     repo_root --> dir_4_charts_enterprise_logs
-    sub_4_0_templates["templates (14)"]:::atlasWorkflow
-    dir_4_charts_enterprise_logs --> sub_4_0_templates
-    sub_4_1__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_4_charts_enterprise_logs --> sub_4_1__module_root_
-    sub_4_2_ci["ci (1)"]:::atlasWorkflow
-    dir_4_charts_enterprise_logs --> sub_4_2_ci
     dir_other_modules["+7 more modules (53)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

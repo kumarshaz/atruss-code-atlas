@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/agent-access (76 components)"]):::atlasRoot
-    dir_0_crates["crates (69)"]:::atlasCategory
+    subgraph sg_dir_0_crates["crates (69)"]
+      direction TB
+      dir_0_crates["crates (69)"]:::atlasCategory
+      sub_0_0_ap_cli["ap-cli (17)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_ap_cli
+      sub_0_1_ap_client["ap-client (13)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_ap_client
+      sub_0_2_ap_noise["ap-noise (12)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_ap_noise
+      sub_0_more["+6 more submodules (27)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_ap_cli["ap-cli (17)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_0_ap_cli
-    sub_0_1_ap_client["ap-client (13)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_1_ap_client
-    sub_0_2_ap_noise["ap-noise (12)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_2_ap_noise
-    sub_0_more["+6 more submodules (27)"]:::atlasMore
-    dir_0_crates --> sub_0_more
     dir_1_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_1_examples
 ```

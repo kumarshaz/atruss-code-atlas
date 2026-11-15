@@ -48,12 +48,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["triggerdotdev/examples (56 components)"]):::atlasRoot
-    dir_0_clickhouse_chat_agent["clickhouse-chat-agent (11)"]:::atlasCategory
+    subgraph sg_dir_0_clickhouse_chat_agent["clickhouse-chat-agent (11)"]
+      direction TB
+      dir_0_clickhouse_chat_agent["clickhouse-chat-agent (11)"]:::atlasCategory
+      sub_0_0_src["src (10)"]:::atlasWorkflow
+      dir_0_clickhouse_chat_agent --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_clickhouse_chat_agent --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_clickhouse_chat_agent
-    sub_0_0_src["src (10)"]:::atlasWorkflow
-    dir_0_clickhouse_chat_agent --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_clickhouse_chat_agent --> sub_0_1__module_root_
     dir_1_batch_llm_evaluator["batch-llm-evaluator (8)"]:::atlasCategory
     repo_root --> dir_1_batch_llm_evaluator
     dir_2_claude_thinking_chatbot["claude-thinking-chatbot (8)"]:::atlasCategory

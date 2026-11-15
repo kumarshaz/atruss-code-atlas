@@ -25,21 +25,50 @@ interface OrgMaturityScore {
     fitness_alerts?: number | null;
 }
 
-let repos: Repo[] = [];
+const rootBaseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const prefixBase = (p: string) => `${rootBaseUrl}${p.startsWith('/') ? p : '/' + p}`;
+
+let precomputedOrgs: OrgMaturityScore[] | null = null;
 try {
-    const candidates = [
-        path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
-        path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+    const summaryCandidates = [
+        path.resolve(process.cwd(), '../exports/latest/orgs-summary.json'),
+        path.resolve(process.cwd(), 'src/data/latest/orgs-summary.json'),
     ];
-    for (const jsonPath of candidates) {
-        if (fs.existsSync(jsonPath)) {
-            const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-            repos = data.items || data;
-            break;
+    for (const summaryPath of summaryCandidates) {
+        if (fs.existsSync(summaryPath)) {
+            const parsed = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                precomputedOrgs = parsed.map((item: any) => ({
+                    ...item,
+                    primary_repo_href: item.primary_repo_slug
+                        ? prefixBase(item.primary_repo_slug)
+                        : '',
+                }));
+                break;
+            }
         }
     }
 } catch (e) {
-    console.error('Error loading repositories.json:', e);
+    console.error('Error loading orgs-summary.json:', e);
+}
+
+let repos: Repo[] = [];
+if (!precomputedOrgs) {
+    try {
+        const candidates = [
+            path.resolve(process.cwd(), '../exports/latest/repos/repositories.json'),
+            path.resolve(process.cwd(), 'src/data/latest/repos/repositories.json'),
+        ];
+        for (const jsonPath of candidates) {
+            if (fs.existsSync(jsonPath)) {
+                const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+                repos = data.items || data;
+                break;
+            }
+        }
+    } catch (e) {
+        console.error('Error loading repositories.json:', e);
+    }
 }
 
 const orgMap: Record<string, Repo[]> = {};
@@ -122,7 +151,7 @@ const gradeFromScore = (score: number): string => {
     return 'F';
 };
 
-const scores: OrgMaturityScore[] = Object.entries(orgMap).map(([org, orgRepos]) => {
+const scores: OrgMaturityScore[] = precomputedOrgs ?? Object.entries(orgMap).map(([org, orgRepos]) => {
     const total_repos = orgRepos.length;
     const repos_with_pipeline = orgRepos.filter((r) => r.HasPipeline).length;
     const repos_with_docker = orgRepos.filter((r) => r.HasDockerfile).length;

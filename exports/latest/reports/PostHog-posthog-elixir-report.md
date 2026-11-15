@@ -49,34 +49,43 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/posthog-elixir (92 components)"]):::atlasRoot
-    dir_0_test["test (42)"]:::atlasCategory
+    subgraph sg_dir_0_test["test (42)"]
+      direction TB
+      dir_0_test["test (42)"]:::atlasCategory
+      sub_0_0_posthog["posthog (33)"]:::atlasWorkflow
+      dir_0_test --> sub_0_0_posthog
+      sub_0_1_support["support (4)"]:::atlasWorkflow
+      dir_0_test --> sub_0_1_support
+      sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_0_test --> sub_0_2__module_root_
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_test --> sub_0_more
+    end
     repo_root --> dir_0_test
-    sub_0_0_posthog["posthog (33)"]:::atlasWorkflow
-    dir_0_test --> sub_0_0_posthog
-    sub_0_1_support["support (4)"]:::atlasWorkflow
-    dir_0_test --> sub_0_1_support
-    sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_0_test --> sub_0_2__module_root_
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_test --> sub_0_more
-    dir_1_lib["lib (34)"]:::atlasCategory
+    subgraph sg_dir_1_lib["lib (34)"]
+      direction TB
+      dir_1_lib["lib (34)"]:::atlasCategory
+      sub_1_0_posthog["posthog (31)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_posthog
+      sub_1_1_mix["mix (2)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1_mix
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_lib
-    sub_1_0_posthog["posthog (31)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_0_posthog
-    sub_1_1_mix["mix (2)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_1_mix
-    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_2__module_root_
-    dir_2_sdk_compliance_adapter["sdk_compliance_adapter (9)"]:::atlasCategory
+    subgraph sg_dir_2_sdk_compliance_adapter["sdk_compliance_adapter (9)"]
+      direction TB
+      dir_2_sdk_compliance_adapter["sdk_compliance_adapter (9)"]:::atlasCategory
+      sub_2_0_lib["lib (5)"]:::atlasWorkflow
+      dir_2_sdk_compliance_adapter --> sub_2_0_lib
+      sub_2_1_test["test (2)"]:::atlasWorkflow
+      dir_2_sdk_compliance_adapter --> sub_2_1_test
+      sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_sdk_compliance_adapter --> sub_2_2__module_root_
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_sdk_compliance_adapter --> sub_2_more
+    end
     repo_root --> dir_2_sdk_compliance_adapter
-    sub_2_0_lib["lib (5)"]:::atlasWorkflow
-    dir_2_sdk_compliance_adapter --> sub_2_0_lib
-    sub_2_1_test["test (2)"]:::atlasWorkflow
-    dir_2_sdk_compliance_adapter --> sub_2_1_test
-    sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_sdk_compliance_adapter --> sub_2_2__module_root_
-    sub_2_more["+1 more submodules (1)"]:::atlasMore
-    dir_2_sdk_compliance_adapter --> sub_2_more
     dir_3_config["config (4)"]:::atlasCategory
     repo_root --> dir_3_config
     dir_4__root_["(root) (3)"]:::atlasCategory

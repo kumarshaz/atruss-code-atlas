@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["goharbor/go-client (250 components)"]):::atlasRoot
-    dir_0_pkg_sdk["pkg/sdk (247)"]:::atlasCategory
+    subgraph sg_dir_0_pkg_sdk["pkg/sdk (247)"]
+      direction TB
+      dir_0_pkg_sdk["pkg/sdk (247)"]:::atlasCategory
+      sub_0_0_v2_0_client_preheat["v2.0/client/preheat (39)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_0_v2_0_client_preheat
+      sub_0_1_v2_0_client_project["v2.0/client/project (29)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_1_v2_0_client_project
+      sub_0_2_v2_0_client_artifact["v2.0/client/artifact (25)"]:::atlasWorkflow
+      dir_0_pkg_sdk --> sub_0_2_v2_0_client_artifact
+      sub_0_more["+19 more submodules (154)"]:::atlasMore
+      dir_0_pkg_sdk --> sub_0_more
+    end
     repo_root --> dir_0_pkg_sdk
-    sub_0_0_v2_0_client_preheat["v2.0/client/preheat (39)"]:::atlasWorkflow
-    dir_0_pkg_sdk --> sub_0_0_v2_0_client_preheat
-    sub_0_1_v2_0_client_project["v2.0/client/project (29)"]:::atlasWorkflow
-    dir_0_pkg_sdk --> sub_0_1_v2_0_client_project
-    sub_0_2_v2_0_client_artifact["v2.0/client/artifact (25)"]:::atlasWorkflow
-    dir_0_pkg_sdk --> sub_0_2_v2_0_client_artifact
-    sub_0_more["+19 more submodules (154)"]:::atlasMore
-    dir_0_pkg_sdk --> sub_0_more
     dir_1_pkg_harbor["pkg/harbor (3)"]:::atlasCategory
     repo_root --> dir_1_pkg_harbor
 ```

@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/duckgres (322 components)"]):::atlasRoot
-    dir_0_controlplane["controlplane (270)"]:::atlasCategory
+    subgraph sg_dir_0_controlplane["controlplane (270)"]
+      direction TB
+      dir_0_controlplane["controlplane (270)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (204)"]:::atlasWorkflow
+      dir_0_controlplane --> sub_0_0__module_root_
+      sub_0_1_admin["admin (66)"]:::atlasWorkflow
+      dir_0_controlplane --> sub_0_1_admin
+    end
     repo_root --> dir_0_controlplane
-    sub_0_0__module_root_["(module root) (204)"]:::atlasWorkflow
-    dir_0_controlplane --> sub_0_0__module_root_
-    sub_0_1_admin["admin (66)"]:::atlasWorkflow
-    dir_0_controlplane --> sub_0_1_admin
-    dir_1_cmd["cmd (31)"]:::atlasCategory
+    subgraph sg_dir_1_cmd["cmd (31)"]
+      direction TB
+      dir_1_cmd["cmd (31)"]:::atlasCategory
+      sub_1_0_cache_proxy["cache-proxy (27)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_0_cache_proxy
+      sub_1_1_duckgres_controlplane["duckgres-controlplane (1)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_1_duckgres_controlplane
+      sub_1_2_duckgres_perf_publisher["duckgres-perf-publisher (1)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_2_duckgres_perf_publisher
+      sub_1_more["+2 more submodules (2)"]:::atlasMore
+      dir_1_cmd --> sub_1_more
+    end
     repo_root --> dir_1_cmd
-    sub_1_0_cache_proxy["cache-proxy (27)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_0_cache_proxy
-    sub_1_1_duckgres_controlplane["duckgres-controlplane (1)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_1_duckgres_controlplane
-    sub_1_2_duckgres_perf_publisher["duckgres-perf-publisher (1)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_2_duckgres_perf_publisher
-    sub_1_more["+2 more submodules (2)"]:::atlasMore
-    dir_1_cmd --> sub_1_more
     dir_2_configresolve["configresolve (7)"]:::atlasCategory
     repo_root --> dir_2_configresolve
     dir_3__root_["(root) (6)"]:::atlasCategory

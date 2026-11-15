@@ -48,16 +48,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["RocketChat/rocketchat-compose (28 components)"]):::atlasRoot
-    dir_0_files["files (13)"]:::atlasCategory
+    subgraph sg_dir_0_files["files (13)"]
+      direction TB
+      dir_0_files["files (13)"]:::atlasCategory
+      sub_0_0_prometheus["prometheus (8)"]:::atlasWorkflow
+      dir_0_files --> sub_0_0_prometheus
+      sub_0_1_grafana["grafana (3)"]:::atlasWorkflow
+      dir_0_files --> sub_0_1_grafana
+      sub_0_2_loki["loki (1)"]:::atlasWorkflow
+      dir_0_files --> sub_0_2_loki
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_files --> sub_0_more
+    end
     repo_root --> dir_0_files
-    sub_0_0_prometheus["prometheus (8)"]:::atlasWorkflow
-    dir_0_files --> sub_0_0_prometheus
-    sub_0_1_grafana["grafana (3)"]:::atlasWorkflow
-    dir_0_files --> sub_0_1_grafana
-    sub_0_2_loki["loki (1)"]:::atlasWorkflow
-    dir_0_files --> sub_0_2_loki
-    sub_0_more["+1 more submodules (1)"]:::atlasMore
-    dir_0_files --> sub_0_more
     dir_1__root_["(root) (12)"]:::atlasCategory
     repo_root --> dir_1__root_
     dir_2_generated["generated (2)"]:::atlasCategory

@@ -150,8 +150,69 @@ const getScoreBadgeClass = (score: number) => {
     </table>
 </div>
 
+{sortedOrgs.length > 20 && (
+    <nav class="m3-pagination" id="org-table-pagination" aria-label="Organization leaderboard pagination">
+        <button type="button" class="m3-btn-outlined m3-page-btn" id="org-page-prev" disabled>
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            Previous
+        </button>
+        <span class="m3-page-status" id="org-page-status">
+            Page 1 of {Math.ceil(sortedOrgs.length / 20)} ({sortedOrgs.length} organizations)
+        </span>
+        <button type="button" class="m3-btn-outlined m3-page-btn" id="org-page-next">
+            Next
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+    </nav>
+)}
+
 <script>
     const initClickableLeaderboard = () => {
+        const PAGE_SIZE = 20;
+        const rows = Array.from(
+            document.querySelectorAll<HTMLTableRowElement>('.m3-leaderboard-table tbody tr')
+        );
+        const prevBtn = document.getElementById('org-page-prev') as HTMLButtonElement | null;
+        const nextBtn = document.getElementById('org-page-next') as HTMLButtonElement | null;
+        const statusEl = document.getElementById('org-page-status');
+        let currentPage = 1;
+        const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+
+        const renderPage = () => {
+            if (rows.length > PAGE_SIZE) {
+                const start = (currentPage - 1) * PAGE_SIZE;
+                const end = start + PAGE_SIZE;
+                rows.forEach((r, i) => {
+                    r.hidden = i < start || i >= end;
+                });
+                if (prevBtn) prevBtn.disabled = currentPage <= 1;
+                if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+                if (statusEl) {
+                    statusEl.textContent = `Page ${currentPage} of ${totalPages} (${rows.length} organizations)`;
+                }
+            }
+        };
+
+        if (prevBtn && !prevBtn.dataset.bound) {
+            prevBtn.dataset.bound = '1';
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage();
+                }
+            });
+        }
+        if (nextBtn && !nextBtn.dataset.bound) {
+            nextBtn.dataset.bound = '1';
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage();
+                }
+            });
+        }
+        renderPage();
+
         document.querySelectorAll<HTMLTableRowElement>('tr.m3-clickable-row[data-href]').forEach((row) => {
             if (row.dataset.bound === '1') return;
             row.dataset.bound = '1';
@@ -178,6 +239,27 @@ const getScoreBadgeClass = (score: number) => {
 </script>
 
 <style>
+    .m3-pagination {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0 1.5rem;
+    }
+
+    .m3-page-status {
+        font-family: var(--md-ref-typeface-mono);
+        font-size: 0.8125rem;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .m3-page-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
     .m3-leaderboard-wrap {
         margin: 1.5rem 0;
         overflow-x: auto;

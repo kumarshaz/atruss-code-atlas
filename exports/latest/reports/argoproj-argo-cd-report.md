@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-cd (280 components)"]):::atlasRoot
-    dir_0_applicationset["applicationset (159)"]:::atlasCategory
+    subgraph sg_dir_0_applicationset["applicationset (159)"]
+      direction TB
+      dir_0_applicationset["applicationset (159)"]:::atlasCategory
+      sub_0_0_services["services (59)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_0_services
+      sub_0_1_generators["generators (32)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_1_generators
+      sub_0_2_examples["examples (27)"]:::atlasWorkflow
+      dir_0_applicationset --> sub_0_2_examples
+      sub_0_more["+6 more submodules (41)"]:::atlasMore
+      dir_0_applicationset --> sub_0_more
+    end
     repo_root --> dir_0_applicationset
-    sub_0_0_services["services (59)"]:::atlasWorkflow
-    dir_0_applicationset --> sub_0_0_services
-    sub_0_1_generators["generators (32)"]:::atlasWorkflow
-    dir_0_applicationset --> sub_0_1_generators
-    sub_0_2_examples["examples (27)"]:::atlasWorkflow
-    dir_0_applicationset --> sub_0_2_examples
-    sub_0_more["+6 more submodules (41)"]:::atlasMore
-    dir_0_applicationset --> sub_0_more
-    dir_1_cmd["cmd (117)"]:::atlasCategory
+    subgraph sg_dir_1_cmd["cmd (117)"]
+      direction TB
+      dir_1_cmd["cmd (117)"]:::atlasCategory
+      sub_1_0_argocd["argocd (78)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_0_argocd
+      sub_1_1_util["util (13)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_1_util
+      sub_1_2_argocd_k8s_auth["argocd-k8s-auth (9)"]:::atlasWorkflow
+      dir_1_cmd --> sub_1_2_argocd_k8s_auth
+      sub_1_more["+10 more submodules (17)"]:::atlasMore
+      dir_1_cmd --> sub_1_more
+    end
     repo_root --> dir_1_cmd
-    sub_1_0_argocd["argocd (78)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_0_argocd
-    sub_1_1_util["util (13)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_1_util
-    sub_1_2_argocd_k8s_auth["argocd-k8s-auth (9)"]:::atlasWorkflow
-    dir_1_cmd --> sub_1_2_argocd_k8s_auth
-    sub_1_more["+10 more submodules (17)"]:::atlasMore
-    dir_1_cmd --> sub_1_more
     dir_2_cmpserver["cmpserver (3)"]:::atlasCategory
     repo_root --> dir_2_cmpserver
     dir_3_assets["assets (1)"]:::atlasCategory

@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/sdk-internal (257 components)"]):::atlasRoot
-    dir_0_crates["crates (148)"]:::atlasCategory
+    subgraph sg_dir_0_crates["crates (148)"]
+      direction TB
+      dir_0_crates["crates (148)"]:::atlasCategory
+      sub_0_0_bitwarden_api_api["bitwarden-api-api (132)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_bitwarden_api_api
+      sub_0_1_bitwarden_access_token_crypto["bitwarden-access-token-crypto (8)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_bitwarden_access_token_crypto
+      sub_0_2_bitwarden_access_token["bitwarden-access-token (6)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_bitwarden_access_token
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_bitwarden_api_api["bitwarden-api-api (132)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_0_bitwarden_api_api
-    sub_0_1_bitwarden_access_token_crypto["bitwarden-access-token-crypto (8)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_1_bitwarden_access_token_crypto
-    sub_0_2_bitwarden_access_token["bitwarden-access-token (6)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_2_bitwarden_access_token
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_crates --> sub_0_more
-    dir_1_bitwarden_license["bitwarden_license (104)"]:::atlasCategory
+    subgraph sg_dir_1_bitwarden_license["bitwarden_license (104)"]
+      direction TB
+      dir_1_bitwarden_license["bitwarden_license (104)"]:::atlasCategory
+      sub_1_0_bitwarden_access_connector["bitwarden-access-connector (40)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_0_bitwarden_access_connector
+      sub_1_1_bitwarden_pam["bitwarden-pam (34)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_1_bitwarden_pam
+      sub_1_2_bitwarden_sm["bitwarden-sm (21)"]:::atlasWorkflow
+      dir_1_bitwarden_license --> sub_1_2_bitwarden_sm
+      sub_1_more["+3 more submodules (9)"]:::atlasMore
+      dir_1_bitwarden_license --> sub_1_more
+    end
     repo_root --> dir_1_bitwarden_license
-    sub_1_0_bitwarden_access_connector["bitwarden-access-connector (40)"]:::atlasWorkflow
-    dir_1_bitwarden_license --> sub_1_0_bitwarden_access_connector
-    sub_1_1_bitwarden_pam["bitwarden-pam (34)"]:::atlasWorkflow
-    dir_1_bitwarden_license --> sub_1_1_bitwarden_pam
-    sub_1_2_bitwarden_sm["bitwarden-sm (21)"]:::atlasWorkflow
-    dir_1_bitwarden_license --> sub_1_2_bitwarden_sm
-    sub_1_more["+3 more submodules (9)"]:::atlasMore
-    dir_1_bitwarden_license --> sub_1_more
     dir_2_e2e["e2e (5)"]:::atlasCategory
     repo_root --> dir_2_e2e
 ```

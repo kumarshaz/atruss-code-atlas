@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["directus/rstore (34 components)"]):::atlasRoot
-    dir_0_packages["packages (33)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (33)"]
+      direction TB
+      dir_0_packages["packages (33)"]:::atlasCategory
+      sub_0_0_nuxt["nuxt (5)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_nuxt
+      sub_0_1_nuxt_drizzle["nuxt-drizzle (4)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_nuxt_drizzle
+      sub_0_2_nuxt_monospace["nuxt-monospace (3)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_nuxt_monospace
+      sub_0_more["+18 more submodules (21)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_nuxt["nuxt (5)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_nuxt
-    sub_0_1_nuxt_drizzle["nuxt-drizzle (4)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_nuxt_drizzle
-    sub_0_2_nuxt_monospace["nuxt-monospace (3)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_2_nuxt_monospace
-    sub_0_more["+18 more submodules (21)"]:::atlasMore
-    dir_0_packages --> sub_0_more
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```

@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["TryGhost/ActivityPub (66 components)"]):::atlasRoot
-    dir_0_src["src (63)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (63)"]
+      direction TB
+      dir_0_src["src (63)"]:::atlasCategory
+      sub_0_0_http["http (24)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_http
+      sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1__module_root_
+      sub_0_2_activitypub["activitypub (5)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_activitypub
+      sub_0_more["+13 more submodules (22)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_http["http (24)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_http
-    sub_0_1__module_root_["(module root) (12)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1__module_root_
-    sub_0_2_activitypub["activitypub (5)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_activitypub
-    sub_0_more["+13 more submodules (22)"]:::atlasMore
-    dir_0_src --> sub_0_more
     dir_1_jobs["jobs (2)"]:::atlasCategory
     repo_root --> dir_1_jobs
     dir_2__root_["(root) (1)"]:::atlasCategory

@@ -49,26 +49,35 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost (721 components)"]):::atlasRoot
-    dir_0_webapp["webapp (446)"]:::atlasCategory
+    subgraph sg_dir_0_webapp["webapp (446)"]
+      direction TB
+      dir_0_webapp["webapp (446)"]:::atlasCategory
+      sub_0_0_channels["channels (430)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_0_channels
+      sub_0_1_platform["platform (15)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_1_platform
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_webapp
-    sub_0_0_channels["channels (430)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_0_channels
-    sub_0_1_platform["platform (15)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_1_platform
-    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_2__module_root_
-    dir_1_server["server (250)"]:::atlasCategory
+    subgraph sg_dir_1_server["server (250)"]
+      direction TB
+      dir_1_server["server (250)"]:::atlasCategory
+      sub_1_0_channels_app["channels/app (131)"]:::atlasWorkflow
+      dir_1_server --> sub_1_0_channels_app
+      sub_1_1_channels_api4["channels/api4 (119)"]:::atlasWorkflow
+      dir_1_server --> sub_1_1_channels_api4
+    end
     repo_root --> dir_1_server
-    sub_1_0_channels_app["channels/app (131)"]:::atlasWorkflow
-    dir_1_server --> sub_1_0_channels_app
-    sub_1_1_channels_api4["channels/api4 (119)"]:::atlasWorkflow
-    dir_1_server --> sub_1_1_channels_api4
-    dir_2_e2e_tests["e2e-tests (20)"]:::atlasCategory
+    subgraph sg_dir_2_e2e_tests["e2e-tests (20)"]
+      direction TB
+      dir_2_e2e_tests["e2e-tests (20)"]:::atlasCategory
+      sub_2_0_cypress["cypress (18)"]:::atlasWorkflow
+      dir_2_e2e_tests --> sub_2_0_cypress
+      sub_2_1_playwright["playwright (2)"]:::atlasWorkflow
+      dir_2_e2e_tests --> sub_2_1_playwright
+    end
     repo_root --> dir_2_e2e_tests
-    sub_2_0_cypress["cypress (18)"]:::atlasWorkflow
-    dir_2_e2e_tests --> sub_2_0_cypress
-    sub_2_1_playwright["playwright (2)"]:::atlasWorkflow
-    dir_2_e2e_tests --> sub_2_1_playwright
     dir_3_tools["tools (3)"]:::atlasCategory
     repo_root --> dir_3_tools
     dir_4_api["api (2)"]:::atlasCategory

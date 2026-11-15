@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/context-mill (228 components)"]):::atlasRoot
-    dir_0_example_apps["example-apps (227)"]:::atlasCategory
+    subgraph sg_dir_0_example_apps["example-apps (227)"]
+      direction TB
+      dir_0_example_apps["example-apps (227)"]:::atlasCategory
+      sub_0_0_laravel["laravel (32)"]:::atlasWorkflow
+      dir_0_example_apps --> sub_0_0_laravel
+      sub_0_1_fastapi["fastapi (14)"]:::atlasWorkflow
+      dir_0_example_apps --> sub_0_1_fastapi
+      sub_0_2_elixir["elixir (11)"]:::atlasWorkflow
+      dir_0_example_apps --> sub_0_2_elixir
+      sub_0_more["+36 more submodules (170)"]:::atlasMore
+      dir_0_example_apps --> sub_0_more
+    end
     repo_root --> dir_0_example_apps
-    sub_0_0_laravel["laravel (32)"]:::atlasWorkflow
-    dir_0_example_apps --> sub_0_0_laravel
-    sub_0_1_fastapi["fastapi (14)"]:::atlasWorkflow
-    dir_0_example_apps --> sub_0_1_fastapi
-    sub_0_2_elixir["elixir (11)"]:::atlasWorkflow
-    dir_0_example_apps --> sub_0_2_elixir
-    sub_0_more["+36 more submodules (170)"]:::atlasMore
-    dir_0_example_apps --> sub_0_more
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
     sub_0_1_fastapi -.->|"15 deps"| sub_0_0_laravel

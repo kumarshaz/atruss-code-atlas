@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/grafana-plugin-sdk-rust (33 components)"]):::atlasRoot
-    dir_0_crates_grafana_plugin_sdk["crates/grafana-plugin-sdk (23)"]:::atlasCategory
+    subgraph sg_dir_0_crates_grafana_plugin_sdk["crates/grafana-plugin-sdk (23)"]
+      direction TB
+      dir_0_crates_grafana_plugin_sdk["crates/grafana-plugin-sdk (23)"]:::atlasCategory
+      sub_0_0_src["src (21)"]:::atlasWorkflow
+      dir_0_crates_grafana_plugin_sdk --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_crates_grafana_plugin_sdk --> sub_0_1__module_root_
+      sub_0_2_examples["examples (1)"]:::atlasWorkflow
+      dir_0_crates_grafana_plugin_sdk --> sub_0_2_examples
+    end
     repo_root --> dir_0_crates_grafana_plugin_sdk
-    sub_0_0_src["src (21)"]:::atlasWorkflow
-    dir_0_crates_grafana_plugin_sdk --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_crates_grafana_plugin_sdk --> sub_0_1__module_root_
-    sub_0_2_examples["examples (1)"]:::atlasWorkflow
-    dir_0_crates_grafana_plugin_sdk --> sub_0_2_examples
-    dir_1_crates_grafana_plugin_sdk_macros["crates/grafana-plugin-sdk-macros (10)"]:::atlasCategory
+    subgraph sg_dir_1_crates_grafana_plugin_sdk_macros["crates/grafana-plugin-sdk-macros (10)"]
+      direction TB
+      dir_1_crates_grafana_plugin_sdk_macros["crates/grafana-plugin-sdk-macros (10)"]:::atlasCategory
+      sub_1_0_tests["tests (9)"]:::atlasWorkflow
+      dir_1_crates_grafana_plugin_sdk_macros --> sub_1_0_tests
+      sub_1_1_src["src (1)"]:::atlasWorkflow
+      dir_1_crates_grafana_plugin_sdk_macros --> sub_1_1_src
+    end
     repo_root --> dir_1_crates_grafana_plugin_sdk_macros
-    sub_1_0_tests["tests (9)"]:::atlasWorkflow
-    dir_1_crates_grafana_plugin_sdk_macros --> sub_1_0_tests
-    sub_1_1_src["src (1)"]:::atlasWorkflow
-    dir_1_crates_grafana_plugin_sdk_macros --> sub_1_1_src
 ```
 
 ## Component Details

@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["drone-runners/drone-runner-docker (52 components)"]):::atlasRoot
-    dir_0_engine["engine (31)"]:::atlasCategory
+    subgraph sg_dir_0_engine["engine (31)"]
+      direction TB
+      dir_0_engine["engine (31)"]:::atlasCategory
+      sub_0_0_compiler["compiler (15)"]:::atlasWorkflow
+      dir_0_engine --> sub_0_0_compiler
+      sub_0_1__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_0_engine --> sub_0_1__module_root_
+      sub_0_2_resource["resource (7)"]:::atlasWorkflow
+      dir_0_engine --> sub_0_2_resource
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_engine --> sub_0_more
+    end
     repo_root --> dir_0_engine
-    sub_0_0_compiler["compiler (15)"]:::atlasWorkflow
-    dir_0_engine --> sub_0_0_compiler
-    sub_0_1__module_root_["(module root) (7)"]:::atlasWorkflow
-    dir_0_engine --> sub_0_1__module_root_
-    sub_0_2_resource["resource (7)"]:::atlasWorkflow
-    dir_0_engine --> sub_0_2_resource
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_engine --> sub_0_more
-    dir_1_internal["internal (12)"]:::atlasCategory
+    subgraph sg_dir_1_internal["internal (12)"]
+      direction TB
+      dir_1_internal["internal (12)"]:::atlasCategory
+      sub_1_0_docker["docker (7)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_0_docker
+      sub_1_1_encoder["encoder (2)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_1_encoder
+      sub_1_2_match["match (2)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_2_match
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_internal --> sub_1_more
+    end
     repo_root --> dir_1_internal
-    sub_1_0_docker["docker (7)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_0_docker
-    sub_1_1_encoder["encoder (2)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_1_encoder
-    sub_1_2_match["match (2)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_2_match
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_internal --> sub_1_more
     dir_2_command["command (8)"]:::atlasCategory
     repo_root --> dir_2_command
     dir_3__root_["(root) (1)"]:::atlasCategory

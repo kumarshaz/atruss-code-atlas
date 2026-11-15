@@ -49,50 +49,65 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["TryGhost/Ghost (2000 components)"]):::atlasRoot
-    dir_0_apps["apps (1068)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (1068)"]
+      direction TB
+      dir_0_apps["apps (1068)"]:::atlasCategory
+      sub_0_0_shade["shade (557)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_shade
+      sub_0_1_admin["admin (378)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_admin
+      sub_0_2_portal["portal (40)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_2_portal
+      sub_0_more["+7 more submodules (93)"]:::atlasMore
+      dir_0_apps --> sub_0_more
+    end
     repo_root --> dir_0_apps
-    sub_0_0_shade["shade (557)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_shade
-    sub_0_1_admin["admin (378)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_admin
-    sub_0_2_portal["portal (40)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_2_portal
-    sub_0_more["+7 more submodules (93)"]:::atlasMore
-    dir_0_apps --> sub_0_more
-    dir_1_ghost["ghost (457)"]:::atlasCategory
+    subgraph sg_dir_1_ghost["ghost (457)"]
+      direction TB
+      dir_1_ghost["ghost (457)"]:::atlasCategory
+      sub_1_0_core["core (430)"]:::atlasWorkflow
+      dir_1_ghost --> sub_1_0_core
+      sub_1_1_test["test (26)"]:::atlasWorkflow
+      dir_1_ghost --> sub_1_1_test
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_ghost --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_ghost
-    sub_1_0_core["core (430)"]:::atlasWorkflow
-    dir_1_ghost --> sub_1_0_core
-    sub_1_1_test["test (26)"]:::atlasWorkflow
-    dir_1_ghost --> sub_1_1_test
-    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_ghost --> sub_1_2__module_root_
-    dir_2_koenig["koenig (407)"]:::atlasCategory
+    subgraph sg_dir_2_koenig["koenig (407)"]
+      direction TB
+      dir_2_koenig["koenig (407)"]:::atlasCategory
+      sub_2_0_koenig_lexical["koenig-lexical (391)"]:::atlasWorkflow
+      dir_2_koenig --> sub_2_0_koenig_lexical
+      sub_2_1_kg_unsplash_selector["kg-unsplash-selector (5)"]:::atlasWorkflow
+      dir_2_koenig --> sub_2_1_kg_unsplash_selector
+      sub_2_2_kg_card_factory["kg-card-factory (1)"]:::atlasWorkflow
+      dir_2_koenig --> sub_2_2_kg_card_factory
+      sub_2_more["+10 more submodules (10)"]:::atlasMore
+      dir_2_koenig --> sub_2_more
+    end
     repo_root --> dir_2_koenig
-    sub_2_0_koenig_lexical["koenig-lexical (391)"]:::atlasWorkflow
-    dir_2_koenig --> sub_2_0_koenig_lexical
-    sub_2_1_kg_unsplash_selector["kg-unsplash-selector (5)"]:::atlasWorkflow
-    dir_2_koenig --> sub_2_1_kg_unsplash_selector
-    sub_2_2_kg_card_factory["kg-card-factory (1)"]:::atlasWorkflow
-    dir_2_koenig --> sub_2_2_kg_card_factory
-    sub_2_more["+10 more submodules (10)"]:::atlasMore
-    dir_2_koenig --> sub_2_more
-    dir_3_e2e["e2e (30)"]:::atlasCategory
+    subgraph sg_dir_3_e2e["e2e (30)"]
+      direction TB
+      dir_3_e2e["e2e (30)"]:::atlasCategory
+      sub_3_0_helpers["helpers (29)"]:::atlasWorkflow
+      dir_3_e2e --> sub_3_0_helpers
+      sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_3_e2e --> sub_3_1__module_root_
+    end
     repo_root --> dir_3_e2e
-    sub_3_0_helpers["helpers (29)"]:::atlasWorkflow
-    dir_3_e2e --> sub_3_0_helpers
-    sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_3_e2e --> sub_3_1__module_root_
-    dir_4_packages["packages (24)"]:::atlasCategory
+    subgraph sg_dir_4_packages["packages (24)"]
+      direction TB
+      dir_4_packages["packages (24)"]:::atlasCategory
+      sub_4_0_adapters["adapters (11)"]:::atlasWorkflow
+      dir_4_packages --> sub_4_0_adapters
+      sub_4_1_limit_service["limit-service (2)"]:::atlasWorkflow
+      dir_4_packages --> sub_4_1_limit_service
+      sub_4_2__template["_template (1)"]:::atlasWorkflow
+      dir_4_packages --> sub_4_2__template
+      sub_4_more["+10 more submodules (10)"]:::atlasMore
+      dir_4_packages --> sub_4_more
+    end
     repo_root --> dir_4_packages
-    sub_4_0_adapters["adapters (11)"]:::atlasWorkflow
-    dir_4_packages --> sub_4_0_adapters
-    sub_4_1_limit_service["limit-service (2)"]:::atlasWorkflow
-    dir_4_packages --> sub_4_1_limit_service
-    sub_4_2__template["_template (1)"]:::atlasWorkflow
-    dir_4_packages --> sub_4_2__template
-    sub_4_more["+10 more submodules (10)"]:::atlasMore
-    dir_4_packages --> sub_4_more
     dir_other_modules["+5 more modules (14)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_0_0_shade -.->|"1488 deps"| sub_0_1_admin

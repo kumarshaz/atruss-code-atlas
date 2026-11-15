@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["home-assistant/supervisor (27 components)"]):::atlasRoot
-    dir_0_supervisor["supervisor (17)"]:::atlasCategory
+    subgraph sg_dir_0_supervisor["supervisor (17)"]
+      direction TB
+      dir_0_supervisor["supervisor (17)"]:::atlasCategory
+      sub_0_0_host["host (3)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_0_host
+      sub_0_1_services["services (3)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_1_services
+      sub_0_2_dbus["dbus (2)"]:::atlasWorkflow
+      dir_0_supervisor --> sub_0_2_dbus
+      sub_0_more["+8 more submodules (9)"]:::atlasMore
+      dir_0_supervisor --> sub_0_more
+    end
     repo_root --> dir_0_supervisor
-    sub_0_0_host["host (3)"]:::atlasWorkflow
-    dir_0_supervisor --> sub_0_0_host
-    sub_0_1_services["services (3)"]:::atlasWorkflow
-    dir_0_supervisor --> sub_0_1_services
-    sub_0_2_dbus["dbus (2)"]:::atlasWorkflow
-    dir_0_supervisor --> sub_0_2_dbus
-    sub_0_more["+8 more submodules (9)"]:::atlasMore
-    dir_0_supervisor --> sub_0_more
-    dir_1_tests["tests (10)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (10)"]
+      direction TB
+      dir_1_tests["tests (10)"]:::atlasCategory
+      sub_1_0_fixtures["fixtures (6)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_fixtures
+      sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_dbus_service_mocks
+      sub_1_2_dbus["dbus (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_dbus
+    end
     repo_root --> dir_1_tests
-    sub_1_0_fixtures["fixtures (6)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_fixtures
-    sub_1_1_dbus_service_mocks["dbus_service_mocks (3)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_dbus_service_mocks
-    sub_1_2_dbus["dbus (1)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_dbus
     sub_0_0_host -.->|"1 dep"| sub_0_1_services
     sub_0_2_dbus -.->|"1 dep"| sub_0_0_host
     sub_0_2_dbus -.->|"1 dep"| sub_1_1_dbus_service_mocks

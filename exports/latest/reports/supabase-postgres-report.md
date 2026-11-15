@@ -49,18 +49,24 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/postgres (54 components)"]):::atlasRoot
-    dir_0_nix_packages_supascan["nix/packages/supascan (38)"]:::atlasCategory
+    subgraph sg_dir_0_nix_packages_supascan["nix/packages/supascan (38)"]
+      direction TB
+      dir_0_nix_packages_supascan["nix/packages/supascan (38)"]:::atlasCategory
+      sub_0_0_internal["internal (32)"]:::atlasWorkflow
+      dir_0_nix_packages_supascan --> sub_0_0_internal
+      sub_0_1_cmd["cmd (6)"]:::atlasWorkflow
+      dir_0_nix_packages_supascan --> sub_0_1_cmd
+    end
     repo_root --> dir_0_nix_packages_supascan
-    sub_0_0_internal["internal (32)"]:::atlasWorkflow
-    dir_0_nix_packages_supascan --> sub_0_0_internal
-    sub_0_1_cmd["cmd (6)"]:::atlasWorkflow
-    dir_0_nix_packages_supascan --> sub_0_1_cmd
-    dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]:::atlasCategory
+    subgraph sg_dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]
+      direction TB
+      dir_1_nix_packages_pg_startup_profiler["nix/packages/pg-startup-profiler (16)"]:::atlasCategory
+      sub_1_0_internal["internal (14)"]:::atlasWorkflow
+      dir_1_nix_packages_pg_startup_profiler --> sub_1_0_internal
+      sub_1_1_cmd["cmd (2)"]:::atlasWorkflow
+      dir_1_nix_packages_pg_startup_profiler --> sub_1_1_cmd
+    end
     repo_root --> dir_1_nix_packages_pg_startup_profiler
-    sub_1_0_internal["internal (14)"]:::atlasWorkflow
-    dir_1_nix_packages_pg_startup_profiler --> sub_1_0_internal
-    sub_1_1_cmd["cmd (2)"]:::atlasWorkflow
-    dir_1_nix_packages_pg_startup_profiler --> sub_1_1_cmd
 ```
 
 ## Component Details

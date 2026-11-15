@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["n8n-io/task-runner-launcher (30 components)"]):::atlasRoot
-    dir_0_internal["internal (29)"]:::atlasCategory
+    subgraph sg_dir_0_internal["internal (29)"]
+      direction TB
+      dir_0_internal["internal (29)"]:::atlasCategory
+      sub_0_0_http["http (8)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_http
+      sub_0_1_config["config (6)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_config
+      sub_0_2_logs["logs (4)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_2_logs
+      sub_0_more["+6 more submodules (11)"]:::atlasMore
+      dir_0_internal --> sub_0_more
+    end
     repo_root --> dir_0_internal
-    sub_0_0_http["http (8)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_0_http
-    sub_0_1_config["config (6)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_1_config
-    sub_0_2_logs["logs (4)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_2_logs
-    sub_0_more["+6 more submodules (11)"]:::atlasMore
-    dir_0_internal --> sub_0_more
     dir_1_cmd["cmd (1)"]:::atlasCategory
     repo_root --> dir_1_cmd
 ```

@@ -49,42 +49,57 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["apache/fluss (437 components)"]):::atlasRoot
-    dir_0_fluss_rust["fluss-rust (290)"]:::atlasCategory
+    subgraph sg_dir_0_fluss_rust["fluss-rust (290)"]
+      direction TB
+      dir_0_fluss_rust["fluss-rust (290)"]:::atlasCategory
+      sub_0_0_crates["crates (218)"]:::atlasWorkflow
+      dir_0_fluss_rust --> sub_0_0_crates
+      sub_0_1_bindings["bindings (71)"]:::atlasWorkflow
+      dir_0_fluss_rust --> sub_0_1_bindings
+      sub_0_2_website["website (1)"]:::atlasWorkflow
+      dir_0_fluss_rust --> sub_0_2_website
+    end
     repo_root --> dir_0_fluss_rust
-    sub_0_0_crates["crates (218)"]:::atlasWorkflow
-    dir_0_fluss_rust --> sub_0_0_crates
-    sub_0_1_bindings["bindings (71)"]:::atlasWorkflow
-    dir_0_fluss_rust --> sub_0_1_bindings
-    sub_0_2_website["website (1)"]:::atlasWorkflow
-    dir_0_fluss_rust --> sub_0_2_website
-    dir_1_fluss_gateway["fluss-gateway (30)"]:::atlasCategory
+    subgraph sg_dir_1_fluss_gateway["fluss-gateway (30)"]
+      direction TB
+      dir_1_fluss_gateway["fluss-gateway (30)"]:::atlasCategory
+      sub_1_0_src["src (26)"]:::atlasWorkflow
+      dir_1_fluss_gateway --> sub_1_0_src
+      sub_1_1_tests["tests (4)"]:::atlasWorkflow
+      dir_1_fluss_gateway --> sub_1_1_tests
+    end
     repo_root --> dir_1_fluss_gateway
-    sub_1_0_src["src (26)"]:::atlasWorkflow
-    dir_1_fluss_gateway --> sub_1_0_src
-    sub_1_1_tests["tests (4)"]:::atlasWorkflow
-    dir_1_fluss_gateway --> sub_1_1_tests
-    dir_2_helm["helm (30)"]:::atlasCategory
+    subgraph sg_dir_2_helm["helm (30)"]
+      direction TB
+      dir_2_helm["helm (30)"]:::atlasCategory
+      sub_2_0_tests["tests (17)"]:::atlasWorkflow
+      dir_2_helm --> sub_2_0_tests
+      sub_2_1_templates["templates (11)"]:::atlasWorkflow
+      dir_2_helm --> sub_2_1_templates
+      sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_2_helm --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_helm
-    sub_2_0_tests["tests (17)"]:::atlasWorkflow
-    dir_2_helm --> sub_2_0_tests
-    sub_2_1_templates["templates (11)"]:::atlasWorkflow
-    dir_2_helm --> sub_2_1_templates
-    sub_2_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_2_helm --> sub_2_2__module_root_
-    dir_3_website["website (24)"]:::atlasCategory
+    subgraph sg_dir_3_website["website (24)"]
+      direction TB
+      dir_3_website["website (24)"]:::atlasCategory
+      sub_3_0_src["src (23)"]:::atlasWorkflow
+      dir_3_website --> sub_3_0_src
+      sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_3_website --> sub_3_1__module_root_
+    end
     repo_root --> dir_3_website
-    sub_3_0_src["src (23)"]:::atlasWorkflow
-    dir_3_website --> sub_3_0_src
-    sub_3_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_3_website --> sub_3_1__module_root_
-    dir_4_devkit["devkit (11)"]:::atlasCategory
+    subgraph sg_dir_4_devkit["devkit (11)"]
+      direction TB
+      dir_4_devkit["devkit (11)"]:::atlasCategory
+      sub_4_0_compose["compose (5)"]:::atlasWorkflow
+      dir_4_devkit --> sub_4_0_compose
+      sub_4_1_profiles["profiles (5)"]:::atlasWorkflow
+      dir_4_devkit --> sub_4_1_profiles
+      sub_4_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_4_devkit --> sub_4_2__module_root_
+    end
     repo_root --> dir_4_devkit
-    sub_4_0_compose["compose (5)"]:::atlasWorkflow
-    dir_4_devkit --> sub_4_0_compose
-    sub_4_1_profiles["profiles (5)"]:::atlasWorkflow
-    dir_4_devkit --> sub_4_1_profiles
-    sub_4_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_4_devkit --> sub_4_2__module_root_
     dir_other_modules["+19 more modules (52)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

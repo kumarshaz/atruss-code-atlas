@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/key-connector (31 components)"]):::atlasRoot
-    dir_0_src["src (29)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (29)"]
+      direction TB
+      dir_0_src["src (29)"]:::atlasCategory
+      sub_0_0_KeyConnector_Services["KeyConnector/Services (13)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_KeyConnector_Services
+      sub_0_1_KeyConnector_Repositories["KeyConnector/Repositories (11)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_KeyConnector_Repositories
+      sub_0_2_KeyConnector_Controllers["KeyConnector/Controllers (2)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_KeyConnector_Controllers
+      sub_0_more["+2 more submodules (3)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_KeyConnector_Services["KeyConnector/Services (13)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_KeyConnector_Services
-    sub_0_1_KeyConnector_Repositories["KeyConnector/Repositories (11)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_KeyConnector_Repositories
-    sub_0_2_KeyConnector_Controllers["KeyConnector/Controllers (2)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_KeyConnector_Controllers
-    sub_0_more["+2 more submodules (3)"]:::atlasMore
-    dir_0_src --> sub_0_more
     dir_1_test["test (2)"]:::atlasCategory
     repo_root --> dir_1_test
     sub_0_more -.->|"2 deps"| sub_0_1_KeyConnector_Repositories

@@ -49,50 +49,65 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-workflows (294 components)"]):::atlasRoot
-    dir_0_cmd["cmd (130)"]:::atlasCategory
+    subgraph sg_dir_0_cmd["cmd (130)"]
+      direction TB
+      dir_0_cmd["cmd (130)"]:::atlasCategory
+      sub_0_0_argo["argo (100)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_argo
+      sub_0_1_argoexec["argoexec (29)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_argoexec
+      sub_0_2_workflow_controller["workflow-controller (1)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_workflow_controller
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_argo["argo (100)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_0_argo
-    sub_0_1_argoexec["argoexec (29)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_1_argoexec
-    sub_0_2_workflow_controller["workflow-controller (1)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_2_workflow_controller
-    dir_1_pkg["pkg (56)"]:::atlasCategory
+    subgraph sg_dir_1_pkg["pkg (56)"]
+      direction TB
+      dir_1_pkg["pkg (56)"]:::atlasCategory
+      sub_1_0_apiclient["apiclient (26)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_0_apiclient
+      sub_1_1_apiclient_http1["apiclient/http1 (13)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_1_apiclient_http1
+      sub_1_2_apiclient_eventsource["apiclient/eventsource (3)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_2_apiclient_eventsource
+      sub_1_more["+7 more submodules (14)"]:::atlasMore
+      dir_1_pkg --> sub_1_more
+    end
     repo_root --> dir_1_pkg
-    sub_1_0_apiclient["apiclient (26)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_0_apiclient
-    sub_1_1_apiclient_http1["apiclient/http1 (13)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_1_apiclient_http1
-    sub_1_2_apiclient_eventsource["apiclient/eventsource (3)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_2_apiclient_eventsource
-    sub_1_more["+7 more submodules (14)"]:::atlasMore
-    dir_1_pkg --> sub_1_more
-    dir_2_manifests["manifests (42)"]:::atlasCategory
+    subgraph sg_dir_2_manifests["manifests (42)"]
+      direction TB
+      dir_2_manifests["manifests (42)"]:::atlasCategory
+      sub_2_0_base["base (27)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_0_base
+      sub_2_1_cluster_install_no_crds["cluster-install-no-crds (10)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_1_cluster_install_no_crds
+      sub_2_2_components["components (4)"]:::atlasWorkflow
+      dir_2_manifests --> sub_2_2_components
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_manifests --> sub_2_more
+    end
     repo_root --> dir_2_manifests
-    sub_2_0_base["base (27)"]:::atlasWorkflow
-    dir_2_manifests --> sub_2_0_base
-    sub_2_1_cluster_install_no_crds["cluster-install-no-crds (10)"]:::atlasWorkflow
-    dir_2_manifests --> sub_2_1_cluster_install_no_crds
-    sub_2_2_components["components (4)"]:::atlasWorkflow
-    dir_2_manifests --> sub_2_2_components
-    sub_2_more["+1 more submodules (1)"]:::atlasMore
-    dir_2_manifests --> sub_2_more
-    dir_3_hack["hack (27)"]:::atlasCategory
+    subgraph sg_dir_3_hack["hack (27)"]
+      direction TB
+      dir_3_hack["hack (27)"]:::atlasCategory
+      sub_3_0_docs["docs (7)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_0_docs
+      sub_3_1_api["api (6)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_1_api
+      sub_3_2_featuregen["featuregen (5)"]:::atlasWorkflow
+      dir_3_hack --> sub_3_2_featuregen
+      sub_3_more["+4 more submodules (9)"]:::atlasMore
+      dir_3_hack --> sub_3_more
+    end
     repo_root --> dir_3_hack
-    sub_3_0_docs["docs (7)"]:::atlasWorkflow
-    dir_3_hack --> sub_3_0_docs
-    sub_3_1_api["api (6)"]:::atlasWorkflow
-    dir_3_hack --> sub_3_1_api
-    sub_3_2_featuregen["featuregen (5)"]:::atlasWorkflow
-    dir_3_hack --> sub_3_2_featuregen
-    sub_3_more["+4 more submodules (9)"]:::atlasMore
-    dir_3_hack --> sub_3_more
-    dir_4_persist["persist (16)"]:::atlasCategory
+    subgraph sg_dir_4_persist["persist (16)"]
+      direction TB
+      dir_4_persist["persist (16)"]:::atlasCategory
+      sub_4_0_sqldb["sqldb (14)"]:::atlasWorkflow
+      dir_4_persist --> sub_4_0_sqldb
+      sub_4_1_sqldb_mocks["sqldb/mocks (2)"]:::atlasWorkflow
+      dir_4_persist --> sub_4_1_sqldb_mocks
+    end
     repo_root --> dir_4_persist
-    sub_4_0_sqldb["sqldb (14)"]:::atlasWorkflow
-    dir_4_persist --> sub_4_0_sqldb
-    sub_4_1_sqldb_mocks["sqldb/mocks (2)"]:::atlasWorkflow
-    dir_4_persist --> sub_4_1_sqldb_mocks
     dir_other_modules["+7 more modules (23)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

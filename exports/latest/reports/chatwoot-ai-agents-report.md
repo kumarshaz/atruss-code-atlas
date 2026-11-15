@@ -48,28 +48,37 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["chatwoot/ai-agents (79 components)"]):::atlasRoot
-    dir_0_spec["spec (37)"]:::atlasCategory
+    subgraph sg_dir_0_spec["spec (37)"]
+      direction TB
+      dir_0_spec["spec (37)"]:::atlasCategory
+      sub_0_0_agents["agents (17)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_0_agents
+      sub_0_1_integration["integration (15)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_1_integration
+      sub_0_2_support["support (3)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_2_support
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_spec --> sub_0_more
+    end
     repo_root --> dir_0_spec
-    sub_0_0_agents["agents (17)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_0_agents
-    sub_0_1_integration["integration (15)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_1_integration
-    sub_0_2_support["support (3)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_2_support
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_spec --> sub_0_more
-    dir_1_examples["examples (22)"]:::atlasCategory
+    subgraph sg_dir_1_examples["examples (22)"]
+      direction TB
+      dir_1_examples["examples (22)"]:::atlasCategory
+      sub_1_0_collaborative_copilot["collaborative-copilot (15)"]:::atlasWorkflow
+      dir_1_examples --> sub_1_0_collaborative_copilot
+      sub_1_1_isp_support["isp-support (7)"]:::atlasWorkflow
+      dir_1_examples --> sub_1_1_isp_support
+    end
     repo_root --> dir_1_examples
-    sub_1_0_collaborative_copilot["collaborative-copilot (15)"]:::atlasWorkflow
-    dir_1_examples --> sub_1_0_collaborative_copilot
-    sub_1_1_isp_support["isp-support (7)"]:::atlasWorkflow
-    dir_1_examples --> sub_1_1_isp_support
-    dir_2_lib["lib (20)"]:::atlasCategory
+    subgraph sg_dir_2_lib["lib (20)"]
+      direction TB
+      dir_2_lib["lib (20)"]:::atlasCategory
+      sub_2_0_agents["agents (19)"]:::atlasWorkflow
+      dir_2_lib --> sub_2_0_agents
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_lib --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_lib
-    sub_2_0_agents["agents (19)"]:::atlasWorkflow
-    dir_2_lib --> sub_2_0_agents
-    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_lib --> sub_2_1__module_root_
 ```
 
 ## Component Details

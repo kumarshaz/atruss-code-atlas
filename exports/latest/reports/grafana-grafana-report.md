@@ -49,18 +49,24 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/grafana (261 components)"]):::atlasRoot
-    dir_0_apps["apps (249)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (249)"]
+      direction TB
+      dir_0_apps["apps (249)"]:::atlasCategory
+      sub_0_0_alerting["alerting (180)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_alerting
+      sub_0_1_advisor["advisor (69)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_advisor
+    end
     repo_root --> dir_0_apps
-    sub_0_0_alerting["alerting (180)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_alerting
-    sub_0_1_advisor["advisor (69)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_advisor
-    dir_1_devenv["devenv (10)"]:::atlasCategory
+    subgraph sg_dir_1_devenv["devenv (10)"]
+      direction TB
+      dir_1_devenv["devenv (10)"]:::atlasCategory
+      sub_1_0_docker_blocks_auth["docker/blocks/auth (9)"]:::atlasWorkflow
+      dir_1_devenv --> sub_1_0_docker_blocks_auth
+      sub_1_1_docker_blocks_alert_webhook_listener["docker/blocks/alert_webhook_listener (1)"]:::atlasWorkflow
+      dir_1_devenv --> sub_1_1_docker_blocks_alert_webhook_listener
+    end
     repo_root --> dir_1_devenv
-    sub_1_0_docker_blocks_auth["docker/blocks/auth (9)"]:::atlasWorkflow
-    dir_1_devenv --> sub_1_0_docker_blocks_auth
-    sub_1_1_docker_blocks_alert_webhook_listener["docker/blocks/alert_webhook_listener (1)"]:::atlasWorkflow
-    dir_1_devenv --> sub_1_1_docker_blocks_alert_webhook_listener
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3__github[".github (1)"]:::atlasCategory

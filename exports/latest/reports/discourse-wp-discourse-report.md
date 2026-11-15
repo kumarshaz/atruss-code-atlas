@@ -49,38 +49,50 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["discourse/wp-discourse (95 components)"]):::atlasRoot
-    dir_0_lib["lib (27)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (27)"]
+      direction TB
+      dir_0_lib["lib (27)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (13)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0__module_root_
+      sub_0_1_logs["logs (5)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_logs
+      sub_0_2_sso_client["sso-client (4)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_sso_client
+      sub_0_more["+3 more submodules (5)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0__module_root_["(module root) (13)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0__module_root_
-    sub_0_1_logs["logs (5)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_logs
-    sub_0_2_sso_client["sso-client (4)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_sso_client
-    sub_0_more["+3 more submodules (5)"]:::atlasMore
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (21)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (21)"]
+      direction TB
+      dir_1_tests["tests (21)"]:::atlasCategory
+      sub_1_0_phpunit["phpunit (16)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_phpunit
+      sub_1_1_phpunit_helpers["phpunit/helpers (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_phpunit_helpers
+      sub_1_2_phpunit_multisite["phpunit/multisite (2)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_phpunit_multisite
+    end
     repo_root --> dir_1_tests
-    sub_1_0_phpunit["phpunit (16)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_phpunit
-    sub_1_1_phpunit_helpers["phpunit/helpers (3)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_phpunit_helpers
-    sub_1_2_phpunit_multisite["phpunit/multisite (2)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_phpunit_multisite
-    dir_2_vendor_namespaced["vendor_namespaced (20)"]:::atlasCategory
+    subgraph sg_dir_2_vendor_namespaced["vendor_namespaced (20)"]
+      direction TB
+      dir_2_vendor_namespaced["vendor_namespaced (20)"]:::atlasCategory
+      sub_2_0_monolog["monolog (11)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_0_monolog
+      sub_2_1_psr["psr (8)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_1_psr
+      sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_vendor_namespaced --> sub_2_2__module_root_
+    end
     repo_root --> dir_2_vendor_namespaced
-    sub_2_0_monolog["monolog (11)"]:::atlasWorkflow
-    dir_2_vendor_namespaced --> sub_2_0_monolog
-    sub_2_1_psr["psr (8)"]:::atlasWorkflow
-    dir_2_vendor_namespaced --> sub_2_1_psr
-    sub_2_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_vendor_namespaced --> sub_2_2__module_root_
-    dir_3_admin["admin (18)"]:::atlasCategory
+    subgraph sg_dir_3_admin["admin (18)"]
+      direction TB
+      dir_3_admin["admin (18)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
+      dir_3_admin --> sub_3_0__module_root_
+      sub_3_1_discourse_sidebar["discourse-sidebar (2)"]:::atlasWorkflow
+      dir_3_admin --> sub_3_1_discourse_sidebar
+    end
     repo_root --> dir_3_admin
-    sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
-    dir_3_admin --> sub_3_0__module_root_
-    sub_3_1_discourse_sidebar["discourse-sidebar (2)"]:::atlasWorkflow
-    dir_3_admin --> sub_3_1_discourse_sidebar
     dir_4__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_4__root_
     dir_other_modules["+2 more modules (6)"]:::atlasMore

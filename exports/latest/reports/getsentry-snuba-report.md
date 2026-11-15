@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/snuba (180 components)"]):::atlasRoot
-    dir_0_snuba["snuba (99)"]:::atlasCategory
+    subgraph sg_dir_0_snuba["snuba (99)"]
+      direction TB
+      dir_0_snuba["snuba (99)"]:::atlasCategory
+      sub_0_0_admin["admin (49)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_0_admin
+      sub_0_1_cli["cli (36)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_1_cli
+      sub_0_2_web["web (14)"]:::atlasWorkflow
+      dir_0_snuba --> sub_0_2_web
+    end
     repo_root --> dir_0_snuba
-    sub_0_0_admin["admin (49)"]:::atlasWorkflow
-    dir_0_snuba --> sub_0_0_admin
-    sub_0_1_cli["cli (36)"]:::atlasWorkflow
-    dir_0_snuba --> sub_0_1_cli
-    sub_0_2_web["web (14)"]:::atlasWorkflow
-    dir_0_snuba --> sub_0_2_web
-    dir_1_rust_snuba["rust_snuba (79)"]:::atlasCategory
+    subgraph sg_dir_1_rust_snuba["rust_snuba (79)"]
+      direction TB
+      dir_1_rust_snuba["rust_snuba (79)"]:::atlasCategory
+      sub_1_0_src["src (78)"]:::atlasWorkflow
+      dir_1_rust_snuba --> sub_1_0_src
+      sub_1_1_benches["benches (1)"]:::atlasWorkflow
+      dir_1_rust_snuba --> sub_1_1_benches
+    end
     repo_root --> dir_1_rust_snuba
-    sub_1_0_src["src (78)"]:::atlasWorkflow
-    dir_1_rust_snuba --> sub_1_0_src
-    sub_1_1_benches["benches (1)"]:::atlasWorkflow
-    dir_1_rust_snuba --> sub_1_1_benches
     dir_2_tests["tests (2)"]:::atlasCategory
     repo_root --> dir_2_tests
     sub_0_0_admin -.->|"36 deps"| sub_0_2_web

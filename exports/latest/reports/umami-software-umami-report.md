@@ -49,14 +49,17 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["umami-software/umami (595 components)"]):::atlasRoot
-    dir_0_src["src (588)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (588)"]
+      direction TB
+      dir_0_src["src (588)"]:::atlasCategory
+      sub_0_0_app["app (471)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_app
+      sub_0_1_components["components (115)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_components
+      sub_0_2_lib["lib (2)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_lib
+    end
     repo_root --> dir_0_src
-    sub_0_0_app["app (471)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_app
-    sub_0_1_components["components (115)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_components
-    sub_0_2_lib["lib (2)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_lib
     dir_1_packages["packages (4)"]:::atlasCategory
     repo_root --> dir_1_packages
     dir_2__root_["(root) (1)"]:::atlasCategory

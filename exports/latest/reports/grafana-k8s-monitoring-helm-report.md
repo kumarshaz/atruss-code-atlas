@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/k8s-monitoring-helm (250 components)"]):::atlasRoot
-    dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]:::atlasCategory
+    subgraph sg_dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]
+      direction TB
+      dir_0_charts_k8s_monitoring_charts["charts/k8s-monitoring/charts (212)"]:::atlasCategory
+      sub_0_0_feature_integrations["feature-integrations (39)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_0_feature_integrations
+      sub_0_1_feature_cluster_metrics["feature-cluster-metrics (22)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_1_feature_cluster_metrics
+      sub_0_2_feature_host_metrics["feature-host-metrics (16)"]:::atlasWorkflow
+      dir_0_charts_k8s_monitoring_charts --> sub_0_2_feature_host_metrics
+      sub_0_more["+18 more submodules (135)"]:::atlasMore
+      dir_0_charts_k8s_monitoring_charts --> sub_0_more
+    end
     repo_root --> dir_0_charts_k8s_monitoring_charts
-    sub_0_0_feature_integrations["feature-integrations (39)"]:::atlasWorkflow
-    dir_0_charts_k8s_monitoring_charts --> sub_0_0_feature_integrations
-    sub_0_1_feature_cluster_metrics["feature-cluster-metrics (22)"]:::atlasWorkflow
-    dir_0_charts_k8s_monitoring_charts --> sub_0_1_feature_cluster_metrics
-    sub_0_2_feature_host_metrics["feature-host-metrics (16)"]:::atlasWorkflow
-    dir_0_charts_k8s_monitoring_charts --> sub_0_2_feature_host_metrics
-    sub_0_more["+18 more submodules (135)"]:::atlasMore
-    dir_0_charts_k8s_monitoring_charts --> sub_0_more
-    dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]:::atlasCategory
+    subgraph sg_dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]
+      direction TB
+      dir_1_charts_k8s_monitoring_collectors["charts/k8s-monitoring/collectors (26)"]:::atlasCategory
+      sub_1_0_presets["presets (22)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_0_presets
+      sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_1__module_root_
+      sub_1_2_upstream["upstream (1)"]:::atlasWorkflow
+      dir_1_charts_k8s_monitoring_collectors --> sub_1_2_upstream
+    end
     repo_root --> dir_1_charts_k8s_monitoring_collectors
-    sub_1_0_presets["presets (22)"]:::atlasWorkflow
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_0_presets
-    sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_1__module_root_
-    sub_1_2_upstream["upstream (1)"]:::atlasWorkflow
-    dir_1_charts_k8s_monitoring_collectors --> sub_1_2_upstream
     dir_2_charts_k8s_monitoring["charts/k8s-monitoring (4)"]:::atlasCategory
     repo_root --> dir_2_charts_k8s_monitoring
     dir_3_charts_k8s_monitoring_destinations["charts/k8s-monitoring/destinations (4)"]:::atlasCategory

@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["saleor/saleor (97 components)"]):::atlasRoot
-    dir_0_saleor["saleor (95)"]:::atlasCategory
+    subgraph sg_dir_0_saleor["saleor (95)"]
+      direction TB
+      dir_0_saleor["saleor (95)"]:::atlasCategory
+      sub_0_0_webhook["webhook (20)"]:::atlasWorkflow
+      dir_0_saleor --> sub_0_0_webhook
+      sub_0_1_core["core (11)"]:::atlasWorkflow
+      dir_0_saleor --> sub_0_1_core
+      sub_0_2_app["app (9)"]:::atlasWorkflow
+      dir_0_saleor --> sub_0_2_app
+      sub_0_more["+20 more submodules (55)"]:::atlasMore
+      dir_0_saleor --> sub_0_more
+    end
     repo_root --> dir_0_saleor
-    sub_0_0_webhook["webhook (20)"]:::atlasWorkflow
-    dir_0_saleor --> sub_0_0_webhook
-    sub_0_1_core["core (11)"]:::atlasWorkflow
-    dir_0_saleor --> sub_0_1_core
-    sub_0_2_app["app (9)"]:::atlasWorkflow
-    dir_0_saleor --> sub_0_2_app
-    sub_0_more["+20 more submodules (55)"]:::atlasMore
-    dir_0_saleor --> sub_0_more
     dir_1__devcontainer[".devcontainer (1)"]:::atlasCategory
     repo_root --> dir_1__devcontainer
     dir_2__worktree_container[".worktree-container (1)"]:::atlasCategory

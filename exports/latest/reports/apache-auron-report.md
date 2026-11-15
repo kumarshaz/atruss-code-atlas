@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["apache/auron (232 components)"]):::atlasRoot
-    dir_0_native_engine["native-engine (201)"]:::atlasCategory
+    subgraph sg_dir_0_native_engine["native-engine (201)"]
+      direction TB
+      dir_0_native_engine["native-engine (201)"]:::atlasCategory
+      sub_0_0_datafusion_ext_plans["datafusion-ext-plans (109)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_0_datafusion_ext_plans
+      sub_0_1_datafusion_ext_commons["datafusion-ext-commons (29)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_1_datafusion_ext_commons
+      sub_0_2_datafusion_ext_functions["datafusion-ext-functions (24)"]:::atlasWorkflow
+      dir_0_native_engine --> sub_0_2_datafusion_ext_functions
+      sub_0_more["+5 more submodules (39)"]:::atlasMore
+      dir_0_native_engine --> sub_0_more
+    end
     repo_root --> dir_0_native_engine
-    sub_0_0_datafusion_ext_plans["datafusion-ext-plans (109)"]:::atlasWorkflow
-    dir_0_native_engine --> sub_0_0_datafusion_ext_plans
-    sub_0_1_datafusion_ext_commons["datafusion-ext-commons (29)"]:::atlasWorkflow
-    dir_0_native_engine --> sub_0_1_datafusion_ext_commons
-    sub_0_2_datafusion_ext_functions["datafusion-ext-functions (24)"]:::atlasWorkflow
-    dir_0_native_engine --> sub_0_2_datafusion_ext_functions
-    sub_0_more["+5 more submodules (39)"]:::atlasMore
-    dir_0_native_engine --> sub_0_more
-    dir_1_auron_spark_tests["auron-spark-tests (9)"]:::atlasCategory
+    subgraph sg_dir_1_auron_spark_tests["auron-spark-tests (9)"]
+      direction TB
+      dir_1_auron_spark_tests["auron-spark-tests (9)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_0__module_root_
+      sub_1_1_common["common (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_1_common
+      sub_1_2_spark31["spark31 (1)"]:::atlasWorkflow
+      dir_1_auron_spark_tests --> sub_1_2_spark31
+      sub_1_more["+6 more submodules (6)"]:::atlasMore
+      dir_1_auron_spark_tests --> sub_1_more
+    end
     repo_root --> dir_1_auron_spark_tests
-    sub_1_0__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_auron_spark_tests --> sub_1_0__module_root_
-    sub_1_1_common["common (1)"]:::atlasWorkflow
-    dir_1_auron_spark_tests --> sub_1_1_common
-    sub_1_2_spark31["spark31 (1)"]:::atlasWorkflow
-    dir_1_auron_spark_tests --> sub_1_2_spark31
-    sub_1_more["+6 more submodules (6)"]:::atlasMore
-    dir_1_auron_spark_tests --> sub_1_more
     dir_2_thirdparty["thirdparty (6)"]:::atlasCategory
     repo_root --> dir_2_thirdparty
     dir_3_auron_flink_extension["auron-flink-extension (4)"]:::atlasCategory

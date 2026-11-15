@@ -48,22 +48,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["discourse/rails_failover (51 components)"]):::atlasRoot
-    dir_0_spec["spec (36)"]:::atlasCategory
+    subgraph sg_dir_0_spec["spec (36)"]
+      direction TB
+      dir_0_spec["spec (36)"]:::atlasCategory
+      sub_0_0_support["support (27)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_0_support
+      sub_0_1_helpers["helpers (5)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_1_helpers
+      sub_0_2_integration["integration (2)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_2_integration
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_spec --> sub_0_more
+    end
     repo_root --> dir_0_spec
-    sub_0_0_support["support (27)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_0_support
-    sub_0_1_helpers["helpers (5)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_1_helpers
-    sub_0_2_integration["integration (2)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_2_integration
-    sub_0_more["+2 more submodules (2)"]:::atlasMore
-    dir_0_spec --> sub_0_more
-    dir_1_lib["lib (15)"]:::atlasCategory
+    subgraph sg_dir_1_lib["lib (15)"]
+      direction TB
+      dir_1_lib["lib (15)"]:::atlasCategory
+      sub_1_0_rails_failover["rails_failover (14)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_rails_failover
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_lib
-    sub_1_0_rails_failover["rails_failover (14)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_0_rails_failover
-    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_1__module_root_
 ```
 
 ## Component Details

@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/charts-clickhouse (137 components)"]):::atlasRoot
-    dir_0_charts["charts (136)"]:::atlasCategory
+    subgraph sg_dir_0_charts["charts (136)"]
+      direction TB
+      dir_0_charts["charts (136)"]:::atlasCategory
+      sub_0_0_posthog_tests["posthog/tests (67)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_0_posthog_tests
+      sub_0_1_posthog_templates["posthog/templates (64)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_1_posthog_templates
+      sub_0_2_posthog_crds["posthog/crds (3)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_2_posthog_crds
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_charts --> sub_0_more
+    end
     repo_root --> dir_0_charts
-    sub_0_0_posthog_tests["posthog/tests (67)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_0_posthog_tests
-    sub_0_1_posthog_templates["posthog/templates (64)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_1_posthog_templates
-    sub_0_2_posthog_crds["posthog/crds (3)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_2_posthog_crds
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_charts --> sub_0_more
     dir_1__devcontainer[".devcontainer (1)"]:::atlasCategory
     repo_root --> dir_1__devcontainer
 ```

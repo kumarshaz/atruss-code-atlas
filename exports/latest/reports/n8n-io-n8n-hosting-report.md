@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["n8n-io/n8n-hosting (189 components)"]):::atlasRoot
-    dir_0_charts["charts (185)"]:::atlasCategory
+    subgraph sg_dir_0_charts["charts (185)"]
+      direction TB
+      dir_0_charts["charts (185)"]:::atlasCategory
+      sub_0_0_n8n_tests["n8n/tests (129)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_0_n8n_tests
+      sub_0_1_n8n_templates["n8n/templates (23)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_1_n8n_templates
+      sub_0_2_n8n_ci["n8n/ci (18)"]:::atlasWorkflow
+      dir_0_charts --> sub_0_2_n8n_ci
+      sub_0_more["+2 more submodules (15)"]:::atlasMore
+      dir_0_charts --> sub_0_more
+    end
     repo_root --> dir_0_charts
-    sub_0_0_n8n_tests["n8n/tests (129)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_0_n8n_tests
-    sub_0_1_n8n_templates["n8n/templates (23)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_1_n8n_templates
-    sub_0_2_n8n_ci["n8n/ci (18)"]:::atlasWorkflow
-    dir_0_charts --> sub_0_2_n8n_ci
-    sub_0_more["+2 more submodules (15)"]:::atlasMore
-    dir_0_charts --> sub_0_more
     dir_1_docker_compose["docker-compose (3)"]:::atlasCategory
     repo_root --> dir_1_docker_compose
     dir_2_docker_caddy["docker-caddy (1)"]:::atlasCategory

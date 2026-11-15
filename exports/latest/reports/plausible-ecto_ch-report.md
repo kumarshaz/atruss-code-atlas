@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["plausible/ecto_ch (54 components)"]):::atlasRoot
-    dir_0_test["test (41)"]:::atlasCategory
+    subgraph sg_dir_0_test["test (41)"]
+      direction TB
+      dir_0_test["test (41)"]:::atlasCategory
+      sub_0_0_ecto["ecto (32)"]:::atlasWorkflow
+      dir_0_test --> sub_0_0_ecto
+      sub_0_1_support["support (5)"]:::atlasWorkflow
+      dir_0_test --> sub_0_1_support
+      sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_test --> sub_0_2__module_root_
+      sub_0_more["+2 more submodules (2)"]:::atlasMore
+      dir_0_test --> sub_0_more
+    end
     repo_root --> dir_0_test
-    sub_0_0_ecto["ecto (32)"]:::atlasWorkflow
-    dir_0_test --> sub_0_0_ecto
-    sub_0_1_support["support (5)"]:::atlasWorkflow
-    dir_0_test --> sub_0_1_support
-    sub_0_2__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_test --> sub_0_2__module_root_
-    sub_0_more["+2 more submodules (2)"]:::atlasMore
-    dir_0_test --> sub_0_more
-    dir_1_lib["lib (9)"]:::atlasCategory
+    subgraph sg_dir_1_lib["lib (9)"]
+      direction TB
+      dir_1_lib["lib (9)"]:::atlasCategory
+      sub_1_0_ecto["ecto (8)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_ecto
+      sub_1_1_mix["mix (1)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1_mix
+    end
     repo_root --> dir_1_lib
-    sub_1_0_ecto["ecto (8)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_0_ecto
-    sub_1_1_mix["mix (1)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_1_mix
     dir_2__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_dev["dev (1)"]:::atlasCategory

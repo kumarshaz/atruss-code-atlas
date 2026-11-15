@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["langfuse/langfuse-k8s (67 components)"]):::atlasRoot
-    dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]:::atlasCategory
+    subgraph sg_dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]
+      direction TB
+      dir_0_charts_langfuse_tests["charts/langfuse/tests (36)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (27)"]:::atlasWorkflow
+      dir_0_charts_langfuse_tests --> sub_0_0__module_root_
+      sub_0_1_values["values (9)"]:::atlasWorkflow
+      dir_0_charts_langfuse_tests --> sub_0_1_values
+    end
     repo_root --> dir_0_charts_langfuse_tests
-    sub_0_0__module_root_["(module root) (27)"]:::atlasWorkflow
-    dir_0_charts_langfuse_tests --> sub_0_0__module_root_
-    sub_0_1_values["values (9)"]:::atlasWorkflow
-    dir_0_charts_langfuse_tests --> sub_0_1_values
-    dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]:::atlasCategory
+    subgraph sg_dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]
+      direction TB
+      dir_1_charts_langfuse_templates["charts/langfuse/templates (27)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (7)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_0__module_root_
+      sub_1_1_web["web (6)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_1_web
+      sub_1_2_gateway["gateway (5)"]:::atlasWorkflow
+      dir_1_charts_langfuse_templates --> sub_1_2_gateway
+      sub_1_more["+3 more submodules (9)"]:::atlasMore
+      dir_1_charts_langfuse_templates --> sub_1_more
+    end
     repo_root --> dir_1_charts_langfuse_templates
-    sub_1_0__module_root_["(module root) (7)"]:::atlasWorkflow
-    dir_1_charts_langfuse_templates --> sub_1_0__module_root_
-    sub_1_1_web["web (6)"]:::atlasWorkflow
-    dir_1_charts_langfuse_templates --> sub_1_1_web
-    sub_1_2_gateway["gateway (5)"]:::atlasWorkflow
-    dir_1_charts_langfuse_templates --> sub_1_2_gateway
-    sub_1_more["+3 more submodules (9)"]:::atlasMore
-    dir_1_charts_langfuse_templates --> sub_1_more
     dir_2_charts_langfuse["charts/langfuse (4)"]:::atlasCategory
     repo_root --> dir_2_charts_langfuse
 ```

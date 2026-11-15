@@ -49,14 +49,17 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["kumarshaz/atruss-code-atlas (30 components)"]):::atlasRoot
-    dir_0_src["src (28)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (28)"]
+      direction TB
+      dir_0_src["src (28)"]:::atlasCategory
+      sub_0_0_models["models (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_models
+      sub_0_1_core["core (10)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_core
+      sub_0_2_cli["cli (6)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_cli
+    end
     repo_root --> dir_0_src
-    sub_0_0_models["models (12)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_models
-    sub_0_1_core["core (10)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_core
-    sub_0_2_cli["cli (6)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_cli
     dir_1_tests["tests (1)"]:::atlasCategory
     repo_root --> dir_1_tests
     dir_2_web["web (1)"]:::atlasCategory

@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/sdk-sm (80 components)"]):::atlasRoot
-    dir_0_crates["crates (44)"]:::atlasCategory
+    subgraph sg_dir_0_crates["crates (44)"]
+      direction TB
+      dir_0_crates["crates (44)"]:::atlasCategory
+      sub_0_0_bitwarden_napi["bitwarden-napi (13)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_bitwarden_napi
+      sub_0_1_bws["bws (11)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_bws
+      sub_0_2_bitwarden_c["bitwarden-c (4)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_bitwarden_c
+      sub_0_more["+6 more submodules (16)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_bitwarden_napi["bitwarden-napi (13)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_0_bitwarden_napi
-    sub_0_1_bws["bws (11)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_1_bws
-    sub_0_2_bitwarden_c["bitwarden-c (4)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_2_bitwarden_c
-    sub_0_more["+6 more submodules (16)"]:::atlasMore
-    dir_0_crates --> sub_0_more
-    dir_1_languages["languages (36)"]:::atlasCategory
+    subgraph sg_dir_1_languages["languages (36)"]
+      direction TB
+      dir_1_languages["languages (36)"]:::atlasCategory
+      sub_1_0_ruby["ruby (10)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_0_ruby
+      sub_1_1_go["go (9)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_1_go
+      sub_1_2_php["php (8)"]:::atlasWorkflow
+      dir_1_languages --> sub_1_2_php
+      sub_1_more["+2 more submodules (9)"]:::atlasMore
+      dir_1_languages --> sub_1_more
+    end
     repo_root --> dir_1_languages
-    sub_1_0_ruby["ruby (10)"]:::atlasWorkflow
-    dir_1_languages --> sub_1_0_ruby
-    sub_1_1_go["go (9)"]:::atlasWorkflow
-    dir_1_languages --> sub_1_1_go
-    sub_1_2_php["php (8)"]:::atlasWorkflow
-    dir_1_languages --> sub_1_2_php
-    sub_1_more["+2 more submodules (9)"]:::atlasMore
-    dir_1_languages --> sub_1_more
 ```
 
 ## Component Details

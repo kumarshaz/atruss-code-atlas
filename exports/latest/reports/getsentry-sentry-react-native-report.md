@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-react-native (133 components)"]):::atlasRoot
-    dir_0_packages["packages (99)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (99)"]
+      direction TB
+      dir_0_packages["packages (99)"]:::atlasCategory
+      sub_0_0_core["core (98)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_core
+      sub_0_1_expo_upload_sourcemaps["expo-upload-sourcemaps (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_expo_upload_sourcemaps
+    end
     repo_root --> dir_0_packages
-    sub_0_0_core["core (98)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_core
-    sub_0_1_expo_upload_sourcemaps["expo-upload-sourcemaps (1)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_expo_upload_sourcemaps
-    dir_1_samples["samples (29)"]:::atlasCategory
+    subgraph sg_dir_1_samples["samples (29)"]
+      direction TB
+      dir_1_samples["samples (29)"]:::atlasCategory
+      sub_1_0_expo["expo (12)"]:::atlasWorkflow
+      dir_1_samples --> sub_1_0_expo
+      sub_1_1_react_native["react-native (9)"]:::atlasWorkflow
+      dir_1_samples --> sub_1_1_react_native
+      sub_1_2_react_native_macos["react-native-macos (4)"]:::atlasWorkflow
+      dir_1_samples --> sub_1_2_react_native_macos
+      sub_1_more["+2 more submodules (4)"]:::atlasMore
+      dir_1_samples --> sub_1_more
+    end
     repo_root --> dir_1_samples
-    sub_1_0_expo["expo (12)"]:::atlasWorkflow
-    dir_1_samples --> sub_1_0_expo
-    sub_1_1_react_native["react-native (9)"]:::atlasWorkflow
-    dir_1_samples --> sub_1_1_react_native
-    sub_1_2_react_native_macos["react-native-macos (4)"]:::atlasWorkflow
-    dir_1_samples --> sub_1_2_react_native_macos
-    sub_1_more["+2 more submodules (4)"]:::atlasMore
-    dir_1_samples --> sub_1_more
     dir_2_dev_packages["dev-packages (4)"]:::atlasCategory
     repo_root --> dir_2_dev_packages
     dir_3__root_["(root) (1)"]:::atlasCategory

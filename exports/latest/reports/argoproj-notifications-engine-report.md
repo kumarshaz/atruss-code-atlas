@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/notifications-engine (84 components)"]):::atlasRoot
-    dir_0_pkg["pkg (81)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (81)"]
+      direction TB
+      dir_0_pkg["pkg (81)"]:::atlasCategory
+      sub_0_0_services["services (45)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_services
+      sub_0_1_cmd["cmd (8)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_cmd
+      sub_0_2_util["util (7)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_util
+      sub_0_more["+7 more submodules (21)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_services["services (45)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_services
-    sub_0_1_cmd["cmd (8)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_cmd
-    sub_0_2_util["util (7)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_util
-    sub_0_more["+7 more submodules (21)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
     dir_1_examples["examples (2)"]:::atlasCategory
     repo_root --> dir_1_examples
     dir_2_docs["docs (1)"]:::atlasCategory

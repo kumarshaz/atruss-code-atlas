@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["saleor/saleor-dashboard (3152 components)"]):::atlasRoot
-    dir_0_src["src (3143)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (3143)"]
+      direction TB
+      dir_0_src["src (3143)"]:::atlasCategory
+      sub_0_0_components["components (828)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_components
+      sub_0_1_graphql["graphql (707)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_graphql
+      sub_0_2_orders["orders (381)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_orders
+      sub_0_more["+41 more submodules (1227)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_components["components (828)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_components
-    sub_0_1_graphql["graphql (707)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_graphql
-    sub_0_2_orders["orders (381)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_orders
-    sub_0_more["+41 more submodules (1227)"]:::atlasMore
-    dir_0_src --> sub_0_more
     dir_1_e2e_legacy["e2e-legacy (3)"]:::atlasCategory
     repo_root --> dir_1_e2e_legacy
     dir_2_testUtils["testUtils (2)"]:::atlasCategory

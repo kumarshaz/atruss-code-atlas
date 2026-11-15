@@ -49,44 +49,56 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/alloy (351 components)"]):::atlasRoot
-    dir_0_internal["internal (142)"]:::atlasCategory
+    subgraph sg_dir_0_internal["internal (142)"]
+      direction TB
+      dir_0_internal["internal (142)"]:::atlasCategory
+      sub_0_0_component["component (102)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_component
+      sub_0_1_alloycli["alloycli (19)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_alloycli
+      sub_0_2_cmd["cmd (13)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_2_cmd
+      sub_0_more["+3 more submodules (8)"]:::atlasMore
+      dir_0_internal --> sub_0_more
+    end
     repo_root --> dir_0_internal
-    sub_0_0_component["component (102)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_0_component
-    sub_0_1_alloycli["alloycli (19)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_1_alloycli
-    sub_0_2_cmd["cmd (13)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_2_cmd
-    sub_0_more["+3 more submodules (8)"]:::atlasMore
-    dir_0_internal --> sub_0_more
-    dir_1_integration_tests["integration-tests (97)"]:::atlasCategory
+    subgraph sg_dir_1_integration_tests["integration-tests (97)"]
+      direction TB
+      dir_1_integration_tests["integration-tests (97)"]:::atlasCategory
+      sub_1_0_k8s["k8s (68)"]:::atlasWorkflow
+      dir_1_integration_tests --> sub_1_0_k8s
+      sub_1_1_docker["docker (23)"]:::atlasWorkflow
+      dir_1_integration_tests --> sub_1_1_docker
+      sub_1_2_windows_service["windows-service (5)"]:::atlasWorkflow
+      dir_1_integration_tests --> sub_1_2_windows_service
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_integration_tests --> sub_1_more
+    end
     repo_root --> dir_1_integration_tests
-    sub_1_0_k8s["k8s (68)"]:::atlasWorkflow
-    dir_1_integration_tests --> sub_1_0_k8s
-    sub_1_1_docker["docker (23)"]:::atlasWorkflow
-    dir_1_integration_tests --> sub_1_1_docker
-    sub_1_2_windows_service["windows-service (5)"]:::atlasWorkflow
-    dir_1_integration_tests --> sub_1_2_windows_service
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_integration_tests --> sub_1_more
-    dir_2_operations["operations (82)"]:::atlasCategory
+    subgraph sg_dir_2_operations["operations (82)"]
+      direction TB
+      dir_2_operations["operations (82)"]:::atlasCategory
+      sub_2_0_helm_charts_alloy_ci["helm/charts/alloy/ci (59)"]:::atlasWorkflow
+      dir_2_operations --> sub_2_0_helm_charts_alloy_ci
+      sub_2_1_helm_charts_alloy_templates["helm/charts/alloy/templates (19)"]:::atlasWorkflow
+      dir_2_operations --> sub_2_1_helm_charts_alloy_templates
+      sub_2_2_helm_charts_alloy["helm/charts/alloy (2)"]:::atlasWorkflow
+      dir_2_operations --> sub_2_2_helm_charts_alloy
+      sub_2_more["+1 more submodules (2)"]:::atlasMore
+      dir_2_operations --> sub_2_more
+    end
     repo_root --> dir_2_operations
-    sub_2_0_helm_charts_alloy_ci["helm/charts/alloy/ci (59)"]:::atlasWorkflow
-    dir_2_operations --> sub_2_0_helm_charts_alloy_ci
-    sub_2_1_helm_charts_alloy_templates["helm/charts/alloy/templates (19)"]:::atlasWorkflow
-    dir_2_operations --> sub_2_1_helm_charts_alloy_templates
-    sub_2_2_helm_charts_alloy["helm/charts/alloy (2)"]:::atlasWorkflow
-    dir_2_operations --> sub_2_2_helm_charts_alloy
-    sub_2_more["+1 more submodules (2)"]:::atlasMore
-    dir_2_operations --> sub_2_more
-    dir_3_collector["collector (12)"]:::atlasCategory
+    subgraph sg_dir_3_collector["collector (12)"]
+      direction TB
+      dir_3_collector["collector (12)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
+      dir_3_collector --> sub_3_0__module_root_
+      sub_3_1_otelsupervisor["otelsupervisor (2)"]:::atlasWorkflow
+      dir_3_collector --> sub_3_1_otelsupervisor
+      sub_3_2_generator["generator (1)"]:::atlasWorkflow
+      dir_3_collector --> sub_3_2_generator
+    end
     repo_root --> dir_3_collector
-    sub_3_0__module_root_["(module root) (9)"]:::atlasWorkflow
-    dir_3_collector --> sub_3_0__module_root_
-    sub_3_1_otelsupervisor["otelsupervisor (2)"]:::atlasWorkflow
-    dir_3_collector --> sub_3_1_otelsupervisor
-    sub_3_2_generator["generator (1)"]:::atlasWorkflow
-    dir_3_collector --> sub_3_2_generator
     dir_4_extension["extension (7)"]:::atlasCategory
     repo_root --> dir_4_extension
     dir_other_modules["+5 more modules (11)"]:::atlasMore

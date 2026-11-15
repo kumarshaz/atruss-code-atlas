@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/helm-charts (65 components)"]):::atlasRoot
-    dir_0_charts_self_host["charts/self-host (53)"]:::atlasCategory
+    subgraph sg_dir_0_charts_self_host["charts/self-host (53)"]
+      direction TB
+      dir_0_charts_self_host["charts/self-host (53)"]:::atlasCategory
+      sub_0_0_templates["templates (25)"]:::atlasWorkflow
+      dir_0_charts_self_host --> sub_0_0_templates
+      sub_0_1_tests["tests (21)"]:::atlasWorkflow
+      dir_0_charts_self_host --> sub_0_1_tests
+      sub_0_2_ci["ci (5)"]:::atlasWorkflow
+      dir_0_charts_self_host --> sub_0_2_ci
+      sub_0_more["+1 more submodules (2)"]:::atlasMore
+      dir_0_charts_self_host --> sub_0_more
+    end
     repo_root --> dir_0_charts_self_host
-    sub_0_0_templates["templates (25)"]:::atlasWorkflow
-    dir_0_charts_self_host --> sub_0_0_templates
-    sub_0_1_tests["tests (21)"]:::atlasWorkflow
-    dir_0_charts_self_host --> sub_0_1_tests
-    sub_0_2_ci["ci (5)"]:::atlasWorkflow
-    dir_0_charts_self_host --> sub_0_2_ci
-    sub_0_more["+1 more submodules (2)"]:::atlasMore
-    dir_0_charts_self_host --> sub_0_more
-    dir_1_charts_sm_operator["charts/sm-operator (12)"]:::atlasCategory
+    subgraph sg_dir_1_charts_sm_operator["charts/sm-operator (12)"]
+      direction TB
+      dir_1_charts_sm_operator["charts/sm-operator (12)"]:::atlasCategory
+      sub_1_0_templates["templates (7)"]:::atlasWorkflow
+      dir_1_charts_sm_operator --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_1_charts_sm_operator --> sub_1_1__module_root_
+      sub_1_2_tests["tests (2)"]:::atlasWorkflow
+      dir_1_charts_sm_operator --> sub_1_2_tests
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_charts_sm_operator --> sub_1_more
+    end
     repo_root --> dir_1_charts_sm_operator
-    sub_1_0_templates["templates (7)"]:::atlasWorkflow
-    dir_1_charts_sm_operator --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_1_charts_sm_operator --> sub_1_1__module_root_
-    sub_1_2_tests["tests (2)"]:::atlasWorkflow
-    dir_1_charts_sm_operator --> sub_1_2_tests
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_charts_sm_operator --> sub_1_more
 ```
 
 ## Component Details

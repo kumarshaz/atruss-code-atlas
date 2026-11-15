@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["nextcloud/all-in-one (68 components)"]):::atlasRoot
-    dir_0_php["php (44)"]:::atlasCategory
+    subgraph sg_dir_0_php["php (44)"]
+      direction TB
+      dir_0_php["php (44)"]:::atlasCategory
+      sub_0_0_src["src (42)"]:::atlasWorkflow
+      dir_0_php --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_php --> sub_0_1__module_root_
+      sub_0_2_public["public (1)"]:::atlasWorkflow
+      dir_0_php --> sub_0_2_public
+    end
     repo_root --> dir_0_php
-    sub_0_0_src["src (42)"]:::atlasWorkflow
-    dir_0_php --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_php --> sub_0_1__module_root_
-    sub_0_2_public["public (1)"]:::atlasWorkflow
-    dir_0_php --> sub_0_2_public
     dir_1_Containers["Containers (12)"]:::atlasCategory
     repo_root --> dir_1_Containers
-    dir_2_app["app (12)"]:::atlasCategory
+    subgraph sg_dir_2_app["app (12)"]
+      direction TB
+      dir_2_app["app (12)"]:::atlasCategory
+      sub_2_0_composer["composer (9)"]:::atlasWorkflow
+      dir_2_app --> sub_2_0_composer
+      sub_2_1_lib["lib (2)"]:::atlasWorkflow
+      dir_2_app --> sub_2_1_lib
+      sub_2_2_templates["templates (1)"]:::atlasWorkflow
+      dir_2_app --> sub_2_2_templates
+    end
     repo_root --> dir_2_app
-    sub_2_0_composer["composer (9)"]:::atlasWorkflow
-    dir_2_app --> sub_2_0_composer
-    sub_2_1_lib["lib (2)"]:::atlasWorkflow
-    dir_2_app --> sub_2_1_lib
-    sub_2_2_templates["templates (1)"]:::atlasWorkflow
-    dir_2_app --> sub_2_2_templates
 ```
 
 ## Component Details

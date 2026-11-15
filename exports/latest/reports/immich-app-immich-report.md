@@ -49,30 +49,39 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["immich-app/immich (238 components)"]):::atlasRoot
-    dir_0_server["server (180)"]:::atlasCategory
+    subgraph sg_dir_0_server["server (180)"]
+      direction TB
+      dir_0_server["server (180)"]:::atlasCategory
+      sub_0_0_src["src (179)"]:::atlasWorkflow
+      dir_0_server --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_server --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_server
-    sub_0_0_src["src (179)"]:::atlasWorkflow
-    dir_0_server --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_server --> sub_0_1__module_root_
-    dir_1_native["native (23)"]:::atlasCategory
+    subgraph sg_dir_1_native["native (23)"]
+      direction TB
+      dir_1_native["native (23)"]:::atlasCategory
+      sub_1_0_crates_codecs["crates/codecs (10)"]:::atlasWorkflow
+      dir_1_native --> sub_1_0_crates_codecs
+      sub_1_1_crates_native_core_ffi["crates/native_core_ffi (8)"]:::atlasWorkflow
+      dir_1_native --> sub_1_1_crates_native_core_ffi
+      sub_1_2_crates_native_core["crates/native_core (5)"]:::atlasWorkflow
+      dir_1_native --> sub_1_2_crates_native_core
+    end
     repo_root --> dir_1_native
-    sub_1_0_crates_codecs["crates/codecs (10)"]:::atlasWorkflow
-    dir_1_native --> sub_1_0_crates_codecs
-    sub_1_1_crates_native_core_ffi["crates/native_core_ffi (8)"]:::atlasWorkflow
-    dir_1_native --> sub_1_1_crates_native_core_ffi
-    sub_1_2_crates_native_core["crates/native_core (5)"]:::atlasWorkflow
-    dir_1_native --> sub_1_2_crates_native_core
-    dir_2_packages["packages (9)"]:::atlasCategory
+    subgraph sg_dir_2_packages["packages (9)"]
+      direction TB
+      dir_2_packages["packages (9)"]:::atlasCategory
+      sub_2_0_scripts["scripts (4)"]:::atlasWorkflow
+      dir_2_packages --> sub_2_0_scripts
+      sub_2_1_cli["cli (1)"]:::atlasWorkflow
+      dir_2_packages --> sub_2_1_cli
+      sub_2_2_e2e_auth_server["e2e-auth-server (1)"]:::atlasWorkflow
+      dir_2_packages --> sub_2_2_e2e_auth_server
+      sub_2_more["+3 more submodules (3)"]:::atlasMore
+      dir_2_packages --> sub_2_more
+    end
     repo_root --> dir_2_packages
-    sub_2_0_scripts["scripts (4)"]:::atlasWorkflow
-    dir_2_packages --> sub_2_0_scripts
-    sub_2_1_cli["cli (1)"]:::atlasWorkflow
-    dir_2_packages --> sub_2_1_cli
-    sub_2_2_e2e_auth_server["e2e-auth-server (1)"]:::atlasWorkflow
-    dir_2_packages --> sub_2_2_e2e_auth_server
-    sub_2_more["+3 more submodules (3)"]:::atlasMore
-    dir_2_packages --> sub_2_more
     dir_3_docker["docker (7)"]:::atlasCategory
     repo_root --> dir_3_docker
     dir_4_machine_learning["machine-learning (7)"]:::atlasCategory

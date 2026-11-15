@@ -49,36 +49,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-dotnet (156 components)"]):::atlasRoot
-    dir_0_samples["samples (60)"]:::atlasCategory
+    subgraph sg_dir_0_samples["samples (60)"]
+      direction TB
+      dir_0_samples["samples (60)"]:::atlasCategory
+      sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore["Sentry.Samples.OpenTelemetry.AspNetCore (6)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore
+      sub_0_1_Sentry_Samples_GraphQL_Server["Sentry.Samples.GraphQL.Server (4)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_1_Sentry_Samples_GraphQL_Server
+      sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server["Sentry.Samples.AspNetCore.Blazor.Server (3)"]:::atlasWorkflow
+      dir_0_samples --> sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server
+      sub_0_more["+33 more submodules (47)"]:::atlasMore
+      dir_0_samples --> sub_0_more
+    end
     repo_root --> dir_0_samples
-    sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore["Sentry.Samples.OpenTelemetry.AspNetCore (6)"]:::atlasWorkflow
-    dir_0_samples --> sub_0_0_Sentry_Samples_OpenTelemetry_AspNetCore
-    sub_0_1_Sentry_Samples_GraphQL_Server["Sentry.Samples.GraphQL.Server (4)"]:::atlasWorkflow
-    dir_0_samples --> sub_0_1_Sentry_Samples_GraphQL_Server
-    sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server["Sentry.Samples.AspNetCore.Blazor.Server (3)"]:::atlasWorkflow
-    dir_0_samples --> sub_0_2_Sentry_Samples_AspNetCore_Blazor_Server
-    sub_0_more["+33 more submodules (47)"]:::atlasMore
-    dir_0_samples --> sub_0_more
-    dir_1_test["test (54)"]:::atlasCategory
+    subgraph sg_dir_1_test["test (54)"]
+      direction TB
+      dir_1_test["test (54)"]:::atlasCategory
+      sub_1_0_Sentry_AspNetCore_Tests["Sentry.AspNetCore.Tests (6)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_Sentry_AspNetCore_Tests
+      sub_1_1_Sentry_Testing["Sentry.Testing (5)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1_Sentry_Testing
+      sub_1_2_Sentry_AspNetCore_Grpc_Tests["Sentry.AspNetCore.Grpc.Tests (3)"]:::atlasWorkflow
+      dir_1_test --> sub_1_2_Sentry_AspNetCore_Grpc_Tests
+      sub_1_more["+34 more submodules (40)"]:::atlasMore
+      dir_1_test --> sub_1_more
+    end
     repo_root --> dir_1_test
-    sub_1_0_Sentry_AspNetCore_Tests["Sentry.AspNetCore.Tests (6)"]:::atlasWorkflow
-    dir_1_test --> sub_1_0_Sentry_AspNetCore_Tests
-    sub_1_1_Sentry_Testing["Sentry.Testing (5)"]:::atlasWorkflow
-    dir_1_test --> sub_1_1_Sentry_Testing
-    sub_1_2_Sentry_AspNetCore_Grpc_Tests["Sentry.AspNetCore.Grpc.Tests (3)"]:::atlasWorkflow
-    dir_1_test --> sub_1_2_Sentry_AspNetCore_Grpc_Tests
-    sub_1_more["+34 more submodules (40)"]:::atlasMore
-    dir_1_test --> sub_1_more
-    dir_2_src["src (37)"]:::atlasCategory
+    subgraph sg_dir_2_src["src (37)"]
+      direction TB
+      dir_2_src["src (37)"]:::atlasCategory
+      sub_2_0_Sentry["Sentry (10)"]:::atlasWorkflow
+      dir_2_src --> sub_2_0_Sentry
+      sub_2_1_Sentry_Extensions_Hosting["Sentry.Extensions.Hosting (2)"]:::atlasWorkflow
+      dir_2_src --> sub_2_1_Sentry_Extensions_Hosting
+      sub_2_2_Sentry_Analyzers["Sentry.Analyzers (1)"]:::atlasWorkflow
+      dir_2_src --> sub_2_2_Sentry_Analyzers
+      sub_2_more["+24 more submodules (24)"]:::atlasMore
+      dir_2_src --> sub_2_more
+    end
     repo_root --> dir_2_src
-    sub_2_0_Sentry["Sentry (10)"]:::atlasWorkflow
-    dir_2_src --> sub_2_0_Sentry
-    sub_2_1_Sentry_Extensions_Hosting["Sentry.Extensions.Hosting (2)"]:::atlasWorkflow
-    dir_2_src --> sub_2_1_Sentry_Extensions_Hosting
-    sub_2_2_Sentry_Analyzers["Sentry.Analyzers (1)"]:::atlasWorkflow
-    dir_2_src --> sub_2_2_Sentry_Analyzers
-    sub_2_more["+24 more submodules (24)"]:::atlasMore
-    dir_2_src --> sub_2_more
     dir_3_benchmarks["benchmarks (3)"]:::atlasCategory
     repo_root --> dir_3_benchmarks
     dir_4_integration_test["integration-test (2)"]:::atlasCategory

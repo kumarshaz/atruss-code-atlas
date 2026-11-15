@@ -49,36 +49,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["discourse/discourse-activity-pub (250 components)"]):::atlasRoot
-    dir_0_spec["spec (87)"]:::atlasCategory
+    subgraph sg_dir_0_spec["spec (87)"]
+      direction TB
+      dir_0_spec["spec (87)"]:::atlasCategory
+      sub_0_0_lib["lib (41)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_0_lib
+      sub_0_1_requests["requests (22)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_1_requests
+      sub_0_2_fabricators["fabricators (9)"]:::atlasWorkflow
+      dir_0_spec --> sub_0_2_fabricators
+      sub_0_more["+6 more submodules (15)"]:::atlasMore
+      dir_0_spec --> sub_0_more
+    end
     repo_root --> dir_0_spec
-    sub_0_0_lib["lib (41)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_0_lib
-    sub_0_1_requests["requests (22)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_1_requests
-    sub_0_2_fabricators["fabricators (9)"]:::atlasWorkflow
-    dir_0_spec --> sub_0_2_fabricators
-    sub_0_more["+6 more submodules (15)"]:::atlasMore
-    dir_0_spec --> sub_0_more
-    dir_1_app["app (80)"]:::atlasCategory
+    subgraph sg_dir_1_app["app (80)"]
+      direction TB
+      dir_1_app["app (80)"]:::atlasCategory
+      sub_1_0_serializers["serializers (33)"]:::atlasWorkflow
+      dir_1_app --> sub_1_0_serializers
+      sub_1_1_models["models (22)"]:::atlasWorkflow
+      dir_1_app --> sub_1_1_models
+      sub_1_2_controllers["controllers (20)"]:::atlasWorkflow
+      dir_1_app --> sub_1_2_controllers
+      sub_1_more["+1 more submodules (5)"]:::atlasMore
+      dir_1_app --> sub_1_more
+    end
     repo_root --> dir_1_app
-    sub_1_0_serializers["serializers (33)"]:::atlasWorkflow
-    dir_1_app --> sub_1_0_serializers
-    sub_1_1_models["models (22)"]:::atlasWorkflow
-    dir_1_app --> sub_1_1_models
-    sub_1_2_controllers["controllers (20)"]:::atlasWorkflow
-    dir_1_app --> sub_1_2_controllers
-    sub_1_more["+1 more submodules (5)"]:::atlasMore
-    dir_1_app --> sub_1_more
-    dir_2_lib["lib (57)"]:::atlasCategory
+    subgraph sg_dir_2_lib["lib (57)"]
+      direction TB
+      dir_2_lib["lib (57)"]:::atlasCategory
+      sub_2_0_discourse_activity_pub_a_p["discourse_activity_pub/a_p (30)"]:::atlasWorkflow
+      dir_2_lib --> sub_2_0_discourse_activity_pub_a_p
+      sub_2_1_discourse_activity_pub["discourse_activity_pub (20)"]:::atlasWorkflow
+      dir_2_lib --> sub_2_1_discourse_activity_pub
+      sub_2_2_discourse_activity_pub_bulk["discourse_activity_pub/bulk (4)"]:::atlasWorkflow
+      dir_2_lib --> sub_2_2_discourse_activity_pub_bulk
+      sub_2_more["+3 more submodules (3)"]:::atlasMore
+      dir_2_lib --> sub_2_more
+    end
     repo_root --> dir_2_lib
-    sub_2_0_discourse_activity_pub_a_p["discourse_activity_pub/a_p (30)"]:::atlasWorkflow
-    dir_2_lib --> sub_2_0_discourse_activity_pub_a_p
-    sub_2_1_discourse_activity_pub["discourse_activity_pub (20)"]:::atlasWorkflow
-    dir_2_lib --> sub_2_1_discourse_activity_pub
-    sub_2_2_discourse_activity_pub_bulk["discourse_activity_pub/bulk (4)"]:::atlasWorkflow
-    dir_2_lib --> sub_2_2_discourse_activity_pub_bulk
-    sub_2_more["+3 more submodules (3)"]:::atlasMore
-    dir_2_lib --> sub_2_more
     dir_3_db["db (24)"]:::atlasCategory
     repo_root --> dir_3_db
     dir_4__root_["(root) (1)"]:::atlasCategory

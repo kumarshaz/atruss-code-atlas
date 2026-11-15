@@ -48,16 +48,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/rollouts-demo (43 components)"]):::atlasRoot
-    dir_0_examples["examples (41)"]:::atlasCategory
+    subgraph sg_dir_0_examples["examples (41)"]
+      direction TB
+      dir_0_examples["examples (41)"]:::atlasCategory
+      sub_0_0_istio_subset["istio-subset (8)"]:::atlasWorkflow
+      dir_0_examples --> sub_0_0_istio_subset
+      sub_0_1_istio["istio (7)"]:::atlasWorkflow
+      dir_0_examples --> sub_0_1_istio
+      sub_0_2_blue_green["blue-green (6)"]:::atlasWorkflow
+      dir_0_examples --> sub_0_2_blue_green
+      sub_0_more["+6 more submodules (20)"]:::atlasMore
+      dir_0_examples --> sub_0_more
+    end
     repo_root --> dir_0_examples
-    sub_0_0_istio_subset["istio-subset (8)"]:::atlasWorkflow
-    dir_0_examples --> sub_0_0_istio_subset
-    sub_0_1_istio["istio (7)"]:::atlasWorkflow
-    dir_0_examples --> sub_0_1_istio
-    sub_0_2_blue_green["blue-green (6)"]:::atlasWorkflow
-    dir_0_examples --> sub_0_2_blue_green
-    sub_0_more["+6 more submodules (20)"]:::atlasMore
-    dir_0_examples --> sub_0_more
     dir_1__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```

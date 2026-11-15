@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-php (251 components)"]):::atlasRoot
-    dir_0_src["src (174)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (174)"]
+      direction TB
+      dir_0_src["src (174)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (28)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0__module_root_
+      sub_0_1_Serializer["Serializer (20)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_Serializer
+      sub_0_2_DataCollection["DataCollection (18)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_DataCollection
+      sub_0_more["+19 more submodules (108)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0__module_root_["(module root) (28)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0__module_root_
-    sub_0_1_Serializer["Serializer (20)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_Serializer
-    sub_0_2_DataCollection["DataCollection (18)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_DataCollection
-    sub_0_more["+19 more submodules (108)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_tests["tests (74)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (74)"]
+      direction TB
+      dir_1_tests["tests (74)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (29)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0__module_root_
+      sub_1_1_DataCollection["DataCollection (14)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_DataCollection
+      sub_1_2_Integration["Integration (9)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_Integration
+      sub_1_more["+6 more submodules (22)"]:::atlasMore
+      dir_1_tests --> sub_1_more
+    end
     repo_root --> dir_1_tests
-    sub_1_0__module_root_["(module root) (29)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0__module_root_
-    sub_1_1_DataCollection["DataCollection (14)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_DataCollection
-    sub_1_2_Integration["Integration (9)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_Integration
-    sub_1_more["+6 more submodules (22)"]:::atlasMore
-    dir_1_tests --> sub_1_more
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_decision_model_linter["decision-model-linter (1)"]:::atlasCategory

@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mastodon/mastodon (255 components)"]):::atlasRoot
-    dir_0_app["app (250)"]:::atlasCategory
+    subgraph sg_dir_0_app["app (250)"]
+      direction TB
+      dir_0_app["app (250)"]:::atlasCategory
+      sub_0_0_controllers["controllers (244)"]:::atlasWorkflow
+      dir_0_app --> sub_0_0_controllers
+      sub_0_1_chewy["chewy (6)"]:::atlasWorkflow
+      dir_0_app --> sub_0_1_chewy
+    end
     repo_root --> dir_0_app
-    sub_0_0_controllers["controllers (244)"]:::atlasWorkflow
-    dir_0_app --> sub_0_0_controllers
-    sub_0_1_chewy["chewy (6)"]:::atlasWorkflow
-    dir_0_app --> sub_0_1_chewy
     dir_1_streaming["streaming (4)"]:::atlasCategory
     repo_root --> dir_1_streaming
     dir_2__devcontainer[".devcontainer (1)"]:::atlasCategory

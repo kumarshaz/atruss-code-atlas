@@ -49,40 +49,55 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/symbolicator (154 components)"]):::atlasRoot
-    dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]:::atlasCategory
+    subgraph sg_dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]
+      direction TB
+      dir_0_crates_symbolicator_service["crates/symbolicator-service (49)"]:::atlasCategory
+      sub_0_0_src_download["src/download (14)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_0_src_download
+      sub_0_1_src_caching["src/caching (11)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_1_src_caching
+      sub_0_2_src["src (9)"]:::atlasWorkflow
+      dir_0_crates_symbolicator_service --> sub_0_2_src
+      sub_0_more["+3 more submodules (15)"]:::atlasMore
+      dir_0_crates_symbolicator_service --> sub_0_more
+    end
     repo_root --> dir_0_crates_symbolicator_service
-    sub_0_0_src_download["src/download (14)"]:::atlasWorkflow
-    dir_0_crates_symbolicator_service --> sub_0_0_src_download
-    sub_0_1_src_caching["src/caching (11)"]:::atlasWorkflow
-    dir_0_crates_symbolicator_service --> sub_0_1_src_caching
-    sub_0_2_src["src (9)"]:::atlasWorkflow
-    dir_0_crates_symbolicator_service --> sub_0_2_src
-    sub_0_more["+3 more submodules (15)"]:::atlasMore
-    dir_0_crates_symbolicator_service --> sub_0_more
-    dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]:::atlasCategory
+    subgraph sg_dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]
+      direction TB
+      dir_1_crates_symbolicator_native["crates/symbolicator-native (34)"]:::atlasCategory
+      sub_1_0_src["src (25)"]:::atlasWorkflow
+      dir_1_crates_symbolicator_native --> sub_1_0_src
+      sub_1_1_tests["tests (9)"]:::atlasWorkflow
+      dir_1_crates_symbolicator_native --> sub_1_1_tests
+    end
     repo_root --> dir_1_crates_symbolicator_native
-    sub_1_0_src["src (25)"]:::atlasWorkflow
-    dir_1_crates_symbolicator_native --> sub_1_0_src
-    sub_1_1_tests["tests (9)"]:::atlasWorkflow
-    dir_1_crates_symbolicator_native --> sub_1_1_tests
-    dir_2_crates_symbolicator["crates/symbolicator (19)"]:::atlasCategory
+    subgraph sg_dir_2_crates_symbolicator["crates/symbolicator (19)"]
+      direction TB
+      dir_2_crates_symbolicator["crates/symbolicator (19)"]:::atlasCategory
+      sub_2_0_src["src (18)"]:::atlasWorkflow
+      dir_2_crates_symbolicator --> sub_2_0_src
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_crates_symbolicator --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_crates_symbolicator
-    sub_2_0_src["src (18)"]:::atlasWorkflow
-    dir_2_crates_symbolicator --> sub_2_0_src
-    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_crates_symbolicator --> sub_2_1__module_root_
-    dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]:::atlasCategory
+    subgraph sg_dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]
+      direction TB
+      dir_3_crates_symbolicator_js["crates/symbolicator-js (14)"]:::atlasCategory
+      sub_3_0_src["src (10)"]:::atlasWorkflow
+      dir_3_crates_symbolicator_js --> sub_3_0_src
+      sub_3_1_tests["tests (4)"]:::atlasWorkflow
+      dir_3_crates_symbolicator_js --> sub_3_1_tests
+    end
     repo_root --> dir_3_crates_symbolicator_js
-    sub_3_0_src["src (10)"]:::atlasWorkflow
-    dir_3_crates_symbolicator_js --> sub_3_0_src
-    sub_3_1_tests["tests (4)"]:::atlasWorkflow
-    dir_3_crates_symbolicator_js --> sub_3_1_tests
-    dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]:::atlasCategory
+    subgraph sg_dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]
+      direction TB
+      dir_4_crates_symbolicator_sources["crates/symbolicator-sources (13)"]:::atlasCategory
+      sub_4_0_src["src (7)"]:::atlasWorkflow
+      dir_4_crates_symbolicator_sources --> sub_4_0_src
+      sub_4_1_src_sources["src/sources (6)"]:::atlasWorkflow
+      dir_4_crates_symbolicator_sources --> sub_4_1_src_sources
+    end
     repo_root --> dir_4_crates_symbolicator_sources
-    sub_4_0_src["src (7)"]:::atlasWorkflow
-    dir_4_crates_symbolicator_sources --> sub_4_0_src
-    sub_4_1_src_sources["src/sources (6)"]:::atlasWorkflow
-    dir_4_crates_symbolicator_sources --> sub_4_1_src_sources
     dir_other_modules["+8 more modules (25)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

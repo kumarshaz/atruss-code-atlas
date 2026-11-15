@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["owncloud/web (54 components)"]):::atlasRoot
-    dir_0_packages["packages (37)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (37)"]
+      direction TB
+      dir_0_packages["packages (37)"]:::atlasCategory
+      sub_0_0_web_pkg["web-pkg (13)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_web_pkg
+      sub_0_1_web_runtime["web-runtime (2)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_web_runtime
+      sub_0_2_babel_preset["babel-preset (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_babel_preset
+      sub_0_more["+21 more submodules (21)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_web_pkg["web-pkg (13)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_web_pkg
-    sub_0_1_web_runtime["web-runtime (2)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_web_runtime
-    sub_0_2_babel_preset["babel-preset (1)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_2_babel_preset
-    sub_0_more["+21 more submodules (21)"]:::atlasMore
-    dir_0_packages --> sub_0_more
-    dir_1_tests["tests (11)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (11)"]
+      direction TB
+      dir_1_tests["tests (11)"]:::atlasCategory
+      sub_1_0_e2e_support["e2e/support (10)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_e2e_support
+      sub_1_1_e2e["e2e (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_e2e
+    end
     repo_root --> dir_1_tests
-    sub_1_0_e2e_support["e2e/support (10)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_e2e_support
-    sub_1_1_e2e["e2e (1)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_e2e
     dir_2_deployments["deployments (5)"]:::atlasCategory
     repo_root --> dir_2_deployments
     dir_3__root_["(root) (1)"]:::atlasCategory

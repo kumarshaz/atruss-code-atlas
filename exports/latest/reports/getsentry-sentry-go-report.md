@@ -51,32 +51,41 @@ graph TD;
     repo_root(["getsentry/sentry-go (235 components)"]):::atlasRoot
     dir_0__root_["(root) (63)"]:::atlasCategory
     repo_root --> dir_0__root_
-    dir_1_internal["internal (55)"]:::atlasCategory
+    subgraph sg_dir_1_internal["internal (55)"]
+      direction TB
+      dir_1_internal["internal (55)"]:::atlasCategory
+      sub_1_0_telemetry["telemetry (17)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_0_telemetry
+      sub_1_1_ratelimit["ratelimit (10)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_1_ratelimit
+      sub_1_2_testutils["testutils (8)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_2_testutils
+      sub_1_more["+8 more submodules (20)"]:::atlasMore
+      dir_1_internal --> sub_1_more
+    end
     repo_root --> dir_1_internal
-    sub_1_0_telemetry["telemetry (17)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_0_telemetry
-    sub_1_1_ratelimit["ratelimit (10)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_1_ratelimit
-    sub_1_2_testutils["testutils (8)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_2_testutils
-    sub_1_more["+8 more submodules (20)"]:::atlasMore
-    dir_1_internal --> sub_1_more
-    dir_2__examples["_examples (30)"]:::atlasCategory
+    subgraph sg_dir_2__examples["_examples (30)"]
+      direction TB
+      dir_2__examples["_examples (30)"]:::atlasCategory
+      sub_2_0_grpc["grpc (4)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_0_grpc
+      sub_2_1_basic["basic (1)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_1_basic
+      sub_2_2_crons["crons (1)"]:::atlasWorkflow
+      dir_2__examples --> sub_2_2_crons
+      sub_2_more["+24 more submodules (24)"]:::atlasMore
+      dir_2__examples --> sub_2_more
+    end
     repo_root --> dir_2__examples
-    sub_2_0_grpc["grpc (4)"]:::atlasWorkflow
-    dir_2__examples --> sub_2_0_grpc
-    sub_2_1_basic["basic (1)"]:::atlasWorkflow
-    dir_2__examples --> sub_2_1_basic
-    sub_2_2_crons["crons (1)"]:::atlasWorkflow
-    dir_2__examples --> sub_2_2_crons
-    sub_2_more["+24 more submodules (24)"]:::atlasMore
-    dir_2__examples --> sub_2_more
-    dir_3_sql["sql (18)"]:::atlasCategory
+    subgraph sg_dir_3_sql["sql (18)"]
+      direction TB
+      dir_3_sql["sql (18)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (14)"]:::atlasWorkflow
+      dir_3_sql --> sub_3_0__module_root_
+      sub_3_1_internal["internal (4)"]:::atlasWorkflow
+      dir_3_sql --> sub_3_1_internal
+    end
     repo_root --> dir_3_sql
-    sub_3_0__module_root_["(module root) (14)"]:::atlasWorkflow
-    dir_3_sql --> sub_3_0__module_root_
-    sub_3_1_internal["internal (4)"]:::atlasWorkflow
-    dir_3_sql --> sub_3_1_internal
     dir_4_protocol["protocol (7)"]:::atlasCategory
     repo_root --> dir_4_protocol
     dir_other_modules["+19 more modules (62)"]:::atlasMore

@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["goharbor/harbor-cli (254 components)"]):::atlasRoot
-    dir_0_cmd["cmd (186)"]:::atlasCategory
+    subgraph sg_dir_0_cmd["cmd (186)"]
+      direction TB
+      dir_0_cmd["cmd (186)"]:::atlasCategory
+      sub_0_0_harbor_root["harbor/root (184)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_harbor_root
+      sub_0_1_harbor["harbor (1)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_harbor
+      sub_0_2_harbor_internal["harbor/internal (1)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_harbor_internal
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_harbor_root["harbor/root (184)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_0_harbor_root
-    sub_0_1_harbor["harbor (1)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_1_harbor
-    sub_0_2_harbor_internal["harbor/internal (1)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_2_harbor_internal
-    dir_1_pkg["pkg (45)"]:::atlasCategory
+    subgraph sg_dir_1_pkg["pkg (45)"]
+      direction TB
+      dir_1_pkg["pkg (45)"]:::atlasCategory
+      sub_1_0_api["api (32)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_0_api
+      sub_1_1_config["config (3)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_1_config
+      sub_1_2_errors["errors (3)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_2_errors
+      sub_1_more["+5 more submodules (7)"]:::atlasMore
+      dir_1_pkg --> sub_1_more
+    end
     repo_root --> dir_1_pkg
-    sub_1_0_api["api (32)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_0_api
-    sub_1_1_config["config (3)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_1_config
-    sub_1_2_errors["errors (3)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_2_errors
-    sub_1_more["+5 more submodules (7)"]:::atlasMore
-    dir_1_pkg --> sub_1_more
     dir_2__dagger[".dagger (16)"]:::atlasCategory
     repo_root --> dir_2__dagger
     dir_3_test["test (4)"]:::atlasCategory

@@ -53,12 +53,15 @@ graph TD;
     repo_root --> dir_0_src_auth
     dir_1_src_storage["src/storage (35)"]:::atlasCategory
     repo_root --> dir_1_src_storage
-    dir_2_src_realtime["src/realtime (25)"]:::atlasCategory
+    subgraph sg_dir_2_src_realtime["src/realtime (25)"]
+      direction TB
+      dir_2_src_realtime["src/realtime (25)"]:::atlasCategory
+      sub_2_0_src["src (22)"]:::atlasWorkflow
+      dir_2_src_realtime --> sub_2_0_src
+      sub_2_1_tests["tests (3)"]:::atlasWorkflow
+      dir_2_src_realtime --> sub_2_1_tests
+    end
     repo_root --> dir_2_src_realtime
-    sub_2_0_src["src (22)"]:::atlasWorkflow
-    dir_2_src_realtime --> sub_2_0_src
-    sub_2_1_tests["tests (3)"]:::atlasWorkflow
-    dir_2_src_realtime --> sub_2_1_tests
     dir_3_src_postgrest["src/postgrest (1)"]:::atlasCategory
     repo_root --> dir_3_src_postgrest
     dir_4_src_utils["src/utils (1)"]:::atlasCategory

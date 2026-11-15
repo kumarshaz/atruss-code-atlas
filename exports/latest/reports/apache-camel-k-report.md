@@ -49,30 +49,39 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["apache/camel-k (300 components)"]):::atlasRoot
-    dir_0_pkg["pkg (159)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (159)"]
+      direction TB
+      dir_0_pkg["pkg (159)"]:::atlasCategory
+      sub_0_0_apis["apis (132)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_apis
+      sub_0_1_resources["resources (14)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_resources
+      sub_0_2_builder["builder (13)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_builder
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_apis["apis (132)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_apis
-    sub_0_1_resources["resources (14)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_resources
-    sub_0_2_builder["builder (13)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_builder
-    dir_1_e2e["e2e (99)"]:::atlasCategory
+    subgraph sg_dir_1_e2e["e2e (99)"]
+      direction TB
+      dir_1_e2e["e2e (99)"]:::atlasCategory
+      sub_1_0_common["common (50)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_0_common
+      sub_1_1_advanced["advanced (12)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_1_advanced
+      sub_1_2_support["support (12)"]:::atlasWorkflow
+      dir_1_e2e --> sub_1_2_support
+      sub_1_more["+12 more submodules (25)"]:::atlasMore
+      dir_1_e2e --> sub_1_more
+    end
     repo_root --> dir_1_e2e
-    sub_1_0_common["common (50)"]:::atlasWorkflow
-    dir_1_e2e --> sub_1_0_common
-    sub_1_1_advanced["advanced (12)"]:::atlasWorkflow
-    dir_1_e2e --> sub_1_1_advanced
-    sub_1_2_support["support (12)"]:::atlasWorkflow
-    dir_1_e2e --> sub_1_2_support
-    sub_1_more["+12 more submodules (25)"]:::atlasMore
-    dir_1_e2e --> sub_1_more
-    dir_2_install["install (28)"]:::atlasCategory
+    subgraph sg_dir_2_install["install (28)"]
+      direction TB
+      dir_2_install["install (28)"]:::atlasCategory
+      sub_2_0_overlays["overlays (27)"]:::atlasWorkflow
+      dir_2_install --> sub_2_0_overlays
+      sub_2_1_base["base (1)"]:::atlasWorkflow
+      dir_2_install --> sub_2_1_base
+    end
     repo_root --> dir_2_install
-    sub_2_0_overlays["overlays (27)"]:::atlasWorkflow
-    dir_2_install --> sub_2_0_overlays
-    sub_2_1_base["base (1)"]:::atlasWorkflow
-    dir_2_install --> sub_2_1_base
     dir_3_helm["helm (8)"]:::atlasCategory
     repo_root --> dir_3_helm
     dir_4_cmd["cmd (6)"]:::atlasCategory

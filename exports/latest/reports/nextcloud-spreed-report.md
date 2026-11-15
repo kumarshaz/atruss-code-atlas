@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["nextcloud/spreed (250 components)"]):::atlasRoot
-    dir_0_lib["lib (247)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (247)"]
+      direction TB
+      dir_0_lib["lib (247)"]:::atlasCategory
+      sub_0_0_Events["Events (73)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_Events
+      sub_0_1_Command["Command (46)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Command
+      sub_0_2_Controller["Controller (33)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Controller
+      sub_0_more["+14 more submodules (95)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0_Events["Events (73)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0_Events
-    sub_0_1_Command["Command (46)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_Command
-    sub_0_2_Controller["Controller (33)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_Controller
-    sub_0_more["+14 more submodules (95)"]:::atlasMore
-    dir_0_lib --> sub_0_more
     dir_1__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_1__root_
     dir_2_composer["composer (1)"]:::atlasCategory

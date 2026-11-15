@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-javascript (1558 components)"]):::atlasRoot
-    dir_0_dev_packages["dev-packages (1388)"]:::atlasCategory
+    subgraph sg_dir_0_dev_packages["dev-packages (1388)"]
+      direction TB
+      dir_0_dev_packages["dev-packages (1388)"]:::atlasCategory
+      sub_0_0_e2e_tests["e2e-tests (1027)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_0_e2e_tests
+      sub_0_1_node_integration_tests["node-integration-tests (309)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_1_node_integration_tests
+      sub_0_2_bundler_plugin_integration_tests["bundler-plugin-integration-tests (28)"]:::atlasWorkflow
+      dir_0_dev_packages --> sub_0_2_bundler_plugin_integration_tests
+      sub_0_more["+12 more submodules (24)"]:::atlasMore
+      dir_0_dev_packages --> sub_0_more
+    end
     repo_root --> dir_0_dev_packages
-    sub_0_0_e2e_tests["e2e-tests (1027)"]:::atlasWorkflow
-    dir_0_dev_packages --> sub_0_0_e2e_tests
-    sub_0_1_node_integration_tests["node-integration-tests (309)"]:::atlasWorkflow
-    dir_0_dev_packages --> sub_0_1_node_integration_tests
-    sub_0_2_bundler_plugin_integration_tests["bundler-plugin-integration-tests (28)"]:::atlasWorkflow
-    dir_0_dev_packages --> sub_0_2_bundler_plugin_integration_tests
-    sub_0_more["+12 more submodules (24)"]:::atlasMore
-    dir_0_dev_packages --> sub_0_more
-    dir_1_packages["packages (169)"]:::atlasCategory
+    subgraph sg_dir_1_packages["packages (169)"]
+      direction TB
+      dir_1_packages["packages (169)"]:::atlasCategory
+      sub_1_0_bundler_plugins["bundler-plugins (40)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_0_bundler_plugins
+      sub_1_1_hono["hono (22)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_1_hono
+      sub_1_2_server_utils["server-utils (12)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_2_server_utils
+      sub_1_more["+46 more submodules (95)"]:::atlasMore
+      dir_1_packages --> sub_1_more
+    end
     repo_root --> dir_1_packages
-    sub_1_0_bundler_plugins["bundler-plugins (40)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_0_bundler_plugins
-    sub_1_1_hono["hono (22)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_1_hono
-    sub_1_2_server_utils["server-utils (12)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_2_server_utils
-    sub_1_more["+46 more submodules (95)"]:::atlasMore
-    dir_1_packages --> sub_1_more
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     sub_1_0_bundler_plugins -.->|"88 deps"| sub_0_0_e2e_tests

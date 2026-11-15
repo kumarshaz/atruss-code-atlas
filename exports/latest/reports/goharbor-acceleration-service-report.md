@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["goharbor/acceleration-service (49 components)"]):::atlasRoot
-    dir_0_pkg["pkg (47)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (47)"]
+      direction TB
+      dir_0_pkg["pkg (47)"]:::atlasCategory
+      sub_0_0_driver["driver (10)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_driver
+      sub_0_1_content["content (8)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_content
+      sub_0_2_adapter["adapter (5)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_adapter
+      sub_0_more["+15 more submodules (24)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_driver["driver (10)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_driver
-    sub_0_1_content["content (8)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_content
-    sub_0_2_adapter["adapter (5)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_adapter
-    sub_0_more["+15 more submodules (24)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
     dir_1_cmd["cmd (2)"]:::atlasCategory
     repo_root --> dir_1_cmd
 ```

@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["langfuse/langfuse-python (32 components)"]):::atlasRoot
-    dir_0_tests["tests (22)"]:::atlasCategory
+    subgraph sg_dir_0_tests["tests (22)"]
+      direction TB
+      dir_0_tests["tests (22)"]:::atlasCategory
+      sub_0_0_unit["unit (17)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_0_unit
+      sub_0_1_live_provider["live_provider (4)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_1_live_provider
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_tests --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_tests
-    sub_0_0_unit["unit (17)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_0_unit
-    sub_0_1_live_provider["live_provider (4)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_1_live_provider
-    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_tests --> sub_0_2__module_root_
-    dir_1_langfuse["langfuse (10)"]:::atlasCategory
+    subgraph sg_dir_1_langfuse["langfuse (10)"]
+      direction TB
+      dir_1_langfuse["langfuse (10)"]:::atlasCategory
+      sub_1_0_api["api (6)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_0_api
+      sub_1_1__client["_client (2)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_1__client
+      sub_1_2__task_manager["_task_manager (1)"]:::atlasWorkflow
+      dir_1_langfuse --> sub_1_2__task_manager
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_langfuse --> sub_1_more
+    end
     repo_root --> dir_1_langfuse
-    sub_1_0_api["api (6)"]:::atlasWorkflow
-    dir_1_langfuse --> sub_1_0_api
-    sub_1_1__client["_client (2)"]:::atlasWorkflow
-    dir_1_langfuse --> sub_1_1__client
-    sub_1_2__task_manager["_task_manager (1)"]:::atlasWorkflow
-    dir_1_langfuse --> sub_1_2__task_manager
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_langfuse --> sub_1_more
     sub_0_0_unit -.->|"6 deps"| sub_1_1__client
     sub_0_0_unit -.->|"4 deps"| sub_1_2__task_manager
     sub_1_1__client -.->|"2 deps"| sub_1_2__task_manager

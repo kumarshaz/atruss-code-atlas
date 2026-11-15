@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["apache/activemq (79 components)"]):::atlasRoot
-    dir_0_assembly["assembly (21)"]:::atlasCategory
+    subgraph sg_dir_0_assembly["assembly (21)"]
+      direction TB
+      dir_0_assembly["assembly (21)"]:::atlasCategory
+      sub_0_0_src["src (20)"]:::atlasWorkflow
+      dir_0_assembly --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_assembly --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_assembly
-    sub_0_0_src["src (20)"]:::atlasWorkflow
-    dir_0_assembly --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_assembly --> sub_0_1__module_root_
-    dir_1_helm["helm (14)"]:::atlasCategory
+    subgraph sg_dir_1_helm["helm (14)"]
+      direction TB
+      dir_1_helm["helm (14)"]:::atlasCategory
+      sub_1_0_activemq_templates["activemq/templates (10)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_0_activemq_templates
+      sub_1_1_activemq["activemq (2)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_1_activemq
+      sub_1_2_activemq_examples["activemq/examples (2)"]:::atlasWorkflow
+      dir_1_helm --> sub_1_2_activemq_examples
+    end
     repo_root --> dir_1_helm
-    sub_1_0_activemq_templates["activemq/templates (10)"]:::atlasWorkflow
-    dir_1_helm --> sub_1_0_activemq_templates
-    sub_1_1_activemq["activemq (2)"]:::atlasWorkflow
-    dir_1_helm --> sub_1_1_activemq
-    sub_1_2_activemq_examples["activemq/examples (2)"]:::atlasWorkflow
-    dir_1_helm --> sub_1_2_activemq_examples
     dir_2_activemq_tooling["activemq-tooling (7)"]:::atlasCategory
     repo_root --> dir_2_activemq_tooling
     dir_3__root_["(root) (1)"]:::atlasCategory

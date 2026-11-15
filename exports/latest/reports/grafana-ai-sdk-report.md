@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/ai-sdk (255 components)"]):::atlasRoot
-    dir_0_ai_gateway["ai-gateway (181)"]:::atlasCategory
+    subgraph sg_dir_0_ai_gateway["ai-gateway (181)"]
+      direction TB
+      dir_0_ai_gateway["ai-gateway (181)"]:::atlasCategory
+      sub_0_0_pkg["pkg (84)"]:::atlasWorkflow
+      dir_0_ai_gateway --> sub_0_0_pkg
+      sub_0_1_internal["internal (39)"]:::atlasWorkflow
+      dir_0_ai_gateway --> sub_0_1_internal
+      sub_0_2_providerwire["providerwire (30)"]:::atlasWorkflow
+      dir_0_ai_gateway --> sub_0_2_providerwire
+      sub_0_more["+4 more submodules (28)"]:::atlasMore
+      dir_0_ai_gateway --> sub_0_more
+    end
     repo_root --> dir_0_ai_gateway
-    sub_0_0_pkg["pkg (84)"]:::atlasWorkflow
-    dir_0_ai_gateway --> sub_0_0_pkg
-    sub_0_1_internal["internal (39)"]:::atlasWorkflow
-    dir_0_ai_gateway --> sub_0_1_internal
-    sub_0_2_providerwire["providerwire (30)"]:::atlasWorkflow
-    dir_0_ai_gateway --> sub_0_2_providerwire
-    sub_0_more["+4 more submodules (28)"]:::atlasMore
-    dir_0_ai_gateway --> sub_0_more
     dir_1__root_["(root) (70)"]:::atlasCategory
     repo_root --> dir_1__root_
     dir_2_test["test (3)"]:::atlasCategory

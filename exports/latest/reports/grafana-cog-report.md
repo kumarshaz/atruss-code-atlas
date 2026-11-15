@@ -49,36 +49,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/cog (250 components)"]):::atlasRoot
-    dir_0_internal["internal (171)"]:::atlasCategory
+    subgraph sg_dir_0_internal["internal (171)"]
+      direction TB
+      dir_0_internal["internal (171)"]:::atlasCategory
+      sub_0_0_jennies["jennies (108)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_jennies
+      sub_0_1_codegen["codegen (14)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_codegen
+      sub_0_2_veneers["veneers (13)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_2_veneers
+      sub_0_more["+11 more submodules (36)"]:::atlasMore
+      dir_0_internal --> sub_0_more
+    end
     repo_root --> dir_0_internal
-    sub_0_0_jennies["jennies (108)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_0_jennies
-    sub_0_1_codegen["codegen (14)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_1_codegen
-    sub_0_2_veneers["veneers (13)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_2_veneers
-    sub_0_more["+11 more submodules (36)"]:::atlasMore
-    dir_0_internal --> sub_0_more
-    dir_1_pkg["pkg (64)"]:::atlasCategory
+    subgraph sg_dir_1_pkg["pkg (64)"]
+      direction TB
+      dir_1_pkg["pkg (64)"]:::atlasCategory
+      sub_1_0_ir["ir (59)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_0_ir
+      sub_1_1_apiref["apiref (2)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_1_apiref
+      sub_1_2_cue["cue (2)"]:::atlasWorkflow
+      dir_1_pkg --> sub_1_2_cue
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_pkg --> sub_1_more
+    end
     repo_root --> dir_1_pkg
-    sub_1_0_ir["ir (59)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_0_ir
-    sub_1_1_apiref["apiref (2)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_1_apiref
-    sub_1_2_cue["cue (2)"]:::atlasWorkflow
-    dir_1_pkg --> sub_1_2_cue
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_pkg --> sub_1_more
-    dir_2_cmd["cmd (10)"]:::atlasCategory
+    subgraph sg_dir_2_cmd["cmd (10)"]
+      direction TB
+      dir_2_cmd["cmd (10)"]:::atlasCategory
+      sub_2_0_cli["cli (7)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_0_cli
+      sub_2_1_cog_config_schemas["cog-config-schemas (1)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_1_cog_config_schemas
+      sub_2_2_compiler_passes_docs["compiler-passes-docs (1)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_2_compiler_passes_docs
+      sub_2_more["+1 more submodules (1)"]:::atlasMore
+      dir_2_cmd --> sub_2_more
+    end
     repo_root --> dir_2_cmd
-    sub_2_0_cli["cli (7)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_0_cli
-    sub_2_1_cog_config_schemas["cog-config-schemas (1)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_1_cog_config_schemas
-    sub_2_2_compiler_passes_docs["compiler-passes-docs (1)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_2_compiler_passes_docs
-    sub_2_more["+1 more submodules (1)"]:::atlasMore
-    dir_2_cmd --> sub_2_more
     dir_3__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_3__root_
     dir_4_examples["examples (2)"]:::atlasCategory

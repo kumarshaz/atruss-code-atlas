@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argo-ui (102 components)"]):::atlasRoot
-    dir_0_v2["v2 (48)"]:::atlasCategory
+    subgraph sg_dir_0_v2["v2 (48)"]
+      direction TB
+      dir_0_v2["v2 (48)"]:::atlasCategory
+      sub_0_0_components["components (42)"]:::atlasWorkflow
+      dir_0_v2 --> sub_0_0_components
+      sub_0_1_shared["shared (6)"]:::atlasWorkflow
+      dir_0_v2 --> sub_0_1_shared
+    end
     repo_root --> dir_0_v2
-    sub_0_0_components["components (42)"]:::atlasWorkflow
-    dir_0_v2 --> sub_0_0_components
-    sub_0_1_shared["shared (6)"]:::atlasWorkflow
-    dir_0_v2 --> sub_0_1_shared
     dir_1_stories["stories (28)"]:::atlasCategory
     repo_root --> dir_1_stories
-    dir_2_src["src (25)"]:::atlasCategory
+    subgraph sg_dir_2_src["src (25)"]
+      direction TB
+      dir_2_src["src (25)"]:::atlasCategory
+      sub_2_0_components["components (24)"]:::atlasWorkflow
+      dir_2_src --> sub_2_0_components
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_src --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_src
-    sub_2_0_components["components (24)"]:::atlasWorkflow
-    dir_2_src --> sub_2_0_components
-    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_src --> sub_2_1__module_root_
     dir_3__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_3__root_
     dir_1_stories -.->|"63 deps"| sub_2_0_components

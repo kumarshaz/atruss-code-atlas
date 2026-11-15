@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost-plugin-boards (95 components)"]):::atlasRoot
-    dir_0_webapp["webapp (93)"]:::atlasCategory
+    subgraph sg_dir_0_webapp["webapp (93)"]
+      direction TB
+      dir_0_webapp["webapp (93)"]:::atlasCategory
+      sub_0_0_src["src (92)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (92)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_1__module_root_
     dir_1_e2e["e2e (2)"]:::atlasCategory
     repo_root --> dir_1_e2e
     sub_0_0_src -.->|"2 deps"| dir_1_e2e

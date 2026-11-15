@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/supabase-js (44 components)"]):::atlasRoot
-    dir_0_packages["packages (43)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (43)"]
+      direction TB
+      dir_0_packages["packages (43)"]:::atlasCategory
+      sub_0_0_core["core (42)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_core
+      sub_0_1_shared["shared (1)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_shared
+    end
     repo_root --> dir_0_packages
-    sub_0_0_core["core (42)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_core
-    sub_0_1_shared["shared (1)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_shared
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```

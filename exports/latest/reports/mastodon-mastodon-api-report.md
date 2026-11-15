@@ -48,18 +48,24 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mastodon/mastodon-api (74 components)"]):::atlasRoot
-    dir_0_lib["lib (56)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (56)"]
+      direction TB
+      dir_0_lib["lib (56)"]:::atlasCategory
+      sub_0_0_mastodon["mastodon (55)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_mastodon
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_lib
-    sub_0_0_mastodon["mastodon (55)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0_mastodon
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1__module_root_
-    dir_1_spec["spec (18)"]:::atlasCategory
+    subgraph sg_dir_1_spec["spec (18)"]
+      direction TB
+      dir_1_spec["spec (18)"]:::atlasCategory
+      sub_1_0_mastodon["mastodon (17)"]:::atlasWorkflow
+      dir_1_spec --> sub_1_0_mastodon
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_spec --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_spec
-    sub_1_0_mastodon["mastodon (17)"]:::atlasWorkflow
-    dir_1_spec --> sub_1_0_mastodon
-    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_spec --> sub_1_1__module_root_
 ```
 
 ## Component Details

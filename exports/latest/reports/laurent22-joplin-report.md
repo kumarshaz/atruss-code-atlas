@@ -49,16 +49,19 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["laurent22/joplin (475 components)"]):::atlasRoot
-    dir_0_packages["packages (470)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (470)"]
+      direction TB
+      dir_0_packages["packages (470)"]:::atlasCategory
+      sub_0_0_onenote_converter["onenote-converter (170)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_onenote_converter
+      sub_0_1_server["server (113)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_server
+      sub_0_2_app_cli["app-cli (58)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_app_cli
+      sub_0_more["+25 more submodules (129)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_onenote_converter["onenote-converter (170)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_onenote_converter
-    sub_0_1_server["server (113)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_server
-    sub_0_2_app_cli["app-cli (58)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_2_app_cli
-    sub_0_more["+25 more submodules (129)"]:::atlasMore
-    dir_0_packages --> sub_0_more
     dir_1__yarn[".yarn (2)"]:::atlasCategory
     repo_root --> dir_1__yarn
     dir_2_Assets["Assets (2)"]:::atlasCategory

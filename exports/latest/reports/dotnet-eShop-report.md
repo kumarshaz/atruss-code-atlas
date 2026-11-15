@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["dotnet/eShop (124 components)"]):::atlasRoot
-    dir_0_src["src (111)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (111)"]
+      direction TB
+      dir_0_src["src (111)"]:::atlasCategory
+      sub_0_0_Ordering_API["Ordering.API (31)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_Ordering_API
+      sub_0_1_ClientApp["ClientApp (16)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_ClientApp
+      sub_0_2_Identity_API["Identity.API (12)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_Identity_API
+      sub_0_more["+17 more submodules (52)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_Ordering_API["Ordering.API (31)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_Ordering_API
-    sub_0_1_ClientApp["ClientApp (16)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_ClientApp
-    sub_0_2_Identity_API["Identity.API (12)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_Identity_API
-    sub_0_more["+17 more submodules (52)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_tests["tests (13)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (13)"]
+      direction TB
+      dir_1_tests["tests (13)"]:::atlasCategory
+      sub_1_0_ClientApp_UnitTests["ClientApp.UnitTests (4)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_ClientApp_UnitTests
+      sub_1_1_Application_UnitTests["Application.UnitTests (2)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_Application_UnitTests
+      sub_1_2_Basket_FunctionalTests["Basket.FunctionalTests (1)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_Basket_FunctionalTests
+      sub_1_more["+6 more submodules (6)"]:::atlasMore
+      dir_1_tests --> sub_1_more
+    end
     repo_root --> dir_1_tests
-    sub_1_0_ClientApp_UnitTests["ClientApp.UnitTests (4)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_ClientApp_UnitTests
-    sub_1_1_Application_UnitTests["Application.UnitTests (2)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_Application_UnitTests
-    sub_1_2_Basket_FunctionalTests["Basket.FunctionalTests (1)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_Basket_FunctionalTests
-    sub_1_more["+6 more submodules (6)"]:::atlasMore
-    dir_1_tests --> sub_1_more
     sub_0_0_Ordering_API -.->|"33 deps"| sub_0_more
     sub_1_more -.->|"8 deps"| sub_0_more
     sub_0_1_ClientApp -.->|"6 deps"| sub_0_0_Ordering_API

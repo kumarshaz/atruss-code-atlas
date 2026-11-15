@@ -120,11 +120,6 @@ def _render_top_level_tree(
     for idx, (top_key, group_comps) in enumerate(shown_top):
         top_label = "/".join(top_key)
         top_id = f"dir_{idx}_{_mermaid_safe_id(top_label)}"
-        lines.append(
-            f'    {top_id}["{_mermaid_label(top_label)} ({len(group_comps)})"]:::atlasCategory'
-        )
-        lines.append(f"    {root_id} --> {top_id}")
-        edge_count += 1
 
         # Skip intermediate single-child wrapper folders (e.g. src/specify_cli or src/openai)
         # so large single-package roots expand into their actual sub-modules.
@@ -152,6 +147,12 @@ def _render_top_level_tree(
             child_groups[sub_name].append(comp)
 
         if len(group_comps) > 8 and len(child_groups) > 1:
+            sg_id = f"sg_{top_id}"
+            sg_lbl = f"{_mermaid_label(top_label)} ({len(group_comps)})"
+            lines.append(f'    subgraph {sg_id}["{sg_lbl}"]')
+            lines.append("      direction TB")
+            lines.append(f'      {top_id}["{sg_lbl}"]:::atlasCategory')
+
             ranked_children = sorted(
                 child_groups.items(),
                 key=lambda item: (-len(item[1]), item[0]),
@@ -162,8 +163,8 @@ def _render_top_level_tree(
             for c_idx, (child_name, child_comps) in enumerate(shown_children):
                 child_id = f"sub_{idx}_{c_idx}_{_mermaid_safe_id(child_name)}"
                 child_lbl = f"{_mermaid_label(child_name)} ({len(child_comps)})"
-                lines.append(f'    {child_id}["{child_lbl}"]:::atlasWorkflow')
-                lines.append(f"    {top_id} --> {child_id}")
+                lines.append(f'      {child_id}["{child_lbl}"]:::atlasWorkflow')
+                lines.append(f"      {top_id} --> {child_id}")
                 edge_count += 1
                 for comp in child_comps:
                     comp_to_node.setdefault(comp["name"], child_id)
@@ -172,13 +173,22 @@ def _render_top_level_tree(
                 tail_count = sum(len(items) for _, items in tail_children)
                 tail_id = f"sub_{idx}_more"
                 tail_lbl = f"+{len(tail_children)} more submodules ({tail_count})"
-                lines.append(f'    {tail_id}["{tail_lbl}"]:::atlasMore')
-                lines.append(f"    {top_id} --> {tail_id}")
+                lines.append(f'      {tail_id}["{tail_lbl}"]:::atlasMore')
+                lines.append(f"      {top_id} --> {tail_id}")
                 edge_count += 1
                 for _, child_comps in tail_children:
                     for comp in child_comps:
                         comp_to_node.setdefault(comp["name"], tail_id)
+
+            lines.append("    end")
+            lines.append(f"    {root_id} --> {top_id}")
+            edge_count += 1
         else:
+            lines.append(
+                f'    {top_id}["{_mermaid_label(top_label)} ({len(group_comps)})"]:::atlasCategory'
+            )
+            lines.append(f"    {root_id} --> {top_id}")
+            edge_count += 1
             for comp in group_comps:
                 comp_to_node.setdefault(comp["name"], top_id)
 

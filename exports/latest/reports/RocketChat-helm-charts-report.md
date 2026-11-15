@@ -49,38 +49,50 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["RocketChat/helm-charts (77 components)"]):::atlasRoot
-    dir_0_rocketchat["rocketchat (30)"]:::atlasCategory
+    subgraph sg_dir_0_rocketchat["rocketchat (30)"]
+      direction TB
+      dir_0_rocketchat["rocketchat (30)"]:::atlasCategory
+      sub_0_0_templates["templates (26)"]:::atlasWorkflow
+      dir_0_rocketchat --> sub_0_0_templates
+      sub_0_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_0_rocketchat --> sub_0_1__module_root_
+      sub_0_2_tests["tests (2)"]:::atlasWorkflow
+      dir_0_rocketchat --> sub_0_2_tests
+    end
     repo_root --> dir_0_rocketchat
-    sub_0_0_templates["templates (26)"]:::atlasWorkflow
-    dir_0_rocketchat --> sub_0_0_templates
-    sub_0_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_0_rocketchat --> sub_0_1__module_root_
-    sub_0_2_tests["tests (2)"]:::atlasWorkflow
-    dir_0_rocketchat --> sub_0_2_tests
-    dir_1_rocketchat_voip["rocketchat-voip (15)"]:::atlasCategory
+    subgraph sg_dir_1_rocketchat_voip["rocketchat-voip (15)"]
+      direction TB
+      dir_1_rocketchat_voip["rocketchat-voip (15)"]:::atlasCategory
+      sub_1_0_templates["templates (12)"]:::atlasWorkflow
+      dir_1_rocketchat_voip --> sub_1_0_templates
+      sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_1_rocketchat_voip --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_rocketchat_voip
-    sub_1_0_templates["templates (12)"]:::atlasWorkflow
-    dir_1_rocketchat_voip --> sub_1_0_templates
-    sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_1_rocketchat_voip --> sub_1_1__module_root_
-    dir_2_rocketchat_livekit["rocketchat-livekit (14)"]:::atlasCategory
+    subgraph sg_dir_2_rocketchat_livekit["rocketchat-livekit (14)"]
+      direction TB
+      dir_2_rocketchat_livekit["rocketchat-livekit (14)"]:::atlasCategory
+      sub_2_0_templates["templates (9)"]:::atlasWorkflow
+      dir_2_rocketchat_livekit --> sub_2_0_templates
+      sub_2_1__module_root_["(module root) (4)"]:::atlasWorkflow
+      dir_2_rocketchat_livekit --> sub_2_1__module_root_
+      sub_2_2_tests["tests (1)"]:::atlasWorkflow
+      dir_2_rocketchat_livekit --> sub_2_2_tests
+    end
     repo_root --> dir_2_rocketchat_livekit
-    sub_2_0_templates["templates (9)"]:::atlasWorkflow
-    dir_2_rocketchat_livekit --> sub_2_0_templates
-    sub_2_1__module_root_["(module root) (4)"]:::atlasWorkflow
-    dir_2_rocketchat_livekit --> sub_2_1__module_root_
-    sub_2_2_tests["tests (1)"]:::atlasWorkflow
-    dir_2_rocketchat_livekit --> sub_2_2_tests
-    dir_3_monitoring["monitoring (13)"]:::atlasCategory
+    subgraph sg_dir_3_monitoring["monitoring (13)"]
+      direction TB
+      dir_3_monitoring["monitoring (13)"]:::atlasCategory
+      sub_3_0_templates["templates (8)"]:::atlasWorkflow
+      dir_3_monitoring --> sub_3_0_templates
+      sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
+      dir_3_monitoring --> sub_3_1__module_root_
+      sub_3_2_config["config (2)"]:::atlasWorkflow
+      dir_3_monitoring --> sub_3_2_config
+      sub_3_more["+1 more submodules (1)"]:::atlasMore
+      dir_3_monitoring --> sub_3_more
+    end
     repo_root --> dir_3_monitoring
-    sub_3_0_templates["templates (8)"]:::atlasWorkflow
-    dir_3_monitoring --> sub_3_0_templates
-    sub_3_1__module_root_["(module root) (2)"]:::atlasWorkflow
-    dir_3_monitoring --> sub_3_1__module_root_
-    sub_3_2_config["config (2)"]:::atlasWorkflow
-    dir_3_monitoring --> sub_3_2_config
-    sub_3_more["+1 more submodules (1)"]:::atlasMore
-    dir_3_monitoring --> sub_3_more
     dir_4_mock["mock (5)"]:::atlasCategory
     repo_root --> dir_4_mock
 ```

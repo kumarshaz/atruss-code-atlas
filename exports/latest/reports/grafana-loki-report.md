@@ -49,42 +49,54 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/loki (270 components)"]):::atlasRoot
-    dir_0_pkg["pkg (111)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (111)"]
+      direction TB
+      dir_0_pkg["pkg (111)"]:::atlasCategory
+      sub_0_0_bloombuild["bloombuild (36)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_bloombuild
+      sub_0_1_bloomgateway["bloomgateway (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_bloomgateway
+      sub_0_2_columnar["columnar (20)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_columnar
+      sub_0_more["+3 more submodules (35)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_bloombuild["bloombuild (36)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_bloombuild
-    sub_0_1_bloomgateway["bloomgateway (20)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_bloomgateway
-    sub_0_2_columnar["columnar (20)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_columnar
-    sub_0_more["+3 more submodules (35)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
-    dir_1_clients["clients (97)"]:::atlasCategory
+    subgraph sg_dir_1_clients["clients (97)"]
+      direction TB
+      dir_1_clients["clients (97)"]:::atlasCategory
+      sub_1_0_pkg["pkg (69)"]:::atlasWorkflow
+      dir_1_clients --> sub_1_0_pkg
+      sub_1_1_cmd["cmd (28)"]:::atlasWorkflow
+      dir_1_clients --> sub_1_1_cmd
+    end
     repo_root --> dir_1_clients
-    sub_1_0_pkg["pkg (69)"]:::atlasWorkflow
-    dir_1_clients --> sub_1_0_pkg
-    sub_1_1_cmd["cmd (28)"]:::atlasWorkflow
-    dir_1_clients --> sub_1_1_cmd
-    dir_2_cmd["cmd (41)"]:::atlasCategory
+    subgraph sg_dir_2_cmd["cmd (41)"]
+      direction TB
+      dir_2_cmd["cmd (41)"]:::atlasCategory
+      sub_2_0_logline_util["logline-util (12)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_0_logline_util
+      sub_2_1_loki["loki (11)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_1_loki
+      sub_2_2_chunks_inspect["chunks-inspect (5)"]:::atlasWorkflow
+      dir_2_cmd --> sub_2_2_chunks_inspect
+      sub_2_more["+7 more submodules (13)"]:::atlasMore
+      dir_2_cmd --> sub_2_more
+    end
     repo_root --> dir_2_cmd
-    sub_2_0_logline_util["logline-util (12)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_0_logline_util
-    sub_2_1_loki["loki (11)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_1_loki
-    sub_2_2_chunks_inspect["chunks-inspect (5)"]:::atlasWorkflow
-    dir_2_cmd --> sub_2_2_chunks_inspect
-    sub_2_more["+7 more submodules (13)"]:::atlasMore
-    dir_2_cmd --> sub_2_more
-    dir_3_integration["integration (21)"]:::atlasCategory
+    subgraph sg_dir_3_integration["integration (21)"]
+      direction TB
+      dir_3_integration["integration (21)"]:::atlasCategory
+      sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_0__module_root_
+      sub_3_1_cluster["cluster (3)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_1_cluster
+      sub_3_2_client["client (1)"]:::atlasWorkflow
+      dir_3_integration --> sub_3_2_client
+      sub_3_more["+1 more submodules (1)"]:::atlasMore
+      dir_3_integration --> sub_3_more
+    end
     repo_root --> dir_3_integration
-    sub_3_0__module_root_["(module root) (16)"]:::atlasWorkflow
-    dir_3_integration --> sub_3_0__module_root_
-    sub_3_1_cluster["cluster (3)"]:::atlasWorkflow
-    dir_3_integration --> sub_3_1_cluster
-    sub_3_2_client["client (1)"]:::atlasWorkflow
-    dir_3_integration --> sub_3_2_client
-    sub_3_more["+1 more submodules (1)"]:::atlasMore
-    dir_3_integration --> sub_3_more
 ```
 
 ## Component Details

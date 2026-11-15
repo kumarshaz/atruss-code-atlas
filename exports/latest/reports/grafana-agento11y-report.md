@@ -49,46 +49,61 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/agento11y (281 components)"]):::atlasRoot
-    dir_0_go["go (137)"]:::atlasCategory
+    subgraph sg_dir_0_go["go (137)"]
+      direction TB
+      dir_0_go["go (137)"]:::atlasCategory
+      sub_0_0_agento11y["agento11y (101)"]:::atlasWorkflow
+      dir_0_go --> sub_0_0_agento11y
+      sub_0_1_otelgenai["otelgenai (31)"]:::atlasWorkflow
+      dir_0_go --> sub_0_1_otelgenai
+      sub_0_2_proto["proto (4)"]:::atlasWorkflow
+      dir_0_go --> sub_0_2_proto
+      sub_0_more["+1 more submodules (1)"]:::atlasMore
+      dir_0_go --> sub_0_more
+    end
     repo_root --> dir_0_go
-    sub_0_0_agento11y["agento11y (101)"]:::atlasWorkflow
-    dir_0_go --> sub_0_0_agento11y
-    sub_0_1_otelgenai["otelgenai (31)"]:::atlasWorkflow
-    dir_0_go --> sub_0_1_otelgenai
-    sub_0_2_proto["proto (4)"]:::atlasWorkflow
-    dir_0_go --> sub_0_2_proto
-    sub_0_more["+1 more submodules (1)"]:::atlasMore
-    dir_0_go --> sub_0_more
-    dir_1_plugins["plugins (58)"]:::atlasCategory
+    subgraph sg_dir_1_plugins["plugins (58)"]
+      direction TB
+      dir_1_plugins["plugins (58)"]:::atlasCategory
+      sub_1_0_agento11y_internal["agento11y/internal (56)"]:::atlasWorkflow
+      dir_1_plugins --> sub_1_0_agento11y_internal
+      sub_1_1_agento11y_cmd["agento11y/cmd (2)"]:::atlasWorkflow
+      dir_1_plugins --> sub_1_1_agento11y_cmd
+    end
     repo_root --> dir_1_plugins
-    sub_1_0_agento11y_internal["agento11y/internal (56)"]:::atlasWorkflow
-    dir_1_plugins --> sub_1_0_agento11y_internal
-    sub_1_1_agento11y_cmd["agento11y/cmd (2)"]:::atlasWorkflow
-    dir_1_plugins --> sub_1_1_agento11y_cmd
-    dir_2_go_providers["go-providers (33)"]:::atlasCategory
+    subgraph sg_dir_2_go_providers["go-providers (33)"]
+      direction TB
+      dir_2_go_providers["go-providers (33)"]:::atlasCategory
+      sub_2_0_anthropic["anthropic (12)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_0_anthropic
+      sub_2_1_openai["openai (11)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_1_openai
+      sub_2_2_gemini["gemini (10)"]:::atlasWorkflow
+      dir_2_go_providers --> sub_2_2_gemini
+    end
     repo_root --> dir_2_go_providers
-    sub_2_0_anthropic["anthropic (12)"]:::atlasWorkflow
-    dir_2_go_providers --> sub_2_0_anthropic
-    sub_2_1_openai["openai (11)"]:::atlasWorkflow
-    dir_2_go_providers --> sub_2_1_openai
-    sub_2_2_gemini["gemini (10)"]:::atlasWorkflow
-    dir_2_go_providers --> sub_2_2_gemini
-    dir_3_examples["examples (32)"]:::atlasCategory
+    subgraph sg_dir_3_examples["examples (32)"]
+      direction TB
+      dir_3_examples["examples (32)"]:::atlasCategory
+      sub_3_0_ai_education_assistant["ai-education-assistant (18)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_0_ai_education_assistant
+      sub_3_1_experiments["experiments (12)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_1_experiments
+      sub_3_2_getting_started["getting-started (2)"]:::atlasWorkflow
+      dir_3_examples --> sub_3_2_getting_started
+    end
     repo_root --> dir_3_examples
-    sub_3_0_ai_education_assistant["ai-education-assistant (18)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_0_ai_education_assistant
-    sub_3_1_experiments["experiments (12)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_1_experiments
-    sub_3_2_getting_started["getting-started (2)"]:::atlasWorkflow
-    dir_3_examples --> sub_3_2_getting_started
-    dir_4_dotnet["dotnet (11)"]:::atlasCategory
+    subgraph sg_dir_4_dotnet["dotnet (11)"]
+      direction TB
+      dir_4_dotnet["dotnet (11)"]:::atlasCategory
+      sub_4_0_src["src (5)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_0_src
+      sub_4_1_tests["tests (5)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_1_tests
+      sub_4_2_examples["examples (1)"]:::atlasWorkflow
+      dir_4_dotnet --> sub_4_2_examples
+    end
     repo_root --> dir_4_dotnet
-    sub_4_0_src["src (5)"]:::atlasWorkflow
-    dir_4_dotnet --> sub_4_0_src
-    sub_4_1_tests["tests (5)"]:::atlasWorkflow
-    dir_4_dotnet --> sub_4_1_tests
-    sub_4_2_examples["examples (1)"]:::atlasWorkflow
-    dir_4_dotnet --> sub_4_2_examples
     dir_other_modules["+1 more modules (10)"]:::atlasMore
     repo_root --> dir_other_modules
     sub_4_1_tests -.->|"4 deps"| sub_4_0_src

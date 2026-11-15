@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["mattermost/mattermost-plugin-playbooks (274 components)"]):::atlasRoot
-    dir_0_webapp["webapp (241)"]:::atlasCategory
+    subgraph sg_dir_0_webapp["webapp (241)"]
+      direction TB
+      dir_0_webapp["webapp (241)"]:::atlasCategory
+      sub_0_0_src["src (240)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_webapp --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_webapp
-    sub_0_0_src["src (240)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_webapp --> sub_0_1__module_root_
     dir_1_client["client (28)"]:::atlasCategory
     repo_root --> dir_1_client
     dir_2_e2e_tests["e2e-tests (4)"]:::atlasCategory

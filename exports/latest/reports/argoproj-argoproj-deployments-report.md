@@ -48,28 +48,37 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["argoproj/argoproj-deployments (93 components)"]):::atlasRoot
-    dir_0_argo_workflows["argo-workflows (21)"]:::atlasCategory
+    subgraph sg_dir_0_argo_workflows["argo-workflows (21)"]
+      direction TB
+      dir_0_argo_workflows["argo-workflows (21)"]:::atlasCategory
+      sub_0_0_resources["resources (11)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_0_resources
+      sub_0_1_overlays["overlays (9)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_1_overlays
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_argo_workflows --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_argo_workflows
-    sub_0_0_resources["resources (11)"]:::atlasWorkflow
-    dir_0_argo_workflows --> sub_0_0_resources
-    sub_0_1_overlays["overlays (9)"]:::atlasWorkflow
-    dir_0_argo_workflows --> sub_0_1_overlays
-    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_argo_workflows --> sub_0_2__module_root_
-    dir_1_argocd["argocd (21)"]:::atlasCategory
+    subgraph sg_dir_1_argocd["argocd (21)"]
+      direction TB
+      dir_1_argocd["argocd (21)"]:::atlasCategory
+      sub_1_0_base["base (11)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_0_base
+      sub_1_1_overlays["overlays (9)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_1_overlays
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_argocd --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_argocd
-    sub_1_0_base["base (11)"]:::atlasWorkflow
-    dir_1_argocd --> sub_1_0_base
-    sub_1_1_overlays["overlays (9)"]:::atlasWorkflow
-    dir_1_argocd --> sub_1_1_overlays
-    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_argocd --> sub_1_2__module_root_
-    dir_2_argoproj["argoproj (20)"]:::atlasCategory
+    subgraph sg_dir_2_argoproj["argoproj (20)"]
+      direction TB
+      dir_2_argoproj["argoproj (20)"]:::atlasCategory
+      sub_2_0_base["base (19)"]:::atlasWorkflow
+      dir_2_argoproj --> sub_2_0_base
+      sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_2_argoproj --> sub_2_1__module_root_
+    end
     repo_root --> dir_2_argoproj
-    sub_2_0_base["base (19)"]:::atlasWorkflow
-    dir_2_argoproj --> sub_2_0_base
-    sub_2_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_2_argoproj --> sub_2_1__module_root_
     dir_3_argo_events["argo-events (7)"]:::atlasCategory
     repo_root --> dir_3_argo_events
     dir_4_argocd_extension_metrics["argocd-extension-metrics (4)"]:::atlasCategory

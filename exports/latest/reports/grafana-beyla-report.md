@@ -49,50 +49,65 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/beyla (208 components)"]):::atlasRoot
-    dir_0_pkg["pkg (133)"]:::atlasCategory
+    subgraph sg_dir_0_pkg["pkg (133)"]
+      direction TB
+      dir_0_pkg["pkg (133)"]:::atlasCategory
+      sub_0_0_internal["internal (37)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_0_internal
+      sub_0_1_webhook["webhook (32)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_1_webhook
+      sub_0_2_export["export (30)"]:::atlasWorkflow
+      dir_0_pkg --> sub_0_2_export
+      sub_0_more["+7 more submodules (34)"]:::atlasMore
+      dir_0_pkg --> sub_0_more
+    end
     repo_root --> dir_0_pkg
-    sub_0_0_internal["internal (37)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_0_internal
-    sub_0_1_webhook["webhook (32)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_1_webhook
-    sub_0_2_export["export (30)"]:::atlasWorkflow
-    dir_0_pkg --> sub_0_2_export
-    sub_0_more["+7 more submodules (34)"]:::atlasMore
-    dir_0_pkg --> sub_0_more
-    dir_1_internal["internal (32)"]:::atlasCategory
+    subgraph sg_dir_1_internal["internal (32)"]
+      direction TB
+      dir_1_internal["internal (32)"]:::atlasCategory
+      sub_1_0_test_integration["test/integration (14)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_0_test_integration
+      sub_1_1_test_beyla_extensions["test/beyla_extensions (11)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_1_test_beyla_extensions
+      sub_1_2_test_tools["test/tools (7)"]:::atlasWorkflow
+      dir_1_internal --> sub_1_2_test_tools
+    end
     repo_root --> dir_1_internal
-    sub_1_0_test_integration["test/integration (14)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_0_test_integration
-    sub_1_1_test_beyla_extensions["test/beyla_extensions (11)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_1_test_beyla_extensions
-    sub_1_2_test_tools["test/tools (7)"]:::atlasWorkflow
-    dir_1_internal --> sub_1_2_test_tools
-    dir_2_charts["charts (21)"]:::atlasCategory
+    subgraph sg_dir_2_charts["charts (21)"]
+      direction TB
+      dir_2_charts["charts (21)"]:::atlasCategory
+      sub_2_0_beyla_templates["beyla/templates (11)"]:::atlasWorkflow
+      dir_2_charts --> sub_2_0_beyla_templates
+      sub_2_1_beyla_tests["beyla/tests (8)"]:::atlasWorkflow
+      dir_2_charts --> sub_2_1_beyla_tests
+      sub_2_2_beyla["beyla (2)"]:::atlasWorkflow
+      dir_2_charts --> sub_2_2_beyla
+    end
     repo_root --> dir_2_charts
-    sub_2_0_beyla_templates["beyla/templates (11)"]:::atlasWorkflow
-    dir_2_charts --> sub_2_0_beyla_templates
-    sub_2_1_beyla_tests["beyla/tests (8)"]:::atlasWorkflow
-    dir_2_charts --> sub_2_1_beyla_tests
-    sub_2_2_beyla["beyla (2)"]:::atlasWorkflow
-    dir_2_charts --> sub_2_2_beyla
-    dir_3_cmd["cmd (11)"]:::atlasCategory
+    subgraph sg_dir_3_cmd["cmd (11)"]
+      direction TB
+      dir_3_cmd["cmd (11)"]:::atlasCategory
+      sub_3_0_beyla["beyla (7)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_0_beyla
+      sub_3_1_beyla_schema["beyla-schema (2)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_1_beyla_schema
+      sub_3_2_k8s_cache["k8s-cache (2)"]:::atlasWorkflow
+      dir_3_cmd --> sub_3_2_k8s_cache
+    end
     repo_root --> dir_3_cmd
-    sub_3_0_beyla["beyla (7)"]:::atlasWorkflow
-    dir_3_cmd --> sub_3_0_beyla
-    sub_3_1_beyla_schema["beyla-schema (2)"]:::atlasWorkflow
-    dir_3_cmd --> sub_3_1_beyla_schema
-    sub_3_2_k8s_cache["k8s-cache (2)"]:::atlasWorkflow
-    dir_3_cmd --> sub_3_2_k8s_cache
-    dir_4_examples["examples (9)"]:::atlasCategory
+    subgraph sg_dir_4_examples["examples (9)"]
+      direction TB
+      dir_4_examples["examples (9)"]:::atlasCategory
+      sub_4_0_greeting_apps["greeting-apps (5)"]:::atlasWorkflow
+      dir_4_examples --> sub_4_0_greeting_apps
+      sub_4_1_quickstart["quickstart (2)"]:::atlasWorkflow
+      dir_4_examples --> sub_4_1_quickstart
+      sub_4_2_example_http_service["example-http-service (1)"]:::atlasWorkflow
+      dir_4_examples --> sub_4_2_example_http_service
+      sub_4_more["+1 more submodules (1)"]:::atlasMore
+      dir_4_examples --> sub_4_more
+    end
     repo_root --> dir_4_examples
-    sub_4_0_greeting_apps["greeting-apps (5)"]:::atlasWorkflow
-    dir_4_examples --> sub_4_0_greeting_apps
-    sub_4_1_quickstart["quickstart (2)"]:::atlasWorkflow
-    dir_4_examples --> sub_4_1_quickstart
-    sub_4_2_example_http_service["example-http-service (1)"]:::atlasWorkflow
-    dir_4_examples --> sub_4_2_example_http_service
-    sub_4_more["+1 more submodules (1)"]:::atlasMore
-    dir_4_examples --> sub_4_more
     dir_other_modules["+1 more modules (2)"]:::atlasMore
     repo_root --> dir_other_modules
 ```

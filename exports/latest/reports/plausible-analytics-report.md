@@ -49,32 +49,41 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["plausible/analytics (459 components)"]):::atlasRoot
-    dir_0_assets["assets (204)"]:::atlasCategory
+    subgraph sg_dir_0_assets["assets (204)"]
+      direction TB
+      dir_0_assets["assets (204)"]:::atlasCategory
+      sub_0_0_js["js (201)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_0_js
+      sub_0_1_test_utils["test-utils (2)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_1_test_utils
+      sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_assets --> sub_0_2__module_root_
+    end
     repo_root --> dir_0_assets
-    sub_0_0_js["js (201)"]:::atlasWorkflow
-    dir_0_assets --> sub_0_0_js
-    sub_0_1_test_utils["test-utils (2)"]:::atlasWorkflow
-    dir_0_assets --> sub_0_1_test_utils
-    sub_0_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_assets --> sub_0_2__module_root_
-    dir_1_lib["lib (130)"]:::atlasCategory
+    subgraph sg_dir_1_lib["lib (130)"]
+      direction TB
+      dir_1_lib["lib (130)"]:::atlasCategory
+      sub_1_0_plausible["plausible (116)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_0_plausible
+      sub_1_1_mix["mix (7)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_1_mix
+      sub_1_2__module_root_["(module root) (5)"]:::atlasWorkflow
+      dir_1_lib --> sub_1_2__module_root_
+      sub_1_more["+1 more submodules (2)"]:::atlasMore
+      dir_1_lib --> sub_1_more
+    end
     repo_root --> dir_1_lib
-    sub_1_0_plausible["plausible (116)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_0_plausible
-    sub_1_1_mix["mix (7)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_1_mix
-    sub_1_2__module_root_["(module root) (5)"]:::atlasWorkflow
-    dir_1_lib --> sub_1_2__module_root_
-    sub_1_more["+1 more submodules (2)"]:::atlasMore
-    dir_1_lib --> sub_1_more
-    dir_2_extra["extra (105)"]:::atlasCategory
+    subgraph sg_dir_2_extra["extra (105)"]
+      direction TB
+      dir_2_extra["extra (105)"]:::atlasCategory
+      sub_2_0_lib_plausible["lib/plausible (60)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_0_lib_plausible
+      sub_2_1_lib_plausible_web["lib/plausible_web (44)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_1_lib_plausible_web
+      sub_2_2_lib["lib (1)"]:::atlasWorkflow
+      dir_2_extra --> sub_2_2_lib
+    end
     repo_root --> dir_2_extra
-    sub_2_0_lib_plausible["lib/plausible (60)"]:::atlasWorkflow
-    dir_2_extra --> sub_2_0_lib_plausible
-    sub_2_1_lib_plausible_web["lib/plausible_web (44)"]:::atlasWorkflow
-    dir_2_extra --> sub_2_1_lib_plausible_web
-    sub_2_2_lib["lib (1)"]:::atlasWorkflow
-    dir_2_extra --> sub_2_2_lib
     dir_3_config["config (10)"]:::atlasCategory
     repo_root --> dir_3_config
     dir_4__root_["(root) (5)"]:::atlasCategory

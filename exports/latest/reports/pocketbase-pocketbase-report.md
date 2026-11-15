@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["pocketbase/pocketbase (251 components)"]):::atlasRoot
-    dir_0_core["core (139)"]:::atlasCategory
+    subgraph sg_dir_0_core["core (139)"]
+      direction TB
+      dir_0_core["core (139)"]:::atlasCategory
+      sub_0_0__module_root_["(module root) (129)"]:::atlasWorkflow
+      dir_0_core --> sub_0_0__module_root_
+      sub_0_1_validators["validators (10)"]:::atlasWorkflow
+      dir_0_core --> sub_0_1_validators
+    end
     repo_root --> dir_0_core
-    sub_0_0__module_root_["(module root) (129)"]:::atlasWorkflow
-    dir_0_core --> sub_0_0__module_root_
-    sub_0_1_validators["validators (10)"]:::atlasWorkflow
-    dir_0_core --> sub_0_1_validators
     dir_1_apis["apis (78)"]:::atlasCategory
     repo_root --> dir_1_apis
     dir_2_forms["forms (8)"]:::atlasCategory

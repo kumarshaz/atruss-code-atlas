@@ -49,26 +49,32 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["nextcloud/forms (151 components)"]):::atlasRoot
-    dir_0_lib["lib (100)"]:::atlasCategory
+    subgraph sg_dir_0_lib["lib (100)"]
+      direction TB
+      dir_0_lib["lib (100)"]:::atlasCategory
+      sub_0_0_Migration["Migration (41)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_0_Migration
+      sub_0_1_Db["Db (14)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_1_Db
+      sub_0_2_Activity["Activity (8)"]:::atlasWorkflow
+      dir_0_lib --> sub_0_2_Activity
+      sub_0_more["+15 more submodules (37)"]:::atlasMore
+      dir_0_lib --> sub_0_more
+    end
     repo_root --> dir_0_lib
-    sub_0_0_Migration["Migration (41)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_0_Migration
-    sub_0_1_Db["Db (14)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_1_Db
-    sub_0_2_Activity["Activity (8)"]:::atlasWorkflow
-    dir_0_lib --> sub_0_2_Activity
-    sub_0_more["+15 more submodules (37)"]:::atlasMore
-    dir_0_lib --> sub_0_more
-    dir_1_tests["tests (46)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (46)"]
+      direction TB
+      dir_1_tests["tests (46)"]:::atlasCategory
+      sub_1_0_Unit["Unit (36)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_Unit
+      sub_1_1_Integration["Integration (6)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1_Integration
+      sub_1_2_stubs["stubs (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_2_stubs
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_tests --> sub_1_more
+    end
     repo_root --> dir_1_tests
-    sub_1_0_Unit["Unit (36)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_Unit
-    sub_1_1_Integration["Integration (6)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1_Integration
-    sub_1_2_stubs["stubs (3)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_2_stubs
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_tests --> sub_1_more
     dir_2__root_["(root) (3)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_templates["templates (2)"]:::atlasCategory

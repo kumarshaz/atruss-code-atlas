@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/auth (250 components)"]):::atlasRoot
-    dir_0_internal["internal (225)"]:::atlasCategory
+    subgraph sg_dir_0_internal["internal (225)"]
+      direction TB
+      dir_0_internal["internal (225)"]:::atlasCategory
+      sub_0_0_api["api (209)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_0_api
+      sub_0_1_conf["conf (16)"]:::atlasWorkflow
+      dir_0_internal --> sub_0_1_conf
+    end
     repo_root --> dir_0_internal
-    sub_0_0_api["api (209)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_0_api
-    sub_0_1_conf["conf (16)"]:::atlasWorkflow
-    dir_0_internal --> sub_0_1_conf
     dir_1_docs["docs (14)"]:::atlasCategory
     repo_root --> dir_1_docs
     dir_2_cmd["cmd (5)"]:::atlasCategory

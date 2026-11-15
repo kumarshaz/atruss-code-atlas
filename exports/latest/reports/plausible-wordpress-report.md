@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["plausible/wordpress (227 components)"]):::atlasRoot
-    dir_0_src["src (201)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (201)"]
+      direction TB
+      dir_0_src["src (201)"]:::atlasCategory
+      sub_0_0_Client["Client (166)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_Client
+      sub_0_1__module_root_["(module root) (17)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1__module_root_
+      sub_0_2_Admin["Admin (14)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_Admin
+      sub_0_more["+1 more submodules (4)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_Client["Client (166)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_Client
-    sub_0_1__module_root_["(module root) (17)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1__module_root_
-    sub_0_2_Admin["Admin (14)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_Admin
-    sub_0_more["+1 more submodules (4)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_tests["tests (23)"]:::atlasCategory
+    subgraph sg_dir_1_tests["tests (23)"]
+      direction TB
+      dir_1_tests["tests (23)"]:::atlasCategory
+      sub_1_0_integration["integration (20)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_0_integration
+      sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
+      dir_1_tests --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_tests
-    sub_1_0_integration["integration (20)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_0_integration
-    sub_1_1__module_root_["(module root) (3)"]:::atlasWorkflow
-    dir_1_tests --> sub_1_1__module_root_
     dir_2__root_["(root) (2)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_mu_plugin["mu-plugin (1)"]:::atlasCategory

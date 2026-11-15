@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["PostHog/wizard (356 components)"]):::atlasRoot
-    dir_0_src["src (287)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (287)"]
+      direction TB
+      dir_0_src["src (287)"]:::atlasCategory
+      sub_0_0_tui["tui (177)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_tui
+      sub_0_1_shared["shared (73)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_shared
+      sub_0_2_services["services (18)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_services
+      sub_0_more["+2 more submodules (19)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_tui["tui (177)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_tui
-    sub_0_1_shared["shared (73)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_shared
-    sub_0_2_services["services (18)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_services
-    sub_0_more["+2 more submodules (19)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_e2e_tests["e2e-tests (62)"]:::atlasCategory
+    subgraph sg_dir_1_e2e_tests["e2e-tests (62)"]
+      direction TB
+      dir_1_e2e_tests["e2e-tests (62)"]:::atlasCategory
+      sub_1_0_test_applications["test-applications (61)"]:::atlasWorkflow
+      dir_1_e2e_tests --> sub_1_0_test_applications
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_e2e_tests --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_e2e_tests
-    sub_1_0_test_applications["test-applications (61)"]:::atlasWorkflow
-    dir_1_e2e_tests --> sub_1_0_test_applications
-    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_e2e_tests --> sub_1_1__module_root_
     dir_2___mocks__["__mocks__ (6)"]:::atlasCategory
     repo_root --> dir_2___mocks__
     dir_3__root_["(root) (1)"]:::atlasCategory

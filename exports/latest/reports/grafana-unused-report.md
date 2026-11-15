@@ -49,14 +49,17 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["grafana/unused (50 components)"]):::atlasRoot
-    dir_0_cmd["cmd (23)"]:::atlasCategory
+    subgraph sg_dir_0_cmd["cmd (23)"]
+      direction TB
+      dir_0_cmd["cmd (23)"]:::atlasCategory
+      sub_0_0_unused["unused (11)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_0_unused
+      sub_0_1_internal["internal (7)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_1_internal
+      sub_0_2_unused_exporter["unused-exporter (5)"]:::atlasWorkflow
+      dir_0_cmd --> sub_0_2_unused_exporter
+    end
     repo_root --> dir_0_cmd
-    sub_0_0_unused["unused (11)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_0_unused
-    sub_0_1_internal["internal (7)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_1_internal
-    sub_0_2_unused_exporter["unused-exporter (5)"]:::atlasWorkflow
-    dir_0_cmd --> sub_0_2_unused_exporter
     dir_1__root_["(root) (7)"]:::atlasCategory
     repo_root --> dir_1__root_
     dir_2_unusedtest["unusedtest (6)"]:::atlasCategory

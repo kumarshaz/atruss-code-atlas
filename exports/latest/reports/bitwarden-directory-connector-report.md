@@ -49,20 +49,26 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["bitwarden/directory-connector (72 components)"]):::atlasRoot
-    dir_0_libs["libs (42)"]:::atlasCategory
+    subgraph sg_dir_0_libs["libs (42)"]
+      direction TB
+      dir_0_libs["libs (42)"]:::atlasCategory
+      sub_0_0_services["services (27)"]:::atlasWorkflow
+      dir_0_libs --> sub_0_0_services
+      sub_0_1_abstractions["abstractions (15)"]:::atlasWorkflow
+      dir_0_libs --> sub_0_1_abstractions
+    end
     repo_root --> dir_0_libs
-    sub_0_0_services["services (27)"]:::atlasWorkflow
-    dir_0_libs --> sub_0_0_services
-    sub_0_1_abstractions["abstractions (15)"]:::atlasWorkflow
-    dir_0_libs --> sub_0_1_abstractions
-    dir_1_src_gui["src-gui (17)"]:::atlasCategory
+    subgraph sg_dir_1_src_gui["src-gui (17)"]
+      direction TB
+      dir_1_src_gui["src-gui (17)"]:::atlasCategory
+      sub_1_0_services["services (12)"]:::atlasWorkflow
+      dir_1_src_gui --> sub_1_0_services
+      sub_1_1_angular["angular (3)"]:::atlasWorkflow
+      dir_1_src_gui --> sub_1_1_angular
+      sub_1_2_app["app (2)"]:::atlasWorkflow
+      dir_1_src_gui --> sub_1_2_app
+    end
     repo_root --> dir_1_src_gui
-    sub_1_0_services["services (12)"]:::atlasWorkflow
-    dir_1_src_gui --> sub_1_0_services
-    sub_1_1_angular["angular (3)"]:::atlasWorkflow
-    dir_1_src_gui --> sub_1_1_angular
-    sub_1_2_app["app (2)"]:::atlasWorkflow
-    dir_1_src_gui --> sub_1_2_app
     dir_2_native["native (6)"]:::atlasCategory
     repo_root --> dir_2_native
     dir_3_src_cli["src-cli (5)"]:::atlasCategory

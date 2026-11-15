@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["woodpecker-ci/autoscaler (92 components)"]):::atlasRoot
-    dir_0_providers["providers (53)"]:::atlasCategory
+    subgraph sg_dir_0_providers["providers (53)"]
+      direction TB
+      dir_0_providers["providers (53)"]:::atlasCategory
+      sub_0_0_hetznercloud["hetznercloud (14)"]:::atlasWorkflow
+      dir_0_providers --> sub_0_0_hetznercloud
+      sub_0_1_aws["aws (11)"]:::atlasWorkflow
+      dir_0_providers --> sub_0_1_aws
+      sub_0_2_oracle["oracle (11)"]:::atlasWorkflow
+      dir_0_providers --> sub_0_2_oracle
+      sub_0_more["+5 more submodules (17)"]:::atlasMore
+      dir_0_providers --> sub_0_more
+    end
     repo_root --> dir_0_providers
-    sub_0_0_hetznercloud["hetznercloud (14)"]:::atlasWorkflow
-    dir_0_providers --> sub_0_0_hetznercloud
-    sub_0_1_aws["aws (11)"]:::atlasWorkflow
-    dir_0_providers --> sub_0_1_aws
-    sub_0_2_oracle["oracle (11)"]:::atlasWorkflow
-    dir_0_providers --> sub_0_2_oracle
-    sub_0_more["+5 more submodules (17)"]:::atlasMore
-    dir_0_providers --> sub_0_more
-    dir_1_engine["engine (18)"]:::atlasCategory
+    subgraph sg_dir_1_engine["engine (18)"]
+      direction TB
+      dir_1_engine["engine (18)"]:::atlasCategory
+      sub_1_0__module_root_["(module root) (14)"]:::atlasWorkflow
+      dir_1_engine --> sub_1_0__module_root_
+      sub_1_1_inits["inits (2)"]:::atlasWorkflow
+      dir_1_engine --> sub_1_1_inits
+      sub_1_2_types["types (2)"]:::atlasWorkflow
+      dir_1_engine --> sub_1_2_types
+    end
     repo_root --> dir_1_engine
-    sub_1_0__module_root_["(module root) (14)"]:::atlasWorkflow
-    dir_1_engine --> sub_1_0__module_root_
-    sub_1_1_inits["inits (2)"]:::atlasWorkflow
-    dir_1_engine --> sub_1_1_inits
-    sub_1_2_types["types (2)"]:::atlasWorkflow
-    dir_1_engine --> sub_1_2_types
     dir_2_e2e["e2e (9)"]:::atlasCategory
     repo_root --> dir_2_e2e
     dir_3_utils["utils (6)"]:::atlasCategory

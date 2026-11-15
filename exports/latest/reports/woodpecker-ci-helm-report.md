@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["woodpecker-ci/helm (42 components)"]):::atlasRoot
-    dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]:::atlasCategory
+    subgraph sg_dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]
+      direction TB
+      dir_0_charts_woodpecker_charts["charts/woodpecker/charts (37)"]:::atlasCategory
+      sub_0_0_server["server (20)"]:::atlasWorkflow
+      dir_0_charts_woodpecker_charts --> sub_0_0_server
+      sub_0_1_agent["agent (17)"]:::atlasWorkflow
+      dir_0_charts_woodpecker_charts --> sub_0_1_agent
+    end
     repo_root --> dir_0_charts_woodpecker_charts
-    sub_0_0_server["server (20)"]:::atlasWorkflow
-    dir_0_charts_woodpecker_charts --> sub_0_0_server
-    sub_0_1_agent["agent (17)"]:::atlasWorkflow
-    dir_0_charts_woodpecker_charts --> sub_0_1_agent
     dir_1_charts_woodpecker["charts/woodpecker (2)"]:::atlasCategory
     repo_root --> dir_1_charts_woodpecker
     dir_2_charts_woodpecker_ci["charts/woodpecker/ci (2)"]:::atlasCategory

@@ -49,12 +49,15 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/spotlight (108 components)"]):::atlasRoot
-    dir_0_packages["packages (107)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (107)"]
+      direction TB
+      dir_0_packages["packages (107)"]:::atlasCategory
+      sub_0_0_spotlight["spotlight (105)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_spotlight
+      sub_0_1_website["website (2)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_website
+    end
     repo_root --> dir_0_packages
-    sub_0_0_spotlight["spotlight (105)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_spotlight
-    sub_0_1_website["website (2)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_website
     dir_1__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_1__root_
 ```

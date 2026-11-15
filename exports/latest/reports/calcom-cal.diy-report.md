@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["calcom/cal.diy (1928 components)"]):::atlasRoot
-    dir_0_packages["packages (1158)"]:::atlasCategory
+    subgraph sg_dir_0_packages["packages (1158)"]
+      direction TB
+      dir_0_packages["packages (1158)"]:::atlasCategory
+      sub_0_0_features["features (429)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_0_features
+      sub_0_1_app_store["app-store (320)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_1_app_store
+      sub_0_2_ui["ui (148)"]:::atlasWorkflow
+      dir_0_packages --> sub_0_2_ui
+      sub_0_more["+14 more submodules (261)"]:::atlasMore
+      dir_0_packages --> sub_0_more
+    end
     repo_root --> dir_0_packages
-    sub_0_0_features["features (429)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_0_features
-    sub_0_1_app_store["app-store (320)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_1_app_store
-    sub_0_2_ui["ui (148)"]:::atlasWorkflow
-    dir_0_packages --> sub_0_2_ui
-    sub_0_more["+14 more submodules (261)"]:::atlasMore
-    dir_0_packages --> sub_0_more
-    dir_1_apps["apps (765)"]:::atlasCategory
+    subgraph sg_dir_1_apps["apps (765)"]
+      direction TB
+      dir_1_apps["apps (765)"]:::atlasCategory
+      sub_1_0_api["api (342)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_0_api
+      sub_1_1_web["web (316)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_1_web
+      sub_1_2_ui_playground["ui-playground (107)"]:::atlasWorkflow
+      dir_1_apps --> sub_1_2_ui_playground
+    end
     repo_root --> dir_1_apps
-    sub_1_0_api["api (342)"]:::atlasWorkflow
-    dir_1_apps --> sub_1_0_api
-    sub_1_1_web["web (316)"]:::atlasWorkflow
-    dir_1_apps --> sub_1_1_web
-    sub_1_2_ui_playground["ui-playground (107)"]:::atlasWorkflow
-    dir_1_apps --> sub_1_2_ui_playground
     dir_2_example_apps["example-apps (4)"]:::atlasCategory
     repo_root --> dir_2_example_apps
     dir_3__root_["(root) (1)"]:::atlasCategory

@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/dbdev (26 components)"]):::atlasRoot
-    dir_0_cli["cli (14)"]:::atlasCategory
+    subgraph sg_dir_0_cli["cli (14)"]
+      direction TB
+      dir_0_cli["cli (14)"]:::atlasCategory
+      sub_0_0_src["src (7)"]:::atlasWorkflow
+      dir_0_cli --> sub_0_0_src
+      sub_0_1_src_commands["src/commands (7)"]:::atlasWorkflow
+      dir_0_cli --> sub_0_1_src_commands
+    end
     repo_root --> dir_0_cli
-    sub_0_0_src["src (7)"]:::atlasWorkflow
-    dir_0_cli --> sub_0_0_src
-    sub_0_1_src_commands["src/commands (7)"]:::atlasWorkflow
-    dir_0_cli --> sub_0_1_src_commands
-    dir_1_website["website (11)"]:::atlasCategory
+    subgraph sg_dir_1_website["website (11)"]
+      direction TB
+      dir_1_website["website (11)"]:::atlasCategory
+      sub_1_0_components["components (5)"]:::atlasWorkflow
+      dir_1_website --> sub_1_0_components
+      sub_1_1_app["app (3)"]:::atlasWorkflow
+      dir_1_website --> sub_1_1_app
+      sub_1_2_lib["lib (2)"]:::atlasWorkflow
+      dir_1_website --> sub_1_2_lib
+      sub_1_more["+1 more submodules (1)"]:::atlasMore
+      dir_1_website --> sub_1_more
+    end
     repo_root --> dir_1_website
-    sub_1_0_components["components (5)"]:::atlasWorkflow
-    dir_1_website --> sub_1_0_components
-    sub_1_1_app["app (3)"]:::atlasWorkflow
-    dir_1_website --> sub_1_1_app
-    sub_1_2_lib["lib (2)"]:::atlasWorkflow
-    dir_1_website --> sub_1_2_lib
-    sub_1_more["+1 more submodules (1)"]:::atlasMore
-    dir_1_website --> sub_1_more
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
 ```

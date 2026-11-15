@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["getsentry/sentry-laravel (141 components)"]):::atlasRoot
-    dir_0_src["src (72)"]:::atlasCategory
+    subgraph sg_dir_0_src["src (72)"]
+      direction TB
+      dir_0_src["src (72)"]:::atlasCategory
+      sub_0_0_Sentry_Laravel_Features["Sentry/Laravel/Features (35)"]:::atlasWorkflow
+      dir_0_src --> sub_0_0_Sentry_Laravel_Features
+      sub_0_1_Sentry_Laravel_Tracing["Sentry/Laravel/Tracing (10)"]:::atlasWorkflow
+      dir_0_src --> sub_0_1_Sentry_Laravel_Tracing
+      sub_0_2_Sentry_Laravel["Sentry/Laravel (8)"]:::atlasWorkflow
+      dir_0_src --> sub_0_2_Sentry_Laravel
+      sub_0_more["+6 more submodules (19)"]:::atlasMore
+      dir_0_src --> sub_0_more
+    end
     repo_root --> dir_0_src
-    sub_0_0_Sentry_Laravel_Features["Sentry/Laravel/Features (35)"]:::atlasWorkflow
-    dir_0_src --> sub_0_0_Sentry_Laravel_Features
-    sub_0_1_Sentry_Laravel_Tracing["Sentry/Laravel/Tracing (10)"]:::atlasWorkflow
-    dir_0_src --> sub_0_1_Sentry_Laravel_Tracing
-    sub_0_2_Sentry_Laravel["Sentry/Laravel (8)"]:::atlasWorkflow
-    dir_0_src --> sub_0_2_Sentry_Laravel
-    sub_0_more["+6 more submodules (19)"]:::atlasMore
-    dir_0_src --> sub_0_more
-    dir_1_test["test (66)"]:::atlasCategory
+    subgraph sg_dir_1_test["test (66)"]
+      direction TB
+      dir_1_test["test (66)"]:::atlasCategory
+      sub_1_0_Sentry["Sentry (59)"]:::atlasWorkflow
+      dir_1_test --> sub_1_0_Sentry
+      sub_1_1_stubs["stubs (6)"]:::atlasWorkflow
+      dir_1_test --> sub_1_1_stubs
+      sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_test --> sub_1_2__module_root_
+    end
     repo_root --> dir_1_test
-    sub_1_0_Sentry["Sentry (59)"]:::atlasWorkflow
-    dir_1_test --> sub_1_0_Sentry
-    sub_1_1_stubs["stubs (6)"]:::atlasWorkflow
-    dir_1_test --> sub_1_1_stubs
-    sub_1_2__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_test --> sub_1_2__module_root_
     dir_2__root_["(root) (1)"]:::atlasCategory
     repo_root --> dir_2__root_
     dir_3_config["config (1)"]:::atlasCategory

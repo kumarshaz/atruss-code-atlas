@@ -49,24 +49,30 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["triggerdotdev/apihero (232 components)"]):::atlasRoot
-    dir_0_apps["apps (164)"]:::atlasCategory
+    subgraph sg_dir_0_apps["apps (164)"]
+      direction TB
+      dir_0_apps["apps (164)"]:::atlasCategory
+      sub_0_0_webapp["webapp (161)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_0_webapp
+      sub_0_1_proxy["proxy (2)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_1_proxy
+      sub_0_2_logs["logs (1)"]:::atlasWorkflow
+      dir_0_apps --> sub_0_2_logs
+    end
     repo_root --> dir_0_apps
-    sub_0_0_webapp["webapp (161)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_0_webapp
-    sub_0_1_proxy["proxy (2)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_1_proxy
-    sub_0_2_logs["logs (1)"]:::atlasWorkflow
-    dir_0_apps --> sub_0_2_logs
-    dir_1_packages["packages (55)"]:::atlasCategory
+    subgraph sg_dir_1_packages["packages (55)"]
+      direction TB
+      dir_1_packages["packages (55)"]:::atlasCategory
+      sub_1_0_interceptors_js["interceptors-js (27)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_0_interceptors_js
+      sub_1_1_apihero_node["apihero-node (12)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_1_apihero_node
+      sub_1_2_apihero_browser["apihero-browser (10)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_2_apihero_browser
+      sub_1_more["+3 more submodules (6)"]:::atlasMore
+      dir_1_packages --> sub_1_more
+    end
     repo_root --> dir_1_packages
-    sub_1_0_interceptors_js["interceptors-js (27)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_0_interceptors_js
-    sub_1_1_apihero_node["apihero-node (12)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_1_apihero_node
-    sub_1_2_apihero_browser["apihero-browser (10)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_2_apihero_browser
-    sub_1_more["+3 more submodules (6)"]:::atlasMore
-    dir_1_packages --> sub_1_more
     dir_2_examples["examples (7)"]:::atlasCategory
     repo_root --> dir_2_examples
     dir_3_config_packages["config-packages (5)"]:::atlasCategory

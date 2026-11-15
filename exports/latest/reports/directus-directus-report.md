@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["directus/directus (437 components)"]):::atlasRoot
-    dir_0_api["api (389)"]:::atlasCategory
+    subgraph sg_dir_0_api["api (389)"]
+      direction TB
+      dir_0_api["api (389)"]:::atlasCategory
+      sub_0_0_src["src (388)"]:::atlasWorkflow
+      dir_0_api --> sub_0_0_src
+      sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_0_api --> sub_0_1__module_root_
+    end
     repo_root --> dir_0_api
-    sub_0_0_src["src (388)"]:::atlasWorkflow
-    dir_0_api --> sub_0_0_src
-    sub_0_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_0_api --> sub_0_1__module_root_
-    dir_1_packages["packages (37)"]:::atlasCategory
+    subgraph sg_dir_1_packages["packages (37)"]
+      direction TB
+      dir_1_packages["packages (37)"]:::atlasCategory
+      sub_1_0_extensions_sdk["extensions-sdk (3)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_0_extensions_sdk
+      sub_1_1_memory["memory (2)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_1_memory
+      sub_1_2_visual_editing["visual-editing (2)"]:::atlasWorkflow
+      dir_1_packages --> sub_1_2_visual_editing
+      sub_1_more["+30 more submodules (30)"]:::atlasMore
+      dir_1_packages --> sub_1_more
+    end
     repo_root --> dir_1_packages
-    sub_1_0_extensions_sdk["extensions-sdk (3)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_0_extensions_sdk
-    sub_1_1_memory["memory (2)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_1_memory
-    sub_1_2_visual_editing["visual-editing (2)"]:::atlasWorkflow
-    dir_1_packages --> sub_1_2_visual_editing
-    sub_1_more["+30 more submodules (30)"]:::atlasMore
-    dir_1_packages --> sub_1_more
     dir_2_tests["tests (7)"]:::atlasCategory
     repo_root --> dir_2_tests
     dir_3__root_["(root) (1)"]:::atlasCategory

@@ -49,22 +49,28 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
     repo_root(["supabase/etl (270 components)"]):::atlasRoot
-    dir_0_crates["crates (250)"]:::atlasCategory
+    subgraph sg_dir_0_crates["crates (250)"]
+      direction TB
+      dir_0_crates["crates (250)"]:::atlasCategory
+      sub_0_0_etl["etl (137)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_0_etl
+      sub_0_1_etl_destinations["etl-destinations (90)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_1_etl_destinations
+      sub_0_2_etl_config["etl-config (18)"]:::atlasWorkflow
+      dir_0_crates --> sub_0_2_etl_config
+      sub_0_more["+1 more submodules (5)"]:::atlasMore
+      dir_0_crates --> sub_0_more
+    end
     repo_root --> dir_0_crates
-    sub_0_0_etl["etl (137)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_0_etl
-    sub_0_1_etl_destinations["etl-destinations (90)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_1_etl_destinations
-    sub_0_2_etl_config["etl-config (18)"]:::atlasWorkflow
-    dir_0_crates --> sub_0_2_etl_config
-    sub_0_more["+1 more submodules (5)"]:::atlasMore
-    dir_0_crates --> sub_0_more
-    dir_1_site["site (16)"]:::atlasCategory
+    subgraph sg_dir_1_site["site (16)"]
+      direction TB
+      dir_1_site["site (16)"]:::atlasCategory
+      sub_1_0_src["src (15)"]:::atlasWorkflow
+      dir_1_site --> sub_1_0_src
+      sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
+      dir_1_site --> sub_1_1__module_root_
+    end
     repo_root --> dir_1_site
-    sub_1_0_src["src (15)"]:::atlasWorkflow
-    dir_1_site --> sub_1_0_src
-    sub_1_1__module_root_["(module root) (1)"]:::atlasWorkflow
-    dir_1_site --> sub_1_1__module_root_
     dir_2_scripts["scripts (4)"]:::atlasCategory
     repo_root --> dir_2_scripts
 ```
