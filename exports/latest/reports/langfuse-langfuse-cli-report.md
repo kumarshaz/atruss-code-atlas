@@ -145,28 +145,42 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["langfuse/langfuse-cli (4 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Beta_release["Beta release (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_0_Beta_release
-  job_0_beta_version["beta-version"]:::atlasJob
-  job_0_preparation["preparation"]:::atlasJob
-  job_0_publish["publish"]:::atlasJob
-  wf_0_Beta_release --> job_0_beta_version
-  job_0_beta_version --> job_0_preparation
-  job_0_preparation --> job_0_publish
-  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Release
-  job_2_publish["publish"]:::atlasJob
-  wf_2_Release --> job_2_publish
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_CI["CI (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_CI
-  job_1_conformance["conformance"]:::atlasJob
-  wf_1_CI --> job_1_conformance
-  wf_3_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_3_Check_GitHub_Actions
-  job_3_zizmor["zizmor"]:::atlasJob
-  wf_3_Check_GitHub_Actions --> job_3_zizmor
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Beta_release["Beta release (3 jobs)"]
+      direction TB
+      wf_0_Beta_release(["Trigger: Beta release"]):::atlasWorkflow
+      job_0_beta_version["beta-version"]:::atlasJob
+      job_0_preparation["preparation"]:::atlasJob
+      job_0_publish["publish"]:::atlasJob
+      wf_0_Beta_release --> job_0_beta_version
+      job_0_beta_version --> job_0_preparation
+      job_0_preparation --> job_0_publish
+    end
+    pipeline_root --> wf_0_Beta_release
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_publish["publish"]:::atlasJob
+      wf_2_Release --> job_2_publish
+    end
+    pipeline_root --> wf_2_Release
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (1 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_conformance["conformance"]:::atlasJob
+      wf_1_CI --> job_1_conformance
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_3_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+      direction TB
+      wf_3_Check_GitHub_Actions(["Trigger: Check GitHub Actions"]):::atlasWorkflow
+      job_3_zizmor["zizmor"]:::atlasJob
+      wf_3_Check_GitHub_Actions --> job_3_zizmor
+    end
+    pipeline_root --> wf_3_Check_GitHub_Actions
+  end
 ```

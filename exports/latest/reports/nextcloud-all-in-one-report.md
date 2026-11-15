@@ -441,56 +441,90 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/all-in-one (31 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 16 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_11_Lint_Helm_Charts["Lint Helm Charts (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_11_Lint_Helm_Charts
-  job_11_lint_helm["lint-helm"]:::atlasJob
-  wf_11_Lint_Helm_Charts --> job_11_lint_helm
-  wf_18_Playwright_Tests["Playwright Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_18_Playwright_Tests
-  job_18_test["test"]:::atlasJob
-  wf_18_Playwright_Tests --> job_18_test
-  wf_25_Update_Copyright["Update Copyright (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_25_Update_Copyright
-  job_25_update_copyright["update-copyright"]:::atlasJob
-  wf_25_Update_Copyright --> job_25_update_copyright
-  grp_1_CI___Verification["CI & Verification (11 workflows · 12 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Codespell
-  job_0_codespell["codespell"]:::atlasJob
-  wf_0_Codespell --> job_0_codespell
-  wf_6_Docker_Lint["Docker Lint (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_6_Docker_Lint
-  job_6_docker_lint["docker-lint"]:::atlasJob
-  wf_6_Docker_Lint --> job_6_docker_lint
-  wf_12_Lint_php["Lint php (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_12_Lint_php
-  job_12_php_lint["php-lint"]:::atlasJob
-  job_12_summary["summary"]:::atlasJob
-  wf_12_Lint_php --> job_12_php_lint
-  job_12_php_lint --> job_12_summary
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_7_Block_if_prerelease_is_present["Block if prerelease is present (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_7_Block_if_prerelease_is_present
-  job_7_check_latest_release["check-latest-release"]:::atlasJob
-  wf_7_Block_if_prerelease_is_present --> job_7_check_latest_release
-  wf_8_Helm_Chart_Releaser["Helm Chart Releaser (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_Helm_Chart_Releaser
-  job_8_release["release"]:::atlasJob
-  wf_8_Helm_Chart_Releaser --> job_8_release
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_3_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_3_Auto_approve_Dependabot_PRs
-  job_3_auto_approve_merge["auto-approve-merge"]:::atlasJob
-  wf_3_Auto_approve_Dependabot_PRs --> job_3_auto_approve_merge
-  wf_14_Lock_Threads["Lock Threads (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_14_Lock_Threads
-  job_14_action["action"]:::atlasJob
-  wf_14_Lock_Threads --> job_14_action
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 16 jobs)"]
+    direction TB
+    subgraph sg_wf_11_Lint_Helm_Charts["Lint Helm Charts (1 jobs)"]
+      direction TB
+      wf_11_Lint_Helm_Charts(["Trigger: Lint Helm Charts"]):::atlasWorkflow
+      job_11_lint_helm["lint-helm"]:::atlasJob
+      wf_11_Lint_Helm_Charts --> job_11_lint_helm
+    end
+    pipeline_root --> wf_11_Lint_Helm_Charts
+    subgraph sg_wf_18_Playwright_Tests["Playwright Tests (1 jobs)"]
+      direction TB
+      wf_18_Playwright_Tests(["Trigger: Playwright Tests"]):::atlasWorkflow
+      job_18_test["test"]:::atlasJob
+      wf_18_Playwright_Tests --> job_18_test
+    end
+    pipeline_root --> wf_18_Playwright_Tests
+    subgraph sg_wf_25_Update_Copyright["Update Copyright (1 jobs)"]
+      direction TB
+      wf_25_Update_Copyright(["Trigger: Update Copyright"]):::atlasWorkflow
+      job_25_update_copyright["update-copyright"]:::atlasJob
+      wf_25_Update_Copyright --> job_25_update_copyright
+    end
+    pipeline_root --> wf_25_Update_Copyright
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (11 workflows · 12 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Codespell["Codespell (1 jobs)"]
+      direction TB
+      wf_0_Codespell(["Trigger: Codespell"]):::atlasWorkflow
+      job_0_codespell["codespell"]:::atlasJob
+      wf_0_Codespell --> job_0_codespell
+    end
+    pipeline_root --> wf_0_Codespell
+    subgraph sg_wf_6_Docker_Lint["Docker Lint (1 jobs)"]
+      direction TB
+      wf_6_Docker_Lint(["Trigger: Docker Lint"]):::atlasWorkflow
+      job_6_docker_lint["docker-lint"]:::atlasJob
+      wf_6_Docker_Lint --> job_6_docker_lint
+    end
+    pipeline_root --> wf_6_Docker_Lint
+    subgraph sg_wf_12_Lint_php["Lint php (2 jobs)"]
+      direction TB
+      wf_12_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_12_php_lint["php-lint"]:::atlasJob
+      job_12_summary["summary"]:::atlasJob
+      wf_12_Lint_php --> job_12_php_lint
+      job_12_php_lint --> job_12_summary
+    end
+    pipeline_root --> wf_12_Lint_php
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Block_if_prerelease_is_present["Block if prerelease is present (1 jobs)"]
+      direction TB
+      wf_7_Block_if_prerelease_is_present(["Trigger: Block if prerelease is present"]):::atlasWorkflow
+      job_7_check_latest_release["check-latest-release"]:::atlasJob
+      wf_7_Block_if_prerelease_is_present --> job_7_check_latest_release
+    end
+    pipeline_root --> wf_7_Block_if_prerelease_is_present
+    subgraph sg_wf_8_Helm_Chart_Releaser["Helm Chart Releaser (1 jobs)"]
+      direction TB
+      wf_8_Helm_Chart_Releaser(["Trigger: Helm Chart Releaser"]):::atlasWorkflow
+      job_8_release["release"]:::atlasJob
+      wf_8_Helm_Chart_Releaser --> job_8_release
+    end
+    pipeline_root --> wf_8_Helm_Chart_Releaser
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]
+      direction TB
+      wf_3_Auto_approve_Dependabot_PRs(["Trigger: Auto approve Dependabot PRs"]):::atlasWorkflow
+      job_3_auto_approve_merge["auto-approve-merge"]:::atlasJob
+      wf_3_Auto_approve_Dependabot_PRs --> job_3_auto_approve_merge
+    end
+    pipeline_root --> wf_3_Auto_approve_Dependabot_PRs
+    subgraph sg_wf_14_Lock_Threads["Lock Threads (1 jobs)"]
+      direction TB
+      wf_14_Lock_Threads(["Trigger: Lock Threads"]):::atlasWorkflow
+      job_14_action["action"]:::atlasJob
+      wf_14_Lock_Threads --> job_14_action
+    end
+    pipeline_root --> wf_14_Lock_Threads
+  end
   wf_more["+21 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

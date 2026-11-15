@@ -316,32 +316,52 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["RocketChat/EmbeddedChat (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Build_and_Lint["Build and Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Build_and_Lint
-  job_0_build_and_lint["build-and-lint"]:::atlasJob
-  wf_0_Build_and_Lint --> job_0_build_and_lint
-  wf_1_Build_PR_Preview["Build PR-Preview (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build_PR_Preview
-  job_1_build["build"]:::atlasJob
-  wf_1_Build_PR_Preview --> job_1_build
-  wf_4_Playwright_Tests["Playwright Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Playwright_Tests
-  job_4_test["test"]:::atlasJob
-  wf_4_Playwright_Tests --> job_4_test
-  wf_5_Pull_Request_Cleanup["Pull Request Cleanup (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Pull_Request_Cleanup
-  job_5_cleanup["cleanup"]:::atlasJob
-  wf_5_Pull_Request_Cleanup --> job_5_cleanup
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Deploy_PR_Preview["Deploy PR-Preview (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Deploy_PR_Preview
-  job_2_deploy["deploy"]:::atlasJob
-  wf_2_Deploy_PR_Preview --> job_2_deploy
-  wf_3_Build_and_Publish["Build and Publish (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Build_and_Publish
-  job_3_build_and_deploy["build-and-deploy"]:::atlasJob
-  wf_3_Build_and_Publish --> job_3_build_and_deploy
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_Lint["Build and Lint (1 jobs)"]
+      direction TB
+      wf_0_Build_and_Lint(["Trigger: Build and Lint"]):::atlasWorkflow
+      job_0_build_and_lint["build-and-lint"]:::atlasJob
+      wf_0_Build_and_Lint --> job_0_build_and_lint
+    end
+    pipeline_root --> wf_0_Build_and_Lint
+    subgraph sg_wf_1_Build_PR_Preview["Build PR-Preview (1 jobs)"]
+      direction TB
+      wf_1_Build_PR_Preview(["Trigger: Build PR-Preview"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_PR_Preview --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_PR_Preview
+    subgraph sg_wf_4_Playwright_Tests["Playwright Tests (1 jobs)"]
+      direction TB
+      wf_4_Playwright_Tests(["Trigger: Playwright Tests"]):::atlasWorkflow
+      job_4_test["test"]:::atlasJob
+      wf_4_Playwright_Tests --> job_4_test
+    end
+    pipeline_root --> wf_4_Playwright_Tests
+    subgraph sg_wf_5_Pull_Request_Cleanup["Pull Request Cleanup (1 jobs)"]
+      direction TB
+      wf_5_Pull_Request_Cleanup(["Trigger: Pull Request Cleanup"]):::atlasWorkflow
+      job_5_cleanup["cleanup"]:::atlasJob
+      wf_5_Pull_Request_Cleanup --> job_5_cleanup
+    end
+    pipeline_root --> wf_5_Pull_Request_Cleanup
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Deploy_PR_Preview["Deploy PR-Preview (1 jobs)"]
+      direction TB
+      wf_2_Deploy_PR_Preview(["Trigger: Deploy PR-Preview"]):::atlasWorkflow
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_Deploy_PR_Preview --> job_2_deploy
+    end
+    pipeline_root --> wf_2_Deploy_PR_Preview
+    subgraph sg_wf_3_Build_and_Publish["Build and Publish (1 jobs)"]
+      direction TB
+      wf_3_Build_and_Publish(["Trigger: Build and Publish"]):::atlasWorkflow
+      job_3_build_and_deploy["build-and-deploy"]:::atlasJob
+      wf_3_Build_and_Publish --> job_3_build_and_deploy
+    end
+    pipeline_root --> wf_3_Build_and_Publish
+  end
 ```

@@ -221,30 +221,48 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["langfuse/langfuse-k8s (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Unit_Tests["Unit Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Unit_Tests
-  job_1_unit_tests["unit-tests"]:::atlasJob
-  wf_1_Unit_Tests --> job_1_unit_tests
-  wf_3_Validate_Helm_Charts["Validate Helm Charts (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Validate_Helm_Charts
-  job_3_validate["validate"]:::atlasJob
-  wf_3_Validate_Helm_Charts --> job_3_validate
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_2_Update_Langfuse_Version["Update Langfuse Version (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_2_Update_Langfuse_Version
-  job_2_check_and_update["check-and-update"]:::atlasJob
-  wf_2_Update_Langfuse_Version --> job_2_check_and_update
-  wf_4_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_4_Check_GitHub_Actions
-  job_4_zizmor["zizmor"]:::atlasJob
-  wf_4_Check_GitHub_Actions --> job_4_zizmor
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_0_Release_Charts["Release Charts (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_0_Release_Charts
-  job_0_release["release"]:::atlasJob
-  wf_0_Release_Charts --> job_0_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Unit_Tests["Unit Tests (1 jobs)"]
+      direction TB
+      wf_1_Unit_Tests(["Trigger: Unit Tests"]):::atlasWorkflow
+      job_1_unit_tests["unit-tests"]:::atlasJob
+      wf_1_Unit_Tests --> job_1_unit_tests
+    end
+    pipeline_root --> wf_1_Unit_Tests
+    subgraph sg_wf_3_Validate_Helm_Charts["Validate Helm Charts (1 jobs)"]
+      direction TB
+      wf_3_Validate_Helm_Charts(["Trigger: Validate Helm Charts"]):::atlasWorkflow
+      job_3_validate["validate"]:::atlasJob
+      wf_3_Validate_Helm_Charts --> job_3_validate
+    end
+    pipeline_root --> wf_3_Validate_Helm_Charts
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Update_Langfuse_Version["Update Langfuse Version (1 jobs)"]
+      direction TB
+      wf_2_Update_Langfuse_Version(["Trigger: Update Langfuse Version"]):::atlasWorkflow
+      job_2_check_and_update["check-and-update"]:::atlasJob
+      wf_2_Update_Langfuse_Version --> job_2_check_and_update
+    end
+    pipeline_root --> wf_2_Update_Langfuse_Version
+    subgraph sg_wf_4_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+      direction TB
+      wf_4_Check_GitHub_Actions(["Trigger: Check GitHub Actions"]):::atlasWorkflow
+      job_4_zizmor["zizmor"]:::atlasJob
+      wf_4_Check_GitHub_Actions --> job_4_zizmor
+    end
+    pipeline_root --> wf_4_Check_GitHub_Actions
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_Charts["Release Charts (1 jobs)"]
+      direction TB
+      wf_0_Release_Charts(["Trigger: Release Charts"]):::atlasWorkflow
+      job_0_release["release"]:::atlasJob
+      wf_0_Release_Charts --> job_0_release
+    end
+    pipeline_root --> wf_0_Release_Charts
+  end
 ```

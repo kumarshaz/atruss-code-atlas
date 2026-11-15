@@ -236,30 +236,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["goharbor/terraform-provider-harbor (4 workflows)"]):::atlasRoot
-  grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Security___Governance
-  wf_0_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_0_Security___Governance --> wf_0_CodeQL
-  job_0_analyze["analyze"]:::atlasJob
-  wf_0_CodeQL --> job_0_analyze
-  wf_2_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]:::atlasWorkflow
-  grp_0_Security___Governance --> wf_2_Scorecard_supply_chain_security
-  job_2_analysis["analysis"]:::atlasJob
-  wf_2_Scorecard_supply_chain_security --> job_2_analysis
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_Tests["Tests (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Tests
-  job_3_build["build"]:::atlasJob
-  job_3_generate["generate"]:::atlasJob
-  job_3_test["test"]:::atlasJob
-  wf_3_Tests --> job_3_build
-  wf_3_Tests --> job_3_generate
-  job_3_build --> job_3_test
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_1_release["release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_1_release
-  job_1_goreleaser["goreleaser"]:::atlasJob
-  wf_1_release --> job_1_goreleaser
+  subgraph sg_grp_0_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_0_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_0_analyze["analyze"]:::atlasJob
+      wf_0_CodeQL --> job_0_analyze
+    end
+    pipeline_root --> wf_0_CodeQL
+    subgraph sg_wf_2_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]
+      direction TB
+      wf_2_Scorecard_supply_chain_security(["Trigger: Scorecard supply-chain security"]):::atlasWorkflow
+      job_2_analysis["analysis"]:::atlasJob
+      wf_2_Scorecard_supply_chain_security --> job_2_analysis
+    end
+    pipeline_root --> wf_2_Scorecard_supply_chain_security
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Tests["Tests (3 jobs)"]
+      direction TB
+      wf_3_Tests(["Trigger: Tests"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_generate["generate"]:::atlasJob
+      job_3_test["test"]:::atlasJob
+      wf_3_Tests --> job_3_build
+      wf_3_Tests --> job_3_generate
+      job_3_build --> job_3_test
+    end
+    pipeline_root --> wf_3_Tests
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_release["release (1 jobs)"]
+      direction TB
+      wf_1_release(["Trigger: release"]):::atlasWorkflow
+      job_1_goreleaser["goreleaser"]:::atlasJob
+      wf_1_release --> job_1_goreleaser
+    end
+    pipeline_root --> wf_1_release
+  end
 ```

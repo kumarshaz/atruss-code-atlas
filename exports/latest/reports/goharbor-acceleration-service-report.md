@@ -206,42 +206,62 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["goharbor/acceleration-service (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Concurrent_Test["Concurrent Test (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Concurrent_Test
-  job_0_concurrent_test_same["concurrent_test_same"]:::atlasJob
-  job_0_concurrent_test_diff["concurrent_test_diff"]:::atlasJob
-  wf_0_Concurrent_Test --> job_0_concurrent_test_same
-  wf_0_Concurrent_Test --> job_0_concurrent_test_diff
-  wf_1_DCO_Check["DCO Check (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_DCO_Check
-  job_1_dco_check["dco_check"]:::atlasJob
-  wf_1_DCO_Check --> job_1_dco_check
-  wf_2_Integration_Test["Integration Test (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Integration_Test
-  job_2_accel_check["accel_check"]:::atlasJob
-  job_2_accel_build["accel_build"]:::atlasJob
-  job_2_integration_test["integration_test"]:::atlasJob
-  wf_2_Integration_Test --> job_2_accel_check
-  wf_2_Integration_Test --> job_2_accel_build
-  job_2_accel_build --> job_2_integration_test
-  wf_4_Unit_Test["Unit Test (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Unit_Test
-  job_4_unit_test["unit_test"]:::atlasJob
-  wf_4_Unit_Test --> job_4_unit_test
-  wf_5_Webhook_Test["Webhook Test (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Webhook_Test
-  job_5_webhook_test["webhook_test"]:::atlasJob
-  wf_5_Webhook_Test --> job_5_webhook_test
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Release["Release (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release
-  job_3_build_image["build_image"]:::atlasJob
-  job_3_release_image["release_image"]:::atlasJob
-  job_3_test_image["test_image"]:::atlasJob
-  wf_3_Release --> job_3_build_image
-  job_3_build_image --> job_3_release_image
-  job_3_release_image --> job_3_test_image
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Concurrent_Test["Concurrent Test (2 jobs)"]
+      direction TB
+      wf_0_Concurrent_Test(["Trigger: Concurrent Test"]):::atlasWorkflow
+      job_0_concurrent_test_same["concurrent_test_same"]:::atlasJob
+      job_0_concurrent_test_diff["concurrent_test_diff"]:::atlasJob
+      wf_0_Concurrent_Test --> job_0_concurrent_test_same
+      wf_0_Concurrent_Test --> job_0_concurrent_test_diff
+    end
+    pipeline_root --> wf_0_Concurrent_Test
+    subgraph sg_wf_1_DCO_Check["DCO Check (1 jobs)"]
+      direction TB
+      wf_1_DCO_Check(["Trigger: DCO Check"]):::atlasWorkflow
+      job_1_dco_check["dco_check"]:::atlasJob
+      wf_1_DCO_Check --> job_1_dco_check
+    end
+    pipeline_root --> wf_1_DCO_Check
+    subgraph sg_wf_2_Integration_Test["Integration Test (3 jobs)"]
+      direction TB
+      wf_2_Integration_Test(["Trigger: Integration Test"]):::atlasWorkflow
+      job_2_accel_check["accel_check"]:::atlasJob
+      job_2_accel_build["accel_build"]:::atlasJob
+      job_2_integration_test["integration_test"]:::atlasJob
+      wf_2_Integration_Test --> job_2_accel_check
+      wf_2_Integration_Test --> job_2_accel_build
+      job_2_accel_build --> job_2_integration_test
+    end
+    pipeline_root --> wf_2_Integration_Test
+    subgraph sg_wf_4_Unit_Test["Unit Test (1 jobs)"]
+      direction TB
+      wf_4_Unit_Test(["Trigger: Unit Test"]):::atlasWorkflow
+      job_4_unit_test["unit_test"]:::atlasJob
+      wf_4_Unit_Test --> job_4_unit_test
+    end
+    pipeline_root --> wf_4_Unit_Test
+    subgraph sg_wf_5_Webhook_Test["Webhook Test (1 jobs)"]
+      direction TB
+      wf_5_Webhook_Test(["Trigger: Webhook Test"]):::atlasWorkflow
+      job_5_webhook_test["webhook_test"]:::atlasJob
+      wf_5_Webhook_Test --> job_5_webhook_test
+    end
+    pipeline_root --> wf_5_Webhook_Test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Release["Release (5 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_build_image["build_image"]:::atlasJob
+      job_3_release_image["release_image"]:::atlasJob
+      job_3_test_image["test_image"]:::atlasJob
+      wf_3_Release --> job_3_build_image
+      job_3_build_image --> job_3_release_image
+      job_3_release_image --> job_3_test_image
+    end
+    pipeline_root --> wf_3_Release
+  end
 ```

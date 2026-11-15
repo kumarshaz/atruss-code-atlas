@@ -207,45 +207,63 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/supabase-csharp (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Build_and_Test["Build and Test (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Build_and_Test
-  job_0_changes["changes"]:::atlasJob
-  job_0_build_and_test["build-and-test"]:::atlasJob
-  job_0_baseline_tightened["baseline-tightened"]:::atlasJob
-  wf_0_Build_and_Test --> job_0_changes
-  job_0_changes --> job_0_build_and_test
-  wf_0_Build_and_Test --> job_0_baseline_tightened
-  wf_2_Auto_format_master["Auto-format master (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Auto_format_master
-  job_2_changes["changes"]:::atlasJob
-  job_2_format_master["format-master"]:::atlasJob
-  wf_2_Auto_format_master --> job_2_changes
-  job_2_changes --> job_2_format_master
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Sync_capability_matrix["Sync capability matrix (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Sync_capability_matrix
-  job_1_changes["changes"]:::atlasJob
-  job_1_sync["sync"]:::atlasJob
-  wf_1_Sync_capability_matrix --> job_1_changes
-  job_1_changes --> job_1_sync
-  wf_3_Mutation["Mutation (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_3_Mutation
-  job_3_changes["changes"]:::atlasJob
-  job_3_mutation["mutation"]:::atlasJob
-  wf_3_Mutation --> job_3_changes
-  job_3_changes --> job_3_mutation
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_4_Publish_NuGet_Package["Publish NuGet Package (3 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_4_Publish_NuGet_Package
-  job_4_release_please["release-please"]:::atlasJob
-  job_4_publish["publish"]:::atlasJob
-  job_4_mark_api_shipped["mark-api-shipped"]:::atlasJob
-  wf_4_Publish_NuGet_Package --> job_4_release_please
-  job_4_release_please --> job_4_publish
-  job_4_release_please --> job_4_mark_api_shipped
-  job_4_publish --> job_4_mark_api_shipped
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_Test["Build and Test (4 jobs)"]
+      direction TB
+      wf_0_Build_and_Test(["Trigger: Build and Test"]):::atlasWorkflow
+      job_0_changes["changes"]:::atlasJob
+      job_0_build_and_test["build-and-test"]:::atlasJob
+      job_0_baseline_tightened["baseline-tightened"]:::atlasJob
+      wf_0_Build_and_Test --> job_0_changes
+      job_0_changes --> job_0_build_and_test
+      wf_0_Build_and_Test --> job_0_baseline_tightened
+    end
+    pipeline_root --> wf_0_Build_and_Test
+    subgraph sg_wf_2_Auto_format_master["Auto-format master (2 jobs)"]
+      direction TB
+      wf_2_Auto_format_master(["Trigger: Auto-format master"]):::atlasWorkflow
+      job_2_changes["changes"]:::atlasJob
+      job_2_format_master["format-master"]:::atlasJob
+      wf_2_Auto_format_master --> job_2_changes
+      job_2_changes --> job_2_format_master
+    end
+    pipeline_root --> wf_2_Auto_format_master
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Sync_capability_matrix["Sync capability matrix (2 jobs)"]
+      direction TB
+      wf_1_Sync_capability_matrix(["Trigger: Sync capability matrix"]):::atlasWorkflow
+      job_1_changes["changes"]:::atlasJob
+      job_1_sync["sync"]:::atlasJob
+      wf_1_Sync_capability_matrix --> job_1_changes
+      job_1_changes --> job_1_sync
+    end
+    pipeline_root --> wf_1_Sync_capability_matrix
+    subgraph sg_wf_3_Mutation["Mutation (2 jobs)"]
+      direction TB
+      wf_3_Mutation(["Trigger: Mutation"]):::atlasWorkflow
+      job_3_changes["changes"]:::atlasJob
+      job_3_mutation["mutation"]:::atlasJob
+      wf_3_Mutation --> job_3_changes
+      job_3_changes --> job_3_mutation
+    end
+    pipeline_root --> wf_3_Mutation
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Publish_NuGet_Package["Publish NuGet Package (3 jobs)"]
+      direction TB
+      wf_4_Publish_NuGet_Package(["Trigger: Publish NuGet Package"]):::atlasWorkflow
+      job_4_release_please["release-please"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      job_4_mark_api_shipped["mark-api-shipped"]:::atlasJob
+      wf_4_Publish_NuGet_Package --> job_4_release_please
+      job_4_release_please --> job_4_publish
+      job_4_release_please --> job_4_mark_api_shipped
+      job_4_publish --> job_4_mark_api_shipped
+    end
+    pipeline_root --> wf_4_Publish_NuGet_Package
+  end
 ```

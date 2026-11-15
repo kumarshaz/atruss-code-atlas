@@ -304,40 +304,61 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["n8n-io/n8n-hosting (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Artifact_Hub_metadata["Artifact Hub metadata (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Artifact_Hub_metadata
-  job_0_push["push"]:::atlasJob
-  wf_0_Artifact_Hub_metadata --> job_0_push
-  wf_2_Bump_n8n_version["Bump n8n version (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Bump_n8n_version
-  job_2_bump["bump"]:::atlasJob
-  wf_2_Bump_n8n_version --> job_2_bump
-  wf_4_Preview_chart["Preview chart (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Preview_chart
-  job_4_publish["publish"]:::atlasJob
-  wf_4_Preview_chart --> job_4_publish
-  grp_1_CI___Verification["CI & Verification (2 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_1_Backport["Backport (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_Backport
-  job_1_backport["backport"]:::atlasJob
-  wf_1_Backport --> job_1_backport
-  wf_3_CI["CI (10 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_CI
-  job_3_gate["gate"]:::atlasJob
-  job_3_lint["lint"]:::atlasJob
-  job_3_unittest["unittest"]:::atlasJob
-  wf_3_CI --> job_3_gate
-  wf_3_CI --> job_3_lint
-  wf_3_CI --> job_3_unittest
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_5_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_5_Release
-  job_5_release["release"]:::atlasJob
-  job_5_publish["publish"]:::atlasJob
-  wf_5_Release --> job_5_release
-  job_5_release --> job_5_publish
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Artifact_Hub_metadata["Artifact Hub metadata (1 jobs)"]
+      direction TB
+      wf_0_Artifact_Hub_metadata(["Trigger: Artifact Hub metadata"]):::atlasWorkflow
+      job_0_push["push"]:::atlasJob
+      wf_0_Artifact_Hub_metadata --> job_0_push
+    end
+    pipeline_root --> wf_0_Artifact_Hub_metadata
+    subgraph sg_wf_2_Bump_n8n_version["Bump n8n version (1 jobs)"]
+      direction TB
+      wf_2_Bump_n8n_version(["Trigger: Bump n8n version"]):::atlasWorkflow
+      job_2_bump["bump"]:::atlasJob
+      wf_2_Bump_n8n_version --> job_2_bump
+    end
+    pipeline_root --> wf_2_Bump_n8n_version
+    subgraph sg_wf_4_Preview_chart["Preview chart (1 jobs)"]
+      direction TB
+      wf_4_Preview_chart(["Trigger: Preview chart"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Preview_chart --> job_4_publish
+    end
+    pipeline_root --> wf_4_Preview_chart
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Backport["Backport (1 jobs)"]
+      direction TB
+      wf_1_Backport(["Trigger: Backport"]):::atlasWorkflow
+      job_1_backport["backport"]:::atlasJob
+      wf_1_Backport --> job_1_backport
+    end
+    pipeline_root --> wf_1_Backport
+    subgraph sg_wf_3_CI["CI (10 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_gate["gate"]:::atlasJob
+      job_3_lint["lint"]:::atlasJob
+      job_3_unittest["unittest"]:::atlasJob
+      wf_3_CI --> job_3_gate
+      wf_3_CI --> job_3_lint
+      wf_3_CI --> job_3_unittest
+    end
+    pipeline_root --> wf_3_CI
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Release["Release (2 jobs)"]
+      direction TB
+      wf_5_Release(["Trigger: Release"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      job_5_publish["publish"]:::atlasJob
+      wf_5_Release --> job_5_release
+      job_5_release --> job_5_publish
+    end
+    pipeline_root --> wf_5_Release
+  end
 ```

@@ -355,64 +355,99 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["directus/directus (18 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (7 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_Check["Check (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Check
-  job_2_lint["lint"]:::atlasJob
-  job_2_stylelint["stylelint"]:::atlasJob
-  job_2_format["format"]:::atlasJob
-  wf_2_Check --> job_2_lint
-  wf_2_Check --> job_2_stylelint
-  wf_2_Check --> job_2_format
-  wf_4_CLA_Assistant["CLA Assistant (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_CLA_Assistant
-  job_4_check["check"]:::atlasJob
-  wf_4_CLA_Assistant --> job_4_check
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Assign_Next_Release_Milestone["Assign Next Release Milestone (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Assign_Next_Release_Milestone
-  job_0_assign["assign"]:::atlasJob
-  wf_0_Assign_Next_Release_Milestone --> job_0_assign
-  wf_15_Release["Release (7 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_15_Release
-  job_15_check_npm_packages["check-npm-packages"]:::atlasJob
-  job_15_check_version["check-version"]:::atlasJob
-  job_15_publish_npm["publish-npm"]:::atlasJob
-  wf_15_Release --> job_15_check_npm_packages
-  job_15_check_npm_packages --> job_15_check_version
-  job_15_check_version --> job_15_publish_npm
-  grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_9_CodeQL_Analysis["CodeQL Analysis (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_9_CodeQL_Analysis
-  job_9_analyze["analyze"]:::atlasJob
-  wf_9_CodeQL_Analysis --> job_9_analyze
-  wf_16_Close_Stale_Issues["Close Stale Issues (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_16_Close_Stale_Issues
-  job_16_stale["stale"]:::atlasJob
-  wf_16_Close_Stale_Issues --> job_16_stale
-  grp_3_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_3_CLA_Assistant_Comment["CLA Assistant Comment (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_3_CLA_Assistant_Comment
-  job_3_comment["comment"]:::atlasJob
-  wf_3_CLA_Assistant_Comment --> job_3_comment
-  wf_7_Close_Feature_Request_Discussions["Close Feature Request Discussions (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_7_Close_Feature_Request_Discussions
-  job_7_close_discussion["close-discussion"]:::atlasJob
-  wf_7_Close_Feature_Request_Discussions --> job_7_close_discussion
-  grp_4_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Scheduled___Manual
-  wf_6_Close_PRs_with_Changes_Requested["Close PRs with Changes Requested (1 jobs)"]:::atlasWorkflow
-  grp_4_Scheduled___Manual --> wf_6_Close_PRs_with_Changes_Requested
-  job_6_close_stale_prs["close-stale-prs"]:::atlasJob
-  wf_6_Close_PRs_with_Changes_Requested --> job_6_close_stale_prs
-  wf_8_Close_PRs_without_a_Signed_CLA["Close PRs without a Signed CLA (1 jobs)"]:::atlasWorkflow
-  grp_4_Scheduled___Manual --> wf_8_Close_PRs_without_a_Signed_CLA
-  job_8_close_unsigned_prs["close-unsigned-prs"]:::atlasJob
-  wf_8_Close_PRs_without_a_Signed_CLA --> job_8_close_unsigned_prs
+  subgraph sg_grp_0_CI___Verification["CI & Verification (7 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Check["Check (4 jobs)"]
+      direction TB
+      wf_2_Check(["Trigger: Check"]):::atlasWorkflow
+      job_2_lint["lint"]:::atlasJob
+      job_2_stylelint["stylelint"]:::atlasJob
+      job_2_format["format"]:::atlasJob
+      wf_2_Check --> job_2_lint
+      wf_2_Check --> job_2_stylelint
+      wf_2_Check --> job_2_format
+    end
+    pipeline_root --> wf_2_Check
+    subgraph sg_wf_4_CLA_Assistant["CLA Assistant (1 jobs)"]
+      direction TB
+      wf_4_CLA_Assistant(["Trigger: CLA Assistant"]):::atlasWorkflow
+      job_4_check["check"]:::atlasJob
+      wf_4_CLA_Assistant --> job_4_check
+    end
+    pipeline_root --> wf_4_CLA_Assistant
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Assign_Next_Release_Milestone["Assign Next Release Milestone (1 jobs)"]
+      direction TB
+      wf_0_Assign_Next_Release_Milestone(["Trigger: Assign Next Release Milestone"]):::atlasWorkflow
+      job_0_assign["assign"]:::atlasJob
+      wf_0_Assign_Next_Release_Milestone --> job_0_assign
+    end
+    pipeline_root --> wf_0_Assign_Next_Release_Milestone
+    subgraph sg_wf_15_Release["Release (7 jobs)"]
+      direction TB
+      wf_15_Release(["Trigger: Release"]):::atlasWorkflow
+      job_15_check_npm_packages["check-npm-packages"]:::atlasJob
+      job_15_check_version["check-version"]:::atlasJob
+      job_15_publish_npm["publish-npm"]:::atlasJob
+      wf_15_Release --> job_15_check_npm_packages
+      job_15_check_npm_packages --> job_15_check_version
+      job_15_check_version --> job_15_publish_npm
+    end
+    pipeline_root --> wf_15_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_9_CodeQL_Analysis["CodeQL Analysis (1 jobs)"]
+      direction TB
+      wf_9_CodeQL_Analysis(["Trigger: CodeQL Analysis"]):::atlasWorkflow
+      job_9_analyze["analyze"]:::atlasJob
+      wf_9_CodeQL_Analysis --> job_9_analyze
+    end
+    pipeline_root --> wf_9_CodeQL_Analysis
+    subgraph sg_wf_16_Close_Stale_Issues["Close Stale Issues (1 jobs)"]
+      direction TB
+      wf_16_Close_Stale_Issues(["Trigger: Close Stale Issues"]):::atlasWorkflow
+      job_16_stale["stale"]:::atlasJob
+      wf_16_Close_Stale_Issues --> job_16_stale
+    end
+    pipeline_root --> wf_16_Close_Stale_Issues
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CLA_Assistant_Comment["CLA Assistant Comment (1 jobs)"]
+      direction TB
+      wf_3_CLA_Assistant_Comment(["Trigger: CLA Assistant Comment"]):::atlasWorkflow
+      job_3_comment["comment"]:::atlasJob
+      wf_3_CLA_Assistant_Comment --> job_3_comment
+    end
+    pipeline_root --> wf_3_CLA_Assistant_Comment
+    subgraph sg_wf_7_Close_Feature_Request_Discussions["Close Feature Request Discussions (1 jobs)"]
+      direction TB
+      wf_7_Close_Feature_Request_Discussions(["Trigger: Close Feature Request Discussions"]):::atlasWorkflow
+      job_7_close_discussion["close-discussion"]:::atlasJob
+      wf_7_Close_Feature_Request_Discussions --> job_7_close_discussion
+    end
+    pipeline_root --> wf_7_Close_Feature_Request_Discussions
+  end
+  subgraph sg_grp_4_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Close_PRs_with_Changes_Requested["Close PRs with Changes Requested (1 jobs)"]
+      direction TB
+      wf_6_Close_PRs_with_Changes_Requested(["Trigger: Close PRs with Changes Requested"]):::atlasWorkflow
+      job_6_close_stale_prs["close-stale-prs"]:::atlasJob
+      wf_6_Close_PRs_with_Changes_Requested --> job_6_close_stale_prs
+    end
+    pipeline_root --> wf_6_Close_PRs_with_Changes_Requested
+    subgraph sg_wf_8_Close_PRs_without_a_Signed_CLA["Close PRs without a Signed CLA (1 jobs)"]
+      direction TB
+      wf_8_Close_PRs_without_a_Signed_CLA(["Trigger: Close PRs without a Signed CLA"]):::atlasWorkflow
+      job_8_close_unsigned_prs["close-unsigned-prs"]:::atlasJob
+      wf_8_Close_PRs_without_a_Signed_CLA --> job_8_close_unsigned_prs
+    end
+    pipeline_root --> wf_8_Close_PRs_without_a_Signed_CLA
+  end
   wf_more["+8 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

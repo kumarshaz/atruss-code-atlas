@@ -289,67 +289,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["saleor/saleor (22 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (11 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_12_Migrations_performance_test["Migrations performance test (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_12_Migrations_performance_test
-  job_12_run["run"]:::atlasJob
-  job_12_cleanup["cleanup"]:::atlasJob
-  wf_12_Migrations_performance_test --> job_12_run
-  wf_12_Migrations_performance_test --> job_12_cleanup
-  wf_17_TEST_ENV_CLEANUP["TEST-ENV-CLEANUP (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_17_TEST_ENV_CLEANUP
-  job_17_cleanup_aws["cleanup-aws"]:::atlasJob
-  job_17_cleanup_github["cleanup-github"]:::atlasJob
-  wf_17_TEST_ENV_CLEANUP --> job_17_cleanup_aws
-  job_17_cleanup_aws --> job_17_cleanup_github
-  wf_21_Tests["Tests (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_21_Tests
-  job_21_unit_tests["unit_tests"]:::atlasJob
-  job_21_upload_query_count_base_branch["upload-query-count-base-branch"]:::atlasJob
-  wf_21_Tests --> job_21_unit_tests
-  job_21_unit_tests --> job_21_upload_query_count_base_branch
-  grp_1_Release___Deploy["Release & Deploy (7 workflows · 16 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Create_release_tag_on_release_PR_merge["Create release tag on release PR merge (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Create_release_tag_on_release_PR_merge
-  job_4_create_release_tag["create-release-tag"]:::atlasJob
-  job_4_publish["publish"]:::atlasJob
-  job_4_deploy["deploy"]:::atlasJob
-  wf_4_Create_release_tag_on_release_PR_merge --> job_4_create_release_tag
-  job_4_create_release_tag --> job_4_publish
-  job_4_publish --> job_4_deploy
-  wf_13_Publish["Publish (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_Publish
-  job_13_prepare_variables["prepare-variables"]:::atlasJob
-  job_13_build_push["build-push"]:::atlasJob
-  job_13_notify["notify"]:::atlasJob
-  wf_13_Publish --> job_13_prepare_variables
-  job_13_prepare_variables --> job_13_build_push
-  job_13_prepare_variables --> job_13_notify
-  job_13_build_push --> job_13_notify
-  wf_14_Publish_for_load_test["Publish for load test (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_14_Publish_for_load_test
-  job_14_init["init"]:::atlasJob
-  job_14_publish["publish"]:::atlasJob
-  job_14_deploy["deploy"]:::atlasJob
-  wf_14_Publish_for_load_test --> job_14_init
-  job_14_init --> job_14_publish
-  job_14_publish --> job_14_deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_Bump_dependencies["Bump dependencies (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_0_Bump_dependencies
-  job_0_bump_dependencies["bump-dependencies"]:::atlasJob
-  wf_0_Bump_dependencies --> job_0_bump_dependencies
-  wf_6_e2e_suite["e2e suite (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_6_e2e_suite
-  wf_16_TEST_ENV_CLEANUP_CRON["TEST-ENV-CLEANUP-CRON (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_16_TEST_ENV_CLEANUP_CRON
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_9_Notify_Discord_on_Help_Wanted_Issue["Notify Discord on Help Wanted Issue (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_9_Notify_Discord_on_Help_Wanted_Issue
+  subgraph sg_grp_0_CI___Verification["CI & Verification (11 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_12_Migrations_performance_test["Migrations performance test (2 jobs)"]
+      direction TB
+      wf_12_Migrations_performance_test(["Trigger: Migrations performance test"]):::atlasWorkflow
+      job_12_run["run"]:::atlasJob
+      job_12_cleanup["cleanup"]:::atlasJob
+      wf_12_Migrations_performance_test --> job_12_run
+      wf_12_Migrations_performance_test --> job_12_cleanup
+    end
+    pipeline_root --> wf_12_Migrations_performance_test
+    subgraph sg_wf_17_TEST_ENV_CLEANUP["TEST-ENV-CLEANUP (2 jobs)"]
+      direction TB
+      wf_17_TEST_ENV_CLEANUP(["Trigger: TEST-ENV-CLEANUP"]):::atlasWorkflow
+      job_17_cleanup_aws["cleanup-aws"]:::atlasJob
+      job_17_cleanup_github["cleanup-github"]:::atlasJob
+      wf_17_TEST_ENV_CLEANUP --> job_17_cleanup_aws
+      job_17_cleanup_aws --> job_17_cleanup_github
+    end
+    pipeline_root --> wf_17_TEST_ENV_CLEANUP
+    subgraph sg_wf_21_Tests["Tests (2 jobs)"]
+      direction TB
+      wf_21_Tests(["Trigger: Tests"]):::atlasWorkflow
+      job_21_unit_tests["unit_tests"]:::atlasJob
+      job_21_upload_query_count_base_branch["upload-query-count-base-branch"]:::atlasJob
+      wf_21_Tests --> job_21_unit_tests
+      job_21_unit_tests --> job_21_upload_query_count_base_branch
+    end
+    pipeline_root --> wf_21_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (7 workflows · 16 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Create_release_tag_on_release_PR_merge["Create release tag on release PR merge (3 jobs)"]
+      direction TB
+      wf_4_Create_release_tag_on_release_PR_merge(["Trigger: Create release tag on release PR merge"]):::atlasWorkflow
+      job_4_create_release_tag["create-release-tag"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      job_4_deploy["deploy"]:::atlasJob
+      wf_4_Create_release_tag_on_release_PR_merge --> job_4_create_release_tag
+      job_4_create_release_tag --> job_4_publish
+      job_4_publish --> job_4_deploy
+    end
+    pipeline_root --> wf_4_Create_release_tag_on_release_PR_merge
+    subgraph sg_wf_13_Publish["Publish (3 jobs)"]
+      direction TB
+      wf_13_Publish(["Trigger: Publish"]):::atlasWorkflow
+      job_13_prepare_variables["prepare-variables"]:::atlasJob
+      job_13_build_push["build-push"]:::atlasJob
+      job_13_notify["notify"]:::atlasJob
+      wf_13_Publish --> job_13_prepare_variables
+      job_13_prepare_variables --> job_13_build_push
+      job_13_prepare_variables --> job_13_notify
+      job_13_build_push --> job_13_notify
+    end
+    pipeline_root --> wf_13_Publish
+    subgraph sg_wf_14_Publish_for_load_test["Publish for load test (3 jobs)"]
+      direction TB
+      wf_14_Publish_for_load_test(["Trigger: Publish for load test"]):::atlasWorkflow
+      job_14_init["init"]:::atlasJob
+      job_14_publish["publish"]:::atlasJob
+      job_14_deploy["deploy"]:::atlasJob
+      wf_14_Publish_for_load_test --> job_14_init
+      job_14_init --> job_14_publish
+      job_14_publish --> job_14_deploy
+    end
+    pipeline_root --> wf_14_Publish_for_load_test
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Bump_dependencies["Bump dependencies (1 jobs)"]
+      direction TB
+      wf_0_Bump_dependencies(["Trigger: Bump dependencies"]):::atlasWorkflow
+      job_0_bump_dependencies["bump-dependencies"]:::atlasJob
+      wf_0_Bump_dependencies --> job_0_bump_dependencies
+    end
+    pipeline_root --> wf_0_Bump_dependencies
+    wf_6_e2e_suite["e2e suite (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_e2e_suite
+    wf_16_TEST_ENV_CLEANUP_CRON["TEST-ENV-CLEANUP-CRON (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_TEST_ENV_CLEANUP_CRON
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_9_Notify_Discord_on_Help_Wanted_Issue["Notify Discord on Help Wanted Issue (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Notify_Discord_on_Help_Wanted_Issue
+  end
   wf_more["+12 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

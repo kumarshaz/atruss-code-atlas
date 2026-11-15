@@ -285,54 +285,82 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["zulip/zulip (8 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_API_Documentation_Update_Check["API Documentation Update Check (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_API_Documentation_Update_Check
-  job_0_check_feature_level_updated["check-feature-level-updated"]:::atlasJob
-  job_0_notify_if_api_docs_changed["notify-if-api-docs-changed"]:::atlasJob
-  wf_0_API_Documentation_Update_Check --> job_0_check_feature_level_updated
-  job_0_check_feature_level_updated --> job_0_notify_if_api_docs_changed
-  wf_2_Code_scanning["Code scanning (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Code_scanning
-  job_2_CodeQL["CodeQL"]:::atlasJob
-  wf_2_Code_scanning --> job_2_CodeQL
-  wf_3_Zulip_production_suite["Zulip production suite (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Zulip_production_suite
-  job_3_production_build["production_build"]:::atlasJob
-  job_3_production_install["production_install"]:::atlasJob
-  job_3_production_upgrade["production_upgrade"]:::atlasJob
-  wf_3_Zulip_production_suite --> job_3_production_build
-  job_3_production_build --> job_3_production_install
-  job_3_production_build --> job_3_production_upgrade
-  wf_6_Zulip_CI["Zulip CI (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Zulip_CI
-  job_6_tests["tests"]:::atlasJob
-  job_6_required_jobs["required-jobs"]:::atlasJob
-  wf_6_Zulip_CI --> job_6_tests
-  job_6_tests --> job_6_required_jobs
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Update_one_click_apps["Update one click apps (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Update_one_click_apps
-  job_4_update_digitalocean_oneclick_app["update-digitalocean-oneclick-app"]:::atlasJob
-  wf_4_Update_one_click_apps --> job_4_update_digitalocean_oneclick_app
-  wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy["Notify of issues resolved in latest Zulip Cloud deploy (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy
-  job_7_build_messages["build-messages"]:::atlasJob
-  job_7_send_messages["send-messages"]:::atlasJob
-  wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy --> job_7_build_messages
-  job_7_build_messages --> job_7_send_messages
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_1_Auto_add_general_area_label["Auto add general area label (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_1_Auto_add_general_area_label
-  job_1_add_general_label["add-general-label"]:::atlasJob
-  wf_1_Auto_add_general_area_label --> job_1_add_general_label
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_5_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_5_GitHub_Actions_Security_Analysis_with_zizmor
-  job_5_zizmor["zizmor"]:::atlasJob
-  wf_5_GitHub_Actions_Security_Analysis_with_zizmor --> job_5_zizmor
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_API_Documentation_Update_Check["API Documentation Update Check (2 jobs)"]
+      direction TB
+      wf_0_API_Documentation_Update_Check(["Trigger: API Documentation Update Check"]):::atlasWorkflow
+      job_0_check_feature_level_updated["check-feature-level-updated"]:::atlasJob
+      job_0_notify_if_api_docs_changed["notify-if-api-docs-changed"]:::atlasJob
+      wf_0_API_Documentation_Update_Check --> job_0_check_feature_level_updated
+      job_0_check_feature_level_updated --> job_0_notify_if_api_docs_changed
+    end
+    pipeline_root --> wf_0_API_Documentation_Update_Check
+    subgraph sg_wf_2_Code_scanning["Code scanning (1 jobs)"]
+      direction TB
+      wf_2_Code_scanning(["Trigger: Code scanning"]):::atlasWorkflow
+      job_2_CodeQL["CodeQL"]:::atlasJob
+      wf_2_Code_scanning --> job_2_CodeQL
+    end
+    pipeline_root --> wf_2_Code_scanning
+    subgraph sg_wf_3_Zulip_production_suite["Zulip production suite (4 jobs)"]
+      direction TB
+      wf_3_Zulip_production_suite(["Trigger: Zulip production suite"]):::atlasWorkflow
+      job_3_production_build["production_build"]:::atlasJob
+      job_3_production_install["production_install"]:::atlasJob
+      job_3_production_upgrade["production_upgrade"]:::atlasJob
+      wf_3_Zulip_production_suite --> job_3_production_build
+      job_3_production_build --> job_3_production_install
+      job_3_production_build --> job_3_production_upgrade
+    end
+    pipeline_root --> wf_3_Zulip_production_suite
+    subgraph sg_wf_6_Zulip_CI["Zulip CI (2 jobs)"]
+      direction TB
+      wf_6_Zulip_CI(["Trigger: Zulip CI"]):::atlasWorkflow
+      job_6_tests["tests"]:::atlasJob
+      job_6_required_jobs["required-jobs"]:::atlasJob
+      wf_6_Zulip_CI --> job_6_tests
+      job_6_tests --> job_6_required_jobs
+    end
+    pipeline_root --> wf_6_Zulip_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Update_one_click_apps["Update one click apps (1 jobs)"]
+      direction TB
+      wf_4_Update_one_click_apps(["Trigger: Update one click apps"]):::atlasWorkflow
+      job_4_update_digitalocean_oneclick_app["update-digitalocean-oneclick-app"]:::atlasJob
+      wf_4_Update_one_click_apps --> job_4_update_digitalocean_oneclick_app
+    end
+    pipeline_root --> wf_4_Update_one_click_apps
+    subgraph sg_wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy["Notify of issues resolved in latest Zulip Cloud deploy (2 jobs)"]
+      direction TB
+      wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy(["Trigger: Notify of issues resolved in latest Zulip Cloud deploy"]):::atlasWorkflow
+      job_7_build_messages["build-messages"]:::atlasJob
+      job_7_send_messages["send-messages"]:::atlasJob
+      wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy --> job_7_build_messages
+      job_7_build_messages --> job_7_send_messages
+    end
+    pipeline_root --> wf_7_Notify_of_issues_resolved_in_latest_Zulip_Cloud_deploy
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Auto_add_general_area_label["Auto add general area label (1 jobs)"]
+      direction TB
+      wf_1_Auto_add_general_area_label(["Trigger: Auto add general area label"]):::atlasWorkflow
+      job_1_add_general_label["add-general-label"]:::atlasJob
+      wf_1_Auto_add_general_area_label --> job_1_add_general_label
+    end
+    pipeline_root --> wf_1_Auto_add_general_area_label
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]
+      direction TB
+      wf_5_GitHub_Actions_Security_Analysis_with_zizmor(["Trigger: GitHub Actions Security Analysis with zizmor"]):::atlasWorkflow
+      job_5_zizmor["zizmor"]:::atlasJob
+      wf_5_GitHub_Actions_Security_Analysis_with_zizmor --> job_5_zizmor
+    end
+    pipeline_root --> wf_5_GitHub_Actions_Security_Analysis_with_zizmor
+  end
 ```

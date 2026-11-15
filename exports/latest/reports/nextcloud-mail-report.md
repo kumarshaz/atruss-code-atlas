@@ -241,67 +241,98 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/mail (23 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (12 workflows · 26 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_6_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Lint_eslint
-  job_6_changes["changes"]:::atlasJob
-  job_6_lint["lint"]:::atlasJob
-  job_6_summary["summary"]:::atlasJob
-  wf_6_Lint_eslint --> job_6_changes
-  job_6_changes --> job_6_lint
-  job_6_changes --> job_6_summary
-  job_6_lint --> job_6_summary
-  wf_9_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_Lint_php
-  job_9_matrix["matrix"]:::atlasJob
-  job_9_php_lint["php-lint"]:::atlasJob
-  job_9_summary["summary"]:::atlasJob
-  wf_9_Lint_php --> job_9_matrix
-  job_9_matrix --> job_9_php_lint
-  job_9_php_lint --> job_9_summary
-  wf_21_Test["Test (9 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_21_Test
-  job_21_changes["changes"]:::atlasJob
-  job_21_unit_tests["unit-tests"]:::atlasJob
-  job_21_integration_tests["integration-tests"]:::atlasJob
-  wf_21_Test --> job_21_changes
-  job_21_changes --> job_21_unit_tests
-  job_21_changes --> job_21_integration_tests
-  grp_1_Security___Governance["Security & Governance (5 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_3_Block_unconventional_commits["Block unconventional commits (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_3_Block_unconventional_commits
-  job_3_block_unconventional_commits["block-unconventional-commits"]:::atlasJob
-  wf_3_Block_unconventional_commits --> job_3_block_unconventional_commits
-  wf_4_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_4_Block_fixup_and_squash_commits
-  job_4_commit_message_check["commit-message-check"]:::atlasJob
-  wf_4_Block_fixup_and_squash_commits --> job_4_commit_message_check
-  wf_11_Selective_npm_audit_fix["Selective npm audit fix (2 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_11_Selective_npm_audit_fix
-  job_11_matrix["matrix"]:::atlasJob
-  job_11_fix["fix"]:::atlasJob
-  wf_11_Selective_npm_audit_fix --> job_11_matrix
-  job_11_matrix --> job_11_fix
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_1_Build_and_publish_app_release
-  job_1_build_and_publish["build_and_publish"]:::atlasJob
-  wf_1_Build_and_publish_app_release --> job_1_build_and_publish
-  wf_2_Build_and_publish_app_release_conventionally["Build and publish app release conventionally (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_2_Build_and_publish_app_release_conventionally
-  job_2_build_and_publish["build_and_publish"]:::atlasJob
-  wf_2_Build_and_publish_app_release_conventionally --> job_2_build_and_publish
-  grp_3_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_15_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_15_Ask_for_feedback_on_PRs
-  job_15_pr_feedback["pr-feedback"]:::atlasJob
-  wf_15_Ask_for_feedback_on_PRs --> job_15_pr_feedback
-  wf_22_Update_public_suffix_list["Update public suffix list (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_22_Update_public_suffix_list
+  subgraph sg_grp_0_CI___Verification["CI & Verification (12 workflows · 26 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_6_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_6_changes["changes"]:::atlasJob
+      job_6_lint["lint"]:::atlasJob
+      job_6_summary["summary"]:::atlasJob
+      wf_6_Lint_eslint --> job_6_changes
+      job_6_changes --> job_6_lint
+      job_6_changes --> job_6_summary
+      job_6_lint --> job_6_summary
+    end
+    pipeline_root --> wf_6_Lint_eslint
+    subgraph sg_wf_9_Lint_php["Lint php (3 jobs)"]
+      direction TB
+      wf_9_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_9_matrix["matrix"]:::atlasJob
+      job_9_php_lint["php-lint"]:::atlasJob
+      job_9_summary["summary"]:::atlasJob
+      wf_9_Lint_php --> job_9_matrix
+      job_9_matrix --> job_9_php_lint
+      job_9_php_lint --> job_9_summary
+    end
+    pipeline_root --> wf_9_Lint_php
+    subgraph sg_wf_21_Test["Test (9 jobs)"]
+      direction TB
+      wf_21_Test(["Trigger: Test"]):::atlasWorkflow
+      job_21_changes["changes"]:::atlasJob
+      job_21_unit_tests["unit-tests"]:::atlasJob
+      job_21_integration_tests["integration-tests"]:::atlasJob
+      wf_21_Test --> job_21_changes
+      job_21_changes --> job_21_unit_tests
+      job_21_changes --> job_21_integration_tests
+    end
+    pipeline_root --> wf_21_Test
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (5 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Block_unconventional_commits["Block unconventional commits (1 jobs)"]
+      direction TB
+      wf_3_Block_unconventional_commits(["Trigger: Block unconventional commits"]):::atlasWorkflow
+      job_3_block_unconventional_commits["block-unconventional-commits"]:::atlasJob
+      wf_3_Block_unconventional_commits --> job_3_block_unconventional_commits
+    end
+    pipeline_root --> wf_3_Block_unconventional_commits
+    subgraph sg_wf_4_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]
+      direction TB
+      wf_4_Block_fixup_and_squash_commits(["Trigger: Block fixup and squash commits"]):::atlasWorkflow
+      job_4_commit_message_check["commit-message-check"]:::atlasJob
+      wf_4_Block_fixup_and_squash_commits --> job_4_commit_message_check
+    end
+    pipeline_root --> wf_4_Block_fixup_and_squash_commits
+    subgraph sg_wf_11_Selective_npm_audit_fix["Selective npm audit fix (2 jobs)"]
+      direction TB
+      wf_11_Selective_npm_audit_fix(["Trigger: Selective npm audit fix"]):::atlasWorkflow
+      job_11_matrix["matrix"]:::atlasJob
+      job_11_fix["fix"]:::atlasJob
+      wf_11_Selective_npm_audit_fix --> job_11_matrix
+      job_11_matrix --> job_11_fix
+    end
+    pipeline_root --> wf_11_Selective_npm_audit_fix
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]
+      direction TB
+      wf_1_Build_and_publish_app_release(["Trigger: Build and publish app release"]):::atlasWorkflow
+      job_1_build_and_publish["build_and_publish"]:::atlasJob
+      wf_1_Build_and_publish_app_release --> job_1_build_and_publish
+    end
+    pipeline_root --> wf_1_Build_and_publish_app_release
+    subgraph sg_wf_2_Build_and_publish_app_release_conventionally["Build and publish app release conventionally (1 jobs)"]
+      direction TB
+      wf_2_Build_and_publish_app_release_conventionally(["Trigger: Build and publish app release conventionally"]):::atlasWorkflow
+      job_2_build_and_publish["build_and_publish"]:::atlasJob
+      wf_2_Build_and_publish_app_release_conventionally --> job_2_build_and_publish
+    end
+    pipeline_root --> wf_2_Build_and_publish_app_release_conventionally
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_15_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]
+      direction TB
+      wf_15_Ask_for_feedback_on_PRs(["Trigger: Ask for feedback on PRs"]):::atlasWorkflow
+      job_15_pr_feedback["pr-feedback"]:::atlasJob
+      wf_15_Ask_for_feedback_on_PRs --> job_15_pr_feedback
+    end
+    pipeline_root --> wf_15_Ask_for_feedback_on_PRs
+    wf_22_Update_public_suffix_list["Update public suffix list (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_22_Update_public_suffix_list
+  end
   wf_more["+13 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

@@ -212,30 +212,48 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["backstage/demo (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Main_Master_Build["Main Master Build (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Main_Master_Build
-  job_0_build["build"]:::atlasJob
-  wf_0_Main_Master_Build --> job_0_build
-  wf_1_PR_CI_build["PR CI build (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_PR_CI_build
-  job_1_build["build"]:::atlasJob
-  wf_1_PR_CI_build --> job_1_build
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Publish_Backstage_TechDocs["Publish Backstage TechDocs (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Publish_Backstage_TechDocs
-  job_2_publish_techdocs_site["publish-techdocs-site"]:::atlasJob
-  wf_2_Publish_Backstage_TechDocs --> job_2_publish_techdocs_site
-  wf_4_Deploy_static_content_to_Pages["Deploy static content to Pages (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Deploy_static_content_to_Pages
-  job_4_deploy["deploy"]:::atlasJob
-  wf_4_Deploy_static_content_to_Pages --> job_4_deploy
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_3_Version_Bump["Version Bump (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_3_Version_Bump
-  job_3_version_bump["version-bump"]:::atlasJob
-  wf_3_Version_Bump --> job_3_version_bump
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Main_Master_Build["Main Master Build (1 jobs)"]
+      direction TB
+      wf_0_Main_Master_Build(["Trigger: Main Master Build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Main_Master_Build --> job_0_build
+    end
+    pipeline_root --> wf_0_Main_Master_Build
+    subgraph sg_wf_1_PR_CI_build["PR CI build (1 jobs)"]
+      direction TB
+      wf_1_PR_CI_build(["Trigger: PR CI build"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_PR_CI_build --> job_1_build
+    end
+    pipeline_root --> wf_1_PR_CI_build
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Publish_Backstage_TechDocs["Publish Backstage TechDocs (1 jobs)"]
+      direction TB
+      wf_2_Publish_Backstage_TechDocs(["Trigger: Publish Backstage TechDocs"]):::atlasWorkflow
+      job_2_publish_techdocs_site["publish-techdocs-site"]:::atlasJob
+      wf_2_Publish_Backstage_TechDocs --> job_2_publish_techdocs_site
+    end
+    pipeline_root --> wf_2_Publish_Backstage_TechDocs
+    subgraph sg_wf_4_Deploy_static_content_to_Pages["Deploy static content to Pages (1 jobs)"]
+      direction TB
+      wf_4_Deploy_static_content_to_Pages(["Trigger: Deploy static content to Pages"]):::atlasWorkflow
+      job_4_deploy["deploy"]:::atlasJob
+      wf_4_Deploy_static_content_to_Pages --> job_4_deploy
+    end
+    pipeline_root --> wf_4_Deploy_static_content_to_Pages
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Version_Bump["Version Bump (1 jobs)"]
+      direction TB
+      wf_3_Version_Bump(["Trigger: Version Bump"]):::atlasWorkflow
+      job_3_version_bump["version-bump"]:::atlasJob
+      wf_3_Version_Bump --> job_3_version_bump
+    end
+    pipeline_root --> wf_3_Version_Bump
+  end
 ```

@@ -204,72 +204,95 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/spreed (40 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (22 workflows · 42 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_13_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_Lint_eslint
-  job_13_changes["changes"]:::atlasJob
-  job_13_lint["lint"]:::atlasJob
-  job_13_summary["summary"]:::atlasJob
-  wf_13_Lint_eslint --> job_13_changes
-  job_13_changes --> job_13_lint
-  job_13_changes --> job_13_summary
-  job_13_lint --> job_13_summary
-  wf_16_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_16_Lint_php
-  job_16_matrix["matrix"]:::atlasJob
-  job_16_php_lint["php-lint"]:::atlasJob
-  job_16_summary["summary"]:::atlasJob
-  wf_16_Lint_php --> job_16_matrix
-  job_16_matrix --> job_16_php_lint
-  job_16_php_lint --> job_16_summary
-  wf_22_Build_Javascript["Build Javascript (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_22_Build_Javascript
-  job_22_changes["changes"]:::atlasJob
-  job_22_build["build"]:::atlasJob
-  job_22_summary["summary"]:::atlasJob
-  wf_22_Build_Javascript --> job_22_changes
-  job_22_changes --> job_22_build
-  job_22_changes --> job_22_summary
-  job_22_build --> job_22_summary
-  grp_1_Scheduled___Manual["Scheduled & Manual (11 workflows · 23 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_6_Integration_Federation["Integration Federation (3 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_6_Integration_Federation
-  job_6_changes["changes"]:::atlasJob
-  job_6_integration_federation["integration-federation"]:::atlasJob
-  job_6_summary["summary"]:::atlasJob
-  wf_6_Integration_Federation --> job_6_changes
-  job_6_changes --> job_6_integration_federation
-  job_6_changes --> job_6_summary
-  job_6_integration_federation --> job_6_summary
-  wf_7_Integration_mariadb["Integration mariadb (3 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_7_Integration_mariadb
-  job_7_changes["changes"]:::atlasJob
-  job_7_integration_mariadb["integration-mariadb"]:::atlasJob
-  job_7_summary["summary"]:::atlasJob
-  wf_7_Integration_mariadb --> job_7_changes
-  job_7_changes --> job_7_integration_mariadb
-  job_7_changes --> job_7_summary
-  job_7_integration_mariadb --> job_7_summary
-  grp_2_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Auto_approve_Dependabot_PRs
-  job_4_auto_approve_merge["auto-approve-merge"]:::atlasJob
-  wf_4_Auto_approve_Dependabot_PRs --> job_4_auto_approve_merge
-  wf_5_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_5_Block_fixup_and_squash_commits
-  grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_1_Build_and_publish_app_release
-  wf_34_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_34_Notify_release_relay_on_release
-  grp_4_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Automation___Other
-  wf_3_OpenAPI_Command["OpenAPI Command (2 jobs)"]:::atlasWorkflow
-  grp_4_Automation___Other --> wf_3_OpenAPI_Command
+  subgraph sg_grp_0_CI___Verification["CI & Verification (22 workflows · 42 jobs)"]
+    direction TB
+    subgraph sg_wf_13_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_13_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_13_changes["changes"]:::atlasJob
+      job_13_lint["lint"]:::atlasJob
+      job_13_summary["summary"]:::atlasJob
+      wf_13_Lint_eslint --> job_13_changes
+      job_13_changes --> job_13_lint
+      job_13_changes --> job_13_summary
+      job_13_lint --> job_13_summary
+    end
+    pipeline_root --> wf_13_Lint_eslint
+    subgraph sg_wf_16_Lint_php["Lint php (3 jobs)"]
+      direction TB
+      wf_16_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_16_matrix["matrix"]:::atlasJob
+      job_16_php_lint["php-lint"]:::atlasJob
+      job_16_summary["summary"]:::atlasJob
+      wf_16_Lint_php --> job_16_matrix
+      job_16_matrix --> job_16_php_lint
+      job_16_php_lint --> job_16_summary
+    end
+    pipeline_root --> wf_16_Lint_php
+    subgraph sg_wf_22_Build_Javascript["Build Javascript (3 jobs)"]
+      direction TB
+      wf_22_Build_Javascript(["Trigger: Build Javascript"]):::atlasWorkflow
+      job_22_changes["changes"]:::atlasJob
+      job_22_build["build"]:::atlasJob
+      job_22_summary["summary"]:::atlasJob
+      wf_22_Build_Javascript --> job_22_changes
+      job_22_changes --> job_22_build
+      job_22_changes --> job_22_summary
+      job_22_build --> job_22_summary
+    end
+    pipeline_root --> wf_22_Build_Javascript
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (11 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Integration_Federation["Integration Federation (3 jobs)"]
+      direction TB
+      wf_6_Integration_Federation(["Trigger: Integration Federation"]):::atlasWorkflow
+      job_6_changes["changes"]:::atlasJob
+      job_6_integration_federation["integration-federation"]:::atlasJob
+      job_6_summary["summary"]:::atlasJob
+      wf_6_Integration_Federation --> job_6_changes
+      job_6_changes --> job_6_integration_federation
+      job_6_changes --> job_6_summary
+      job_6_integration_federation --> job_6_summary
+    end
+    pipeline_root --> wf_6_Integration_Federation
+    subgraph sg_wf_7_Integration_mariadb["Integration mariadb (3 jobs)"]
+      direction TB
+      wf_7_Integration_mariadb(["Trigger: Integration mariadb"]):::atlasWorkflow
+      job_7_changes["changes"]:::atlasJob
+      job_7_integration_mariadb["integration-mariadb"]:::atlasJob
+      job_7_summary["summary"]:::atlasJob
+      wf_7_Integration_mariadb --> job_7_changes
+      job_7_changes --> job_7_integration_mariadb
+      job_7_changes --> job_7_summary
+      job_7_integration_mariadb --> job_7_summary
+    end
+    pipeline_root --> wf_7_Integration_mariadb
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]
+      direction TB
+      wf_4_Auto_approve_Dependabot_PRs(["Trigger: Auto approve Dependabot PRs"]):::atlasWorkflow
+      job_4_auto_approve_merge["auto-approve-merge"]:::atlasJob
+      wf_4_Auto_approve_Dependabot_PRs --> job_4_auto_approve_merge
+    end
+    pipeline_root --> wf_4_Auto_approve_Dependabot_PRs
+    wf_5_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Block_fixup_and_squash_commits
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    wf_1_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_1_Build_and_publish_app_release
+    wf_34_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_34_Notify_release_relay_on_release
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    wf_3_OpenAPI_Command["OpenAPI Command (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_OpenAPI_Command
+  end
   wf_more["+30 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

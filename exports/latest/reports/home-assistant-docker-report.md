@@ -88,29 +88,43 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["home-assistant/docker (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_hadolint["hadolint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_hadolint
-  job_1_golangci["golangci"]:::atlasJob
-  wf_1_hadolint --> job_1_golangci
-  wf_3_Shellcheck["Shellcheck (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Shellcheck
-  job_3_shellcheck["shellcheck"]:::atlasJob
-  wf_3_Shellcheck --> job_3_shellcheck
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_base_images["Build base images (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Build_base_images
-  job_0_init["init"]:::atlasJob
-  job_0_build["build"]:::atlasJob
-  job_0_manifest["manifest"]:::atlasJob
-  wf_0_Build_base_images --> job_0_init
-  job_0_init --> job_0_build
-  job_0_init --> job_0_manifest
-  job_0_build --> job_0_manifest
-  wf_2_Release_Drafter["Release Drafter (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Release_Drafter
-  job_2_update_release_draft["update_release_draft"]:::atlasJob
-  wf_2_Release_Drafter --> job_2_update_release_draft
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_hadolint["hadolint (1 jobs)"]
+      direction TB
+      wf_1_hadolint(["Trigger: hadolint"]):::atlasWorkflow
+      job_1_golangci["golangci"]:::atlasJob
+      wf_1_hadolint --> job_1_golangci
+    end
+    pipeline_root --> wf_1_hadolint
+    subgraph sg_wf_3_Shellcheck["Shellcheck (1 jobs)"]
+      direction TB
+      wf_3_Shellcheck(["Trigger: Shellcheck"]):::atlasWorkflow
+      job_3_shellcheck["shellcheck"]:::atlasJob
+      wf_3_Shellcheck --> job_3_shellcheck
+    end
+    pipeline_root --> wf_3_Shellcheck
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_base_images["Build base images (3 jobs)"]
+      direction TB
+      wf_0_Build_base_images(["Trigger: Build base images"]):::atlasWorkflow
+      job_0_init["init"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      job_0_manifest["manifest"]:::atlasJob
+      wf_0_Build_base_images --> job_0_init
+      job_0_init --> job_0_build
+      job_0_init --> job_0_manifest
+      job_0_build --> job_0_manifest
+    end
+    pipeline_root --> wf_0_Build_base_images
+    subgraph sg_wf_2_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_2_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_2_update_release_draft["update_release_draft"]:::atlasJob
+      wf_2_Release_Drafter --> job_2_update_release_draft
+    end
+    pipeline_root --> wf_2_Release_Drafter
+  end
 ```

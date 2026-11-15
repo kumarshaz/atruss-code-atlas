@@ -282,63 +282,93 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/symbolicator (10 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_CI["CI (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_lints["lints"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  job_1_test_against_latest_sentry["test_against_latest_sentry"]:::atlasJob
-  wf_1_CI --> job_1_lints
-  wf_1_CI --> job_1_test
-  wf_1_CI --> job_1_test_against_latest_sentry
-  wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Enforce_License_Compliance
-  job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
-  wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
-  wf_4_image["image (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_image
-  job_4_build_setup["build-setup"]:::atlasJob
-  job_4_build_binaries["build-binaries"]:::atlasJob
-  job_4_assemble["assemble"]:::atlasJob
-  wf_4_image --> job_4_build_setup
-  job_4_build_setup --> job_4_build_binaries
-  job_4_build_setup --> job_4_assemble
-  job_4_build_binaries --> job_4_assemble
-  wf_5_pre_commit["pre-commit (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_pre_commit
-  job_5_pre_commit["pre-commit"]:::atlasJob
-  wf_5_pre_commit --> job_5_pre_commit
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Release_build["Release build (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Release_build
-  job_0_linux["linux"]:::atlasJob
-  job_0_mac["mac"]:::atlasJob
-  job_0_windows["windows"]:::atlasJob
-  wf_0_Release_build --> job_0_linux
-  wf_0_Release_build --> job_0_mac
-  wf_0_Release_build --> job_0_windows
-  wf_2_Publish_Docs["Publish Docs (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Publish_Docs
-  job_2_docs["docs"]:::atlasJob
-  wf_2_Publish_Docs --> job_2_docs
-  wf_6_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Release
-  job_6_release["release"]:::atlasJob
-  wf_6_Release --> job_6_release
-  wf_8_Validate_Deployment_Pipelines["Validate Deployment Pipelines (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Validate_Deployment_Pipelines
-  job_8_files_changed["files-changed"]:::atlasJob
-  job_8_validate["validate"]:::atlasJob
-  wf_8_Validate_Deployment_Pipelines --> job_8_files_changed
-  job_8_files_changed --> job_8_validate
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_7_Update_Dependencies["Update Dependencies (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_7_Update_Dependencies
-  job_7_native["native"]:::atlasJob
-  wf_7_Update_Dependencies --> job_7_native
-  wf_9_Weekly_CI["Weekly CI (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_9_Weekly_CI
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (6 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lints["lints"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      job_1_test_against_latest_sentry["test_against_latest_sentry"]:::atlasJob
+      wf_1_CI --> job_1_lints
+      wf_1_CI --> job_1_test
+      wf_1_CI --> job_1_test_against_latest_sentry
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_3_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
+    end
+    pipeline_root --> wf_3_Enforce_License_Compliance
+    subgraph sg_wf_4_image["image (6 jobs)"]
+      direction TB
+      wf_4_image(["Trigger: image"]):::atlasWorkflow
+      job_4_build_setup["build-setup"]:::atlasJob
+      job_4_build_binaries["build-binaries"]:::atlasJob
+      job_4_assemble["assemble"]:::atlasJob
+      wf_4_image --> job_4_build_setup
+      job_4_build_setup --> job_4_build_binaries
+      job_4_build_setup --> job_4_assemble
+      job_4_build_binaries --> job_4_assemble
+    end
+    pipeline_root --> wf_4_image
+    subgraph sg_wf_5_pre_commit["pre-commit (1 jobs)"]
+      direction TB
+      wf_5_pre_commit(["Trigger: pre-commit"]):::atlasWorkflow
+      job_5_pre_commit["pre-commit"]:::atlasJob
+      wf_5_pre_commit --> job_5_pre_commit
+    end
+    pipeline_root --> wf_5_pre_commit
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_build["Release build (4 jobs)"]
+      direction TB
+      wf_0_Release_build(["Trigger: Release build"]):::atlasWorkflow
+      job_0_linux["linux"]:::atlasJob
+      job_0_mac["mac"]:::atlasJob
+      job_0_windows["windows"]:::atlasJob
+      wf_0_Release_build --> job_0_linux
+      wf_0_Release_build --> job_0_mac
+      wf_0_Release_build --> job_0_windows
+    end
+    pipeline_root --> wf_0_Release_build
+    subgraph sg_wf_2_Publish_Docs["Publish Docs (1 jobs)"]
+      direction TB
+      wf_2_Publish_Docs(["Trigger: Publish Docs"]):::atlasWorkflow
+      job_2_docs["docs"]:::atlasJob
+      wf_2_Publish_Docs --> job_2_docs
+    end
+    pipeline_root --> wf_2_Publish_Docs
+    subgraph sg_wf_6_Release["Release (1 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_Release
+    subgraph sg_wf_8_Validate_Deployment_Pipelines["Validate Deployment Pipelines (2 jobs)"]
+      direction TB
+      wf_8_Validate_Deployment_Pipelines(["Trigger: Validate Deployment Pipelines"]):::atlasWorkflow
+      job_8_files_changed["files-changed"]:::atlasJob
+      job_8_validate["validate"]:::atlasJob
+      wf_8_Validate_Deployment_Pipelines --> job_8_files_changed
+      job_8_files_changed --> job_8_validate
+    end
+    pipeline_root --> wf_8_Validate_Deployment_Pipelines
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Update_Dependencies["Update Dependencies (1 jobs)"]
+      direction TB
+      wf_7_Update_Dependencies(["Trigger: Update Dependencies"]):::atlasWorkflow
+      job_7_native["native"]:::atlasJob
+      wf_7_Update_Dependencies --> job_7_native
+    end
+    pipeline_root --> wf_7_Update_Dependencies
+    wf_9_Weekly_CI["Weekly CI (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Weekly_CI
+  end
 ```

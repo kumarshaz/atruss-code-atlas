@@ -349,60 +349,93 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-python (23 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (20 workflows · 39 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Changelog_Preview["Changelog Preview (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Changelog_Preview
-  job_0_changelog_preview["changelog-preview"]:::atlasJob
-  wf_0_Changelog_Preview --> job_0_changelog_preview
-  wf_1_CI["CI (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_lint["lint"]:::atlasJob
-  job_1_build_lambda_layer["build_lambda_layer"]:::atlasJob
-  job_1_docs["docs"]:::atlasJob
-  wf_1_CI --> job_1_lint
-  wf_1_CI --> job_1_build_lambda_layer
-  wf_1_CI --> job_1_docs
-  wf_2_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Enforce_License_Compliance
-  job_2_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
-  wf_2_Enforce_License_Compliance --> job_2_enforce_license_compliance
-  wf_5_Test_Agents["Test Agents (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Test_Agents
-  job_5_test_agents["test-agents"]:::atlasJob
-  wf_5_Test_Agents --> job_5_test_agents
-  wf_6_Test_AI_Workflow["Test AI Workflow (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Test_AI_Workflow
-  job_6_test_ai_workflow["test-ai_workflow"]:::atlasJob
-  wf_6_Test_AI_Workflow --> job_6_test_ai_workflow
-  wf_7_Test_AI["Test AI (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Test_AI
-  job_7_test_ai["test-ai"]:::atlasJob
-  wf_7_Test_AI --> job_7_test_ai
-  wf_20_Test["Test (18 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_20_Test
-  job_20_files_changed["files-changed"]:::atlasJob
-  job_20_common["common"]:::atlasJob
-  job_20_mcp["mcp"]:::atlasJob
-  wf_20_Test --> job_20_files_changed
-  job_20_files_changed --> job_20_common
-  job_20_files_changed --> job_20_mcp
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Automation__Notify_issues_for_release
-  job_3_release_comment_issues["release-comment-issues"]:::atlasJob
-  wf_3_Automation__Notify_issues_for_release --> job_3_release_comment_issues
-  wf_4_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Release
-  job_4_release["release"]:::atlasJob
-  wf_4_Release --> job_4_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_21_Update_test_matrix["Update test matrix (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_21_Update_test_matrix
-  job_21_update_tox["update-tox"]:::atlasJob
-  wf_21_Update_test_matrix --> job_21_update_tox
+  subgraph sg_grp_0_CI___Verification["CI & Verification (20 workflows · 39 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Changelog_Preview["Changelog Preview (1 jobs)"]
+      direction TB
+      wf_0_Changelog_Preview(["Trigger: Changelog Preview"]):::atlasWorkflow
+      job_0_changelog_preview["changelog-preview"]:::atlasJob
+      wf_0_Changelog_Preview --> job_0_changelog_preview
+    end
+    pipeline_root --> wf_0_Changelog_Preview
+    subgraph sg_wf_1_CI["CI (3 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      job_1_build_lambda_layer["build_lambda_layer"]:::atlasJob
+      job_1_docs["docs"]:::atlasJob
+      wf_1_CI --> job_1_lint
+      wf_1_CI --> job_1_build_lambda_layer
+      wf_1_CI --> job_1_docs
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_2_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_2_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_2_Enforce_License_Compliance --> job_2_enforce_license_compliance
+    end
+    pipeline_root --> wf_2_Enforce_License_Compliance
+    subgraph sg_wf_5_Test_Agents["Test Agents (1 jobs)"]
+      direction TB
+      wf_5_Test_Agents(["Trigger: Test Agents"]):::atlasWorkflow
+      job_5_test_agents["test-agents"]:::atlasJob
+      wf_5_Test_Agents --> job_5_test_agents
+    end
+    pipeline_root --> wf_5_Test_Agents
+    subgraph sg_wf_6_Test_AI_Workflow["Test AI Workflow (1 jobs)"]
+      direction TB
+      wf_6_Test_AI_Workflow(["Trigger: Test AI Workflow"]):::atlasWorkflow
+      job_6_test_ai_workflow["test-ai_workflow"]:::atlasJob
+      wf_6_Test_AI_Workflow --> job_6_test_ai_workflow
+    end
+    pipeline_root --> wf_6_Test_AI_Workflow
+    subgraph sg_wf_7_Test_AI["Test AI (1 jobs)"]
+      direction TB
+      wf_7_Test_AI(["Trigger: Test AI"]):::atlasWorkflow
+      job_7_test_ai["test-ai"]:::atlasJob
+      wf_7_Test_AI --> job_7_test_ai
+    end
+    pipeline_root --> wf_7_Test_AI
+    subgraph sg_wf_20_Test["Test (18 jobs)"]
+      direction TB
+      wf_20_Test(["Trigger: Test"]):::atlasWorkflow
+      job_20_files_changed["files-changed"]:::atlasJob
+      job_20_common["common"]:::atlasJob
+      job_20_mcp["mcp"]:::atlasJob
+      wf_20_Test --> job_20_files_changed
+      job_20_files_changed --> job_20_common
+      job_20_files_changed --> job_20_mcp
+    end
+    pipeline_root --> wf_20_Test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]
+      direction TB
+      wf_3_Automation__Notify_issues_for_release(["Trigger: Automation: Notify issues for release"]):::atlasWorkflow
+      job_3_release_comment_issues["release-comment-issues"]:::atlasJob
+      wf_3_Automation__Notify_issues_for_release --> job_3_release_comment_issues
+    end
+    pipeline_root --> wf_3_Automation__Notify_issues_for_release
+    subgraph sg_wf_4_Release["Release (1 jobs)"]
+      direction TB
+      wf_4_Release(["Trigger: Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Release --> job_4_release
+    end
+    pipeline_root --> wf_4_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_21_Update_test_matrix["Update test matrix (1 jobs)"]
+      direction TB
+      wf_21_Update_test_matrix(["Trigger: Update test matrix"]):::atlasWorkflow
+      job_21_update_tox["update-tox"]:::atlasJob
+      wf_21_Update_test_matrix --> job_21_update_tox
+    end
+    pipeline_root --> wf_21_Update_test_matrix
+  end
   wf_more["+13 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

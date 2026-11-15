@@ -396,69 +396,104 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["argoproj/argo-workflows (18 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (13 workflows · 23 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Changelog["Changelog (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Changelog
-  job_0_generate_changelog["generate_changelog"]:::atlasJob
-  wf_0_Changelog --> job_0_generate_changelog
-  wf_2_Cherry_Pick["Cherry Pick (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Cherry_Pick
-  job_2_find_labels["find-labels"]:::atlasJob
-  job_2_cherry_pick["cherry-pick"]:::atlasJob
-  wf_2_Cherry_Pick --> job_2_find_labels
-  job_2_find_labels --> job_2_cherry_pick
-  wf_3_CI["CI (10 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_CI
-  job_3_changed_files["changed-files"]:::atlasJob
-  job_3_tests["tests"]:::atlasJob
-  job_3_tests_windows["tests-windows"]:::atlasJob
-  wf_3_CI --> job_3_changed_files
-  job_3_changed_files --> job_3_tests
-  job_3_changed_files --> job_3_tests_windows
-  wf_5_Dev_Container["Dev Container (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Dev_Container
-  job_5_build["build"]:::atlasJob
-  wf_5_Dev_Container --> job_5_build
-  wf_13_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_Detect_and_Trigger_Retest
-  job_13_retest["retest"]:::atlasJob
-  wf_13_Detect_and_Trigger_Retest --> job_13_retest
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_4_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_4_Approve_and_enable_auto_merge_for_dependabot
-  job_4_review["review"]:::atlasJob
-  wf_4_Approve_and_enable_auto_merge_for_dependabot --> job_4_review
-  wf_16_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_16_Mark_stale_issues_and_pull_requests
-  job_16_stale["stale"]:::atlasJob
-  wf_16_Mark_stale_issues_and_pull_requests --> job_16_stale
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_1_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_1_Cherry_Pick_Single
-  job_1_cherry_pick["cherry-pick"]:::atlasJob
-  wf_1_Cherry_Pick_Single --> job_1_cherry_pick
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_11_Release["Release (8 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_11_Release
-  job_11_build_linux["build-linux"]:::atlasJob
-  job_11_build_windows["build-windows"]:::atlasJob
-  job_11_push_images["push-images"]:::atlasJob
-  wf_11_Release --> job_11_build_linux
-  wf_11_Release --> job_11_build_windows
-  job_11_build_linux --> job_11_push_images
-  job_11_build_windows --> job_11_push_images
-  grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Scheduled___Manual
-  wf_15_Snyk["Snyk (2 jobs)"]:::atlasWorkflow
-  grp_4_Scheduled___Manual --> wf_15_Snyk
-  job_15_golang["golang"]:::atlasJob
-  job_15_node["node"]:::atlasJob
-  wf_15_Snyk --> job_15_golang
-  wf_15_Snyk --> job_15_node
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Changelog["Changelog (1 jobs)"]
+      direction TB
+      wf_0_Changelog(["Trigger: Changelog"]):::atlasWorkflow
+      job_0_generate_changelog["generate_changelog"]:::atlasJob
+      wf_0_Changelog --> job_0_generate_changelog
+    end
+    pipeline_root --> wf_0_Changelog
+    subgraph sg_wf_2_Cherry_Pick["Cherry Pick (2 jobs)"]
+      direction TB
+      wf_2_Cherry_Pick(["Trigger: Cherry Pick"]):::atlasWorkflow
+      job_2_find_labels["find-labels"]:::atlasJob
+      job_2_cherry_pick["cherry-pick"]:::atlasJob
+      wf_2_Cherry_Pick --> job_2_find_labels
+      job_2_find_labels --> job_2_cherry_pick
+    end
+    pipeline_root --> wf_2_Cherry_Pick
+    subgraph sg_wf_3_CI["CI (10 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_changed_files["changed-files"]:::atlasJob
+      job_3_tests["tests"]:::atlasJob
+      job_3_tests_windows["tests-windows"]:::atlasJob
+      wf_3_CI --> job_3_changed_files
+      job_3_changed_files --> job_3_tests
+      job_3_changed_files --> job_3_tests_windows
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_5_Dev_Container["Dev Container (1 jobs)"]
+      direction TB
+      wf_5_Dev_Container(["Trigger: Dev Container"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      wf_5_Dev_Container --> job_5_build
+    end
+    pipeline_root --> wf_5_Dev_Container
+    subgraph sg_wf_13_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]
+      direction TB
+      wf_13_Detect_and_Trigger_Retest(["Trigger: Detect and Trigger Retest"]):::atlasWorkflow
+      job_13_retest["retest"]:::atlasJob
+      wf_13_Detect_and_Trigger_Retest --> job_13_retest
+    end
+    pipeline_root --> wf_13_Detect_and_Trigger_Retest
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]
+      direction TB
+      wf_4_Approve_and_enable_auto_merge_for_dependabot(["Trigger: Approve and enable auto-merge for dependabot"]):::atlasWorkflow
+      job_4_review["review"]:::atlasJob
+      wf_4_Approve_and_enable_auto_merge_for_dependabot --> job_4_review
+    end
+    pipeline_root --> wf_4_Approve_and_enable_auto_merge_for_dependabot
+    subgraph sg_wf_16_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_16_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_16_stale["stale"]:::atlasJob
+      wf_16_Mark_stale_issues_and_pull_requests --> job_16_stale
+    end
+    pipeline_root --> wf_16_Mark_stale_issues_and_pull_requests
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]
+      direction TB
+      wf_1_Cherry_Pick_Single(["Trigger: Cherry Pick Single"]):::atlasWorkflow
+      job_1_cherry_pick["cherry-pick"]:::atlasJob
+      wf_1_Cherry_Pick_Single --> job_1_cherry_pick
+    end
+    pipeline_root --> wf_1_Cherry_Pick_Single
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_11_Release["Release (8 jobs)"]
+      direction TB
+      wf_11_Release(["Trigger: Release"]):::atlasWorkflow
+      job_11_build_linux["build-linux"]:::atlasJob
+      job_11_build_windows["build-windows"]:::atlasJob
+      job_11_push_images["push-images"]:::atlasJob
+      wf_11_Release --> job_11_build_linux
+      wf_11_Release --> job_11_build_windows
+      job_11_build_linux --> job_11_push_images
+      job_11_build_windows --> job_11_push_images
+    end
+    pipeline_root --> wf_11_Release
+  end
+  subgraph sg_grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_15_Snyk["Snyk (2 jobs)"]
+      direction TB
+      wf_15_Snyk(["Trigger: Snyk"]):::atlasWorkflow
+      job_15_golang["golang"]:::atlasJob
+      job_15_node["node"]:::atlasJob
+      wf_15_Snyk --> job_15_golang
+      wf_15_Snyk --> job_15_node
+    end
+    pipeline_root --> wf_15_Snyk
+  end
   wf_more["+8 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

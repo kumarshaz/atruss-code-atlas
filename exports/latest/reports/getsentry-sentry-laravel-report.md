@@ -230,28 +230,42 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-laravel (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_CI["CI (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_CI
-  job_0_phpunit["phpunit"]:::atlasJob
-  job_0_phpunit_legacy["phpunit-legacy"]:::atlasJob
-  wf_0_CI --> job_0_phpunit
-  wf_0_CI --> job_0_phpunit_legacy
-  wf_1_Code_style_and_static_analysis["Code style and static analysis (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Code_style_and_static_analysis
-  job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
-  job_1_phpstan["phpstan"]:::atlasJob
-  wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
-  wf_1_Code_style_and_static_analysis --> job_1_phpstan
-  wf_3_Validate_PR["Validate PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Validate_PR
-  job_3_validate_pr["validate-pr"]:::atlasJob
-  wf_3_Validate_PR --> job_3_validate_pr
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Prepare_Release["Prepare Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Prepare_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Prepare_Release --> job_2_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (2 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_phpunit["phpunit"]:::atlasJob
+      job_0_phpunit_legacy["phpunit-legacy"]:::atlasJob
+      wf_0_CI --> job_0_phpunit
+      wf_0_CI --> job_0_phpunit_legacy
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_1_Code_style_and_static_analysis["Code style and static analysis (2 jobs)"]
+      direction TB
+      wf_1_Code_style_and_static_analysis(["Trigger: Code style and static analysis"]):::atlasWorkflow
+      job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
+      job_1_phpstan["phpstan"]:::atlasJob
+      wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
+      wf_1_Code_style_and_static_analysis --> job_1_phpstan
+    end
+    pipeline_root --> wf_1_Code_style_and_static_analysis
+    subgraph sg_wf_3_Validate_PR["Validate PR (1 jobs)"]
+      direction TB
+      wf_3_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
+      job_3_validate_pr["validate-pr"]:::atlasJob
+      wf_3_Validate_PR --> job_3_validate_pr
+    end
+    pipeline_root --> wf_3_Validate_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Prepare_Release["Prepare Release (1 jobs)"]
+      direction TB
+      wf_2_Prepare_Release(["Trigger: Prepare Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Prepare_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Prepare_Release
+  end
 ```

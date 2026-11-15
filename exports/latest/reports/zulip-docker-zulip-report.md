@@ -371,44 +371,67 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["zulip/docker-zulip (7 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (6 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server["Build and push images to ghcr.io/zulip/zulip-server (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server
-  job_0_build["build"]:::atlasJob
-  job_0_merge["merge"]:::atlasJob
-  job_0_release["release"]:::atlasJob
-  wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server --> job_0_build
-  job_0_build --> job_0_merge
-  job_0_merge --> job_0_release
-  wf_1_Dockerfile_lint_and_build["Dockerfile lint and build (7 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Dockerfile_lint_and_build
-  job_1_lint["lint"]:::atlasJob
-  job_1_build["build"]:::atlasJob
-  job_1_helm_docs["helm-docs"]:::atlasJob
-  wf_1_Dockerfile_lint_and_build --> job_1_lint
-  job_1_lint --> job_1_build
-  wf_1_Dockerfile_lint_and_build --> job_1_helm_docs
-  wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip["Push Helm chart to ghcr.io/zulip/helm-charts/zulip (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip
-  job_2_push["push"]:::atlasJob
-  wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip --> job_2_push
-  wf_3_Lint_markdown_files_prettier["Lint markdown files prettier (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Lint_markdown_files_prettier
-  job_3_prettier["prettier"]:::atlasJob
-  wf_3_Lint_markdown_files_prettier --> job_3_prettier
-  wf_4_Shell_check_and_lint["Shell check and lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Shell_check_and_lint
-  job_4_shellcheck["shellcheck"]:::atlasJob
-  wf_4_Shell_check_and_lint --> job_4_shellcheck
-  wf_5_Spelling["Spelling (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Spelling
-  job_5_spelling["spelling"]:::atlasJob
-  wf_5_Spelling --> job_5_spelling
-  grp_1_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_6_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_6_GitHub_Actions_Security_Analysis_with_zizmor
-  job_6_zizmor["zizmor"]:::atlasJob
-  wf_6_GitHub_Actions_Security_Analysis_with_zizmor --> job_6_zizmor
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server["Build and push images to ghcr.io/zulip/zulip-server (3 jobs)"]
+      direction TB
+      wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server(["Trigger: Build and push images to ghcr.io/zulip/zulip-server"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      job_0_merge["merge"]:::atlasJob
+      job_0_release["release"]:::atlasJob
+      wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server --> job_0_build
+      job_0_build --> job_0_merge
+      job_0_merge --> job_0_release
+    end
+    pipeline_root --> wf_0_Build_and_push_images_to_ghcr_io_zulip_zulip_server
+    subgraph sg_wf_1_Dockerfile_lint_and_build["Dockerfile lint and build (7 jobs)"]
+      direction TB
+      wf_1_Dockerfile_lint_and_build(["Trigger: Dockerfile lint and build"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      job_1_build["build"]:::atlasJob
+      job_1_helm_docs["helm-docs"]:::atlasJob
+      wf_1_Dockerfile_lint_and_build --> job_1_lint
+      job_1_lint --> job_1_build
+      wf_1_Dockerfile_lint_and_build --> job_1_helm_docs
+    end
+    pipeline_root --> wf_1_Dockerfile_lint_and_build
+    subgraph sg_wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip["Push Helm chart to ghcr.io/zulip/helm-charts/zulip (1 jobs)"]
+      direction TB
+      wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip(["Trigger: Push Helm chart to ghcr.io/zulip/helm-charts/zulip"]):::atlasWorkflow
+      job_2_push["push"]:::atlasJob
+      wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip --> job_2_push
+    end
+    pipeline_root --> wf_2_Push_Helm_chart_to_ghcr_io_zulip_helm_charts_zulip
+    subgraph sg_wf_3_Lint_markdown_files_prettier["Lint markdown files prettier (1 jobs)"]
+      direction TB
+      wf_3_Lint_markdown_files_prettier(["Trigger: Lint markdown files prettier"]):::atlasWorkflow
+      job_3_prettier["prettier"]:::atlasJob
+      wf_3_Lint_markdown_files_prettier --> job_3_prettier
+    end
+    pipeline_root --> wf_3_Lint_markdown_files_prettier
+    subgraph sg_wf_4_Shell_check_and_lint["Shell check and lint (1 jobs)"]
+      direction TB
+      wf_4_Shell_check_and_lint(["Trigger: Shell check and lint"]):::atlasWorkflow
+      job_4_shellcheck["shellcheck"]:::atlasJob
+      wf_4_Shell_check_and_lint --> job_4_shellcheck
+    end
+    pipeline_root --> wf_4_Shell_check_and_lint
+    subgraph sg_wf_5_Spelling["Spelling (1 jobs)"]
+      direction TB
+      wf_5_Spelling(["Trigger: Spelling"]):::atlasWorkflow
+      job_5_spelling["spelling"]:::atlasJob
+      wf_5_Spelling --> job_5_spelling
+    end
+    pipeline_root --> wf_5_Spelling
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_GitHub_Actions_Security_Analysis_with_zizmor["GitHub Actions Security Analysis with zizmor (1 jobs)"]
+      direction TB
+      wf_6_GitHub_Actions_Security_Analysis_with_zizmor(["Trigger: GitHub Actions Security Analysis with zizmor"]):::atlasWorkflow
+      job_6_zizmor["zizmor"]:::atlasJob
+      wf_6_GitHub_Actions_Security_Analysis_with_zizmor --> job_6_zizmor
+    end
+    pipeline_root --> wf_6_GitHub_Actions_Security_Analysis_with_zizmor
+  end
 ```

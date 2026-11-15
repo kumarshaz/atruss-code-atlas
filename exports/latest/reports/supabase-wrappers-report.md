@@ -391,48 +391,74 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/wrappers (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Code_Coverage["Code Coverage (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Code_Coverage
-  job_0_code_coverage["code-coverage"]:::atlasJob
-  wf_0_Code_Coverage --> job_0_code_coverage
-  wf_5_Test_Docs["Test Docs (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Test_Docs
-  job_5_test_docs["test_docs"]:::atlasJob
-  wf_5_Test_Docs --> job_5_test_docs
-  wf_6_Test_Wrappers["Test Wrappers (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Test_Wrappers
-  job_6_test["test"]:::atlasJob
-  wf_6_Test_Wrappers --> job_6_test
-  wf_7_Test_Wrappers["Test Wrappers (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Test_Wrappers
-  job_7_changes["changes"]:::atlasJob
-  job_7_test_native["test_native"]:::atlasJob
-  job_7_test_wasm["test_wasm"]:::atlasJob
-  wf_7_Test_Wrappers --> job_7_changes
-  job_7_changes --> job_7_test_native
-  job_7_changes --> job_7_test_wasm
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Deploy_docs["Deploy docs (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Deploy_docs
-  job_1_deploy_docs["deploy-docs"]:::atlasJob
-  wf_1_Deploy_docs --> job_1_deploy_docs
-  wf_2_Publish_to_crates_io["Publish to crates.io (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Publish_to_crates_io
-  job_2_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
-  wf_2_Publish_to_crates_io --> job_2_publish_to_crates_io
-  wf_3_Release["Release (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release
-  job_3_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
-  job_3_release["release"]:::atlasJob
-  job_3_build_linux_gnu["build-linux-gnu"]:::atlasJob
-  wf_3_Release --> job_3_publish_to_crates_io
-  wf_3_Release --> job_3_release
-  job_3_release --> job_3_build_linux_gnu
-  wf_4_Wasm_FDW_Release["Wasm FDW Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Wasm_FDW_Release
-  job_4_release["release"]:::atlasJob
-  wf_4_Wasm_FDW_Release --> job_4_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Code_Coverage["Code Coverage (1 jobs)"]
+      direction TB
+      wf_0_Code_Coverage(["Trigger: Code Coverage"]):::atlasWorkflow
+      job_0_code_coverage["code-coverage"]:::atlasJob
+      wf_0_Code_Coverage --> job_0_code_coverage
+    end
+    pipeline_root --> wf_0_Code_Coverage
+    subgraph sg_wf_5_Test_Docs["Test Docs (1 jobs)"]
+      direction TB
+      wf_5_Test_Docs(["Trigger: Test Docs"]):::atlasWorkflow
+      job_5_test_docs["test_docs"]:::atlasJob
+      wf_5_Test_Docs --> job_5_test_docs
+    end
+    pipeline_root --> wf_5_Test_Docs
+    subgraph sg_wf_6_Test_Wrappers["Test Wrappers (1 jobs)"]
+      direction TB
+      wf_6_Test_Wrappers(["Trigger: Test Wrappers"]):::atlasWorkflow
+      job_6_test["test"]:::atlasJob
+      wf_6_Test_Wrappers --> job_6_test
+    end
+    pipeline_root --> wf_6_Test_Wrappers
+    subgraph sg_wf_7_Test_Wrappers["Test Wrappers (4 jobs)"]
+      direction TB
+      wf_7_Test_Wrappers(["Trigger: Test Wrappers"]):::atlasWorkflow
+      job_7_changes["changes"]:::atlasJob
+      job_7_test_native["test_native"]:::atlasJob
+      job_7_test_wasm["test_wasm"]:::atlasJob
+      wf_7_Test_Wrappers --> job_7_changes
+      job_7_changes --> job_7_test_native
+      job_7_changes --> job_7_test_wasm
+    end
+    pipeline_root --> wf_7_Test_Wrappers
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Deploy_docs["Deploy docs (1 jobs)"]
+      direction TB
+      wf_1_Deploy_docs(["Trigger: Deploy docs"]):::atlasWorkflow
+      job_1_deploy_docs["deploy-docs"]:::atlasJob
+      wf_1_Deploy_docs --> job_1_deploy_docs
+    end
+    pipeline_root --> wf_1_Deploy_docs
+    subgraph sg_wf_2_Publish_to_crates_io["Publish to crates.io (1 jobs)"]
+      direction TB
+      wf_2_Publish_to_crates_io(["Trigger: Publish to crates.io"]):::atlasWorkflow
+      job_2_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
+      wf_2_Publish_to_crates_io --> job_2_publish_to_crates_io
+    end
+    pipeline_root --> wf_2_Publish_to_crates_io
+    subgraph sg_wf_3_Release["Release (3 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_publish_to_crates_io["publish-to-crates-io"]:::atlasJob
+      job_3_release["release"]:::atlasJob
+      job_3_build_linux_gnu["build-linux-gnu"]:::atlasJob
+      wf_3_Release --> job_3_publish_to_crates_io
+      wf_3_Release --> job_3_release
+      job_3_release --> job_3_build_linux_gnu
+    end
+    pipeline_root --> wf_3_Release
+    subgraph sg_wf_4_Wasm_FDW_Release["Wasm FDW Release (1 jobs)"]
+      direction TB
+      wf_4_Wasm_FDW_Release(["Trigger: Wasm FDW Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Wasm_FDW_Release --> job_4_release
+    end
+    pipeline_root --> wf_4_Wasm_FDW_Release
+  end
 ```

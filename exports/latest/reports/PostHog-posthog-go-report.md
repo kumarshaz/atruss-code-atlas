@@ -281,66 +281,97 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/posthog-go (11 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Call_Feature_Flags_Project_Workflow["Call Feature Flags Project Workflow (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Call_Feature_Flags_Project_Workflow
-  job_0_call_flags_project["call-flags-project"]:::atlasJob
-  wf_0_Call_Feature_Flags_Project_Workflow --> job_0_call_flags_project
-  wf_2_Check_Formatting["Check Formatting (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Check_Formatting
-  job_2_fmt["fmt"]:::atlasJob
-  job_2_mod_tidy["mod-tidy"]:::atlasJob
-  job_2_otel_fmt_tidy["otel-fmt-tidy"]:::atlasJob
-  wf_2_Check_Formatting --> job_2_fmt
-  wf_2_Check_Formatting --> job_2_mod_tidy
-  wf_2_Check_Formatting --> job_2_otel_fmt_tidy
-  wf_8_SDK_Compliance_Tests["SDK Compliance Tests (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_SDK_Compliance_Tests
-  job_8_compliance["compliance"]:::atlasJob
-  job_8_compliance_v1["compliance-v1"]:::atlasJob
-  wf_8_SDK_Compliance_Tests --> job_8_compliance
-  wf_8_SDK_Compliance_Tests --> job_8_compliance_v1
-  wf_10_Unit_Tests["Unit Tests (8 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_10_Unit_Tests
-  job_10_build["build"]:::atlasJob
-  job_10_otel_bridge["otel-bridge"]:::atlasJob
-  job_10_mcp_go_sdk["mcp-go-sdk"]:::atlasJob
-  wf_10_Unit_Tests --> job_10_build
-  wf_10_Unit_Tests --> job_10_otel_bridge
-  wf_10_Unit_Tests --> job_10_mcp_go_sdk
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_6_Release_failure_notification["Release failure notification (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Release_failure_notification
-  job_6_notify_failed["notify-failed"]:::atlasJob
-  wf_6_Release_failure_notification --> job_6_notify_failed
-  wf_7_Release["Release (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Release
-  job_7_check_changesets["check-changesets"]:::atlasJob
-  job_7_notify_approval_needed["notify-approval-needed"]:::atlasJob
-  job_7_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
-  wf_7_Release --> job_7_check_changesets
-  job_7_check_changesets --> job_7_notify_approval_needed
-  job_7_notify_approval_needed --> job_7_preserve_slack_thread
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_3_Generate_references["Generate references (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_3_Generate_references
-  job_3_generate_references["generate-references"]:::atlasJob
-  wf_3_Generate_references --> job_3_generate_references
-  wf_5_PostHog_Upgrade["PostHog Upgrade (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_5_PostHog_Upgrade
-  job_5_posthog_upgrade["posthog-upgrade"]:::atlasJob
-  wf_5_PostHog_Upgrade --> job_5_posthog_upgrade
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_1_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_1_CodeQL_Advanced
-  job_1_analyze["analyze"]:::atlasJob
-  wf_1_CodeQL_Advanced --> job_1_analyze
-  wf_9_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_9_Handle_stale_issues_and_PRs
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Call_Feature_Flags_Project_Workflow["Call Feature Flags Project Workflow (1 jobs)"]
+      direction TB
+      wf_0_Call_Feature_Flags_Project_Workflow(["Trigger: Call Feature Flags Project Workflow"]):::atlasWorkflow
+      job_0_call_flags_project["call-flags-project"]:::atlasJob
+      wf_0_Call_Feature_Flags_Project_Workflow --> job_0_call_flags_project
+    end
+    pipeline_root --> wf_0_Call_Feature_Flags_Project_Workflow
+    subgraph sg_wf_2_Check_Formatting["Check Formatting (5 jobs)"]
+      direction TB
+      wf_2_Check_Formatting(["Trigger: Check Formatting"]):::atlasWorkflow
+      job_2_fmt["fmt"]:::atlasJob
+      job_2_mod_tidy["mod-tidy"]:::atlasJob
+      job_2_otel_fmt_tidy["otel-fmt-tidy"]:::atlasJob
+      wf_2_Check_Formatting --> job_2_fmt
+      wf_2_Check_Formatting --> job_2_mod_tidy
+      wf_2_Check_Formatting --> job_2_otel_fmt_tidy
+    end
+    pipeline_root --> wf_2_Check_Formatting
+    subgraph sg_wf_8_SDK_Compliance_Tests["SDK Compliance Tests (2 jobs)"]
+      direction TB
+      wf_8_SDK_Compliance_Tests(["Trigger: SDK Compliance Tests"]):::atlasWorkflow
+      job_8_compliance["compliance"]:::atlasJob
+      job_8_compliance_v1["compliance-v1"]:::atlasJob
+      wf_8_SDK_Compliance_Tests --> job_8_compliance
+      wf_8_SDK_Compliance_Tests --> job_8_compliance_v1
+    end
+    pipeline_root --> wf_8_SDK_Compliance_Tests
+    subgraph sg_wf_10_Unit_Tests["Unit Tests (8 jobs)"]
+      direction TB
+      wf_10_Unit_Tests(["Trigger: Unit Tests"]):::atlasWorkflow
+      job_10_build["build"]:::atlasJob
+      job_10_otel_bridge["otel-bridge"]:::atlasJob
+      job_10_mcp_go_sdk["mcp-go-sdk"]:::atlasJob
+      wf_10_Unit_Tests --> job_10_build
+      wf_10_Unit_Tests --> job_10_otel_bridge
+      wf_10_Unit_Tests --> job_10_mcp_go_sdk
+    end
+    pipeline_root --> wf_10_Unit_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release_failure_notification["Release failure notification (1 jobs)"]
+      direction TB
+      wf_6_Release_failure_notification(["Trigger: Release failure notification"]):::atlasWorkflow
+      job_6_notify_failed["notify-failed"]:::atlasJob
+      wf_6_Release_failure_notification --> job_6_notify_failed
+    end
+    pipeline_root --> wf_6_Release_failure_notification
+    subgraph sg_wf_7_Release["Release (6 jobs)"]
+      direction TB
+      wf_7_Release(["Trigger: Release"]):::atlasWorkflow
+      job_7_check_changesets["check-changesets"]:::atlasJob
+      job_7_notify_approval_needed["notify-approval-needed"]:::atlasJob
+      job_7_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+      wf_7_Release --> job_7_check_changesets
+      job_7_check_changesets --> job_7_notify_approval_needed
+      job_7_notify_approval_needed --> job_7_preserve_slack_thread
+    end
+    pipeline_root --> wf_7_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Generate_references["Generate references (1 jobs)"]
+      direction TB
+      wf_3_Generate_references(["Trigger: Generate references"]):::atlasWorkflow
+      job_3_generate_references["generate-references"]:::atlasJob
+      wf_3_Generate_references --> job_3_generate_references
+    end
+    pipeline_root --> wf_3_Generate_references
+    subgraph sg_wf_5_PostHog_Upgrade["PostHog Upgrade (1 jobs)"]
+      direction TB
+      wf_5_PostHog_Upgrade(["Trigger: PostHog Upgrade"]):::atlasWorkflow
+      job_5_posthog_upgrade["posthog-upgrade"]:::atlasJob
+      wf_5_PostHog_Upgrade --> job_5_posthog_upgrade
+    end
+    pipeline_root --> wf_5_PostHog_Upgrade
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_1_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL_Advanced --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL_Advanced
+    wf_9_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Handle_stale_issues_and_PRs
+  end
   wf_more["+1 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

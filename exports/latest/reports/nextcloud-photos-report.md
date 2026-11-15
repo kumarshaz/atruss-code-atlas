@@ -144,68 +144,102 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/photos (26 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (15 workflows · 34 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_6_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Lint_eslint
-  job_6_changes["changes"]:::atlasJob
-  job_6_lint["lint"]:::atlasJob
-  job_6_summary["summary"]:::atlasJob
-  wf_6_Lint_eslint --> job_6_changes
-  job_6_changes --> job_6_lint
-  job_6_changes --> job_6_summary
-  job_6_lint --> job_6_summary
-  wf_13_Build_Javascript["Build Javascript (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_Build_Javascript
-  job_13_changes["changes"]:::atlasJob
-  job_13_build["build"]:::atlasJob
-  job_13_summary["summary"]:::atlasJob
-  wf_13_Build_Javascript --> job_13_changes
-  job_13_changes --> job_13_build
-  job_13_changes --> job_13_summary
-  job_13_build --> job_13_summary
-  wf_18_Playwright_Tests["Playwright Tests (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_18_Playwright_Tests
-  job_18_playwright_setup["playwright-setup"]:::atlasJob
-  job_18_playwright_tests["playwright-tests"]:::atlasJob
-  job_18_merge_reports["merge-reports"]:::atlasJob
-  wf_18_Playwright_Tests --> job_18_playwright_setup
-  job_18_playwright_setup --> job_18_playwright_tests
-  job_18_playwright_tests --> job_18_merge_reports
-  grp_1_Security___Governance["Security & Governance (6 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_1_Block_merges_during_freezes["Block merges during freezes (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_1_Block_merges_during_freezes
-  job_1_block_merges_during_freeze["block-merges-during-freeze"]:::atlasJob
-  wf_1_Block_merges_during_freezes --> job_1_block_merges_during_freeze
-  wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_4_Auto_approve_Dependabot_PRs
-  job_4_auto_approve_merge["auto-approve-merge"]:::atlasJob
-  wf_4_Auto_approve_Dependabot_PRs --> job_4_auto_approve_merge
-  wf_5_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_5_Block_fixup_and_squash_commits
-  job_5_commit_message_check["commit-message-check"]:::atlasJob
-  wf_5_Block_fixup_and_squash_commits --> job_5_commit_message_check
-  grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_19_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_19_Ask_for_feedback_on_PRs
-  job_19_pr_feedback["pr-feedback"]:::atlasJob
-  wf_19_Ask_for_feedback_on_PRs --> job_19_pr_feedback
-  wf_21_Apply_rector_changes["Apply rector changes (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_21_Apply_rector_changes
-  job_21_build["build"]:::atlasJob
-  wf_21_Apply_rector_changes --> job_21_build
-  wf_24_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_24_Update_nextcloud_ocp
-  job_24_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
-  wf_24_Update_nextcloud_ocp --> job_24_update_nextcloud_ocp
-  grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_3_Compile_Command["Compile Command (2 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_3_Compile_Command
-  job_3_init["init"]:::atlasJob
-  wf_3_Compile_Command --> job_3_init
+  subgraph sg_grp_0_CI___Verification["CI & Verification (15 workflows · 34 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_6_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_6_changes["changes"]:::atlasJob
+      job_6_lint["lint"]:::atlasJob
+      job_6_summary["summary"]:::atlasJob
+      wf_6_Lint_eslint --> job_6_changes
+      job_6_changes --> job_6_lint
+      job_6_changes --> job_6_summary
+      job_6_lint --> job_6_summary
+    end
+    pipeline_root --> wf_6_Lint_eslint
+    subgraph sg_wf_13_Build_Javascript["Build Javascript (3 jobs)"]
+      direction TB
+      wf_13_Build_Javascript(["Trigger: Build Javascript"]):::atlasWorkflow
+      job_13_changes["changes"]:::atlasJob
+      job_13_build["build"]:::atlasJob
+      job_13_summary["summary"]:::atlasJob
+      wf_13_Build_Javascript --> job_13_changes
+      job_13_changes --> job_13_build
+      job_13_changes --> job_13_summary
+      job_13_build --> job_13_summary
+    end
+    pipeline_root --> wf_13_Build_Javascript
+    subgraph sg_wf_18_Playwright_Tests["Playwright Tests (4 jobs)"]
+      direction TB
+      wf_18_Playwright_Tests(["Trigger: Playwright Tests"]):::atlasWorkflow
+      job_18_playwright_setup["playwright-setup"]:::atlasJob
+      job_18_playwright_tests["playwright-tests"]:::atlasJob
+      job_18_merge_reports["merge-reports"]:::atlasJob
+      wf_18_Playwright_Tests --> job_18_playwright_setup
+      job_18_playwright_setup --> job_18_playwright_tests
+      job_18_playwright_tests --> job_18_merge_reports
+    end
+    pipeline_root --> wf_18_Playwright_Tests
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (6 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Block_merges_during_freezes["Block merges during freezes (1 jobs)"]
+      direction TB
+      wf_1_Block_merges_during_freezes(["Trigger: Block merges during freezes"]):::atlasWorkflow
+      job_1_block_merges_during_freeze["block-merges-during-freeze"]:::atlasJob
+      wf_1_Block_merges_during_freezes --> job_1_block_merges_during_freeze
+    end
+    pipeline_root --> wf_1_Block_merges_during_freezes
+    subgraph sg_wf_4_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]
+      direction TB
+      wf_4_Auto_approve_Dependabot_PRs(["Trigger: Auto approve Dependabot PRs"]):::atlasWorkflow
+      job_4_auto_approve_merge["auto-approve-merge"]:::atlasJob
+      wf_4_Auto_approve_Dependabot_PRs --> job_4_auto_approve_merge
+    end
+    pipeline_root --> wf_4_Auto_approve_Dependabot_PRs
+    subgraph sg_wf_5_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]
+      direction TB
+      wf_5_Block_fixup_and_squash_commits(["Trigger: Block fixup and squash commits"]):::atlasWorkflow
+      job_5_commit_message_check["commit-message-check"]:::atlasJob
+      wf_5_Block_fixup_and_squash_commits --> job_5_commit_message_check
+    end
+    pipeline_root --> wf_5_Block_fixup_and_squash_commits
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_19_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]
+      direction TB
+      wf_19_Ask_for_feedback_on_PRs(["Trigger: Ask for feedback on PRs"]):::atlasWorkflow
+      job_19_pr_feedback["pr-feedback"]:::atlasJob
+      wf_19_Ask_for_feedback_on_PRs --> job_19_pr_feedback
+    end
+    pipeline_root --> wf_19_Ask_for_feedback_on_PRs
+    subgraph sg_wf_21_Apply_rector_changes["Apply rector changes (1 jobs)"]
+      direction TB
+      wf_21_Apply_rector_changes(["Trigger: Apply rector changes"]):::atlasWorkflow
+      job_21_build["build"]:::atlasJob
+      wf_21_Apply_rector_changes --> job_21_build
+    end
+    pipeline_root --> wf_21_Apply_rector_changes
+    subgraph sg_wf_24_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]
+      direction TB
+      wf_24_Update_nextcloud_ocp(["Trigger: Update nextcloud/ocp"]):::atlasWorkflow
+      job_24_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
+      wf_24_Update_nextcloud_ocp --> job_24_update_nextcloud_ocp
+    end
+    pipeline_root --> wf_24_Update_nextcloud_ocp
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Compile_Command["Compile Command (2 jobs)"]
+      direction TB
+      wf_3_Compile_Command(["Trigger: Compile Command"]):::atlasWorkflow
+      job_3_init["init"]:::atlasJob
+      wf_3_Compile_Command --> job_3_init
+    end
+    pipeline_root --> wf_3_Compile_Command
+  end
   wf_more["+16 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

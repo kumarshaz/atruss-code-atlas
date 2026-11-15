@@ -302,52 +302,78 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/ai-sdk (8 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (5 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_3_Publish_AI_Gateway_plugin__dev_["Publish AI Gateway plugin (dev) (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_Publish_AI_Gateway_plugin__dev_
-  job_3_source_ci["source-ci"]:::atlasJob
-  job_3_publish["publish"]:::atlasJob
-  job_3_update_plugin_version["update-plugin-version"]:::atlasJob
-  wf_3_Publish_AI_Gateway_plugin__dev_ --> job_3_source_ci
-  job_3_source_ci --> job_3_publish
-  job_3_publish --> job_3_update_plugin_version
-  wf_4_Publish_AI_Gateway_plugin__ops_["Publish AI Gateway plugin (ops) (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_4_Publish_AI_Gateway_plugin__ops_
-  job_4_source_ci["source-ci"]:::atlasJob
-  job_4_publish["publish"]:::atlasJob
-  job_4_update_plugin_version["update-plugin-version"]:::atlasJob
-  wf_4_Publish_AI_Gateway_plugin__ops_ --> job_4_source_ci
-  job_4_source_ci --> job_4_publish
-  job_4_publish --> job_4_update_plugin_version
-  wf_5_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_5_Release
-  job_5_release_please["release-please"]:::atlasJob
-  wf_5_Release --> job_5_release_please
-  wf_6_Release_readiness["Release readiness (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_6_Release_readiness
-  job_6_release_readiness["release-readiness"]:::atlasJob
-  wf_6_Release_readiness --> job_6_release_readiness
-  wf_7_Release_verification["Release verification (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_7_Release_verification
-  job_7_verify_published_library["verify-published-library"]:::atlasJob
-  wf_7_Release_verification --> job_7_verify_published_library
-  grp_1_CI___Verification["CI & Verification (3 workflows · 15 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Build___Test["Build & Test (13 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Build___Test
-  job_0_changes["changes"]:::atlasJob
-  job_0_ci["ci"]:::atlasJob
-  job_0_build_test["build-test"]:::atlasJob
-  wf_0_Build___Test --> job_0_changes
-  job_0_build_test --> job_0_ci
-  job_0_changes --> job_0_build_test
-  wf_1_Conventional_commits["Conventional commits (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_Conventional_commits
-  job_1_check["check"]:::atlasJob
-  wf_1_Conventional_commits --> job_1_check
-  wf_2_OpenSpec["OpenSpec (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_2_OpenSpec
-  job_2_check["check"]:::atlasJob
-  wf_2_OpenSpec --> job_2_check
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (5 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Publish_AI_Gateway_plugin__dev_["Publish AI Gateway plugin (dev) (3 jobs)"]
+      direction TB
+      wf_3_Publish_AI_Gateway_plugin__dev_(["Trigger: Publish AI Gateway plugin (dev)"]):::atlasWorkflow
+      job_3_source_ci["source-ci"]:::atlasJob
+      job_3_publish["publish"]:::atlasJob
+      job_3_update_plugin_version["update-plugin-version"]:::atlasJob
+      wf_3_Publish_AI_Gateway_plugin__dev_ --> job_3_source_ci
+      job_3_source_ci --> job_3_publish
+      job_3_publish --> job_3_update_plugin_version
+    end
+    pipeline_root --> wf_3_Publish_AI_Gateway_plugin__dev_
+    subgraph sg_wf_4_Publish_AI_Gateway_plugin__ops_["Publish AI Gateway plugin (ops) (3 jobs)"]
+      direction TB
+      wf_4_Publish_AI_Gateway_plugin__ops_(["Trigger: Publish AI Gateway plugin (ops)"]):::atlasWorkflow
+      job_4_source_ci["source-ci"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      job_4_update_plugin_version["update-plugin-version"]:::atlasJob
+      wf_4_Publish_AI_Gateway_plugin__ops_ --> job_4_source_ci
+      job_4_source_ci --> job_4_publish
+      job_4_publish --> job_4_update_plugin_version
+    end
+    pipeline_root --> wf_4_Publish_AI_Gateway_plugin__ops_
+    subgraph sg_wf_5_Release["Release (1 jobs)"]
+      direction TB
+      wf_5_Release(["Trigger: Release"]):::atlasWorkflow
+      job_5_release_please["release-please"]:::atlasJob
+      wf_5_Release --> job_5_release_please
+    end
+    pipeline_root --> wf_5_Release
+    subgraph sg_wf_6_Release_readiness["Release readiness (1 jobs)"]
+      direction TB
+      wf_6_Release_readiness(["Trigger: Release readiness"]):::atlasWorkflow
+      job_6_release_readiness["release-readiness"]:::atlasJob
+      wf_6_Release_readiness --> job_6_release_readiness
+    end
+    pipeline_root --> wf_6_Release_readiness
+    subgraph sg_wf_7_Release_verification["Release verification (1 jobs)"]
+      direction TB
+      wf_7_Release_verification(["Trigger: Release verification"]):::atlasWorkflow
+      job_7_verify_published_library["verify-published-library"]:::atlasJob
+      wf_7_Release_verification --> job_7_verify_published_library
+    end
+    pipeline_root --> wf_7_Release_verification
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (3 workflows · 15 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build___Test["Build & Test (13 jobs)"]
+      direction TB
+      wf_0_Build___Test(["Trigger: Build & Test"]):::atlasWorkflow
+      job_0_changes["changes"]:::atlasJob
+      job_0_ci["ci"]:::atlasJob
+      job_0_build_test["build-test"]:::atlasJob
+      wf_0_Build___Test --> job_0_changes
+      job_0_build_test --> job_0_ci
+      job_0_changes --> job_0_build_test
+    end
+    pipeline_root --> wf_0_Build___Test
+    subgraph sg_wf_1_Conventional_commits["Conventional commits (1 jobs)"]
+      direction TB
+      wf_1_Conventional_commits(["Trigger: Conventional commits"]):::atlasWorkflow
+      job_1_check["check"]:::atlasJob
+      wf_1_Conventional_commits --> job_1_check
+    end
+    pipeline_root --> wf_1_Conventional_commits
+    subgraph sg_wf_2_OpenSpec["OpenSpec (1 jobs)"]
+      direction TB
+      wf_2_OpenSpec(["Trigger: OpenSpec"]):::atlasWorkflow
+      job_2_check["check"]:::atlasJob
+      wf_2_OpenSpec --> job_2_check
+    end
+    pipeline_root --> wf_2_OpenSpec
+  end
 ```

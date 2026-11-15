@@ -195,64 +195,97 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/android (19 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (13 workflows · 21 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_Build_Authenticator["Build Authenticator (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Build_Authenticator
-  job_1_version["version"]:::atlasJob
-  job_1_publish_playstore["publish_playstore"]:::atlasJob
-  wf_1_Build_Authenticator --> job_1_version
-  job_1_version --> job_1_publish_playstore
-  wf_2_Build_Test_Harness["Build Test Harness (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Build_Test_Harness
-  job_2_version["version"]:::atlasJob
-  job_2_build["build"]:::atlasJob
-  wf_2_Build_Test_Harness --> job_2_version
-  job_2_version --> job_2_build
-  wf_3_Build["Build (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Build
-  job_3_version["version"]:::atlasJob
-  job_3_publish_playstore["publish_playstore"]:::atlasJob
-  job_3_publish_fdroid["publish_fdroid"]:::atlasJob
-  wf_3_Build --> job_3_version
-  job_3_version --> job_3_publish_playstore
-  job_3_version --> job_3_publish_fdroid
-  wf_18_Test["Test (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_18_Test
-  job_18_test_sharded["test-sharded"]:::atlasJob
-  job_18_coverage_notify["coverage-notify"]:::atlasJob
-  job_18_test["test"]:::atlasJob
-  wf_18_Test --> job_18_test_sharded
-  job_18_test_sharded --> job_18_coverage_notify
-  job_18_test_sharded --> job_18_test
-  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_9_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_9_Respond
-  job_9_respond["respond"]:::atlasJob
-  wf_9_Respond --> job_9_respond
-  wf_10_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_10_Code_Review
-  job_10_review["review"]:::atlasJob
-  wf_10_Code_Review --> job_10_review
-  wf_12_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_12_SDLC___Enforce_PR_labels
-  job_12_enforce_label["enforce-label"]:::atlasJob
-  wf_12_SDLC___Enforce_PR_labels --> job_12_enforce_label
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_7_Create_GitHub_Release["Create GitHub Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_7_Create_GitHub_Release
-  job_7_create_release["create-release"]:::atlasJob
-  wf_7_Create_GitHub_Release --> job_7_create_release
-  wf_8_Cut_Release_Branch["Cut Release Branch (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_Cut_Release_Branch
-  job_8_create_release_branch["create-release-branch"]:::atlasJob
-  wf_8_Cut_Release_Branch --> job_8_create_release_branch
-  wf_13_SDLC___Update_Linked_Issues_on_Release["SDLC / Update Linked Issues on Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_13_SDLC___Update_Linked_Issues_on_Release
-  job_13_update_linked_issues["update-linked-issues"]:::atlasJob
-  wf_13_SDLC___Update_Linked_Issues_on_Release --> job_13_update_linked_issues
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (13 workflows · 21 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_Authenticator["Build Authenticator (2 jobs)"]
+      direction TB
+      wf_1_Build_Authenticator(["Trigger: Build Authenticator"]):::atlasWorkflow
+      job_1_version["version"]:::atlasJob
+      job_1_publish_playstore["publish_playstore"]:::atlasJob
+      wf_1_Build_Authenticator --> job_1_version
+      job_1_version --> job_1_publish_playstore
+    end
+    pipeline_root --> wf_1_Build_Authenticator
+    subgraph sg_wf_2_Build_Test_Harness["Build Test Harness (2 jobs)"]
+      direction TB
+      wf_2_Build_Test_Harness(["Trigger: Build Test Harness"]):::atlasWorkflow
+      job_2_version["version"]:::atlasJob
+      job_2_build["build"]:::atlasJob
+      wf_2_Build_Test_Harness --> job_2_version
+      job_2_version --> job_2_build
+    end
+    pipeline_root --> wf_2_Build_Test_Harness
+    subgraph sg_wf_3_Build["Build (3 jobs)"]
+      direction TB
+      wf_3_Build(["Trigger: Build"]):::atlasWorkflow
+      job_3_version["version"]:::atlasJob
+      job_3_publish_playstore["publish_playstore"]:::atlasJob
+      job_3_publish_fdroid["publish_fdroid"]:::atlasJob
+      wf_3_Build --> job_3_version
+      job_3_version --> job_3_publish_playstore
+      job_3_version --> job_3_publish_fdroid
+    end
+    pipeline_root --> wf_3_Build
+    subgraph sg_wf_18_Test["Test (3 jobs)"]
+      direction TB
+      wf_18_Test(["Trigger: Test"]):::atlasWorkflow
+      job_18_test_sharded["test-sharded"]:::atlasJob
+      job_18_coverage_notify["coverage-notify"]:::atlasJob
+      job_18_test["test"]:::atlasJob
+      wf_18_Test --> job_18_test_sharded
+      job_18_test_sharded --> job_18_coverage_notify
+      job_18_test_sharded --> job_18_test
+    end
+    pipeline_root --> wf_18_Test
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_9_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_9_respond["respond"]:::atlasJob
+      wf_9_Respond --> job_9_respond
+    end
+    pipeline_root --> wf_9_Respond
+    subgraph sg_wf_10_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_10_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_10_review["review"]:::atlasJob
+      wf_10_Code_Review --> job_10_review
+    end
+    pipeline_root --> wf_10_Code_Review
+    subgraph sg_wf_12_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]
+      direction TB
+      wf_12_SDLC___Enforce_PR_labels(["Trigger: SDLC / Enforce PR labels"]):::atlasWorkflow
+      job_12_enforce_label["enforce-label"]:::atlasJob
+      wf_12_SDLC___Enforce_PR_labels --> job_12_enforce_label
+    end
+    pipeline_root --> wf_12_SDLC___Enforce_PR_labels
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Create_GitHub_Release["Create GitHub Release (1 jobs)"]
+      direction TB
+      wf_7_Create_GitHub_Release(["Trigger: Create GitHub Release"]):::atlasWorkflow
+      job_7_create_release["create-release"]:::atlasJob
+      wf_7_Create_GitHub_Release --> job_7_create_release
+    end
+    pipeline_root --> wf_7_Create_GitHub_Release
+    subgraph sg_wf_8_Cut_Release_Branch["Cut Release Branch (1 jobs)"]
+      direction TB
+      wf_8_Cut_Release_Branch(["Trigger: Cut Release Branch"]):::atlasWorkflow
+      job_8_create_release_branch["create-release-branch"]:::atlasJob
+      wf_8_Cut_Release_Branch --> job_8_create_release_branch
+    end
+    pipeline_root --> wf_8_Cut_Release_Branch
+    subgraph sg_wf_13_SDLC___Update_Linked_Issues_on_Release["SDLC / Update Linked Issues on Release (1 jobs)"]
+      direction TB
+      wf_13_SDLC___Update_Linked_Issues_on_Release(["Trigger: SDLC / Update Linked Issues on Release"]):::atlasWorkflow
+      job_13_update_linked_issues["update-linked-issues"]:::atlasJob
+      wf_13_SDLC___Update_Linked_Issues_on_Release --> job_13_update_linked_issues
+    end
+    pipeline_root --> wf_13_SDLC___Update_Linked_Issues_on_Release
+  end
   wf_more["+9 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

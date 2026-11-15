@@ -795,68 +795,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/grafana (100 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (48 workflows · 99 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_46_Lint_Frontend["Lint Frontend (12 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_46_Lint_Frontend
-  job_46_detect_changes["detect-changes"]:::atlasJob
-  job_46_lint_frontend_prettier["lint-frontend-prettier"]:::atlasJob
-  job_46_lint_frontend_prettier_enterprise["lint-frontend-prettier-enterprise"]:::atlasJob
-  wf_46_Lint_Frontend --> job_46_detect_changes
-  job_46_detect_changes --> job_46_lint_frontend_prettier
-  job_46_detect_changes --> job_46_lint_frontend_prettier_enterprise
-  wf_66_End_to_end_tests["End-to-end tests (9 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_66_End_to_end_tests
-  job_66_detect_changes["detect-changes"]:::atlasJob
-  job_66_build_backend["build-backend"]:::atlasJob
-  job_66_build_frontend["build-frontend"]:::atlasJob
-  wf_66_End_to_end_tests --> job_66_detect_changes
-  job_66_detect_changes --> job_66_build_backend
-  job_66_detect_changes --> job_66_build_frontend
-  grp_1_Scheduled___Manual["Scheduled & Manual (24 workflows · 38 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_55_Run_commands_when_issues_are_opened["Run commands when issues are opened (5 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_55_Run_commands_when_issues_are_opened
-  job_55_main["main"]:::atlasJob
-  job_55_auto_triage["auto-triage"]:::atlasJob
-  job_55_auto_label_internal_issues["auto-label-internal-issues"]:::atlasJob
-  wf_55_Run_commands_when_issues_are_opened --> job_55_main
-  job_55_main --> job_55_auto_triage
-  job_55_main --> job_55_auto_label_internal_issues
-  wf_61_PR_build_Docker_image["PR build Docker image (7 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_61_PR_build_Docker_image
-  job_61_detect_changes["detect-changes"]:::atlasJob
-  job_61_build_frontend["build-frontend"]:::atlasJob
-  job_61_build_backend["build-backend"]:::atlasJob
-  wf_61_PR_build_Docker_image --> job_61_detect_changes
-  job_61_detect_changes --> job_61_build_frontend
-  job_61_detect_changes --> job_61_build_backend
-  grp_2_Release___Deploy["Release & Deploy (17 workflows · 68 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_82_Build_Release_Packages["Build Release Packages (26 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_82_Build_Release_Packages
-  job_82_setup["setup"]:::atlasJob
-  job_82_downstream["downstream"]:::atlasJob
-  job_82_build_frontend["build-frontend"]:::atlasJob
-  wf_82_Build_Release_Packages --> job_82_setup
-  job_82_setup --> job_82_downstream
-  job_82_setup --> job_82_build_frontend
-  wf_83_Post_release["Post-release (11 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_83_Post_release
-  job_83_setup["setup"]:::atlasJob
-  wf_83_Post_release --> job_83_setup
-  grp_3_Automation___Other["Automation & Other (7 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_9_Backport__workflow_["Backport (workflow) (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_9_Backport__workflow_
-  wf_16_Run_commands_when_issues_are_labeled_or_comments_added["Run commands when issues are labeled or comments added (2 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_16_Run_commands_when_issues_are_labeled_or_comments_added
-  grp_4_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_21_Create_security_branch["Create security branch (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_21_Create_security_branch
-  wf_94_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_94_Close_stale_issues_and_PRs
+  subgraph sg_grp_0_CI___Verification["CI & Verification (48 workflows · 99 jobs)"]
+    direction TB
+    subgraph sg_wf_46_Lint_Frontend["Lint Frontend (12 jobs)"]
+      direction TB
+      wf_46_Lint_Frontend(["Trigger: Lint Frontend"]):::atlasWorkflow
+      job_46_detect_changes["detect-changes"]:::atlasJob
+      job_46_lint_frontend_prettier["lint-frontend-prettier"]:::atlasJob
+      job_46_lint_frontend_prettier_enterprise["lint-frontend-prettier-enterprise"]:::atlasJob
+      wf_46_Lint_Frontend --> job_46_detect_changes
+      job_46_detect_changes --> job_46_lint_frontend_prettier
+      job_46_detect_changes --> job_46_lint_frontend_prettier_enterprise
+    end
+    pipeline_root --> wf_46_Lint_Frontend
+    subgraph sg_wf_66_End_to_end_tests["End-to-end tests (9 jobs)"]
+      direction TB
+      wf_66_End_to_end_tests(["Trigger: End-to-end tests"]):::atlasWorkflow
+      job_66_detect_changes["detect-changes"]:::atlasJob
+      job_66_build_backend["build-backend"]:::atlasJob
+      job_66_build_frontend["build-frontend"]:::atlasJob
+      wf_66_End_to_end_tests --> job_66_detect_changes
+      job_66_detect_changes --> job_66_build_backend
+      job_66_detect_changes --> job_66_build_frontend
+    end
+    pipeline_root --> wf_66_End_to_end_tests
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (24 workflows · 38 jobs)"]
+    direction TB
+    subgraph sg_wf_55_Run_commands_when_issues_are_opened["Run commands when issues are opened (5 jobs)"]
+      direction TB
+      wf_55_Run_commands_when_issues_are_opened(["Trigger: Run commands when issues are opened"]):::atlasWorkflow
+      job_55_main["main"]:::atlasJob
+      job_55_auto_triage["auto-triage"]:::atlasJob
+      job_55_auto_label_internal_issues["auto-label-internal-issues"]:::atlasJob
+      wf_55_Run_commands_when_issues_are_opened --> job_55_main
+      job_55_main --> job_55_auto_triage
+      job_55_main --> job_55_auto_label_internal_issues
+    end
+    pipeline_root --> wf_55_Run_commands_when_issues_are_opened
+    subgraph sg_wf_61_PR_build_Docker_image["PR build Docker image (7 jobs)"]
+      direction TB
+      wf_61_PR_build_Docker_image(["Trigger: PR build Docker image"]):::atlasWorkflow
+      job_61_detect_changes["detect-changes"]:::atlasJob
+      job_61_build_frontend["build-frontend"]:::atlasJob
+      job_61_build_backend["build-backend"]:::atlasJob
+      wf_61_PR_build_Docker_image --> job_61_detect_changes
+      job_61_detect_changes --> job_61_build_frontend
+      job_61_detect_changes --> job_61_build_backend
+    end
+    pipeline_root --> wf_61_PR_build_Docker_image
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (17 workflows · 68 jobs)"]
+    direction TB
+    subgraph sg_wf_82_Build_Release_Packages["Build Release Packages (26 jobs)"]
+      direction TB
+      wf_82_Build_Release_Packages(["Trigger: Build Release Packages"]):::atlasWorkflow
+      job_82_setup["setup"]:::atlasJob
+      job_82_downstream["downstream"]:::atlasJob
+      job_82_build_frontend["build-frontend"]:::atlasJob
+      wf_82_Build_Release_Packages --> job_82_setup
+      job_82_setup --> job_82_downstream
+      job_82_setup --> job_82_build_frontend
+    end
+    pipeline_root --> wf_82_Build_Release_Packages
+    subgraph sg_wf_83_Post_release["Post-release (11 jobs)"]
+      direction TB
+      wf_83_Post_release(["Trigger: Post-release"]):::atlasWorkflow
+      job_83_setup["setup"]:::atlasJob
+      wf_83_Post_release --> job_83_setup
+    end
+    pipeline_root --> wf_83_Post_release
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (7 workflows · 8 jobs)"]
+    direction TB
+    wf_9_Backport__workflow_["Backport (workflow) (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Backport__workflow_
+    wf_16_Run_commands_when_issues_are_labeled_or_comments_added["Run commands when issues are labeled or comments added (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Run_commands_when_issues_are_labeled_or_comments_added
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (4 workflows · 4 jobs)"]
+    direction TB
+    wf_21_Create_security_branch["Create security branch (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_21_Create_security_branch
+    wf_94_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_94_Close_stale_issues_and_PRs
+  end
   wf_more["+90 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

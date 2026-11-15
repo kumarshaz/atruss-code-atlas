@@ -134,40 +134,61 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/self-host (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Label_PR["Label PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Label_PR
-  job_0_label["label"]:::atlasJob
-  wf_0_Label_PR --> job_0_label
-  wf_1_Build_Bitwarden_lite__fork_PR_["Build Bitwarden lite (fork PR) (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build_Bitwarden_lite__fork_PR_
-  job_1_check_run["check-run"]:::atlasJob
-  job_1_build["build"]:::atlasJob
-  wf_1_Build_Bitwarden_lite__fork_PR_ --> job_1_check_run
-  job_1_check_run --> job_1_build
-  wf_4_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_SDLC___Enforce_PR_labels
-  job_4_enforce_label["enforce-label"]:::atlasJob
-  wf_4_SDLC___Enforce_PR_labels --> job_4_enforce_label
-  wf_5_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Code_Review
-  job_5_review["review"]:::atlasJob
-  wf_5_Code_Review --> job_5_review
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_3_Cleanup_Container_Images["Cleanup Container Images (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_3_Cleanup_Container_Images
-  job_3_cleanup_images["cleanup-images"]:::atlasJob
-  wf_3_Cleanup_Container_Images --> job_3_cleanup_images
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_2_Build_Bitwarden_lite["Build Bitwarden lite (3 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_2_Build_Bitwarden_lite
-  job_2_check_event_source["check-event-source"]:::atlasJob
-  job_2_setup["setup"]:::atlasJob
-  job_2_build_docker["build-docker"]:::atlasJob
-  wf_2_Build_Bitwarden_lite --> job_2_check_event_source
-  job_2_check_event_source --> job_2_setup
-  job_2_setup --> job_2_build_docker
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Label_PR["Label PR (1 jobs)"]
+      direction TB
+      wf_0_Label_PR(["Trigger: Label PR"]):::atlasWorkflow
+      job_0_label["label"]:::atlasJob
+      wf_0_Label_PR --> job_0_label
+    end
+    pipeline_root --> wf_0_Label_PR
+    subgraph sg_wf_1_Build_Bitwarden_lite__fork_PR_["Build Bitwarden lite (fork PR) (2 jobs)"]
+      direction TB
+      wf_1_Build_Bitwarden_lite__fork_PR_(["Trigger: Build Bitwarden lite (fork PR)"]):::atlasWorkflow
+      job_1_check_run["check-run"]:::atlasJob
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_Bitwarden_lite__fork_PR_ --> job_1_check_run
+      job_1_check_run --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_Bitwarden_lite__fork_PR_
+    subgraph sg_wf_4_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]
+      direction TB
+      wf_4_SDLC___Enforce_PR_labels(["Trigger: SDLC / Enforce PR labels"]):::atlasWorkflow
+      job_4_enforce_label["enforce-label"]:::atlasJob
+      wf_4_SDLC___Enforce_PR_labels --> job_4_enforce_label
+    end
+    pipeline_root --> wf_4_SDLC___Enforce_PR_labels
+    subgraph sg_wf_5_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_5_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_5_review["review"]:::atlasJob
+      wf_5_Code_Review --> job_5_review
+    end
+    pipeline_root --> wf_5_Code_Review
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Cleanup_Container_Images["Cleanup Container Images (1 jobs)"]
+      direction TB
+      wf_3_Cleanup_Container_Images(["Trigger: Cleanup Container Images"]):::atlasWorkflow
+      job_3_cleanup_images["cleanup-images"]:::atlasJob
+      wf_3_Cleanup_Container_Images --> job_3_cleanup_images
+    end
+    pipeline_root --> wf_3_Cleanup_Container_Images
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_Bitwarden_lite["Build Bitwarden lite (3 jobs)"]
+      direction TB
+      wf_2_Build_Bitwarden_lite(["Trigger: Build Bitwarden lite"]):::atlasWorkflow
+      job_2_check_event_source["check-event-source"]:::atlasJob
+      job_2_setup["setup"]:::atlasJob
+      job_2_build_docker["build-docker"]:::atlasJob
+      wf_2_Build_Bitwarden_lite --> job_2_check_event_source
+      job_2_check_event_source --> job_2_setup
+      job_2_setup --> job_2_build_docker
+    end
+    pipeline_root --> wf_2_Build_Bitwarden_lite
+  end
 ```

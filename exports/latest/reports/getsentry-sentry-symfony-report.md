@@ -250,32 +250,46 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-symfony (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Code_style_and_static_analysis
-  job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
-  job_1_phpstan["phpstan"]:::atlasJob
-  job_1_psalm["psalm"]:::atlasJob
-  wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
-  wf_1_Code_style_and_static_analysis --> job_1_phpstan
-  wf_1_Code_style_and_static_analysis --> job_1_psalm
-  wf_2_CI["CI (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_CI
-  job_2_tests["tests"]:::atlasJob
-  job_2_missing_optional_packages_tests["missing-optional-packages-tests"]:::atlasJob
-  job_2_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
-  wf_2_CI --> job_2_tests
-  wf_2_CI --> job_2_missing_optional_packages_tests
-  wf_2_CI --> job_2_runtime_tests_frankenphp
-  wf_3_Validate_PR["Validate PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Validate_PR
-  job_3_validate_pr["validate-pr"]:::atlasJob
-  wf_3_Validate_PR --> job_3_validate_pr
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Prepare_Release["Prepare Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Prepare_Release
-  job_0_release["release"]:::atlasJob
-  wf_0_Prepare_Release --> job_0_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]
+      direction TB
+      wf_1_Code_style_and_static_analysis(["Trigger: Code style and static analysis"]):::atlasWorkflow
+      job_1_php_cs_fixer["php-cs-fixer"]:::atlasJob
+      job_1_phpstan["phpstan"]:::atlasJob
+      job_1_psalm["psalm"]:::atlasJob
+      wf_1_Code_style_and_static_analysis --> job_1_php_cs_fixer
+      wf_1_Code_style_and_static_analysis --> job_1_phpstan
+      wf_1_Code_style_and_static_analysis --> job_1_psalm
+    end
+    pipeline_root --> wf_1_Code_style_and_static_analysis
+    subgraph sg_wf_2_CI["CI (4 jobs)"]
+      direction TB
+      wf_2_CI(["Trigger: CI"]):::atlasWorkflow
+      job_2_tests["tests"]:::atlasJob
+      job_2_missing_optional_packages_tests["missing-optional-packages-tests"]:::atlasJob
+      job_2_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
+      wf_2_CI --> job_2_tests
+      wf_2_CI --> job_2_missing_optional_packages_tests
+      wf_2_CI --> job_2_runtime_tests_frankenphp
+    end
+    pipeline_root --> wf_2_CI
+    subgraph sg_wf_3_Validate_PR["Validate PR (1 jobs)"]
+      direction TB
+      wf_3_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
+      job_3_validate_pr["validate-pr"]:::atlasJob
+      wf_3_Validate_PR --> job_3_validate_pr
+    end
+    pipeline_root --> wf_3_Validate_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Prepare_Release["Prepare Release (1 jobs)"]
+      direction TB
+      wf_0_Prepare_Release(["Trigger: Prepare Release"]):::atlasWorkflow
+      job_0_release["release"]:::atlasJob
+      wf_0_Prepare_Release --> job_0_release
+    end
+    pipeline_root --> wf_0_Prepare_Release
+  end
 ```

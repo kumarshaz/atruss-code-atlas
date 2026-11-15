@@ -244,40 +244,61 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/mattermost-plugin-boards (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Check_in_tests["Check-in tests (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Check_in_tests
-  job_0_webapp_test["webapp-test"]:::atlasJob
-  job_0_server_test["server-test"]:::atlasJob
-  job_0_dist["dist"]:::atlasJob
-  wf_0_Check_in_tests --> job_0_webapp_test
-  wf_0_Check_in_tests --> job_0_server_test
-  wf_0_Check_in_tests --> job_0_dist
-  wf_2_golangci_lint["golangci-lint (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_golangci_lint
-  job_2_down_migrations["down-migrations"]:::atlasJob
-  job_2_golangci["golangci"]:::atlasJob
-  wf_2_golangci_lint --> job_2_down_migrations
-  wf_2_golangci_lint --> job_2_golangci
-  wf_4_PR_Test_Analysis["PR Test Analysis (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_PR_Test_Analysis
-  job_4_analyze["analyze"]:::atlasJob
-  wf_4_PR_Test_Analysis --> job_4_analyze
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_1_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_1_CodeQL
-  job_1_analyze["analyze"]:::atlasJob
-  wf_1_CodeQL --> job_1_analyze
-  wf_5_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_5_Scorecards_supply_chain_security
-  job_5_analysis["analysis"]:::atlasJob
-  wf_5_Scorecards_supply_chain_security --> job_5_analysis
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_3_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_3_PR_Test_Analysis_Override
-  job_3_override["override"]:::atlasJob
-  wf_3_PR_Test_Analysis_Override --> job_3_override
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Check_in_tests["Check-in tests (5 jobs)"]
+      direction TB
+      wf_0_Check_in_tests(["Trigger: Check-in tests"]):::atlasWorkflow
+      job_0_webapp_test["webapp-test"]:::atlasJob
+      job_0_server_test["server-test"]:::atlasJob
+      job_0_dist["dist"]:::atlasJob
+      wf_0_Check_in_tests --> job_0_webapp_test
+      wf_0_Check_in_tests --> job_0_server_test
+      wf_0_Check_in_tests --> job_0_dist
+    end
+    pipeline_root --> wf_0_Check_in_tests
+    subgraph sg_wf_2_golangci_lint["golangci-lint (2 jobs)"]
+      direction TB
+      wf_2_golangci_lint(["Trigger: golangci-lint"]):::atlasWorkflow
+      job_2_down_migrations["down-migrations"]:::atlasJob
+      job_2_golangci["golangci"]:::atlasJob
+      wf_2_golangci_lint --> job_2_down_migrations
+      wf_2_golangci_lint --> job_2_golangci
+    end
+    pipeline_root --> wf_2_golangci_lint
+    subgraph sg_wf_4_PR_Test_Analysis["PR Test Analysis (1 jobs)"]
+      direction TB
+      wf_4_PR_Test_Analysis(["Trigger: PR Test Analysis"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_PR_Test_Analysis --> job_4_analyze
+    end
+    pipeline_root --> wf_4_PR_Test_Analysis
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_1_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL
+    subgraph sg_wf_5_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]
+      direction TB
+      wf_5_Scorecards_supply_chain_security(["Trigger: Scorecards supply-chain security"]):::atlasWorkflow
+      job_5_analysis["analysis"]:::atlasJob
+      wf_5_Scorecards_supply_chain_security --> job_5_analysis
+    end
+    pipeline_root --> wf_5_Scorecards_supply_chain_security
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]
+      direction TB
+      wf_3_PR_Test_Analysis_Override(["Trigger: PR Test Analysis Override"]):::atlasWorkflow
+      job_3_override["override"]:::atlasJob
+      wf_3_PR_Test_Analysis_Override --> job_3_override
+    end
+    pipeline_root --> wf_3_PR_Test_Analysis_Override
+  end
 ```

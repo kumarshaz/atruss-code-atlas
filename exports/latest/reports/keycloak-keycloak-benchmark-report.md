@@ -324,65 +324,86 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["keycloak/keycloak-benchmark (30 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (20 workflows · 56 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_ROSA_Scheduled_Delete["ROSA Scheduled Delete (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_ROSA_Scheduled_Delete
-  job_2_accelerator_delete["accelerator-delete"]:::atlasJob
-  job_2_rosa_delete["rosa-delete"]:::atlasJob
-  job_2_aurora_delete["aurora-delete"]:::atlasJob
-  wf_2_ROSA_Scheduled_Delete --> job_2_accelerator_delete
-  job_2_accelerator_delete --> job_2_rosa_delete
-  job_2_rosa_delete --> job_2_aurora_delete
-  wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora["Multi-AZ Clusters - Delete ROSA Clusters and Aurora (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora
-  job_18_loadbalancer["loadbalancer"]:::atlasJob
-  job_18_cluster1["cluster1"]:::atlasJob
-  job_18_cluster2["cluster2"]:::atlasJob
-  wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora --> job_18_loadbalancer
-  job_18_loadbalancer --> job_18_cluster1
-  job_18_loadbalancer --> job_18_cluster2
-  wf_20_Multi_AZ_Clusters___Run_Tests["Multi-AZ Clusters - Run Tests (16 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_20_Multi_AZ_Clusters___Run_Tests
-  job_20_create_rosa_clusters["create-rosa-clusters"]:::atlasJob
-  job_20_keycloak_deploy_active_active["keycloak-deploy-active-active"]:::atlasJob
-  job_20_run_active_active_health_checks_after_deploy["run-active-active-health-checks-after-deploy"]:::atlasJob
-  wf_20_Multi_AZ_Clusters___Run_Tests --> job_20_create_rosa_clusters
-  job_20_create_rosa_clusters --> job_20_keycloak_deploy_active_active
-  job_20_keycloak_deploy_active_active --> job_20_run_active_active_health_checks_after_deploy
-  wf_26_ROSA_Scheduled_Run["ROSA Scheduled Run (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_26_ROSA_Scheduled_Run
-  job_26_meta["meta"]:::atlasJob
-  job_26_rosa_multi_az_clusters_run_tests["rosa-multi-az-clusters-run-tests"]:::atlasJob
-  job_26_rosa_stretched_cluster["rosa-stretched-cluster"]:::atlasJob
-  wf_26_ROSA_Scheduled_Run --> job_26_meta
-  job_26_meta --> job_26_rosa_multi_az_clusters_run_tests
-  job_26_meta --> job_26_rosa_stretched_cluster
-  wf_28_ROSA_Stretched_Cluster["ROSA Stretched Cluster (7 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_28_ROSA_Stretched_Cluster
-  job_28_meta["meta"]:::atlasJob
-  job_28_cluster["cluster"]:::atlasJob
-  job_28_monitoring["monitoring"]:::atlasJob
-  wf_28_ROSA_Stretched_Cluster --> job_28_meta
-  job_28_meta --> job_28_cluster
-  job_28_meta --> job_28_monitoring
-  job_28_cluster --> job_28_monitoring
-  grp_1_Release___Deploy["Release & Deploy (9 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Create_release_branch["Create release branch (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Create_release_branch
-  job_4_create_release_branch["create-release-branch"]:::atlasJob
-  wf_4_Create_release_branch --> job_4_create_release_branch
-  wf_6_Publishing_Documentation_Site["Publishing Documentation Site (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Publishing_Documentation_Site
-  wf_9_Keycloak___Create_deployment["Keycloak - Create deployment (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_9_Keycloak___Create_deployment
-  wf_10_Keycloak___Delete_deployment["Keycloak - Delete deployment (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_10_Keycloak___Delete_deployment
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_5_Testing_Documentation_Site["Testing Documentation Site (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_5_Testing_Documentation_Site
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (20 workflows · 56 jobs)"]
+    direction TB
+    subgraph sg_wf_2_ROSA_Scheduled_Delete["ROSA Scheduled Delete (5 jobs)"]
+      direction TB
+      wf_2_ROSA_Scheduled_Delete(["Trigger: ROSA Scheduled Delete"]):::atlasWorkflow
+      job_2_accelerator_delete["accelerator-delete"]:::atlasJob
+      job_2_rosa_delete["rosa-delete"]:::atlasJob
+      job_2_aurora_delete["aurora-delete"]:::atlasJob
+      wf_2_ROSA_Scheduled_Delete --> job_2_accelerator_delete
+      job_2_accelerator_delete --> job_2_rosa_delete
+      job_2_rosa_delete --> job_2_aurora_delete
+    end
+    pipeline_root --> wf_2_ROSA_Scheduled_Delete
+    subgraph sg_wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora["Multi-AZ Clusters - Delete ROSA Clusters and Aurora (4 jobs)"]
+      direction TB
+      wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora(["Trigger: Multi-AZ Clusters - Delete ROSA Clusters and Aurora"]):::atlasWorkflow
+      job_18_loadbalancer["loadbalancer"]:::atlasJob
+      job_18_cluster1["cluster1"]:::atlasJob
+      job_18_cluster2["cluster2"]:::atlasJob
+      wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora --> job_18_loadbalancer
+      job_18_loadbalancer --> job_18_cluster1
+      job_18_loadbalancer --> job_18_cluster2
+    end
+    pipeline_root --> wf_18_Multi_AZ_Clusters___Delete_ROSA_Clusters_and_Aurora
+    subgraph sg_wf_20_Multi_AZ_Clusters___Run_Tests["Multi-AZ Clusters - Run Tests (16 jobs)"]
+      direction TB
+      wf_20_Multi_AZ_Clusters___Run_Tests(["Trigger: Multi-AZ Clusters - Run Tests"]):::atlasWorkflow
+      job_20_create_rosa_clusters["create-rosa-clusters"]:::atlasJob
+      job_20_keycloak_deploy_active_active["keycloak-deploy-active-active"]:::atlasJob
+      job_20_run_active_active_health_checks_after_deploy["run-active-active-health-checks-after-deploy"]:::atlasJob
+      wf_20_Multi_AZ_Clusters___Run_Tests --> job_20_create_rosa_clusters
+      job_20_create_rosa_clusters --> job_20_keycloak_deploy_active_active
+      job_20_keycloak_deploy_active_active --> job_20_run_active_active_health_checks_after_deploy
+    end
+    pipeline_root --> wf_20_Multi_AZ_Clusters___Run_Tests
+    subgraph sg_wf_26_ROSA_Scheduled_Run["ROSA Scheduled Run (5 jobs)"]
+      direction TB
+      wf_26_ROSA_Scheduled_Run(["Trigger: ROSA Scheduled Run"]):::atlasWorkflow
+      job_26_meta["meta"]:::atlasJob
+      job_26_rosa_multi_az_clusters_run_tests["rosa-multi-az-clusters-run-tests"]:::atlasJob
+      job_26_rosa_stretched_cluster["rosa-stretched-cluster"]:::atlasJob
+      wf_26_ROSA_Scheduled_Run --> job_26_meta
+      job_26_meta --> job_26_rosa_multi_az_clusters_run_tests
+      job_26_meta --> job_26_rosa_stretched_cluster
+    end
+    pipeline_root --> wf_26_ROSA_Scheduled_Run
+    subgraph sg_wf_28_ROSA_Stretched_Cluster["ROSA Stretched Cluster (7 jobs)"]
+      direction TB
+      wf_28_ROSA_Stretched_Cluster(["Trigger: ROSA Stretched Cluster"]):::atlasWorkflow
+      job_28_meta["meta"]:::atlasJob
+      job_28_cluster["cluster"]:::atlasJob
+      job_28_monitoring["monitoring"]:::atlasJob
+      wf_28_ROSA_Stretched_Cluster --> job_28_meta
+      job_28_meta --> job_28_cluster
+      job_28_meta --> job_28_monitoring
+      job_28_cluster --> job_28_monitoring
+    end
+    pipeline_root --> wf_28_ROSA_Stretched_Cluster
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (9 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Create_release_branch["Create release branch (1 jobs)"]
+      direction TB
+      wf_4_Create_release_branch(["Trigger: Create release branch"]):::atlasWorkflow
+      job_4_create_release_branch["create-release-branch"]:::atlasJob
+      wf_4_Create_release_branch --> job_4_create_release_branch
+    end
+    pipeline_root --> wf_4_Create_release_branch
+    wf_6_Publishing_Documentation_Site["Publishing Documentation Site (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_Publishing_Documentation_Site
+    wf_9_Keycloak___Create_deployment["Keycloak - Create deployment (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Keycloak___Create_deployment
+    wf_10_Keycloak___Delete_deployment["Keycloak - Delete deployment (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_Keycloak___Delete_deployment
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    wf_5_Testing_Documentation_Site["Testing Documentation Site (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Testing_Documentation_Site
+  end
   wf_more["+20 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

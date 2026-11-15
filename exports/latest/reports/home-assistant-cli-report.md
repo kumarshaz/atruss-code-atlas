@@ -203,28 +203,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["home-assistant/cli (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_codespell["codespell (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_codespell
-  job_1_codespell["codespell"]:::atlasJob
-  wf_1_codespell --> job_1_codespell
-  wf_2_golangci_lint["golangci-lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_golangci_lint
-  job_2_golangci["golangci"]:::atlasJob
-  wf_2_golangci_lint --> job_2_golangci
-  wf_4_test["test (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_test
-  job_4_test["test"]:::atlasJob
-  wf_4_test --> job_4_test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_build["build (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_build
-  job_0_build["build"]:::atlasJob
-  wf_0_build --> job_0_build
-  wf_3_Release_Drafter["Release Drafter (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release_Drafter
-  job_3_update_release_draft["update_release_draft"]:::atlasJob
-  wf_3_Release_Drafter --> job_3_update_release_draft
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_codespell["codespell (1 jobs)"]
+      direction TB
+      wf_1_codespell(["Trigger: codespell"]):::atlasWorkflow
+      job_1_codespell["codespell"]:::atlasJob
+      wf_1_codespell --> job_1_codespell
+    end
+    pipeline_root --> wf_1_codespell
+    subgraph sg_wf_2_golangci_lint["golangci-lint (1 jobs)"]
+      direction TB
+      wf_2_golangci_lint(["Trigger: golangci-lint"]):::atlasWorkflow
+      job_2_golangci["golangci"]:::atlasJob
+      wf_2_golangci_lint --> job_2_golangci
+    end
+    pipeline_root --> wf_2_golangci_lint
+    subgraph sg_wf_4_test["test (1 jobs)"]
+      direction TB
+      wf_4_test(["Trigger: test"]):::atlasWorkflow
+      job_4_test["test"]:::atlasJob
+      wf_4_test --> job_4_test
+    end
+    pipeline_root --> wf_4_test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_build["build (1 jobs)"]
+      direction TB
+      wf_0_build(["Trigger: build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_build --> job_0_build
+    end
+    pipeline_root --> wf_0_build
+    subgraph sg_wf_3_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_3_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_3_update_release_draft["update_release_draft"]:::atlasJob
+      wf_3_Release_Drafter --> job_3_update_release_draft
+    end
+    pipeline_root --> wf_3_Release_Drafter
+  end
 ```

@@ -243,34 +243,48 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/cog (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_CI["CI (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_CI
-  job_0_linters["linters"]:::atlasJob
-  job_0_tests["tests"]:::atlasJob
-  job_0_docs["docs"]:::atlasJob
-  wf_0_CI --> job_0_linters
-  wf_0_CI --> job_0_tests
-  wf_0_CI --> job_0_docs
-  wf_2_Foundation_SDK["Foundation SDK (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Foundation_SDK
-  job_2_build_lint["build_lint"]:::atlasJob
-  job_2_examples["examples"]:::atlasJob
-  job_2_sdk_diff["sdk_diff"]:::atlasJob
-  wf_2_Foundation_SDK --> job_2_build_lint
-  wf_2_Foundation_SDK --> job_2_examples
-  wf_2_Foundation_SDK --> job_2_sdk_diff
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Publish_documentation["Publish documentation (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Publish_documentation
-  job_1_build_docs["build_docs"]:::atlasJob
-  job_1_deploy["deploy"]:::atlasJob
-  wf_1_Publish_documentation --> job_1_build_docs
-  job_1_build_docs --> job_1_deploy
-  wf_3_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release
-  job_3_release["release"]:::atlasJob
-  wf_3_Release --> job_3_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (3 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_linters["linters"]:::atlasJob
+      job_0_tests["tests"]:::atlasJob
+      job_0_docs["docs"]:::atlasJob
+      wf_0_CI --> job_0_linters
+      wf_0_CI --> job_0_tests
+      wf_0_CI --> job_0_docs
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_2_Foundation_SDK["Foundation SDK (3 jobs)"]
+      direction TB
+      wf_2_Foundation_SDK(["Trigger: Foundation SDK"]):::atlasWorkflow
+      job_2_build_lint["build_lint"]:::atlasJob
+      job_2_examples["examples"]:::atlasJob
+      job_2_sdk_diff["sdk_diff"]:::atlasJob
+      wf_2_Foundation_SDK --> job_2_build_lint
+      wf_2_Foundation_SDK --> job_2_examples
+      wf_2_Foundation_SDK --> job_2_sdk_diff
+    end
+    pipeline_root --> wf_2_Foundation_SDK
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Publish_documentation["Publish documentation (2 jobs)"]
+      direction TB
+      wf_1_Publish_documentation(["Trigger: Publish documentation"]):::atlasWorkflow
+      job_1_build_docs["build_docs"]:::atlasJob
+      job_1_deploy["deploy"]:::atlasJob
+      wf_1_Publish_documentation --> job_1_build_docs
+      job_1_build_docs --> job_1_deploy
+    end
+    pipeline_root --> wf_1_Publish_documentation
+    subgraph sg_wf_3_Release["Release (1 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Release --> job_3_release
+    end
+    pipeline_root --> wf_3_Release
+  end
 ```

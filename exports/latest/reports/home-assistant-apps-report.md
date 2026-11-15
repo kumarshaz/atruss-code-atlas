@@ -133,30 +133,45 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["home-assistant/apps (4 workflows)"]):::atlasRoot
-  grp_0_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Automation___Other
-  wf_1_Repository_updater["Repository updater (1 jobs)"]:::atlasWorkflow
-  grp_0_Automation___Other --> wf_1_Repository_updater
-  job_1_update["update"]:::atlasJob
-  wf_1_Repository_updater --> job_1_update
-  wf_2_Restrict_task_creation["Restrict task creation (1 jobs)"]:::atlasWorkflow
-  grp_0_Automation___Other --> wf_2_Restrict_task_creation
-  job_2_check_authorization["check-authorization"]:::atlasJob
-  wf_2_Restrict_task_creation --> job_2_check_authorization
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Lint["Lint (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Lint
-  job_0_hadolint["hadolint"]:::atlasJob
-  job_0_yamllint["yamllint"]:::atlasJob
-  job_0_shellcheck["shellcheck"]:::atlasJob
-  wf_0_Lint --> job_0_hadolint
-  wf_0_Lint --> job_0_yamllint
-  wf_0_Lint --> job_0_shellcheck
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_Stale["Stale (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_3_Stale
-  job_3_stale["stale"]:::atlasJob
-  wf_3_Stale --> job_3_stale
+  subgraph sg_grp_0_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Repository_updater["Repository updater (1 jobs)"]
+      direction TB
+      wf_1_Repository_updater(["Trigger: Repository updater"]):::atlasWorkflow
+      job_1_update["update"]:::atlasJob
+      wf_1_Repository_updater --> job_1_update
+    end
+    pipeline_root --> wf_1_Repository_updater
+    subgraph sg_wf_2_Restrict_task_creation["Restrict task creation (1 jobs)"]
+      direction TB
+      wf_2_Restrict_task_creation(["Trigger: Restrict task creation"]):::atlasWorkflow
+      job_2_check_authorization["check-authorization"]:::atlasJob
+      wf_2_Restrict_task_creation --> job_2_check_authorization
+    end
+    pipeline_root --> wf_2_Restrict_task_creation
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Lint["Lint (3 jobs)"]
+      direction TB
+      wf_0_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_0_hadolint["hadolint"]:::atlasJob
+      job_0_yamllint["yamllint"]:::atlasJob
+      job_0_shellcheck["shellcheck"]:::atlasJob
+      wf_0_Lint --> job_0_hadolint
+      wf_0_Lint --> job_0_yamllint
+      wf_0_Lint --> job_0_shellcheck
+    end
+    pipeline_root --> wf_0_Lint
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Stale["Stale (1 jobs)"]
+      direction TB
+      wf_3_Stale(["Trigger: Stale"]):::atlasWorkflow
+      job_3_stale["stale"]:::atlasJob
+      wf_3_Stale --> job_3_stale
+    end
+    pipeline_root --> wf_3_Stale
+  end
 ```

@@ -437,69 +437,101 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["calcom/cal.diy (45 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 51 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_All_checks["All checks (13 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_All_checks
-  job_0_type_check["type-check"]:::atlasJob
-  job_0_lint["lint"]:::atlasJob
-  job_0_unit_test["unit-test"]:::atlasJob
-  wf_0_All_checks --> job_0_type_check
-  wf_0_All_checks --> job_0_lint
-  wf_0_All_checks --> job_0_unit_test
-  wf_30_Pull_Request_Labeler["Pull Request Labeler (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_30_Pull_Request_Labeler
-  job_30_labeler["labeler"]:::atlasJob
-  job_30_team_labels["team-labels"]:::atlasJob
-  job_30_apply_labels_from_issue["apply-labels-from-issue"]:::atlasJob
-  wf_30_Pull_Request_Labeler --> job_30_labeler
-  wf_30_Pull_Request_Labeler --> job_30_team_labels
-  wf_30_Pull_Request_Labeler --> job_30_apply_labels_from_issue
-  wf_37_PR_Update["PR Update (22 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_37_PR_Update
-  job_37_changes["changes"]:::atlasJob
-  job_37_check_label["check-label"]:::atlasJob
-  job_37_deps["deps"]:::atlasJob
-  wf_37_PR_Update --> job_37_changes
-  job_37_changes --> job_37_check_label
-  job_37_changes --> job_37_deps
-  job_37_check_label --> job_37_deps
-  grp_1_CI___Verification["CI & Verification (15 workflows · 15 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_Atoms_production_Build["Atoms production Build (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Atoms_production_Build
-  job_3_build["build"]:::atlasJob
-  wf_3_Atoms_production_Build --> job_3_build
-  wf_21_Build["Build (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_21_Build
-  job_21_build["build"]:::atlasJob
-  wf_21_Build --> job_21_build
-  grp_2_Automation___Other["Automation & Other (8 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_8_Delete["Delete (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_8_Delete
-  job_8_delete_reports["delete_reports"]:::atlasJob
-  wf_8_Delete --> job_8_delete_reports
-  wf_40_Re_draft["Re-draft (2 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_40_Re_draft
-  job_40_download_context["download-context"]:::atlasJob
-  job_40_re_draft["re-draft"]:::atlasJob
-  wf_40_Re_draft --> job_40_download_context
-  job_40_download_context --> job_40_re_draft
-  grp_3_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged["Create PR containing updated CHANGELOG.md and release packages to NPM once PR is merged (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged
-  job_5_release["release"]:::atlasJob
-  wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged --> job_5_release
-  wf_22_Draft_release["Draft release (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_22_Draft_release
-  job_22_draft_release["draft_release"]:::atlasJob
-  wf_22_Draft_release --> job_22_draft_release
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_17_Cron___mark_stale_for_inactive_issues["Cron - mark stale for inactive issues (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_17_Cron___mark_stale_for_inactive_issues
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 51 jobs)"]
+    direction TB
+    subgraph sg_wf_0_All_checks["All checks (13 jobs)"]
+      direction TB
+      wf_0_All_checks(["Trigger: All checks"]):::atlasWorkflow
+      job_0_type_check["type-check"]:::atlasJob
+      job_0_lint["lint"]:::atlasJob
+      job_0_unit_test["unit-test"]:::atlasJob
+      wf_0_All_checks --> job_0_type_check
+      wf_0_All_checks --> job_0_lint
+      wf_0_All_checks --> job_0_unit_test
+    end
+    pipeline_root --> wf_0_All_checks
+    subgraph sg_wf_30_Pull_Request_Labeler["Pull Request Labeler (3 jobs)"]
+      direction TB
+      wf_30_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_30_labeler["labeler"]:::atlasJob
+      job_30_team_labels["team-labels"]:::atlasJob
+      job_30_apply_labels_from_issue["apply-labels-from-issue"]:::atlasJob
+      wf_30_Pull_Request_Labeler --> job_30_labeler
+      wf_30_Pull_Request_Labeler --> job_30_team_labels
+      wf_30_Pull_Request_Labeler --> job_30_apply_labels_from_issue
+    end
+    pipeline_root --> wf_30_Pull_Request_Labeler
+    subgraph sg_wf_37_PR_Update["PR Update (22 jobs)"]
+      direction TB
+      wf_37_PR_Update(["Trigger: PR Update"]):::atlasWorkflow
+      job_37_changes["changes"]:::atlasJob
+      job_37_check_label["check-label"]:::atlasJob
+      job_37_deps["deps"]:::atlasJob
+      wf_37_PR_Update --> job_37_changes
+      job_37_changes --> job_37_check_label
+      job_37_changes --> job_37_deps
+      job_37_check_label --> job_37_deps
+    end
+    pipeline_root --> wf_37_PR_Update
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (15 workflows · 15 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Atoms_production_Build["Atoms production Build (1 jobs)"]
+      direction TB
+      wf_3_Atoms_production_Build(["Trigger: Atoms production Build"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_Atoms_production_Build --> job_3_build
+    end
+    pipeline_root --> wf_3_Atoms_production_Build
+    subgraph sg_wf_21_Build["Build (1 jobs)"]
+      direction TB
+      wf_21_Build(["Trigger: Build"]):::atlasWorkflow
+      job_21_build["build"]:::atlasJob
+      wf_21_Build --> job_21_build
+    end
+    pipeline_root --> wf_21_Build
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (8 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Delete["Delete (1 jobs)"]
+      direction TB
+      wf_8_Delete(["Trigger: Delete"]):::atlasWorkflow
+      job_8_delete_reports["delete_reports"]:::atlasJob
+      wf_8_Delete --> job_8_delete_reports
+    end
+    pipeline_root --> wf_8_Delete
+    subgraph sg_wf_40_Re_draft["Re-draft (2 jobs)"]
+      direction TB
+      wf_40_Re_draft(["Trigger: Re-draft"]):::atlasWorkflow
+      job_40_download_context["download-context"]:::atlasJob
+      job_40_re_draft["re-draft"]:::atlasJob
+      wf_40_Re_draft --> job_40_download_context
+      job_40_download_context --> job_40_re_draft
+    end
+    pipeline_root --> wf_40_Re_draft
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged["Create PR containing updated CHANGELOG.md and release packages to NPM once PR is merged (1 jobs)"]
+      direction TB
+      wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged(["Trigger: Create PR containing updated CHANGELOG.md and release packages to NPM once PR is merged"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged --> job_5_release
+    end
+    pipeline_root --> wf_5_Create_PR_containing_updated_CHANGELOG_md_and_release_packages_to_NPM_once_PR_is_merged
+    subgraph sg_wf_22_Draft_release["Draft release (1 jobs)"]
+      direction TB
+      wf_22_Draft_release(["Trigger: Draft release"]):::atlasWorkflow
+      job_22_draft_release["draft_release"]:::atlasJob
+      wf_22_Draft_release --> job_22_draft_release
+    end
+    pipeline_root --> wf_22_Draft_release
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_17_Cron___mark_stale_for_inactive_issues["Cron - mark stale for inactive issues (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Cron___mark_stale_for_inactive_issues
+  end
   wf_more["+35 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

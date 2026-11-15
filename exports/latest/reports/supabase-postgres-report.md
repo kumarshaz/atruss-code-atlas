@@ -235,71 +235,94 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/postgres (23 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 26 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_5_CLI_Smoke_Test["CLI Smoke Test (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_CLI_Smoke_Test
-  job_5_check_changes["check-changes"]:::atlasJob
-  job_5_cli_smoke_test["cli-smoke-test"]:::atlasJob
-  job_5_skip_notification["skip-notification"]:::atlasJob
-  wf_5_CLI_Smoke_Test --> job_5_check_changes
-  job_5_check_changes --> job_5_cli_smoke_test
-  job_5_check_changes --> job_5_skip_notification
-  wf_6_Docker_Image_Test["Docker Image Test (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Docker_Image_Test
-  job_6_check_changes["check-changes"]:::atlasJob
-  job_6_docker_image_test["docker-image-test"]:::atlasJob
-  job_6_skip_notification["skip-notification"]:::atlasJob
-  wf_6_Docker_Image_Test --> job_6_check_changes
-  job_6_check_changes --> job_6_docker_image_test
-  job_6_check_changes --> job_6_skip_notification
-  wf_11_Nix_CI["Nix CI (10 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_11_Nix_CI
-  job_11_nix_eval["nix-eval"]:::atlasJob
-  job_11_nix_build_packages_aarch64_linux["nix-build-packages-aarch64-linux"]:::atlasJob
-  job_11_nix_build_checks_aarch64_linux["nix-build-checks-aarch64-linux"]:::atlasJob
-  wf_11_Nix_CI --> job_11_nix_eval
-  job_11_nix_eval --> job_11_nix_build_packages_aarch64_linux
-  job_11_nix_eval --> job_11_nix_build_checks_aarch64_linux
-  job_11_nix_build_packages_aarch64_linux --> job_11_nix_build_checks_aarch64_linux
-  grp_1_Release___Deploy["Release & Deploy (8 workflows · 25 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_7_Release_all_major_versions_on_Dockerhub["Release all major versions on Dockerhub (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Release_all_major_versions_on_Dockerhub
-  job_7_prepare["prepare"]:::atlasJob
-  job_7_build["build"]:::atlasJob
-  job_7_build_release_image["build_release_image"]:::atlasJob
-  wf_7_Release_all_major_versions_on_Dockerhub --> job_7_prepare
-  job_7_prepare --> job_7_build
-  job_7_prepare --> job_7_build_release_image
-  job_7_build --> job_7_build_release_image
-  wf_8_Manual_Docker_Artifacts_Release["Manual Docker Artifacts Release (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Manual_Docker_Artifacts_Release
-  job_8_prepare["prepare"]:::atlasJob
-  job_8_build["build"]:::atlasJob
-  job_8_build_release_image["build_release_image"]:::atlasJob
-  wf_8_Manual_Docker_Artifacts_Release --> job_8_prepare
-  job_8_prepare --> job_8_build
-  job_8_prepare --> job_8_build_release_image
-  job_8_build --> job_8_build_release_image
-  grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_Cleanup_Stale_EC2_Instances["Cleanup Stale EC2 Instances (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_3_Cleanup_Stale_EC2_Instances
-  job_3_cleanup["cleanup"]:::atlasJob
-  wf_3_Cleanup_Stale_EC2_Instances --> job_3_cleanup
-  wf_22_Update_Flake_Lock["Update Flake Lock (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_22_Update_Flake_Lock
-  grp_3_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_CI___Verification
-  wf_2_Check_merge_requirements["Check merge requirements (1 jobs)"]:::atlasWorkflow
-  grp_3_CI___Verification --> wf_2_Check_merge_requirements
-  wf_9_Mirror_PostgREST["Mirror PostgREST (2 jobs)"]:::atlasWorkflow
-  grp_3_CI___Verification --> wf_9_Mirror_PostgREST
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Automation___Other
-  wf_13_Nix_Eval["Nix Eval (1 jobs)"]:::atlasWorkflow
-  grp_4_Automation___Other --> wf_13_Nix_Eval
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 26 jobs)"]
+    direction TB
+    subgraph sg_wf_5_CLI_Smoke_Test["CLI Smoke Test (3 jobs)"]
+      direction TB
+      wf_5_CLI_Smoke_Test(["Trigger: CLI Smoke Test"]):::atlasWorkflow
+      job_5_check_changes["check-changes"]:::atlasJob
+      job_5_cli_smoke_test["cli-smoke-test"]:::atlasJob
+      job_5_skip_notification["skip-notification"]:::atlasJob
+      wf_5_CLI_Smoke_Test --> job_5_check_changes
+      job_5_check_changes --> job_5_cli_smoke_test
+      job_5_check_changes --> job_5_skip_notification
+    end
+    pipeline_root --> wf_5_CLI_Smoke_Test
+    subgraph sg_wf_6_Docker_Image_Test["Docker Image Test (3 jobs)"]
+      direction TB
+      wf_6_Docker_Image_Test(["Trigger: Docker Image Test"]):::atlasWorkflow
+      job_6_check_changes["check-changes"]:::atlasJob
+      job_6_docker_image_test["docker-image-test"]:::atlasJob
+      job_6_skip_notification["skip-notification"]:::atlasJob
+      wf_6_Docker_Image_Test --> job_6_check_changes
+      job_6_check_changes --> job_6_docker_image_test
+      job_6_check_changes --> job_6_skip_notification
+    end
+    pipeline_root --> wf_6_Docker_Image_Test
+    subgraph sg_wf_11_Nix_CI["Nix CI (10 jobs)"]
+      direction TB
+      wf_11_Nix_CI(["Trigger: Nix CI"]):::atlasWorkflow
+      job_11_nix_eval["nix-eval"]:::atlasJob
+      job_11_nix_build_packages_aarch64_linux["nix-build-packages-aarch64-linux"]:::atlasJob
+      job_11_nix_build_checks_aarch64_linux["nix-build-checks-aarch64-linux"]:::atlasJob
+      wf_11_Nix_CI --> job_11_nix_eval
+      job_11_nix_eval --> job_11_nix_build_packages_aarch64_linux
+      job_11_nix_eval --> job_11_nix_build_checks_aarch64_linux
+      job_11_nix_build_packages_aarch64_linux --> job_11_nix_build_checks_aarch64_linux
+    end
+    pipeline_root --> wf_11_Nix_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (8 workflows · 25 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Release_all_major_versions_on_Dockerhub["Release all major versions on Dockerhub (6 jobs)"]
+      direction TB
+      wf_7_Release_all_major_versions_on_Dockerhub(["Trigger: Release all major versions on Dockerhub"]):::atlasWorkflow
+      job_7_prepare["prepare"]:::atlasJob
+      job_7_build["build"]:::atlasJob
+      job_7_build_release_image["build_release_image"]:::atlasJob
+      wf_7_Release_all_major_versions_on_Dockerhub --> job_7_prepare
+      job_7_prepare --> job_7_build
+      job_7_prepare --> job_7_build_release_image
+      job_7_build --> job_7_build_release_image
+    end
+    pipeline_root --> wf_7_Release_all_major_versions_on_Dockerhub
+    subgraph sg_wf_8_Manual_Docker_Artifacts_Release["Manual Docker Artifacts Release (6 jobs)"]
+      direction TB
+      wf_8_Manual_Docker_Artifacts_Release(["Trigger: Manual Docker Artifacts Release"]):::atlasWorkflow
+      job_8_prepare["prepare"]:::atlasJob
+      job_8_build["build"]:::atlasJob
+      job_8_build_release_image["build_release_image"]:::atlasJob
+      wf_8_Manual_Docker_Artifacts_Release --> job_8_prepare
+      job_8_prepare --> job_8_build
+      job_8_prepare --> job_8_build_release_image
+      job_8_build --> job_8_build_release_image
+    end
+    pipeline_root --> wf_8_Manual_Docker_Artifacts_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Cleanup_Stale_EC2_Instances["Cleanup Stale EC2 Instances (1 jobs)"]
+      direction TB
+      wf_3_Cleanup_Stale_EC2_Instances(["Trigger: Cleanup Stale EC2 Instances"]):::atlasWorkflow
+      job_3_cleanup["cleanup"]:::atlasJob
+      wf_3_Cleanup_Stale_EC2_Instances --> job_3_cleanup
+    end
+    pipeline_root --> wf_3_Cleanup_Stale_EC2_Instances
+    wf_22_Update_Flake_Lock["Update Flake Lock (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_22_Update_Flake_Lock
+  end
+  subgraph sg_grp_3_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+    direction TB
+    wf_2_Check_merge_requirements["Check merge requirements (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Check_merge_requirements
+    wf_9_Mirror_PostgREST["Mirror PostgREST (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Mirror_PostgREST
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_13_Nix_Eval["Nix Eval (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_13_Nix_Eval
+  end
   wf_more["+13 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

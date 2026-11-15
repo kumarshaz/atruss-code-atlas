@@ -284,52 +284,79 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/passwordless-server (8 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (4 workflows · 12 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Request_Deploy["Request Deploy (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_0_Request_Deploy
-  job_0_request_deploy["request-deploy"]:::atlasJob
-  wf_0_Request_Deploy --> job_0_request_deploy
-  wf_3_CI["CI (6 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_CI
-  job_3_version["version"]:::atlasJob
-  job_3_validate["validate"]:::atlasJob
-  job_3_pack["pack"]:::atlasJob
-  wf_3_CI --> job_3_version
-  wf_3_CI --> job_3_validate
-  job_3_version --> job_3_pack
-  wf_4_Docker["Docker (4 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_4_Docker
-  job_4_version["version"]:::atlasJob
-  job_4_validate["validate"]:::atlasJob
-  job_4_pack["pack"]:::atlasJob
-  wf_4_Docker --> job_4_version
-  wf_4_Docker --> job_4_validate
-  job_4_version --> job_4_pack
-  wf_5_Migrations["Migrations (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_5_Migrations
-  job_5_script["script"]:::atlasJob
-  wf_5_Migrations --> job_5_script
-  grp_1_Automation___Other["Automation & Other (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_1_Validate["Validate (2 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_1_Validate
-  job_1_format["format"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  wf_1_Validate --> job_1_format
-  wf_1_Validate --> job_1_test
-  wf_2_Determine_Version["Determine Version (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_2_Determine_Version
-  job_2_version["version"]:::atlasJob
-  wf_2_Determine_Version --> job_2_version
-  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_6_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_6_Respond
-  job_6_respond["respond"]:::atlasJob
-  wf_6_Respond --> job_6_respond
-  wf_7_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_7_Code_Review
-  job_7_review["review"]:::atlasJob
-  wf_7_Code_Review --> job_7_review
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (4 workflows · 12 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Request_Deploy["Request Deploy (1 jobs)"]
+      direction TB
+      wf_0_Request_Deploy(["Trigger: Request Deploy"]):::atlasWorkflow
+      job_0_request_deploy["request-deploy"]:::atlasJob
+      wf_0_Request_Deploy --> job_0_request_deploy
+    end
+    pipeline_root --> wf_0_Request_Deploy
+    subgraph sg_wf_3_CI["CI (6 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_version["version"]:::atlasJob
+      job_3_validate["validate"]:::atlasJob
+      job_3_pack["pack"]:::atlasJob
+      wf_3_CI --> job_3_version
+      wf_3_CI --> job_3_validate
+      job_3_version --> job_3_pack
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_4_Docker["Docker (4 jobs)"]
+      direction TB
+      wf_4_Docker(["Trigger: Docker"]):::atlasWorkflow
+      job_4_version["version"]:::atlasJob
+      job_4_validate["validate"]:::atlasJob
+      job_4_pack["pack"]:::atlasJob
+      wf_4_Docker --> job_4_version
+      wf_4_Docker --> job_4_validate
+      job_4_version --> job_4_pack
+    end
+    pipeline_root --> wf_4_Docker
+    subgraph sg_wf_5_Migrations["Migrations (1 jobs)"]
+      direction TB
+      wf_5_Migrations(["Trigger: Migrations"]):::atlasWorkflow
+      job_5_script["script"]:::atlasJob
+      wf_5_Migrations --> job_5_script
+    end
+    pipeline_root --> wf_5_Migrations
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Validate["Validate (2 jobs)"]
+      direction TB
+      wf_1_Validate(["Trigger: Validate"]):::atlasWorkflow
+      job_1_format["format"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      wf_1_Validate --> job_1_format
+      wf_1_Validate --> job_1_test
+    end
+    pipeline_root --> wf_1_Validate
+    subgraph sg_wf_2_Determine_Version["Determine Version (1 jobs)"]
+      direction TB
+      wf_2_Determine_Version(["Trigger: Determine Version"]):::atlasWorkflow
+      job_2_version["version"]:::atlasJob
+      wf_2_Determine_Version --> job_2_version
+    end
+    pipeline_root --> wf_2_Determine_Version
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_6_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_6_respond["respond"]:::atlasJob
+      wf_6_Respond --> job_6_respond
+    end
+    pipeline_root --> wf_6_Respond
+    subgraph sg_wf_7_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_7_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_7_review["review"]:::atlasJob
+      wf_7_Code_Review --> job_7_review
+    end
+    pipeline_root --> wf_7_Code_Review
+  end
 ```

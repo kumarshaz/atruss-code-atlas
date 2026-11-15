@@ -237,65 +237,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/helm-charts (13 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (8 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2__test["_test (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2__test
-  job_2_kubernetes_api_validation["kubernetes-api-validation"]:::atlasJob
-  job_2_helm_unit_test["helm-unit-test"]:::atlasJob
-  wf_2__test --> job_2_kubernetes_api_validation
-  wf_2__test --> job_2_helm_unit_test
-  wf_4_CD["CD (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_CD
-  job_4_detect["detect"]:::atlasJob
-  job_4_version_bump["version-bump"]:::atlasJob
-  job_4_wait_for_build["wait-for-build"]:::atlasJob
-  wf_4_CD --> job_4_detect
-  job_4_detect --> job_4_version_bump
-  job_4_detect --> job_4_wait_for_build
-  job_4_version_bump --> job_4_wait_for_build
-  wf_5_Enforce_PR_labels["Enforce PR labels (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Enforce_PR_labels
-  job_5_enforce_labels["enforce-labels"]:::atlasJob
-  job_5_enforce_version_label["enforce-version-label"]:::atlasJob
-  wf_5_Enforce_PR_labels --> job_5_enforce_labels
-  wf_5_Enforce_PR_labels --> job_5_enforce_version_label
-  wf_7_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Code_Review
-  job_7_review["review"]:::atlasJob
-  wf_7_Code_Review --> job_7_review
-  wf_10_Test_Helm_Charts__Fork_PR_["Test Helm Charts (Fork PR) (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_10_Test_Helm_Charts__Fork_PR_
-  job_10_check_run["check-run"]:::atlasJob
-  job_10_run_sm_operator_workflow["run-sm-operator-workflow"]:::atlasJob
-  wf_10_Test_Helm_Charts__Fork_PR_ --> job_10_check_run
-  job_10_check_run --> job_10_run_sm_operator_workflow
-  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_8_Self_Host["Self Host (4 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_8_Self_Host
-  job_8_lint_self_host["lint-self-host"]:::atlasJob
-  job_8_test_self_host["test-self-host"]:::atlasJob
-  job_8_test_self_host_kind["test-self-host-kind"]:::atlasJob
-  wf_8_Self_Host --> job_8_lint_self_host
-  wf_8_Self_Host --> job_8_test_self_host
-  wf_8_Self_Host --> job_8_test_self_host_kind
-  wf_9_SM_Operator["SM Operator (5 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_9_SM_Operator
-  job_9_lint_sm_operator["lint-sm-operator"]:::atlasJob
-  job_9_test_sm_operator["test-sm-operator"]:::atlasJob
-  job_9_test_sm_operator_kind["test-sm-operator-kind"]:::atlasJob
-  wf_9_SM_Operator --> job_9_lint_sm_operator
-  wf_9_SM_Operator --> job_9_test_sm_operator
-  wf_9_SM_Operator --> job_9_test_sm_operator_kind
-  wf_11_Update_Versions___Self_Host["Update Versions - Self Host (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_11_Update_Versions___Self_Host
-  wf_12_Update_Versions___SM_Operator["Update Versions - SM Operator (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_12_Update_Versions___SM_Operator
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_3__version_bump["_version-bump (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_3__version_bump
+  subgraph sg_grp_0_CI___Verification["CI & Verification (8 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_2__test["_test (2 jobs)"]
+      direction TB
+      wf_2__test(["Trigger: _test"]):::atlasWorkflow
+      job_2_kubernetes_api_validation["kubernetes-api-validation"]:::atlasJob
+      job_2_helm_unit_test["helm-unit-test"]:::atlasJob
+      wf_2__test --> job_2_kubernetes_api_validation
+      wf_2__test --> job_2_helm_unit_test
+    end
+    pipeline_root --> wf_2__test
+    subgraph sg_wf_4_CD["CD (4 jobs)"]
+      direction TB
+      wf_4_CD(["Trigger: CD"]):::atlasWorkflow
+      job_4_detect["detect"]:::atlasJob
+      job_4_version_bump["version-bump"]:::atlasJob
+      job_4_wait_for_build["wait-for-build"]:::atlasJob
+      wf_4_CD --> job_4_detect
+      job_4_detect --> job_4_version_bump
+      job_4_detect --> job_4_wait_for_build
+      job_4_version_bump --> job_4_wait_for_build
+    end
+    pipeline_root --> wf_4_CD
+    subgraph sg_wf_5_Enforce_PR_labels["Enforce PR labels (2 jobs)"]
+      direction TB
+      wf_5_Enforce_PR_labels(["Trigger: Enforce PR labels"]):::atlasWorkflow
+      job_5_enforce_labels["enforce-labels"]:::atlasJob
+      job_5_enforce_version_label["enforce-version-label"]:::atlasJob
+      wf_5_Enforce_PR_labels --> job_5_enforce_labels
+      wf_5_Enforce_PR_labels --> job_5_enforce_version_label
+    end
+    pipeline_root --> wf_5_Enforce_PR_labels
+    subgraph sg_wf_7_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_7_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_7_review["review"]:::atlasJob
+      wf_7_Code_Review --> job_7_review
+    end
+    pipeline_root --> wf_7_Code_Review
+    subgraph sg_wf_10_Test_Helm_Charts__Fork_PR_["Test Helm Charts (Fork PR) (2 jobs)"]
+      direction TB
+      wf_10_Test_Helm_Charts__Fork_PR_(["Trigger: Test Helm Charts (Fork PR)"]):::atlasWorkflow
+      job_10_check_run["check-run"]:::atlasJob
+      job_10_run_sm_operator_workflow["run-sm-operator-workflow"]:::atlasJob
+      wf_10_Test_Helm_Charts__Fork_PR_ --> job_10_check_run
+      job_10_check_run --> job_10_run_sm_operator_workflow
+    end
+    pipeline_root --> wf_10_Test_Helm_Charts__Fork_PR_
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Self_Host["Self Host (4 jobs)"]
+      direction TB
+      wf_8_Self_Host(["Trigger: Self Host"]):::atlasWorkflow
+      job_8_lint_self_host["lint-self-host"]:::atlasJob
+      job_8_test_self_host["test-self-host"]:::atlasJob
+      job_8_test_self_host_kind["test-self-host-kind"]:::atlasJob
+      wf_8_Self_Host --> job_8_lint_self_host
+      wf_8_Self_Host --> job_8_test_self_host
+      wf_8_Self_Host --> job_8_test_self_host_kind
+    end
+    pipeline_root --> wf_8_Self_Host
+    subgraph sg_wf_9_SM_Operator["SM Operator (5 jobs)"]
+      direction TB
+      wf_9_SM_Operator(["Trigger: SM Operator"]):::atlasWorkflow
+      job_9_lint_sm_operator["lint-sm-operator"]:::atlasJob
+      job_9_test_sm_operator["test-sm-operator"]:::atlasJob
+      job_9_test_sm_operator_kind["test-sm-operator-kind"]:::atlasJob
+      wf_9_SM_Operator --> job_9_lint_sm_operator
+      wf_9_SM_Operator --> job_9_test_sm_operator
+      wf_9_SM_Operator --> job_9_test_sm_operator_kind
+    end
+    pipeline_root --> wf_9_SM_Operator
+    wf_11_Update_Versions___Self_Host["Update Versions - Self Host (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_11_Update_Versions___Self_Host
+    wf_12_Update_Versions___SM_Operator["Update Versions - SM Operator (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_12_Update_Versions___SM_Operator
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_3__version_bump["_version-bump (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3__version_bump
+  end
   wf_more["+3 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

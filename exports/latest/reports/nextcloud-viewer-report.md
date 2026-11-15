@@ -56,28 +56,43 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/viewer (4 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_Update_workflows["Update workflows (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Update_workflows
-  job_2_dispatch["dispatch"]:::atlasJob
-  wf_2_Update_workflows --> job_2_dispatch
-  wf_3_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Update_nextcloud_ocp
-  job_3_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
-  wf_3_Update_nextcloud_ocp --> job_3_update_nextcloud_ocp
-  grp_1_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_0_Compile_Command["Compile Command (2 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_0_Compile_Command
-  job_0_init["init"]:::atlasJob
-  job_0_process["process"]:::atlasJob
-  wf_0_Compile_Command --> job_0_init
-  job_0_init --> job_0_process
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_1_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_1_Npm_audit_fix_and_compile
-  job_1_build["build"]:::atlasJob
-  wf_1_Npm_audit_fix_and_compile --> job_1_build
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Update_workflows["Update workflows (1 jobs)"]
+      direction TB
+      wf_2_Update_workflows(["Trigger: Update workflows"]):::atlasWorkflow
+      job_2_dispatch["dispatch"]:::atlasJob
+      wf_2_Update_workflows --> job_2_dispatch
+    end
+    pipeline_root --> wf_2_Update_workflows
+    subgraph sg_wf_3_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]
+      direction TB
+      wf_3_Update_nextcloud_ocp(["Trigger: Update nextcloud/ocp"]):::atlasWorkflow
+      job_3_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
+      wf_3_Update_nextcloud_ocp --> job_3_update_nextcloud_ocp
+    end
+    pipeline_root --> wf_3_Update_nextcloud_ocp
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Compile_Command["Compile Command (2 jobs)"]
+      direction TB
+      wf_0_Compile_Command(["Trigger: Compile Command"]):::atlasWorkflow
+      job_0_init["init"]:::atlasJob
+      job_0_process["process"]:::atlasJob
+      wf_0_Compile_Command --> job_0_init
+      job_0_init --> job_0_process
+    end
+    pipeline_root --> wf_0_Compile_Command
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Npm_audit_fix_and_compile["Npm audit fix and compile (1 jobs)"]
+      direction TB
+      wf_1_Npm_audit_fix_and_compile(["Trigger: Npm audit fix and compile"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Npm_audit_fix_and_compile --> job_1_build
+    end
+    pipeline_root --> wf_1_Npm_audit_fix_and_compile
+  end
 ```

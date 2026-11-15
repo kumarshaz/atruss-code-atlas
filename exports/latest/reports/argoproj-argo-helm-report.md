@@ -250,65 +250,99 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["argoproj/argo-helm (10 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Actions_Lint["Actions Lint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Actions_Lint
-  job_0_actionlint["actionlint"]:::atlasJob
-  job_0_shellcheck["shellcheck"]:::atlasJob
-  job_0_zizmor["zizmor"]:::atlasJob
-  wf_0_Actions_Lint --> job_0_actionlint
-  wf_0_Actions_Lint --> job_0_shellcheck
-  wf_0_Actions_Lint --> job_0_zizmor
-  wf_1_Linting_and_Testing["Linting and Testing (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Linting_and_Testing
-  job_1_linter_artifacthub["linter-artifacthub"]:::atlasJob
-  job_1_chart_test["chart-test"]:::atlasJob
-  wf_1_Linting_and_Testing --> job_1_linter_artifacthub
-  wf_1_Linting_and_Testing --> job_1_chart_test
-  wf_2_PR_Lifecycle["PR Lifecycle (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_PR_Lifecycle
-  job_2_lifecycle["lifecycle"]:::atlasJob
-  wf_2_PR_Lifecycle --> job_2_lifecycle
-  wf_3_PR_Labeling["PR Labeling (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_PR_Labeling
-  job_3_triage["triage"]:::atlasJob
-  job_3_size_label["size-label"]:::atlasJob
-  wf_3_PR_Labeling --> job_3_triage
-  wf_3_PR_Labeling --> job_3_size_label
-  wf_4_Lint_PR["Lint PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Lint_PR
-  job_4_main["main"]:::atlasJob
-  wf_4_Lint_PR --> job_4_main
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_5_Publish_OSPS_Baseline_results["Publish OSPS Baseline results (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_Publish_OSPS_Baseline_results
-  job_5_results["results"]:::atlasJob
-  wf_5_Publish_OSPS_Baseline_results --> job_5_results
-  wf_6_Chart_Publish["Chart Publish (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Chart_Publish
-  job_6_fold["fold"]:::atlasJob
-  job_6_package["package"]:::atlasJob
-  job_6_release["release"]:::atlasJob
-  wf_6_Chart_Publish --> job_6_fold
-  job_6_fold --> job_6_package
-  job_6_fold --> job_6_release
-  job_6_package --> job_6_release
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_8_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_8_Scorecard_supply_chain_security
-  job_8_analysis["analysis"]:::atlasJob
-  wf_8_Scorecard_supply_chain_security --> job_8_analysis
-  wf_9_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_9_Mark_stale_issues_and_pull_requests
-  job_9_stale["stale"]:::atlasJob
-  wf_9_Mark_stale_issues_and_pull_requests --> job_9_stale
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_7_Renovate["Renovate (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_7_Renovate
-  job_7_renovate["renovate"]:::atlasJob
-  wf_7_Renovate --> job_7_renovate
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Actions_Lint["Actions Lint (3 jobs)"]
+      direction TB
+      wf_0_Actions_Lint(["Trigger: Actions Lint"]):::atlasWorkflow
+      job_0_actionlint["actionlint"]:::atlasJob
+      job_0_shellcheck["shellcheck"]:::atlasJob
+      job_0_zizmor["zizmor"]:::atlasJob
+      wf_0_Actions_Lint --> job_0_actionlint
+      wf_0_Actions_Lint --> job_0_shellcheck
+      wf_0_Actions_Lint --> job_0_zizmor
+    end
+    pipeline_root --> wf_0_Actions_Lint
+    subgraph sg_wf_1_Linting_and_Testing["Linting and Testing (2 jobs)"]
+      direction TB
+      wf_1_Linting_and_Testing(["Trigger: Linting and Testing"]):::atlasWorkflow
+      job_1_linter_artifacthub["linter-artifacthub"]:::atlasJob
+      job_1_chart_test["chart-test"]:::atlasJob
+      wf_1_Linting_and_Testing --> job_1_linter_artifacthub
+      wf_1_Linting_and_Testing --> job_1_chart_test
+    end
+    pipeline_root --> wf_1_Linting_and_Testing
+    subgraph sg_wf_2_PR_Lifecycle["PR Lifecycle (1 jobs)"]
+      direction TB
+      wf_2_PR_Lifecycle(["Trigger: PR Lifecycle"]):::atlasWorkflow
+      job_2_lifecycle["lifecycle"]:::atlasJob
+      wf_2_PR_Lifecycle --> job_2_lifecycle
+    end
+    pipeline_root --> wf_2_PR_Lifecycle
+    subgraph sg_wf_3_PR_Labeling["PR Labeling (2 jobs)"]
+      direction TB
+      wf_3_PR_Labeling(["Trigger: PR Labeling"]):::atlasWorkflow
+      job_3_triage["triage"]:::atlasJob
+      job_3_size_label["size-label"]:::atlasJob
+      wf_3_PR_Labeling --> job_3_triage
+      wf_3_PR_Labeling --> job_3_size_label
+    end
+    pipeline_root --> wf_3_PR_Labeling
+    subgraph sg_wf_4_Lint_PR["Lint PR (1 jobs)"]
+      direction TB
+      wf_4_Lint_PR(["Trigger: Lint PR"]):::atlasWorkflow
+      job_4_main["main"]:::atlasJob
+      wf_4_Lint_PR --> job_4_main
+    end
+    pipeline_root --> wf_4_Lint_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Publish_OSPS_Baseline_results["Publish OSPS Baseline results (1 jobs)"]
+      direction TB
+      wf_5_Publish_OSPS_Baseline_results(["Trigger: Publish OSPS Baseline results"]):::atlasWorkflow
+      job_5_results["results"]:::atlasJob
+      wf_5_Publish_OSPS_Baseline_results --> job_5_results
+    end
+    pipeline_root --> wf_5_Publish_OSPS_Baseline_results
+    subgraph sg_wf_6_Chart_Publish["Chart Publish (3 jobs)"]
+      direction TB
+      wf_6_Chart_Publish(["Trigger: Chart Publish"]):::atlasWorkflow
+      job_6_fold["fold"]:::atlasJob
+      job_6_package["package"]:::atlasJob
+      job_6_release["release"]:::atlasJob
+      wf_6_Chart_Publish --> job_6_fold
+      job_6_fold --> job_6_package
+      job_6_fold --> job_6_release
+      job_6_package --> job_6_release
+    end
+    pipeline_root --> wf_6_Chart_Publish
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Scorecard_supply_chain_security["Scorecard supply-chain security (1 jobs)"]
+      direction TB
+      wf_8_Scorecard_supply_chain_security(["Trigger: Scorecard supply-chain security"]):::atlasWorkflow
+      job_8_analysis["analysis"]:::atlasJob
+      wf_8_Scorecard_supply_chain_security --> job_8_analysis
+    end
+    pipeline_root --> wf_8_Scorecard_supply_chain_security
+    subgraph sg_wf_9_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_9_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_9_stale["stale"]:::atlasJob
+      wf_9_Mark_stale_issues_and_pull_requests --> job_9_stale
+    end
+    pipeline_root --> wf_9_Mark_stale_issues_and_pull_requests
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Renovate["Renovate (1 jobs)"]
+      direction TB
+      wf_7_Renovate(["Trigger: Renovate"]):::atlasWorkflow
+      job_7_renovate["renovate"]:::atlasJob
+      wf_7_Renovate --> job_7_renovate
+    end
+    pipeline_root --> wf_7_Renovate
+  end
 ```

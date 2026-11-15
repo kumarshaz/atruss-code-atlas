@@ -257,58 +257,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/wizard (9 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_MCP_Install["MCP Install (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_MCP_Install
-  job_2_mcp_install["mcp-install"]:::atlasJob
-  wf_2_MCP_Install --> job_2_mcp_install
-  wf_4_Provisioning_Probe["Provisioning Probe (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Provisioning_Probe
-  job_4_probe["probe"]:::atlasJob
-  wf_4_Provisioning_Probe --> job_4_probe
-  wf_7_Smoke_Test["Smoke Test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_7_Smoke_Test
-  job_7_smoke_test["smoke-test"]:::atlasJob
-  wf_7_Smoke_Test --> job_7_smoke_test
-  wf_8_Wizard_CI_Trigger["Wizard CI Trigger (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_8_Wizard_CI_Trigger
-  job_8_post_welcome["post-welcome"]:::atlasJob
-  job_8_handle_command["handle-command"]:::atlasJob
-  job_8_handle_snapshots_command["handle-snapshots-command"]:::atlasJob
-  wf_8_Wizard_CI_Trigger --> job_8_post_welcome
-  wf_8_Wizard_CI_Trigger --> job_8_handle_command
-  wf_8_Wizard_CI_Trigger --> job_8_handle_snapshots_command
-  grp_1_CI___Verification["CI & Verification (2 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Build___Test["Build & Test (4 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Build___Test
-  job_0_job_build["job_build"]:::atlasJob
-  job_0_job_lint["job_lint"]:::atlasJob
-  job_0_job_native_command_security["job_native_command_security"]:::atlasJob
-  wf_0_Build___Test --> job_0_job_build
-  job_0_job_build --> job_0_job_lint
-  wf_0_Build___Test --> job_0_job_native_command_security
-  wf_3_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_PR_Conventional_Commit_Validation
-  job_3_validate_pr_title["validate-pr-title"]:::atlasJob
-  wf_3_PR_Conventional_Commit_Validation --> job_3_validate_pr_title
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_5_Publish["Publish (2 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_5_Publish
-  job_5_check_package_version["check-package-version"]:::atlasJob
-  job_5_release["release"]:::atlasJob
-  wf_5_Publish --> job_5_check_package_version
-  job_5_check_package_version --> job_5_release
-  wf_6_release_please["release-please (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_6_release_please
-  job_6_release_please["release-please"]:::atlasJob
-  wf_6_release_please --> job_6_release_please
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_1_Notify_Slack_for_wizard_issues["Notify Slack for wizard issues (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_1_Notify_Slack_for_wizard_issues
-  job_1_notify["notify"]:::atlasJob
-  wf_1_Notify_Slack_for_wizard_issues --> job_1_notify
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_2_MCP_Install["MCP Install (1 jobs)"]
+      direction TB
+      wf_2_MCP_Install(["Trigger: MCP Install"]):::atlasWorkflow
+      job_2_mcp_install["mcp-install"]:::atlasJob
+      wf_2_MCP_Install --> job_2_mcp_install
+    end
+    pipeline_root --> wf_2_MCP_Install
+    subgraph sg_wf_4_Provisioning_Probe["Provisioning Probe (1 jobs)"]
+      direction TB
+      wf_4_Provisioning_Probe(["Trigger: Provisioning Probe"]):::atlasWorkflow
+      job_4_probe["probe"]:::atlasJob
+      wf_4_Provisioning_Probe --> job_4_probe
+    end
+    pipeline_root --> wf_4_Provisioning_Probe
+    subgraph sg_wf_7_Smoke_Test["Smoke Test (1 jobs)"]
+      direction TB
+      wf_7_Smoke_Test(["Trigger: Smoke Test"]):::atlasWorkflow
+      job_7_smoke_test["smoke-test"]:::atlasJob
+      wf_7_Smoke_Test --> job_7_smoke_test
+    end
+    pipeline_root --> wf_7_Smoke_Test
+    subgraph sg_wf_8_Wizard_CI_Trigger["Wizard CI Trigger (3 jobs)"]
+      direction TB
+      wf_8_Wizard_CI_Trigger(["Trigger: Wizard CI Trigger"]):::atlasWorkflow
+      job_8_post_welcome["post-welcome"]:::atlasJob
+      job_8_handle_command["handle-command"]:::atlasJob
+      job_8_handle_snapshots_command["handle-snapshots-command"]:::atlasJob
+      wf_8_Wizard_CI_Trigger --> job_8_post_welcome
+      wf_8_Wizard_CI_Trigger --> job_8_handle_command
+      wf_8_Wizard_CI_Trigger --> job_8_handle_snapshots_command
+    end
+    pipeline_root --> wf_8_Wizard_CI_Trigger
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build___Test["Build & Test (4 jobs)"]
+      direction TB
+      wf_0_Build___Test(["Trigger: Build & Test"]):::atlasWorkflow
+      job_0_job_build["job_build"]:::atlasJob
+      job_0_job_lint["job_lint"]:::atlasJob
+      job_0_job_native_command_security["job_native_command_security"]:::atlasJob
+      wf_0_Build___Test --> job_0_job_build
+      job_0_job_build --> job_0_job_lint
+      wf_0_Build___Test --> job_0_job_native_command_security
+    end
+    pipeline_root --> wf_0_Build___Test
+    subgraph sg_wf_3_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]
+      direction TB
+      wf_3_PR_Conventional_Commit_Validation(["Trigger: PR Conventional Commit Validation"]):::atlasWorkflow
+      job_3_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_3_PR_Conventional_Commit_Validation --> job_3_validate_pr_title
+    end
+    pipeline_root --> wf_3_PR_Conventional_Commit_Validation
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Publish["Publish (2 jobs)"]
+      direction TB
+      wf_5_Publish(["Trigger: Publish"]):::atlasWorkflow
+      job_5_check_package_version["check-package-version"]:::atlasJob
+      job_5_release["release"]:::atlasJob
+      wf_5_Publish --> job_5_check_package_version
+      job_5_check_package_version --> job_5_release
+    end
+    pipeline_root --> wf_5_Publish
+    subgraph sg_wf_6_release_please["release-please (1 jobs)"]
+      direction TB
+      wf_6_release_please(["Trigger: release-please"]):::atlasWorkflow
+      job_6_release_please["release-please"]:::atlasJob
+      wf_6_release_please --> job_6_release_please
+    end
+    pipeline_root --> wf_6_release_please
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Notify_Slack_for_wizard_issues["Notify Slack for wizard issues (1 jobs)"]
+      direction TB
+      wf_1_Notify_Slack_for_wizard_issues(["Trigger: Notify Slack for wizard issues"]):::atlasWorkflow
+      job_1_notify["notify"]:::atlasJob
+      wf_1_Notify_Slack_for_wizard_issues --> job_1_notify
+    end
+    pipeline_root --> wf_1_Notify_Slack_for_wizard_issues
+  end
 ```

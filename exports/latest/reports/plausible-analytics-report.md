@@ -329,62 +329,96 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["plausible/analytics (15 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_All_checks_pass["All checks pass (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_All_checks_pass
-  job_0_enforce_all_checks["enforce-all-checks"]:::atlasJob
-  wf_0_All_checks_pass --> job_0_enforce_all_checks
-  wf_1_Build_Private_Images_GHCR["Build Private Images GHCR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build_Private_Images_GHCR
-  job_1_build["build"]:::atlasJob
-  wf_1_Build_Private_Images_GHCR --> job_1_build
-  wf_2_Build_Public_Images_GHCR["Build Public Images GHCR (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Build_Public_Images_GHCR
-  job_2_build["build"]:::atlasJob
-  job_2_push["push"]:::atlasJob
-  wf_2_Build_Public_Images_GHCR --> job_2_build
-  job_2_build --> job_2_push
-  wf_3_Add_preview_environment_URL_to_PR["Add preview environment URL to PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Add_preview_environment_URL_to_PR
-  job_3_comment["comment"]:::atlasJob
-  wf_3_Add_preview_environment_URL_to_PR --> job_3_comment
-  wf_4_Elixir_CI["Elixir CI (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Elixir_CI
-  job_4_build["build"]:::atlasJob
-  job_4_e2e["e2e"]:::atlasJob
-  job_4_merge_sharded_e2e_test_report["merge-sharded-e2e-test-report"]:::atlasJob
-  wf_4_Elixir_CI --> job_4_build
-  wf_4_Elixir_CI --> job_4_e2e
-  job_4_e2e --> job_4_merge_sharded_e2e_test_report
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_9_Publish_Elixir_documentation["Publish Elixir documentation (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_9_Publish_Elixir_documentation
-  job_9_build["build"]:::atlasJob
-  wf_9_Publish_Elixir_documentation --> job_9_build
-  wf_11_Tracker__publish_NPM_release["Tracker: publish NPM release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_11_Tracker__publish_NPM_release
-  job_11_tracker_release_npm["tracker-release-npm"]:::atlasJob
-  wf_11_Tracker__publish_NPM_release --> job_11_tracker_release_npm
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_6_IANA_registry_check["IANA registry check (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_6_IANA_registry_check
-  job_6_check_iana_registries["check-iana-registries"]:::atlasJob
-  wf_6_IANA_registry_check --> job_6_check_iana_registries
-  wf_13_Tracker_CI["Tracker CI (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_13_Tracker_CI
-  job_13_test["test"]:::atlasJob
-  job_13_merge_sharded_test_report["merge-sharded-test-report"]:::atlasJob
-  wf_13_Tracker_CI --> job_13_test
-  job_13_test --> job_13_merge_sharded_test_report
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_5_Hex_audit["Hex audit (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_5_Hex_audit
-  job_5_audit["audit"]:::atlasJob
-  wf_5_Hex_audit --> job_5_audit
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_All_checks_pass["All checks pass (1 jobs)"]
+      direction TB
+      wf_0_All_checks_pass(["Trigger: All checks pass"]):::atlasWorkflow
+      job_0_enforce_all_checks["enforce-all-checks"]:::atlasJob
+      wf_0_All_checks_pass --> job_0_enforce_all_checks
+    end
+    pipeline_root --> wf_0_All_checks_pass
+    subgraph sg_wf_1_Build_Private_Images_GHCR["Build Private Images GHCR (1 jobs)"]
+      direction TB
+      wf_1_Build_Private_Images_GHCR(["Trigger: Build Private Images GHCR"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_Private_Images_GHCR --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_Private_Images_GHCR
+    subgraph sg_wf_2_Build_Public_Images_GHCR["Build Public Images GHCR (2 jobs)"]
+      direction TB
+      wf_2_Build_Public_Images_GHCR(["Trigger: Build Public Images GHCR"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_push["push"]:::atlasJob
+      wf_2_Build_Public_Images_GHCR --> job_2_build
+      job_2_build --> job_2_push
+    end
+    pipeline_root --> wf_2_Build_Public_Images_GHCR
+    subgraph sg_wf_3_Add_preview_environment_URL_to_PR["Add preview environment URL to PR (1 jobs)"]
+      direction TB
+      wf_3_Add_preview_environment_URL_to_PR(["Trigger: Add preview environment URL to PR"]):::atlasWorkflow
+      job_3_comment["comment"]:::atlasJob
+      wf_3_Add_preview_environment_URL_to_PR --> job_3_comment
+    end
+    pipeline_root --> wf_3_Add_preview_environment_URL_to_PR
+    subgraph sg_wf_4_Elixir_CI["Elixir CI (4 jobs)"]
+      direction TB
+      wf_4_Elixir_CI(["Trigger: Elixir CI"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      job_4_e2e["e2e"]:::atlasJob
+      job_4_merge_sharded_e2e_test_report["merge-sharded-e2e-test-report"]:::atlasJob
+      wf_4_Elixir_CI --> job_4_build
+      wf_4_Elixir_CI --> job_4_e2e
+      job_4_e2e --> job_4_merge_sharded_e2e_test_report
+    end
+    pipeline_root --> wf_4_Elixir_CI
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Publish_Elixir_documentation["Publish Elixir documentation (1 jobs)"]
+      direction TB
+      wf_9_Publish_Elixir_documentation(["Trigger: Publish Elixir documentation"]):::atlasWorkflow
+      job_9_build["build"]:::atlasJob
+      wf_9_Publish_Elixir_documentation --> job_9_build
+    end
+    pipeline_root --> wf_9_Publish_Elixir_documentation
+    subgraph sg_wf_11_Tracker__publish_NPM_release["Tracker: publish NPM release (1 jobs)"]
+      direction TB
+      wf_11_Tracker__publish_NPM_release(["Trigger: Tracker: publish NPM release"]):::atlasWorkflow
+      job_11_tracker_release_npm["tracker-release-npm"]:::atlasJob
+      wf_11_Tracker__publish_NPM_release --> job_11_tracker_release_npm
+    end
+    pipeline_root --> wf_11_Tracker__publish_NPM_release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_6_IANA_registry_check["IANA registry check (1 jobs)"]
+      direction TB
+      wf_6_IANA_registry_check(["Trigger: IANA registry check"]):::atlasWorkflow
+      job_6_check_iana_registries["check-iana-registries"]:::atlasJob
+      wf_6_IANA_registry_check --> job_6_check_iana_registries
+    end
+    pipeline_root --> wf_6_IANA_registry_check
+    subgraph sg_wf_13_Tracker_CI["Tracker CI (2 jobs)"]
+      direction TB
+      wf_13_Tracker_CI(["Trigger: Tracker CI"]):::atlasWorkflow
+      job_13_test["test"]:::atlasJob
+      job_13_merge_sharded_test_report["merge-sharded-test-report"]:::atlasJob
+      wf_13_Tracker_CI --> job_13_test
+      job_13_test --> job_13_merge_sharded_test_report
+    end
+    pipeline_root --> wf_13_Tracker_CI
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Hex_audit["Hex audit (1 jobs)"]
+      direction TB
+      wf_5_Hex_audit(["Trigger: Hex audit"]):::atlasWorkflow
+      job_5_audit["audit"]:::atlasJob
+      wf_5_Hex_audit --> job_5_audit
+    end
+    pipeline_root --> wf_5_Hex_audit
+  end
   wf_more["+5 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

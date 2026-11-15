@@ -237,52 +237,83 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["langfuse/langfuse-python (9 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_CLA_gate["CLA gate (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CLA_gate
-  job_1_evaluate["evaluate"]:::atlasJob
-  wf_1_CLA_gate --> job_1_evaluate
-  wf_2_Claude_Review_on_Maintainer_PRs["Claude Review on Maintainer PRs (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Claude_Review_on_Maintainer_PRs
-  job_2_comment["comment"]:::atlasJob
-  wf_2_Claude_Review_on_Maintainer_PRs --> job_2_comment
-  wf_7_Validate_PR_Title["Validate PR Title (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Validate_PR_Title
-  job_7_validate_pr_title["validate-pr-title"]:::atlasJob
-  wf_7_Validate_PR_Title --> job_7_validate_pr_title
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_ci_yml["ci.yml (5 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_0_ci_yml
-  job_0_linting["linting"]:::atlasJob
-  job_0_type_checking["type-checking"]:::atlasJob
-  job_0_unit_tests["unit-tests"]:::atlasJob
-  wf_0_ci_yml --> job_0_linting
-  wf_0_ci_yml --> job_0_type_checking
-  wf_0_ci_yml --> job_0_unit_tests
-  wf_5_Check_availability_of_packages["Check availability of packages (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_Check_availability_of_packages
-  job_5_build["build"]:::atlasJob
-  wf_5_Check_availability_of_packages --> job_5_build
-  wf_8_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_8_Check_GitHub_Actions
-  job_8_zizmor["zizmor"]:::atlasJob
-  wf_8_Check_GitHub_Actions --> job_8_zizmor
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_3_CodeQL_Advanced
-  job_3_analyze["analyze"]:::atlasJob
-  wf_3_CodeQL_Advanced --> job_3_analyze
-  wf_4_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Dependabot_auto_merge
-  job_4_dependabot["dependabot"]:::atlasJob
-  wf_4_Dependabot_auto_merge --> job_4_dependabot
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_6_Release_Python_SDK["Release Python SDK (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_6_Release_Python_SDK
-  job_6_release_python_sdk["release-python-sdk"]:::atlasJob
-  wf_6_Release_Python_SDK --> job_6_release_python_sdk
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CLA_gate["CLA gate (1 jobs)"]
+      direction TB
+      wf_1_CLA_gate(["Trigger: CLA gate"]):::atlasWorkflow
+      job_1_evaluate["evaluate"]:::atlasJob
+      wf_1_CLA_gate --> job_1_evaluate
+    end
+    pipeline_root --> wf_1_CLA_gate
+    subgraph sg_wf_2_Claude_Review_on_Maintainer_PRs["Claude Review on Maintainer PRs (1 jobs)"]
+      direction TB
+      wf_2_Claude_Review_on_Maintainer_PRs(["Trigger: Claude Review on Maintainer PRs"]):::atlasWorkflow
+      job_2_comment["comment"]:::atlasJob
+      wf_2_Claude_Review_on_Maintainer_PRs --> job_2_comment
+    end
+    pipeline_root --> wf_2_Claude_Review_on_Maintainer_PRs
+    subgraph sg_wf_7_Validate_PR_Title["Validate PR Title (1 jobs)"]
+      direction TB
+      wf_7_Validate_PR_Title(["Trigger: Validate PR Title"]):::atlasWorkflow
+      job_7_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_7_Validate_PR_Title --> job_7_validate_pr_title
+    end
+    pipeline_root --> wf_7_Validate_PR_Title
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci_yml["ci.yml (5 jobs)"]
+      direction TB
+      wf_0_ci_yml(["Trigger: ci.yml"]):::atlasWorkflow
+      job_0_linting["linting"]:::atlasJob
+      job_0_type_checking["type-checking"]:::atlasJob
+      job_0_unit_tests["unit-tests"]:::atlasJob
+      wf_0_ci_yml --> job_0_linting
+      wf_0_ci_yml --> job_0_type_checking
+      wf_0_ci_yml --> job_0_unit_tests
+    end
+    pipeline_root --> wf_0_ci_yml
+    subgraph sg_wf_5_Check_availability_of_packages["Check availability of packages (1 jobs)"]
+      direction TB
+      wf_5_Check_availability_of_packages(["Trigger: Check availability of packages"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      wf_5_Check_availability_of_packages --> job_5_build
+    end
+    pipeline_root --> wf_5_Check_availability_of_packages
+    subgraph sg_wf_8_Check_GitHub_Actions["Check GitHub Actions (1 jobs)"]
+      direction TB
+      wf_8_Check_GitHub_Actions(["Trigger: Check GitHub Actions"]):::atlasWorkflow
+      job_8_zizmor["zizmor"]:::atlasJob
+      wf_8_Check_GitHub_Actions --> job_8_zizmor
+    end
+    pipeline_root --> wf_8_Check_GitHub_Actions
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_3_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_3_analyze["analyze"]:::atlasJob
+      wf_3_CodeQL_Advanced --> job_3_analyze
+    end
+    pipeline_root --> wf_3_CodeQL_Advanced
+    subgraph sg_wf_4_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]
+      direction TB
+      wf_4_Dependabot_auto_merge(["Trigger: Dependabot auto-merge"]):::atlasWorkflow
+      job_4_dependabot["dependabot"]:::atlasJob
+      wf_4_Dependabot_auto_merge --> job_4_dependabot
+    end
+    pipeline_root --> wf_4_Dependabot_auto_merge
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release_Python_SDK["Release Python SDK (1 jobs)"]
+      direction TB
+      wf_6_Release_Python_SDK(["Trigger: Release Python SDK"]):::atlasWorkflow
+      job_6_release_python_sdk["release-python-sdk"]:::atlasJob
+      wf_6_Release_Python_SDK --> job_6_release_python_sdk
+    end
+    pipeline_root --> wf_6_Release_Python_SDK
+  end
 ```

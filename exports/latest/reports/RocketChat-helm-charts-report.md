@@ -237,35 +237,49 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["RocketChat/helm-charts (4 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Test_and_or_release_helm_chart["Test and/or release helm chart (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_0_Test_and_or_release_helm_chart
-  job_0_set_versions["set-versions"]:::atlasJob
-  job_0_can_chart_run["can-chart-run"]:::atlasJob
-  job_0_update_release["update-release"]:::atlasJob
-  wf_0_Test_and_or_release_helm_chart --> job_0_set_versions
-  job_0_set_versions --> job_0_can_chart_run
-  job_0_can_chart_run --> job_0_update_release
-  job_0_set_versions --> job_0_update_release
-  wf_1_New_chart_release["New chart release (2 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_1_New_chart_release
-  job_1_config["config"]:::atlasJob
-  job_1_run["run"]:::atlasJob
-  wf_1_New_chart_release --> job_1_config
-  job_1_config --> job_1_run
-  wf_2_Release_helm_chart["Release helm chart (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Release_helm_chart
-  job_2_release["release"]:::atlasJob
-  wf_2_Release_helm_chart --> job_2_release
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_3_Test_helm_chart["Test helm chart (5 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_3_Test_helm_chart
-  job_3_setup_docker["setup-docker"]:::atlasJob
-  job_3_setup_k3d["setup-k3d"]:::atlasJob
-  job_3_detect_changes["detect-changes"]:::atlasJob
-  wf_3_Test_helm_chart --> job_3_setup_docker
-  wf_3_Test_helm_chart --> job_3_setup_k3d
-  wf_3_Test_helm_chart --> job_3_detect_changes
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Test_and_or_release_helm_chart["Test and/or release helm chart (3 jobs)"]
+      direction TB
+      wf_0_Test_and_or_release_helm_chart(["Trigger: Test and/or release helm chart"]):::atlasWorkflow
+      job_0_set_versions["set-versions"]:::atlasJob
+      job_0_can_chart_run["can-chart-run"]:::atlasJob
+      job_0_update_release["update-release"]:::atlasJob
+      wf_0_Test_and_or_release_helm_chart --> job_0_set_versions
+      job_0_set_versions --> job_0_can_chart_run
+      job_0_can_chart_run --> job_0_update_release
+      job_0_set_versions --> job_0_update_release
+    end
+    pipeline_root --> wf_0_Test_and_or_release_helm_chart
+    subgraph sg_wf_1_New_chart_release["New chart release (2 jobs)"]
+      direction TB
+      wf_1_New_chart_release(["Trigger: New chart release"]):::atlasWorkflow
+      job_1_config["config"]:::atlasJob
+      job_1_run["run"]:::atlasJob
+      wf_1_New_chart_release --> job_1_config
+      job_1_config --> job_1_run
+    end
+    pipeline_root --> wf_1_New_chart_release
+    subgraph sg_wf_2_Release_helm_chart["Release helm chart (1 jobs)"]
+      direction TB
+      wf_2_Release_helm_chart(["Trigger: Release helm chart"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release_helm_chart --> job_2_release
+    end
+    pipeline_root --> wf_2_Release_helm_chart
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Test_helm_chart["Test helm chart (5 jobs)"]
+      direction TB
+      wf_3_Test_helm_chart(["Trigger: Test helm chart"]):::atlasWorkflow
+      job_3_setup_docker["setup-docker"]:::atlasJob
+      job_3_setup_k3d["setup-k3d"]:::atlasJob
+      job_3_detect_changes["detect-changes"]:::atlasJob
+      wf_3_Test_helm_chart --> job_3_setup_docker
+      wf_3_Test_helm_chart --> job_3_setup_k3d
+      wf_3_Test_helm_chart --> job_3_detect_changes
+    end
+    pipeline_root --> wf_3_Test_helm_chart
+  end
 ```

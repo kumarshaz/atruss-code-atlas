@@ -463,70 +463,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/hoglake (16 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (11 workflows · 38 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Bench_image["Bench image (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Bench_image
-  job_0_python_live["python-live"]:::atlasJob
-  job_0_image["image"]:::atlasJob
-  job_0_publish["publish"]:::atlasJob
-  wf_0_Bench_image --> job_0_python_live
-  wf_0_Bench_image --> job_0_image
-  job_0_image --> job_0_publish
-  job_0_python_live --> job_0_publish
-  wf_1_CI_python["CI python (7 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI_python
-  job_1_changes["changes"]:::atlasJob
-  job_1_python_checks["python-checks"]:::atlasJob
-  job_1_pyhoglake["pyhoglake"]:::atlasJob
-  wf_1_CI_python --> job_1_changes
-  job_1_changes --> job_1_python_checks
-  job_1_pyhoglake --> job_1_python_checks
-  job_1_changes --> job_1_pyhoglake
-  wf_6_Millrace_image["Millrace image (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Millrace_image
-  job_6_python_live["python-live"]:::atlasJob
-  job_6_image["image"]:::atlasJob
-  job_6_publish["publish"]:::atlasJob
-  wf_6_Millrace_image --> job_6_python_live
-  wf_6_Millrace_image --> job_6_image
-  job_6_image --> job_6_publish
-  job_6_python_live --> job_6_publish
-  wf_9_pyhoglake_checks["pyhoglake checks (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_pyhoglake_checks
-  job_9_python_live["python-live"]:::atlasJob
-  job_9_lint["lint"]:::atlasJob
-  job_9_test["test"]:::atlasJob
-  wf_9_pyhoglake_checks --> job_9_python_live
-  wf_9_pyhoglake_checks --> job_9_lint
-  wf_9_pyhoglake_checks --> job_9_test
-  wf_12_Server["Server (8 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_12_Server
-  job_12_changes["changes"]:::atlasJob
-  job_12_python_live["python-live"]:::atlasJob
-  job_12_server_checks["server-checks"]:::atlasJob
-  wf_12_Server --> job_12_changes
-  job_12_changes --> job_12_python_live
-  job_12_changes --> job_12_server_checks
-  job_12_python_live --> job_12_server_checks
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_ECR_release["ECR release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_ECR_release
-  job_3_gate["gate"]:::atlasJob
-  wf_3_ECR_release --> job_3_gate
-  wf_7_Publish_pyhoglake_variant_codec["Publish pyhoglake-variant-codec (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Publish_pyhoglake_variant_codec
-  wf_8_Publish_pyhoglake["Publish pyhoglake (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Publish_pyhoglake
-  grp_2_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_14_Variant_codec_wheels["Variant codec wheels (2 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_14_Variant_codec_wheels
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_4_Fuzz_nightly["Fuzz nightly (3 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_4_Fuzz_nightly
+  subgraph sg_grp_0_CI___Verification["CI & Verification (11 workflows · 38 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Bench_image["Bench image (3 jobs)"]
+      direction TB
+      wf_0_Bench_image(["Trigger: Bench image"]):::atlasWorkflow
+      job_0_python_live["python-live"]:::atlasJob
+      job_0_image["image"]:::atlasJob
+      job_0_publish["publish"]:::atlasJob
+      wf_0_Bench_image --> job_0_python_live
+      wf_0_Bench_image --> job_0_image
+      job_0_image --> job_0_publish
+      job_0_python_live --> job_0_publish
+    end
+    pipeline_root --> wf_0_Bench_image
+    subgraph sg_wf_1_CI_python["CI python (7 jobs)"]
+      direction TB
+      wf_1_CI_python(["Trigger: CI python"]):::atlasWorkflow
+      job_1_changes["changes"]:::atlasJob
+      job_1_python_checks["python-checks"]:::atlasJob
+      job_1_pyhoglake["pyhoglake"]:::atlasJob
+      wf_1_CI_python --> job_1_changes
+      job_1_changes --> job_1_python_checks
+      job_1_pyhoglake --> job_1_python_checks
+      job_1_changes --> job_1_pyhoglake
+    end
+    pipeline_root --> wf_1_CI_python
+    subgraph sg_wf_6_Millrace_image["Millrace image (3 jobs)"]
+      direction TB
+      wf_6_Millrace_image(["Trigger: Millrace image"]):::atlasWorkflow
+      job_6_python_live["python-live"]:::atlasJob
+      job_6_image["image"]:::atlasJob
+      job_6_publish["publish"]:::atlasJob
+      wf_6_Millrace_image --> job_6_python_live
+      wf_6_Millrace_image --> job_6_image
+      job_6_image --> job_6_publish
+      job_6_python_live --> job_6_publish
+    end
+    pipeline_root --> wf_6_Millrace_image
+    subgraph sg_wf_9_pyhoglake_checks["pyhoglake checks (6 jobs)"]
+      direction TB
+      wf_9_pyhoglake_checks(["Trigger: pyhoglake checks"]):::atlasWorkflow
+      job_9_python_live["python-live"]:::atlasJob
+      job_9_lint["lint"]:::atlasJob
+      job_9_test["test"]:::atlasJob
+      wf_9_pyhoglake_checks --> job_9_python_live
+      wf_9_pyhoglake_checks --> job_9_lint
+      wf_9_pyhoglake_checks --> job_9_test
+    end
+    pipeline_root --> wf_9_pyhoglake_checks
+    subgraph sg_wf_12_Server["Server (8 jobs)"]
+      direction TB
+      wf_12_Server(["Trigger: Server"]):::atlasWorkflow
+      job_12_changes["changes"]:::atlasJob
+      job_12_python_live["python-live"]:::atlasJob
+      job_12_server_checks["server-checks"]:::atlasJob
+      wf_12_Server --> job_12_changes
+      job_12_changes --> job_12_python_live
+      job_12_changes --> job_12_server_checks
+      job_12_python_live --> job_12_server_checks
+    end
+    pipeline_root --> wf_12_Server
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_3_ECR_release["ECR release (2 jobs)"]
+      direction TB
+      wf_3_ECR_release(["Trigger: ECR release"]):::atlasWorkflow
+      job_3_gate["gate"]:::atlasJob
+      wf_3_ECR_release --> job_3_gate
+    end
+    pipeline_root --> wf_3_ECR_release
+    wf_7_Publish_pyhoglake_variant_codec["Publish pyhoglake-variant-codec (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_7_Publish_pyhoglake_variant_codec
+    wf_8_Publish_pyhoglake["Publish pyhoglake (4 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_Publish_pyhoglake
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    wf_14_Variant_codec_wheels["Variant codec wheels (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_14_Variant_codec_wheels
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
+    direction TB
+    wf_4_Fuzz_nightly["Fuzz nightly (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_Fuzz_nightly
+  end
   wf_more["+6 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

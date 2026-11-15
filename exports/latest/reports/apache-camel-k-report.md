@@ -377,60 +377,95 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["apache/camel-k (23 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (17 workflows · 19 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_5_common["common (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_common
-  job_5_common["common"]:::atlasJob
-  job_5_advanced["advanced"]:::atlasJob
-  wf_5_common --> job_5_common
-  wf_5_common --> job_5_advanced
-  wf_13_Nightly_automatic_updates["Nightly automatic updates (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_13_Nightly_automatic_updates
-  job_13_auto_updates["auto-updates"]:::atlasJob
-  wf_13_Nightly_automatic_updates --> job_13_auto_updates
-  wf_14_Nightly_OLM_test["Nightly OLM test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_14_Nightly_OLM_test
-  job_14_install["install"]:::atlasJob
-  wf_14_Nightly_OLM_test --> job_14_install
-  wf_15_Nightly_check_against_ARM64_architecture_and_JDK21["Nightly check against ARM64 architecture and JDK21 (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_15_Nightly_check_against_ARM64_architecture_and_JDK21
-  job_15_common_arm64["common-arm64"]:::atlasJob
-  job_15_common_jdk_21["common-jdk-21"]:::atlasJob
-  wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_arm64
-  wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_jdk_21
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_17_PR_doc_validation["PR doc validation (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_17_PR_doc_validation
-  job_17_check_doc["check-doc"]:::atlasJob
-  wf_17_PR_doc_validation --> job_17_check_doc
-  wf_22_validate["validate (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_22_validate
-  job_22_validate["validate"]:::atlasJob
-  wf_22_validate --> job_22_validate
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_18_security["security (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_18_security
-  job_18_security["security"]:::atlasJob
-  wf_18_security --> job_18_security
-  wf_19_Stale["Stale (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_19_Stale
-  job_19_stale["stale"]:::atlasJob
-  wf_19_Stale --> job_19_stale
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_4_Comment_on_the_pull_request["Comment on the pull request (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_4_Comment_on_the_pull_request
-  job_4_upload["upload"]:::atlasJob
-  wf_4_Comment_on_the_pull_request --> job_4_upload
-  grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Release___Deploy
-  wf_16_Nightly_release["Nightly release (1 jobs)"]:::atlasWorkflow
-  grp_4_Release___Deploy --> wf_16_Nightly_release
-  job_16_release["release"]:::atlasJob
-  wf_16_Nightly_release --> job_16_release
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (17 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_5_common["common (2 jobs)"]
+      direction TB
+      wf_5_common(["Trigger: common"]):::atlasWorkflow
+      job_5_common["common"]:::atlasJob
+      job_5_advanced["advanced"]:::atlasJob
+      wf_5_common --> job_5_common
+      wf_5_common --> job_5_advanced
+    end
+    pipeline_root --> wf_5_common
+    subgraph sg_wf_13_Nightly_automatic_updates["Nightly automatic updates (1 jobs)"]
+      direction TB
+      wf_13_Nightly_automatic_updates(["Trigger: Nightly automatic updates"]):::atlasWorkflow
+      job_13_auto_updates["auto-updates"]:::atlasJob
+      wf_13_Nightly_automatic_updates --> job_13_auto_updates
+    end
+    pipeline_root --> wf_13_Nightly_automatic_updates
+    subgraph sg_wf_14_Nightly_OLM_test["Nightly OLM test (1 jobs)"]
+      direction TB
+      wf_14_Nightly_OLM_test(["Trigger: Nightly OLM test"]):::atlasWorkflow
+      job_14_install["install"]:::atlasJob
+      wf_14_Nightly_OLM_test --> job_14_install
+    end
+    pipeline_root --> wf_14_Nightly_OLM_test
+    subgraph sg_wf_15_Nightly_check_against_ARM64_architecture_and_JDK21["Nightly check against ARM64 architecture and JDK21 (2 jobs)"]
+      direction TB
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21(["Trigger: Nightly check against ARM64 architecture and JDK21"]):::atlasWorkflow
+      job_15_common_arm64["common-arm64"]:::atlasJob
+      job_15_common_jdk_21["common-jdk-21"]:::atlasJob
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_arm64
+      wf_15_Nightly_check_against_ARM64_architecture_and_JDK21 --> job_15_common_jdk_21
+    end
+    pipeline_root --> wf_15_Nightly_check_against_ARM64_architecture_and_JDK21
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_17_PR_doc_validation["PR doc validation (1 jobs)"]
+      direction TB
+      wf_17_PR_doc_validation(["Trigger: PR doc validation"]):::atlasWorkflow
+      job_17_check_doc["check-doc"]:::atlasJob
+      wf_17_PR_doc_validation --> job_17_check_doc
+    end
+    pipeline_root --> wf_17_PR_doc_validation
+    subgraph sg_wf_22_validate["validate (1 jobs)"]
+      direction TB
+      wf_22_validate(["Trigger: validate"]):::atlasWorkflow
+      job_22_validate["validate"]:::atlasJob
+      wf_22_validate --> job_22_validate
+    end
+    pipeline_root --> wf_22_validate
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_18_security["security (1 jobs)"]
+      direction TB
+      wf_18_security(["Trigger: security"]):::atlasWorkflow
+      job_18_security["security"]:::atlasJob
+      wf_18_security --> job_18_security
+    end
+    pipeline_root --> wf_18_security
+    subgraph sg_wf_19_Stale["Stale (1 jobs)"]
+      direction TB
+      wf_19_Stale(["Trigger: Stale"]):::atlasWorkflow
+      job_19_stale["stale"]:::atlasJob
+      wf_19_Stale --> job_19_stale
+    end
+    pipeline_root --> wf_19_Stale
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Comment_on_the_pull_request["Comment on the pull request (1 jobs)"]
+      direction TB
+      wf_4_Comment_on_the_pull_request(["Trigger: Comment on the pull request"]):::atlasWorkflow
+      job_4_upload["upload"]:::atlasJob
+      wf_4_Comment_on_the_pull_request --> job_4_upload
+    end
+    pipeline_root --> wf_4_Comment_on_the_pull_request
+  end
+  subgraph sg_grp_4_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_16_Nightly_release["Nightly release (1 jobs)"]
+      direction TB
+      wf_16_Nightly_release(["Trigger: Nightly release"]):::atlasWorkflow
+      job_16_release["release"]:::atlasJob
+      wf_16_Nightly_release --> job_16_release
+    end
+    pipeline_root --> wf_16_Nightly_release
+  end
   wf_more["+13 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

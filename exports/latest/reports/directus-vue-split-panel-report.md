@@ -152,26 +152,40 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["directus/vue-split-panel (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_PR_Conventional_Commit_Validation
-  job_0_validate_pr_title["validate-pr-title"]:::atlasJob
-  wf_0_PR_Conventional_Commit_Validation --> job_0_validate_pr_title
-  wf_3_Unit_Test["Unit Test (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Unit_Test
-  job_3_test["test"]:::atlasJob
-  wf_3_Unit_Test --> job_3_test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Deploy_to_GitHub_Pages
-  job_1_build["build"]:::atlasJob
-  job_1_deploy["deploy"]:::atlasJob
-  wf_1_Deploy_to_GitHub_Pages --> job_1_build
-  job_1_build --> job_1_deploy
-  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Release --> job_2_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_PR_Conventional_Commit_Validation["PR Conventional Commit Validation (1 jobs)"]
+      direction TB
+      wf_0_PR_Conventional_Commit_Validation(["Trigger: PR Conventional Commit Validation"]):::atlasWorkflow
+      job_0_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_0_PR_Conventional_Commit_Validation --> job_0_validate_pr_title
+    end
+    pipeline_root --> wf_0_PR_Conventional_Commit_Validation
+    subgraph sg_wf_3_Unit_Test["Unit Test (1 jobs)"]
+      direction TB
+      wf_3_Unit_Test(["Trigger: Unit Test"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      wf_3_Unit_Test --> job_3_test
+    end
+    pipeline_root --> wf_3_Unit_Test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]
+      direction TB
+      wf_1_Deploy_to_GitHub_Pages(["Trigger: Deploy to GitHub Pages"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_deploy["deploy"]:::atlasJob
+      wf_1_Deploy_to_GitHub_Pages --> job_1_build
+      job_1_build --> job_1_deploy
+    end
+    pipeline_root --> wf_1_Deploy_to_GitHub_Pages
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+  end
 ```

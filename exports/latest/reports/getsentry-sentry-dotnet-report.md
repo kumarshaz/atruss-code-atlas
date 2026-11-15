@@ -296,66 +296,100 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-dotnet (19 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 18 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_build["build (7 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_build
-  job_1_build_sentry_native["build-sentry-native"]:::atlasJob
-  job_1_build_sentry["build-sentry"]:::atlasJob
-  job_1_integration_test["integration-test"]:::atlasJob
-  wf_1_build --> job_1_build_sentry_native
-  job_1_build_sentry_native --> job_1_build_sentry
-  job_1_build_sentry_native --> job_1_integration_test
-  wf_6_Android_Device_Tests["Android Device Tests (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Android_Device_Tests
-  job_6_build["build"]:::atlasJob
-  job_6_android["android"]:::atlasJob
-  job_6_android_integration_tests["android-integration-tests"]:::atlasJob
-  wf_6_Android_Device_Tests --> job_6_build
-  job_6_build --> job_6_android
-  wf_6_Android_Device_Tests --> job_6_android_integration_tests
-  wf_7_iOS_Device_Tests["iOS Device Tests (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_7_iOS_Device_Tests
-  job_7_ios_tests["ios-tests"]:::atlasJob
-  job_7_ios_integration_tests["ios-integration-tests"]:::atlasJob
-  wf_7_iOS_Device_Tests --> job_7_ios_tests
-  wf_7_iOS_Device_Tests --> job_7_ios_integration_tests
-  wf_10_Blazor_WASM_Playwright_Tests["Blazor WASM Playwright Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_10_Blazor_WASM_Playwright_Tests
-  job_10_playwright["playwright"]:::atlasJob
-  wf_10_Blazor_WASM_Playwright_Tests --> job_10_playwright
-  grp_1_CI___Verification["CI & Verification (8 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_2_Changelog_Guard["Changelog Guard (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_2_Changelog_Guard
-  job_2_no_manual_unreleased_entries["no-manual-unreleased-entries"]:::atlasJob
-  wf_2_Changelog_Guard --> job_2_no_manual_unreleased_entries
-  wf_3_Changelog_Preview["Changelog Preview (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Changelog_Preview
-  job_3_changelog_preview["changelog-preview"]:::atlasJob
-  wf_3_Changelog_Preview --> job_3_changelog_preview
-  wf_5_Danger["Danger (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_5_Danger
-  job_5_danger["danger"]:::atlasJob
-  wf_5_Danger --> job_5_danger
-  wf_15_verify_api["verify api (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_15_verify_api
-  job_15_run_api_tests["run-api-tests"]:::atlasJob
-  job_15_accept_api_changes["accept-api-changes"]:::atlasJob
-  wf_15_verify_api --> job_15_run_api_tests
-  job_15_run_api_tests --> job_15_accept_api_changes
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_12_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_12_Release
-  job_12_job_release["job_release"]:::atlasJob
-  wf_12_Release --> job_12_job_release
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_4_CodeQL
-  job_4_analyze["analyze"]:::atlasJob
-  wf_4_CodeQL --> job_4_analyze
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 18 jobs)"]
+    direction TB
+    subgraph sg_wf_1_build["build (7 jobs)"]
+      direction TB
+      wf_1_build(["Trigger: build"]):::atlasWorkflow
+      job_1_build_sentry_native["build-sentry-native"]:::atlasJob
+      job_1_build_sentry["build-sentry"]:::atlasJob
+      job_1_integration_test["integration-test"]:::atlasJob
+      wf_1_build --> job_1_build_sentry_native
+      job_1_build_sentry_native --> job_1_build_sentry
+      job_1_build_sentry_native --> job_1_integration_test
+    end
+    pipeline_root --> wf_1_build
+    subgraph sg_wf_6_Android_Device_Tests["Android Device Tests (3 jobs)"]
+      direction TB
+      wf_6_Android_Device_Tests(["Trigger: Android Device Tests"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_android["android"]:::atlasJob
+      job_6_android_integration_tests["android-integration-tests"]:::atlasJob
+      wf_6_Android_Device_Tests --> job_6_build
+      job_6_build --> job_6_android
+      wf_6_Android_Device_Tests --> job_6_android_integration_tests
+    end
+    pipeline_root --> wf_6_Android_Device_Tests
+    subgraph sg_wf_7_iOS_Device_Tests["iOS Device Tests (2 jobs)"]
+      direction TB
+      wf_7_iOS_Device_Tests(["Trigger: iOS Device Tests"]):::atlasWorkflow
+      job_7_ios_tests["ios-tests"]:::atlasJob
+      job_7_ios_integration_tests["ios-integration-tests"]:::atlasJob
+      wf_7_iOS_Device_Tests --> job_7_ios_tests
+      wf_7_iOS_Device_Tests --> job_7_ios_integration_tests
+    end
+    pipeline_root --> wf_7_iOS_Device_Tests
+    subgraph sg_wf_10_Blazor_WASM_Playwright_Tests["Blazor WASM Playwright Tests (1 jobs)"]
+      direction TB
+      wf_10_Blazor_WASM_Playwright_Tests(["Trigger: Blazor WASM Playwright Tests"]):::atlasWorkflow
+      job_10_playwright["playwright"]:::atlasJob
+      wf_10_Blazor_WASM_Playwright_Tests --> job_10_playwright
+    end
+    pipeline_root --> wf_10_Blazor_WASM_Playwright_Tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (8 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Changelog_Guard["Changelog Guard (1 jobs)"]
+      direction TB
+      wf_2_Changelog_Guard(["Trigger: Changelog Guard"]):::atlasWorkflow
+      job_2_no_manual_unreleased_entries["no-manual-unreleased-entries"]:::atlasJob
+      wf_2_Changelog_Guard --> job_2_no_manual_unreleased_entries
+    end
+    pipeline_root --> wf_2_Changelog_Guard
+    subgraph sg_wf_3_Changelog_Preview["Changelog Preview (1 jobs)"]
+      direction TB
+      wf_3_Changelog_Preview(["Trigger: Changelog Preview"]):::atlasWorkflow
+      job_3_changelog_preview["changelog-preview"]:::atlasJob
+      wf_3_Changelog_Preview --> job_3_changelog_preview
+    end
+    pipeline_root --> wf_3_Changelog_Preview
+    subgraph sg_wf_5_Danger["Danger (1 jobs)"]
+      direction TB
+      wf_5_Danger(["Trigger: Danger"]):::atlasWorkflow
+      job_5_danger["danger"]:::atlasJob
+      wf_5_Danger --> job_5_danger
+    end
+    pipeline_root --> wf_5_Danger
+    subgraph sg_wf_15_verify_api["verify api (2 jobs)"]
+      direction TB
+      wf_15_verify_api(["Trigger: verify api"]):::atlasWorkflow
+      job_15_run_api_tests["run-api-tests"]:::atlasJob
+      job_15_accept_api_changes["accept-api-changes"]:::atlasJob
+      wf_15_verify_api --> job_15_run_api_tests
+      job_15_run_api_tests --> job_15_accept_api_changes
+    end
+    pipeline_root --> wf_15_verify_api
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_12_Release["Release (1 jobs)"]
+      direction TB
+      wf_12_Release(["Trigger: Release"]):::atlasWorkflow
+      job_12_job_release["job_release"]:::atlasJob
+      wf_12_Release --> job_12_job_release
+    end
+    pipeline_root --> wf_12_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_4_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_CodeQL --> job_4_analyze
+    end
+    pipeline_root --> wf_4_CodeQL
+  end
   wf_more["+9 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

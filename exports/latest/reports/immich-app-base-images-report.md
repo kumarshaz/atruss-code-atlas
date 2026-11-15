@@ -120,43 +120,64 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["immich-app/base-images (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Build_and_Push_Server_Base_Images["Build and Push Server Base Images (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build_and_Push_Server_Base_Images
-  job_1_pre_job["pre-job"]:::atlasJob
-  job_1_build_and_push["build_and_push"]:::atlasJob
-  job_1_success_check["success-check"]:::atlasJob
-  wf_1_Build_and_Push_Server_Base_Images --> job_1_pre_job
-  job_1_pre_job --> job_1_build_and_push
-  job_1_build_and_push --> job_1_success_check
-  wf_2_PR_Conventional_Commit["PR Conventional Commit (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_PR_Conventional_Commit
-  job_2_validate_pr_title["validate-pr-title"]:::atlasJob
-  wf_2_PR_Conventional_Commit --> job_2_validate_pr_title
-  wf_3_Zizmor["Zizmor (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Zizmor
-  job_3_zizmor["zizmor"]:::atlasJob
-  wf_3_Zizmor --> job_3_zizmor
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_Build_and_Push_Postgres_Images["Build and Push Postgres Images (4 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_0_Build_and_Push_Postgres_Images
-  job_0_pre_job["pre-job"]:::atlasJob
-  job_0_matrix["matrix"]:::atlasJob
-  job_0_build_and_push["build_and_push"]:::atlasJob
-  wf_0_Build_and_Push_Postgres_Images --> job_0_pre_job
-  job_0_pre_job --> job_0_matrix
-  job_0_pre_job --> job_0_build_and_push
-  job_0_matrix --> job_0_build_and_push
-  wf_5_Test["Test (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_Test
-  job_5_shellcheck["shellcheck"]:::atlasJob
-  wf_5_Test --> job_5_shellcheck
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_4_Git_tag["Git tag (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_4_Git_tag
-  job_4_set_tag["set_tag"]:::atlasJob
-  wf_4_Git_tag --> job_4_set_tag
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_and_Push_Server_Base_Images["Build and Push Server Base Images (3 jobs)"]
+      direction TB
+      wf_1_Build_and_Push_Server_Base_Images(["Trigger: Build and Push Server Base Images"]):::atlasWorkflow
+      job_1_pre_job["pre-job"]:::atlasJob
+      job_1_build_and_push["build_and_push"]:::atlasJob
+      job_1_success_check["success-check"]:::atlasJob
+      wf_1_Build_and_Push_Server_Base_Images --> job_1_pre_job
+      job_1_pre_job --> job_1_build_and_push
+      job_1_build_and_push --> job_1_success_check
+    end
+    pipeline_root --> wf_1_Build_and_Push_Server_Base_Images
+    subgraph sg_wf_2_PR_Conventional_Commit["PR Conventional Commit (1 jobs)"]
+      direction TB
+      wf_2_PR_Conventional_Commit(["Trigger: PR Conventional Commit"]):::atlasWorkflow
+      job_2_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_2_PR_Conventional_Commit --> job_2_validate_pr_title
+    end
+    pipeline_root --> wf_2_PR_Conventional_Commit
+    subgraph sg_wf_3_Zizmor["Zizmor (1 jobs)"]
+      direction TB
+      wf_3_Zizmor(["Trigger: Zizmor"]):::atlasWorkflow
+      job_3_zizmor["zizmor"]:::atlasJob
+      wf_3_Zizmor --> job_3_zizmor
+    end
+    pipeline_root --> wf_3_Zizmor
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_Push_Postgres_Images["Build and Push Postgres Images (4 jobs)"]
+      direction TB
+      wf_0_Build_and_Push_Postgres_Images(["Trigger: Build and Push Postgres Images"]):::atlasWorkflow
+      job_0_pre_job["pre-job"]:::atlasJob
+      job_0_matrix["matrix"]:::atlasJob
+      job_0_build_and_push["build_and_push"]:::atlasJob
+      wf_0_Build_and_Push_Postgres_Images --> job_0_pre_job
+      job_0_pre_job --> job_0_matrix
+      job_0_pre_job --> job_0_build_and_push
+      job_0_matrix --> job_0_build_and_push
+    end
+    pipeline_root --> wf_0_Build_and_Push_Postgres_Images
+    subgraph sg_wf_5_Test["Test (1 jobs)"]
+      direction TB
+      wf_5_Test(["Trigger: Test"]):::atlasWorkflow
+      job_5_shellcheck["shellcheck"]:::atlasJob
+      wf_5_Test --> job_5_shellcheck
+    end
+    pipeline_root --> wf_5_Test
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Git_tag["Git tag (1 jobs)"]
+      direction TB
+      wf_4_Git_tag(["Trigger: Git tag"]):::atlasWorkflow
+      job_4_set_tag["set_tag"]:::atlasJob
+      wf_4_Git_tag --> job_4_set_tag
+    end
+    pipeline_root --> wf_4_Git_tag
+  end
 ```

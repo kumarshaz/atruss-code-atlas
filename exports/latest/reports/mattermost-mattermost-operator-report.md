@@ -262,34 +262,48 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/mattermost-operator (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_cd["cd (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_cd
-  job_0_build["build"]:::atlasJob
-  job_0_build_fips["build-fips"]:::atlasJob
-  job_0_anchore_scan["anchore-scan"]:::atlasJob
-  wf_0_cd --> job_0_build
-  wf_0_cd --> job_0_build_fips
-  job_0_build --> job_0_anchore_scan
-  job_0_build_fips --> job_0_anchore_scan
-  wf_1_ci["ci (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_ci
-  job_1_lint["lint"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  job_1_build["build"]:::atlasJob
-  wf_1_ci --> job_1_lint
-  wf_1_ci --> job_1_test
-  job_1_lint --> job_1_build
-  job_1_test --> job_1_build
-  wf_2_CleanDocker["CleanDocker (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_CleanDocker
-  job_2_clean_docker["clean-docker"]:::atlasJob
-  wf_2_CleanDocker --> job_2_clean_docker
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_notify_release["notify-release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_notify_release
-  job_3_notify["notify"]:::atlasJob
-  wf_3_notify_release --> job_3_notify
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_cd["cd (3 jobs)"]
+      direction TB
+      wf_0_cd(["Trigger: cd"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      job_0_build_fips["build-fips"]:::atlasJob
+      job_0_anchore_scan["anchore-scan"]:::atlasJob
+      wf_0_cd --> job_0_build
+      wf_0_cd --> job_0_build_fips
+      job_0_build --> job_0_anchore_scan
+      job_0_build_fips --> job_0_anchore_scan
+    end
+    pipeline_root --> wf_0_cd
+    subgraph sg_wf_1_ci["ci (4 jobs)"]
+      direction TB
+      wf_1_ci(["Trigger: ci"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      job_1_build["build"]:::atlasJob
+      wf_1_ci --> job_1_lint
+      wf_1_ci --> job_1_test
+      job_1_lint --> job_1_build
+      job_1_test --> job_1_build
+    end
+    pipeline_root --> wf_1_ci
+    subgraph sg_wf_2_CleanDocker["CleanDocker (1 jobs)"]
+      direction TB
+      wf_2_CleanDocker(["Trigger: CleanDocker"]):::atlasWorkflow
+      job_2_clean_docker["clean-docker"]:::atlasJob
+      wf_2_CleanDocker --> job_2_clean_docker
+    end
+    pipeline_root --> wf_2_CleanDocker
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_notify_release["notify-release (1 jobs)"]
+      direction TB
+      wf_3_notify_release(["Trigger: notify-release"]):::atlasWorkflow
+      job_3_notify["notify"]:::atlasJob
+      wf_3_notify_release --> job_3_notify
+    end
+    pipeline_root --> wf_3_notify_release
+  end
 ```

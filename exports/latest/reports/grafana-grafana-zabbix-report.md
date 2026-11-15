@@ -361,38 +361,62 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/grafana-zabbix (7 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_Integration_tests["Integration tests (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Integration_tests
-  job_1_integration["integration"]:::atlasJob
-  wf_1_Integration_tests --> job_1_integration
-  wf_2_Compatibility_check["Compatibility check (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Compatibility_check
-  job_2_compatibilitycheck["compatibilitycheck"]:::atlasJob
-  wf_2_Compatibility_check --> job_2_compatibilitycheck
-  wf_3_Plugins___CD["Plugins - CD (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Plugins___CD
-  job_3_cd["cd"]:::atlasJob
-  wf_3_Plugins___CD --> job_3_cd
-  wf_6_Create_Plugin_Update["Create Plugin Update (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Create_Plugin_Update
-  job_6_release["release"]:::atlasJob
-  wf_6_Create_Plugin_Update --> job_6_release
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project["Add issues & PRs to Grafana Data Source Plugins Squad project (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project
-  job_0_add_to_project["add-to-project"]:::atlasJob
-  wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project --> job_0_add_to_project
-  wf_4_Plugins___CI["Plugins - CI (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_4_Plugins___CI
-  job_4_ci["ci"]:::atlasJob
-  wf_4_Plugins___CI --> job_4_ci
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_5_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_5_Close_stale_issues_and_PRs
-  job_5_stale["stale"]:::atlasJob
-  wf_5_Close_stale_issues_and_PRs --> job_5_stale
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Integration_tests["Integration tests (1 jobs)"]
+      direction TB
+      wf_1_Integration_tests(["Trigger: Integration tests"]):::atlasWorkflow
+      job_1_integration["integration"]:::atlasJob
+      wf_1_Integration_tests --> job_1_integration
+    end
+    pipeline_root --> wf_1_Integration_tests
+    subgraph sg_wf_2_Compatibility_check["Compatibility check (1 jobs)"]
+      direction TB
+      wf_2_Compatibility_check(["Trigger: Compatibility check"]):::atlasWorkflow
+      job_2_compatibilitycheck["compatibilitycheck"]:::atlasJob
+      wf_2_Compatibility_check --> job_2_compatibilitycheck
+    end
+    pipeline_root --> wf_2_Compatibility_check
+    subgraph sg_wf_3_Plugins___CD["Plugins - CD (1 jobs)"]
+      direction TB
+      wf_3_Plugins___CD(["Trigger: Plugins - CD"]):::atlasWorkflow
+      job_3_cd["cd"]:::atlasJob
+      wf_3_Plugins___CD --> job_3_cd
+    end
+    pipeline_root --> wf_3_Plugins___CD
+    subgraph sg_wf_6_Create_Plugin_Update["Create Plugin Update (1 jobs)"]
+      direction TB
+      wf_6_Create_Plugin_Update(["Trigger: Create Plugin Update"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Create_Plugin_Update --> job_6_release
+    end
+    pipeline_root --> wf_6_Create_Plugin_Update
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project["Add issues & PRs to Grafana Data Source Plugins Squad project (1 jobs)"]
+      direction TB
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project(["Trigger: Add issues & PRs to Grafana Data Source Plugins Squad project"]):::atlasWorkflow
+      job_0_add_to_project["add-to-project"]:::atlasJob
+      wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project --> job_0_add_to_project
+    end
+    pipeline_root --> wf_0_Add_issues___PRs_to_Grafana_Data_Source_Plugins_Squad_project
+    subgraph sg_wf_4_Plugins___CI["Plugins - CI (1 jobs)"]
+      direction TB
+      wf_4_Plugins___CI(["Trigger: Plugins - CI"]):::atlasWorkflow
+      job_4_ci["ci"]:::atlasJob
+      wf_4_Plugins___CI --> job_4_ci
+    end
+    pipeline_root --> wf_4_Plugins___CI
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_5_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Close_stale_issues_and_PRs --> job_5_stale
+    end
+    pipeline_root --> wf_5_Close_stale_issues_and_PRs
+  end
 ```

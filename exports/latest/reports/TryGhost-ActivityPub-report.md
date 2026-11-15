@@ -308,56 +308,83 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["TryGhost/ActivityPub (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Build["Build (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Build
-  job_0_lint["lint"]:::atlasJob
-  job_0_check_lockfile["check-lockfile"]:::atlasJob
-  job_0_check_node_version["check-node-version"]:::atlasJob
-  wf_0_Build --> job_0_lint
-  wf_0_Build --> job_0_check_lockfile
-  wf_0_Build --> job_0_check_node_version
-  wf_5_Push["Push (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Push
-  job_5_push_main_images["push-main-images"]:::atlasJob
-  wf_5_Push --> job_5_push_main_images
-  wf_7_Test["Test (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Test
-  job_7_vitest["vitest"]:::atlasJob
-  job_7_e2e["e2e"]:::atlasJob
-  wf_7_Test --> job_7_vitest
-  wf_7_Test --> job_7_e2e
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Deploy_PR["Deploy PR (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Deploy_PR
-  job_2_deploy_pr["deploy-pr"]:::atlasJob
-  wf_2_Deploy_PR --> job_2_deploy_pr
-  wf_3_Deploy["Deploy (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Deploy
-  job_3_deploy_staging_migrations["deploy-staging-migrations"]:::atlasJob
-  job_3_deploy_staging_services["deploy-staging-services"]:::atlasJob
-  job_3_deploy_production_migrations["deploy-production-migrations"]:::atlasJob
-  wf_3_Deploy --> job_3_deploy_staging_migrations
-  job_3_deploy_staging_migrations --> job_3_deploy_staging_services
-  job_3_deploy_staging_services --> job_3_deploy_production_migrations
-  wf_4_Ephemeral_Staging_Tear_Down["Ephemeral Staging Tear Down (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Ephemeral_Staging_Tear_Down
-  job_4_destroy_pr["destroy-pr"]:::atlasJob
-  wf_4_Ephemeral_Staging_Tear_Down --> job_4_destroy_pr
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_1_CICD["CICD (6 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_1_CICD
-  job_1_build["build"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  job_1_push["push"]:::atlasJob
-  wf_1_CICD --> job_1_build
-  job_1_build --> job_1_test
-  job_1_build --> job_1_push
-  wf_6_Renovate["Renovate (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_6_Renovate
-  job_6_renovate["renovate"]:::atlasJob
-  wf_6_Renovate --> job_6_renovate
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (5 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      job_0_check_lockfile["check-lockfile"]:::atlasJob
+      job_0_check_node_version["check-node-version"]:::atlasJob
+      wf_0_Build --> job_0_lint
+      wf_0_Build --> job_0_check_lockfile
+      wf_0_Build --> job_0_check_node_version
+    end
+    pipeline_root --> wf_0_Build
+    subgraph sg_wf_5_Push["Push (1 jobs)"]
+      direction TB
+      wf_5_Push(["Trigger: Push"]):::atlasWorkflow
+      job_5_push_main_images["push-main-images"]:::atlasJob
+      wf_5_Push --> job_5_push_main_images
+    end
+    pipeline_root --> wf_5_Push
+    subgraph sg_wf_7_Test["Test (2 jobs)"]
+      direction TB
+      wf_7_Test(["Trigger: Test"]):::atlasWorkflow
+      job_7_vitest["vitest"]:::atlasJob
+      job_7_e2e["e2e"]:::atlasJob
+      wf_7_Test --> job_7_vitest
+      wf_7_Test --> job_7_e2e
+    end
+    pipeline_root --> wf_7_Test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Deploy_PR["Deploy PR (1 jobs)"]
+      direction TB
+      wf_2_Deploy_PR(["Trigger: Deploy PR"]):::atlasWorkflow
+      job_2_deploy_pr["deploy-pr"]:::atlasJob
+      wf_2_Deploy_PR --> job_2_deploy_pr
+    end
+    pipeline_root --> wf_2_Deploy_PR
+    subgraph sg_wf_3_Deploy["Deploy (4 jobs)"]
+      direction TB
+      wf_3_Deploy(["Trigger: Deploy"]):::atlasWorkflow
+      job_3_deploy_staging_migrations["deploy-staging-migrations"]:::atlasJob
+      job_3_deploy_staging_services["deploy-staging-services"]:::atlasJob
+      job_3_deploy_production_migrations["deploy-production-migrations"]:::atlasJob
+      wf_3_Deploy --> job_3_deploy_staging_migrations
+      job_3_deploy_staging_migrations --> job_3_deploy_staging_services
+      job_3_deploy_staging_services --> job_3_deploy_production_migrations
+    end
+    pipeline_root --> wf_3_Deploy
+    subgraph sg_wf_4_Ephemeral_Staging_Tear_Down["Ephemeral Staging Tear Down (1 jobs)"]
+      direction TB
+      wf_4_Ephemeral_Staging_Tear_Down(["Trigger: Ephemeral Staging Tear Down"]):::atlasWorkflow
+      job_4_destroy_pr["destroy-pr"]:::atlasJob
+      wf_4_Ephemeral_Staging_Tear_Down --> job_4_destroy_pr
+    end
+    pipeline_root --> wf_4_Ephemeral_Staging_Tear_Down
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CICD["CICD (6 jobs)"]
+      direction TB
+      wf_1_CICD(["Trigger: CICD"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      job_1_push["push"]:::atlasJob
+      wf_1_CICD --> job_1_build
+      job_1_build --> job_1_test
+      job_1_build --> job_1_push
+    end
+    pipeline_root --> wf_1_CICD
+    subgraph sg_wf_6_Renovate["Renovate (1 jobs)"]
+      direction TB
+      wf_6_Renovate(["Trigger: Renovate"]):::atlasWorkflow
+      job_6_renovate["renovate"]:::atlasJob
+      wf_6_Renovate --> job_6_renovate
+    end
+    pipeline_root --> wf_6_Renovate
+  end
 ```

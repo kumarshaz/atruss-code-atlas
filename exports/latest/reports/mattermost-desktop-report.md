@@ -270,69 +270,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/desktop (26 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 45 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_4_Compatibility_Matrix_Testing["Compatibility Matrix Testing (11 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Compatibility_Matrix_Testing
-  job_4_upload_cmt_server_detals["upload-cmt-server-detals"]:::atlasJob
-  job_4_calculate_commit_hash["calculate-commit-hash"]:::atlasJob
-  job_4_update_initial_status["update-initial-status"]:::atlasJob
-  wf_4_Compatibility_Matrix_Testing --> job_4_upload_cmt_server_detals
-  wf_4_Compatibility_Matrix_Testing --> job_4_calculate_commit_hash
-  job_4_calculate_commit_hash --> job_4_update_initial_status
-  wf_8_Electron_Playwright_Tests["Electron Playwright Tests (17 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_8_Electron_Playwright_Tests
-  job_8_prepare_matrix["prepare-matrix"]:::atlasJob
-  job_8_update_initial_status["update-initial-status"]:::atlasJob
-  job_8_e2e_linux_install["e2e-linux-install"]:::atlasJob
-  wf_8_Electron_Playwright_Tests --> job_8_prepare_matrix
-  job_8_prepare_matrix --> job_8_update_initial_status
-  job_8_prepare_matrix --> job_8_e2e_linux_install
-  job_8_update_initial_status --> job_8_e2e_linux_install
-  grp_1_CI___Verification["CI & Verification (7 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_build_for_pr["build-for-pr (4 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_build_for_pr
-  job_0_build_linux_for_pr["build-linux-for-pr"]:::atlasJob
-  job_0_windows_install_deps["windows-install-deps"]:::atlasJob
-  job_0_build_win_for_pr["build-win-for-pr"]:::atlasJob
-  wf_0_build_for_pr --> job_0_build_linux_for_pr
-  wf_0_build_for_pr --> job_0_windows_install_deps
-  job_0_windows_install_deps --> job_0_build_win_for_pr
-  wf_1_ci["ci (5 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_ci
-  job_1_build_linux["build-linux"]:::atlasJob
-  job_1_windows_install_deps["windows-install-deps"]:::atlasJob
-  job_1_build_win_no_installer["build-win-no-installer"]:::atlasJob
-  wf_1_ci --> job_1_build_linux
-  wf_1_ci --> job_1_windows_install_deps
-  job_1_windows_install_deps --> job_1_build_win_no_installer
-  grp_2_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_21_release["release (7 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_21_release
-  job_21_begin_notification["begin-notification"]:::atlasJob
-  job_21_build_linux["build-linux"]:::atlasJob
-  job_21_build_msi_installer["build-msi-installer"]:::atlasJob
-  wf_21_release --> job_21_begin_notification
-  job_21_begin_notification --> job_21_build_linux
-  job_21_begin_notification --> job_21_build_msi_installer
-  wf_22_Run_Release_Script["Run Release Script (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_22_Run_Release_Script
-  job_22_run_release["run-release"]:::atlasJob
-  wf_22_Run_Release_Script --> job_22_run_release
-  grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_10_E2E_Label_Cleanup["E2E Label Cleanup (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_10_E2E_Label_Cleanup
-  wf_12_E2E_post_OS_commit_status["E2E post OS commit status (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_12_E2E_post_OS_commit_status
-  grp_4_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_3_CodeQL
-  wf_23_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_23_Scorecards_supply_chain_security
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 45 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Compatibility_Matrix_Testing["Compatibility Matrix Testing (11 jobs)"]
+      direction TB
+      wf_4_Compatibility_Matrix_Testing(["Trigger: Compatibility Matrix Testing"]):::atlasWorkflow
+      job_4_upload_cmt_server_detals["upload-cmt-server-detals"]:::atlasJob
+      job_4_calculate_commit_hash["calculate-commit-hash"]:::atlasJob
+      job_4_update_initial_status["update-initial-status"]:::atlasJob
+      wf_4_Compatibility_Matrix_Testing --> job_4_upload_cmt_server_detals
+      wf_4_Compatibility_Matrix_Testing --> job_4_calculate_commit_hash
+      job_4_calculate_commit_hash --> job_4_update_initial_status
+    end
+    pipeline_root --> wf_4_Compatibility_Matrix_Testing
+    subgraph sg_wf_8_Electron_Playwright_Tests["Electron Playwright Tests (17 jobs)"]
+      direction TB
+      wf_8_Electron_Playwright_Tests(["Trigger: Electron Playwright Tests"]):::atlasWorkflow
+      job_8_prepare_matrix["prepare-matrix"]:::atlasJob
+      job_8_update_initial_status["update-initial-status"]:::atlasJob
+      job_8_e2e_linux_install["e2e-linux-install"]:::atlasJob
+      wf_8_Electron_Playwright_Tests --> job_8_prepare_matrix
+      job_8_prepare_matrix --> job_8_update_initial_status
+      job_8_prepare_matrix --> job_8_e2e_linux_install
+      job_8_update_initial_status --> job_8_e2e_linux_install
+    end
+    pipeline_root --> wf_8_Electron_Playwright_Tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (7 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_build_for_pr["build-for-pr (4 jobs)"]
+      direction TB
+      wf_0_build_for_pr(["Trigger: build-for-pr"]):::atlasWorkflow
+      job_0_build_linux_for_pr["build-linux-for-pr"]:::atlasJob
+      job_0_windows_install_deps["windows-install-deps"]:::atlasJob
+      job_0_build_win_for_pr["build-win-for-pr"]:::atlasJob
+      wf_0_build_for_pr --> job_0_build_linux_for_pr
+      wf_0_build_for_pr --> job_0_windows_install_deps
+      job_0_windows_install_deps --> job_0_build_win_for_pr
+    end
+    pipeline_root --> wf_0_build_for_pr
+    subgraph sg_wf_1_ci["ci (5 jobs)"]
+      direction TB
+      wf_1_ci(["Trigger: ci"]):::atlasWorkflow
+      job_1_build_linux["build-linux"]:::atlasJob
+      job_1_windows_install_deps["windows-install-deps"]:::atlasJob
+      job_1_build_win_no_installer["build-win-no-installer"]:::atlasJob
+      wf_1_ci --> job_1_build_linux
+      wf_1_ci --> job_1_windows_install_deps
+      job_1_windows_install_deps --> job_1_build_win_no_installer
+    end
+    pipeline_root --> wf_1_ci
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_21_release["release (7 jobs)"]
+      direction TB
+      wf_21_release(["Trigger: release"]):::atlasWorkflow
+      job_21_begin_notification["begin-notification"]:::atlasJob
+      job_21_build_linux["build-linux"]:::atlasJob
+      job_21_build_msi_installer["build-msi-installer"]:::atlasJob
+      wf_21_release --> job_21_begin_notification
+      job_21_begin_notification --> job_21_build_linux
+      job_21_begin_notification --> job_21_build_msi_installer
+    end
+    pipeline_root --> wf_21_release
+    subgraph sg_wf_22_Run_Release_Script["Run Release Script (1 jobs)"]
+      direction TB
+      wf_22_Run_Release_Script(["Trigger: Run Release Script"]):::atlasWorkflow
+      job_22_run_release["run-release"]:::atlasJob
+      wf_22_Run_Release_Script --> job_22_run_release
+    end
+    pipeline_root --> wf_22_Run_Release_Script
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]
+    direction TB
+    wf_10_E2E_Label_Cleanup["E2E Label Cleanup (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_E2E_Label_Cleanup
+    wf_12_E2E_post_OS_commit_status["E2E post OS commit status (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_12_E2E_post_OS_commit_status
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_CodeQL
+    wf_23_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_23_Scorecards_supply_chain_security
+  end
   wf_more["+16 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

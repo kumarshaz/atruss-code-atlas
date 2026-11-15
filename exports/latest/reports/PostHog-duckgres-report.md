@@ -401,67 +401,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/duckgres (13 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (8 workflows · 26 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_CI["CI (9 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_CI
-  job_1_lint["lint"]:::atlasJob
-  job_1_controlplane_no_libduckdb["controlplane-no-libduckdb"]:::atlasJob
-  job_1_unit_tests["unit-tests"]:::atlasJob
-  wf_1_CI --> job_1_lint
-  wf_1_CI --> job_1_controlplane_no_libduckdb
-  wf_1_CI --> job_1_unit_tests
-  wf_4_Container_Image_CD["Container Image CD (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Container_Image_CD
-  job_4_build["build"]:::atlasJob
-  job_4_manifest["manifest"]:::atlasJob
-  wf_4_Container_Image_CD --> job_4_build
-  job_4_build --> job_4_manifest
-  wf_6_Container_Image_Worker_CD__per_DuckDB_version_["Container Image Worker CD (per DuckDB version) (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Container_Image_Worker_CD__per_DuckDB_version_
-  job_6_validate_matrix["validate-matrix"]:::atlasJob
-  job_6_build["build"]:::atlasJob
-  job_6_manifest["manifest"]:::atlasJob
-  wf_6_Container_Image_Worker_CD__per_DuckDB_version_ --> job_6_validate_matrix
-  job_6_validate_matrix --> job_6_build
-  job_6_build --> job_6_manifest
-  wf_7_e2e_mw_dev["e2e-mw-dev (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_7_e2e_mw_dev
-  job_7_build["build"]:::atlasJob
-  job_7_e2e_lanes["e2e_lanes"]:::atlasJob
-  job_7_e2e["e2e"]:::atlasJob
-  wf_7_e2e_mw_dev --> job_7_build
-  job_7_build --> job_7_e2e_lanes
-  job_7_e2e_lanes --> job_7_e2e
-  wf_10_scenario_dev["scenario-dev (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_10_scenario_dev
-  job_10_scenario_runner_image["scenario-runner-image"]:::atlasJob
-  job_10_duckgres_image["duckgres-image"]:::atlasJob
-  job_10_scenario["scenario"]:::atlasJob
-  wf_10_scenario_dev --> job_10_scenario_runner_image
-  wf_10_scenario_dev --> job_10_duckgres_image
-  job_10_scenario_runner_image --> job_10_scenario
-  job_10_duckgres_image --> job_10_scenario
-  grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0__image_build["_image-build (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0__image_build
-  job_0_build["build"]:::atlasJob
-  wf_0__image_build --> job_0_build
-  wf_11_test_impact_plan_comment["test-impact-plan-comment (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_11_test_impact_plan_comment
-  job_11_comment["comment"]:::atlasJob
-  wf_11_test_impact_plan_comment --> job_11_comment
-  wf_12_test_impact_plan["test-impact-plan (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_12_test_impact_plan
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_8_Release_Build["Release Build (2 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_Release_Build
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_2_CodeQL_Advanced
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (8 workflows · 26 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (9 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      job_1_controlplane_no_libduckdb["controlplane-no-libduckdb"]:::atlasJob
+      job_1_unit_tests["unit-tests"]:::atlasJob
+      wf_1_CI --> job_1_lint
+      wf_1_CI --> job_1_controlplane_no_libduckdb
+      wf_1_CI --> job_1_unit_tests
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_4_Container_Image_CD["Container Image CD (2 jobs)"]
+      direction TB
+      wf_4_Container_Image_CD(["Trigger: Container Image CD"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      job_4_manifest["manifest"]:::atlasJob
+      wf_4_Container_Image_CD --> job_4_build
+      job_4_build --> job_4_manifest
+    end
+    pipeline_root --> wf_4_Container_Image_CD
+    subgraph sg_wf_6_Container_Image_Worker_CD__per_DuckDB_version_["Container Image Worker CD (per DuckDB version) (3 jobs)"]
+      direction TB
+      wf_6_Container_Image_Worker_CD__per_DuckDB_version_(["Trigger: Container Image Worker CD (per DuckDB version)"]):::atlasWorkflow
+      job_6_validate_matrix["validate-matrix"]:::atlasJob
+      job_6_build["build"]:::atlasJob
+      job_6_manifest["manifest"]:::atlasJob
+      wf_6_Container_Image_Worker_CD__per_DuckDB_version_ --> job_6_validate_matrix
+      job_6_validate_matrix --> job_6_build
+      job_6_build --> job_6_manifest
+    end
+    pipeline_root --> wf_6_Container_Image_Worker_CD__per_DuckDB_version_
+    subgraph sg_wf_7_e2e_mw_dev["e2e-mw-dev (5 jobs)"]
+      direction TB
+      wf_7_e2e_mw_dev(["Trigger: e2e-mw-dev"]):::atlasWorkflow
+      job_7_build["build"]:::atlasJob
+      job_7_e2e_lanes["e2e_lanes"]:::atlasJob
+      job_7_e2e["e2e"]:::atlasJob
+      wf_7_e2e_mw_dev --> job_7_build
+      job_7_build --> job_7_e2e_lanes
+      job_7_e2e_lanes --> job_7_e2e
+    end
+    pipeline_root --> wf_7_e2e_mw_dev
+    subgraph sg_wf_10_scenario_dev["scenario-dev (3 jobs)"]
+      direction TB
+      wf_10_scenario_dev(["Trigger: scenario-dev"]):::atlasWorkflow
+      job_10_scenario_runner_image["scenario-runner-image"]:::atlasJob
+      job_10_duckgres_image["duckgres-image"]:::atlasJob
+      job_10_scenario["scenario"]:::atlasJob
+      wf_10_scenario_dev --> job_10_scenario_runner_image
+      wf_10_scenario_dev --> job_10_duckgres_image
+      job_10_scenario_runner_image --> job_10_scenario
+      job_10_duckgres_image --> job_10_scenario
+    end
+    pipeline_root --> wf_10_scenario_dev
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0__image_build["_image-build (1 jobs)"]
+      direction TB
+      wf_0__image_build(["Trigger: _image-build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0__image_build --> job_0_build
+    end
+    pipeline_root --> wf_0__image_build
+    subgraph sg_wf_11_test_impact_plan_comment["test-impact-plan-comment (1 jobs)"]
+      direction TB
+      wf_11_test_impact_plan_comment(["Trigger: test-impact-plan-comment"]):::atlasWorkflow
+      job_11_comment["comment"]:::atlasJob
+      wf_11_test_impact_plan_comment --> job_11_comment
+    end
+    pipeline_root --> wf_11_test_impact_plan_comment
+    wf_12_test_impact_plan["test-impact-plan (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_12_test_impact_plan
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    wf_8_Release_Build["Release Build (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_Release_Build
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_CodeQL_Advanced
+  end
   wf_more["+3 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

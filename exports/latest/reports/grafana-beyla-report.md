@@ -476,66 +476,87 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/beyla (31 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (13 workflows · 31 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Fix_OBI_submodule_CI["Fix OBI submodule CI (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Fix_OBI_submodule_CI
-  job_0_wait_for_ci["wait-for-ci"]:::atlasJob
-  job_0_triage["triage"]:::atlasJob
-  job_0_plan["plan"]:::atlasJob
-  wf_0_Fix_OBI_submodule_CI --> job_0_wait_for_ci
-  job_0_wait_for_ci --> job_0_triage
-  job_0_triage --> job_0_plan
-  wf_14_Pull_request_checks["Pull request checks (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_14_Pull_request_checks
-  job_14_generate["generate"]:::atlasJob
-  job_14_lint["lint"]:::atlasJob
-  job_14_lint_dashboard["lint-dashboard"]:::atlasJob
-  wf_14_Pull_request_checks --> job_14_generate
-  job_14_generate --> job_14_lint
-  wf_14_Pull_request_checks --> job_14_lint_dashboard
-  wf_21_PR_OATS_test["PR OATS test (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_21_PR_OATS_test
-  job_21_test_matrix["test-matrix"]:::atlasJob
-  job_21_finalizer_unit_tests["finalizer-unit-tests"]:::atlasJob
-  job_21_test["test"]:::atlasJob
-  wf_21_PR_OATS_test --> job_21_test_matrix
-  wf_21_PR_OATS_test --> job_21_finalizer_unit_tests
-  job_21_test_matrix --> job_21_test
-  wf_28_CI_Supervisor__Rerun_flaky_failures["CI Supervisor: Rerun flaky failures (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_28_CI_Supervisor__Rerun_flaky_failures
-  job_28_evaluate_and_rerun["evaluate-and-rerun"]:::atlasJob
-  job_28_add_agent_label["add-agent-label"]:::atlasJob
-  job_28_handle_ci_completion["handle-ci-completion"]:::atlasJob
-  wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_evaluate_and_rerun
-  job_28_evaluate_and_rerun --> job_28_add_agent_label
-  job_28_handle_ci_completion --> job_28_add_agent_label
-  wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_handle_ci_completion
-  grp_1_Release___Deploy["Release & Deploy (12 workflows · 24 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_9_Promote_patch_to_stable_release["Promote patch to stable release (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_9_Promote_patch_to_stable_release
-  job_9_validate["validate"]:::atlasJob
-  job_9_promote["promote"]:::atlasJob
-  job_9_bump_helm_chart["bump-helm-chart"]:::atlasJob
-  wf_9_Promote_patch_to_stable_release --> job_9_validate
-  job_9_validate --> job_9_promote
-  job_9_validate --> job_9_bump_helm_chart
-  job_9_promote --> job_9_bump_helm_chart
-  wf_13_Publish_inject_sdk_image["Publish inject-sdk-image (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_Publish_inject_sdk_image
-  job_13_resolve_version["resolve-version"]:::atlasJob
-  wf_13_Publish_inject_sdk_image --> job_13_resolve_version
-  wf_24_Release_binaries["Release binaries (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_24_Release_binaries
-  grp_2_Scheduled___Manual["Scheduled & Manual (6 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_3_Build_alloy_beyla_image["Build alloy-beyla image (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_3_Build_alloy_beyla_image
-  wf_6_Bump_Helm_chart_version["Bump Helm chart version (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_6_Bump_Helm_chart_version
-  wf_8_Helm_Test["Helm Test (4 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_8_Helm_Test
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 31 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Fix_OBI_submodule_CI["Fix OBI submodule CI (5 jobs)"]
+      direction TB
+      wf_0_Fix_OBI_submodule_CI(["Trigger: Fix OBI submodule CI"]):::atlasWorkflow
+      job_0_wait_for_ci["wait-for-ci"]:::atlasJob
+      job_0_triage["triage"]:::atlasJob
+      job_0_plan["plan"]:::atlasJob
+      wf_0_Fix_OBI_submodule_CI --> job_0_wait_for_ci
+      job_0_wait_for_ci --> job_0_triage
+      job_0_triage --> job_0_plan
+    end
+    pipeline_root --> wf_0_Fix_OBI_submodule_CI
+    subgraph sg_wf_14_Pull_request_checks["Pull request checks (4 jobs)"]
+      direction TB
+      wf_14_Pull_request_checks(["Trigger: Pull request checks"]):::atlasWorkflow
+      job_14_generate["generate"]:::atlasJob
+      job_14_lint["lint"]:::atlasJob
+      job_14_lint_dashboard["lint-dashboard"]:::atlasJob
+      wf_14_Pull_request_checks --> job_14_generate
+      job_14_generate --> job_14_lint
+      wf_14_Pull_request_checks --> job_14_lint_dashboard
+    end
+    pipeline_root --> wf_14_Pull_request_checks
+    subgraph sg_wf_21_PR_OATS_test["PR OATS test (3 jobs)"]
+      direction TB
+      wf_21_PR_OATS_test(["Trigger: PR OATS test"]):::atlasWorkflow
+      job_21_test_matrix["test-matrix"]:::atlasJob
+      job_21_finalizer_unit_tests["finalizer-unit-tests"]:::atlasJob
+      job_21_test["test"]:::atlasJob
+      wf_21_PR_OATS_test --> job_21_test_matrix
+      wf_21_PR_OATS_test --> job_21_finalizer_unit_tests
+      job_21_test_matrix --> job_21_test
+    end
+    pipeline_root --> wf_21_PR_OATS_test
+    subgraph sg_wf_28_CI_Supervisor__Rerun_flaky_failures["CI Supervisor: Rerun flaky failures (3 jobs)"]
+      direction TB
+      wf_28_CI_Supervisor__Rerun_flaky_failures(["Trigger: CI Supervisor: Rerun flaky failures"]):::atlasWorkflow
+      job_28_evaluate_and_rerun["evaluate-and-rerun"]:::atlasJob
+      job_28_add_agent_label["add-agent-label"]:::atlasJob
+      job_28_handle_ci_completion["handle-ci-completion"]:::atlasJob
+      wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_evaluate_and_rerun
+      job_28_evaluate_and_rerun --> job_28_add_agent_label
+      job_28_handle_ci_completion --> job_28_add_agent_label
+      wf_28_CI_Supervisor__Rerun_flaky_failures --> job_28_handle_ci_completion
+    end
+    pipeline_root --> wf_28_CI_Supervisor__Rerun_flaky_failures
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (12 workflows · 24 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Promote_patch_to_stable_release["Promote patch to stable release (5 jobs)"]
+      direction TB
+      wf_9_Promote_patch_to_stable_release(["Trigger: Promote patch to stable release"]):::atlasWorkflow
+      job_9_validate["validate"]:::atlasJob
+      job_9_promote["promote"]:::atlasJob
+      job_9_bump_helm_chart["bump-helm-chart"]:::atlasJob
+      wf_9_Promote_patch_to_stable_release --> job_9_validate
+      job_9_validate --> job_9_promote
+      job_9_validate --> job_9_bump_helm_chart
+      job_9_promote --> job_9_bump_helm_chart
+    end
+    pipeline_root --> wf_9_Promote_patch_to_stable_release
+    subgraph sg_wf_13_Publish_inject_sdk_image["Publish inject-sdk-image (3 jobs)"]
+      direction TB
+      wf_13_Publish_inject_sdk_image(["Trigger: Publish inject-sdk-image"]):::atlasWorkflow
+      job_13_resolve_version["resolve-version"]:::atlasJob
+      wf_13_Publish_inject_sdk_image --> job_13_resolve_version
+    end
+    pipeline_root --> wf_13_Publish_inject_sdk_image
+    wf_24_Release_binaries["Release binaries (5 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_24_Release_binaries
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (6 workflows · 10 jobs)"]
+    direction TB
+    wf_3_Build_alloy_beyla_image["Build alloy-beyla image (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_Build_alloy_beyla_image
+    wf_6_Bump_Helm_chart_version["Bump Helm chart version (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_Bump_Helm_chart_version
+    wf_8_Helm_Test["Helm Test (4 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_Helm_Test
+  end
   wf_more["+21 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

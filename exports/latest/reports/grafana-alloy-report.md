@@ -570,68 +570,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/alloy (61 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (27 workflows · 51 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_5_Build["Build (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Build
-  job_5_build_linux["build_linux"]:::atlasJob
-  job_5_build_linux_boringcrypto["build_linux_boringcrypto"]:::atlasJob
-  job_5_build_mac["build_mac"]:::atlasJob
-  wf_5_Build --> job_5_build_linux
-  wf_5_Build --> job_5_build_linux_boringcrypto
-  wf_5_Build --> job_5_build_mac
-  wf_13_Check_Linux_container["Check Linux container (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_Check_Linux_container
-  job_13_check_linux_container["check-linux-container"]:::atlasJob
-  job_13_check_linux_boringcrypto_container["check-linux-boringcrypto-container"]:::atlasJob
-  job_13_check_linux_distroless_container["check-linux-distroless-container"]:::atlasJob
-  wf_13_Check_Linux_container --> job_13_check_linux_container
-  wf_13_Check_Linux_container --> job_13_check_linux_boringcrypto_container
-  wf_13_Check_Linux_container --> job_13_check_linux_distroless_container
-  wf_52_Runtime_tests["Runtime tests (7 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_52_Runtime_tests
-  job_52_detect_chart_changes["detect_chart_changes"]:::atlasJob
-  job_52_build_standard["build_standard"]:::atlasJob
-  job_52_build_distroless["build_distroless"]:::atlasJob
-  wf_52_Runtime_tests --> job_52_detect_chart_changes
-  job_52_detect_chart_changes --> job_52_build_standard
-  wf_52_Runtime_tests --> job_52_build_distroless
-  grp_1_Release___Deploy["Release & Deploy (22 workflows · 43 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_34_Publish_alloy_devel_containers["Publish alloy-devel containers (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_34_Publish_alloy_devel_containers
-  job_34_publish_linux_container["publish_linux_container"]:::atlasJob
-  job_34_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
-  job_34_publish_linux_distroless_container["publish_linux_distroless_container"]:::atlasJob
-  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_container
-  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_boringcrypto_container
-  wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_distroless_container
-  wf_48_Publish_Alloy_release_artifacts["Publish Alloy release artifacts (11 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_48_Publish_Alloy_release_artifacts
-  job_48_validate["validate"]:::atlasJob
-  job_48_publish_linux_container["publish_linux_container"]:::atlasJob
-  job_48_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
-  wf_48_Publish_Alloy_release_artifacts --> job_48_validate
-  job_48_validate --> job_48_publish_linux_container
-  job_48_validate --> job_48_publish_linux_boringcrypto_container
-  grp_2_Scheduled___Manual["Scheduled & Manual (8 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_18_Check_Dependencies["Check Dependencies (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_18_Check_Dependencies
-  job_18_check["check"]:::atlasJob
-  wf_18_Check_Dependencies --> job_18_check
-  wf_32_Check_whether_issues_or_PRs_need_attention["Check whether issues or PRs need attention (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_32_Check_whether_issues_or_PRs_need_attention
-  grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_2_Apply_labels_on_a_new_issue["Apply labels on a new issue (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_2_Apply_labels_on_a_new_issue
-  wf_25_Install_Helm_chart["Install Helm chart (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_25_Install_Helm_chart
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_3_Lock_closed_issues_and_PRs["Lock closed issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_3_Lock_closed_issues_and_PRs
+  subgraph sg_grp_0_CI___Verification["CI & Verification (27 workflows · 51 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Build["Build (5 jobs)"]
+      direction TB
+      wf_5_Build(["Trigger: Build"]):::atlasWorkflow
+      job_5_build_linux["build_linux"]:::atlasJob
+      job_5_build_linux_boringcrypto["build_linux_boringcrypto"]:::atlasJob
+      job_5_build_mac["build_mac"]:::atlasJob
+      wf_5_Build --> job_5_build_linux
+      wf_5_Build --> job_5_build_linux_boringcrypto
+      wf_5_Build --> job_5_build_mac
+    end
+    pipeline_root --> wf_5_Build
+    subgraph sg_wf_13_Check_Linux_container["Check Linux container (4 jobs)"]
+      direction TB
+      wf_13_Check_Linux_container(["Trigger: Check Linux container"]):::atlasWorkflow
+      job_13_check_linux_container["check-linux-container"]:::atlasJob
+      job_13_check_linux_boringcrypto_container["check-linux-boringcrypto-container"]:::atlasJob
+      job_13_check_linux_distroless_container["check-linux-distroless-container"]:::atlasJob
+      wf_13_Check_Linux_container --> job_13_check_linux_container
+      wf_13_Check_Linux_container --> job_13_check_linux_boringcrypto_container
+      wf_13_Check_Linux_container --> job_13_check_linux_distroless_container
+    end
+    pipeline_root --> wf_13_Check_Linux_container
+    subgraph sg_wf_52_Runtime_tests["Runtime tests (7 jobs)"]
+      direction TB
+      wf_52_Runtime_tests(["Trigger: Runtime tests"]):::atlasWorkflow
+      job_52_detect_chart_changes["detect_chart_changes"]:::atlasJob
+      job_52_build_standard["build_standard"]:::atlasJob
+      job_52_build_distroless["build_distroless"]:::atlasJob
+      wf_52_Runtime_tests --> job_52_detect_chart_changes
+      job_52_detect_chart_changes --> job_52_build_standard
+      wf_52_Runtime_tests --> job_52_build_distroless
+    end
+    pipeline_root --> wf_52_Runtime_tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (22 workflows · 43 jobs)"]
+    direction TB
+    subgraph sg_wf_34_Publish_alloy_devel_containers["Publish alloy-devel containers (6 jobs)"]
+      direction TB
+      wf_34_Publish_alloy_devel_containers(["Trigger: Publish alloy-devel containers"]):::atlasWorkflow
+      job_34_publish_linux_container["publish_linux_container"]:::atlasJob
+      job_34_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
+      job_34_publish_linux_distroless_container["publish_linux_distroless_container"]:::atlasJob
+      wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_container
+      wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_boringcrypto_container
+      wf_34_Publish_alloy_devel_containers --> job_34_publish_linux_distroless_container
+    end
+    pipeline_root --> wf_34_Publish_alloy_devel_containers
+    subgraph sg_wf_48_Publish_Alloy_release_artifacts["Publish Alloy release artifacts (11 jobs)"]
+      direction TB
+      wf_48_Publish_Alloy_release_artifacts(["Trigger: Publish Alloy release artifacts"]):::atlasWorkflow
+      job_48_validate["validate"]:::atlasJob
+      job_48_publish_linux_container["publish_linux_container"]:::atlasJob
+      job_48_publish_linux_boringcrypto_container["publish_linux_boringcrypto_container"]:::atlasJob
+      wf_48_Publish_Alloy_release_artifacts --> job_48_validate
+      job_48_validate --> job_48_publish_linux_container
+      job_48_validate --> job_48_publish_linux_boringcrypto_container
+    end
+    pipeline_root --> wf_48_Publish_Alloy_release_artifacts
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (8 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_18_Check_Dependencies["Check Dependencies (1 jobs)"]
+      direction TB
+      wf_18_Check_Dependencies(["Trigger: Check Dependencies"]):::atlasWorkflow
+      job_18_check["check"]:::atlasJob
+      wf_18_Check_Dependencies --> job_18_check
+    end
+    pipeline_root --> wf_18_Check_Dependencies
+    wf_32_Check_whether_issues_or_PRs_need_attention["Check whether issues or PRs need attention (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_32_Check_whether_issues_or_PRs_need_attention
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (3 workflows · 3 jobs)"]
+    direction TB
+    wf_2_Apply_labels_on_a_new_issue["Apply labels on a new issue (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Apply_labels_on_a_new_issue
+    wf_25_Install_Helm_chart["Install Helm chart (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_25_Install_Helm_chart
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_3_Lock_closed_issues_and_PRs["Lock closed issues and PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_Lock_closed_issues_and_PRs
+  end
   wf_more["+51 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

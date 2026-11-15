@@ -293,38 +293,58 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["keycloak/keycloak-quickstarts (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Keycloak_Integration_CI["Keycloak Integration CI (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Keycloak_Integration_CI
-  job_0_call_ci_workflow["call-ci-workflow"]:::atlasJob
-  wf_0_Keycloak_Integration_CI --> job_0_call_ci_workflow
-  wf_1_Keycloak_Integration_CI_Nightly["Keycloak Integration CI Nightly (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Keycloak_Integration_CI_Nightly
-  job_1_call_ci_workflow["call-ci-workflow"]:::atlasJob
-  wf_1_Keycloak_Integration_CI_Nightly --> job_1_call_ci_workflow
-  wf_2_Scheduled_workflows["Scheduled workflows (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Scheduled_workflows
-  job_2_run_ci["run-ci"]:::atlasJob
-  job_2_run_nightly_ci["run-nightly-ci"]:::atlasJob
-  wf_2_Scheduled_workflows --> job_2_run_ci
-  wf_2_Scheduled_workflows --> job_2_run_nightly_ci
-  wf_3_Update_Keycloak_Client_Version["Update Keycloak Client Version (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Update_Keycloak_Client_Version
-  job_3_update_keycloak_version["update-keycloak-version"]:::atlasJob
-  wf_3_Update_Keycloak_Client_Version --> job_3_update_keycloak_version
-  wf_4_Update_Node_js_Adapter_Version["Update Node.js Adapter Version (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Update_Node_js_Adapter_Version
-  job_4_update_nodejs_adapter_version["update-nodejs-adapter-version"]:::atlasJob
-  wf_4_Update_Node_js_Adapter_Version --> job_4_update_nodejs_adapter_version
-  grp_1_CI___Verification["CI & Verification (1 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_5_Reusable_Keycloak_Integration_CI["Reusable Keycloak Integration CI (10 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_5_Reusable_Keycloak_Integration_CI
-  job_5_tests["tests"]:::atlasJob
-  job_5_tests_spring["tests-spring"]:::atlasJob
-  job_5_tests_nodejs["tests-nodejs"]:::atlasJob
-  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests
-  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_spring
-  wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_nodejs
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Keycloak_Integration_CI["Keycloak Integration CI (1 jobs)"]
+      direction TB
+      wf_0_Keycloak_Integration_CI(["Trigger: Keycloak Integration CI"]):::atlasWorkflow
+      job_0_call_ci_workflow["call-ci-workflow"]:::atlasJob
+      wf_0_Keycloak_Integration_CI --> job_0_call_ci_workflow
+    end
+    pipeline_root --> wf_0_Keycloak_Integration_CI
+    subgraph sg_wf_1_Keycloak_Integration_CI_Nightly["Keycloak Integration CI Nightly (1 jobs)"]
+      direction TB
+      wf_1_Keycloak_Integration_CI_Nightly(["Trigger: Keycloak Integration CI Nightly"]):::atlasWorkflow
+      job_1_call_ci_workflow["call-ci-workflow"]:::atlasJob
+      wf_1_Keycloak_Integration_CI_Nightly --> job_1_call_ci_workflow
+    end
+    pipeline_root --> wf_1_Keycloak_Integration_CI_Nightly
+    subgraph sg_wf_2_Scheduled_workflows["Scheduled workflows (2 jobs)"]
+      direction TB
+      wf_2_Scheduled_workflows(["Trigger: Scheduled workflows"]):::atlasWorkflow
+      job_2_run_ci["run-ci"]:::atlasJob
+      job_2_run_nightly_ci["run-nightly-ci"]:::atlasJob
+      wf_2_Scheduled_workflows --> job_2_run_ci
+      wf_2_Scheduled_workflows --> job_2_run_nightly_ci
+    end
+    pipeline_root --> wf_2_Scheduled_workflows
+    subgraph sg_wf_3_Update_Keycloak_Client_Version["Update Keycloak Client Version (1 jobs)"]
+      direction TB
+      wf_3_Update_Keycloak_Client_Version(["Trigger: Update Keycloak Client Version"]):::atlasWorkflow
+      job_3_update_keycloak_version["update-keycloak-version"]:::atlasJob
+      wf_3_Update_Keycloak_Client_Version --> job_3_update_keycloak_version
+    end
+    pipeline_root --> wf_3_Update_Keycloak_Client_Version
+    subgraph sg_wf_4_Update_Node_js_Adapter_Version["Update Node.js Adapter Version (1 jobs)"]
+      direction TB
+      wf_4_Update_Node_js_Adapter_Version(["Trigger: Update Node.js Adapter Version"]):::atlasWorkflow
+      job_4_update_nodejs_adapter_version["update-nodejs-adapter-version"]:::atlasJob
+      wf_4_Update_Node_js_Adapter_Version --> job_4_update_nodejs_adapter_version
+    end
+    pipeline_root --> wf_4_Update_Node_js_Adapter_Version
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Reusable_Keycloak_Integration_CI["Reusable Keycloak Integration CI (10 jobs)"]
+      direction TB
+      wf_5_Reusable_Keycloak_Integration_CI(["Trigger: Reusable Keycloak Integration CI"]):::atlasWorkflow
+      job_5_tests["tests"]:::atlasJob
+      job_5_tests_spring["tests-spring"]:::atlasJob
+      job_5_tests_nodejs["tests-nodejs"]:::atlasJob
+      wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests
+      wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_spring
+      wf_5_Reusable_Keycloak_Integration_CI --> job_5_tests_nodejs
+    end
+    pipeline_root --> wf_5_Reusable_Keycloak_Integration_CI
+  end
 ```

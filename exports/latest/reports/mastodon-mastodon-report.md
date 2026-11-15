@@ -254,66 +254,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mastodon/mastodon (22 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (13 workflows · 21 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_Build_container_image_for_PR["Build container image for PR (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Build_container_image_for_PR
-  job_2_compute_suffix["compute-suffix"]:::atlasJob
-  job_2_build_image["build-image"]:::atlasJob
-  job_2_build_image_streaming["build-image-streaming"]:::atlasJob
-  wf_2_Build_container_image_for_PR --> job_2_compute_suffix
-  job_2_compute_suffix --> job_2_build_image
-  job_2_compute_suffix --> job_2_build_image_streaming
-  wf_7_Chromatic["Chromatic (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Chromatic
-  job_7_pathcheck["pathcheck"]:::atlasJob
-  job_7_chromatic["chromatic"]:::atlasJob
-  wf_7_Chromatic --> job_7_pathcheck
-  job_7_pathcheck --> job_7_chromatic
-  wf_21_Ruby_Testing["Ruby Testing (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_21_Ruby_Testing
-  job_21_build["build"]:::atlasJob
-  job_21_test["test"]:::atlasJob
-  job_21_test_e2e["test-e2e"]:::atlasJob
-  wf_21_Ruby_Testing --> job_21_build
-  job_21_build --> job_21_test
-  job_21_build --> job_21_test_e2e
-  grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Build_nightly_container_image["Build nightly container image (3 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Build_nightly_container_image
-  job_1_compute_suffix["compute-suffix"]:::atlasJob
-  job_1_build_image["build-image"]:::atlasJob
-  job_1_build_image_streaming["build-image-streaming"]:::atlasJob
-  wf_1_Build_nightly_container_image --> job_1_compute_suffix
-  job_1_compute_suffix --> job_1_build_image
-  job_1_compute_suffix --> job_1_build_image_streaming
-  wf_9_Crowdin___Download_translations__stable_branches_["Crowdin / Download translations (stable branches) (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_9_Crowdin___Download_translations__stable_branches_
-  job_9_download_translations_stable["download-translations-stable"]:::atlasJob
-  wf_9_Crowdin___Download_translations__stable_branches_ --> job_9_download_translations_stable
-  wf_10_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_10_Crowdin___Download_translations
-  job_10_download_translations["download-translations"]:::atlasJob
-  wf_10_Crowdin___Download_translations --> job_10_download_translations
-  grp_2_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Build_security_nightly_container_image["Build security nightly container image (3 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Build_security_nightly_container_image
-  job_4_compute_suffix["compute-suffix"]:::atlasJob
-  job_4_build_image["build-image"]:::atlasJob
-  job_4_build_image_streaming["build-image-streaming"]:::atlasJob
-  wf_4_Build_security_nightly_container_image --> job_4_compute_suffix
-  job_4_compute_suffix --> job_4_build_image
-  job_4_compute_suffix --> job_4_build_image_streaming
-  wf_5_Bundler_Audit["Bundler Audit (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_5_Bundler_Audit
-  wf_8_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_8_CodeQL
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_3_Build_container_release_images["Build container release images (3 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_3_Build_container_release_images
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 21 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_container_image_for_PR["Build container image for PR (3 jobs)"]
+      direction TB
+      wf_2_Build_container_image_for_PR(["Trigger: Build container image for PR"]):::atlasWorkflow
+      job_2_compute_suffix["compute-suffix"]:::atlasJob
+      job_2_build_image["build-image"]:::atlasJob
+      job_2_build_image_streaming["build-image-streaming"]:::atlasJob
+      wf_2_Build_container_image_for_PR --> job_2_compute_suffix
+      job_2_compute_suffix --> job_2_build_image
+      job_2_compute_suffix --> job_2_build_image_streaming
+    end
+    pipeline_root --> wf_2_Build_container_image_for_PR
+    subgraph sg_wf_7_Chromatic["Chromatic (2 jobs)"]
+      direction TB
+      wf_7_Chromatic(["Trigger: Chromatic"]):::atlasWorkflow
+      job_7_pathcheck["pathcheck"]:::atlasJob
+      job_7_chromatic["chromatic"]:::atlasJob
+      wf_7_Chromatic --> job_7_pathcheck
+      job_7_pathcheck --> job_7_chromatic
+    end
+    pipeline_root --> wf_7_Chromatic
+    subgraph sg_wf_21_Ruby_Testing["Ruby Testing (4 jobs)"]
+      direction TB
+      wf_21_Ruby_Testing(["Trigger: Ruby Testing"]):::atlasWorkflow
+      job_21_build["build"]:::atlasJob
+      job_21_test["test"]:::atlasJob
+      job_21_test_e2e["test-e2e"]:::atlasJob
+      wf_21_Ruby_Testing --> job_21_build
+      job_21_build --> job_21_test
+      job_21_build --> job_21_test_e2e
+    end
+    pipeline_root --> wf_21_Ruby_Testing
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_nightly_container_image["Build nightly container image (3 jobs)"]
+      direction TB
+      wf_1_Build_nightly_container_image(["Trigger: Build nightly container image"]):::atlasWorkflow
+      job_1_compute_suffix["compute-suffix"]:::atlasJob
+      job_1_build_image["build-image"]:::atlasJob
+      job_1_build_image_streaming["build-image-streaming"]:::atlasJob
+      wf_1_Build_nightly_container_image --> job_1_compute_suffix
+      job_1_compute_suffix --> job_1_build_image
+      job_1_compute_suffix --> job_1_build_image_streaming
+    end
+    pipeline_root --> wf_1_Build_nightly_container_image
+    subgraph sg_wf_9_Crowdin___Download_translations__stable_branches_["Crowdin / Download translations (stable branches) (1 jobs)"]
+      direction TB
+      wf_9_Crowdin___Download_translations__stable_branches_(["Trigger: Crowdin / Download translations (stable branches)"]):::atlasWorkflow
+      job_9_download_translations_stable["download-translations-stable"]:::atlasJob
+      wf_9_Crowdin___Download_translations__stable_branches_ --> job_9_download_translations_stable
+    end
+    pipeline_root --> wf_9_Crowdin___Download_translations__stable_branches_
+    subgraph sg_wf_10_Crowdin___Download_translations["Crowdin / Download translations (1 jobs)"]
+      direction TB
+      wf_10_Crowdin___Download_translations(["Trigger: Crowdin / Download translations"]):::atlasWorkflow
+      job_10_download_translations["download-translations"]:::atlasJob
+      wf_10_Crowdin___Download_translations --> job_10_download_translations
+    end
+    pipeline_root --> wf_10_Crowdin___Download_translations
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Build_security_nightly_container_image["Build security nightly container image (3 jobs)"]
+      direction TB
+      wf_4_Build_security_nightly_container_image(["Trigger: Build security nightly container image"]):::atlasWorkflow
+      job_4_compute_suffix["compute-suffix"]:::atlasJob
+      job_4_build_image["build-image"]:::atlasJob
+      job_4_build_image_streaming["build-image-streaming"]:::atlasJob
+      wf_4_Build_security_nightly_container_image --> job_4_compute_suffix
+      job_4_compute_suffix --> job_4_build_image
+      job_4_compute_suffix --> job_4_build_image_streaming
+    end
+    pipeline_root --> wf_4_Build_security_nightly_container_image
+    wf_5_Bundler_Audit["Bundler Audit (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Bundler_Audit
+    wf_8_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_CodeQL
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+    direction TB
+    wf_3_Build_container_release_images["Build container release images (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_Build_container_release_images
+  end
   wf_more["+12 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

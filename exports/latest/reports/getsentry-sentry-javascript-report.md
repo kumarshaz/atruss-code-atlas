@@ -2729,67 +2729,102 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-javascript (27 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (10 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_7_Automation__Cleanup_E2E_workers["Automation: Cleanup E2E workers (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Automation__Cleanup_E2E_workers
-  job_7_cleanup["cleanup"]:::atlasJob
-  wf_7_Automation__Cleanup_E2E_workers --> job_7_cleanup
-  wf_8_Automation__Cleanup_PR_caches["Automation: Cleanup PR caches (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Automation__Cleanup_PR_caches
-  job_8_cleanup["cleanup"]:::atlasJob
-  wf_8_Automation__Cleanup_PR_caches --> job_8_cleanup
-  wf_17_Automation__Label_external_PRs["Automation: Label external PRs (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_17_Automation__Label_external_PRs
-  job_17_label_external_pr["label_external_pr"]:::atlasJob
-  wf_17_Automation__Label_external_PRs --> job_17_label_external_pr
-  grp_1_Scheduled___Manual["Scheduled & Manual (8 workflows · 39 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_4_CI__Build___Test["CI: Build & Test (30 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_4_CI__Build___Test
-  job_4_job_get_metadata["job_get_metadata"]:::atlasJob
-  job_4_job_build["job_build"]:::atlasJob
-  job_4_job_build_layer["job_build_layer"]:::atlasJob
-  wf_4_CI__Build___Test --> job_4_job_get_metadata
-  job_4_job_get_metadata --> job_4_job_build
-  job_4_job_get_metadata --> job_4_job_build_layer
-  job_4_job_build --> job_4_job_build_layer
-  wf_5_CI__Canary_Tests["CI: Canary Tests (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_CI__Canary_Tests
-  job_5_job_e2e_prepare["job_e2e_prepare"]:::atlasJob
-  job_5_job_e2e_tests["job_e2e_tests"]:::atlasJob
-  wf_5_CI__Canary_Tests --> job_5_job_e2e_prepare
-  job_5_job_e2e_prepare --> job_5_job_e2e_tests
-  grp_2_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_21_Automation__Add_size_info_to_release["Automation: Add size info to release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_21_Automation__Add_size_info_to_release
-  job_21_release_size_info["release-size-info"]:::atlasJob
-  wf_21_Automation__Add_size_info_to_release --> job_21_release_size_info
-  wf_22_Action__Prepare_Release["Action: Prepare Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_22_Action__Prepare_Release
-  job_22_release["release"]:::atlasJob
-  wf_22_Action__Prepare_Release --> job_22_release
-  grp_3_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_10_CI__CodeQL["CI: CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_10_CI__CodeQL
-  job_10_analyze["analyze"]:::atlasJob
-  wf_10_CI__CodeQL --> job_10_analyze
-  wf_11_Dependabot_auto_triage["Dependabot auto-triage (3 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_11_Dependabot_auto_triage
-  job_11_classify["classify"]:::atlasJob
-  job_11_fix_runtime["fix-runtime"]:::atlasJob
-  job_11_fix_dev["fix-dev"]:::atlasJob
-  wf_11_Dependabot_auto_triage --> job_11_classify
-  job_11_classify --> job_11_fix_runtime
-  job_11_classify --> job_11_fix_dev
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Automation___Other
-  wf_6_Get_Metadata["Get Metadata (1 jobs)"]:::atlasWorkflow
-  grp_4_Automation___Other --> wf_6_Get_Metadata
-  job_6_get_metadata["get_metadata"]:::atlasJob
-  wf_6_Get_Metadata --> job_6_get_metadata
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Automation__Cleanup_E2E_workers["Automation: Cleanup E2E workers (1 jobs)"]
+      direction TB
+      wf_7_Automation__Cleanup_E2E_workers(["Trigger: Automation: Cleanup E2E workers"]):::atlasWorkflow
+      job_7_cleanup["cleanup"]:::atlasJob
+      wf_7_Automation__Cleanup_E2E_workers --> job_7_cleanup
+    end
+    pipeline_root --> wf_7_Automation__Cleanup_E2E_workers
+    subgraph sg_wf_8_Automation__Cleanup_PR_caches["Automation: Cleanup PR caches (1 jobs)"]
+      direction TB
+      wf_8_Automation__Cleanup_PR_caches(["Trigger: Automation: Cleanup PR caches"]):::atlasWorkflow
+      job_8_cleanup["cleanup"]:::atlasJob
+      wf_8_Automation__Cleanup_PR_caches --> job_8_cleanup
+    end
+    pipeline_root --> wf_8_Automation__Cleanup_PR_caches
+    subgraph sg_wf_17_Automation__Label_external_PRs["Automation: Label external PRs (1 jobs)"]
+      direction TB
+      wf_17_Automation__Label_external_PRs(["Trigger: Automation: Label external PRs"]):::atlasWorkflow
+      job_17_label_external_pr["label_external_pr"]:::atlasJob
+      wf_17_Automation__Label_external_PRs --> job_17_label_external_pr
+    end
+    pipeline_root --> wf_17_Automation__Label_external_PRs
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (8 workflows · 39 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CI__Build___Test["CI: Build & Test (30 jobs)"]
+      direction TB
+      wf_4_CI__Build___Test(["Trigger: CI: Build & Test"]):::atlasWorkflow
+      job_4_job_get_metadata["job_get_metadata"]:::atlasJob
+      job_4_job_build["job_build"]:::atlasJob
+      job_4_job_build_layer["job_build_layer"]:::atlasJob
+      wf_4_CI__Build___Test --> job_4_job_get_metadata
+      job_4_job_get_metadata --> job_4_job_build
+      job_4_job_get_metadata --> job_4_job_build_layer
+      job_4_job_build --> job_4_job_build_layer
+    end
+    pipeline_root --> wf_4_CI__Build___Test
+    subgraph sg_wf_5_CI__Canary_Tests["CI: Canary Tests (2 jobs)"]
+      direction TB
+      wf_5_CI__Canary_Tests(["Trigger: CI: Canary Tests"]):::atlasWorkflow
+      job_5_job_e2e_prepare["job_e2e_prepare"]:::atlasJob
+      job_5_job_e2e_tests["job_e2e_tests"]:::atlasJob
+      wf_5_CI__Canary_Tests --> job_5_job_e2e_prepare
+      job_5_job_e2e_prepare --> job_5_job_e2e_tests
+    end
+    pipeline_root --> wf_5_CI__Canary_Tests
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_21_Automation__Add_size_info_to_release["Automation: Add size info to release (1 jobs)"]
+      direction TB
+      wf_21_Automation__Add_size_info_to_release(["Trigger: Automation: Add size info to release"]):::atlasWorkflow
+      job_21_release_size_info["release-size-info"]:::atlasJob
+      wf_21_Automation__Add_size_info_to_release --> job_21_release_size_info
+    end
+    pipeline_root --> wf_21_Automation__Add_size_info_to_release
+    subgraph sg_wf_22_Action__Prepare_Release["Action: Prepare Release (1 jobs)"]
+      direction TB
+      wf_22_Action__Prepare_Release(["Trigger: Action: Prepare Release"]):::atlasWorkflow
+      job_22_release["release"]:::atlasJob
+      wf_22_Action__Prepare_Release --> job_22_release
+    end
+    pipeline_root --> wf_22_Action__Prepare_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_10_CI__CodeQL["CI: CodeQL (1 jobs)"]
+      direction TB
+      wf_10_CI__CodeQL(["Trigger: CI: CodeQL"]):::atlasWorkflow
+      job_10_analyze["analyze"]:::atlasJob
+      wf_10_CI__CodeQL --> job_10_analyze
+    end
+    pipeline_root --> wf_10_CI__CodeQL
+    subgraph sg_wf_11_Dependabot_auto_triage["Dependabot auto-triage (3 jobs)"]
+      direction TB
+      wf_11_Dependabot_auto_triage(["Trigger: Dependabot auto-triage"]):::atlasWorkflow
+      job_11_classify["classify"]:::atlasJob
+      job_11_fix_runtime["fix-runtime"]:::atlasJob
+      job_11_fix_dev["fix-dev"]:::atlasJob
+      wf_11_Dependabot_auto_triage --> job_11_classify
+      job_11_classify --> job_11_fix_runtime
+      job_11_classify --> job_11_fix_dev
+    end
+    pipeline_root --> wf_11_Dependabot_auto_triage
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Get_Metadata["Get Metadata (1 jobs)"]
+      direction TB
+      wf_6_Get_Metadata(["Trigger: Get Metadata"]):::atlasWorkflow
+      job_6_get_metadata["get_metadata"]:::atlasJob
+      wf_6_Get_Metadata --> job_6_get_metadata
+    end
+    pipeline_root --> wf_6_Get_Metadata
+  end
   wf_more["+17 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

@@ -189,40 +189,62 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["owncloud/richdocuments (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Lint_PR_title["Lint PR title (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Lint_PR_title
-  job_0_lint["lint"]:::atlasJob
-  wf_0_Lint_PR_title --> job_0_lint
-  wf_1_CI["CI (7 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_get_vars["get-vars"]:::atlasJob
-  job_1_semantic_git_messages["semantic-git-messages"]:::atlasJob
-  job_1_php_code_style["php-code-style"]:::atlasJob
-  wf_1_CI --> job_1_get_vars
-  wf_1_CI --> job_1_semantic_git_messages
-  job_1_get_vars --> job_1_php_code_style
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_4_Translation_Sync["Translation Sync (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_4_Translation_Sync
-  job_4_sync["sync"]:::atlasJob
-  wf_4_Translation_Sync --> job_4_sync
-  wf_5_Zizmor["Zizmor (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_Zizmor
-  job_5_zizmor["zizmor"]:::atlasJob
-  wf_5_Zizmor --> job_5_zizmor
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_2_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Release --> job_2_release
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_3_Security_Scan["Security Scan (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_3_Security_Scan
-  job_3_trivy["trivy"]:::atlasJob
-  wf_3_Security_Scan --> job_3_trivy
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Lint_PR_title["Lint PR title (1 jobs)"]
+      direction TB
+      wf_0_Lint_PR_title(["Trigger: Lint PR title"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      wf_0_Lint_PR_title --> job_0_lint
+    end
+    pipeline_root --> wf_0_Lint_PR_title
+    subgraph sg_wf_1_CI["CI (7 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_get_vars["get-vars"]:::atlasJob
+      job_1_semantic_git_messages["semantic-git-messages"]:::atlasJob
+      job_1_php_code_style["php-code-style"]:::atlasJob
+      wf_1_CI --> job_1_get_vars
+      wf_1_CI --> job_1_semantic_git_messages
+      job_1_get_vars --> job_1_php_code_style
+    end
+    pipeline_root --> wf_1_CI
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Translation_Sync["Translation Sync (1 jobs)"]
+      direction TB
+      wf_4_Translation_Sync(["Trigger: Translation Sync"]):::atlasWorkflow
+      job_4_sync["sync"]:::atlasJob
+      wf_4_Translation_Sync --> job_4_sync
+    end
+    pipeline_root --> wf_4_Translation_Sync
+    subgraph sg_wf_5_Zizmor["Zizmor (1 jobs)"]
+      direction TB
+      wf_5_Zizmor(["Trigger: Zizmor"]):::atlasWorkflow
+      job_5_zizmor["zizmor"]:::atlasJob
+      wf_5_Zizmor --> job_5_zizmor
+    end
+    pipeline_root --> wf_5_Zizmor
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Security_Scan["Security Scan (1 jobs)"]
+      direction TB
+      wf_3_Security_Scan(["Trigger: Security Scan"]):::atlasWorkflow
+      job_3_trivy["trivy"]:::atlasJob
+      wf_3_Security_Scan --> job_3_trivy
+    end
+    pipeline_root --> wf_3_Security_Scan
+  end
 ```

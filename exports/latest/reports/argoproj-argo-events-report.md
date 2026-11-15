@@ -250,52 +250,80 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["argoproj/argo-events (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Changelog["Changelog (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Changelog
-  job_0_generate_changelog["generate_changelog"]:::atlasJob
-  wf_0_Changelog --> job_0_generate_changelog
-  wf_1_test["test (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_test
-  job_1_codegen["codegen"]:::atlasJob
-  job_1_unit_tests["unit-tests"]:::atlasJob
-  job_1_lint["lint"]:::atlasJob
-  wf_1_test --> job_1_codegen
-  wf_1_test --> job_1_unit_tests
-  wf_1_test --> job_1_lint
-  wf_5_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Detect_and_Trigger_Retest
-  job_5_retest["retest"]:::atlasJob
-  wf_5_Detect_and_Trigger_Retest --> job_5_retest
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_gh_pages["gh-pages (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_gh_pages
-  job_3_deploy["deploy"]:::atlasJob
-  wf_3_gh_pages --> job_3_deploy
-  wf_4_release["release (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_release
-  job_4_build_binaries["build-binaries"]:::atlasJob
-  job_4_build_push_linux_multi["build-push-linux-multi"]:::atlasJob
-  job_4_bom["bom"]:::atlasJob
-  wf_4_release --> job_4_build_binaries
-  job_4_build_binaries --> job_4_build_push_linux_multi
-  job_4_build_push_linux_multi --> job_4_bom
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_Approve_and_enable_auto_merge_for_dependabot
-  job_2_review["review"]:::atlasJob
-  wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
-  wf_7_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_7_Close_stale_issues_and_PRs
-  job_7_stale["stale"]:::atlasJob
-  wf_7_Close_stale_issues_and_PRs --> job_7_stale
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_6_Snyk["Snyk (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_6_Snyk
-  job_6_golang["golang"]:::atlasJob
-  wf_6_Snyk --> job_6_golang
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Changelog["Changelog (1 jobs)"]
+      direction TB
+      wf_0_Changelog(["Trigger: Changelog"]):::atlasWorkflow
+      job_0_generate_changelog["generate_changelog"]:::atlasJob
+      wf_0_Changelog --> job_0_generate_changelog
+    end
+    pipeline_root --> wf_0_Changelog
+    subgraph sg_wf_1_test["test (4 jobs)"]
+      direction TB
+      wf_1_test(["Trigger: test"]):::atlasWorkflow
+      job_1_codegen["codegen"]:::atlasJob
+      job_1_unit_tests["unit-tests"]:::atlasJob
+      job_1_lint["lint"]:::atlasJob
+      wf_1_test --> job_1_codegen
+      wf_1_test --> job_1_unit_tests
+      wf_1_test --> job_1_lint
+    end
+    pipeline_root --> wf_1_test
+    subgraph sg_wf_5_Detect_and_Trigger_Retest["Detect and Trigger Retest (1 jobs)"]
+      direction TB
+      wf_5_Detect_and_Trigger_Retest(["Trigger: Detect and Trigger Retest"]):::atlasWorkflow
+      job_5_retest["retest"]:::atlasJob
+      wf_5_Detect_and_Trigger_Retest --> job_5_retest
+    end
+    pipeline_root --> wf_5_Detect_and_Trigger_Retest
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_3_gh_pages["gh-pages (1 jobs)"]
+      direction TB
+      wf_3_gh_pages(["Trigger: gh-pages"]):::atlasWorkflow
+      job_3_deploy["deploy"]:::atlasJob
+      wf_3_gh_pages --> job_3_deploy
+    end
+    pipeline_root --> wf_3_gh_pages
+    subgraph sg_wf_4_release["release (4 jobs)"]
+      direction TB
+      wf_4_release(["Trigger: release"]):::atlasWorkflow
+      job_4_build_binaries["build-binaries"]:::atlasJob
+      job_4_build_push_linux_multi["build-push-linux-multi"]:::atlasJob
+      job_4_bom["bom"]:::atlasJob
+      wf_4_release --> job_4_build_binaries
+      job_4_build_binaries --> job_4_build_push_linux_multi
+      job_4_build_push_linux_multi --> job_4_bom
+    end
+    pipeline_root --> wf_4_release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]
+      direction TB
+      wf_2_Approve_and_enable_auto_merge_for_dependabot(["Trigger: Approve and enable auto-merge for dependabot"]):::atlasWorkflow
+      job_2_review["review"]:::atlasJob
+      wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
+    end
+    pipeline_root --> wf_2_Approve_and_enable_auto_merge_for_dependabot
+    subgraph sg_wf_7_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_7_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_7_stale["stale"]:::atlasJob
+      wf_7_Close_stale_issues_and_PRs --> job_7_stale
+    end
+    pipeline_root --> wf_7_Close_stale_issues_and_PRs
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Snyk["Snyk (1 jobs)"]
+      direction TB
+      wf_6_Snyk(["Trigger: Snyk"]):::atlasWorkflow
+      job_6_golang["golang"]:::atlasJob
+      wf_6_Snyk --> job_6_golang
+    end
+    pipeline_root --> wf_6_Snyk
+  end
 ```

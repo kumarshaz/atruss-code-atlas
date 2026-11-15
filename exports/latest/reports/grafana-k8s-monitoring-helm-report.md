@@ -296,58 +296,85 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/k8s-monitoring-helm (8 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 19 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Integration_Test["Integration Test (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Integration_Test
-  job_0_list_tests["list-tests"]:::atlasJob
-  job_0_run_tests["run-tests"]:::atlasJob
-  wf_0_Integration_Test --> job_0_list_tests
-  job_0_list_tests --> job_0_run_tests
-  wf_1_Lint["Lint (9 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Lint
-  job_1_markdown["markdown"]:::atlasJob
-  job_1_misspell["misspell"]:::atlasJob
-  job_1_alex["alex"]:::atlasJob
-  wf_1_Lint --> job_1_markdown
-  wf_1_Lint --> job_1_misspell
-  wf_1_Lint --> job_1_alex
-  wf_2_Platform_Test["Platform Test (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Platform_Test
-  job_2_list_tests["list-tests"]:::atlasJob
-  job_2_run_tests["run-tests"]:::atlasJob
-  wf_2_Platform_Test --> job_2_list_tests
-  job_2_list_tests --> job_2_run_tests
-  wf_6_Unit_Test["Unit Test (6 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Unit_Test
-  job_6_detect_changed_charts["detect-changed-charts"]:::atlasJob
-  job_6_unittest["unittest"]:::atlasJob
-  job_6_lint_helm["lint-helm"]:::atlasJob
-  wf_6_Unit_Test --> job_6_detect_changed_charts
-  job_6_detect_changed_charts --> job_6_unittest
-  job_6_detect_changed_charts --> job_6_lint_helm
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_Regenerate_Files["Regenerate Files (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Regenerate_Files
-  job_3_regenerate["regenerate"]:::atlasJob
-  wf_3_Regenerate_Files --> job_3_regenerate
-  wf_7_Verify_Commits["Verify Commits (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_7_Verify_Commits
-  job_7_verify_commits["verify-commits"]:::atlasJob
-  wf_7_Verify_Commits --> job_7_verify_commits
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_4_Release_Helm_chart["Release Helm chart (3 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_4_Release_Helm_chart
-  job_4_verify_signatures["verify-signatures"]:::atlasJob
-  job_4_release_chart["release-chart"]:::atlasJob
-  job_4_release["release"]:::atlasJob
-  wf_4_Release_Helm_chart --> job_4_verify_signatures
-  job_4_verify_signatures --> job_4_release_chart
-  job_4_release_chart --> job_4_release
-  wf_5_Test_Release["Test Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_5_Test_Release
-  job_5_test_release["test-release"]:::atlasJob
-  wf_5_Test_Release --> job_5_test_release
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Integration_Test["Integration Test (2 jobs)"]
+      direction TB
+      wf_0_Integration_Test(["Trigger: Integration Test"]):::atlasWorkflow
+      job_0_list_tests["list-tests"]:::atlasJob
+      job_0_run_tests["run-tests"]:::atlasJob
+      wf_0_Integration_Test --> job_0_list_tests
+      job_0_list_tests --> job_0_run_tests
+    end
+    pipeline_root --> wf_0_Integration_Test
+    subgraph sg_wf_1_Lint["Lint (9 jobs)"]
+      direction TB
+      wf_1_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_1_markdown["markdown"]:::atlasJob
+      job_1_misspell["misspell"]:::atlasJob
+      job_1_alex["alex"]:::atlasJob
+      wf_1_Lint --> job_1_markdown
+      wf_1_Lint --> job_1_misspell
+      wf_1_Lint --> job_1_alex
+    end
+    pipeline_root --> wf_1_Lint
+    subgraph sg_wf_2_Platform_Test["Platform Test (2 jobs)"]
+      direction TB
+      wf_2_Platform_Test(["Trigger: Platform Test"]):::atlasWorkflow
+      job_2_list_tests["list-tests"]:::atlasJob
+      job_2_run_tests["run-tests"]:::atlasJob
+      wf_2_Platform_Test --> job_2_list_tests
+      job_2_list_tests --> job_2_run_tests
+    end
+    pipeline_root --> wf_2_Platform_Test
+    subgraph sg_wf_6_Unit_Test["Unit Test (6 jobs)"]
+      direction TB
+      wf_6_Unit_Test(["Trigger: Unit Test"]):::atlasWorkflow
+      job_6_detect_changed_charts["detect-changed-charts"]:::atlasJob
+      job_6_unittest["unittest"]:::atlasJob
+      job_6_lint_helm["lint-helm"]:::atlasJob
+      wf_6_Unit_Test --> job_6_detect_changed_charts
+      job_6_detect_changed_charts --> job_6_unittest
+      job_6_detect_changed_charts --> job_6_lint_helm
+    end
+    pipeline_root --> wf_6_Unit_Test
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Regenerate_Files["Regenerate Files (1 jobs)"]
+      direction TB
+      wf_3_Regenerate_Files(["Trigger: Regenerate Files"]):::atlasWorkflow
+      job_3_regenerate["regenerate"]:::atlasJob
+      wf_3_Regenerate_Files --> job_3_regenerate
+    end
+    pipeline_root --> wf_3_Regenerate_Files
+    subgraph sg_wf_7_Verify_Commits["Verify Commits (1 jobs)"]
+      direction TB
+      wf_7_Verify_Commits(["Trigger: Verify Commits"]):::atlasWorkflow
+      job_7_verify_commits["verify-commits"]:::atlasJob
+      wf_7_Verify_Commits --> job_7_verify_commits
+    end
+    pipeline_root --> wf_7_Verify_Commits
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release_Helm_chart["Release Helm chart (3 jobs)"]
+      direction TB
+      wf_4_Release_Helm_chart(["Trigger: Release Helm chart"]):::atlasWorkflow
+      job_4_verify_signatures["verify-signatures"]:::atlasJob
+      job_4_release_chart["release-chart"]:::atlasJob
+      job_4_release["release"]:::atlasJob
+      wf_4_Release_Helm_chart --> job_4_verify_signatures
+      job_4_verify_signatures --> job_4_release_chart
+      job_4_release_chart --> job_4_release
+    end
+    pipeline_root --> wf_4_Release_Helm_chart
+    subgraph sg_wf_5_Test_Release["Test Release (1 jobs)"]
+      direction TB
+      wf_5_Test_Release(["Trigger: Test Release"]):::atlasWorkflow
+      job_5_test_release["test-release"]:::atlasJob
+      wf_5_Test_Release --> job_5_test_release
+    end
+    pipeline_root --> wf_5_Test_Release
+  end
 ```

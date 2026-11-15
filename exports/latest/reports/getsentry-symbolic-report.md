@@ -306,44 +306,65 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/symbolic (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_CI["CI (8 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_lints["lints"]:::atlasJob
-  job_1_doc_comments["doc-comments"]:::atlasJob
-  job_1_test_rust["test-rust"]:::atlasJob
-  wf_1_CI --> job_1_lints
-  wf_1_CI --> job_1_doc_comments
-  wf_1_CI --> job_1_test_rust
-  wf_2_Danger["Danger (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Danger
-  job_2_danger["danger"]:::atlasJob
-  wf_2_Danger --> job_2_danger
-  wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Enforce_License_Compliance
-  job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
-  wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Release_build["Release build (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Release_build
-  job_0_python_wheel_mac["python-wheel-mac"]:::atlasJob
-  job_0_python_wheel_linux["python-wheel-linux"]:::atlasJob
-  job_0_sdist["sdist"]:::atlasJob
-  wf_0_Release_build --> job_0_python_wheel_mac
-  wf_0_Release_build --> job_0_python_wheel_linux
-  wf_0_Release_build --> job_0_sdist
-  wf_4_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Release
-  job_4_release["release"]:::atlasJob
-  wf_4_Release --> job_4_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_5_Weekly_CI["Weekly CI (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_5_Weekly_CI
-  job_5_weekly_ci["weekly-ci"]:::atlasJob
-  job_5_weekly_audit["weekly-audit"]:::atlasJob
-  wf_5_Weekly_CI --> job_5_weekly_ci
-  wf_5_Weekly_CI --> job_5_weekly_audit
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CI["CI (8 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_lints["lints"]:::atlasJob
+      job_1_doc_comments["doc-comments"]:::atlasJob
+      job_1_test_rust["test-rust"]:::atlasJob
+      wf_1_CI --> job_1_lints
+      wf_1_CI --> job_1_doc_comments
+      wf_1_CI --> job_1_test_rust
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Danger["Danger (1 jobs)"]
+      direction TB
+      wf_2_Danger(["Trigger: Danger"]):::atlasWorkflow
+      job_2_danger["danger"]:::atlasJob
+      wf_2_Danger --> job_2_danger
+    end
+    pipeline_root --> wf_2_Danger
+    subgraph sg_wf_3_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_3_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_3_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_3_Enforce_License_Compliance --> job_3_enforce_license_compliance
+    end
+    pipeline_root --> wf_3_Enforce_License_Compliance
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Release_build["Release build (5 jobs)"]
+      direction TB
+      wf_0_Release_build(["Trigger: Release build"]):::atlasWorkflow
+      job_0_python_wheel_mac["python-wheel-mac"]:::atlasJob
+      job_0_python_wheel_linux["python-wheel-linux"]:::atlasJob
+      job_0_sdist["sdist"]:::atlasJob
+      wf_0_Release_build --> job_0_python_wheel_mac
+      wf_0_Release_build --> job_0_python_wheel_linux
+      wf_0_Release_build --> job_0_sdist
+    end
+    pipeline_root --> wf_0_Release_build
+    subgraph sg_wf_4_Release["Release (1 jobs)"]
+      direction TB
+      wf_4_Release(["Trigger: Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Release --> job_4_release
+    end
+    pipeline_root --> wf_4_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Weekly_CI["Weekly CI (2 jobs)"]
+      direction TB
+      wf_5_Weekly_CI(["Trigger: Weekly CI"]):::atlasWorkflow
+      job_5_weekly_ci["weekly-ci"]:::atlasJob
+      job_5_weekly_audit["weekly-audit"]:::atlasJob
+      wf_5_Weekly_CI --> job_5_weekly_ci
+      wf_5_Weekly_CI --> job_5_weekly_audit
+    end
+    pipeline_root --> wf_5_Weekly_CI
+  end
 ```

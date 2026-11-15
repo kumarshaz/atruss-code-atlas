@@ -124,36 +124,57 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/vm (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_install_smoke_test["install-smoke-test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_install_smoke_test
-  job_2_install["install"]:::atlasJob
-  wf_2_install_smoke_test --> job_2_install
-  wf_4_Update_Copyright_Year["Update Copyright Year (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Update_Copyright_Year
-  job_4_update_copyright["update-copyright"]:::atlasJob
-  wf_4_Update_Copyright_Year --> job_4_update_copyright
-  wf_5_Update_WireGuard_Major_Version["Update WireGuard Major Version (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Update_WireGuard_Major_Version
-  job_5_update_wireguard["update-wireguard"]:::atlasJob
-  wf_5_Update_WireGuard_Major_Version --> job_5_update_wireguard
-  grp_1_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_check_code_with_shellcheck["check-code-with-shellcheck (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_check_code_with_shellcheck
-  job_0_shellcheck["shellcheck"]:::atlasJob
-  wf_0_check_code_with_shellcheck --> job_0_shellcheck
-  wf_3_reviewdog["reviewdog (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_reviewdog
-  job_3_shellcheck["shellcheck"]:::atlasJob
-  job_3_misspell["misspell"]:::atlasJob
-  wf_3_reviewdog --> job_3_shellcheck
-  wf_3_reviewdog --> job_3_misspell
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_1_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_1_Dependabot_auto_merge
-  job_1_automerge["automerge"]:::atlasJob
-  wf_1_Dependabot_auto_merge --> job_1_automerge
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_install_smoke_test["install-smoke-test (1 jobs)"]
+      direction TB
+      wf_2_install_smoke_test(["Trigger: install-smoke-test"]):::atlasWorkflow
+      job_2_install["install"]:::atlasJob
+      wf_2_install_smoke_test --> job_2_install
+    end
+    pipeline_root --> wf_2_install_smoke_test
+    subgraph sg_wf_4_Update_Copyright_Year["Update Copyright Year (1 jobs)"]
+      direction TB
+      wf_4_Update_Copyright_Year(["Trigger: Update Copyright Year"]):::atlasWorkflow
+      job_4_update_copyright["update-copyright"]:::atlasJob
+      wf_4_Update_Copyright_Year --> job_4_update_copyright
+    end
+    pipeline_root --> wf_4_Update_Copyright_Year
+    subgraph sg_wf_5_Update_WireGuard_Major_Version["Update WireGuard Major Version (1 jobs)"]
+      direction TB
+      wf_5_Update_WireGuard_Major_Version(["Trigger: Update WireGuard Major Version"]):::atlasWorkflow
+      job_5_update_wireguard["update-wireguard"]:::atlasJob
+      wf_5_Update_WireGuard_Major_Version --> job_5_update_wireguard
+    end
+    pipeline_root --> wf_5_Update_WireGuard_Major_Version
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_check_code_with_shellcheck["check-code-with-shellcheck (1 jobs)"]
+      direction TB
+      wf_0_check_code_with_shellcheck(["Trigger: check-code-with-shellcheck"]):::atlasWorkflow
+      job_0_shellcheck["shellcheck"]:::atlasJob
+      wf_0_check_code_with_shellcheck --> job_0_shellcheck
+    end
+    pipeline_root --> wf_0_check_code_with_shellcheck
+    subgraph sg_wf_3_reviewdog["reviewdog (2 jobs)"]
+      direction TB
+      wf_3_reviewdog(["Trigger: reviewdog"]):::atlasWorkflow
+      job_3_shellcheck["shellcheck"]:::atlasJob
+      job_3_misspell["misspell"]:::atlasJob
+      wf_3_reviewdog --> job_3_shellcheck
+      wf_3_reviewdog --> job_3_misspell
+    end
+    pipeline_root --> wf_3_reviewdog
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Dependabot_auto_merge["Dependabot auto-merge (1 jobs)"]
+      direction TB
+      wf_1_Dependabot_auto_merge(["Trigger: Dependabot auto-merge"]):::atlasWorkflow
+      job_1_automerge["automerge"]:::atlasJob
+      wf_1_Dependabot_auto_merge --> job_1_automerge
+    end
+    pipeline_root --> wf_1_Dependabot_auto_merge
+  end
 ```

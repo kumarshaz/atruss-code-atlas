@@ -407,65 +407,86 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/sdk-sm (46 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (21 workflows · 45 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_Build_CLI["Build CLI (7 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Build_CLI
-  job_1_setup["setup"]:::atlasJob
-  job_1_build_windows["build-windows"]:::atlasJob
-  job_1_build_macos["build-macos"]:::atlasJob
-  wf_1_Build_CLI --> job_1_setup
-  job_1_setup --> job_1_build_windows
-  job_1_setup --> job_1_build_macos
-  wf_2_Build_C___SDK["Build C++ SDK (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Build_C___SDK
-  job_2_generate_schemas["generate-schemas"]:::atlasJob
-  job_2_build_rust["build_rust"]:::atlasJob
-  job_2_build["build"]:::atlasJob
-  wf_2_Build_C___SDK --> job_2_generate_schemas
-  wf_2_Build_C___SDK --> job_2_build_rust
-  job_2_generate_schemas --> job_2_build
-  job_2_build_rust --> job_2_build
-  wf_3_Build__NET_SDK["Build .NET SDK (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Build__NET_SDK
-  job_3_generate_schemas["generate_schemas"]:::atlasJob
-  job_3_build_rust["build_rust"]:::atlasJob
-  job_3_version["version"]:::atlasJob
-  wf_3_Build__NET_SDK --> job_3_generate_schemas
-  wf_3_Build__NET_SDK --> job_3_build_rust
-  wf_3_Build__NET_SDK --> job_3_version
-  wf_41_Rust_tests["Rust tests (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_41_Rust_tests
-  job_41_ci_pass["ci-pass"]:::atlasJob
-  job_41_test["test"]:::atlasJob
-  job_41_coverage["coverage"]:::atlasJob
-  job_41_test --> job_41_ci_pass
-  wf_41_Rust_tests --> job_41_test
-  wf_41_Rust_tests --> job_41_coverage
-  grp_1_Release___Deploy["Release & Deploy (19 workflows · 41 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_20_Publish_bws_CLI["Publish bws CLI (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_20_Publish_bws_CLI
-  job_20_setup["setup"]:::atlasJob
-  job_20_publish["publish"]:::atlasJob
-  job_20_publish_docker["publish-docker"]:::atlasJob
-  wf_20_Publish_bws_CLI --> job_20_setup
-  job_20_setup --> job_20_publish
-  job_20_setup --> job_20_publish_docker
-  wf_24_Publish_PHP_SDK["Publish PHP SDK (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_24_Publish_PHP_SDK
-  job_24_validate["validate"]:::atlasJob
-  wf_24_Publish_PHP_SDK --> job_24_validate
-  wf_32_Release_Go_SDK["Release Go SDK (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_32_Release_Go_SDK
-  grp_2_CI___Verification["CI & Verification (6 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_16_Enforce_PR_labels["Enforce PR labels (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_16_Enforce_PR_labels
-  wf_40_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_40_Code_Review
-  wf_42_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_42_Rustdoc
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (21 workflows · 45 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_CLI["Build CLI (7 jobs)"]
+      direction TB
+      wf_1_Build_CLI(["Trigger: Build CLI"]):::atlasWorkflow
+      job_1_setup["setup"]:::atlasJob
+      job_1_build_windows["build-windows"]:::atlasJob
+      job_1_build_macos["build-macos"]:::atlasJob
+      wf_1_Build_CLI --> job_1_setup
+      job_1_setup --> job_1_build_windows
+      job_1_setup --> job_1_build_macos
+    end
+    pipeline_root --> wf_1_Build_CLI
+    subgraph sg_wf_2_Build_C___SDK["Build C++ SDK (3 jobs)"]
+      direction TB
+      wf_2_Build_C___SDK(["Trigger: Build C++ SDK"]):::atlasWorkflow
+      job_2_generate_schemas["generate-schemas"]:::atlasJob
+      job_2_build_rust["build_rust"]:::atlasJob
+      job_2_build["build"]:::atlasJob
+      wf_2_Build_C___SDK --> job_2_generate_schemas
+      wf_2_Build_C___SDK --> job_2_build_rust
+      job_2_generate_schemas --> job_2_build
+      job_2_build_rust --> job_2_build
+    end
+    pipeline_root --> wf_2_Build_C___SDK
+    subgraph sg_wf_3_Build__NET_SDK["Build .NET SDK (4 jobs)"]
+      direction TB
+      wf_3_Build__NET_SDK(["Trigger: Build .NET SDK"]):::atlasWorkflow
+      job_3_generate_schemas["generate_schemas"]:::atlasJob
+      job_3_build_rust["build_rust"]:::atlasJob
+      job_3_version["version"]:::atlasJob
+      wf_3_Build__NET_SDK --> job_3_generate_schemas
+      wf_3_Build__NET_SDK --> job_3_build_rust
+      wf_3_Build__NET_SDK --> job_3_version
+    end
+    pipeline_root --> wf_3_Build__NET_SDK
+    subgraph sg_wf_41_Rust_tests["Rust tests (4 jobs)"]
+      direction TB
+      wf_41_Rust_tests(["Trigger: Rust tests"]):::atlasWorkflow
+      job_41_ci_pass["ci-pass"]:::atlasJob
+      job_41_test["test"]:::atlasJob
+      job_41_coverage["coverage"]:::atlasJob
+      job_41_test --> job_41_ci_pass
+      wf_41_Rust_tests --> job_41_test
+      wf_41_Rust_tests --> job_41_coverage
+    end
+    pipeline_root --> wf_41_Rust_tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (19 workflows · 41 jobs)"]
+    direction TB
+    subgraph sg_wf_20_Publish_bws_CLI["Publish bws CLI (5 jobs)"]
+      direction TB
+      wf_20_Publish_bws_CLI(["Trigger: Publish bws CLI"]):::atlasWorkflow
+      job_20_setup["setup"]:::atlasJob
+      job_20_publish["publish"]:::atlasJob
+      job_20_publish_docker["publish-docker"]:::atlasJob
+      wf_20_Publish_bws_CLI --> job_20_setup
+      job_20_setup --> job_20_publish
+      job_20_setup --> job_20_publish_docker
+    end
+    pipeline_root --> wf_20_Publish_bws_CLI
+    subgraph sg_wf_24_Publish_PHP_SDK["Publish PHP SDK (5 jobs)"]
+      direction TB
+      wf_24_Publish_PHP_SDK(["Trigger: Publish PHP SDK"]):::atlasWorkflow
+      job_24_validate["validate"]:::atlasJob
+      wf_24_Publish_PHP_SDK --> job_24_validate
+    end
+    pipeline_root --> wf_24_Publish_PHP_SDK
+    wf_32_Release_Go_SDK["Release Go SDK (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_32_Release_Go_SDK
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (6 workflows · 7 jobs)"]
+    direction TB
+    wf_16_Enforce_PR_labels["Enforce PR labels (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Enforce_PR_labels
+    wf_40_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_40_Code_Review
+    wf_42_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_42_Rustdoc
+  end
   wf_more["+36 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

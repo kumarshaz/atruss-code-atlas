@@ -739,67 +739,95 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["TryGhost/Ghost (25 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 15 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_5_Nightly_Docker_Image["Nightly Docker Image (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Nightly_Docker_Image
-  job_5_resolve["resolve"]:::atlasJob
-  job_5_build_admin["build_admin"]:::atlasJob
-  job_5_build["build"]:::atlasJob
-  wf_5_Nightly_Docker_Image --> job_5_resolve
-  job_5_resolve --> job_5_build_admin
-  job_5_resolve --> job_5_build
-  job_5_build_admin --> job_5_build
-  wf_9_Koenig_Demo["Koenig Demo (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_9_Koenig_Demo
-  job_9_build["build"]:::atlasJob
-  job_9_deploy["deploy"]:::atlasJob
-  wf_9_Koenig_Demo --> job_9_build
-  job_9_build --> job_9_deploy
-  wf_17_Shade_Docs["Shade Docs (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_17_Shade_Docs
-  job_17_build["build"]:::atlasJob
-  job_17_deploy["deploy"]:::atlasJob
-  wf_17_Shade_Docs --> job_17_build
-  job_17_build --> job_17_deploy
-  grp_1_Release___Deploy["Release & Deploy (7 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Create_release_branch["Create release branch (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Create_release_branch
-  job_3_create_branch["create-branch"]:::atlasJob
-  wf_3_Create_release_branch --> job_3_create_branch
-  wf_13_Publish_Packages["Publish Packages (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_Publish_Packages
-  job_13_publish["publish"]:::atlasJob
-  job_13_notify_failure["notify_failure"]:::atlasJob
-  wf_13_Publish_Packages --> job_13_publish
-  job_13_publish --> job_13_notify_failure
-  wf_15_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_15_Release
-  job_15_check_recent_release["check-recent-release"]:::atlasJob
-  job_15_release["release"]:::atlasJob
-  wf_15_Release --> job_15_check_recent_release
-  job_15_check_recent_release --> job_15_release
-  grp_2_CI___Verification["CI & Verification (6 workflows · 43 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_0_CI["CI (34 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_0_CI
-  job_0_job_setup["job_setup"]:::atlasJob
-  job_0_job_app_version_bump_check["job_app_version_bump_check"]:::atlasJob
-  job_0_job_migration_integrity_check["job_migration_integrity_check"]:::atlasJob
-  wf_0_CI --> job_0_job_setup
-  job_0_job_setup --> job_0_job_app_version_bump_check
-  job_0_job_setup --> job_0_job_migration_integrity_check
-  wf_21_Tinybird["Tinybird (4 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_21_Tinybird
-  job_21_changes["changes"]:::atlasJob
-  wf_21_Tinybird --> job_21_changes
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_18_Close_stale_i18n_PRs["Close stale i18n PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_18_Close_stale_i18n_PRs
-  wf_19_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_19_Close_stale_issues_and_PRs
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 15 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Nightly_Docker_Image["Nightly Docker Image (4 jobs)"]
+      direction TB
+      wf_5_Nightly_Docker_Image(["Trigger: Nightly Docker Image"]):::atlasWorkflow
+      job_5_resolve["resolve"]:::atlasJob
+      job_5_build_admin["build_admin"]:::atlasJob
+      job_5_build["build"]:::atlasJob
+      wf_5_Nightly_Docker_Image --> job_5_resolve
+      job_5_resolve --> job_5_build_admin
+      job_5_resolve --> job_5_build
+      job_5_build_admin --> job_5_build
+    end
+    pipeline_root --> wf_5_Nightly_Docker_Image
+    subgraph sg_wf_9_Koenig_Demo["Koenig Demo (2 jobs)"]
+      direction TB
+      wf_9_Koenig_Demo(["Trigger: Koenig Demo"]):::atlasWorkflow
+      job_9_build["build"]:::atlasJob
+      job_9_deploy["deploy"]:::atlasJob
+      wf_9_Koenig_Demo --> job_9_build
+      job_9_build --> job_9_deploy
+    end
+    pipeline_root --> wf_9_Koenig_Demo
+    subgraph sg_wf_17_Shade_Docs["Shade Docs (2 jobs)"]
+      direction TB
+      wf_17_Shade_Docs(["Trigger: Shade Docs"]):::atlasWorkflow
+      job_17_build["build"]:::atlasJob
+      job_17_deploy["deploy"]:::atlasJob
+      wf_17_Shade_Docs --> job_17_build
+      job_17_build --> job_17_deploy
+    end
+    pipeline_root --> wf_17_Shade_Docs
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (7 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Create_release_branch["Create release branch (1 jobs)"]
+      direction TB
+      wf_3_Create_release_branch(["Trigger: Create release branch"]):::atlasWorkflow
+      job_3_create_branch["create-branch"]:::atlasJob
+      wf_3_Create_release_branch --> job_3_create_branch
+    end
+    pipeline_root --> wf_3_Create_release_branch
+    subgraph sg_wf_13_Publish_Packages["Publish Packages (2 jobs)"]
+      direction TB
+      wf_13_Publish_Packages(["Trigger: Publish Packages"]):::atlasWorkflow
+      job_13_publish["publish"]:::atlasJob
+      job_13_notify_failure["notify_failure"]:::atlasJob
+      wf_13_Publish_Packages --> job_13_publish
+      job_13_publish --> job_13_notify_failure
+    end
+    pipeline_root --> wf_13_Publish_Packages
+    subgraph sg_wf_15_Release["Release (2 jobs)"]
+      direction TB
+      wf_15_Release(["Trigger: Release"]):::atlasWorkflow
+      job_15_check_recent_release["check-recent-release"]:::atlasJob
+      job_15_release["release"]:::atlasJob
+      wf_15_Release --> job_15_check_recent_release
+      job_15_check_recent_release --> job_15_release
+    end
+    pipeline_root --> wf_15_Release
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (6 workflows · 43 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (34 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_job_setup["job_setup"]:::atlasJob
+      job_0_job_app_version_bump_check["job_app_version_bump_check"]:::atlasJob
+      job_0_job_migration_integrity_check["job_migration_integrity_check"]:::atlasJob
+      wf_0_CI --> job_0_job_setup
+      job_0_job_setup --> job_0_job_app_version_bump_check
+      job_0_job_setup --> job_0_job_migration_integrity_check
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_21_Tinybird["Tinybird (4 jobs)"]
+      direction TB
+      wf_21_Tinybird(["Trigger: Tinybird"]):::atlasWorkflow
+      job_21_changes["changes"]:::atlasJob
+      wf_21_Tinybird --> job_21_changes
+    end
+    pipeline_root --> wf_21_Tinybird
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    wf_18_Close_stale_i18n_PRs["Close stale i18n PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_18_Close_stale_i18n_PRs
+    wf_19_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_19_Close_stale_issues_and_PRs
+  end
   wf_more["+15 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

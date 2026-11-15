@@ -262,36 +262,55 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["keycloak/terraform-provider-keycloak (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Go_Dependency_Submission["Go Dependency Submission (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Go_Dependency_Submission
-  job_1_go_dependency_submission["go-dependency-submission"]:::atlasJob
-  wf_1_Go_Dependency_Submission --> job_1_go_dependency_submission
-  wf_4_test["test (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_test
-  job_4_verify["verify"]:::atlasJob
-  job_4_acceptance["acceptance"]:::atlasJob
-  wf_4_test --> job_4_verify
-  job_4_verify --> job_4_acceptance
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_release["release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_release
-  job_3_wait["wait"]:::atlasJob
-  job_3_release["release"]:::atlasJob
-  wf_3_release --> job_3_wait
-  job_3_wait --> job_3_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_2_nightly["nightly (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_2_nightly
-  job_2_nightly["nightly"]:::atlasJob
-  wf_2_nightly --> job_2_nightly
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_0_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_0_CodeQL
-  job_0_analyze["analyze"]:::atlasJob
-  wf_0_CodeQL --> job_0_analyze
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Go_Dependency_Submission["Go Dependency Submission (1 jobs)"]
+      direction TB
+      wf_1_Go_Dependency_Submission(["Trigger: Go Dependency Submission"]):::atlasWorkflow
+      job_1_go_dependency_submission["go-dependency-submission"]:::atlasJob
+      wf_1_Go_Dependency_Submission --> job_1_go_dependency_submission
+    end
+    pipeline_root --> wf_1_Go_Dependency_Submission
+    subgraph sg_wf_4_test["test (2 jobs)"]
+      direction TB
+      wf_4_test(["Trigger: test"]):::atlasWorkflow
+      job_4_verify["verify"]:::atlasJob
+      job_4_acceptance["acceptance"]:::atlasJob
+      wf_4_test --> job_4_verify
+      job_4_verify --> job_4_acceptance
+    end
+    pipeline_root --> wf_4_test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_release["release (2 jobs)"]
+      direction TB
+      wf_3_release(["Trigger: release"]):::atlasWorkflow
+      job_3_wait["wait"]:::atlasJob
+      job_3_release["release"]:::atlasJob
+      wf_3_release --> job_3_wait
+      job_3_wait --> job_3_release
+    end
+    pipeline_root --> wf_3_release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_nightly["nightly (1 jobs)"]
+      direction TB
+      wf_2_nightly(["Trigger: nightly"]):::atlasWorkflow
+      job_2_nightly["nightly"]:::atlasJob
+      wf_2_nightly --> job_2_nightly
+    end
+    pipeline_root --> wf_2_nightly
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_0_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_0_analyze["analyze"]:::atlasJob
+      wf_0_CodeQL --> job_0_analyze
+    end
+    pipeline_root --> wf_0_CodeQL
+  end
 ```

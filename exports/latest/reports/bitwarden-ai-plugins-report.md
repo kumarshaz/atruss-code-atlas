@@ -170,42 +170,66 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/ai-plugins (7 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Atlassian_MCP_Server_Build["Atlassian MCP Server Build (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Atlassian_MCP_Server_Build
-  job_0_build["build"]:::atlasJob
-  wf_0_Atlassian_MCP_Server_Build --> job_0_build
-  wf_1_Atlassian_MCP_Server_Testing["Atlassian MCP Server Testing (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Atlassian_MCP_Server_Testing
-  job_1_testing["testing"]:::atlasJob
-  job_1_launch["launch"]:::atlasJob
-  wf_1_Atlassian_MCP_Server_Testing --> job_1_testing
-  wf_1_Atlassian_MCP_Server_Testing --> job_1_launch
-  wf_3_Lint["Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Lint
-  job_3_lint["lint"]:::atlasJob
-  wf_3_Lint --> job_3_lint
-  wf_6_Test_Automation_MCP_Server_Testing["Test Automation MCP Server Testing (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Test_Automation_MCP_Server_Testing
-  job_6_testing["testing"]:::atlasJob
-  job_6_launch["launch"]:::atlasJob
-  wf_6_Test_Automation_MCP_Server_Testing --> job_6_testing
-  wf_6_Test_Automation_MCP_Server_Testing --> job_6_launch
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_4_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_4_Respond
-  job_4_respond["respond"]:::atlasJob
-  wf_4_Respond --> job_4_respond
-  wf_5_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_5_Code_Review
-  job_5_review["review"]:::atlasJob
-  wf_5_Code_Review --> job_5_review
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_Audit_External_Claude_Plugin["Audit External Claude Plugin (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_Audit_External_Claude_Plugin
-  job_2_audit["audit"]:::atlasJob
-  wf_2_Audit_External_Claude_Plugin --> job_2_audit
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Atlassian_MCP_Server_Build["Atlassian MCP Server Build (1 jobs)"]
+      direction TB
+      wf_0_Atlassian_MCP_Server_Build(["Trigger: Atlassian MCP Server Build"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Atlassian_MCP_Server_Build --> job_0_build
+    end
+    pipeline_root --> wf_0_Atlassian_MCP_Server_Build
+    subgraph sg_wf_1_Atlassian_MCP_Server_Testing["Atlassian MCP Server Testing (2 jobs)"]
+      direction TB
+      wf_1_Atlassian_MCP_Server_Testing(["Trigger: Atlassian MCP Server Testing"]):::atlasWorkflow
+      job_1_testing["testing"]:::atlasJob
+      job_1_launch["launch"]:::atlasJob
+      wf_1_Atlassian_MCP_Server_Testing --> job_1_testing
+      wf_1_Atlassian_MCP_Server_Testing --> job_1_launch
+    end
+    pipeline_root --> wf_1_Atlassian_MCP_Server_Testing
+    subgraph sg_wf_3_Lint["Lint (1 jobs)"]
+      direction TB
+      wf_3_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_3_lint["lint"]:::atlasJob
+      wf_3_Lint --> job_3_lint
+    end
+    pipeline_root --> wf_3_Lint
+    subgraph sg_wf_6_Test_Automation_MCP_Server_Testing["Test Automation MCP Server Testing (2 jobs)"]
+      direction TB
+      wf_6_Test_Automation_MCP_Server_Testing(["Trigger: Test Automation MCP Server Testing"]):::atlasWorkflow
+      job_6_testing["testing"]:::atlasJob
+      job_6_launch["launch"]:::atlasJob
+      wf_6_Test_Automation_MCP_Server_Testing --> job_6_testing
+      wf_6_Test_Automation_MCP_Server_Testing --> job_6_launch
+    end
+    pipeline_root --> wf_6_Test_Automation_MCP_Server_Testing
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_4_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_4_respond["respond"]:::atlasJob
+      wf_4_Respond --> job_4_respond
+    end
+    pipeline_root --> wf_4_Respond
+    subgraph sg_wf_5_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_5_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_5_review["review"]:::atlasJob
+      wf_5_Code_Review --> job_5_review
+    end
+    pipeline_root --> wf_5_Code_Review
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Audit_External_Claude_Plugin["Audit External Claude Plugin (1 jobs)"]
+      direction TB
+      wf_2_Audit_External_Claude_Plugin(["Trigger: Audit External Claude Plugin"]):::atlasWorkflow
+      job_2_audit["audit"]:::atlasJob
+      wf_2_Audit_External_Claude_Plugin --> job_2_audit
+    end
+    pipeline_root --> wf_2_Audit_External_Claude_Plugin
+  end
 ```

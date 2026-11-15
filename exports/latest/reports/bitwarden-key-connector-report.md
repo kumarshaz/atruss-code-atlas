@@ -234,36 +234,57 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/key-connector (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Build["Build (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Build
-  job_0_build_artifacts["build-artifacts"]:::atlasJob
-  job_0_build_docker["build-docker"]:::atlasJob
-  wf_0_Build --> job_0_build_artifacts
-  job_0_build_artifacts --> job_0_build_docker
-  wf_4_Testing["Testing (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Testing
-  job_4_testing["testing"]:::atlasJob
-  wf_4_Testing --> job_4_testing
-  wf_5_Bump_version["Bump version (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Bump_version
-  job_5_bump_version["bump_version"]:::atlasJob
-  wf_5_Bump_version --> job_5_bump_version
-  grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_2_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_2_Respond
-  job_2_respond["respond"]:::atlasJob
-  wf_2_Respond --> job_2_respond
-  wf_3_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Code_Review
-  job_3_review["review"]:::atlasJob
-  wf_3_Code_Review --> job_3_review
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_1_Cleanup_Container_Images["Cleanup Container Images (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_1_Cleanup_Container_Images
-  job_1_cleanup_images["cleanup-images"]:::atlasJob
-  wf_1_Cleanup_Container_Images --> job_1_cleanup_images
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (2 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_build_artifacts["build-artifacts"]:::atlasJob
+      job_0_build_docker["build-docker"]:::atlasJob
+      wf_0_Build --> job_0_build_artifacts
+      job_0_build_artifacts --> job_0_build_docker
+    end
+    pipeline_root --> wf_0_Build
+    subgraph sg_wf_4_Testing["Testing (1 jobs)"]
+      direction TB
+      wf_4_Testing(["Trigger: Testing"]):::atlasWorkflow
+      job_4_testing["testing"]:::atlasJob
+      wf_4_Testing --> job_4_testing
+    end
+    pipeline_root --> wf_4_Testing
+    subgraph sg_wf_5_Bump_version["Bump version (1 jobs)"]
+      direction TB
+      wf_5_Bump_version(["Trigger: Bump version"]):::atlasWorkflow
+      job_5_bump_version["bump_version"]:::atlasJob
+      wf_5_Bump_version --> job_5_bump_version
+    end
+    pipeline_root --> wf_5_Bump_version
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_2_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_2_respond["respond"]:::atlasJob
+      wf_2_Respond --> job_2_respond
+    end
+    pipeline_root --> wf_2_Respond
+    subgraph sg_wf_3_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_3_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_3_review["review"]:::atlasJob
+      wf_3_Code_Review --> job_3_review
+    end
+    pipeline_root --> wf_3_Code_Review
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Cleanup_Container_Images["Cleanup Container Images (1 jobs)"]
+      direction TB
+      wf_1_Cleanup_Container_Images(["Trigger: Cleanup Container Images"]):::atlasWorkflow
+      job_1_cleanup_images["cleanup-images"]:::atlasJob
+      wf_1_Cleanup_Container_Images --> job_1_cleanup_images
+    end
+    pipeline_root --> wf_1_Cleanup_Container_Images
+  end
 ```

@@ -230,30 +230,44 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["apache/cayenne (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_build_mac["build mac (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_build_mac
-  job_0_dmg["dmg"]:::atlasJob
-  wf_0_build_mac --> job_0_dmg
-  wf_3_verify_PR_5_0["verify PR 5.0 (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_verify_PR_5_0
-  job_3_test["test"]:::atlasJob
-  wf_3_verify_PR_5_0 --> job_3_test
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_release_dist["release dist (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_release_dist
-  job_1_source["source"]:::atlasJob
-  job_1_generic["generic"]:::atlasJob
-  job_1_windows["windows"]:::atlasJob
-  wf_1_release_dist --> job_1_source
-  job_1_source --> job_1_generic
-  job_1_source --> job_1_windows
-  wf_2_verify_and_deploy_5_0["verify and deploy 5.0 (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_verify_and_deploy_5_0
-  job_2_verify["verify"]:::atlasJob
-  job_2_deploy["deploy"]:::atlasJob
-  wf_2_verify_and_deploy_5_0 --> job_2_verify
-  job_2_verify --> job_2_deploy
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_build_mac["build mac (1 jobs)"]
+      direction TB
+      wf_0_build_mac(["Trigger: build mac"]):::atlasWorkflow
+      job_0_dmg["dmg"]:::atlasJob
+      wf_0_build_mac --> job_0_dmg
+    end
+    pipeline_root --> wf_0_build_mac
+    subgraph sg_wf_3_verify_PR_5_0["verify PR 5.0 (1 jobs)"]
+      direction TB
+      wf_3_verify_PR_5_0(["Trigger: verify PR 5.0"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      wf_3_verify_PR_5_0 --> job_3_test
+    end
+    pipeline_root --> wf_3_verify_PR_5_0
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_1_release_dist["release dist (5 jobs)"]
+      direction TB
+      wf_1_release_dist(["Trigger: release dist"]):::atlasWorkflow
+      job_1_source["source"]:::atlasJob
+      job_1_generic["generic"]:::atlasJob
+      job_1_windows["windows"]:::atlasJob
+      wf_1_release_dist --> job_1_source
+      job_1_source --> job_1_generic
+      job_1_source --> job_1_windows
+    end
+    pipeline_root --> wf_1_release_dist
+    subgraph sg_wf_2_verify_and_deploy_5_0["verify and deploy 5.0 (2 jobs)"]
+      direction TB
+      wf_2_verify_and_deploy_5_0(["Trigger: verify and deploy 5.0"]):::atlasWorkflow
+      job_2_verify["verify"]:::atlasJob
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_verify_and_deploy_5_0 --> job_2_verify
+      job_2_verify --> job_2_deploy
+    end
+    pipeline_root --> wf_2_verify_and_deploy_5_0
+  end
 ```

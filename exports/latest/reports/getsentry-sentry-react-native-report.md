@@ -309,68 +309,100 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-react-native (24 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (17 workflows · 59 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Build___Test["Build & Test (11 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build___Test
-  job_1_diff_check["diff_check"]:::atlasJob
-  job_1_job_test["job_test"]:::atlasJob
-  job_1_job_native_link_check["job_native_link_check"]:::atlasJob
-  wf_1_Build___Test --> job_1_diff_check
-  job_1_diff_check --> job_1_job_test
-  job_1_diff_check --> job_1_job_native_link_check
-  wf_9_End_to_End_Tests_V2["End-to-End Tests V2 (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_End_to_End_Tests_V2
-  job_9_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
-  job_9_diff_check["diff_check"]:::atlasJob
-  job_9_detect_changes["detect-changes"]:::atlasJob
-  wf_9_End_to_End_Tests_V2 --> job_9_ready_to_merge_gate
-  job_9_ready_to_merge_gate --> job_9_diff_check
-  job_9_ready_to_merge_gate --> job_9_detect_changes
-  wf_16_Sample_Application["Sample Application (11 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_16_Sample_Application
-  job_16_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
-  job_16_diff_check["diff_check"]:::atlasJob
-  job_16_detect_changes["detect-changes"]:::atlasJob
-  wf_16_Sample_Application --> job_16_ready_to_merge_gate
-  job_16_ready_to_merge_gate --> job_16_diff_check
-  job_16_ready_to_merge_gate --> job_16_detect_changes
-  grp_1_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_8_Detect_Changes["Detect Changes (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_8_Detect_Changes
-  job_8_changes["changes"]:::atlasJob
-  wf_8_Detect_Changes --> job_8_changes
-  wf_12_Ready_to_Merge_Workflow["Ready to Merge Workflow (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_12_Ready_to_Merge_Workflow
-  job_12_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
-  wf_12_Ready_to_Merge_Workflow --> job_12_ready_to_merge_gate
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_13_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_13_Automation__Notify_issues_for_release
-  job_13_release_comment_issues["release-comment-issues"]:::atlasJob
-  wf_13_Automation__Notify_issues_for_release --> job_13_release_comment_issues
-  wf_14_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_14_Release
-  job_14_release["release"]:::atlasJob
-  wf_14_Release --> job_14_release
-  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_10_iOS_Crash_Screenshot_No_Freeze["iOS Crash Screenshot No-Freeze (2 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_10_iOS_Crash_Screenshot_No_Freeze
-  job_10_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
-  job_10_verify["verify"]:::atlasJob
-  wf_10_iOS_Crash_Screenshot_No_Freeze --> job_10_ready_to_merge_gate
-  job_10_ready_to_merge_gate --> job_10_verify
-  wf_22_Update_Dependencies["Update Dependencies (8 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_22_Update_Dependencies
-  job_22_android["android"]:::atlasJob
-  wf_22_Update_Dependencies --> job_22_android
-  grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_6_CodeQL["CodeQL (2 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_6_CodeQL
+  subgraph sg_grp_0_CI___Verification["CI & Verification (17 workflows · 59 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build___Test["Build & Test (11 jobs)"]
+      direction TB
+      wf_1_Build___Test(["Trigger: Build & Test"]):::atlasWorkflow
+      job_1_diff_check["diff_check"]:::atlasJob
+      job_1_job_test["job_test"]:::atlasJob
+      job_1_job_native_link_check["job_native_link_check"]:::atlasJob
+      wf_1_Build___Test --> job_1_diff_check
+      job_1_diff_check --> job_1_job_test
+      job_1_diff_check --> job_1_job_native_link_check
+    end
+    pipeline_root --> wf_1_Build___Test
+    subgraph sg_wf_9_End_to_End_Tests_V2["End-to-End Tests V2 (6 jobs)"]
+      direction TB
+      wf_9_End_to_End_Tests_V2(["Trigger: End-to-End Tests V2"]):::atlasWorkflow
+      job_9_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+      job_9_diff_check["diff_check"]:::atlasJob
+      job_9_detect_changes["detect-changes"]:::atlasJob
+      wf_9_End_to_End_Tests_V2 --> job_9_ready_to_merge_gate
+      job_9_ready_to_merge_gate --> job_9_diff_check
+      job_9_ready_to_merge_gate --> job_9_detect_changes
+    end
+    pipeline_root --> wf_9_End_to_End_Tests_V2
+    subgraph sg_wf_16_Sample_Application["Sample Application (11 jobs)"]
+      direction TB
+      wf_16_Sample_Application(["Trigger: Sample Application"]):::atlasWorkflow
+      job_16_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+      job_16_diff_check["diff_check"]:::atlasJob
+      job_16_detect_changes["detect-changes"]:::atlasJob
+      wf_16_Sample_Application --> job_16_ready_to_merge_gate
+      job_16_ready_to_merge_gate --> job_16_diff_check
+      job_16_ready_to_merge_gate --> job_16_detect_changes
+    end
+    pipeline_root --> wf_16_Sample_Application
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Detect_Changes["Detect Changes (1 jobs)"]
+      direction TB
+      wf_8_Detect_Changes(["Trigger: Detect Changes"]):::atlasWorkflow
+      job_8_changes["changes"]:::atlasJob
+      wf_8_Detect_Changes --> job_8_changes
+    end
+    pipeline_root --> wf_8_Detect_Changes
+    subgraph sg_wf_12_Ready_to_Merge_Workflow["Ready to Merge Workflow (1 jobs)"]
+      direction TB
+      wf_12_Ready_to_Merge_Workflow(["Trigger: Ready to Merge Workflow"]):::atlasWorkflow
+      job_12_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+      wf_12_Ready_to_Merge_Workflow --> job_12_ready_to_merge_gate
+    end
+    pipeline_root --> wf_12_Ready_to_Merge_Workflow
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_13_Automation__Notify_issues_for_release["Automation: Notify issues for release (1 jobs)"]
+      direction TB
+      wf_13_Automation__Notify_issues_for_release(["Trigger: Automation: Notify issues for release"]):::atlasWorkflow
+      job_13_release_comment_issues["release-comment-issues"]:::atlasJob
+      wf_13_Automation__Notify_issues_for_release --> job_13_release_comment_issues
+    end
+    pipeline_root --> wf_13_Automation__Notify_issues_for_release
+    subgraph sg_wf_14_Release["Release (1 jobs)"]
+      direction TB
+      wf_14_Release(["Trigger: Release"]):::atlasWorkflow
+      job_14_release["release"]:::atlasJob
+      wf_14_Release --> job_14_release
+    end
+    pipeline_root --> wf_14_Release
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_10_iOS_Crash_Screenshot_No_Freeze["iOS Crash Screenshot No-Freeze (2 jobs)"]
+      direction TB
+      wf_10_iOS_Crash_Screenshot_No_Freeze(["Trigger: iOS Crash Screenshot No-Freeze"]):::atlasWorkflow
+      job_10_ready_to_merge_gate["ready-to-merge-gate"]:::atlasJob
+      job_10_verify["verify"]:::atlasJob
+      wf_10_iOS_Crash_Screenshot_No_Freeze --> job_10_ready_to_merge_gate
+      job_10_ready_to_merge_gate --> job_10_verify
+    end
+    pipeline_root --> wf_10_iOS_Crash_Screenshot_No_Freeze
+    subgraph sg_wf_22_Update_Dependencies["Update Dependencies (8 jobs)"]
+      direction TB
+      wf_22_Update_Dependencies(["Trigger: Update Dependencies"]):::atlasWorkflow
+      job_22_android["android"]:::atlasJob
+      wf_22_Update_Dependencies --> job_22_android
+    end
+    pipeline_root --> wf_22_Update_Dependencies
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 2 jobs)"]
+    direction TB
+    wf_6_CodeQL["CodeQL (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_CodeQL
+  end
   wf_more["+14 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

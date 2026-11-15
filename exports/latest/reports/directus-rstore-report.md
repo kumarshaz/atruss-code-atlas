@@ -224,28 +224,42 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["directus/rstore (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_ci["ci (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_ci
-  job_0_lint["lint"]:::atlasJob
-  job_0_typecheck["typecheck"]:::atlasJob
-  job_0_unit_test["unit-test"]:::atlasJob
-  wf_0_ci --> job_0_lint
-  wf_0_ci --> job_0_typecheck
-  wf_0_ci --> job_0_unit_test
-  wf_2_Check_PR_title["Check PR title (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Check_PR_title
-  job_2_check_title["check-title"]:::atlasJob
-  wf_2_Check_PR_title --> job_2_check_title
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Publish_Nightlies["Publish Nightlies (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Publish_Nightlies
-  job_1_build["build"]:::atlasJob
-  wf_1_Publish_Nightlies --> job_1_build
-  wf_3_Create_release["Create release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Create_release
-  job_3_build["build"]:::atlasJob
-  wf_3_Create_release --> job_3_build
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci["ci (6 jobs)"]
+      direction TB
+      wf_0_ci(["Trigger: ci"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      job_0_typecheck["typecheck"]:::atlasJob
+      job_0_unit_test["unit-test"]:::atlasJob
+      wf_0_ci --> job_0_lint
+      wf_0_ci --> job_0_typecheck
+      wf_0_ci --> job_0_unit_test
+    end
+    pipeline_root --> wf_0_ci
+    subgraph sg_wf_2_Check_PR_title["Check PR title (1 jobs)"]
+      direction TB
+      wf_2_Check_PR_title(["Trigger: Check PR title"]):::atlasWorkflow
+      job_2_check_title["check-title"]:::atlasJob
+      wf_2_Check_PR_title --> job_2_check_title
+    end
+    pipeline_root --> wf_2_Check_PR_title
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Publish_Nightlies["Publish Nightlies (1 jobs)"]
+      direction TB
+      wf_1_Publish_Nightlies(["Trigger: Publish Nightlies"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Publish_Nightlies --> job_1_build
+    end
+    pipeline_root --> wf_1_Publish_Nightlies
+    subgraph sg_wf_3_Create_release["Create release (1 jobs)"]
+      direction TB
+      wf_3_Create_release(["Trigger: Create release"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_Create_release --> job_3_build
+    end
+    pipeline_root --> wf_3_Create_release
+  end
 ```

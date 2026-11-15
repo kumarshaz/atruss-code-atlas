@@ -197,30 +197,42 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["appwrite/templates (3 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_Generate_README_markdown_table["Generate README markdown table (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Generate_README_markdown_table
-  job_2_readme_generator["readme-generator"]:::atlasJob
-  wf_2_Generate_README_markdown_table --> job_2_readme_generator
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Template_builds["Template builds (10 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Template_builds
-  job_1_node["node"]:::atlasJob
-  job_1_bun["bun"]:::atlasJob
-  job_1_python["python"]:::atlasJob
-  wf_1_Template_builds --> job_1_node
-  wf_1_Template_builds --> job_1_bun
-  wf_1_Template_builds --> job_1_python
-  grp_2_Security___Governance["Security & Governance (1 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_0_Dependency_audit["Dependency audit (10 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_0_Dependency_audit
-  job_0_npm["npm"]:::atlasJob
-  job_0_bun["bun"]:::atlasJob
-  job_0_php["php"]:::atlasJob
-  wf_0_Dependency_audit --> job_0_npm
-  wf_0_Dependency_audit --> job_0_bun
-  wf_0_Dependency_audit --> job_0_php
+  subgraph sg_grp_0_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Generate_README_markdown_table["Generate README markdown table (1 jobs)"]
+      direction TB
+      wf_2_Generate_README_markdown_table(["Trigger: Generate README markdown table"]):::atlasWorkflow
+      job_2_readme_generator["readme-generator"]:::atlasJob
+      wf_2_Generate_README_markdown_table --> job_2_readme_generator
+    end
+    pipeline_root --> wf_2_Generate_README_markdown_table
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Template_builds["Template builds (10 jobs)"]
+      direction TB
+      wf_1_Template_builds(["Trigger: Template builds"]):::atlasWorkflow
+      job_1_node["node"]:::atlasJob
+      job_1_bun["bun"]:::atlasJob
+      job_1_python["python"]:::atlasJob
+      wf_1_Template_builds --> job_1_node
+      wf_1_Template_builds --> job_1_bun
+      wf_1_Template_builds --> job_1_python
+    end
+    pipeline_root --> wf_1_Template_builds
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Dependency_audit["Dependency audit (10 jobs)"]
+      direction TB
+      wf_0_Dependency_audit(["Trigger: Dependency audit"]):::atlasWorkflow
+      job_0_npm["npm"]:::atlasJob
+      job_0_bun["bun"]:::atlasJob
+      job_0_php["php"]:::atlasJob
+      wf_0_Dependency_audit --> job_0_npm
+      wf_0_Dependency_audit --> job_0_bun
+      wf_0_Dependency_audit --> job_0_php
+    end
+    pipeline_root --> wf_0_Dependency_audit
+  end
 ```

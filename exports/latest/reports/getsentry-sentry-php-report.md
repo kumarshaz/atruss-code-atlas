@@ -223,40 +223,60 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-php (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Backward_compatibility["Backward compatibility (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Backward_compatibility
-  job_0_roave_bc_check["roave-bc-check"]:::atlasJob
-  wf_0_Backward_compatibility --> job_0_roave_bc_check
-  wf_1_CI["CI (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_tests["tests"]:::atlasJob
-  job_1_opentelemetry_tests["opentelemetry-tests"]:::atlasJob
-  job_1_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
-  wf_1_CI --> job_1_tests
-  wf_1_CI --> job_1_opentelemetry_tests
-  wf_1_CI --> job_1_runtime_tests_frankenphp
-  wf_2_Decision_model_lint["Decision model lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Decision_model_lint
-  job_2_lint["lint"]:::atlasJob
-  wf_2_Decision_model_lint --> job_2_lint
-  wf_4_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Code_style_and_static_analysis
-  job_4_php_cs_fixer["php-cs-fixer"]:::atlasJob
-  job_4_phpstan["phpstan"]:::atlasJob
-  job_4_mago["mago"]:::atlasJob
-  wf_4_Code_style_and_static_analysis --> job_4_php_cs_fixer
-  wf_4_Code_style_and_static_analysis --> job_4_phpstan
-  wf_4_Code_style_and_static_analysis --> job_4_mago
-  wf_5_Validate_PR["Validate PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Validate_PR
-  job_5_validate_pr["validate-pr"]:::atlasJob
-  wf_5_Validate_PR --> job_5_validate_pr
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Prepare_Release["Prepare Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Prepare_Release
-  job_3_release["release"]:::atlasJob
-  wf_3_Prepare_Release --> job_3_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Backward_compatibility["Backward compatibility (1 jobs)"]
+      direction TB
+      wf_0_Backward_compatibility(["Trigger: Backward compatibility"]):::atlasWorkflow
+      job_0_roave_bc_check["roave-bc-check"]:::atlasJob
+      wf_0_Backward_compatibility --> job_0_roave_bc_check
+    end
+    pipeline_root --> wf_0_Backward_compatibility
+    subgraph sg_wf_1_CI["CI (4 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_tests["tests"]:::atlasJob
+      job_1_opentelemetry_tests["opentelemetry-tests"]:::atlasJob
+      job_1_runtime_tests_frankenphp["runtime-tests-frankenphp"]:::atlasJob
+      wf_1_CI --> job_1_tests
+      wf_1_CI --> job_1_opentelemetry_tests
+      wf_1_CI --> job_1_runtime_tests_frankenphp
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Decision_model_lint["Decision model lint (1 jobs)"]
+      direction TB
+      wf_2_Decision_model_lint(["Trigger: Decision model lint"]):::atlasWorkflow
+      job_2_lint["lint"]:::atlasJob
+      wf_2_Decision_model_lint --> job_2_lint
+    end
+    pipeline_root --> wf_2_Decision_model_lint
+    subgraph sg_wf_4_Code_style_and_static_analysis["Code style and static analysis (3 jobs)"]
+      direction TB
+      wf_4_Code_style_and_static_analysis(["Trigger: Code style and static analysis"]):::atlasWorkflow
+      job_4_php_cs_fixer["php-cs-fixer"]:::atlasJob
+      job_4_phpstan["phpstan"]:::atlasJob
+      job_4_mago["mago"]:::atlasJob
+      wf_4_Code_style_and_static_analysis --> job_4_php_cs_fixer
+      wf_4_Code_style_and_static_analysis --> job_4_phpstan
+      wf_4_Code_style_and_static_analysis --> job_4_mago
+    end
+    pipeline_root --> wf_4_Code_style_and_static_analysis
+    subgraph sg_wf_5_Validate_PR["Validate PR (1 jobs)"]
+      direction TB
+      wf_5_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
+      job_5_validate_pr["validate-pr"]:::atlasJob
+      wf_5_Validate_PR --> job_5_validate_pr
+    end
+    pipeline_root --> wf_5_Validate_PR
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Prepare_Release["Prepare Release (1 jobs)"]
+      direction TB
+      wf_3_Prepare_Release(["Trigger: Prepare Release"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Prepare_Release --> job_3_release
+    end
+    pipeline_root --> wf_3_Prepare_Release
+  end
 ```

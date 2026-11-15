@@ -128,34 +128,55 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/alloy-modules (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Auto_Merge["Auto-Merge (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Auto_Merge
-  job_1_automerge["automerge"]:::atlasJob
-  wf_1_Auto_Merge --> job_1_automerge
-  wf_2_Bump_version["Bump version (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Bump_version
-  job_2_build["build"]:::atlasJob
-  wf_2_Bump_version --> job_2_build
-  wf_4_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Pull_Request_Labeler
-  job_4_triage["triage"]:::atlasJob
-  wf_4_Pull_Request_Labeler --> job_4_triage
-  grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Security___Governance
-  wf_0_Dependabot_Auto_Approve["Dependabot Auto-Approve (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_0_Dependabot_Auto_Approve
-  job_0_dependabot["dependabot"]:::atlasJob
-  wf_0_Dependabot_Auto_Approve --> job_0_dependabot
-  wf_5_Stale_Branches["Stale Branches (1 jobs)"]:::atlasWorkflow
-  grp_1_Security___Governance --> wf_5_Stale_Branches
-  job_5_stale_branches["stale_branches"]:::atlasJob
-  wf_5_Stale_Branches --> job_5_stale_branches
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_3_Issue_Labeler["Issue Labeler (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_3_Issue_Labeler
-  job_3_triage["triage"]:::atlasJob
-  wf_3_Issue_Labeler --> job_3_triage
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Auto_Merge["Auto-Merge (1 jobs)"]
+      direction TB
+      wf_1_Auto_Merge(["Trigger: Auto-Merge"]):::atlasWorkflow
+      job_1_automerge["automerge"]:::atlasJob
+      wf_1_Auto_Merge --> job_1_automerge
+    end
+    pipeline_root --> wf_1_Auto_Merge
+    subgraph sg_wf_2_Bump_version["Bump version (1 jobs)"]
+      direction TB
+      wf_2_Bump_version(["Trigger: Bump version"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_Bump_version --> job_2_build
+    end
+    pipeline_root --> wf_2_Bump_version
+    subgraph sg_wf_4_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]
+      direction TB
+      wf_4_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_4_triage["triage"]:::atlasJob
+      wf_4_Pull_Request_Labeler --> job_4_triage
+    end
+    pipeline_root --> wf_4_Pull_Request_Labeler
+  end
+  subgraph sg_grp_1_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Dependabot_Auto_Approve["Dependabot Auto-Approve (1 jobs)"]
+      direction TB
+      wf_0_Dependabot_Auto_Approve(["Trigger: Dependabot Auto-Approve"]):::atlasWorkflow
+      job_0_dependabot["dependabot"]:::atlasJob
+      wf_0_Dependabot_Auto_Approve --> job_0_dependabot
+    end
+    pipeline_root --> wf_0_Dependabot_Auto_Approve
+    subgraph sg_wf_5_Stale_Branches["Stale Branches (1 jobs)"]
+      direction TB
+      wf_5_Stale_Branches(["Trigger: Stale Branches"]):::atlasWorkflow
+      job_5_stale_branches["stale_branches"]:::atlasJob
+      wf_5_Stale_Branches --> job_5_stale_branches
+    end
+    pipeline_root --> wf_5_Stale_Branches
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Issue_Labeler["Issue Labeler (1 jobs)"]
+      direction TB
+      wf_3_Issue_Labeler(["Trigger: Issue Labeler"]):::atlasWorkflow
+      job_3_triage["triage"]:::atlasJob
+      wf_3_Issue_Labeler --> job_3_triage
+    end
+    pipeline_root --> wf_3_Issue_Labeler
+  end
 ```

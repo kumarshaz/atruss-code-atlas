@@ -249,34 +249,55 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["argoproj/argo-ui (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Build_Storybook_Docs_v2["Build Storybook Docs v2 (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Build_Storybook_Docs_v2
-  job_0_build_docs["build-docs"]:::atlasJob
-  wf_0_Build_Storybook_Docs_v2 --> job_0_build_docs
-  wf_1_Build_v1["Build v1 (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Build_v1
-  job_1_build["build"]:::atlasJob
-  wf_1_Build_v1 --> job_1_build
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_Release_NPM_package_v1["Release NPM package v1 (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release_NPM_package_v1
-  job_3_publish["publish"]:::atlasJob
-  wf_3_Release_NPM_package_v1 --> job_3_publish
-  wf_4_Release_NPM_package_v2["Release NPM package v2 (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Release_NPM_package_v2
-  job_4_publish["publish"]:::atlasJob
-  wf_4_Release_NPM_package_v2 --> job_4_publish
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_Approve_and_enable_auto_merge_for_dependabot
-  job_2_review["review"]:::atlasJob
-  wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
-  wf_5_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_5_Mark_stale_issues_and_pull_requests
-  job_5_stale["stale"]:::atlasJob
-  wf_5_Mark_stale_issues_and_pull_requests --> job_5_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_Storybook_Docs_v2["Build Storybook Docs v2 (1 jobs)"]
+      direction TB
+      wf_0_Build_Storybook_Docs_v2(["Trigger: Build Storybook Docs v2"]):::atlasWorkflow
+      job_0_build_docs["build-docs"]:::atlasJob
+      wf_0_Build_Storybook_Docs_v2 --> job_0_build_docs
+    end
+    pipeline_root --> wf_0_Build_Storybook_Docs_v2
+    subgraph sg_wf_1_Build_v1["Build v1 (1 jobs)"]
+      direction TB
+      wf_1_Build_v1(["Trigger: Build v1"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_v1 --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_v1
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Release_NPM_package_v1["Release NPM package v1 (1 jobs)"]
+      direction TB
+      wf_3_Release_NPM_package_v1(["Trigger: Release NPM package v1"]):::atlasWorkflow
+      job_3_publish["publish"]:::atlasJob
+      wf_3_Release_NPM_package_v1 --> job_3_publish
+    end
+    pipeline_root --> wf_3_Release_NPM_package_v1
+    subgraph sg_wf_4_Release_NPM_package_v2["Release NPM package v2 (1 jobs)"]
+      direction TB
+      wf_4_Release_NPM_package_v2(["Trigger: Release NPM package v2"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Release_NPM_package_v2 --> job_4_publish
+    end
+    pipeline_root --> wf_4_Release_NPM_package_v2
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Approve_and_enable_auto_merge_for_dependabot["Approve and enable auto-merge for dependabot (1 jobs)"]
+      direction TB
+      wf_2_Approve_and_enable_auto_merge_for_dependabot(["Trigger: Approve and enable auto-merge for dependabot"]):::atlasWorkflow
+      job_2_review["review"]:::atlasJob
+      wf_2_Approve_and_enable_auto_merge_for_dependabot --> job_2_review
+    end
+    pipeline_root --> wf_2_Approve_and_enable_auto_merge_for_dependabot
+    subgraph sg_wf_5_Mark_stale_issues_and_pull_requests["Mark stale issues and pull requests (1 jobs)"]
+      direction TB
+      wf_5_Mark_stale_issues_and_pull_requests(["Trigger: Mark stale issues and pull requests"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Mark_stale_issues_and_pull_requests --> job_5_stale
+    end
+    pipeline_root --> wf_5_Mark_stale_issues_and_pull_requests
+  end
 ```

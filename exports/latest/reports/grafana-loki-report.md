@@ -534,66 +534,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/loki (26 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (13 workflows · 17 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Backport_PR_Creator["Backport PR Creator (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Backport_PR_Creator
-  job_0_main["main"]:::atlasJob
-  wf_0_Backport_PR_Creator --> job_0_main
-  wf_8_helm_ci["helm-ci (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_helm_ci
-  job_8_call_test["call-test"]:::atlasJob
-  job_8_list_integration_tests["list-integration-tests"]:::atlasJob
-  job_8_run_integration_tests["run-integration-tests"]:::atlasJob
-  wf_8_helm_ci --> job_8_call_test
-  wf_8_helm_ci --> job_8_list_integration_tests
-  job_8_list_integration_tests --> job_8_run_integration_tests
-  wf_9_Helm_Loki_Diff_CI["Helm Loki Diff CI (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_Helm_Loki_Diff_CI
-  job_9_helm_diff["helm-diff"]:::atlasJob
-  job_9_summary_diff_outputs["summary-diff-outputs"]:::atlasJob
-  wf_9_Helm_Loki_Diff_CI --> job_9_helm_diff
-  job_9_helm_diff --> job_9_summary_diff_outputs
-  wf_18_Lint_And_Build_Nix_Flake["Lint And Build Nix Flake (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_18_Lint_And_Build_Nix_Flake
-  job_18_lint["lint"]:::atlasJob
-  job_18_packages["packages"]:::atlasJob
-  wf_18_Lint_And_Build_Nix_Flake --> job_18_lint
-  wf_18_Lint_And_Build_Nix_Flake --> job_18_packages
-  grp_1_Release___Deploy["Release & Deploy (11 workflows · 65 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_13_Publish_images["Publish images (11 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_Publish_images
-  job_13_check["check"]:::atlasJob
-  job_13_logql_analyzer_image["logql-analyzer-image"]:::atlasJob
-  job_13_logql_analyzer_manifest["logql-analyzer-manifest"]:::atlasJob
-  wf_13_Publish_images --> job_13_check
-  job_13_check --> job_13_logql_analyzer_image
-  job_13_logql_analyzer_image --> job_13_logql_analyzer_manifest
-  wf_16_Prepare_Major_Release_PR["Prepare Major Release PR (14 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_16_Prepare_Major_Release_PR
-  job_16_check["check"]:::atlasJob
-  job_16_create_release_pr["create-release-pr"]:::atlasJob
-  job_16_dist["dist"]:::atlasJob
-  wf_16_Prepare_Major_Release_PR --> job_16_check
-  job_16_dist --> job_16_create_release_pr
-  wf_16_Prepare_Major_Release_PR --> job_16_dist
-  wf_17_Prepare_Minor_Release_PR_from_Weekly["Prepare Minor Release PR from Weekly (14 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_17_Prepare_Minor_Release_PR_from_Weekly
-  job_17_check["check"]:::atlasJob
-  job_17_create_release_pr["create-release-pr"]:::atlasJob
-  wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_check
-  wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_create_release_pr
-  wf_19_Prepare_Patch_Release_PR["Prepare Patch Release PR (14 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_19_Prepare_Patch_Release_PR
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_22_Relyance_Compliance_Inspection["Relyance Compliance Inspection (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_22_Relyance_Compliance_Inspection
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_24_TruffleHog_Secrets_Scan["TruffleHog Secrets Scan (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_24_TruffleHog_Secrets_Scan
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 17 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Backport_PR_Creator["Backport PR Creator (1 jobs)"]
+      direction TB
+      wf_0_Backport_PR_Creator(["Trigger: Backport PR Creator"]):::atlasWorkflow
+      job_0_main["main"]:::atlasJob
+      wf_0_Backport_PR_Creator --> job_0_main
+    end
+    pipeline_root --> wf_0_Backport_PR_Creator
+    subgraph sg_wf_8_helm_ci["helm-ci (3 jobs)"]
+      direction TB
+      wf_8_helm_ci(["Trigger: helm-ci"]):::atlasWorkflow
+      job_8_call_test["call-test"]:::atlasJob
+      job_8_list_integration_tests["list-integration-tests"]:::atlasJob
+      job_8_run_integration_tests["run-integration-tests"]:::atlasJob
+      wf_8_helm_ci --> job_8_call_test
+      wf_8_helm_ci --> job_8_list_integration_tests
+      job_8_list_integration_tests --> job_8_run_integration_tests
+    end
+    pipeline_root --> wf_8_helm_ci
+    subgraph sg_wf_9_Helm_Loki_Diff_CI["Helm Loki Diff CI (2 jobs)"]
+      direction TB
+      wf_9_Helm_Loki_Diff_CI(["Trigger: Helm Loki Diff CI"]):::atlasWorkflow
+      job_9_helm_diff["helm-diff"]:::atlasJob
+      job_9_summary_diff_outputs["summary-diff-outputs"]:::atlasJob
+      wf_9_Helm_Loki_Diff_CI --> job_9_helm_diff
+      job_9_helm_diff --> job_9_summary_diff_outputs
+    end
+    pipeline_root --> wf_9_Helm_Loki_Diff_CI
+    subgraph sg_wf_18_Lint_And_Build_Nix_Flake["Lint And Build Nix Flake (2 jobs)"]
+      direction TB
+      wf_18_Lint_And_Build_Nix_Flake(["Trigger: Lint And Build Nix Flake"]):::atlasWorkflow
+      job_18_lint["lint"]:::atlasJob
+      job_18_packages["packages"]:::atlasJob
+      wf_18_Lint_And_Build_Nix_Flake --> job_18_lint
+      wf_18_Lint_And_Build_Nix_Flake --> job_18_packages
+    end
+    pipeline_root --> wf_18_Lint_And_Build_Nix_Flake
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (11 workflows · 65 jobs)"]
+    direction TB
+    subgraph sg_wf_13_Publish_images["Publish images (11 jobs)"]
+      direction TB
+      wf_13_Publish_images(["Trigger: Publish images"]):::atlasWorkflow
+      job_13_check["check"]:::atlasJob
+      job_13_logql_analyzer_image["logql-analyzer-image"]:::atlasJob
+      job_13_logql_analyzer_manifest["logql-analyzer-manifest"]:::atlasJob
+      wf_13_Publish_images --> job_13_check
+      job_13_check --> job_13_logql_analyzer_image
+      job_13_logql_analyzer_image --> job_13_logql_analyzer_manifest
+    end
+    pipeline_root --> wf_13_Publish_images
+    subgraph sg_wf_16_Prepare_Major_Release_PR["Prepare Major Release PR (14 jobs)"]
+      direction TB
+      wf_16_Prepare_Major_Release_PR(["Trigger: Prepare Major Release PR"]):::atlasWorkflow
+      job_16_check["check"]:::atlasJob
+      job_16_create_release_pr["create-release-pr"]:::atlasJob
+      job_16_dist["dist"]:::atlasJob
+      wf_16_Prepare_Major_Release_PR --> job_16_check
+      job_16_dist --> job_16_create_release_pr
+      wf_16_Prepare_Major_Release_PR --> job_16_dist
+    end
+    pipeline_root --> wf_16_Prepare_Major_Release_PR
+    subgraph sg_wf_17_Prepare_Minor_Release_PR_from_Weekly["Prepare Minor Release PR from Weekly (14 jobs)"]
+      direction TB
+      wf_17_Prepare_Minor_Release_PR_from_Weekly(["Trigger: Prepare Minor Release PR from Weekly"]):::atlasWorkflow
+      job_17_check["check"]:::atlasJob
+      job_17_create_release_pr["create-release-pr"]:::atlasJob
+      wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_check
+      wf_17_Prepare_Minor_Release_PR_from_Weekly --> job_17_create_release_pr
+    end
+    pipeline_root --> wf_17_Prepare_Minor_Release_PR_from_Weekly
+    wf_19_Prepare_Patch_Release_PR["Prepare Patch Release PR (14 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_19_Prepare_Patch_Release_PR
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    wf_22_Relyance_Compliance_Inspection["Relyance Compliance Inspection (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_22_Relyance_Compliance_Inspection
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_24_TruffleHog_Secrets_Scan["TruffleHog Secrets Scan (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_24_TruffleHog_Secrets_Scan
+  end
   wf_more["+16 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

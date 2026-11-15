@@ -143,7 +143,7 @@ def test_render_pipeline_mermaid_large_multi_workflow_tree():
     assert "Security & Governance" in mermaid
     assert "Release & Deploy" in mermaid
     assert "Scheduled & Manual" in mermaid
-    assert "subgraph" not in mermaid
+    assert "subgraph " in mermaid
     assert "classDef atlasRoot" in mermaid
 
 

@@ -163,34 +163,52 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["saleor/cli (5 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Clear_staging_cloud_projects["Clear staging cloud projects (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_0_Clear_staging_cloud_projects
-  job_0_run_functional_tests["run-functional-tests"]:::atlasJob
-  wf_0_Clear_staging_cloud_projects --> job_0_run_functional_tests
-  wf_2_Prepare_a_Release_on_GitHub["Prepare a Release on GitHub (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Prepare_a_Release_on_GitHub
-  job_2_publish["publish"]:::atlasJob
-  wf_2_Prepare_a_Release_on_GitHub --> job_2_publish
-  wf_3_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_Release
-  job_3_publish["publish"]:::atlasJob
-  wf_3_Release --> job_3_publish
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_1_Test_PR["Test PR (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_Test_PR
-  job_1_lint["lint"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  job_1_build["build"]:::atlasJob
-  wf_1_Test_PR --> job_1_lint
-  wf_1_Test_PR --> job_1_test
-  wf_1_Test_PR --> job_1_build
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_Execute_nightly_tests["Execute nightly tests (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_4_Execute_nightly_tests
-  job_4_run_functional_tests["run-functional-tests"]:::atlasJob
-  wf_4_Execute_nightly_tests --> job_4_run_functional_tests
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Clear_staging_cloud_projects["Clear staging cloud projects (1 jobs)"]
+      direction TB
+      wf_0_Clear_staging_cloud_projects(["Trigger: Clear staging cloud projects"]):::atlasWorkflow
+      job_0_run_functional_tests["run-functional-tests"]:::atlasJob
+      wf_0_Clear_staging_cloud_projects --> job_0_run_functional_tests
+    end
+    pipeline_root --> wf_0_Clear_staging_cloud_projects
+    subgraph sg_wf_2_Prepare_a_Release_on_GitHub["Prepare a Release on GitHub (1 jobs)"]
+      direction TB
+      wf_2_Prepare_a_Release_on_GitHub(["Trigger: Prepare a Release on GitHub"]):::atlasWorkflow
+      job_2_publish["publish"]:::atlasJob
+      wf_2_Prepare_a_Release_on_GitHub --> job_2_publish
+    end
+    pipeline_root --> wf_2_Prepare_a_Release_on_GitHub
+    subgraph sg_wf_3_Release["Release (1 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_publish["publish"]:::atlasJob
+      wf_3_Release --> job_3_publish
+    end
+    pipeline_root --> wf_3_Release
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Test_PR["Test PR (3 jobs)"]
+      direction TB
+      wf_1_Test_PR(["Trigger: Test PR"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      job_1_build["build"]:::atlasJob
+      wf_1_Test_PR --> job_1_lint
+      wf_1_Test_PR --> job_1_test
+      wf_1_Test_PR --> job_1_build
+    end
+    pipeline_root --> wf_1_Test_PR
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Execute_nightly_tests["Execute nightly tests (1 jobs)"]
+      direction TB
+      wf_4_Execute_nightly_tests(["Trigger: Execute nightly tests"]):::atlasWorkflow
+      job_4_run_functional_tests["run-functional-tests"]:::atlasJob
+      wf_4_Execute_nightly_tests --> job_4_run_functional_tests
+    end
+    pipeline_root --> wf_4_Execute_nightly_tests
+  end
 ```

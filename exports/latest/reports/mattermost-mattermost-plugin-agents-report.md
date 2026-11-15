@@ -298,60 +298,94 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/mattermost-plugin-agents (10 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_editor_contract_drift["editor-contract-drift (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_editor_contract_drift
-  job_2_live_host_probe["live-host-probe"]:::atlasJob
-  wf_2_editor_contract_drift --> job_2_live_host_probe
-  wf_4_mcp_registry["mcp-registry (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_mcp_registry
-  job_4_validate["validate"]:::atlasJob
-  job_4_publish["publish"]:::atlasJob
-  wf_4_mcp_registry --> job_4_validate
-  job_4_validate --> job_4_publish
-  wf_5_nightly_evals["nightly-evals (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_nightly_evals
-  job_5_evals["evals"]:::atlasJob
-  job_5_publish["publish"]:::atlasJob
-  wf_5_nightly_evals --> job_5_evals
-  job_5_evals --> job_5_publish
-  wf_7_PR_Test_Analysis["PR Test Analysis (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_7_PR_Test_Analysis
-  job_7_analyze["analyze"]:::atlasJob
-  wf_7_PR_Test_Analysis --> job_7_analyze
-  grp_1_CI___Verification["CI & Verification (3 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_ci["ci (12 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_ci
-  job_0_e2e_build_artifact["e2e-build-artifact"]:::atlasJob
-  job_0_e2e["e2e"]:::atlasJob
-  job_0_plugin_tests["plugin-tests"]:::atlasJob
-  wf_0_ci --> job_0_e2e_build_artifact
-  job_0_e2e_build_artifact --> job_0_e2e
-  wf_0_ci --> job_0_plugin_tests
-  wf_1_Claude_Code["Claude Code (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_Claude_Code
-  job_1_claude["claude"]:::atlasJob
-  wf_1_Claude_Code --> job_1_claude
-  wf_6_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_6_PR_Test_Analysis_Override
-  job_6_override["override"]:::atlasJob
-  wf_6_PR_Test_Analysis_Override --> job_6_override
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_8_release_notes_preview["release-notes-preview (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_release_notes_preview
-  job_8_preview["preview"]:::atlasJob
-  wf_8_release_notes_preview --> job_8_preview
-  wf_9_release_notes["release-notes (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_9_release_notes
-  job_9_notes["notes"]:::atlasJob
-  wf_9_release_notes --> job_9_notes
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_3_evals["evals (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_3_evals
-  job_3_evals["evals"]:::atlasJob
-  wf_3_evals --> job_3_evals
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_2_editor_contract_drift["editor-contract-drift (1 jobs)"]
+      direction TB
+      wf_2_editor_contract_drift(["Trigger: editor-contract-drift"]):::atlasWorkflow
+      job_2_live_host_probe["live-host-probe"]:::atlasJob
+      wf_2_editor_contract_drift --> job_2_live_host_probe
+    end
+    pipeline_root --> wf_2_editor_contract_drift
+    subgraph sg_wf_4_mcp_registry["mcp-registry (2 jobs)"]
+      direction TB
+      wf_4_mcp_registry(["Trigger: mcp-registry"]):::atlasWorkflow
+      job_4_validate["validate"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      wf_4_mcp_registry --> job_4_validate
+      job_4_validate --> job_4_publish
+    end
+    pipeline_root --> wf_4_mcp_registry
+    subgraph sg_wf_5_nightly_evals["nightly-evals (2 jobs)"]
+      direction TB
+      wf_5_nightly_evals(["Trigger: nightly-evals"]):::atlasWorkflow
+      job_5_evals["evals"]:::atlasJob
+      job_5_publish["publish"]:::atlasJob
+      wf_5_nightly_evals --> job_5_evals
+      job_5_evals --> job_5_publish
+    end
+    pipeline_root --> wf_5_nightly_evals
+    subgraph sg_wf_7_PR_Test_Analysis["PR Test Analysis (1 jobs)"]
+      direction TB
+      wf_7_PR_Test_Analysis(["Trigger: PR Test Analysis"]):::atlasWorkflow
+      job_7_analyze["analyze"]:::atlasJob
+      wf_7_PR_Test_Analysis --> job_7_analyze
+    end
+    pipeline_root --> wf_7_PR_Test_Analysis
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (3 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci["ci (12 jobs)"]
+      direction TB
+      wf_0_ci(["Trigger: ci"]):::atlasWorkflow
+      job_0_e2e_build_artifact["e2e-build-artifact"]:::atlasJob
+      job_0_e2e["e2e"]:::atlasJob
+      job_0_plugin_tests["plugin-tests"]:::atlasJob
+      wf_0_ci --> job_0_e2e_build_artifact
+      job_0_e2e_build_artifact --> job_0_e2e
+      wf_0_ci --> job_0_plugin_tests
+    end
+    pipeline_root --> wf_0_ci
+    subgraph sg_wf_1_Claude_Code["Claude Code (1 jobs)"]
+      direction TB
+      wf_1_Claude_Code(["Trigger: Claude Code"]):::atlasWorkflow
+      job_1_claude["claude"]:::atlasJob
+      wf_1_Claude_Code --> job_1_claude
+    end
+    pipeline_root --> wf_1_Claude_Code
+    subgraph sg_wf_6_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]
+      direction TB
+      wf_6_PR_Test_Analysis_Override(["Trigger: PR Test Analysis Override"]):::atlasWorkflow
+      job_6_override["override"]:::atlasJob
+      wf_6_PR_Test_Analysis_Override --> job_6_override
+    end
+    pipeline_root --> wf_6_PR_Test_Analysis_Override
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_8_release_notes_preview["release-notes-preview (1 jobs)"]
+      direction TB
+      wf_8_release_notes_preview(["Trigger: release-notes-preview"]):::atlasWorkflow
+      job_8_preview["preview"]:::atlasJob
+      wf_8_release_notes_preview --> job_8_preview
+    end
+    pipeline_root --> wf_8_release_notes_preview
+    subgraph sg_wf_9_release_notes["release-notes (1 jobs)"]
+      direction TB
+      wf_9_release_notes(["Trigger: release-notes"]):::atlasWorkflow
+      job_9_notes["notes"]:::atlasJob
+      wf_9_release_notes --> job_9_notes
+    end
+    pipeline_root --> wf_9_release_notes
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_evals["evals (1 jobs)"]
+      direction TB
+      wf_3_evals(["Trigger: evals"]):::atlasWorkflow
+      job_3_evals["evals"]:::atlasJob
+      wf_3_evals --> job_3_evals
+    end
+    pipeline_root --> wf_3_evals
+  end
 ```

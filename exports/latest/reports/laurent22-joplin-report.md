@@ -447,60 +447,95 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["laurent22/joplin (11 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (7 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_Build_macOS_M1["Build macOS M1 (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Build_macOS_M1
-  job_2_Main["Main"]:::atlasJob
-  wf_2_Build_macOS_M1 --> job_2_Main
-  wf_3_Check_pull_request_title["Check pull request title (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Check_pull_request_title
-  job_3_main["main"]:::atlasJob
-  wf_3_Check_pull_request_title --> job_3_main
-  wf_4_CLA_Assistant["CLA Assistant (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_CLA_Assistant
-  job_4_CLAAssistant["CLAAssistant"]:::atlasJob
-  wf_4_CLA_Assistant --> job_4_CLAAssistant
-  wf_7_Delete_CodeRabbit_PR_Comments["Delete CodeRabbit PR Comments (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Delete_CodeRabbit_PR_Comments
-  job_7_delete_coderabbit_comments["delete-coderabbit-comments"]:::atlasJob
-  wf_7_Delete_CodeRabbit_PR_Comments --> job_7_delete_coderabbit_comments
-  wf_8_Joplin_Continuous_Integration["Joplin Continuous Integration (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Joplin_Continuous_Integration
-  job_8_Main["Main"]:::atlasJob
-  job_8_ServerDockerImage["ServerDockerImage"]:::atlasJob
-  wf_8_Joplin_Continuous_Integration --> job_8_Main
-  wf_8_Joplin_Continuous_Integration --> job_8_ServerDockerImage
-  wf_10_Joplin_UI_tests["Joplin UI tests (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_10_Joplin_UI_tests
-  job_10_Main["Main"]:::atlasJob
-  job_10_Mobile["Mobile"]:::atlasJob
-  wf_10_Joplin_UI_tests --> job_10_Main
-  wf_10_Joplin_UI_tests --> job_10_Mobile
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_6_comment_on_failure["comment-on-failure (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_6_comment_on_failure
-  job_6_comment_failure["comment-failure"]:::atlasJob
-  wf_6_comment_on_failure --> job_6_comment_failure
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_9_Publish_npm_packages["Publish npm packages (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_9_Publish_npm_packages
-  job_9_Publish["Publish"]:::atlasJob
-  wf_9_Publish_npm_packages --> job_9_Publish
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_0_automerge["automerge (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_0_automerge
-  job_0_automerge["automerge"]:::atlasJob
-  wf_0_automerge --> job_0_automerge
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_5_Close_stale_issues["Close stale issues (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_5_Close_stale_issues
-  job_5_ProcessStaleIssues["ProcessStaleIssues"]:::atlasJob
-  wf_5_Close_stale_issues --> job_5_ProcessStaleIssues
+  subgraph sg_grp_0_CI___Verification["CI & Verification (7 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_macOS_M1["Build macOS M1 (1 jobs)"]
+      direction TB
+      wf_2_Build_macOS_M1(["Trigger: Build macOS M1"]):::atlasWorkflow
+      job_2_Main["Main"]:::atlasJob
+      wf_2_Build_macOS_M1 --> job_2_Main
+    end
+    pipeline_root --> wf_2_Build_macOS_M1
+    subgraph sg_wf_3_Check_pull_request_title["Check pull request title (1 jobs)"]
+      direction TB
+      wf_3_Check_pull_request_title(["Trigger: Check pull request title"]):::atlasWorkflow
+      job_3_main["main"]:::atlasJob
+      wf_3_Check_pull_request_title --> job_3_main
+    end
+    pipeline_root --> wf_3_Check_pull_request_title
+    subgraph sg_wf_4_CLA_Assistant["CLA Assistant (1 jobs)"]
+      direction TB
+      wf_4_CLA_Assistant(["Trigger: CLA Assistant"]):::atlasWorkflow
+      job_4_CLAAssistant["CLAAssistant"]:::atlasJob
+      wf_4_CLA_Assistant --> job_4_CLAAssistant
+    end
+    pipeline_root --> wf_4_CLA_Assistant
+    subgraph sg_wf_7_Delete_CodeRabbit_PR_Comments["Delete CodeRabbit PR Comments (1 jobs)"]
+      direction TB
+      wf_7_Delete_CodeRabbit_PR_Comments(["Trigger: Delete CodeRabbit PR Comments"]):::atlasWorkflow
+      job_7_delete_coderabbit_comments["delete-coderabbit-comments"]:::atlasJob
+      wf_7_Delete_CodeRabbit_PR_Comments --> job_7_delete_coderabbit_comments
+    end
+    pipeline_root --> wf_7_Delete_CodeRabbit_PR_Comments
+    subgraph sg_wf_8_Joplin_Continuous_Integration["Joplin Continuous Integration (2 jobs)"]
+      direction TB
+      wf_8_Joplin_Continuous_Integration(["Trigger: Joplin Continuous Integration"]):::atlasWorkflow
+      job_8_Main["Main"]:::atlasJob
+      job_8_ServerDockerImage["ServerDockerImage"]:::atlasJob
+      wf_8_Joplin_Continuous_Integration --> job_8_Main
+      wf_8_Joplin_Continuous_Integration --> job_8_ServerDockerImage
+    end
+    pipeline_root --> wf_8_Joplin_Continuous_Integration
+    subgraph sg_wf_10_Joplin_UI_tests["Joplin UI tests (2 jobs)"]
+      direction TB
+      wf_10_Joplin_UI_tests(["Trigger: Joplin UI tests"]):::atlasWorkflow
+      job_10_Main["Main"]:::atlasJob
+      job_10_Mobile["Mobile"]:::atlasJob
+      wf_10_Joplin_UI_tests --> job_10_Main
+      wf_10_Joplin_UI_tests --> job_10_Mobile
+    end
+    pipeline_root --> wf_10_Joplin_UI_tests
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_comment_on_failure["comment-on-failure (1 jobs)"]
+      direction TB
+      wf_6_comment_on_failure(["Trigger: comment-on-failure"]):::atlasWorkflow
+      job_6_comment_failure["comment-failure"]:::atlasJob
+      wf_6_comment_on_failure --> job_6_comment_failure
+    end
+    pipeline_root --> wf_6_comment_on_failure
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Publish_npm_packages["Publish npm packages (1 jobs)"]
+      direction TB
+      wf_9_Publish_npm_packages(["Trigger: Publish npm packages"]):::atlasWorkflow
+      job_9_Publish["Publish"]:::atlasJob
+      wf_9_Publish_npm_packages --> job_9_Publish
+    end
+    pipeline_root --> wf_9_Publish_npm_packages
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_automerge["automerge (1 jobs)"]
+      direction TB
+      wf_0_automerge(["Trigger: automerge"]):::atlasWorkflow
+      job_0_automerge["automerge"]:::atlasJob
+      wf_0_automerge --> job_0_automerge
+    end
+    pipeline_root --> wf_0_automerge
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Close_stale_issues["Close stale issues (1 jobs)"]
+      direction TB
+      wf_5_Close_stale_issues(["Trigger: Close stale issues"]):::atlasWorkflow
+      job_5_ProcessStaleIssues["ProcessStaleIssues"]:::atlasJob
+      wf_5_Close_stale_issues --> job_5_ProcessStaleIssues
+    end
+    pipeline_root --> wf_5_Close_stale_issues
+  end
   wf_more["+1 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

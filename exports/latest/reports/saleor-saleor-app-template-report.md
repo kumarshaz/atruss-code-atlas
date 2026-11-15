@@ -178,22 +178,35 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["saleor/saleor-app-template (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Assign_PR_to_creator["Assign PR to creator (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Assign_PR_to_creator
-  job_0_assign_creator["assign_creator"]:::atlasJob
-  wf_0_Assign_PR_to_creator --> job_0_assign_creator
-  wf_1_Check_Licenses["Check Licenses (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Check_Licenses
-  job_1_default["default"]:::atlasJob
-  wf_1_Check_Licenses --> job_1_default
-  wf_2_QA["QA (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_QA
-  job_2_build["build"]:::atlasJob
-  wf_2_QA --> job_2_build
-  wf_3_Example_branch_management["Example branch management (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Example_branch_management
-  job_3_example_branches_checks["example-branches-checks"]:::atlasJob
-  wf_3_Example_branch_management --> job_3_example_branches_checks
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Assign_PR_to_creator["Assign PR to creator (1 jobs)"]
+      direction TB
+      wf_0_Assign_PR_to_creator(["Trigger: Assign PR to creator"]):::atlasWorkflow
+      job_0_assign_creator["assign_creator"]:::atlasJob
+      wf_0_Assign_PR_to_creator --> job_0_assign_creator
+    end
+    pipeline_root --> wf_0_Assign_PR_to_creator
+    subgraph sg_wf_1_Check_Licenses["Check Licenses (1 jobs)"]
+      direction TB
+      wf_1_Check_Licenses(["Trigger: Check Licenses"]):::atlasWorkflow
+      job_1_default["default"]:::atlasJob
+      wf_1_Check_Licenses --> job_1_default
+    end
+    pipeline_root --> wf_1_Check_Licenses
+    subgraph sg_wf_2_QA["QA (1 jobs)"]
+      direction TB
+      wf_2_QA(["Trigger: QA"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_QA --> job_2_build
+    end
+    pipeline_root --> wf_2_QA
+    subgraph sg_wf_3_Example_branch_management["Example branch management (1 jobs)"]
+      direction TB
+      wf_3_Example_branch_management(["Trigger: Example branch management"]):::atlasWorkflow
+      job_3_example_branches_checks["example-branches-checks"]:::atlasJob
+      wf_3_Example_branch_management --> job_3_example_branches_checks
+    end
+    pipeline_root --> wf_3_Example_branch_management
+  end
 ```

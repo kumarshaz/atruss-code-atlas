@@ -238,28 +238,42 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["RocketChat/Rocket.Chat.Electron (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_PowerShell_Lint["PowerShell Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_PowerShell_Lint
-  job_1_lint["lint"]:::atlasJob
-  wf_1_PowerShell_Lint --> job_1_lint
-  wf_2_Build_pull_request_artifacts["Build pull request artifacts (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Build_pull_request_artifacts
-  job_2_build["build"]:::atlasJob
-  wf_2_Build_pull_request_artifacts --> job_2_build
-  wf_3_Validate_pull_request["Validate pull request (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Validate_pull_request
-  job_3_test["test"]:::atlasJob
-  job_3_build["build"]:::atlasJob
-  wf_3_Validate_pull_request --> job_3_test
-  wf_3_Validate_pull_request --> job_3_build
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_release["Build release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Build_release
-  job_0_prepare["prepare"]:::atlasJob
-  job_0_build["build"]:::atlasJob
-  wf_0_Build_release --> job_0_prepare
-  job_0_prepare --> job_0_build
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_PowerShell_Lint["PowerShell Lint (1 jobs)"]
+      direction TB
+      wf_1_PowerShell_Lint(["Trigger: PowerShell Lint"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      wf_1_PowerShell_Lint --> job_1_lint
+    end
+    pipeline_root --> wf_1_PowerShell_Lint
+    subgraph sg_wf_2_Build_pull_request_artifacts["Build pull request artifacts (1 jobs)"]
+      direction TB
+      wf_2_Build_pull_request_artifacts(["Trigger: Build pull request artifacts"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_Build_pull_request_artifacts --> job_2_build
+    end
+    pipeline_root --> wf_2_Build_pull_request_artifacts
+    subgraph sg_wf_3_Validate_pull_request["Validate pull request (2 jobs)"]
+      direction TB
+      wf_3_Validate_pull_request(["Trigger: Validate pull request"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      job_3_build["build"]:::atlasJob
+      wf_3_Validate_pull_request --> job_3_test
+      wf_3_Validate_pull_request --> job_3_build
+    end
+    pipeline_root --> wf_3_Validate_pull_request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_release["Build release (2 jobs)"]
+      direction TB
+      wf_0_Build_release(["Trigger: Build release"]):::atlasWorkflow
+      job_0_prepare["prepare"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      wf_0_Build_release --> job_0_prepare
+      job_0_prepare --> job_0_build
+    end
+    pipeline_root --> wf_0_Build_release
+  end
 ```

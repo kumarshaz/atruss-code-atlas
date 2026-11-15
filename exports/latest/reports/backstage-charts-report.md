@@ -190,38 +190,62 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["backstage/charts (7 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Lint_Charts["Lint Charts (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Lint_Charts
-  job_1_lint["lint"]:::atlasJob
-  wf_1_Lint_Charts --> job_1_lint
-  wf_2_Pre_commit_Comment["Pre-commit Comment (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Pre_commit_Comment
-  job_2_comment["comment"]:::atlasJob
-  wf_2_Pre_commit_Comment --> job_2_comment
-  wf_3_Pre_commit["Pre-commit (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Pre_commit
-  job_3_pre_commit["pre-commit"]:::atlasJob
-  wf_3_Pre_commit --> job_3_pre_commit
-  wf_5_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Codespell
-  job_5_codespell["codespell"]:::atlasJob
-  wf_5_Codespell --> job_5_codespell
-  wf_6_Test_Charts["Test Charts (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Test_Charts
-  job_6_test["test"]:::atlasJob
-  wf_6_Test_Charts --> job_6_test
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Release_Charts["Release Charts (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Release_Charts
-  job_4_release["release"]:::atlasJob
-  wf_4_Release_Charts --> job_4_release
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_0_Automate_staleness["Automate staleness (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_0_Automate_staleness
-  job_0_stale["stale"]:::atlasJob
-  wf_0_Automate_staleness --> job_0_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Lint_Charts["Lint Charts (1 jobs)"]
+      direction TB
+      wf_1_Lint_Charts(["Trigger: Lint Charts"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      wf_1_Lint_Charts --> job_1_lint
+    end
+    pipeline_root --> wf_1_Lint_Charts
+    subgraph sg_wf_2_Pre_commit_Comment["Pre-commit Comment (1 jobs)"]
+      direction TB
+      wf_2_Pre_commit_Comment(["Trigger: Pre-commit Comment"]):::atlasWorkflow
+      job_2_comment["comment"]:::atlasJob
+      wf_2_Pre_commit_Comment --> job_2_comment
+    end
+    pipeline_root --> wf_2_Pre_commit_Comment
+    subgraph sg_wf_3_Pre_commit["Pre-commit (1 jobs)"]
+      direction TB
+      wf_3_Pre_commit(["Trigger: Pre-commit"]):::atlasWorkflow
+      job_3_pre_commit["pre-commit"]:::atlasJob
+      wf_3_Pre_commit --> job_3_pre_commit
+    end
+    pipeline_root --> wf_3_Pre_commit
+    subgraph sg_wf_5_Codespell["Codespell (1 jobs)"]
+      direction TB
+      wf_5_Codespell(["Trigger: Codespell"]):::atlasWorkflow
+      job_5_codespell["codespell"]:::atlasJob
+      wf_5_Codespell --> job_5_codespell
+    end
+    pipeline_root --> wf_5_Codespell
+    subgraph sg_wf_6_Test_Charts["Test Charts (1 jobs)"]
+      direction TB
+      wf_6_Test_Charts(["Trigger: Test Charts"]):::atlasWorkflow
+      job_6_test["test"]:::atlasJob
+      wf_6_Test_Charts --> job_6_test
+    end
+    pipeline_root --> wf_6_Test_Charts
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release_Charts["Release Charts (1 jobs)"]
+      direction TB
+      wf_4_Release_Charts(["Trigger: Release Charts"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Release_Charts --> job_4_release
+    end
+    pipeline_root --> wf_4_Release_Charts
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Automate_staleness["Automate staleness (1 jobs)"]
+      direction TB
+      wf_0_Automate_staleness(["Trigger: Automate staleness"]):::atlasWorkflow
+      job_0_stale["stale"]:::atlasJob
+      wf_0_Automate_staleness --> job_0_stale
+    end
+    pipeline_root --> wf_0_Automate_staleness
+  end
 ```

@@ -271,62 +271,96 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/sentry-java (16 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (10 workflows · 12 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Add_Platform_Label["Add Platform Label (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Add_Platform_Label
-  job_0_add_label["add_label"]:::atlasJob
-  wf_0_Add_Platform_Label --> job_0_add_label
-  wf_1_AGP_Matrix_Compatibility["AGP Matrix Compatibility (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_AGP_Matrix_Compatibility
-  job_1_agp_matrix_compatibility["agp-matrix-compatibility"]:::atlasJob
-  wf_1_AGP_Matrix_Compatibility --> job_1_agp_matrix_compatibility
-  wf_3_Changes_In_High_Risk_Code["Changes In High Risk Code (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Changes_In_High_Risk_Code
-  job_3_files_changed["files-changed"]:::atlasJob
-  job_3_validate_high_risk_code["validate-high-risk-code"]:::atlasJob
-  wf_3_Changes_In_High_Risk_Code --> job_3_files_changed
-  job_3_files_changed --> job_3_validate_high_risk_code
-  wf_10_UI_Tests_Critical["UI Tests Critical (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_10_UI_Tests_Critical
-  job_10_build["build"]:::atlasJob
-  job_10_run_maestro_tests["run-maestro-tests"]:::atlasJob
-  wf_10_UI_Tests_Critical --> job_10_build
-  job_10_build --> job_10_run_maestro_tests
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_8_Generate_Javadocs["Generate Javadocs (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Generate_Javadocs
-  job_8_build_and_deploy_javadocs["build-and-deploy-javadocs"]:::atlasJob
-  wf_8_Generate_Javadocs --> job_8_build_and_deploy_javadocs
-  wf_12_Build_Release_Artifacts["Build Release Artifacts (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_12_Build_Release_Artifacts
-  job_12_release["release"]:::atlasJob
-  wf_12_Build_Release_Artifacts --> job_12_release
-  wf_13_release["release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_release
-  job_13_release["release"]:::atlasJob
-  wf_13_release --> job_13_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_9_Integration_Tests___Benchmarks["Integration Tests - Benchmarks (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_9_Integration_Tests___Benchmarks
-  job_9_test["test"]:::atlasJob
-  job_9_app_metrics["app-metrics"]:::atlasJob
-  wf_9_Integration_Tests___Benchmarks --> job_9_test
-  wf_9_Integration_Tests___Benchmarks --> job_9_app_metrics
-  wf_15_Update_Dependencies["Update Dependencies (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_15_Update_Dependencies
-  job_15_native["native"]:::atlasJob
-  job_15_gradle_wrapper["gradle-wrapper"]:::atlasJob
-  wf_15_Update_Dependencies --> job_15_native
-  wf_15_Update_Dependencies --> job_15_gradle_wrapper
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_4_CodeQL
-  job_4_analyze["analyze"]:::atlasJob
-  wf_4_CodeQL --> job_4_analyze
+  subgraph sg_grp_0_CI___Verification["CI & Verification (10 workflows · 12 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Add_Platform_Label["Add Platform Label (1 jobs)"]
+      direction TB
+      wf_0_Add_Platform_Label(["Trigger: Add Platform Label"]):::atlasWorkflow
+      job_0_add_label["add_label"]:::atlasJob
+      wf_0_Add_Platform_Label --> job_0_add_label
+    end
+    pipeline_root --> wf_0_Add_Platform_Label
+    subgraph sg_wf_1_AGP_Matrix_Compatibility["AGP Matrix Compatibility (1 jobs)"]
+      direction TB
+      wf_1_AGP_Matrix_Compatibility(["Trigger: AGP Matrix Compatibility"]):::atlasWorkflow
+      job_1_agp_matrix_compatibility["agp-matrix-compatibility"]:::atlasJob
+      wf_1_AGP_Matrix_Compatibility --> job_1_agp_matrix_compatibility
+    end
+    pipeline_root --> wf_1_AGP_Matrix_Compatibility
+    subgraph sg_wf_3_Changes_In_High_Risk_Code["Changes In High Risk Code (2 jobs)"]
+      direction TB
+      wf_3_Changes_In_High_Risk_Code(["Trigger: Changes In High Risk Code"]):::atlasWorkflow
+      job_3_files_changed["files-changed"]:::atlasJob
+      job_3_validate_high_risk_code["validate-high-risk-code"]:::atlasJob
+      wf_3_Changes_In_High_Risk_Code --> job_3_files_changed
+      job_3_files_changed --> job_3_validate_high_risk_code
+    end
+    pipeline_root --> wf_3_Changes_In_High_Risk_Code
+    subgraph sg_wf_10_UI_Tests_Critical["UI Tests Critical (2 jobs)"]
+      direction TB
+      wf_10_UI_Tests_Critical(["Trigger: UI Tests Critical"]):::atlasWorkflow
+      job_10_build["build"]:::atlasJob
+      job_10_run_maestro_tests["run-maestro-tests"]:::atlasJob
+      wf_10_UI_Tests_Critical --> job_10_build
+      job_10_build --> job_10_run_maestro_tests
+    end
+    pipeline_root --> wf_10_UI_Tests_Critical
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Generate_Javadocs["Generate Javadocs (1 jobs)"]
+      direction TB
+      wf_8_Generate_Javadocs(["Trigger: Generate Javadocs"]):::atlasWorkflow
+      job_8_build_and_deploy_javadocs["build-and-deploy-javadocs"]:::atlasJob
+      wf_8_Generate_Javadocs --> job_8_build_and_deploy_javadocs
+    end
+    pipeline_root --> wf_8_Generate_Javadocs
+    subgraph sg_wf_12_Build_Release_Artifacts["Build Release Artifacts (1 jobs)"]
+      direction TB
+      wf_12_Build_Release_Artifacts(["Trigger: Build Release Artifacts"]):::atlasWorkflow
+      job_12_release["release"]:::atlasJob
+      wf_12_Build_Release_Artifacts --> job_12_release
+    end
+    pipeline_root --> wf_12_Build_Release_Artifacts
+    subgraph sg_wf_13_release["release (1 jobs)"]
+      direction TB
+      wf_13_release(["Trigger: release"]):::atlasWorkflow
+      job_13_release["release"]:::atlasJob
+      wf_13_release --> job_13_release
+    end
+    pipeline_root --> wf_13_release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Integration_Tests___Benchmarks["Integration Tests - Benchmarks (2 jobs)"]
+      direction TB
+      wf_9_Integration_Tests___Benchmarks(["Trigger: Integration Tests - Benchmarks"]):::atlasWorkflow
+      job_9_test["test"]:::atlasJob
+      job_9_app_metrics["app-metrics"]:::atlasJob
+      wf_9_Integration_Tests___Benchmarks --> job_9_test
+      wf_9_Integration_Tests___Benchmarks --> job_9_app_metrics
+    end
+    pipeline_root --> wf_9_Integration_Tests___Benchmarks
+    subgraph sg_wf_15_Update_Dependencies["Update Dependencies (2 jobs)"]
+      direction TB
+      wf_15_Update_Dependencies(["Trigger: Update Dependencies"]):::atlasWorkflow
+      job_15_native["native"]:::atlasJob
+      job_15_gradle_wrapper["gradle-wrapper"]:::atlasJob
+      wf_15_Update_Dependencies --> job_15_native
+      wf_15_Update_Dependencies --> job_15_gradle_wrapper
+    end
+    pipeline_root --> wf_15_Update_Dependencies
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_4_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_CodeQL --> job_4_analyze
+    end
+    pipeline_root --> wf_4_CodeQL
+  end
   wf_more["+6 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

@@ -205,34 +205,52 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/grafana-kiosk (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Spell_Check["Spell Check (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Spell_Check
-  job_1_cspell["cspell"]:::atlasJob
-  wf_1_Spell_Check --> job_1_cspell
-  wf_2_Markdown_Lint["Markdown Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Markdown_Lint
-  job_2_markdownlint["markdownlint"]:::atlasJob
-  wf_2_Markdown_Lint --> job_2_markdownlint
-  wf_3_OSV_Scanner_PR_Scan["OSV-Scanner PR Scan (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_OSV_Scanner_PR_Scan
-  job_3_scan_pr["scan-pr"]:::atlasJob
-  wf_3_OSV_Scanner_PR_Scan --> job_3_scan_pr
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_Build["Build (3 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_0_Build
-  job_0_actionlint["actionlint"]:::atlasJob
-  job_0_build["build"]:::atlasJob
-  job_0_integration["integration"]:::atlasJob
-  wf_0_Build --> job_0_actionlint
-  wf_0_Build --> job_0_build
-  job_0_build --> job_0_integration
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Close_stale_issues_and_PRs
-  job_4_stale["stale"]:::atlasJob
-  wf_4_Close_stale_issues_and_PRs --> job_4_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Spell_Check["Spell Check (1 jobs)"]
+      direction TB
+      wf_1_Spell_Check(["Trigger: Spell Check"]):::atlasWorkflow
+      job_1_cspell["cspell"]:::atlasJob
+      wf_1_Spell_Check --> job_1_cspell
+    end
+    pipeline_root --> wf_1_Spell_Check
+    subgraph sg_wf_2_Markdown_Lint["Markdown Lint (1 jobs)"]
+      direction TB
+      wf_2_Markdown_Lint(["Trigger: Markdown Lint"]):::atlasWorkflow
+      job_2_markdownlint["markdownlint"]:::atlasJob
+      wf_2_Markdown_Lint --> job_2_markdownlint
+    end
+    pipeline_root --> wf_2_Markdown_Lint
+    subgraph sg_wf_3_OSV_Scanner_PR_Scan["OSV-Scanner PR Scan (1 jobs)"]
+      direction TB
+      wf_3_OSV_Scanner_PR_Scan(["Trigger: OSV-Scanner PR Scan"]):::atlasWorkflow
+      job_3_scan_pr["scan-pr"]:::atlasJob
+      wf_3_OSV_Scanner_PR_Scan --> job_3_scan_pr
+    end
+    pipeline_root --> wf_3_OSV_Scanner_PR_Scan
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build["Build (3 jobs)"]
+      direction TB
+      wf_0_Build(["Trigger: Build"]):::atlasWorkflow
+      job_0_actionlint["actionlint"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      job_0_integration["integration"]:::atlasJob
+      wf_0_Build --> job_0_actionlint
+      wf_0_Build --> job_0_build
+      job_0_build --> job_0_integration
+    end
+    pipeline_root --> wf_0_Build
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Close_stale_issues_and_PRs["Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_4_Close_stale_issues_and_PRs(["Trigger: Close stale issues and PRs"]):::atlasWorkflow
+      job_4_stale["stale"]:::atlasJob
+      wf_4_Close_stale_issues_and_PRs --> job_4_stale
+    end
+    pipeline_root --> wf_4_Close_stale_issues_and_PRs
+  end
 ```

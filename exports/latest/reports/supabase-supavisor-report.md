@@ -314,53 +314,78 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/supavisor (7 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (4 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_0_Dispatch_base_artifact_build["Dispatch base artifact build (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_0_Dispatch_base_artifact_build
-  job_0_dispatch["dispatch"]:::atlasJob
-  wf_0_Dispatch_base_artifact_build --> job_0_dispatch
-  wf_1_Dispatch_continuous_deploy["Dispatch continuous deploy (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_1_Dispatch_continuous_deploy
-  job_1_dispatch["dispatch"]:::atlasJob
-  wf_1_Dispatch_continuous_deploy --> job_1_dispatch
-  wf_2_Publish_docs["Publish docs (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Publish_docs
-  job_2_deploy["deploy"]:::atlasJob
-  wf_2_Publish_docs --> job_2_deploy
-  wf_5_Release_on_Dockerhub["Release on Dockerhub (4 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_5_Release_on_Dockerhub
-  job_5_settings["settings"]:::atlasJob
-  job_5_build_image["build_image"]:::atlasJob
-  job_5_merge_manifest["merge_manifest"]:::atlasJob
-  wf_5_Release_on_Dockerhub --> job_5_settings
-  job_5_settings --> job_5_build_image
-  job_5_settings --> job_5_merge_manifest
-  job_5_build_image --> job_5_merge_manifest
-  grp_1_CI___Verification["CI & Verification (1 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_Elixir_tests["Elixir tests (7 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_Elixir_tests
-  job_3_deps["deps"]:::atlasJob
-  job_3_format["format"]:::atlasJob
-  job_3_credo["credo"]:::atlasJob
-  wf_3_Elixir_tests --> job_3_deps
-  job_3_deps --> job_3_format
-  job_3_deps --> job_3_credo
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_Mirror_Image["Mirror Image (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_4_Mirror_Image
-  job_4_mirror["mirror"]:::atlasJob
-  wf_4_Mirror_Image --> job_4_mirror
-  grp_3_Security___Governance["Security & Governance (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_6_Security_checks["Security checks (3 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_6_Security_checks
-  job_6_deps["deps"]:::atlasJob
-  job_6_audit["audit"]:::atlasJob
-  job_6_sobelow["sobelow"]:::atlasJob
-  wf_6_Security_checks --> job_6_deps
-  job_6_deps --> job_6_audit
-  job_6_deps --> job_6_sobelow
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (4 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Dispatch_base_artifact_build["Dispatch base artifact build (1 jobs)"]
+      direction TB
+      wf_0_Dispatch_base_artifact_build(["Trigger: Dispatch base artifact build"]):::atlasWorkflow
+      job_0_dispatch["dispatch"]:::atlasJob
+      wf_0_Dispatch_base_artifact_build --> job_0_dispatch
+    end
+    pipeline_root --> wf_0_Dispatch_base_artifact_build
+    subgraph sg_wf_1_Dispatch_continuous_deploy["Dispatch continuous deploy (1 jobs)"]
+      direction TB
+      wf_1_Dispatch_continuous_deploy(["Trigger: Dispatch continuous deploy"]):::atlasWorkflow
+      job_1_dispatch["dispatch"]:::atlasJob
+      wf_1_Dispatch_continuous_deploy --> job_1_dispatch
+    end
+    pipeline_root --> wf_1_Dispatch_continuous_deploy
+    subgraph sg_wf_2_Publish_docs["Publish docs (1 jobs)"]
+      direction TB
+      wf_2_Publish_docs(["Trigger: Publish docs"]):::atlasWorkflow
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_Publish_docs --> job_2_deploy
+    end
+    pipeline_root --> wf_2_Publish_docs
+    subgraph sg_wf_5_Release_on_Dockerhub["Release on Dockerhub (4 jobs)"]
+      direction TB
+      wf_5_Release_on_Dockerhub(["Trigger: Release on Dockerhub"]):::atlasWorkflow
+      job_5_settings["settings"]:::atlasJob
+      job_5_build_image["build_image"]:::atlasJob
+      job_5_merge_manifest["merge_manifest"]:::atlasJob
+      wf_5_Release_on_Dockerhub --> job_5_settings
+      job_5_settings --> job_5_build_image
+      job_5_settings --> job_5_merge_manifest
+      job_5_build_image --> job_5_merge_manifest
+    end
+    pipeline_root --> wf_5_Release_on_Dockerhub
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Elixir_tests["Elixir tests (7 jobs)"]
+      direction TB
+      wf_3_Elixir_tests(["Trigger: Elixir tests"]):::atlasWorkflow
+      job_3_deps["deps"]:::atlasJob
+      job_3_format["format"]:::atlasJob
+      job_3_credo["credo"]:::atlasJob
+      wf_3_Elixir_tests --> job_3_deps
+      job_3_deps --> job_3_format
+      job_3_deps --> job_3_credo
+    end
+    pipeline_root --> wf_3_Elixir_tests
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Mirror_Image["Mirror Image (1 jobs)"]
+      direction TB
+      wf_4_Mirror_Image(["Trigger: Mirror Image"]):::atlasWorkflow
+      job_4_mirror["mirror"]:::atlasJob
+      wf_4_Mirror_Image --> job_4_mirror
+    end
+    pipeline_root --> wf_4_Mirror_Image
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Security_checks["Security checks (3 jobs)"]
+      direction TB
+      wf_6_Security_checks(["Trigger: Security checks"]):::atlasWorkflow
+      job_6_deps["deps"]:::atlasJob
+      job_6_audit["audit"]:::atlasJob
+      job_6_sobelow["sobelow"]:::atlasJob
+      wf_6_Security_checks --> job_6_deps
+      job_6_deps --> job_6_audit
+      job_6_deps --> job_6_sobelow
+    end
+    pipeline_root --> wf_6_Security_checks
+  end
 ```

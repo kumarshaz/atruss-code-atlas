@@ -211,68 +211,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/twofactor_gateway (19 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (16 workflows · 34 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_3_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Lint_eslint
-  job_3_changes["changes"]:::atlasJob
-  job_3_lint["lint"]:::atlasJob
-  job_3_summary["summary"]:::atlasJob
-  wf_3_Lint_eslint --> job_3_changes
-  job_3_changes --> job_3_lint
-  job_3_changes --> job_3_summary
-  job_3_lint --> job_3_summary
-  wf_6_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Lint_php
-  job_6_matrix["matrix"]:::atlasJob
-  job_6_php_lint["php-lint"]:::atlasJob
-  job_6_summary["summary"]:::atlasJob
-  wf_6_Lint_php --> job_6_matrix
-  job_6_matrix --> job_6_php_lint
-  job_6_php_lint --> job_6_summary
-  wf_8_Node["Node (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Node
-  job_8_changes["changes"]:::atlasJob
-  job_8_build["build"]:::atlasJob
-  job_8_summary["summary"]:::atlasJob
-  wf_8_Node --> job_8_changes
-  job_8_changes --> job_8_build
-  job_8_changes --> job_8_summary
-  job_8_build --> job_8_summary
-  wf_12_PHPUnit_MySQL["PHPUnit MySQL (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_12_PHPUnit_MySQL
-  job_12_matrix["matrix"]:::atlasJob
-  job_12_changes["changes"]:::atlasJob
-  job_12_phpunit_mysql["phpunit-mysql"]:::atlasJob
-  wf_12_PHPUnit_MySQL --> job_12_matrix
-  wf_12_PHPUnit_MySQL --> job_12_changes
-  job_12_changes --> job_12_phpunit_mysql
-  job_12_matrix --> job_12_phpunit_mysql
-  wf_13_PHPUnit_PostgreSQL["PHPUnit PostgreSQL (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_PHPUnit_PostgreSQL
-  job_13_matrix["matrix"]:::atlasJob
-  job_13_changes["changes"]:::atlasJob
-  job_13_phpunit_pgsql["phpunit-pgsql"]:::atlasJob
-  wf_13_PHPUnit_PostgreSQL --> job_13_matrix
-  wf_13_PHPUnit_PostgreSQL --> job_13_changes
-  job_13_changes --> job_13_phpunit_pgsql
-  job_13_matrix --> job_13_phpunit_pgsql
-  wf_14_PHPUnit_Coverage["PHPUnit Coverage (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_14_PHPUnit_Coverage
-  job_14_matrix["matrix"]:::atlasJob
-  wf_14_PHPUnit_Coverage --> job_14_matrix
-  wf_15_PHPUnit_SQLite["PHPUnit SQLite (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_15_PHPUnit_SQLite
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Build_and_publish_app_release
-  wf_17_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_17_Notify_release_relay_on_release
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_Dependabot["Dependabot (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_Dependabot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (16 workflows · 34 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_3_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_3_changes["changes"]:::atlasJob
+      job_3_lint["lint"]:::atlasJob
+      job_3_summary["summary"]:::atlasJob
+      wf_3_Lint_eslint --> job_3_changes
+      job_3_changes --> job_3_lint
+      job_3_changes --> job_3_summary
+      job_3_lint --> job_3_summary
+    end
+    pipeline_root --> wf_3_Lint_eslint
+    subgraph sg_wf_6_Lint_php["Lint php (3 jobs)"]
+      direction TB
+      wf_6_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_6_matrix["matrix"]:::atlasJob
+      job_6_php_lint["php-lint"]:::atlasJob
+      job_6_summary["summary"]:::atlasJob
+      wf_6_Lint_php --> job_6_matrix
+      job_6_matrix --> job_6_php_lint
+      job_6_php_lint --> job_6_summary
+    end
+    pipeline_root --> wf_6_Lint_php
+    subgraph sg_wf_8_Node["Node (3 jobs)"]
+      direction TB
+      wf_8_Node(["Trigger: Node"]):::atlasWorkflow
+      job_8_changes["changes"]:::atlasJob
+      job_8_build["build"]:::atlasJob
+      job_8_summary["summary"]:::atlasJob
+      wf_8_Node --> job_8_changes
+      job_8_changes --> job_8_build
+      job_8_changes --> job_8_summary
+      job_8_build --> job_8_summary
+    end
+    pipeline_root --> wf_8_Node
+    subgraph sg_wf_12_PHPUnit_MySQL["PHPUnit MySQL (4 jobs)"]
+      direction TB
+      wf_12_PHPUnit_MySQL(["Trigger: PHPUnit MySQL"]):::atlasWorkflow
+      job_12_matrix["matrix"]:::atlasJob
+      job_12_changes["changes"]:::atlasJob
+      job_12_phpunit_mysql["phpunit-mysql"]:::atlasJob
+      wf_12_PHPUnit_MySQL --> job_12_matrix
+      wf_12_PHPUnit_MySQL --> job_12_changes
+      job_12_changes --> job_12_phpunit_mysql
+      job_12_matrix --> job_12_phpunit_mysql
+    end
+    pipeline_root --> wf_12_PHPUnit_MySQL
+    subgraph sg_wf_13_PHPUnit_PostgreSQL["PHPUnit PostgreSQL (4 jobs)"]
+      direction TB
+      wf_13_PHPUnit_PostgreSQL(["Trigger: PHPUnit PostgreSQL"]):::atlasWorkflow
+      job_13_matrix["matrix"]:::atlasJob
+      job_13_changes["changes"]:::atlasJob
+      job_13_phpunit_pgsql["phpunit-pgsql"]:::atlasJob
+      wf_13_PHPUnit_PostgreSQL --> job_13_matrix
+      wf_13_PHPUnit_PostgreSQL --> job_13_changes
+      job_13_changes --> job_13_phpunit_pgsql
+      job_13_matrix --> job_13_phpunit_pgsql
+    end
+    pipeline_root --> wf_13_PHPUnit_PostgreSQL
+    subgraph sg_wf_14_PHPUnit_Coverage["PHPUnit Coverage (4 jobs)"]
+      direction TB
+      wf_14_PHPUnit_Coverage(["Trigger: PHPUnit Coverage"]):::atlasWorkflow
+      job_14_matrix["matrix"]:::atlasJob
+      wf_14_PHPUnit_Coverage --> job_14_matrix
+    end
+    pipeline_root --> wf_14_PHPUnit_Coverage
+    wf_15_PHPUnit_SQLite["PHPUnit SQLite (4 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_15_PHPUnit_SQLite
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    wf_0_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_Build_and_publish_app_release
+    wf_17_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Notify_release_relay_on_release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_2_Dependabot["Dependabot (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Dependabot
+  end
   wf_more["+9 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

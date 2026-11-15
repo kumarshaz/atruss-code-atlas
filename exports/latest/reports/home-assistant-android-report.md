@@ -184,69 +184,98 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["home-assistant/android (12 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 25 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_E2E_failure_triage["E2E failure triage (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_E2E_failure_triage
-  job_0_activation["activation"]:::atlasJob
-  job_0_agent["agent"]:::atlasJob
-  job_0_conclusion["conclusion"]:::atlasJob
-  wf_0_E2E_failure_triage --> job_0_activation
-  job_0_activation --> job_0_agent
-  job_0_activation --> job_0_conclusion
-  job_0_agent --> job_0_conclusion
-  wf_1_E2E["E2E (3 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_E2E
-  job_1_maestro["maestro"]:::atlasJob
-  job_1_triage_failure["triage-failure"]:::atlasJob
-  job_1_close_failure_issue["close-failure-issue"]:::atlasJob
-  wf_1_E2E --> job_1_maestro
-  job_1_maestro --> job_1_triage_failure
-  job_1_maestro --> job_1_close_failure_issue
-  wf_3_On_Push["On Push (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_On_Push
-  job_3_app_build["app_build"]:::atlasJob
-  job_3_play_publish["play_publish"]:::atlasJob
-  wf_3_On_Push --> job_3_app_build
-  wf_3_On_Push --> job_3_play_publish
-  wf_5_Pull_Request["Pull Request (13 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Pull_Request
-  job_5_validate_localize_setup["validate_localize_setup"]:::atlasJob
-  job_5_yamllint["yamllint"]:::atlasJob
-  job_5_lockfiles["lockfiles"]:::atlasJob
-  wf_5_Pull_Request --> job_5_validate_localize_setup
-  wf_5_Pull_Request --> job_5_yamllint
-  wf_5_Pull_Request --> job_5_lockfiles
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_6_Production_Deploy["Production Deploy (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Production_Deploy
-  job_6_play_promote_production["play_promote_production"]:::atlasJob
-  wf_6_Production_Deploy --> job_6_play_promote_production
-  wf_10_Tag_Weekly_Release["Tag Weekly Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_10_Tag_Weekly_Release
-  job_10_tag["tag"]:::atlasJob
-  wf_10_Tag_Weekly_Release --> job_10_tag
-  grp_2_Security___Governance["Security & Governance (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_7_Auto_update_Renovate_lockfiles["Auto-update Renovate lockfiles (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_7_Auto_update_Renovate_lockfiles
-  job_7_update_lockfiles["update-lockfiles"]:::atlasJob
-  wf_7_Auto_update_Renovate_lockfiles --> job_7_update_lockfiles
-  wf_11_Zizmor_GitHub_Actions_security_analysis["Zizmor GitHub Actions security analysis (3 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_11_Zizmor_GitHub_Actions_security_analysis
-  job_11_zizmor_scan["zizmor_scan"]:::atlasJob
-  job_11_upload_zizmor_reports["upload_zizmor_reports"]:::atlasJob
-  wf_11_Zizmor_GitHub_Actions_security_analysis --> job_11_zizmor_scan
-  job_11_zizmor_scan --> job_11_upload_zizmor_reports
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_8_Restrict_task_creation["Restrict task creation (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_8_Restrict_task_creation
-  grp_4_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_CI___Verification
-  wf_4_PR_Emulator_wtf["PR Emulator.wtf (3 jobs)"]:::atlasWorkflow
-  grp_4_CI___Verification --> wf_4_PR_Emulator_wtf
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 25 jobs)"]
+    direction TB
+    subgraph sg_wf_0_E2E_failure_triage["E2E failure triage (5 jobs)"]
+      direction TB
+      wf_0_E2E_failure_triage(["Trigger: E2E failure triage"]):::atlasWorkflow
+      job_0_activation["activation"]:::atlasJob
+      job_0_agent["agent"]:::atlasJob
+      job_0_conclusion["conclusion"]:::atlasJob
+      wf_0_E2E_failure_triage --> job_0_activation
+      job_0_activation --> job_0_agent
+      job_0_activation --> job_0_conclusion
+      job_0_agent --> job_0_conclusion
+    end
+    pipeline_root --> wf_0_E2E_failure_triage
+    subgraph sg_wf_1_E2E["E2E (3 jobs)"]
+      direction TB
+      wf_1_E2E(["Trigger: E2E"]):::atlasWorkflow
+      job_1_maestro["maestro"]:::atlasJob
+      job_1_triage_failure["triage-failure"]:::atlasJob
+      job_1_close_failure_issue["close-failure-issue"]:::atlasJob
+      wf_1_E2E --> job_1_maestro
+      job_1_maestro --> job_1_triage_failure
+      job_1_maestro --> job_1_close_failure_issue
+    end
+    pipeline_root --> wf_1_E2E
+    subgraph sg_wf_3_On_Push["On Push (2 jobs)"]
+      direction TB
+      wf_3_On_Push(["Trigger: On Push"]):::atlasWorkflow
+      job_3_app_build["app_build"]:::atlasJob
+      job_3_play_publish["play_publish"]:::atlasJob
+      wf_3_On_Push --> job_3_app_build
+      wf_3_On_Push --> job_3_play_publish
+    end
+    pipeline_root --> wf_3_On_Push
+    subgraph sg_wf_5_Pull_Request["Pull Request (13 jobs)"]
+      direction TB
+      wf_5_Pull_Request(["Trigger: Pull Request"]):::atlasWorkflow
+      job_5_validate_localize_setup["validate_localize_setup"]:::atlasJob
+      job_5_yamllint["yamllint"]:::atlasJob
+      job_5_lockfiles["lockfiles"]:::atlasJob
+      wf_5_Pull_Request --> job_5_validate_localize_setup
+      wf_5_Pull_Request --> job_5_yamllint
+      wf_5_Pull_Request --> job_5_lockfiles
+    end
+    pipeline_root --> wf_5_Pull_Request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Production_Deploy["Production Deploy (1 jobs)"]
+      direction TB
+      wf_6_Production_Deploy(["Trigger: Production Deploy"]):::atlasWorkflow
+      job_6_play_promote_production["play_promote_production"]:::atlasJob
+      wf_6_Production_Deploy --> job_6_play_promote_production
+    end
+    pipeline_root --> wf_6_Production_Deploy
+    subgraph sg_wf_10_Tag_Weekly_Release["Tag Weekly Release (1 jobs)"]
+      direction TB
+      wf_10_Tag_Weekly_Release(["Trigger: Tag Weekly Release"]):::atlasWorkflow
+      job_10_tag["tag"]:::atlasJob
+      wf_10_Tag_Weekly_Release --> job_10_tag
+    end
+    pipeline_root --> wf_10_Tag_Weekly_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Auto_update_Renovate_lockfiles["Auto-update Renovate lockfiles (1 jobs)"]
+      direction TB
+      wf_7_Auto_update_Renovate_lockfiles(["Trigger: Auto-update Renovate lockfiles"]):::atlasWorkflow
+      job_7_update_lockfiles["update-lockfiles"]:::atlasJob
+      wf_7_Auto_update_Renovate_lockfiles --> job_7_update_lockfiles
+    end
+    pipeline_root --> wf_7_Auto_update_Renovate_lockfiles
+    subgraph sg_wf_11_Zizmor_GitHub_Actions_security_analysis["Zizmor GitHub Actions security analysis (3 jobs)"]
+      direction TB
+      wf_11_Zizmor_GitHub_Actions_security_analysis(["Trigger: Zizmor GitHub Actions security analysis"]):::atlasWorkflow
+      job_11_zizmor_scan["zizmor_scan"]:::atlasJob
+      job_11_upload_zizmor_reports["upload_zizmor_reports"]:::atlasJob
+      wf_11_Zizmor_GitHub_Actions_security_analysis --> job_11_zizmor_scan
+      job_11_zizmor_scan --> job_11_upload_zizmor_reports
+    end
+    pipeline_root --> wf_11_Zizmor_GitHub_Actions_security_analysis
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_8_Restrict_task_creation["Restrict task creation (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_8_Restrict_task_creation
+  end
+  subgraph sg_grp_4_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    wf_4_PR_Emulator_wtf["PR Emulator.wtf (3 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_PR_Emulator_wtf
+  end
   wf_more["+2 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

@@ -342,60 +342,94 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["apache/auron (18 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 19 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_3_Celeborn["Celeborn (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Celeborn
-  job_3_test_celeborn["test-celeborn"]:::atlasJob
-  wf_3_Celeborn --> job_3_test_celeborn
-  wf_13_Close_inactive_issues_and_PRs["Close inactive issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_13_Close_inactive_issues_and_PRs
-  job_13_close_issues["close-issues"]:::atlasJob
-  wf_13_Close_inactive_issues_and_PRs --> job_13_close_issues
-  wf_16_TPC_DS["TPC-DS (10 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_16_TPC_DS
-  job_16_test_spark_30["test-spark-30"]:::atlasJob
-  job_16_test_spark_31["test-spark-31"]:::atlasJob
-  job_16_test_spark_32["test-spark-32"]:::atlasJob
-  wf_16_TPC_DS --> job_16_test_spark_30
-  wf_16_TPC_DS --> job_16_test_spark_31
-  wf_16_TPC_DS --> job_16_test_spark_32
-  grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_8_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_8_Pull_Request_Labeler
-  job_8_triage["triage"]:::atlasJob
-  wf_8_Pull_Request_Labeler --> job_8_triage
-  wf_9_License_check["License check (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_9_License_check
-  job_9_rat["rat"]:::atlasJob
-  wf_9_License_check --> job_9_rat
-  wf_11_Pull_Request_Title_Check["Pull Request Title Check (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_11_Pull_Request_Title_Check
-  job_11_pr_title_check["pr-title-check"]:::atlasJob
-  wf_11_Pull_Request_Title_Check --> job_11_pr_title_check
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_0_Build_amd64_Releases["Build amd64 Releases (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_0_Build_amd64_Releases
-  job_0_build_snapshot["build-snapshot"]:::atlasJob
-  wf_0_Build_amd64_Releases --> job_0_build_snapshot
-  wf_1_Build_arm_Releases["Build arm Releases (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_1_Build_arm_Releases
-  job_1_build_snapshot["build-snapshot"]:::atlasJob
-  wf_1_Build_arm_Releases --> job_1_build_snapshot
-  wf_2_Build_macOS_Releases["Build macOS Releases (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_2_Build_macOS_Releases
-  job_2_build_snapshot["build-snapshot"]:::atlasJob
-  wf_2_Build_macOS_Releases --> job_2_build_snapshot
-  grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_15_TPC_DS_Reusable["TPC-DS Reusable (2 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_15_TPC_DS_Reusable
-  job_15_build_auron_jar["build-auron-jar"]:::atlasJob
-  job_15_run_tpcds_test["run-tpcds-test"]:::atlasJob
-  wf_15_TPC_DS_Reusable --> job_15_build_auron_jar
-  job_15_build_auron_jar --> job_15_run_tpcds_test
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 19 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Celeborn["Celeborn (1 jobs)"]
+      direction TB
+      wf_3_Celeborn(["Trigger: Celeborn"]):::atlasWorkflow
+      job_3_test_celeborn["test-celeborn"]:::atlasJob
+      wf_3_Celeborn --> job_3_test_celeborn
+    end
+    pipeline_root --> wf_3_Celeborn
+    subgraph sg_wf_13_Close_inactive_issues_and_PRs["Close inactive issues and PRs (1 jobs)"]
+      direction TB
+      wf_13_Close_inactive_issues_and_PRs(["Trigger: Close inactive issues and PRs"]):::atlasWorkflow
+      job_13_close_issues["close-issues"]:::atlasJob
+      wf_13_Close_inactive_issues_and_PRs --> job_13_close_issues
+    end
+    pipeline_root --> wf_13_Close_inactive_issues_and_PRs
+    subgraph sg_wf_16_TPC_DS["TPC-DS (10 jobs)"]
+      direction TB
+      wf_16_TPC_DS(["Trigger: TPC-DS"]):::atlasWorkflow
+      job_16_test_spark_30["test-spark-30"]:::atlasJob
+      job_16_test_spark_31["test-spark-31"]:::atlasJob
+      job_16_test_spark_32["test-spark-32"]:::atlasJob
+      wf_16_TPC_DS --> job_16_test_spark_30
+      wf_16_TPC_DS --> job_16_test_spark_31
+      wf_16_TPC_DS --> job_16_test_spark_32
+    end
+    pipeline_root --> wf_16_TPC_DS
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Pull_Request_Labeler["Pull Request Labeler (1 jobs)"]
+      direction TB
+      wf_8_Pull_Request_Labeler(["Trigger: Pull Request Labeler"]):::atlasWorkflow
+      job_8_triage["triage"]:::atlasJob
+      wf_8_Pull_Request_Labeler --> job_8_triage
+    end
+    pipeline_root --> wf_8_Pull_Request_Labeler
+    subgraph sg_wf_9_License_check["License check (1 jobs)"]
+      direction TB
+      wf_9_License_check(["Trigger: License check"]):::atlasWorkflow
+      job_9_rat["rat"]:::atlasJob
+      wf_9_License_check --> job_9_rat
+    end
+    pipeline_root --> wf_9_License_check
+    subgraph sg_wf_11_Pull_Request_Title_Check["Pull Request Title Check (1 jobs)"]
+      direction TB
+      wf_11_Pull_Request_Title_Check(["Trigger: Pull Request Title Check"]):::atlasWorkflow
+      job_11_pr_title_check["pr-title-check"]:::atlasJob
+      wf_11_Pull_Request_Title_Check --> job_11_pr_title_check
+    end
+    pipeline_root --> wf_11_Pull_Request_Title_Check
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_amd64_Releases["Build amd64 Releases (1 jobs)"]
+      direction TB
+      wf_0_Build_amd64_Releases(["Trigger: Build amd64 Releases"]):::atlasWorkflow
+      job_0_build_snapshot["build-snapshot"]:::atlasJob
+      wf_0_Build_amd64_Releases --> job_0_build_snapshot
+    end
+    pipeline_root --> wf_0_Build_amd64_Releases
+    subgraph sg_wf_1_Build_arm_Releases["Build arm Releases (1 jobs)"]
+      direction TB
+      wf_1_Build_arm_Releases(["Trigger: Build arm Releases"]):::atlasWorkflow
+      job_1_build_snapshot["build-snapshot"]:::atlasJob
+      wf_1_Build_arm_Releases --> job_1_build_snapshot
+    end
+    pipeline_root --> wf_1_Build_arm_Releases
+    subgraph sg_wf_2_Build_macOS_Releases["Build macOS Releases (1 jobs)"]
+      direction TB
+      wf_2_Build_macOS_Releases(["Trigger: Build macOS Releases"]):::atlasWorkflow
+      job_2_build_snapshot["build-snapshot"]:::atlasJob
+      wf_2_Build_macOS_Releases --> job_2_build_snapshot
+    end
+    pipeline_root --> wf_2_Build_macOS_Releases
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_15_TPC_DS_Reusable["TPC-DS Reusable (2 jobs)"]
+      direction TB
+      wf_15_TPC_DS_Reusable(["Trigger: TPC-DS Reusable"]):::atlasWorkflow
+      job_15_build_auron_jar["build-auron-jar"]:::atlasJob
+      job_15_run_tpcds_test["run-tpcds-test"]:::atlasJob
+      wf_15_TPC_DS_Reusable --> job_15_build_auron_jar
+      job_15_build_auron_jar --> job_15_run_tpcds_test
+    end
+    pipeline_root --> wf_15_TPC_DS_Reusable
+  end
   wf_more["+8 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

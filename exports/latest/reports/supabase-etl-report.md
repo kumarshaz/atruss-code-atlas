@@ -329,67 +329,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/etl (16 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 24 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Benchmark["Benchmark (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Benchmark
-  job_0_plan["plan"]:::atlasJob
-  job_0_benchmark["benchmark"]:::atlasJob
-  wf_0_Benchmark --> job_0_plan
-  job_0_plan --> job_0_benchmark
-  wf_3_CI["CI (13 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_CI
-  job_3_format["format"]:::atlasJob
-  job_3_clippy["clippy"]:::atlasJob
-  job_3_tls["tls"]:::atlasJob
-  wf_3_CI --> job_3_format
-  wf_3_CI --> job_3_clippy
-  wf_3_CI --> job_3_tls
-  wf_6_Docs["Docs (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Docs
-  job_6_build["build"]:::atlasJob
-  job_6_deploy["deploy"]:::atlasJob
-  wf_6_Docs --> job_6_build
-  job_6_build --> job_6_deploy
-  wf_10_Property_tests["Property tests (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_10_Property_tests
-  job_10_test_build["test-build"]:::atlasJob
-  job_10_test["test"]:::atlasJob
-  wf_10_Property_tests --> job_10_test_build
-  job_10_test_build --> job_10_test
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_11_Publish_image["Publish image (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_11_Publish_image
-  job_11_route["route"]:::atlasJob
-  job_11_image["image"]:::atlasJob
-  job_11_release["release"]:::atlasJob
-  wf_11_Publish_image --> job_11_route
-  job_11_route --> job_11_image
-  job_11_route --> job_11_release
-  wf_12_Release["Release (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_12_Release
-  job_12_tag["tag"]:::atlasJob
-  job_12_image["image"]:::atlasJob
-  job_12_release["release"]:::atlasJob
-  wf_12_Release --> job_12_tag
-  job_12_tag --> job_12_image
-  job_12_tag --> job_12_release
-  job_12_image --> job_12_release
-  wf_13_Publish_image__reusable_["Publish image (reusable) (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_13_Publish_image__reusable_
-  job_13_prepare["prepare"]:::atlasJob
-  wf_13_Publish_image__reusable_ --> job_13_prepare
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_CodeQL
-  wf_5_Dependency_audit["Dependency audit (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_5_Dependency_audit
-  grp_3_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_CI___Verification
-  wf_14_Tests__reusable_["Tests (reusable) (1 jobs)"]:::atlasWorkflow
-  grp_3_CI___Verification --> wf_14_Tests__reusable_
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (9 workflows · 24 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Benchmark["Benchmark (2 jobs)"]
+      direction TB
+      wf_0_Benchmark(["Trigger: Benchmark"]):::atlasWorkflow
+      job_0_plan["plan"]:::atlasJob
+      job_0_benchmark["benchmark"]:::atlasJob
+      wf_0_Benchmark --> job_0_plan
+      job_0_plan --> job_0_benchmark
+    end
+    pipeline_root --> wf_0_Benchmark
+    subgraph sg_wf_3_CI["CI (13 jobs)"]
+      direction TB
+      wf_3_CI(["Trigger: CI"]):::atlasWorkflow
+      job_3_format["format"]:::atlasJob
+      job_3_clippy["clippy"]:::atlasJob
+      job_3_tls["tls"]:::atlasJob
+      wf_3_CI --> job_3_format
+      wf_3_CI --> job_3_clippy
+      wf_3_CI --> job_3_tls
+    end
+    pipeline_root --> wf_3_CI
+    subgraph sg_wf_6_Docs["Docs (2 jobs)"]
+      direction TB
+      wf_6_Docs(["Trigger: Docs"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_deploy["deploy"]:::atlasJob
+      wf_6_Docs --> job_6_build
+      job_6_build --> job_6_deploy
+    end
+    pipeline_root --> wf_6_Docs
+    subgraph sg_wf_10_Property_tests["Property tests (2 jobs)"]
+      direction TB
+      wf_10_Property_tests(["Trigger: Property tests"]):::atlasWorkflow
+      job_10_test_build["test-build"]:::atlasJob
+      job_10_test["test"]:::atlasJob
+      wf_10_Property_tests --> job_10_test_build
+      job_10_test_build --> job_10_test
+    end
+    pipeline_root --> wf_10_Property_tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_11_Publish_image["Publish image (3 jobs)"]
+      direction TB
+      wf_11_Publish_image(["Trigger: Publish image"]):::atlasWorkflow
+      job_11_route["route"]:::atlasJob
+      job_11_image["image"]:::atlasJob
+      job_11_release["release"]:::atlasJob
+      wf_11_Publish_image --> job_11_route
+      job_11_route --> job_11_image
+      job_11_route --> job_11_release
+    end
+    pipeline_root --> wf_11_Publish_image
+    subgraph sg_wf_12_Release["Release (3 jobs)"]
+      direction TB
+      wf_12_Release(["Trigger: Release"]):::atlasWorkflow
+      job_12_tag["tag"]:::atlasJob
+      job_12_image["image"]:::atlasJob
+      job_12_release["release"]:::atlasJob
+      wf_12_Release --> job_12_tag
+      job_12_tag --> job_12_image
+      job_12_tag --> job_12_release
+      job_12_image --> job_12_release
+    end
+    pipeline_root --> wf_12_Release
+    subgraph sg_wf_13_Publish_image__reusable_["Publish image (reusable) (4 jobs)"]
+      direction TB
+      wf_13_Publish_image__reusable_(["Trigger: Publish image (reusable)"]):::atlasWorkflow
+      job_13_prepare["prepare"]:::atlasJob
+      wf_13_Publish_image__reusable_ --> job_13_prepare
+    end
+    pipeline_root --> wf_13_Publish_image__reusable_
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    wf_4_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_CodeQL
+    wf_5_Dependency_audit["Dependency audit (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_5_Dependency_audit
+  end
+  subgraph sg_grp_3_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    wf_14_Tests__reusable_["Tests (reusable) (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_14_Tests__reusable_
+  end
   wf_more["+6 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

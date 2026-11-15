@@ -84,32 +84,45 @@ def _render_pipeline_mermaid(artifact: PortableArtifact) -> str:
         omitted = 0
         for g_idx, (group_name, entries) in enumerate(sorted_groups):
             grp_id = f"grp_{g_idx}_{_mermaid_safe_id(group_name)}"
+            sg_grp_id = f"sg_{grp_id}"
             total_cat_jobs = sum(len(jobs_dict) for _, _, jobs_dict in entries)
             cat_lbl = (
                 f"{_mermaid_label(group_name)} "
                 f"({len(entries)} workflows · {total_cat_jobs} jobs)"
             )
-            lines.append(f'  {grp_id}["{cat_lbl}"]:::atlasCategory')
-            lines.append(f"  {repo_id} --> {grp_id}")
+            lines.append(f'  subgraph {sg_grp_id}["{cat_lbl}"]')
+            lines.append("    direction TB")
+            selected_in_group = [
+                (wf_idx, pl_name, jobs_dict)
+                for wf_idx, pl_name, jobs_dict in entries
+                if wf_idx in selected_wf_ids
+            ]
+            omitted += len(entries) - len(selected_in_group)
 
-            for wf_idx, pl_name, jobs_dict in entries:
-                if wf_idx not in selected_wf_ids:
-                    omitted += 1
-                    continue
+            if not selected_in_group:
+                lines.append(f'    {grp_id}["{cat_lbl}"]:::atlasCategory')
+                lines.append("  end")
+                lines.append(f"  {repo_id} --> {grp_id}")
+                continue
+
+            for wf_idx, pl_name, jobs_dict in selected_in_group:
                 wf_node = f"wf_{wf_idx}_{_mermaid_safe_id(pl_name)}"
                 wf_lbl = f"{_mermaid_label(pl_name)} ({len(jobs_dict)} jobs)"
-                lines.append(f'  {wf_node}["{wf_lbl}"]:::atlasWorkflow')
-                lines.append(f"  {grp_id} --> {wf_node}")
 
                 if jobs_dict and emitted_jobs_total < MAX_OVERVIEW_JOBS_TOTAL:
                     rem_budget = MAX_OVERVIEW_JOBS_TOTAL - emitted_jobs_total
                     budget = min(MAX_OVERVIEW_JOBS_PER_WF, rem_budget)
                     job_items = list(jobs_dict.items())[:budget]
+                    sg_wf_id = f"sg_wf_{wf_idx}_{_mermaid_safe_id(pl_name)}"
+                    lines.append(f'    subgraph {sg_wf_id}["{wf_lbl}"]')
+                    lines.append("      direction TB")
+                    trig_lbl = f"Trigger: {_mermaid_label(pl_name)}"
+                    lines.append(f'      {wf_node}(["{trig_lbl}"]):::atlasWorkflow')
                     job_id_map: dict[str, str] = {}
                     for j_name, _ in job_items:
                         j_id = f"job_{wf_idx}_{_mermaid_safe_id(str(j_name))}"
                         job_id_map[str(j_name)] = j_id
-                        lines.append(f'  {j_id}["{_mermaid_label(str(j_name))}"]:::atlasJob')
+                        lines.append(f'      {j_id}["{_mermaid_label(str(j_name))}"]:::atlasJob')
                         emitted_jobs_total += 1
                     for j_name, j_data in job_items:
                         j_id = job_id_map[str(j_name)]
@@ -123,10 +136,17 @@ def _render_pipeline_mermaid(artifact: PortableArtifact) -> str:
                         linked = False
                         for need in needs:
                             if need in job_id_map:
-                                lines.append(f"  {job_id_map[need]} --> {j_id}")
+                                lines.append(f"      {job_id_map[need]} --> {j_id}")
                                 linked = True
                         if not linked:
-                            lines.append(f"  {wf_node} --> {j_id}")
+                            lines.append(f"      {wf_node} --> {j_id}")
+                    lines.append("    end")
+                else:
+                    lines.append(f'    {wf_node}["{wf_lbl}"]:::atlasWorkflow')
+
+                lines.append(f"    {repo_id} --> {wf_node}")
+
+            lines.append("  end")
 
         if omitted > 0:
             lines.append(f'  wf_more["+{omitted} more workflows"]:::atlasMore')

@@ -239,52 +239,81 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/helm-charts (9 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (6 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Check_CODEOWNERS["Check CODEOWNERS (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Check_CODEOWNERS
-  job_0_build["build"]:::atlasJob
-  wf_0_Check_CODEOWNERS --> job_0_build
-  wf_1_CI["CI (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_call_check_codeowners["call-check-codeowners"]:::atlasJob
-  job_1_call_lint["call-lint"]:::atlasJob
-  job_1_call_lint_test["call-lint-test"]:::atlasJob
-  wf_1_CI --> job_1_call_check_codeowners
-  wf_1_CI --> job_1_call_lint
-  wf_1_CI --> job_1_call_lint_test
-  wf_2_Lint_and_Test_Charts["Lint and Test Charts (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Lint_and_Test_Charts
-  job_2_lint_test_matrix["lint-test-matrix"]:::atlasJob
-  job_2_lint_test["lint-test"]:::atlasJob
-  wf_2_Lint_and_Test_Charts --> job_2_lint_test_matrix
-  job_2_lint_test_matrix --> job_2_lint_test
-  wf_3_Lint_Code_Base["Lint Code Base (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Lint_Code_Base
-  job_3_build["build"]:::atlasJob
-  wf_3_Lint_Code_Base --> job_3_build
-  wf_6_sync_readme_yaml["sync-readme.yaml (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_sync_readme_yaml
-  job_6_build["build"]:::atlasJob
-  wf_6_sync_readme_yaml --> job_6_build
-  wf_8_Validate_Pull_Request["Validate Pull Request (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Validate_Pull_Request
-  job_8_validate["validate"]:::atlasJob
-  wf_8_Validate_Pull_Request --> job_8_validate
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Publish_public_signing_key["Publish public signing key (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Publish_public_signing_key
-  job_4_publish["publish"]:::atlasJob
-  wf_4_Publish_public_signing_key --> job_4_publish
-  wf_5_Release_Charts["Release Charts (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_Release_Charts
-  job_5_release["release"]:::atlasJob
-  wf_5_Release_Charts --> job_5_release
-  wf_7_Release_a_chart["Release a chart (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Release_a_chart
-  job_7_setup["setup"]:::atlasJob
-  job_7_release["release"]:::atlasJob
-  wf_7_Release_a_chart --> job_7_setup
-  job_7_setup --> job_7_release
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Check_CODEOWNERS["Check CODEOWNERS (1 jobs)"]
+      direction TB
+      wf_0_Check_CODEOWNERS(["Trigger: Check CODEOWNERS"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Check_CODEOWNERS --> job_0_build
+    end
+    pipeline_root --> wf_0_Check_CODEOWNERS
+    subgraph sg_wf_1_CI["CI (3 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_call_check_codeowners["call-check-codeowners"]:::atlasJob
+      job_1_call_lint["call-lint"]:::atlasJob
+      job_1_call_lint_test["call-lint-test"]:::atlasJob
+      wf_1_CI --> job_1_call_check_codeowners
+      wf_1_CI --> job_1_call_lint
+      wf_1_CI --> job_1_call_lint_test
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_2_Lint_and_Test_Charts["Lint and Test Charts (2 jobs)"]
+      direction TB
+      wf_2_Lint_and_Test_Charts(["Trigger: Lint and Test Charts"]):::atlasWorkflow
+      job_2_lint_test_matrix["lint-test-matrix"]:::atlasJob
+      job_2_lint_test["lint-test"]:::atlasJob
+      wf_2_Lint_and_Test_Charts --> job_2_lint_test_matrix
+      job_2_lint_test_matrix --> job_2_lint_test
+    end
+    pipeline_root --> wf_2_Lint_and_Test_Charts
+    subgraph sg_wf_3_Lint_Code_Base["Lint Code Base (1 jobs)"]
+      direction TB
+      wf_3_Lint_Code_Base(["Trigger: Lint Code Base"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_Lint_Code_Base --> job_3_build
+    end
+    pipeline_root --> wf_3_Lint_Code_Base
+    subgraph sg_wf_6_sync_readme_yaml["sync-readme.yaml (1 jobs)"]
+      direction TB
+      wf_6_sync_readme_yaml(["Trigger: sync-readme.yaml"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      wf_6_sync_readme_yaml --> job_6_build
+    end
+    pipeline_root --> wf_6_sync_readme_yaml
+    subgraph sg_wf_8_Validate_Pull_Request["Validate Pull Request (1 jobs)"]
+      direction TB
+      wf_8_Validate_Pull_Request(["Trigger: Validate Pull Request"]):::atlasWorkflow
+      job_8_validate["validate"]:::atlasJob
+      wf_8_Validate_Pull_Request --> job_8_validate
+    end
+    pipeline_root --> wf_8_Validate_Pull_Request
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Publish_public_signing_key["Publish public signing key (1 jobs)"]
+      direction TB
+      wf_4_Publish_public_signing_key(["Trigger: Publish public signing key"]):::atlasWorkflow
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Publish_public_signing_key --> job_4_publish
+    end
+    pipeline_root --> wf_4_Publish_public_signing_key
+    subgraph sg_wf_5_Release_Charts["Release Charts (1 jobs)"]
+      direction TB
+      wf_5_Release_Charts(["Trigger: Release Charts"]):::atlasWorkflow
+      job_5_release["release"]:::atlasJob
+      wf_5_Release_Charts --> job_5_release
+    end
+    pipeline_root --> wf_5_Release_Charts
+    subgraph sg_wf_7_Release_a_chart["Release a chart (2 jobs)"]
+      direction TB
+      wf_7_Release_a_chart(["Trigger: Release a chart"]):::atlasWorkflow
+      job_7_setup["setup"]:::atlasJob
+      job_7_release["release"]:::atlasJob
+      wf_7_Release_a_chart --> job_7_setup
+      job_7_setup --> job_7_release
+    end
+    pipeline_root --> wf_7_Release_a_chart
+  end
 ```

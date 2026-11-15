@@ -217,56 +217,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/dbdev (10 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_CLI["CLI (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_CLI
-  job_0_build["build"]:::atlasJob
-  wf_0_CLI --> job_0_build
-  wf_2_pgTAP_Tests["pgTAP Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_pgTAP_Tests
-  job_2_build["build"]:::atlasJob
-  wf_2_pgTAP_Tests --> job_2_build
-  wf_3_pre_commit_hooks["pre-commit hooks (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_pre_commit_hooks
-  job_3_build["build"]:::atlasJob
-  wf_3_pre_commit_hooks --> job_3_build
-  wf_4_Check_Website_Code_Formatting_with_Prettier["Check Website Code Formatting with Prettier (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Check_Website_Code_Formatting_with_Prettier
-  job_4_check_prettier["check-prettier"]:::atlasJob
-  wf_4_Check_Website_Code_Formatting_with_Prettier --> job_4_check_prettier
-  wf_9_Website_Tests["Website Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_Website_Tests
-  job_9_test["test"]:::atlasJob
-  wf_9_Website_Tests --> job_9_test
-  grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Release_CLI_on_Homebrew_and_Scoop["Release CLI on Homebrew and Scoop (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Release_CLI_on_Homebrew_and_Scoop
-  job_1_call_release_homebrew_tap["call-release-homebrew-tap"]:::atlasJob
-  job_1_call_release_scoop_bucket["call-release-scoop-bucket"]:::atlasJob
-  wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_homebrew_tap
-  wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_scoop_bucket
-  wf_5_Release_CLI["Release CLI (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_Release_CLI
-  job_5_create_release["create-release"]:::atlasJob
-  job_5_build_linux["build-linux"]:::atlasJob
-  job_5_build_macos["build-macos"]:::atlasJob
-  wf_5_Release_CLI --> job_5_create_release
-  job_5_create_release --> job_5_build_linux
-  job_5_create_release --> job_5_build_macos
-  wf_6_Release_Homebrew_Tap["Release Homebrew Tap (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Release_Homebrew_Tap
-  job_6_release["release"]:::atlasJob
-  wf_6_Release_Homebrew_Tap --> job_6_release
-  wf_7_Release_Scoop_Bucket["Release Scoop Bucket (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_7_Release_Scoop_Bucket
-  job_7_release["release"]:::atlasJob
-  wf_7_Release_Scoop_Bucket --> job_7_release
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_8_Update__supabase_supabase_js["Update @supabase/supabase-js (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_8_Update__supabase_supabase_js
-  job_8_update_supabase_js["update-supabase-js"]:::atlasJob
-  wf_8_Update__supabase_supabase_js --> job_8_update_supabase_js
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CLI["CLI (1 jobs)"]
+      direction TB
+      wf_0_CLI(["Trigger: CLI"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_CLI --> job_0_build
+    end
+    pipeline_root --> wf_0_CLI
+    subgraph sg_wf_2_pgTAP_Tests["pgTAP Tests (1 jobs)"]
+      direction TB
+      wf_2_pgTAP_Tests(["Trigger: pgTAP Tests"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_pgTAP_Tests --> job_2_build
+    end
+    pipeline_root --> wf_2_pgTAP_Tests
+    subgraph sg_wf_3_pre_commit_hooks["pre-commit hooks (1 jobs)"]
+      direction TB
+      wf_3_pre_commit_hooks(["Trigger: pre-commit hooks"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_pre_commit_hooks --> job_3_build
+    end
+    pipeline_root --> wf_3_pre_commit_hooks
+    subgraph sg_wf_4_Check_Website_Code_Formatting_with_Prettier["Check Website Code Formatting with Prettier (1 jobs)"]
+      direction TB
+      wf_4_Check_Website_Code_Formatting_with_Prettier(["Trigger: Check Website Code Formatting with Prettier"]):::atlasWorkflow
+      job_4_check_prettier["check-prettier"]:::atlasJob
+      wf_4_Check_Website_Code_Formatting_with_Prettier --> job_4_check_prettier
+    end
+    pipeline_root --> wf_4_Check_Website_Code_Formatting_with_Prettier
+    subgraph sg_wf_9_Website_Tests["Website Tests (1 jobs)"]
+      direction TB
+      wf_9_Website_Tests(["Trigger: Website Tests"]):::atlasWorkflow
+      job_9_test["test"]:::atlasJob
+      wf_9_Website_Tests --> job_9_test
+    end
+    pipeline_root --> wf_9_Website_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (4 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Release_CLI_on_Homebrew_and_Scoop["Release CLI on Homebrew and Scoop (2 jobs)"]
+      direction TB
+      wf_1_Release_CLI_on_Homebrew_and_Scoop(["Trigger: Release CLI on Homebrew and Scoop"]):::atlasWorkflow
+      job_1_call_release_homebrew_tap["call-release-homebrew-tap"]:::atlasJob
+      job_1_call_release_scoop_bucket["call-release-scoop-bucket"]:::atlasJob
+      wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_homebrew_tap
+      wf_1_Release_CLI_on_Homebrew_and_Scoop --> job_1_call_release_scoop_bucket
+    end
+    pipeline_root --> wf_1_Release_CLI_on_Homebrew_and_Scoop
+    subgraph sg_wf_5_Release_CLI["Release CLI (6 jobs)"]
+      direction TB
+      wf_5_Release_CLI(["Trigger: Release CLI"]):::atlasWorkflow
+      job_5_create_release["create-release"]:::atlasJob
+      job_5_build_linux["build-linux"]:::atlasJob
+      job_5_build_macos["build-macos"]:::atlasJob
+      wf_5_Release_CLI --> job_5_create_release
+      job_5_create_release --> job_5_build_linux
+      job_5_create_release --> job_5_build_macos
+    end
+    pipeline_root --> wf_5_Release_CLI
+    subgraph sg_wf_6_Release_Homebrew_Tap["Release Homebrew Tap (1 jobs)"]
+      direction TB
+      wf_6_Release_Homebrew_Tap(["Trigger: Release Homebrew Tap"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release_Homebrew_Tap --> job_6_release
+    end
+    pipeline_root --> wf_6_Release_Homebrew_Tap
+    subgraph sg_wf_7_Release_Scoop_Bucket["Release Scoop Bucket (1 jobs)"]
+      direction TB
+      wf_7_Release_Scoop_Bucket(["Trigger: Release Scoop Bucket"]):::atlasWorkflow
+      job_7_release["release"]:::atlasJob
+      wf_7_Release_Scoop_Bucket --> job_7_release
+    end
+    pipeline_root --> wf_7_Release_Scoop_Bucket
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_8_Update__supabase_supabase_js["Update @supabase/supabase-js (1 jobs)"]
+      direction TB
+      wf_8_Update__supabase_supabase_js(["Trigger: Update @supabase/supabase-js"]):::atlasWorkflow
+      job_8_update_supabase_js["update-supabase-js"]:::atlasJob
+      wf_8_Update__supabase_supabase_js --> job_8_update_supabase_js
+    end
+    pipeline_root --> wf_8_Update__supabase_supabase_js
+  end
 ```

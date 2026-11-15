@@ -126,55 +126,87 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["home-assistant/operating-system (9 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_OS_build__PR_["OS build (PR) (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_OS_build__PR_
-  job_1_build["build"]:::atlasJob
-  wf_1_OS_build__PR_ --> job_1_build
-  wf_5_PR_checks["PR checks (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_PR_checks
-  job_5_linters["linters"]:::atlasJob
-  wf_5_PR_checks --> job_5_linters
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_OS_build["OS build (6 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_OS_build
-  job_2_prepare["prepare"]:::atlasJob
-  job_2_build["build"]:::atlasJob
-  job_2_test["test"]:::atlasJob
-  wf_2_OS_build --> job_2_prepare
-  job_2_prepare --> job_2_build
-  job_2_build --> job_2_test
-  job_2_prepare --> job_2_test
-  wf_6_Release_Drafter["Release Drafter (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Release_Drafter
-  job_6_update_release_draft["update_release_draft"]:::atlasJob
-  wf_6_Release_Drafter --> job_6_update_release_draft
-  grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_Update_artifacts_index["Update artifacts index (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_0_Update_artifacts_index
-  job_0_build_index["build-index"]:::atlasJob
-  wf_0_Update_artifacts_index --> job_0_build_index
-  wf_8_Test_HAOS_image["Test HAOS image (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_8_Test_HAOS_image
-  job_8_test["test"]:::atlasJob
-  wf_8_Test_HAOS_image --> job_8_test
-  grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_4_Lock["Lock (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_4_Lock
-  job_4_lock["lock"]:::atlasJob
-  wf_4_Lock --> job_4_lock
-  wf_7_Stale["Stale (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_7_Stale
-  job_7_stale["stale"]:::atlasJob
-  wf_7_Stale --> job_7_stale
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Automation___Other
-  wf_3_Label_Actions["Label Actions (1 jobs)"]:::atlasWorkflow
-  grp_4_Automation___Other --> wf_3_Label_Actions
-  job_3_action["action"]:::atlasJob
-  wf_3_Label_Actions --> job_3_action
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_OS_build__PR_["OS build (PR) (1 jobs)"]
+      direction TB
+      wf_1_OS_build__PR_(["Trigger: OS build (PR)"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_OS_build__PR_ --> job_1_build
+    end
+    pipeline_root --> wf_1_OS_build__PR_
+    subgraph sg_wf_5_PR_checks["PR checks (1 jobs)"]
+      direction TB
+      wf_5_PR_checks(["Trigger: PR checks"]):::atlasWorkflow
+      job_5_linters["linters"]:::atlasJob
+      wf_5_PR_checks --> job_5_linters
+    end
+    pipeline_root --> wf_5_PR_checks
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_2_OS_build["OS build (6 jobs)"]
+      direction TB
+      wf_2_OS_build(["Trigger: OS build"]):::atlasWorkflow
+      job_2_prepare["prepare"]:::atlasJob
+      job_2_build["build"]:::atlasJob
+      job_2_test["test"]:::atlasJob
+      wf_2_OS_build --> job_2_prepare
+      job_2_prepare --> job_2_build
+      job_2_build --> job_2_test
+      job_2_prepare --> job_2_test
+    end
+    pipeline_root --> wf_2_OS_build
+    subgraph sg_wf_6_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_6_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_6_update_release_draft["update_release_draft"]:::atlasJob
+      wf_6_Release_Drafter --> job_6_update_release_draft
+    end
+    pipeline_root --> wf_6_Release_Drafter
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Update_artifacts_index["Update artifacts index (1 jobs)"]
+      direction TB
+      wf_0_Update_artifacts_index(["Trigger: Update artifacts index"]):::atlasWorkflow
+      job_0_build_index["build-index"]:::atlasJob
+      wf_0_Update_artifacts_index --> job_0_build_index
+    end
+    pipeline_root --> wf_0_Update_artifacts_index
+    subgraph sg_wf_8_Test_HAOS_image["Test HAOS image (1 jobs)"]
+      direction TB
+      wf_8_Test_HAOS_image(["Trigger: Test HAOS image"]):::atlasWorkflow
+      job_8_test["test"]:::atlasJob
+      wf_8_Test_HAOS_image --> job_8_test
+    end
+    pipeline_root --> wf_8_Test_HAOS_image
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Lock["Lock (1 jobs)"]
+      direction TB
+      wf_4_Lock(["Trigger: Lock"]):::atlasWorkflow
+      job_4_lock["lock"]:::atlasJob
+      wf_4_Lock --> job_4_lock
+    end
+    pipeline_root --> wf_4_Lock
+    subgraph sg_wf_7_Stale["Stale (1 jobs)"]
+      direction TB
+      wf_7_Stale(["Trigger: Stale"]):::atlasWorkflow
+      job_7_stale["stale"]:::atlasJob
+      wf_7_Stale --> job_7_stale
+    end
+    pipeline_root --> wf_7_Stale
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Label_Actions["Label Actions (1 jobs)"]
+      direction TB
+      wf_3_Label_Actions(["Trigger: Label Actions"]):::atlasWorkflow
+      job_3_action["action"]:::atlasJob
+      wf_3_Label_Actions --> job_3_action
+    end
+    pipeline_root --> wf_3_Label_Actions
+  end
 ```

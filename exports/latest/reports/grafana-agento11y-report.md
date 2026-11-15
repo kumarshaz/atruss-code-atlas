@@ -489,66 +489,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/agento11y (13 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (12 workflows · 21 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Publish__NET_SDK_to_NuGet["Publish .NET SDK to NuGet (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_1_Publish__NET_SDK_to_NuGet
-  job_1_build["build"]:::atlasJob
-  job_1_publish["publish"]:::atlasJob
-  job_1_release_pr["release-pr"]:::atlasJob
-  wf_1_Publish__NET_SDK_to_NuGet --> job_1_build
-  job_1_build --> job_1_publish
-  job_1_build --> job_1_release_pr
-  job_1_publish --> job_1_release_pr
-  wf_2_Publish_Java_SDK_to_Maven_Central["Publish Java SDK to Maven Central (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Publish_Java_SDK_to_Maven_Central
-  job_2_build["build"]:::atlasJob
-  job_2_publish["publish"]:::atlasJob
-  job_2_release_pr["release-pr"]:::atlasJob
-  wf_2_Publish_Java_SDK_to_Maven_Central --> job_2_build
-  job_2_build --> job_2_publish
-  job_2_build --> job_2_release_pr
-  job_2_publish --> job_2_release_pr
-  wf_3_Publish_JS_SDK_to_npm["Publish JS SDK to npm (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_Publish_JS_SDK_to_npm
-  job_3_build["build"]:::atlasJob
-  job_3_publish["publish"]:::atlasJob
-  job_3_release_pr["release-pr"]:::atlasJob
-  wf_3_Publish_JS_SDK_to_npm --> job_3_build
-  job_3_build --> job_3_publish
-  job_3_build --> job_3_release_pr
-  job_3_publish --> job_3_release_pr
-  wf_4_Publish_plugins_to_npm["Publish plugins to npm (2 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_4_Publish_plugins_to_npm
-  job_4_prepare["prepare"]:::atlasJob
-  job_4_publish["publish"]:::atlasJob
-  wf_4_Publish_plugins_to_npm --> job_4_prepare
-  job_4_prepare --> job_4_publish
-  wf_5_Publish_Homebrew_Formula["Publish Homebrew Formula (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_5_Publish_Homebrew_Formula
-  job_5_publish["publish"]:::atlasJob
-  wf_5_Publish_Homebrew_Formula --> job_5_publish
-  wf_6_Publish_Python_SDKs_to_PyPI["Publish Python SDKs to PyPI (3 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_6_Publish_Python_SDKs_to_PyPI
-  job_6_build["build"]:::atlasJob
-  job_6_publish_core["publish-core"]:::atlasJob
-  job_6_publish_dependents["publish-dependents"]:::atlasJob
-  wf_6_Publish_Python_SDKs_to_PyPI --> job_6_build
-  job_6_build --> job_6_publish_core
-  job_6_build --> job_6_publish_dependents
-  job_6_publish_core --> job_6_publish_dependents
-  wf_8_Release_plugins_agento11y["Release plugins/agento11y (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_8_Release_plugins_agento11y
-  job_8_release["release"]:::atlasJob
-  wf_8_Release_plugins_agento11y --> job_8_release
-  wf_9_Release_Go_SDK["Release Go SDK (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_9_Release_Go_SDK
-  wf_10_Publish_SDK_release_notes["Publish SDK release notes (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_10_Publish_SDK_release_notes
-  grp_1_CI___Verification["CI & Verification (1 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (14 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_CI
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (12 workflows · 21 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Publish__NET_SDK_to_NuGet["Publish .NET SDK to NuGet (3 jobs)"]
+      direction TB
+      wf_1_Publish__NET_SDK_to_NuGet(["Trigger: Publish .NET SDK to NuGet"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_publish["publish"]:::atlasJob
+      job_1_release_pr["release-pr"]:::atlasJob
+      wf_1_Publish__NET_SDK_to_NuGet --> job_1_build
+      job_1_build --> job_1_publish
+      job_1_build --> job_1_release_pr
+      job_1_publish --> job_1_release_pr
+    end
+    pipeline_root --> wf_1_Publish__NET_SDK_to_NuGet
+    subgraph sg_wf_2_Publish_Java_SDK_to_Maven_Central["Publish Java SDK to Maven Central (3 jobs)"]
+      direction TB
+      wf_2_Publish_Java_SDK_to_Maven_Central(["Trigger: Publish Java SDK to Maven Central"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_publish["publish"]:::atlasJob
+      job_2_release_pr["release-pr"]:::atlasJob
+      wf_2_Publish_Java_SDK_to_Maven_Central --> job_2_build
+      job_2_build --> job_2_publish
+      job_2_build --> job_2_release_pr
+      job_2_publish --> job_2_release_pr
+    end
+    pipeline_root --> wf_2_Publish_Java_SDK_to_Maven_Central
+    subgraph sg_wf_3_Publish_JS_SDK_to_npm["Publish JS SDK to npm (3 jobs)"]
+      direction TB
+      wf_3_Publish_JS_SDK_to_npm(["Trigger: Publish JS SDK to npm"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_publish["publish"]:::atlasJob
+      job_3_release_pr["release-pr"]:::atlasJob
+      wf_3_Publish_JS_SDK_to_npm --> job_3_build
+      job_3_build --> job_3_publish
+      job_3_build --> job_3_release_pr
+      job_3_publish --> job_3_release_pr
+    end
+    pipeline_root --> wf_3_Publish_JS_SDK_to_npm
+    subgraph sg_wf_4_Publish_plugins_to_npm["Publish plugins to npm (2 jobs)"]
+      direction TB
+      wf_4_Publish_plugins_to_npm(["Trigger: Publish plugins to npm"]):::atlasWorkflow
+      job_4_prepare["prepare"]:::atlasJob
+      job_4_publish["publish"]:::atlasJob
+      wf_4_Publish_plugins_to_npm --> job_4_prepare
+      job_4_prepare --> job_4_publish
+    end
+    pipeline_root --> wf_4_Publish_plugins_to_npm
+    subgraph sg_wf_5_Publish_Homebrew_Formula["Publish Homebrew Formula (1 jobs)"]
+      direction TB
+      wf_5_Publish_Homebrew_Formula(["Trigger: Publish Homebrew Formula"]):::atlasWorkflow
+      job_5_publish["publish"]:::atlasJob
+      wf_5_Publish_Homebrew_Formula --> job_5_publish
+    end
+    pipeline_root --> wf_5_Publish_Homebrew_Formula
+    subgraph sg_wf_6_Publish_Python_SDKs_to_PyPI["Publish Python SDKs to PyPI (3 jobs)"]
+      direction TB
+      wf_6_Publish_Python_SDKs_to_PyPI(["Trigger: Publish Python SDKs to PyPI"]):::atlasWorkflow
+      job_6_build["build"]:::atlasJob
+      job_6_publish_core["publish-core"]:::atlasJob
+      job_6_publish_dependents["publish-dependents"]:::atlasJob
+      wf_6_Publish_Python_SDKs_to_PyPI --> job_6_build
+      job_6_build --> job_6_publish_core
+      job_6_build --> job_6_publish_dependents
+      job_6_publish_core --> job_6_publish_dependents
+    end
+    pipeline_root --> wf_6_Publish_Python_SDKs_to_PyPI
+    subgraph sg_wf_8_Release_plugins_agento11y["Release plugins/agento11y (1 jobs)"]
+      direction TB
+      wf_8_Release_plugins_agento11y(["Trigger: Release plugins/agento11y"]):::atlasWorkflow
+      job_8_release["release"]:::atlasJob
+      wf_8_Release_plugins_agento11y --> job_8_release
+    end
+    pipeline_root --> wf_8_Release_plugins_agento11y
+    wf_9_Release_Go_SDK["Release Go SDK (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Release_Go_SDK
+    wf_10_Publish_SDK_release_notes["Publish SDK release notes (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_10_Publish_SDK_release_notes
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 14 jobs)"]
+    direction TB
+    wf_0_CI["CI (14 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_CI
+  end
   wf_more["+3 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

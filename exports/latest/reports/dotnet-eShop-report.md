@@ -251,22 +251,35 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["dotnet/eShop (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Markdownlint["Markdownlint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Markdownlint
-  job_0_lint["lint"]:::atlasJob
-  wf_0_Markdownlint --> job_0_lint
-  wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Playwright_Tests_for_eShop
-  job_1_test["test"]:::atlasJob
-  wf_1_Playwright_Tests_for_eShop --> job_1_test
-  wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_eShop_Pull_Request_Validation____NET_MAUI
-  job_2_test["test"]:::atlasJob
-  wf_2_eShop_Pull_Request_Validation____NET_MAUI --> job_2_test
-  wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_eShop_Pull_Request_Validation
-  job_3_test["test"]:::atlasJob
-  wf_3_eShop_Pull_Request_Validation --> job_3_test
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Markdownlint["Markdownlint (1 jobs)"]
+      direction TB
+      wf_0_Markdownlint(["Trigger: Markdownlint"]):::atlasWorkflow
+      job_0_lint["lint"]:::atlasJob
+      wf_0_Markdownlint --> job_0_lint
+    end
+    pipeline_root --> wf_0_Markdownlint
+    subgraph sg_wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]
+      direction TB
+      wf_1_Playwright_Tests_for_eShop(["Trigger: Playwright Tests for eShop"]):::atlasWorkflow
+      job_1_test["test"]:::atlasJob
+      wf_1_Playwright_Tests_for_eShop --> job_1_test
+    end
+    pipeline_root --> wf_1_Playwright_Tests_for_eShop
+    subgraph sg_wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]
+      direction TB
+      wf_2_eShop_Pull_Request_Validation____NET_MAUI(["Trigger: eShop Pull Request Validation - .NET MAUI"]):::atlasWorkflow
+      job_2_test["test"]:::atlasJob
+      wf_2_eShop_Pull_Request_Validation____NET_MAUI --> job_2_test
+    end
+    pipeline_root --> wf_2_eShop_Pull_Request_Validation____NET_MAUI
+    subgraph sg_wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]
+      direction TB
+      wf_3_eShop_Pull_Request_Validation(["Trigger: eShop Pull Request Validation"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      wf_3_eShop_Pull_Request_Validation --> job_3_test
+    end
+    pipeline_root --> wf_3_eShop_Pull_Request_Validation
+  end
 ```

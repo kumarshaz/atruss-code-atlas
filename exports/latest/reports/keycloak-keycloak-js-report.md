@@ -154,26 +154,40 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["keycloak/keycloak-js (4 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Release_Nightly["Release Nightly (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_1_Release_Nightly
-  job_1_release_nightly["release-nightly"]:::atlasJob
-  wf_1_Release_Nightly --> job_1_release_nightly
-  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Release --> job_2_release
-  wf_3_X_Release["X Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_X_Release
-  job_3_release_impl["release-impl"]:::atlasJob
-  wf_3_X_Release --> job_3_release_impl
-  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_CI
-  job_0_build_guides["build-guides"]:::atlasJob
-  job_0_test_integration["test-integration"]:::atlasJob
-  wf_0_CI --> job_0_build_guides
-  wf_0_CI --> job_0_test_integration
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Release_Nightly["Release Nightly (1 jobs)"]
+      direction TB
+      wf_1_Release_Nightly(["Trigger: Release Nightly"]):::atlasWorkflow
+      job_1_release_nightly["release-nightly"]:::atlasJob
+      wf_1_Release_Nightly --> job_1_release_nightly
+    end
+    pipeline_root --> wf_1_Release_Nightly
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+    subgraph sg_wf_3_X_Release["X Release (1 jobs)"]
+      direction TB
+      wf_3_X_Release(["Trigger: X Release"]):::atlasWorkflow
+      job_3_release_impl["release-impl"]:::atlasJob
+      wf_3_X_Release --> job_3_release_impl
+    end
+    pipeline_root --> wf_3_X_Release
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (2 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_build_guides["build-guides"]:::atlasJob
+      job_0_test_integration["test-integration"]:::atlasJob
+      wf_0_CI --> job_0_build_guides
+      wf_0_CI --> job_0_test_integration
+    end
+    pipeline_root --> wf_0_CI
+  end
 ```

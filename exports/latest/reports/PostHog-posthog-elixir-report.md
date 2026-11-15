@@ -235,52 +235,79 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/posthog-elixir (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Call_Feature_Flags_Project_Workflow["Call Feature Flags Project Workflow (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Call_Feature_Flags_Project_Workflow
-  job_0_call_flags_project["call-flags-project"]:::atlasJob
-  wf_0_Call_Feature_Flags_Project_Workflow --> job_0_call_flags_project
-  wf_1_CI["CI (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_test["test"]:::atlasJob
-  job_1_format["format"]:::atlasJob
-  job_1_credo["credo"]:::atlasJob
-  wf_1_CI --> job_1_test
-  wf_1_CI --> job_1_format
-  wf_1_CI --> job_1_credo
-  wf_3_Lint_PR["Lint PR (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Lint_PR
-  job_3_lint_pr["lint-pr"]:::atlasJob
-  wf_3_Lint_PR --> job_3_lint_pr
-  wf_6_SDK_Compliance_Tests["SDK Compliance Tests (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_SDK_Compliance_Tests
-  job_6_adapter_tests["adapter-tests"]:::atlasJob
-  job_6_compliance["compliance"]:::atlasJob
-  wf_6_SDK_Compliance_Tests --> job_6_adapter_tests
-  wf_6_SDK_Compliance_Tests --> job_6_compliance
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Release_failure_notification["Release failure notification (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Release_failure_notification
-  job_4_notify_failed["notify-failed"]:::atlasJob
-  wf_4_Release_failure_notification --> job_4_notify_failed
-  wf_5_Release["Release (5 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_Release
-  job_5_check_changesets["check-changesets"]:::atlasJob
-  job_5_notify_approval_needed["notify-approval-needed"]:::atlasJob
-  job_5_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
-  wf_5_Release --> job_5_check_changesets
-  job_5_check_changesets --> job_5_notify_approval_needed
-  job_5_notify_approval_needed --> job_5_preserve_slack_thread
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_CodeQL_Advanced
-  job_2_analyze["analyze"]:::atlasJob
-  wf_2_CodeQL_Advanced --> job_2_analyze
-  wf_7_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_7_Handle_stale_issues_and_PRs
-  job_7_stale["stale"]:::atlasJob
-  wf_7_Handle_stale_issues_and_PRs --> job_7_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Call_Feature_Flags_Project_Workflow["Call Feature Flags Project Workflow (1 jobs)"]
+      direction TB
+      wf_0_Call_Feature_Flags_Project_Workflow(["Trigger: Call Feature Flags Project Workflow"]):::atlasWorkflow
+      job_0_call_flags_project["call-flags-project"]:::atlasJob
+      wf_0_Call_Feature_Flags_Project_Workflow --> job_0_call_flags_project
+    end
+    pipeline_root --> wf_0_Call_Feature_Flags_Project_Workflow
+    subgraph sg_wf_1_CI["CI (5 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_test["test"]:::atlasJob
+      job_1_format["format"]:::atlasJob
+      job_1_credo["credo"]:::atlasJob
+      wf_1_CI --> job_1_test
+      wf_1_CI --> job_1_format
+      wf_1_CI --> job_1_credo
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_3_Lint_PR["Lint PR (1 jobs)"]
+      direction TB
+      wf_3_Lint_PR(["Trigger: Lint PR"]):::atlasWorkflow
+      job_3_lint_pr["lint-pr"]:::atlasJob
+      wf_3_Lint_PR --> job_3_lint_pr
+    end
+    pipeline_root --> wf_3_Lint_PR
+    subgraph sg_wf_6_SDK_Compliance_Tests["SDK Compliance Tests (2 jobs)"]
+      direction TB
+      wf_6_SDK_Compliance_Tests(["Trigger: SDK Compliance Tests"]):::atlasWorkflow
+      job_6_adapter_tests["adapter-tests"]:::atlasJob
+      job_6_compliance["compliance"]:::atlasJob
+      wf_6_SDK_Compliance_Tests --> job_6_adapter_tests
+      wf_6_SDK_Compliance_Tests --> job_6_compliance
+    end
+    pipeline_root --> wf_6_SDK_Compliance_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release_failure_notification["Release failure notification (1 jobs)"]
+      direction TB
+      wf_4_Release_failure_notification(["Trigger: Release failure notification"]):::atlasWorkflow
+      job_4_notify_failed["notify-failed"]:::atlasJob
+      wf_4_Release_failure_notification --> job_4_notify_failed
+    end
+    pipeline_root --> wf_4_Release_failure_notification
+    subgraph sg_wf_5_Release["Release (5 jobs)"]
+      direction TB
+      wf_5_Release(["Trigger: Release"]):::atlasWorkflow
+      job_5_check_changesets["check-changesets"]:::atlasJob
+      job_5_notify_approval_needed["notify-approval-needed"]:::atlasJob
+      job_5_preserve_slack_thread["preserve-slack-thread"]:::atlasJob
+      wf_5_Release --> job_5_check_changesets
+      job_5_check_changesets --> job_5_notify_approval_needed
+      job_5_notify_approval_needed --> job_5_preserve_slack_thread
+    end
+    pipeline_root --> wf_5_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_CodeQL_Advanced["CodeQL Advanced (1 jobs)"]
+      direction TB
+      wf_2_CodeQL_Advanced(["Trigger: CodeQL Advanced"]):::atlasWorkflow
+      job_2_analyze["analyze"]:::atlasJob
+      wf_2_CodeQL_Advanced --> job_2_analyze
+    end
+    pipeline_root --> wf_2_CodeQL_Advanced
+    subgraph sg_wf_7_Handle_stale_issues_and_PRs["Handle stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_7_Handle_stale_issues_and_PRs(["Trigger: Handle stale issues and PRs"]):::atlasWorkflow
+      job_7_stale["stale"]:::atlasJob
+      wf_7_Handle_stale_issues_and_PRs --> job_7_stale
+    end
+    pipeline_root --> wf_7_Handle_stale_issues_and_PRs
+  end
 ```

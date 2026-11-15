@@ -315,50 +315,77 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["goharbor/harbor-operator (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (6 workflows · 16 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Auto_Assign["Auto Assign (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Auto_Assign
-  job_0_add_reviews["add-reviews"]:::atlasJob
-  wf_0_Auto_Assign --> job_0_add_reviews
-  wf_1_Dev_Image["Dev Image (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Dev_Image
-  job_1_docker["docker"]:::atlasJob
-  job_1_charts["charts"]:::atlasJob
-  wf_1_Dev_Image --> job_1_docker
-  wf_1_Dev_Image --> job_1_charts
-  wf_2_Chart_Tests["Chart Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Chart_Tests
-  job_2_chart_tests["chart-tests"]:::atlasJob
-  wf_2_Chart_Tests --> job_2_chart_tests
-  wf_4_Contour_Tests["Contour Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Contour_Tests
-  job_4_harbor_contour["harbor-contour"]:::atlasJob
-  wf_4_Contour_Tests --> job_4_harbor_contour
-  wf_5_Harbor_E2E_Tests["Harbor E2E Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Harbor_E2E_Tests
-  job_5_harbor_tests["harbor-tests"]:::atlasJob
-  wf_5_Harbor_E2E_Tests --> job_5_harbor_tests
-  wf_7_Tests["Tests (10 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Tests
-  job_7_docker_build_test["docker-build-test"]:::atlasJob
-  job_7_docker_lint["docker-lint"]:::atlasJob
-  job_7_go_lint["go-lint"]:::atlasJob
-  wf_7_Tests --> job_7_docker_build_test
-  wf_7_Tests --> job_7_docker_lint
-  wf_7_Tests --> job_7_go_lint
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_6_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Release
-  job_6_goreleaser["goreleaser"]:::atlasJob
-  job_6_docker["docker"]:::atlasJob
-  wf_6_Release --> job_6_goreleaser
-  wf_6_Release --> job_6_docker
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_3_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_3_CodeQL
-  job_3_analyze["analyze"]:::atlasJob
-  wf_3_CodeQL --> job_3_analyze
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 16 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Auto_Assign["Auto Assign (1 jobs)"]
+      direction TB
+      wf_0_Auto_Assign(["Trigger: Auto Assign"]):::atlasWorkflow
+      job_0_add_reviews["add-reviews"]:::atlasJob
+      wf_0_Auto_Assign --> job_0_add_reviews
+    end
+    pipeline_root --> wf_0_Auto_Assign
+    subgraph sg_wf_1_Dev_Image["Dev Image (2 jobs)"]
+      direction TB
+      wf_1_Dev_Image(["Trigger: Dev Image"]):::atlasWorkflow
+      job_1_docker["docker"]:::atlasJob
+      job_1_charts["charts"]:::atlasJob
+      wf_1_Dev_Image --> job_1_docker
+      wf_1_Dev_Image --> job_1_charts
+    end
+    pipeline_root --> wf_1_Dev_Image
+    subgraph sg_wf_2_Chart_Tests["Chart Tests (1 jobs)"]
+      direction TB
+      wf_2_Chart_Tests(["Trigger: Chart Tests"]):::atlasWorkflow
+      job_2_chart_tests["chart-tests"]:::atlasJob
+      wf_2_Chart_Tests --> job_2_chart_tests
+    end
+    pipeline_root --> wf_2_Chart_Tests
+    subgraph sg_wf_4_Contour_Tests["Contour Tests (1 jobs)"]
+      direction TB
+      wf_4_Contour_Tests(["Trigger: Contour Tests"]):::atlasWorkflow
+      job_4_harbor_contour["harbor-contour"]:::atlasJob
+      wf_4_Contour_Tests --> job_4_harbor_contour
+    end
+    pipeline_root --> wf_4_Contour_Tests
+    subgraph sg_wf_5_Harbor_E2E_Tests["Harbor E2E Tests (1 jobs)"]
+      direction TB
+      wf_5_Harbor_E2E_Tests(["Trigger: Harbor E2E Tests"]):::atlasWorkflow
+      job_5_harbor_tests["harbor-tests"]:::atlasJob
+      wf_5_Harbor_E2E_Tests --> job_5_harbor_tests
+    end
+    pipeline_root --> wf_5_Harbor_E2E_Tests
+    subgraph sg_wf_7_Tests["Tests (10 jobs)"]
+      direction TB
+      wf_7_Tests(["Trigger: Tests"]):::atlasWorkflow
+      job_7_docker_build_test["docker-build-test"]:::atlasJob
+      job_7_docker_lint["docker-lint"]:::atlasJob
+      job_7_go_lint["go-lint"]:::atlasJob
+      wf_7_Tests --> job_7_docker_build_test
+      wf_7_Tests --> job_7_docker_lint
+      wf_7_Tests --> job_7_go_lint
+    end
+    pipeline_root --> wf_7_Tests
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release["Release (2 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_goreleaser["goreleaser"]:::atlasJob
+      job_6_docker["docker"]:::atlasJob
+      wf_6_Release --> job_6_goreleaser
+      wf_6_Release --> job_6_docker
+    end
+    pipeline_root --> wf_6_Release
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_3_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_3_analyze["analyze"]:::atlasJob
+      wf_3_CodeQL --> job_3_analyze
+    end
+    pipeline_root --> wf_3_CodeQL
+  end
 ```

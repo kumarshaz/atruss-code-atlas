@@ -241,48 +241,77 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/warden (8 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Action_Bundle["Action Bundle (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Action_Bundle
-  job_0_build["build"]:::atlasJob
-  wf_0_Action_Bundle --> job_0_build
-  wf_1_CI["CI (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_CI
-  job_1_build["build"]:::atlasJob
-  wf_1_CI --> job_1_build
-  wf_4_Docs["Docs (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Docs
-  job_4_build["build"]:::atlasJob
-  wf_4_Docs --> job_4_build
-  wf_7_Warden["Warden (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Warden
-  job_7_review["review"]:::atlasJob
-  wf_7_Warden --> job_7_review
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_3_Commit_Action_Bundle["Commit Action Bundle (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_3_Commit_Action_Bundle
-  job_3_commit["commit"]:::atlasJob
-  wf_3_Commit_Action_Bundle --> job_3_commit
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_6_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_6_Release
-  job_6_release["release"]:::atlasJob
-  wf_6_Release --> job_6_release
-  grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_5_Evals["Evals (2 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_5_Evals
-  job_5_should_run["should-run"]:::atlasJob
-  job_5_evals["evals"]:::atlasJob
-  wf_5_Evals --> job_5_should_run
-  job_5_should_run --> job_5_evals
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_2_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_2_CodeQL
-  job_2_analyze["analyze"]:::atlasJob
-  wf_2_CodeQL --> job_2_analyze
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Action_Bundle["Action Bundle (1 jobs)"]
+      direction TB
+      wf_0_Action_Bundle(["Trigger: Action Bundle"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Action_Bundle --> job_0_build
+    end
+    pipeline_root --> wf_0_Action_Bundle
+    subgraph sg_wf_1_CI["CI (1 jobs)"]
+      direction TB
+      wf_1_CI(["Trigger: CI"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_CI --> job_1_build
+    end
+    pipeline_root --> wf_1_CI
+    subgraph sg_wf_4_Docs["Docs (1 jobs)"]
+      direction TB
+      wf_4_Docs(["Trigger: Docs"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      wf_4_Docs --> job_4_build
+    end
+    pipeline_root --> wf_4_Docs
+    subgraph sg_wf_7_Warden["Warden (1 jobs)"]
+      direction TB
+      wf_7_Warden(["Trigger: Warden"]):::atlasWorkflow
+      job_7_review["review"]:::atlasJob
+      wf_7_Warden --> job_7_review
+    end
+    pipeline_root --> wf_7_Warden
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Commit_Action_Bundle["Commit Action Bundle (1 jobs)"]
+      direction TB
+      wf_3_Commit_Action_Bundle(["Trigger: Commit Action Bundle"]):::atlasWorkflow
+      job_3_commit["commit"]:::atlasJob
+      wf_3_Commit_Action_Bundle --> job_3_commit
+    end
+    pipeline_root --> wf_3_Commit_Action_Bundle
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Release["Release (1 jobs)"]
+      direction TB
+      wf_6_Release(["Trigger: Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_Release
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Evals["Evals (2 jobs)"]
+      direction TB
+      wf_5_Evals(["Trigger: Evals"]):::atlasWorkflow
+      job_5_should_run["should-run"]:::atlasJob
+      job_5_evals["evals"]:::atlasJob
+      wf_5_Evals --> job_5_should_run
+      job_5_should_run --> job_5_evals
+    end
+    pipeline_root --> wf_5_Evals
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_2_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_2_analyze["analyze"]:::atlasJob
+      wf_2_CodeQL --> job_2_analyze
+    end
+    pipeline_root --> wf_2_CodeQL
+  end
 ```

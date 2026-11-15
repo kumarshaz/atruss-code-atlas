@@ -524,69 +524,98 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["argoproj/argo-cd (17 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 23 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_3_Cherry_Pick["Cherry Pick (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Cherry_Pick
-  job_3_find_labels["find-labels"]:::atlasJob
-  job_3_cherry_pick["cherry-pick"]:::atlasJob
-  wf_3_Cherry_Pick --> job_3_find_labels
-  job_3_find_labels --> job_3_cherry_pick
-  wf_4_Integration_tests["Integration tests (14 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Integration_tests
-  job_4_changes["changes"]:::atlasJob
-  job_4_check_go["check-go"]:::atlasJob
-  job_4_build_go["build-go"]:::atlasJob
-  wf_4_Integration_tests --> job_4_changes
-  job_4_changes --> job_4_check_go
-  job_4_changes --> job_4_build_go
-  wf_8_Image["Image (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Image
-  job_8_set_vars["set-vars"]:::atlasJob
-  job_8_build_only["build-only"]:::atlasJob
-  job_8_build_and_publish["build-and-publish"]:::atlasJob
-  wf_8_Image --> job_8_set_vars
-  job_8_set_vars --> job_8_build_only
-  job_8_set_vars --> job_8_build_and_publish
-  grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Bump_major_version["Bump major version (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Bump_major_version
-  job_1_prepare_release["prepare-release"]:::atlasJob
-  wf_1_Bump_major_version --> job_1_prepare_release
-  wf_15_Snyk_report_update["Snyk report update (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_15_Snyk_report_update
-  job_15_snyk_report["snyk-report"]:::atlasJob
-  job_15_make_report_pr["make-report-pr"]:::atlasJob
-  wf_15_Snyk_report_update --> job_15_snyk_report
-  job_15_snyk_report --> job_15_make_report_pr
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_9_Init_ArgoCD_Release["Init ArgoCD Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_9_Init_ArgoCD_Release
-  job_9_prepare_release["prepare-release"]:::atlasJob
-  wf_9_Init_ArgoCD_Release --> job_9_prepare_release
-  wf_11_Publish_ArgoCD_Release["Publish ArgoCD Release (8 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_11_Publish_ArgoCD_Release
-  job_11_argocd_image["argocd-image"]:::atlasJob
-  job_11_setup_variables["setup-variables"]:::atlasJob
-  job_11_argocd_image_provenance["argocd-image-provenance"]:::atlasJob
-  job_11_setup_variables --> job_11_argocd_image
-  wf_11_Publish_ArgoCD_Release --> job_11_setup_variables
-  job_11_setup_variables --> job_11_argocd_image_provenance
-  job_11_argocd_image --> job_11_argocd_image_provenance
-  grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_14_Label_stale_issues_and_PRs["Label stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_14_Label_stale_issues_and_PRs
-  job_14_stale["stale"]:::atlasJob
-  wf_14_Label_stale_issues_and_PRs --> job_14_stale
-  wf_16_GitHub_Actions_Security_Analysis["GitHub Actions Security Analysis (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_16_GitHub_Actions_Security_Analysis
-  grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Automation___Other
-  wf_2_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]:::atlasWorkflow
-  grp_4_Automation___Other --> wf_2_Cherry_Pick_Single
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 23 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Cherry_Pick["Cherry Pick (2 jobs)"]
+      direction TB
+      wf_3_Cherry_Pick(["Trigger: Cherry Pick"]):::atlasWorkflow
+      job_3_find_labels["find-labels"]:::atlasJob
+      job_3_cherry_pick["cherry-pick"]:::atlasJob
+      wf_3_Cherry_Pick --> job_3_find_labels
+      job_3_find_labels --> job_3_cherry_pick
+    end
+    pipeline_root --> wf_3_Cherry_Pick
+    subgraph sg_wf_4_Integration_tests["Integration tests (14 jobs)"]
+      direction TB
+      wf_4_Integration_tests(["Trigger: Integration tests"]):::atlasWorkflow
+      job_4_changes["changes"]:::atlasJob
+      job_4_check_go["check-go"]:::atlasJob
+      job_4_build_go["build-go"]:::atlasJob
+      wf_4_Integration_tests --> job_4_changes
+      job_4_changes --> job_4_check_go
+      job_4_changes --> job_4_build_go
+    end
+    pipeline_root --> wf_4_Integration_tests
+    subgraph sg_wf_8_Image["Image (5 jobs)"]
+      direction TB
+      wf_8_Image(["Trigger: Image"]):::atlasWorkflow
+      job_8_set_vars["set-vars"]:::atlasJob
+      job_8_build_only["build-only"]:::atlasJob
+      job_8_build_and_publish["build-and-publish"]:::atlasJob
+      wf_8_Image --> job_8_set_vars
+      job_8_set_vars --> job_8_build_only
+      job_8_set_vars --> job_8_build_and_publish
+    end
+    pipeline_root --> wf_8_Image
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (5 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Bump_major_version["Bump major version (1 jobs)"]
+      direction TB
+      wf_1_Bump_major_version(["Trigger: Bump major version"]):::atlasWorkflow
+      job_1_prepare_release["prepare-release"]:::atlasJob
+      wf_1_Bump_major_version --> job_1_prepare_release
+    end
+    pipeline_root --> wf_1_Bump_major_version
+    subgraph sg_wf_15_Snyk_report_update["Snyk report update (2 jobs)"]
+      direction TB
+      wf_15_Snyk_report_update(["Trigger: Snyk report update"]):::atlasWorkflow
+      job_15_snyk_report["snyk-report"]:::atlasJob
+      job_15_make_report_pr["make-report-pr"]:::atlasJob
+      wf_15_Snyk_report_update --> job_15_snyk_report
+      job_15_snyk_report --> job_15_make_report_pr
+    end
+    pipeline_root --> wf_15_Snyk_report_update
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Init_ArgoCD_Release["Init ArgoCD Release (1 jobs)"]
+      direction TB
+      wf_9_Init_ArgoCD_Release(["Trigger: Init ArgoCD Release"]):::atlasWorkflow
+      job_9_prepare_release["prepare-release"]:::atlasJob
+      wf_9_Init_ArgoCD_Release --> job_9_prepare_release
+    end
+    pipeline_root --> wf_9_Init_ArgoCD_Release
+    subgraph sg_wf_11_Publish_ArgoCD_Release["Publish ArgoCD Release (8 jobs)"]
+      direction TB
+      wf_11_Publish_ArgoCD_Release(["Trigger: Publish ArgoCD Release"]):::atlasWorkflow
+      job_11_argocd_image["argocd-image"]:::atlasJob
+      job_11_setup_variables["setup-variables"]:::atlasJob
+      job_11_argocd_image_provenance["argocd-image-provenance"]:::atlasJob
+      job_11_setup_variables --> job_11_argocd_image
+      wf_11_Publish_ArgoCD_Release --> job_11_setup_variables
+      job_11_setup_variables --> job_11_argocd_image_provenance
+      job_11_argocd_image --> job_11_argocd_image_provenance
+    end
+    pipeline_root --> wf_11_Publish_ArgoCD_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_14_Label_stale_issues_and_PRs["Label stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_14_Label_stale_issues_and_PRs(["Trigger: Label stale issues and PRs"]):::atlasWorkflow
+      job_14_stale["stale"]:::atlasJob
+      wf_14_Label_stale_issues_and_PRs --> job_14_stale
+    end
+    pipeline_root --> wf_14_Label_stale_issues_and_PRs
+    wf_16_GitHub_Actions_Security_Analysis["GitHub Actions Security Analysis (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_GitHub_Actions_Security_Analysis
+  end
+  subgraph sg_grp_4_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_2_Cherry_Pick_Single["Cherry Pick Single (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_Cherry_Pick_Single
+  end
   wf_more["+7 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

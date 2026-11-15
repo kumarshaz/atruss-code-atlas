@@ -246,58 +246,90 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["benchmark-action/github-action-benchmark (16 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (15 workflows · 39 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Benchmark_Net_Example["Benchmark.Net Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Benchmark_Net_Example
-  job_0_benchmark["benchmark"]:::atlasJob
-  wf_0_Benchmark_Net_Example --> job_0_benchmark
-  wf_1_Benchmark_js_Example["Benchmark.js Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Benchmark_js_Example
-  job_1_benchmark["benchmark"]:::atlasJob
-  wf_1_Benchmark_js_Example --> job_1_benchmark
-  wf_2_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Catch2_C___Example
-  job_2_benchmark["benchmark"]:::atlasJob
-  wf_2_Catch2_C___Example --> job_2_benchmark
-  wf_3_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Catch2_C___Example
-  job_3_benchmark["benchmark"]:::atlasJob
-  wf_3_Catch2_C___Example --> job_3_benchmark
-  wf_4_CI___separate_results_repo["CI - separate results repo (12 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_CI___separate_results_repo
-  job_4_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
-  job_4_benchmarkjs["benchmarkjs"]:::atlasJob
-  job_4_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
-  wf_4_CI___separate_results_repo --> job_4_benchmarkdotnet_framework
-  wf_4_CI___separate_results_repo --> job_4_benchmarkjs
-  wf_4_CI___separate_results_repo --> job_4_catch2_v2_framework
-  wf_5_CI["CI (14 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_CI
-  job_5_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
-  job_5_benchmarkjs["benchmarkjs"]:::atlasJob
-  job_5_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
-  wf_5_CI --> job_5_benchmarkdotnet_framework
-  wf_5_CI --> job_5_benchmarkjs
-  wf_5_CI --> job_5_catch2_v2_framework
-  wf_6_Example_for_alert_with_commit_comment["Example for alert with commit comment (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Example_for_alert_with_commit_comment
-  job_6_benchmark["benchmark"]:::atlasJob
-  wf_6_Example_for_alert_with_commit_comment --> job_6_benchmark
-  wf_7_C___Example["C++ Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_C___Example
-  job_7_benchmark["benchmark"]:::atlasJob
-  wf_7_C___Example --> job_7_benchmark
-  wf_13_Criterion_rs_Example["Criterion.rs Example (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_13_Criterion_rs_Example
-  job_13_benchmark["benchmark"]:::atlasJob
-  wf_13_Criterion_rs_Example --> job_13_benchmark
-  grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_15_Validate_action_typings["Validate action typings (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_15_Validate_action_typings
-  job_15_validate_typings["validate-typings"]:::atlasJob
-  wf_15_Validate_action_typings --> job_15_validate_typings
+  subgraph sg_grp_0_CI___Verification["CI & Verification (15 workflows · 39 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Benchmark_Net_Example["Benchmark.Net Example (1 jobs)"]
+      direction TB
+      wf_0_Benchmark_Net_Example(["Trigger: Benchmark.Net Example"]):::atlasWorkflow
+      job_0_benchmark["benchmark"]:::atlasJob
+      wf_0_Benchmark_Net_Example --> job_0_benchmark
+    end
+    pipeline_root --> wf_0_Benchmark_Net_Example
+    subgraph sg_wf_1_Benchmark_js_Example["Benchmark.js Example (1 jobs)"]
+      direction TB
+      wf_1_Benchmark_js_Example(["Trigger: Benchmark.js Example"]):::atlasWorkflow
+      job_1_benchmark["benchmark"]:::atlasJob
+      wf_1_Benchmark_js_Example --> job_1_benchmark
+    end
+    pipeline_root --> wf_1_Benchmark_js_Example
+    subgraph sg_wf_2_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]
+      direction TB
+      wf_2_Catch2_C___Example(["Trigger: Catch2 C++ Example"]):::atlasWorkflow
+      job_2_benchmark["benchmark"]:::atlasJob
+      wf_2_Catch2_C___Example --> job_2_benchmark
+    end
+    pipeline_root --> wf_2_Catch2_C___Example
+    subgraph sg_wf_3_Catch2_C___Example["Catch2 C++ Example (1 jobs)"]
+      direction TB
+      wf_3_Catch2_C___Example(["Trigger: Catch2 C++ Example"]):::atlasWorkflow
+      job_3_benchmark["benchmark"]:::atlasJob
+      wf_3_Catch2_C___Example --> job_3_benchmark
+    end
+    pipeline_root --> wf_3_Catch2_C___Example
+    subgraph sg_wf_4_CI___separate_results_repo["CI - separate results repo (12 jobs)"]
+      direction TB
+      wf_4_CI___separate_results_repo(["Trigger: CI - separate results repo"]):::atlasWorkflow
+      job_4_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
+      job_4_benchmarkjs["benchmarkjs"]:::atlasJob
+      job_4_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
+      wf_4_CI___separate_results_repo --> job_4_benchmarkdotnet_framework
+      wf_4_CI___separate_results_repo --> job_4_benchmarkjs
+      wf_4_CI___separate_results_repo --> job_4_catch2_v2_framework
+    end
+    pipeline_root --> wf_4_CI___separate_results_repo
+    subgraph sg_wf_5_CI["CI (14 jobs)"]
+      direction TB
+      wf_5_CI(["Trigger: CI"]):::atlasWorkflow
+      job_5_benchmarkdotnet_framework["benchmarkdotnet-framework"]:::atlasJob
+      job_5_benchmarkjs["benchmarkjs"]:::atlasJob
+      job_5_catch2_v2_framework["catch2-v2-framework"]:::atlasJob
+      wf_5_CI --> job_5_benchmarkdotnet_framework
+      wf_5_CI --> job_5_benchmarkjs
+      wf_5_CI --> job_5_catch2_v2_framework
+    end
+    pipeline_root --> wf_5_CI
+    subgraph sg_wf_6_Example_for_alert_with_commit_comment["Example for alert with commit comment (1 jobs)"]
+      direction TB
+      wf_6_Example_for_alert_with_commit_comment(["Trigger: Example for alert with commit comment"]):::atlasWorkflow
+      job_6_benchmark["benchmark"]:::atlasJob
+      wf_6_Example_for_alert_with_commit_comment --> job_6_benchmark
+    end
+    pipeline_root --> wf_6_Example_for_alert_with_commit_comment
+    subgraph sg_wf_7_C___Example["C++ Example (1 jobs)"]
+      direction TB
+      wf_7_C___Example(["Trigger: C++ Example"]):::atlasWorkflow
+      job_7_benchmark["benchmark"]:::atlasJob
+      wf_7_C___Example --> job_7_benchmark
+    end
+    pipeline_root --> wf_7_C___Example
+    subgraph sg_wf_13_Criterion_rs_Example["Criterion.rs Example (1 jobs)"]
+      direction TB
+      wf_13_Criterion_rs_Example(["Trigger: Criterion.rs Example"]):::atlasWorkflow
+      job_13_benchmark["benchmark"]:::atlasJob
+      wf_13_Criterion_rs_Example --> job_13_benchmark
+    end
+    pipeline_root --> wf_13_Criterion_rs_Example
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_15_Validate_action_typings["Validate action typings (1 jobs)"]
+      direction TB
+      wf_15_Validate_action_typings(["Trigger: Validate action typings"]):::atlasWorkflow
+      job_15_validate_typings["validate-typings"]:::atlasJob
+      wf_15_Validate_action_typings --> job_15_validate_typings
+    end
+    pipeline_root --> wf_15_Validate_action_typings
+  end
   wf_more["+6 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

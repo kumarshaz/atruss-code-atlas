@@ -256,67 +256,101 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["nextcloud/richdocuments (22 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (14 workflows · 32 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_4_WOPI_Integration_tests["WOPI Integration tests (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_WOPI_Integration_tests
-  job_4_changes["changes"]:::atlasJob
-  job_4_sqlite["sqlite"]:::atlasJob
-  job_4_mysql["mysql"]:::atlasJob
-  wf_4_WOPI_Integration_tests --> job_4_changes
-  job_4_changes --> job_4_sqlite
-  job_4_changes --> job_4_mysql
-  wf_5_Lint_eslint["Lint eslint (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Lint_eslint
-  job_5_changes["changes"]:::atlasJob
-  job_5_lint["lint"]:::atlasJob
-  job_5_summary["summary"]:::atlasJob
-  wf_5_Lint_eslint --> job_5_changes
-  job_5_changes --> job_5_lint
-  job_5_changes --> job_5_summary
-  job_5_lint --> job_5_summary
-  wf_8_Lint_php["Lint php (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_8_Lint_php
-  job_8_matrix["matrix"]:::atlasJob
-  job_8_php_lint["php-lint"]:::atlasJob
-  job_8_summary["summary"]:::atlasJob
-  wf_8_Lint_php --> job_8_matrix
-  job_8_matrix --> job_8_php_lint
-  job_8_php_lint --> job_8_summary
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_16_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_16_Ask_for_feedback_on_PRs
-  job_16_pr_feedback["pr-feedback"]:::atlasJob
-  wf_16_Ask_for_feedback_on_PRs --> job_16_pr_feedback
-  wf_20_Update_workflows["Update workflows (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_20_Update_workflows
-  job_20_dispatch["dispatch"]:::atlasJob
-  wf_20_Update_workflows --> job_20_dispatch
-  wf_21_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_21_Update_nextcloud_ocp
-  job_21_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
-  wf_21_Update_nextcloud_ocp --> job_21_update_nextcloud_ocp
-  grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_2_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_2_Auto_approve_Dependabot_PRs
-  job_2_auto_approve_merge["auto-approve-merge"]:::atlasJob
-  wf_2_Auto_approve_Dependabot_PRs --> job_2_auto_approve_merge
-  wf_3_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_3_Block_fixup_and_squash_commits
-  job_3_commit_message_check["commit-message-check"]:::atlasJob
-  wf_3_Block_fixup_and_squash_commits --> job_3_commit_message_check
-  grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_0_Build_and_publish_app_release["Build and publish app release (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_0_Build_and_publish_app_release
-  job_0_build_and_publish["build_and_publish"]:::atlasJob
-  wf_0_Build_and_publish_app_release --> job_0_build_and_publish
-  wf_18_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_18_Notify_release_relay_on_release
-  job_18_notify["notify"]:::atlasJob
-  wf_18_Notify_release_relay_on_release --> job_18_notify
+  subgraph sg_grp_0_CI___Verification["CI & Verification (14 workflows · 32 jobs)"]
+    direction TB
+    subgraph sg_wf_4_WOPI_Integration_tests["WOPI Integration tests (6 jobs)"]
+      direction TB
+      wf_4_WOPI_Integration_tests(["Trigger: WOPI Integration tests"]):::atlasWorkflow
+      job_4_changes["changes"]:::atlasJob
+      job_4_sqlite["sqlite"]:::atlasJob
+      job_4_mysql["mysql"]:::atlasJob
+      wf_4_WOPI_Integration_tests --> job_4_changes
+      job_4_changes --> job_4_sqlite
+      job_4_changes --> job_4_mysql
+    end
+    pipeline_root --> wf_4_WOPI_Integration_tests
+    subgraph sg_wf_5_Lint_eslint["Lint eslint (3 jobs)"]
+      direction TB
+      wf_5_Lint_eslint(["Trigger: Lint eslint"]):::atlasWorkflow
+      job_5_changes["changes"]:::atlasJob
+      job_5_lint["lint"]:::atlasJob
+      job_5_summary["summary"]:::atlasJob
+      wf_5_Lint_eslint --> job_5_changes
+      job_5_changes --> job_5_lint
+      job_5_changes --> job_5_summary
+      job_5_lint --> job_5_summary
+    end
+    pipeline_root --> wf_5_Lint_eslint
+    subgraph sg_wf_8_Lint_php["Lint php (3 jobs)"]
+      direction TB
+      wf_8_Lint_php(["Trigger: Lint php"]):::atlasWorkflow
+      job_8_matrix["matrix"]:::atlasJob
+      job_8_php_lint["php-lint"]:::atlasJob
+      job_8_summary["summary"]:::atlasJob
+      wf_8_Lint_php --> job_8_matrix
+      job_8_matrix --> job_8_php_lint
+      job_8_php_lint --> job_8_summary
+    end
+    pipeline_root --> wf_8_Lint_php
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_16_Ask_for_feedback_on_PRs["Ask for feedback on PRs (1 jobs)"]
+      direction TB
+      wf_16_Ask_for_feedback_on_PRs(["Trigger: Ask for feedback on PRs"]):::atlasWorkflow
+      job_16_pr_feedback["pr-feedback"]:::atlasJob
+      wf_16_Ask_for_feedback_on_PRs --> job_16_pr_feedback
+    end
+    pipeline_root --> wf_16_Ask_for_feedback_on_PRs
+    subgraph sg_wf_20_Update_workflows["Update workflows (1 jobs)"]
+      direction TB
+      wf_20_Update_workflows(["Trigger: Update workflows"]):::atlasWorkflow
+      job_20_dispatch["dispatch"]:::atlasJob
+      wf_20_Update_workflows --> job_20_dispatch
+    end
+    pipeline_root --> wf_20_Update_workflows
+    subgraph sg_wf_21_Update_nextcloud_ocp["Update nextcloud/ocp (1 jobs)"]
+      direction TB
+      wf_21_Update_nextcloud_ocp(["Trigger: Update nextcloud/ocp"]):::atlasWorkflow
+      job_21_update_nextcloud_ocp["update-nextcloud-ocp"]:::atlasJob
+      wf_21_Update_nextcloud_ocp --> job_21_update_nextcloud_ocp
+    end
+    pipeline_root --> wf_21_Update_nextcloud_ocp
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Auto_approve_Dependabot_PRs["Auto approve Dependabot PRs (1 jobs)"]
+      direction TB
+      wf_2_Auto_approve_Dependabot_PRs(["Trigger: Auto approve Dependabot PRs"]):::atlasWorkflow
+      job_2_auto_approve_merge["auto-approve-merge"]:::atlasJob
+      wf_2_Auto_approve_Dependabot_PRs --> job_2_auto_approve_merge
+    end
+    pipeline_root --> wf_2_Auto_approve_Dependabot_PRs
+    subgraph sg_wf_3_Block_fixup_and_squash_commits["Block fixup and squash commits (1 jobs)"]
+      direction TB
+      wf_3_Block_fixup_and_squash_commits(["Trigger: Block fixup and squash commits"]):::atlasWorkflow
+      job_3_commit_message_check["commit-message-check"]:::atlasJob
+      wf_3_Block_fixup_and_squash_commits --> job_3_commit_message_check
+    end
+    pipeline_root --> wf_3_Block_fixup_and_squash_commits
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_publish_app_release["Build and publish app release (1 jobs)"]
+      direction TB
+      wf_0_Build_and_publish_app_release(["Trigger: Build and publish app release"]):::atlasWorkflow
+      job_0_build_and_publish["build_and_publish"]:::atlasJob
+      wf_0_Build_and_publish_app_release --> job_0_build_and_publish
+    end
+    pipeline_root --> wf_0_Build_and_publish_app_release
+    subgraph sg_wf_18_Notify_release_relay_on_release["Notify release-relay on release (1 jobs)"]
+      direction TB
+      wf_18_Notify_release_relay_on_release(["Trigger: Notify release-relay on release"]):::atlasWorkflow
+      job_18_notify["notify"]:::atlasJob
+      wf_18_Notify_release_relay_on_release --> job_18_notify
+    end
+    pipeline_root --> wf_18_Notify_release_relay_on_release
+  end
   wf_more["+12 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

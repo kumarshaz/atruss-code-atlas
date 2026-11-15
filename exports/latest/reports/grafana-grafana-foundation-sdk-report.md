@@ -303,52 +303,79 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/grafana-foundation-sdk (8 workflows)"]):::atlasRoot
-  grp_0_Release___Deploy["Release & Deploy (5 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Release___Deploy
-  wf_1_Publish_documentation["Publish documentation (2 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_1_Publish_documentation
-  job_1_build["build"]:::atlasJob
-  job_1_deploy["deploy"]:::atlasJob
-  wf_1_Publish_documentation --> job_1_build
-  job_1_build --> job_1_deploy
-  wf_2_Java_Release["Java Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_2_Java_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Java_Release --> job_2_release
-  wf_3_Python_Release["Python Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_3_Python_Release
-  job_3_release["release"]:::atlasJob
-  wf_3_Python_Release --> job_3_release
-  wf_4_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_4_Release
-  job_4_release["release"]:::atlasJob
-  wf_4_Release --> job_4_release
-  wf_6_TypeScript_Release["TypeScript Release (1 jobs)"]:::atlasWorkflow
-  grp_0_Release___Deploy --> wf_6_TypeScript_Release
-  job_6_release["release"]:::atlasJob
-  wf_6_TypeScript_Release --> job_6_release
-  grp_1_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Dashboard_Converter["Dashboard Converter (4 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Dashboard_Converter
-  job_0_test["test"]:::atlasJob
-  job_0_version["version"]:::atlasJob
-  job_0_build_and_export_digest["build-and-export-digest"]:::atlasJob
-  wf_0_Dashboard_Converter --> job_0_test
-  wf_0_Dashboard_Converter --> job_0_version
-  job_0_version --> job_0_build_and_export_digest
-  wf_5_SDK_CI["SDK CI (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_5_SDK_CI
-  job_5_run_codegen["run_codegen"]:::atlasJob
-  job_5_run_examples["run_examples"]:::atlasJob
-  job_5_diff_preview["diff_preview"]:::atlasJob
-  wf_5_SDK_CI --> job_5_run_codegen
-  wf_5_SDK_CI --> job_5_run_examples
-  wf_5_SDK_CI --> job_5_diff_preview
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_7_Schema_updates["Schema updates (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_7_Schema_updates
-  job_7_schema_updates["schema_updates"]:::atlasJob
-  wf_7_Schema_updates --> job_7_schema_updates
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (5 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Publish_documentation["Publish documentation (2 jobs)"]
+      direction TB
+      wf_1_Publish_documentation(["Trigger: Publish documentation"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_deploy["deploy"]:::atlasJob
+      wf_1_Publish_documentation --> job_1_build
+      job_1_build --> job_1_deploy
+    end
+    pipeline_root --> wf_1_Publish_documentation
+    subgraph sg_wf_2_Java_Release["Java Release (1 jobs)"]
+      direction TB
+      wf_2_Java_Release(["Trigger: Java Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Java_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Java_Release
+    subgraph sg_wf_3_Python_Release["Python Release (1 jobs)"]
+      direction TB
+      wf_3_Python_Release(["Trigger: Python Release"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Python_Release --> job_3_release
+    end
+    pipeline_root --> wf_3_Python_Release
+    subgraph sg_wf_4_Release["Release (1 jobs)"]
+      direction TB
+      wf_4_Release(["Trigger: Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      wf_4_Release --> job_4_release
+    end
+    pipeline_root --> wf_4_Release
+    subgraph sg_wf_6_TypeScript_Release["TypeScript Release (1 jobs)"]
+      direction TB
+      wf_6_TypeScript_Release(["Trigger: TypeScript Release"]):::atlasWorkflow
+      job_6_release["release"]:::atlasJob
+      wf_6_TypeScript_Release --> job_6_release
+    end
+    pipeline_root --> wf_6_TypeScript_Release
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (2 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Dashboard_Converter["Dashboard Converter (4 jobs)"]
+      direction TB
+      wf_0_Dashboard_Converter(["Trigger: Dashboard Converter"]):::atlasWorkflow
+      job_0_test["test"]:::atlasJob
+      job_0_version["version"]:::atlasJob
+      job_0_build_and_export_digest["build-and-export-digest"]:::atlasJob
+      wf_0_Dashboard_Converter --> job_0_test
+      wf_0_Dashboard_Converter --> job_0_version
+      job_0_version --> job_0_build_and_export_digest
+    end
+    pipeline_root --> wf_0_Dashboard_Converter
+    subgraph sg_wf_5_SDK_CI["SDK CI (3 jobs)"]
+      direction TB
+      wf_5_SDK_CI(["Trigger: SDK CI"]):::atlasWorkflow
+      job_5_run_codegen["run_codegen"]:::atlasJob
+      job_5_run_examples["run_examples"]:::atlasJob
+      job_5_diff_preview["diff_preview"]:::atlasJob
+      wf_5_SDK_CI --> job_5_run_codegen
+      wf_5_SDK_CI --> job_5_run_examples
+      wf_5_SDK_CI --> job_5_diff_preview
+    end
+    pipeline_root --> wf_5_SDK_CI
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Schema_updates["Schema updates (1 jobs)"]
+      direction TB
+      wf_7_Schema_updates(["Trigger: Schema updates"]):::atlasWorkflow
+      job_7_schema_updates["schema_updates"]:::atlasJob
+      wf_7_Schema_updates --> job_7_schema_updates
+    end
+    pipeline_root --> wf_7_Schema_updates
+  end
 ```

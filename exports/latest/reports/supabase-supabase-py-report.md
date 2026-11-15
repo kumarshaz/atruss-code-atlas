@@ -240,42 +240,66 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/supabase-py (7 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_PR_Title_is_Conventional["PR Title is Conventional (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_PR_Title_is_Conventional
-  job_2_main["main"]:::atlasJob
-  wf_2_PR_Title_is_Conventional --> job_2_main
-  wf_3_Reject_External_PRs_to_main["Reject External PRs to main (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Reject_External_PRs_to_main
-  job_3_reject["reject"]:::atlasJob
-  wf_3_Reject_External_PRs_to_main --> job_3_reject
-  wf_6_Validate_SDK_Compliance["Validate SDK Compliance (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_Validate_SDK_Compliance
-  job_6_validate["validate"]:::atlasJob
-  wf_6_Validate_SDK_Compliance --> job_6_validate
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_0_CI_CD["CI/CD (9 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_0_CI_CD
-  job_0_changes["changes"]:::atlasJob
-  job_0_lint["lint"]:::atlasJob
-  job_0_import_without_httpx["import-without-httpx"]:::atlasJob
-  wf_0_CI_CD --> job_0_changes
-  wf_0_CI_CD --> job_0_lint
-  wf_0_CI_CD --> job_0_import_without_httpx
-  wf_1_Generated_code["Generated code (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Generated_code
-  job_1_check_sync["check-sync"]:::atlasJob
-  wf_1_Generated_code --> job_1_check_sync
-  wf_5_Sync_SDK_Compliance_Matrix["Sync SDK Compliance Matrix (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_Sync_SDK_Compliance_Matrix
-  job_5_sync["sync"]:::atlasJob
-  wf_5_Sync_SDK_Compliance_Matrix --> job_5_sync
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Stale_Issues___PRs["Stale Issues & PRs (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Stale_Issues___PRs
-  job_4_mark_stale["mark_stale"]:::atlasJob
-  wf_4_Stale_Issues___PRs --> job_4_mark_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_PR_Title_is_Conventional["PR Title is Conventional (1 jobs)"]
+      direction TB
+      wf_2_PR_Title_is_Conventional(["Trigger: PR Title is Conventional"]):::atlasWorkflow
+      job_2_main["main"]:::atlasJob
+      wf_2_PR_Title_is_Conventional --> job_2_main
+    end
+    pipeline_root --> wf_2_PR_Title_is_Conventional
+    subgraph sg_wf_3_Reject_External_PRs_to_main["Reject External PRs to main (1 jobs)"]
+      direction TB
+      wf_3_Reject_External_PRs_to_main(["Trigger: Reject External PRs to main"]):::atlasWorkflow
+      job_3_reject["reject"]:::atlasJob
+      wf_3_Reject_External_PRs_to_main --> job_3_reject
+    end
+    pipeline_root --> wf_3_Reject_External_PRs_to_main
+    subgraph sg_wf_6_Validate_SDK_Compliance["Validate SDK Compliance (1 jobs)"]
+      direction TB
+      wf_6_Validate_SDK_Compliance(["Trigger: Validate SDK Compliance"]):::atlasWorkflow
+      job_6_validate["validate"]:::atlasJob
+      wf_6_Validate_SDK_Compliance --> job_6_validate
+    end
+    pipeline_root --> wf_6_Validate_SDK_Compliance
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI_CD["CI/CD (9 jobs)"]
+      direction TB
+      wf_0_CI_CD(["Trigger: CI/CD"]):::atlasWorkflow
+      job_0_changes["changes"]:::atlasJob
+      job_0_lint["lint"]:::atlasJob
+      job_0_import_without_httpx["import-without-httpx"]:::atlasJob
+      wf_0_CI_CD --> job_0_changes
+      wf_0_CI_CD --> job_0_lint
+      wf_0_CI_CD --> job_0_import_without_httpx
+    end
+    pipeline_root --> wf_0_CI_CD
+    subgraph sg_wf_1_Generated_code["Generated code (1 jobs)"]
+      direction TB
+      wf_1_Generated_code(["Trigger: Generated code"]):::atlasWorkflow
+      job_1_check_sync["check-sync"]:::atlasJob
+      wf_1_Generated_code --> job_1_check_sync
+    end
+    pipeline_root --> wf_1_Generated_code
+    subgraph sg_wf_5_Sync_SDK_Compliance_Matrix["Sync SDK Compliance Matrix (1 jobs)"]
+      direction TB
+      wf_5_Sync_SDK_Compliance_Matrix(["Trigger: Sync SDK Compliance Matrix"]):::atlasWorkflow
+      job_5_sync["sync"]:::atlasJob
+      wf_5_Sync_SDK_Compliance_Matrix --> job_5_sync
+    end
+    pipeline_root --> wf_5_Sync_SDK_Compliance_Matrix
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Stale_Issues___PRs["Stale Issues & PRs (1 jobs)"]
+      direction TB
+      wf_4_Stale_Issues___PRs(["Trigger: Stale Issues & PRs"]):::atlasWorkflow
+      job_4_mark_stale["mark_stale"]:::atlasJob
+      wf_4_Stale_Issues___PRs --> job_4_mark_stale
+    end
+    pipeline_root --> wf_4_Stale_Issues___PRs
+  end
 ```

@@ -240,34 +240,49 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/agent-access (4 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_2_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Respond
-  job_2_respond["respond"]:::atlasJob
-  wf_2_Respond --> job_2_respond
-  wf_3_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Code_Review
-  job_3_review["review"]:::atlasJob
-  wf_3_Code_Review --> job_3_review
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Release["Release (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Release
-  job_1_build["build"]:::atlasJob
-  job_1_release["release"]:::atlasJob
-  job_1_publish_crates["publish-crates"]:::atlasJob
-  wf_1_Release --> job_1_build
-  job_1_build --> job_1_release
-  job_1_build --> job_1_publish_crates
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_0_CI["CI (5 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_0_CI
-  job_0_fmt["fmt"]:::atlasJob
-  job_0_clippy["clippy"]:::atlasJob
-  job_0_build["build"]:::atlasJob
-  wf_0_CI --> job_0_fmt
-  wf_0_CI --> job_0_clippy
-  wf_0_CI --> job_0_build
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_2_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_2_respond["respond"]:::atlasJob
+      wf_2_Respond --> job_2_respond
+    end
+    pipeline_root --> wf_2_Respond
+    subgraph sg_wf_3_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_3_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_3_review["review"]:::atlasJob
+      wf_3_Code_Review --> job_3_review
+    end
+    pipeline_root --> wf_3_Code_Review
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Release["Release (3 jobs)"]
+      direction TB
+      wf_1_Release(["Trigger: Release"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_release["release"]:::atlasJob
+      job_1_publish_crates["publish-crates"]:::atlasJob
+      wf_1_Release --> job_1_build
+      job_1_build --> job_1_release
+      job_1_build --> job_1_publish_crates
+    end
+    pipeline_root --> wf_1_Release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (5 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_fmt["fmt"]:::atlasJob
+      job_0_clippy["clippy"]:::atlasJob
+      job_0_build["build"]:::atlasJob
+      wf_0_CI --> job_0_fmt
+      wf_0_CI --> job_0_clippy
+      wf_0_CI --> job_0_build
+    end
+    pipeline_root --> wf_0_CI
+  end
 ```

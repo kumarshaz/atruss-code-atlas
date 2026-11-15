@@ -577,68 +577,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["immich-app/immich (27 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (13 workflows · 22 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Auto_close_PRs["Auto-close PRs (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Auto_close_PRs
-  job_0_parse_template["parse_template"]:::atlasJob
-  job_0_close_template["close_template"]:::atlasJob
-  job_0_close_llm["close_llm"]:::atlasJob
-  wf_0_Auto_close_PRs --> job_0_parse_template
-  job_0_parse_template --> job_0_close_template
-  wf_0_Auto_close_PRs --> job_0_close_llm
-  wf_2_Build_Mobile["Build Mobile (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Build_Mobile
-  job_2_pre_job["pre-job"]:::atlasJob
-  job_2_build_sign_android["build-sign-android"]:::atlasJob
-  job_2_build_sign_ios["build-sign-ios"]:::atlasJob
-  wf_2_Build_Mobile --> job_2_pre_job
-  job_2_pre_job --> job_2_build_sign_android
-  job_2_pre_job --> job_2_build_sign_ios
-  wf_26_Weblate_checks["Weblate checks (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_26_Weblate_checks
-  job_26_pre_job["pre-job"]:::atlasJob
-  job_26_enforce_lock["enforce-lock"]:::atlasJob
-  job_26_success_check_lock["success-check-lock"]:::atlasJob
-  wf_26_Weblate_checks --> job_26_pre_job
-  job_26_pre_job --> job_26_enforce_lock
-  job_26_enforce_lock --> job_26_success_check_lock
-  grp_1_Release___Deploy["Release & Deploy (8 workflows · 22 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_5_CLI_Build["CLI Build (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_CLI_Build
-  job_5_publish["publish"]:::atlasJob
-  job_5_docker["docker"]:::atlasJob
-  wf_5_CLI_Build --> job_5_publish
-  job_5_publish --> job_5_docker
-  wf_8_Docker["Docker (8 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Docker
-  job_8_pre_job["pre-job"]:::atlasJob
-  job_8_retag_ml["retag_ml"]:::atlasJob
-  job_8_retag_server["retag_server"]:::atlasJob
-  wf_8_Docker --> job_8_pre_job
-  job_8_pre_job --> job_8_retag_ml
-  job_8_pre_job --> job_8_retag_server
-  wf_12_Draft_new_release["Draft new release (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_12_Draft_new_release
-  job_12_tag["tag"]:::atlasJob
-  job_12_build_mobile["build_mobile"]:::atlasJob
-  wf_12_Draft_new_release --> job_12_tag
-  job_12_tag --> job_12_build_mobile
-  grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 27 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_Check_OpenAPI["Check OpenAPI (2 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_4_Check_OpenAPI
-  wf_25_Test["Test (22 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_25_Test
-  grp_3_Automation___Other["Automation & Other (1 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_6_Close_likely_duplicates["Close likely duplicates (4 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_6_Close_likely_duplicates
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_7_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_7_CodeQL
+  subgraph sg_grp_0_CI___Verification["CI & Verification (13 workflows · 22 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Auto_close_PRs["Auto-close PRs (5 jobs)"]
+      direction TB
+      wf_0_Auto_close_PRs(["Trigger: Auto-close PRs"]):::atlasWorkflow
+      job_0_parse_template["parse_template"]:::atlasJob
+      job_0_close_template["close_template"]:::atlasJob
+      job_0_close_llm["close_llm"]:::atlasJob
+      wf_0_Auto_close_PRs --> job_0_parse_template
+      job_0_parse_template --> job_0_close_template
+      wf_0_Auto_close_PRs --> job_0_close_llm
+    end
+    pipeline_root --> wf_0_Auto_close_PRs
+    subgraph sg_wf_2_Build_Mobile["Build Mobile (3 jobs)"]
+      direction TB
+      wf_2_Build_Mobile(["Trigger: Build Mobile"]):::atlasWorkflow
+      job_2_pre_job["pre-job"]:::atlasJob
+      job_2_build_sign_android["build-sign-android"]:::atlasJob
+      job_2_build_sign_ios["build-sign-ios"]:::atlasJob
+      wf_2_Build_Mobile --> job_2_pre_job
+      job_2_pre_job --> job_2_build_sign_android
+      job_2_pre_job --> job_2_build_sign_ios
+    end
+    pipeline_root --> wf_2_Build_Mobile
+    subgraph sg_wf_26_Weblate_checks["Weblate checks (3 jobs)"]
+      direction TB
+      wf_26_Weblate_checks(["Trigger: Weblate checks"]):::atlasWorkflow
+      job_26_pre_job["pre-job"]:::atlasJob
+      job_26_enforce_lock["enforce-lock"]:::atlasJob
+      job_26_success_check_lock["success-check-lock"]:::atlasJob
+      wf_26_Weblate_checks --> job_26_pre_job
+      job_26_pre_job --> job_26_enforce_lock
+      job_26_enforce_lock --> job_26_success_check_lock
+    end
+    pipeline_root --> wf_26_Weblate_checks
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (8 workflows · 22 jobs)"]
+    direction TB
+    subgraph sg_wf_5_CLI_Build["CLI Build (2 jobs)"]
+      direction TB
+      wf_5_CLI_Build(["Trigger: CLI Build"]):::atlasWorkflow
+      job_5_publish["publish"]:::atlasJob
+      job_5_docker["docker"]:::atlasJob
+      wf_5_CLI_Build --> job_5_publish
+      job_5_publish --> job_5_docker
+    end
+    pipeline_root --> wf_5_CLI_Build
+    subgraph sg_wf_8_Docker["Docker (8 jobs)"]
+      direction TB
+      wf_8_Docker(["Trigger: Docker"]):::atlasWorkflow
+      job_8_pre_job["pre-job"]:::atlasJob
+      job_8_retag_ml["retag_ml"]:::atlasJob
+      job_8_retag_server["retag_server"]:::atlasJob
+      wf_8_Docker --> job_8_pre_job
+      job_8_pre_job --> job_8_retag_ml
+      job_8_pre_job --> job_8_retag_server
+    end
+    pipeline_root --> wf_8_Docker
+    subgraph sg_wf_12_Draft_new_release["Draft new release (4 jobs)"]
+      direction TB
+      wf_12_Draft_new_release(["Trigger: Draft new release"]):::atlasWorkflow
+      job_12_tag["tag"]:::atlasJob
+      job_12_build_mobile["build_mobile"]:::atlasJob
+      wf_12_Draft_new_release --> job_12_tag
+      job_12_tag --> job_12_build_mobile
+    end
+    pipeline_root --> wf_12_Draft_new_release
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (4 workflows · 27 jobs)"]
+    direction TB
+    wf_4_Check_OpenAPI["Check OpenAPI (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_Check_OpenAPI
+    wf_25_Test["Test (22 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_25_Test
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 4 jobs)"]
+    direction TB
+    wf_6_Close_likely_duplicates["Close likely duplicates (4 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_6_Close_likely_duplicates
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_7_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_7_CodeQL
+  end
   wf_more["+17 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

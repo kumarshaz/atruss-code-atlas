@@ -415,69 +415,98 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/mattermost (22 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (15 workflows · 41 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_12_Server_CI_Artifacts["Server CI Artifacts (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_12_Server_CI_Artifacts
-  job_12_update_initial_status["update-initial-status"]:::atlasJob
-  job_12_upload_artifacts["upload-artifacts"]:::atlasJob
-  job_12_build_docker["build-docker"]:::atlasJob
-  wf_12_Server_CI_Artifacts --> job_12_update_initial_status
-  job_12_update_initial_status --> job_12_upload_artifacts
-  job_12_upload_artifacts --> job_12_build_docker
-  wf_15_Server_CI_Template["Server CI Template (17 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_15_Server_CI_Template
-  job_15_check_mocks["check-mocks"]:::atlasJob
-  job_15_check_go_mod_tidy["check-go-mod-tidy"]:::atlasJob
-  job_15_golangci["golangci"]:::atlasJob
-  wf_15_Server_CI_Template --> job_15_check_mocks
-  wf_15_Server_CI_Template --> job_15_check_go_mod_tidy
-  wf_15_Server_CI_Template --> job_15_golangci
-  wf_20_Web_App_CI_Template["Web App CI Template (5 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_20_Web_App_CI_Template
-  job_20_check_lint["check-lint"]:::atlasJob
-  job_20_check_i18n["check-i18n"]:::atlasJob
-  job_20_check_types["check-types"]:::atlasJob
-  wf_20_Web_App_CI_Template --> job_20_check_lint
-  wf_20_Web_App_CI_Template --> job_20_check_i18n
-  wf_20_Web_App_CI_Template --> job_20_check_types
-  grp_1_Automation___Other["Automation & Other (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_4_ESR_Upgrade["ESR Upgrade (3 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_4_ESR_Upgrade
-  job_4_esr_upgrade_server["esr-upgrade-server"]:::atlasJob
-  job_4_esr_upgrade_script["esr-upgrade-script"]:::atlasJob
-  job_4_esr_upgrade_diff["esr-upgrade-diff"]:::atlasJob
-  wf_4_ESR_Upgrade --> job_4_esr_upgrade_server
-  wf_4_ESR_Upgrade --> job_4_esr_upgrade_script
-  job_4_esr_upgrade_server --> job_4_esr_upgrade_diff
-  job_4_esr_upgrade_script --> job_4_esr_upgrade_diff
-  wf_11_Sentry_Upload["Sentry Upload (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_11_Sentry_Upload
-  job_11_sentry["sentry"]:::atlasJob
-  wf_11_Sentry_Upload --> job_11_sentry
-  wf_21_Performance_Benchmarks["Performance Benchmarks (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_21_Performance_Benchmarks
-  job_21_cypress_run["cypress-run"]:::atlasJob
-  wf_21_Performance_Benchmarks --> job_21_cypress_run
-  grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_1_CodeQL["CodeQL (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_1_CodeQL
-  job_1_analyze["analyze"]:::atlasJob
-  wf_1_CodeQL --> job_1_analyze
-  wf_10_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_10_Scorecards_supply_chain_security
-  job_10_analysis["analysis"]:::atlasJob
-  wf_10_Scorecards_supply_chain_security --> job_10_analysis
-  grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Release___Deploy
-  wf_17_Tag_Public_Module["Tag Public Module (1 jobs)"]:::atlasWorkflow
-  grp_3_Release___Deploy --> wf_17_Tag_Public_Module
-  grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Scheduled___Manual
-  wf_3_E2E_Tests["E2E Tests (6 jobs)"]:::atlasWorkflow
-  grp_4_Scheduled___Manual --> wf_3_E2E_Tests
+  subgraph sg_grp_0_CI___Verification["CI & Verification (15 workflows · 41 jobs)"]
+    direction TB
+    subgraph sg_wf_12_Server_CI_Artifacts["Server CI Artifacts (5 jobs)"]
+      direction TB
+      wf_12_Server_CI_Artifacts(["Trigger: Server CI Artifacts"]):::atlasWorkflow
+      job_12_update_initial_status["update-initial-status"]:::atlasJob
+      job_12_upload_artifacts["upload-artifacts"]:::atlasJob
+      job_12_build_docker["build-docker"]:::atlasJob
+      wf_12_Server_CI_Artifacts --> job_12_update_initial_status
+      job_12_update_initial_status --> job_12_upload_artifacts
+      job_12_upload_artifacts --> job_12_build_docker
+    end
+    pipeline_root --> wf_12_Server_CI_Artifacts
+    subgraph sg_wf_15_Server_CI_Template["Server CI Template (17 jobs)"]
+      direction TB
+      wf_15_Server_CI_Template(["Trigger: Server CI Template"]):::atlasWorkflow
+      job_15_check_mocks["check-mocks"]:::atlasJob
+      job_15_check_go_mod_tidy["check-go-mod-tidy"]:::atlasJob
+      job_15_golangci["golangci"]:::atlasJob
+      wf_15_Server_CI_Template --> job_15_check_mocks
+      wf_15_Server_CI_Template --> job_15_check_go_mod_tidy
+      wf_15_Server_CI_Template --> job_15_golangci
+    end
+    pipeline_root --> wf_15_Server_CI_Template
+    subgraph sg_wf_20_Web_App_CI_Template["Web App CI Template (5 jobs)"]
+      direction TB
+      wf_20_Web_App_CI_Template(["Trigger: Web App CI Template"]):::atlasWorkflow
+      job_20_check_lint["check-lint"]:::atlasJob
+      job_20_check_i18n["check-i18n"]:::atlasJob
+      job_20_check_types["check-types"]:::atlasJob
+      wf_20_Web_App_CI_Template --> job_20_check_lint
+      wf_20_Web_App_CI_Template --> job_20_check_i18n
+      wf_20_Web_App_CI_Template --> job_20_check_types
+    end
+    pipeline_root --> wf_20_Web_App_CI_Template
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_4_ESR_Upgrade["ESR Upgrade (3 jobs)"]
+      direction TB
+      wf_4_ESR_Upgrade(["Trigger: ESR Upgrade"]):::atlasWorkflow
+      job_4_esr_upgrade_server["esr-upgrade-server"]:::atlasJob
+      job_4_esr_upgrade_script["esr-upgrade-script"]:::atlasJob
+      job_4_esr_upgrade_diff["esr-upgrade-diff"]:::atlasJob
+      wf_4_ESR_Upgrade --> job_4_esr_upgrade_server
+      wf_4_ESR_Upgrade --> job_4_esr_upgrade_script
+      job_4_esr_upgrade_server --> job_4_esr_upgrade_diff
+      job_4_esr_upgrade_script --> job_4_esr_upgrade_diff
+    end
+    pipeline_root --> wf_4_ESR_Upgrade
+    subgraph sg_wf_11_Sentry_Upload["Sentry Upload (1 jobs)"]
+      direction TB
+      wf_11_Sentry_Upload(["Trigger: Sentry Upload"]):::atlasWorkflow
+      job_11_sentry["sentry"]:::atlasJob
+      wf_11_Sentry_Upload --> job_11_sentry
+    end
+    pipeline_root --> wf_11_Sentry_Upload
+    subgraph sg_wf_21_Performance_Benchmarks["Performance Benchmarks (1 jobs)"]
+      direction TB
+      wf_21_Performance_Benchmarks(["Trigger: Performance Benchmarks"]):::atlasWorkflow
+      job_21_cypress_run["cypress-run"]:::atlasJob
+      wf_21_Performance_Benchmarks --> job_21_cypress_run
+    end
+    pipeline_root --> wf_21_Performance_Benchmarks
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_CodeQL["CodeQL (1 jobs)"]
+      direction TB
+      wf_1_CodeQL(["Trigger: CodeQL"]):::atlasWorkflow
+      job_1_analyze["analyze"]:::atlasJob
+      wf_1_CodeQL --> job_1_analyze
+    end
+    pipeline_root --> wf_1_CodeQL
+    subgraph sg_wf_10_Scorecards_supply_chain_security["Scorecards supply-chain security (1 jobs)"]
+      direction TB
+      wf_10_Scorecards_supply_chain_security(["Trigger: Scorecards supply-chain security"]):::atlasWorkflow
+      job_10_analysis["analysis"]:::atlasJob
+      wf_10_Scorecards_supply_chain_security --> job_10_analysis
+    end
+    pipeline_root --> wf_10_Scorecards_supply_chain_security
+  end
+  subgraph sg_grp_3_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    wf_17_Tag_Public_Module["Tag Public Module (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Tag_Public_Module
+  end
+  subgraph sg_grp_4_Scheduled___Manual["Scheduled & Manual (1 workflows · 6 jobs)"]
+    direction TB
+    wf_3_E2E_Tests["E2E Tests (6 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_3_E2E_Tests
+  end
   wf_more["+12 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

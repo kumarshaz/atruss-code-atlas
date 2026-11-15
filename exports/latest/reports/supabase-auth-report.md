@@ -283,34 +283,51 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["supabase/auth (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Check_pull_requests["Check pull requests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Check_pull_requests
-  job_0_check_conventional_commits["check-conventional-commits"]:::atlasJob
-  wf_0_Check_pull_requests --> job_0_check_conventional_commits
-  wf_1_Dogfooding_Check["Dogfooding Check (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Dogfooding_Check
-  job_1_check_dogfooding["check_dogfooding"]:::atlasJob
-  wf_1_Dogfooding_Check --> job_1_check_dogfooding
-  wf_4_Test["Test (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Test
-  job_4_test_postgres["test_postgres"]:::atlasJob
-  job_4_test_oriole["test_oriole"]:::atlasJob
-  job_4_test_multigres["test_multigres"]:::atlasJob
-  wf_4_Test --> job_4_test_postgres
-  wf_4_Test --> job_4_test_oriole
-  wf_4_Test --> job_4_test_multigres
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_2_Publish_to_Image_Registry["Publish to Image Registry (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Publish_to_Image_Registry
-  job_2_publish["publish"]:::atlasJob
-  wf_2_Publish_to_Image_Registry --> job_2_publish
-  wf_3_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release
-  job_3_release_please["release_please"]:::atlasJob
-  job_3_publish["publish"]:::atlasJob
-  wf_3_Release --> job_3_release_please
-  job_3_release_please --> job_3_publish
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Check_pull_requests["Check pull requests (1 jobs)"]
+      direction TB
+      wf_0_Check_pull_requests(["Trigger: Check pull requests"]):::atlasWorkflow
+      job_0_check_conventional_commits["check-conventional-commits"]:::atlasJob
+      wf_0_Check_pull_requests --> job_0_check_conventional_commits
+    end
+    pipeline_root --> wf_0_Check_pull_requests
+    subgraph sg_wf_1_Dogfooding_Check["Dogfooding Check (1 jobs)"]
+      direction TB
+      wf_1_Dogfooding_Check(["Trigger: Dogfooding Check"]):::atlasWorkflow
+      job_1_check_dogfooding["check_dogfooding"]:::atlasJob
+      wf_1_Dogfooding_Check --> job_1_check_dogfooding
+    end
+    pipeline_root --> wf_1_Dogfooding_Check
+    subgraph sg_wf_4_Test["Test (3 jobs)"]
+      direction TB
+      wf_4_Test(["Trigger: Test"]):::atlasWorkflow
+      job_4_test_postgres["test_postgres"]:::atlasJob
+      job_4_test_oriole["test_oriole"]:::atlasJob
+      job_4_test_multigres["test_multigres"]:::atlasJob
+      wf_4_Test --> job_4_test_postgres
+      wf_4_Test --> job_4_test_oriole
+      wf_4_Test --> job_4_test_multigres
+    end
+    pipeline_root --> wf_4_Test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Publish_to_Image_Registry["Publish to Image Registry (1 jobs)"]
+      direction TB
+      wf_2_Publish_to_Image_Registry(["Trigger: Publish to Image Registry"]):::atlasWorkflow
+      job_2_publish["publish"]:::atlasJob
+      wf_2_Publish_to_Image_Registry --> job_2_publish
+    end
+    pipeline_root --> wf_2_Publish_to_Image_Registry
+    subgraph sg_wf_3_Release["Release (2 jobs)"]
+      direction TB
+      wf_3_Release(["Trigger: Release"]):::atlasWorkflow
+      job_3_release_please["release_please"]:::atlasJob
+      job_3_publish["publish"]:::atlasJob
+      wf_3_Release --> job_3_release_please
+      job_3_release_please --> job_3_publish
+    end
+    pipeline_root --> wf_3_Release
+  end
 ```

@@ -189,46 +189,71 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["getsentry/self-hosted (7 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Enforce_License_Compliance
-  job_0_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
-  wf_0_Enforce_License_Compliance --> job_0_enforce_license_compliance
-  wf_3_pre_commit["pre-commit (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_pre_commit
-  job_3_pre_commit["pre-commit"]:::atlasJob
-  wf_3_pre_commit --> job_3_pre_commit
-  wf_5_ShellCheck["ShellCheck (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_ShellCheck
-  job_5_shellcheck["shellcheck"]:::atlasJob
-  wf_5_ShellCheck --> job_5_shellcheck
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_fast_revert_yml["fast-revert.yml (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_fast_revert_yml
-  job_1_revert["revert"]:::atlasJob
-  wf_1_fast_revert_yml --> job_1_revert
-  wf_6_Test["Test (3 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_6_Test
-  job_6_unit_test["unit-test"]:::atlasJob
-  job_6_integration_test["integration-test"]:::atlasJob
-  job_6_integration_test_errors_only["integration-test-errors-only"]:::atlasJob
-  wf_6_Test --> job_6_unit_test
-  wf_6_Test --> job_6_integration_test
-  wf_6_Test --> job_6_integration_test_errors_only
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_4_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_4_Release
-  job_4_release["release"]:::atlasJob
-  job_4_dogfood_release["dogfood-release"]:::atlasJob
-  wf_4_Release --> job_4_release
-  job_4_release --> job_4_dogfood_release
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_2_Lock_closed_issues_PRs["Lock closed issues/PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_2_Lock_closed_issues_PRs
-  job_2_lock["lock"]:::atlasJob
-  wf_2_Lock_closed_issues_PRs --> job_2_lock
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Enforce_License_Compliance["Enforce License Compliance (1 jobs)"]
+      direction TB
+      wf_0_Enforce_License_Compliance(["Trigger: Enforce License Compliance"]):::atlasWorkflow
+      job_0_enforce_license_compliance["enforce-license-compliance"]:::atlasJob
+      wf_0_Enforce_License_Compliance --> job_0_enforce_license_compliance
+    end
+    pipeline_root --> wf_0_Enforce_License_Compliance
+    subgraph sg_wf_3_pre_commit["pre-commit (1 jobs)"]
+      direction TB
+      wf_3_pre_commit(["Trigger: pre-commit"]):::atlasWorkflow
+      job_3_pre_commit["pre-commit"]:::atlasJob
+      wf_3_pre_commit --> job_3_pre_commit
+    end
+    pipeline_root --> wf_3_pre_commit
+    subgraph sg_wf_5_ShellCheck["ShellCheck (1 jobs)"]
+      direction TB
+      wf_5_ShellCheck(["Trigger: ShellCheck"]):::atlasWorkflow
+      job_5_shellcheck["shellcheck"]:::atlasJob
+      wf_5_ShellCheck --> job_5_shellcheck
+    end
+    pipeline_root --> wf_5_ShellCheck
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_1_fast_revert_yml["fast-revert.yml (1 jobs)"]
+      direction TB
+      wf_1_fast_revert_yml(["Trigger: fast-revert.yml"]):::atlasWorkflow
+      job_1_revert["revert"]:::atlasJob
+      wf_1_fast_revert_yml --> job_1_revert
+    end
+    pipeline_root --> wf_1_fast_revert_yml
+    subgraph sg_wf_6_Test["Test (3 jobs)"]
+      direction TB
+      wf_6_Test(["Trigger: Test"]):::atlasWorkflow
+      job_6_unit_test["unit-test"]:::atlasJob
+      job_6_integration_test["integration-test"]:::atlasJob
+      job_6_integration_test_errors_only["integration-test-errors-only"]:::atlasJob
+      wf_6_Test --> job_6_unit_test
+      wf_6_Test --> job_6_integration_test
+      wf_6_Test --> job_6_integration_test_errors_only
+    end
+    pipeline_root --> wf_6_Test
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Release["Release (2 jobs)"]
+      direction TB
+      wf_4_Release(["Trigger: Release"]):::atlasWorkflow
+      job_4_release["release"]:::atlasJob
+      job_4_dogfood_release["dogfood-release"]:::atlasJob
+      wf_4_Release --> job_4_release
+      job_4_release --> job_4_dogfood_release
+    end
+    pipeline_root --> wf_4_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Lock_closed_issues_PRs["Lock closed issues/PRs (1 jobs)"]
+      direction TB
+      wf_2_Lock_closed_issues_PRs(["Trigger: Lock closed issues/PRs"]):::atlasWorkflow
+      job_2_lock["lock"]:::atlasJob
+      wf_2_Lock_closed_issues_PRs --> job_2_lock
+    end
+    pipeline_root --> wf_2_Lock_closed_issues_PRs
+  end
 ```

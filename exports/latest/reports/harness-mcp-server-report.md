@@ -213,32 +213,47 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["harness/mcp-server (4 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_Sync_Entity_YAML_Schemas["Sync Entity YAML Schemas (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Sync_Entity_YAML_Schemas
-  job_2_sync_entity_schemas["sync-entity-schemas"]:::atlasJob
-  wf_2_Sync_Entity_YAML_Schemas --> job_2_sync_entity_schemas
-  wf_3_Sync_Harness_Schemas["Sync Harness Schemas (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Sync_Harness_Schemas
-  job_3_sync_schemas["sync-schemas"]:::atlasJob
-  wf_3_Sync_Harness_Schemas --> job_3_sync_schemas
-  grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_CI["CI (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_CI
-  job_0_build_and_test["build-and-test"]:::atlasJob
-  job_0_smoke_test["smoke-test"]:::atlasJob
-  job_0_container_build["container-build"]:::atlasJob
-  wf_0_CI --> job_0_build_and_test
-  job_0_build_and_test --> job_0_smoke_test
-  wf_0_CI --> job_0_container_build
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_1_Release["Release (2 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_1_Release
-  job_1_release["release"]:::atlasJob
-  job_1_mcpb["mcpb"]:::atlasJob
-  wf_1_Release --> job_1_release
-  job_1_release --> job_1_mcpb
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Sync_Entity_YAML_Schemas["Sync Entity YAML Schemas (1 jobs)"]
+      direction TB
+      wf_2_Sync_Entity_YAML_Schemas(["Trigger: Sync Entity YAML Schemas"]):::atlasWorkflow
+      job_2_sync_entity_schemas["sync-entity-schemas"]:::atlasJob
+      wf_2_Sync_Entity_YAML_Schemas --> job_2_sync_entity_schemas
+    end
+    pipeline_root --> wf_2_Sync_Entity_YAML_Schemas
+    subgraph sg_wf_3_Sync_Harness_Schemas["Sync Harness Schemas (1 jobs)"]
+      direction TB
+      wf_3_Sync_Harness_Schemas(["Trigger: Sync Harness Schemas"]):::atlasWorkflow
+      job_3_sync_schemas["sync-schemas"]:::atlasJob
+      wf_3_Sync_Harness_Schemas --> job_3_sync_schemas
+    end
+    pipeline_root --> wf_3_Sync_Harness_Schemas
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (3 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_build_and_test["build-and-test"]:::atlasJob
+      job_0_smoke_test["smoke-test"]:::atlasJob
+      job_0_container_build["container-build"]:::atlasJob
+      wf_0_CI --> job_0_build_and_test
+      job_0_build_and_test --> job_0_smoke_test
+      wf_0_CI --> job_0_container_build
+    end
+    pipeline_root --> wf_0_CI
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Release["Release (2 jobs)"]
+      direction TB
+      wf_1_Release(["Trigger: Release"]):::atlasWorkflow
+      job_1_release["release"]:::atlasJob
+      job_1_mcpb["mcpb"]:::atlasJob
+      wf_1_Release --> job_1_release
+      job_1_release --> job_1_mcpb
+    end
+    pipeline_root --> wf_1_Release
+  end
 ```

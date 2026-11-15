@@ -97,50 +97,82 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["owncloud/android (11 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (7 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Android_Instrumented_Data_Tests["Android Instrumented Data Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Android_Instrumented_Data_Tests
-  job_0_instrumented_tests["instrumented-tests"]:::atlasJob
-  wf_0_Android_Instrumented_Data_Tests --> job_0_instrumented_tests
-  wf_1_Android_Unit_Tests["Android Unit Tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Android_Unit_Tests
-  job_1_unit_tests["unit-tests"]:::atlasJob
-  wf_1_Android_Unit_Tests --> job_1_unit_tests
-  wf_3_Calens_Changelog["Calens Changelog (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Calens_Changelog
-  job_3_changelog["changelog"]:::atlasJob
-  wf_3_Calens_Changelog --> job_3_changelog
-  wf_4_Conventional_Commits["Conventional Commits (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Conventional_Commits
-  job_4_validate_commit_names["validate-commit-names"]:::atlasJob
-  wf_4_Conventional_Commits --> job_4_validate_commit_names
-  wf_5_Detekt["Detekt (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Detekt
-  job_5_Detekt["Detekt"]:::atlasJob
-  wf_5_Detekt --> job_5_Detekt
-  wf_9_Validate_Android_source_strings["Validate Android source strings (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_Validate_Android_source_strings
-  job_9_validate_strings["validate-strings"]:::atlasJob
-  wf_9_Validate_Android_source_strings --> job_9_validate_strings
-  grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_2_Build_apk["Build apk (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_2_Build_apk
-  job_2_build_apk["build_apk"]:::atlasJob
-  wf_2_Build_apk --> job_2_build_apk
-  wf_7_SBOM["SBOM (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_7_SBOM
-  job_7_sbom["sbom"]:::atlasJob
-  wf_7_SBOM --> job_7_sbom
-  wf_8_Update_translations["Update translations (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_8_Update_translations
-  job_8_update_translations["update-translations"]:::atlasJob
-  wf_8_Update_translations --> job_8_update_translations
-  wf_10_Zizmor["Zizmor (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_10_Zizmor
-  job_10_zizmor["zizmor"]:::atlasJob
-  wf_10_Zizmor --> job_10_zizmor
+  subgraph sg_grp_0_CI___Verification["CI & Verification (7 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Android_Instrumented_Data_Tests["Android Instrumented Data Tests (1 jobs)"]
+      direction TB
+      wf_0_Android_Instrumented_Data_Tests(["Trigger: Android Instrumented Data Tests"]):::atlasWorkflow
+      job_0_instrumented_tests["instrumented-tests"]:::atlasJob
+      wf_0_Android_Instrumented_Data_Tests --> job_0_instrumented_tests
+    end
+    pipeline_root --> wf_0_Android_Instrumented_Data_Tests
+    subgraph sg_wf_1_Android_Unit_Tests["Android Unit Tests (1 jobs)"]
+      direction TB
+      wf_1_Android_Unit_Tests(["Trigger: Android Unit Tests"]):::atlasWorkflow
+      job_1_unit_tests["unit-tests"]:::atlasJob
+      wf_1_Android_Unit_Tests --> job_1_unit_tests
+    end
+    pipeline_root --> wf_1_Android_Unit_Tests
+    subgraph sg_wf_3_Calens_Changelog["Calens Changelog (1 jobs)"]
+      direction TB
+      wf_3_Calens_Changelog(["Trigger: Calens Changelog"]):::atlasWorkflow
+      job_3_changelog["changelog"]:::atlasJob
+      wf_3_Calens_Changelog --> job_3_changelog
+    end
+    pipeline_root --> wf_3_Calens_Changelog
+    subgraph sg_wf_4_Conventional_Commits["Conventional Commits (1 jobs)"]
+      direction TB
+      wf_4_Conventional_Commits(["Trigger: Conventional Commits"]):::atlasWorkflow
+      job_4_validate_commit_names["validate-commit-names"]:::atlasJob
+      wf_4_Conventional_Commits --> job_4_validate_commit_names
+    end
+    pipeline_root --> wf_4_Conventional_Commits
+    subgraph sg_wf_5_Detekt["Detekt (1 jobs)"]
+      direction TB
+      wf_5_Detekt(["Trigger: Detekt"]):::atlasWorkflow
+      job_5_Detekt["Detekt"]:::atlasJob
+      wf_5_Detekt --> job_5_Detekt
+    end
+    pipeline_root --> wf_5_Detekt
+    subgraph sg_wf_9_Validate_Android_source_strings["Validate Android source strings (1 jobs)"]
+      direction TB
+      wf_9_Validate_Android_source_strings(["Trigger: Validate Android source strings"]):::atlasWorkflow
+      job_9_validate_strings["validate-strings"]:::atlasJob
+      wf_9_Validate_Android_source_strings --> job_9_validate_strings
+    end
+    pipeline_root --> wf_9_Validate_Android_source_strings
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (4 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_apk["Build apk (1 jobs)"]
+      direction TB
+      wf_2_Build_apk(["Trigger: Build apk"]):::atlasWorkflow
+      job_2_build_apk["build_apk"]:::atlasJob
+      wf_2_Build_apk --> job_2_build_apk
+    end
+    pipeline_root --> wf_2_Build_apk
+    subgraph sg_wf_7_SBOM["SBOM (1 jobs)"]
+      direction TB
+      wf_7_SBOM(["Trigger: SBOM"]):::atlasWorkflow
+      job_7_sbom["sbom"]:::atlasJob
+      wf_7_SBOM --> job_7_sbom
+    end
+    pipeline_root --> wf_7_SBOM
+    subgraph sg_wf_8_Update_translations["Update translations (1 jobs)"]
+      direction TB
+      wf_8_Update_translations(["Trigger: Update translations"]):::atlasWorkflow
+      job_8_update_translations["update-translations"]:::atlasJob
+      wf_8_Update_translations --> job_8_update_translations
+    end
+    pipeline_root --> wf_8_Update_translations
+    subgraph sg_wf_10_Zizmor["Zizmor (1 jobs)"]
+      direction TB
+      wf_10_Zizmor(["Trigger: Zizmor"]):::atlasWorkflow
+      job_10_zizmor["zizmor"]:::atlasJob
+      wf_10_Zizmor --> job_10_zizmor
+    end
+    pipeline_root --> wf_10_Zizmor
+  end
   wf_more["+1 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

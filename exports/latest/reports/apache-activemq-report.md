@@ -320,44 +320,66 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["apache/activemq (6 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_CI_Manual["CI Manual (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_CI_Manual
-  job_0_build["build"]:::atlasJob
-  job_0_test["test"]:::atlasJob
-  wf_0_CI_Manual --> job_0_build
-  job_0_build --> job_0_test
-  wf_1_CI_Periodic_Full["CI Periodic Full (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_CI_Periodic_Full
-  job_1_build["build"]:::atlasJob
-  job_1_test["test"]:::atlasJob
-  wf_1_CI_Periodic_Full --> job_1_build
-  job_1_build --> job_1_test
-  wf_2_CI_Periodic_Quick["CI Periodic Quick (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_CI_Periodic_Quick
-  job_2_build["build"]:::atlasJob
-  job_2_test["test"]:::atlasJob
-  wf_2_CI_Periodic_Quick --> job_2_build
-  job_2_build --> job_2_test
-  grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_3_CI_Quick["CI Quick (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_3_CI_Quick
-  job_3_build["build"]:::atlasJob
-  job_3_test["test"]:::atlasJob
-  wf_3_CI_Quick --> job_3_build
-  job_3_build --> job_3_test
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_4_Deploy["Deploy (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_4_Deploy
-  job_4_deploy["deploy"]:::atlasJob
-  wf_4_Deploy --> job_4_deploy
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_5_Mark_stale_issues_and_close_stale_PRs["Mark stale issues and close stale PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_5_Mark_stale_issues_and_close_stale_PRs
-  job_5_stale["stale"]:::atlasJob
-  wf_5_Mark_stale_issues_and_close_stale_PRs --> job_5_stale
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (3 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI_Manual["CI Manual (2 jobs)"]
+      direction TB
+      wf_0_CI_Manual(["Trigger: CI Manual"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      job_0_test["test"]:::atlasJob
+      wf_0_CI_Manual --> job_0_build
+      job_0_build --> job_0_test
+    end
+    pipeline_root --> wf_0_CI_Manual
+    subgraph sg_wf_1_CI_Periodic_Full["CI Periodic Full (2 jobs)"]
+      direction TB
+      wf_1_CI_Periodic_Full(["Trigger: CI Periodic Full"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_test["test"]:::atlasJob
+      wf_1_CI_Periodic_Full --> job_1_build
+      job_1_build --> job_1_test
+    end
+    pipeline_root --> wf_1_CI_Periodic_Full
+    subgraph sg_wf_2_CI_Periodic_Quick["CI Periodic Quick (2 jobs)"]
+      direction TB
+      wf_2_CI_Periodic_Quick(["Trigger: CI Periodic Quick"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_test["test"]:::atlasJob
+      wf_2_CI_Periodic_Quick --> job_2_build
+      job_2_build --> job_2_test
+    end
+    pipeline_root --> wf_2_CI_Periodic_Quick
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_CI_Quick["CI Quick (2 jobs)"]
+      direction TB
+      wf_3_CI_Quick(["Trigger: CI Quick"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      job_3_test["test"]:::atlasJob
+      wf_3_CI_Quick --> job_3_build
+      job_3_build --> job_3_test
+    end
+    pipeline_root --> wf_3_CI_Quick
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Deploy["Deploy (1 jobs)"]
+      direction TB
+      wf_4_Deploy(["Trigger: Deploy"]):::atlasWorkflow
+      job_4_deploy["deploy"]:::atlasJob
+      wf_4_Deploy --> job_4_deploy
+    end
+    pipeline_root --> wf_4_Deploy
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_5_Mark_stale_issues_and_close_stale_PRs["Mark stale issues and close stale PRs (1 jobs)"]
+      direction TB
+      wf_5_Mark_stale_issues_and_close_stale_PRs(["Trigger: Mark stale issues and close stale PRs"]):::atlasWorkflow
+      job_5_stale["stale"]:::atlasJob
+      wf_5_Mark_stale_issues_and_close_stale_PRs --> job_5_stale
+    end
+    pipeline_root --> wf_5_Mark_stale_issues_and_close_stale_PRs
+  end
 ```

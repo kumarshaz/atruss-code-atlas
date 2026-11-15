@@ -78,59 +78,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/grafana-ansible-collection (10 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Alloy_Molecule["Alloy Molecule (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Alloy_Molecule
-  job_0_molecule["molecule"]:::atlasJob
-  wf_0_Alloy_Molecule --> job_0_molecule
-  wf_2_Lint["Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Lint
-  job_2_lint["lint"]:::atlasJob
-  wf_2_Lint --> job_2_lint
-  wf_3_Loki_Molecule["Loki Molecule (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Loki_Molecule
-  job_3_molecule["molecule"]:::atlasJob
-  wf_3_Loki_Molecule --> job_3_molecule
-  wf_4_Mimir_Molecule["Mimir Molecule (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_Mimir_Molecule
-  job_4_molecule["molecule"]:::atlasJob
-  wf_4_Mimir_Molecule --> job_4_molecule
-  wf_6_OpenTelemetry_Collector_Molecule["OpenTelemetry Collector Molecule (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_OpenTelemetry_Collector_Molecule
-  job_6_molecule["molecule"]:::atlasJob
-  wf_6_OpenTelemetry_Collector_Molecule --> job_6_molecule
-  wf_7_Promtail_Molecule["Promtail Molecule (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_Promtail_Molecule
-  job_7_molecule["molecule"]:::atlasJob
-  wf_7_Promtail_Molecule --> job_7_molecule
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Full_Integration_Test["Full Integration Test (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Full_Integration_Test
-  job_1_integration["integration"]:::atlasJob
-  wf_1_Full_Integration_Test --> job_1_integration
-  wf_5_Modules_Test["Modules Test (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_Modules_Test
-  job_5_sanity["sanity"]:::atlasJob
-  job_5_integration["integration"]:::atlasJob
-  wf_5_Modules_Test --> job_5_sanity
-  wf_5_Modules_Test --> job_5_integration
-  wf_9_Roles_Test["Roles Test (2 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_9_Roles_Test
-  job_9_sanity["sanity"]:::atlasJob
-  job_9_integration["integration"]:::atlasJob
-  wf_9_Roles_Test --> job_9_sanity
-  wf_9_Roles_Test --> job_9_integration
-  grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_8_GitHub_Release["GitHub Release (4 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_GitHub_Release
-  job_8_sanity["sanity"]:::atlasJob
-  job_8_integration["integration"]:::atlasJob
-  job_8_publish["publish"]:::atlasJob
-  wf_8_GitHub_Release --> job_8_sanity
-  wf_8_GitHub_Release --> job_8_integration
-  job_8_sanity --> job_8_publish
-  job_8_integration --> job_8_publish
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Alloy_Molecule["Alloy Molecule (1 jobs)"]
+      direction TB
+      wf_0_Alloy_Molecule(["Trigger: Alloy Molecule"]):::atlasWorkflow
+      job_0_molecule["molecule"]:::atlasJob
+      wf_0_Alloy_Molecule --> job_0_molecule
+    end
+    pipeline_root --> wf_0_Alloy_Molecule
+    subgraph sg_wf_2_Lint["Lint (1 jobs)"]
+      direction TB
+      wf_2_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_2_lint["lint"]:::atlasJob
+      wf_2_Lint --> job_2_lint
+    end
+    pipeline_root --> wf_2_Lint
+    subgraph sg_wf_3_Loki_Molecule["Loki Molecule (1 jobs)"]
+      direction TB
+      wf_3_Loki_Molecule(["Trigger: Loki Molecule"]):::atlasWorkflow
+      job_3_molecule["molecule"]:::atlasJob
+      wf_3_Loki_Molecule --> job_3_molecule
+    end
+    pipeline_root --> wf_3_Loki_Molecule
+    subgraph sg_wf_4_Mimir_Molecule["Mimir Molecule (1 jobs)"]
+      direction TB
+      wf_4_Mimir_Molecule(["Trigger: Mimir Molecule"]):::atlasWorkflow
+      job_4_molecule["molecule"]:::atlasJob
+      wf_4_Mimir_Molecule --> job_4_molecule
+    end
+    pipeline_root --> wf_4_Mimir_Molecule
+    subgraph sg_wf_6_OpenTelemetry_Collector_Molecule["OpenTelemetry Collector Molecule (1 jobs)"]
+      direction TB
+      wf_6_OpenTelemetry_Collector_Molecule(["Trigger: OpenTelemetry Collector Molecule"]):::atlasWorkflow
+      job_6_molecule["molecule"]:::atlasJob
+      wf_6_OpenTelemetry_Collector_Molecule --> job_6_molecule
+    end
+    pipeline_root --> wf_6_OpenTelemetry_Collector_Molecule
+    subgraph sg_wf_7_Promtail_Molecule["Promtail Molecule (1 jobs)"]
+      direction TB
+      wf_7_Promtail_Molecule(["Trigger: Promtail Molecule"]):::atlasWorkflow
+      job_7_molecule["molecule"]:::atlasJob
+      wf_7_Promtail_Molecule --> job_7_molecule
+    end
+    pipeline_root --> wf_7_Promtail_Molecule
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Full_Integration_Test["Full Integration Test (1 jobs)"]
+      direction TB
+      wf_1_Full_Integration_Test(["Trigger: Full Integration Test"]):::atlasWorkflow
+      job_1_integration["integration"]:::atlasJob
+      wf_1_Full_Integration_Test --> job_1_integration
+    end
+    pipeline_root --> wf_1_Full_Integration_Test
+    subgraph sg_wf_5_Modules_Test["Modules Test (2 jobs)"]
+      direction TB
+      wf_5_Modules_Test(["Trigger: Modules Test"]):::atlasWorkflow
+      job_5_sanity["sanity"]:::atlasJob
+      job_5_integration["integration"]:::atlasJob
+      wf_5_Modules_Test --> job_5_sanity
+      wf_5_Modules_Test --> job_5_integration
+    end
+    pipeline_root --> wf_5_Modules_Test
+    subgraph sg_wf_9_Roles_Test["Roles Test (2 jobs)"]
+      direction TB
+      wf_9_Roles_Test(["Trigger: Roles Test"]):::atlasWorkflow
+      job_9_sanity["sanity"]:::atlasJob
+      job_9_integration["integration"]:::atlasJob
+      wf_9_Roles_Test --> job_9_sanity
+      wf_9_Roles_Test --> job_9_integration
+    end
+    pipeline_root --> wf_9_Roles_Test
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (1 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_8_GitHub_Release["GitHub Release (4 jobs)"]
+      direction TB
+      wf_8_GitHub_Release(["Trigger: GitHub Release"]):::atlasWorkflow
+      job_8_sanity["sanity"]:::atlasJob
+      job_8_integration["integration"]:::atlasJob
+      job_8_publish["publish"]:::atlasJob
+      wf_8_GitHub_Release --> job_8_sanity
+      wf_8_GitHub_Release --> job_8_integration
+      job_8_sanity --> job_8_publish
+      job_8_integration --> job_8_publish
+    end
+    pipeline_root --> wf_8_GitHub_Release
+  end
 ```

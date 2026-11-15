@@ -113,36 +113,58 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["backstage/mkdocs-techdocs-core (6 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_1_Lint_using_PSF_s_black_linter["Lint using PSF's black linter (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_Lint_using_PSF_s_black_linter
-  job_1_lint["lint"]:::atlasJob
-  wf_1_Lint_using_PSF_s_black_linter --> job_1_lint
-  wf_4_ci_python_unittest["ci-python-unittest (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_4_ci_python_unittest
-  job_4_build["build"]:::atlasJob
-  wf_4_ci_python_unittest --> job_4_build
-  wf_5_Validate_the_renovate_configuration["Validate the renovate configuration (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_Validate_the_renovate_configuration
-  job_5_validate["validate"]:::atlasJob
-  wf_5_Validate_the_renovate_configuration --> job_5_validate
-  grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_3_TechDocs_PyPI_Publish_main_branch["TechDocs PyPI Publish main branch (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_TechDocs_PyPI_Publish_main_branch
-  job_3_build["build"]:::atlasJob
-  wf_3_TechDocs_PyPI_Publish_main_branch --> job_3_build
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_2_manual_versioning["manual-versioning (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_2_manual_versioning
-  job_2_release["release"]:::atlasJob
-  wf_2_manual_versioning --> job_2_release
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_0_Close_Stale_Issues_and_PRs_Automatically["Close Stale Issues and PRs Automatically (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_0_Close_Stale_Issues_and_PRs_Automatically
-  job_0_stale["stale"]:::atlasJob
-  wf_0_Close_Stale_Issues_and_PRs_Automatically --> job_0_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Lint_using_PSF_s_black_linter["Lint using PSF's black linter (1 jobs)"]
+      direction TB
+      wf_1_Lint_using_PSF_s_black_linter(["Trigger: Lint using PSF's black linter"]):::atlasWorkflow
+      job_1_lint["lint"]:::atlasJob
+      wf_1_Lint_using_PSF_s_black_linter --> job_1_lint
+    end
+    pipeline_root --> wf_1_Lint_using_PSF_s_black_linter
+    subgraph sg_wf_4_ci_python_unittest["ci-python-unittest (1 jobs)"]
+      direction TB
+      wf_4_ci_python_unittest(["Trigger: ci-python-unittest"]):::atlasWorkflow
+      job_4_build["build"]:::atlasJob
+      wf_4_ci_python_unittest --> job_4_build
+    end
+    pipeline_root --> wf_4_ci_python_unittest
+    subgraph sg_wf_5_Validate_the_renovate_configuration["Validate the renovate configuration (1 jobs)"]
+      direction TB
+      wf_5_Validate_the_renovate_configuration(["Trigger: Validate the renovate configuration"]):::atlasWorkflow
+      job_5_validate["validate"]:::atlasJob
+      wf_5_Validate_the_renovate_configuration --> job_5_validate
+    end
+    pipeline_root --> wf_5_Validate_the_renovate_configuration
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_3_TechDocs_PyPI_Publish_main_branch["TechDocs PyPI Publish main branch (1 jobs)"]
+      direction TB
+      wf_3_TechDocs_PyPI_Publish_main_branch(["Trigger: TechDocs PyPI Publish main branch"]):::atlasWorkflow
+      job_3_build["build"]:::atlasJob
+      wf_3_TechDocs_PyPI_Publish_main_branch --> job_3_build
+    end
+    pipeline_root --> wf_3_TechDocs_PyPI_Publish_main_branch
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_manual_versioning["manual-versioning (1 jobs)"]
+      direction TB
+      wf_2_manual_versioning(["Trigger: manual-versioning"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_manual_versioning --> job_2_release
+    end
+    pipeline_root --> wf_2_manual_versioning
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Close_Stale_Issues_and_PRs_Automatically["Close Stale Issues and PRs Automatically (1 jobs)"]
+      direction TB
+      wf_0_Close_Stale_Issues_and_PRs_Automatically(["Trigger: Close Stale Issues and PRs Automatically"]):::atlasWorkflow
+      job_0_stale["stale"]:::atlasJob
+      wf_0_Close_Stale_Issues_and_PRs_Automatically --> job_0_stale
+    end
+    pipeline_root --> wf_0_Close_Stale_Issues_and_PRs_Automatically
+  end
 ```

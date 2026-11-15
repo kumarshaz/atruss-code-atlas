@@ -327,64 +327,97 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["grafana/tempo-operator (13 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (6 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Actionlint["Actionlint (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Actionlint
-  job_0_run_actionlint["run-actionlint"]:::atlasJob
-  wf_0_Actionlint --> job_0_run_actionlint
-  wf_2_Continuous_Integration["Continuous Integration (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Continuous_Integration
-  job_2_unit_tests["unit-tests"]:::atlasJob
-  job_2_security["security"]:::atlasJob
-  job_2_dependency_review["dependency-review"]:::atlasJob
-  wf_2_Continuous_Integration --> job_2_unit_tests
-  wf_2_Continuous_Integration --> job_2_security
-  wf_2_Continuous_Integration --> job_2_dependency_review
-  wf_3_End_to_end_tests["End-to-end tests (2 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_End_to_end_tests
-  job_3_e2e_tests["e2e-tests"]:::atlasJob
-  job_3_upgrade_tests["upgrade-tests"]:::atlasJob
-  wf_3_End_to_end_tests --> job_3_e2e_tests
-  wf_3_End_to_end_tests --> job_3_upgrade_tests
-  wf_11_Scorecard_tests["Scorecard tests (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_11_Scorecard_tests
-  job_11_scorecard_tests["scorecard-tests"]:::atlasJob
-  wf_11_Scorecard_tests --> job_11_scorecard_tests
-  wf_12_Validate_test_utils_image["Validate test utils image (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_12_Validate_test_utils_image
-  job_12_validate["validate"]:::atlasJob
-  wf_12_Validate_test_utils_image --> job_12_validate
-  grp_1_Release___Deploy["Release & Deploy (6 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_4_Publish_to_operatorHUB["Publish to operatorHUB (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_4_Publish_to_operatorHUB
-  job_4_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
-  job_4_operator_hub_community_release["operator-hub-community-release"]:::atlasJob
-  wf_4_Publish_to_operatorHUB --> job_4_operator_hub_prod_release
-  wf_4_Publish_to_operatorHUB --> job_4_operator_hub_community_release
-  wf_5_Prepare_the_release["Prepare the release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_5_Prepare_the_release
-  job_5_prepare_release["prepare-release"]:::atlasJob
-  wf_5_Prepare_the_release --> job_5_prepare_release
-  wf_6_Publish_operator["Publish operator (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_Publish_operator
-  job_6_publish_images["publish-images"]:::atlasJob
-  wf_6_Publish_operator --> job_6_publish_images
-  wf_8_Release["Release (4 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_8_Release
-  job_8_release["release"]:::atlasJob
-  job_8_publish_images["publish-images"]:::atlasJob
-  job_8_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
-  wf_8_Release --> job_8_release
-  job_8_release --> job_8_publish_images
-  job_8_publish_images --> job_8_operator_hub_prod_release
-  grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_9_Reusable___Create_operator_hub_pull_request["Reusable - Create operator hub pull request (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_9_Reusable___Create_operator_hub_pull_request
-  job_9_create_operator_pull_request["create-operator-pull-request"]:::atlasJob
-  wf_9_Reusable___Create_operator_hub_pull_request --> job_9_create_operator_pull_request
+  subgraph sg_grp_0_CI___Verification["CI & Verification (6 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Actionlint["Actionlint (1 jobs)"]
+      direction TB
+      wf_0_Actionlint(["Trigger: Actionlint"]):::atlasWorkflow
+      job_0_run_actionlint["run-actionlint"]:::atlasJob
+      wf_0_Actionlint --> job_0_run_actionlint
+    end
+    pipeline_root --> wf_0_Actionlint
+    subgraph sg_wf_2_Continuous_Integration["Continuous Integration (4 jobs)"]
+      direction TB
+      wf_2_Continuous_Integration(["Trigger: Continuous Integration"]):::atlasWorkflow
+      job_2_unit_tests["unit-tests"]:::atlasJob
+      job_2_security["security"]:::atlasJob
+      job_2_dependency_review["dependency-review"]:::atlasJob
+      wf_2_Continuous_Integration --> job_2_unit_tests
+      wf_2_Continuous_Integration --> job_2_security
+      wf_2_Continuous_Integration --> job_2_dependency_review
+    end
+    pipeline_root --> wf_2_Continuous_Integration
+    subgraph sg_wf_3_End_to_end_tests["End-to-end tests (2 jobs)"]
+      direction TB
+      wf_3_End_to_end_tests(["Trigger: End-to-end tests"]):::atlasWorkflow
+      job_3_e2e_tests["e2e-tests"]:::atlasJob
+      job_3_upgrade_tests["upgrade-tests"]:::atlasJob
+      wf_3_End_to_end_tests --> job_3_e2e_tests
+      wf_3_End_to_end_tests --> job_3_upgrade_tests
+    end
+    pipeline_root --> wf_3_End_to_end_tests
+    subgraph sg_wf_11_Scorecard_tests["Scorecard tests (1 jobs)"]
+      direction TB
+      wf_11_Scorecard_tests(["Trigger: Scorecard tests"]):::atlasWorkflow
+      job_11_scorecard_tests["scorecard-tests"]:::atlasJob
+      wf_11_Scorecard_tests --> job_11_scorecard_tests
+    end
+    pipeline_root --> wf_11_Scorecard_tests
+    subgraph sg_wf_12_Validate_test_utils_image["Validate test utils image (1 jobs)"]
+      direction TB
+      wf_12_Validate_test_utils_image(["Trigger: Validate test utils image"]):::atlasWorkflow
+      job_12_validate["validate"]:::atlasJob
+      wf_12_Validate_test_utils_image --> job_12_validate
+    end
+    pipeline_root --> wf_12_Validate_test_utils_image
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (6 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Publish_to_operatorHUB["Publish to operatorHUB (2 jobs)"]
+      direction TB
+      wf_4_Publish_to_operatorHUB(["Trigger: Publish to operatorHUB"]):::atlasWorkflow
+      job_4_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
+      job_4_operator_hub_community_release["operator-hub-community-release"]:::atlasJob
+      wf_4_Publish_to_operatorHUB --> job_4_operator_hub_prod_release
+      wf_4_Publish_to_operatorHUB --> job_4_operator_hub_community_release
+    end
+    pipeline_root --> wf_4_Publish_to_operatorHUB
+    subgraph sg_wf_5_Prepare_the_release["Prepare the release (1 jobs)"]
+      direction TB
+      wf_5_Prepare_the_release(["Trigger: Prepare the release"]):::atlasWorkflow
+      job_5_prepare_release["prepare-release"]:::atlasJob
+      wf_5_Prepare_the_release --> job_5_prepare_release
+    end
+    pipeline_root --> wf_5_Prepare_the_release
+    subgraph sg_wf_6_Publish_operator["Publish operator (1 jobs)"]
+      direction TB
+      wf_6_Publish_operator(["Trigger: Publish operator"]):::atlasWorkflow
+      job_6_publish_images["publish-images"]:::atlasJob
+      wf_6_Publish_operator --> job_6_publish_images
+    end
+    pipeline_root --> wf_6_Publish_operator
+    subgraph sg_wf_8_Release["Release (4 jobs)"]
+      direction TB
+      wf_8_Release(["Trigger: Release"]):::atlasWorkflow
+      job_8_release["release"]:::atlasJob
+      job_8_publish_images["publish-images"]:::atlasJob
+      job_8_operator_hub_prod_release["operator-hub-prod-release"]:::atlasJob
+      wf_8_Release --> job_8_release
+      job_8_release --> job_8_publish_images
+      job_8_publish_images --> job_8_operator_hub_prod_release
+    end
+    pipeline_root --> wf_8_Release
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_9_Reusable___Create_operator_hub_pull_request["Reusable - Create operator hub pull request (1 jobs)"]
+      direction TB
+      wf_9_Reusable___Create_operator_hub_pull_request(["Trigger: Reusable - Create operator hub pull request"]):::atlasWorkflow
+      job_9_create_operator_pull_request["create-operator-pull-request"]:::atlasJob
+      wf_9_Reusable___Create_operator_hub_pull_request --> job_9_create_operator_pull_request
+    end
+    pipeline_root --> wf_9_Reusable___Create_operator_hub_pull_request
+  end
   wf_more["+3 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

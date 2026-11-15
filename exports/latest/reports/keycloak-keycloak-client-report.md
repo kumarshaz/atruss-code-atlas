@@ -252,46 +252,70 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["keycloak/keycloak-client (7 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Keycloak_Client_CI["Keycloak Client CI (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Keycloak_Client_CI
-  job_0_build["build"]:::atlasJob
-  job_0_client_tests["client-tests"]:::atlasJob
-  wf_0_Keycloak_Client_CI --> job_0_build
-  job_0_build --> job_0_client_tests
-  wf_4_Scheduled_nightly_workflows["Scheduled nightly workflows (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Scheduled_nightly_workflows
-  job_4_run_ci["run-ci"]:::atlasJob
-  wf_4_Scheduled_nightly_workflows --> job_4_run_ci
-  wf_5_Keycloak_client_sync_nightly["Keycloak client sync nightly (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Keycloak_client_sync_nightly
-  job_5_build["build"]:::atlasJob
-  job_5_client_tests["client-tests"]:::atlasJob
-  wf_5_Keycloak_client_sync_nightly --> job_5_build
-  job_5_build --> job_5_client_tests
-  wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes["Sync with Keycloak Server and send PR with changes (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes
-  job_6_sync["sync"]:::atlasJob
-  wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes --> job_6_sync
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_Keycloak_Client_Nightly_Release["Keycloak Client Nightly Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_Keycloak_Client_Nightly_Release
-  job_1_release["release"]:::atlasJob
-  wf_1_Keycloak_Client_Nightly_Release --> job_1_release
-  wf_2_Release["Release (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_Release
-  job_2_release["release"]:::atlasJob
-  wf_2_Release --> job_2_release
-  grp_2_CI___Verification["CI & Verification (1 workflows · 4 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_3_Keycloak_Client_Tests["Keycloak Client Tests (4 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_3_Keycloak_Client_Tests
-  job_3_client_tests_srv_26["client-tests-srv-26"]:::atlasJob
-  job_3_client_tests_srv_nightly["client-tests-srv-nightly"]:::atlasJob
-  job_3_client_tests_jackson3["client-tests-jackson3"]:::atlasJob
-  wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_26
-  wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_nightly
-  wf_3_Keycloak_Client_Tests --> job_3_client_tests_jackson3
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Keycloak_Client_CI["Keycloak Client CI (2 jobs)"]
+      direction TB
+      wf_0_Keycloak_Client_CI(["Trigger: Keycloak Client CI"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      job_0_client_tests["client-tests"]:::atlasJob
+      wf_0_Keycloak_Client_CI --> job_0_build
+      job_0_build --> job_0_client_tests
+    end
+    pipeline_root --> wf_0_Keycloak_Client_CI
+    subgraph sg_wf_4_Scheduled_nightly_workflows["Scheduled nightly workflows (1 jobs)"]
+      direction TB
+      wf_4_Scheduled_nightly_workflows(["Trigger: Scheduled nightly workflows"]):::atlasWorkflow
+      job_4_run_ci["run-ci"]:::atlasJob
+      wf_4_Scheduled_nightly_workflows --> job_4_run_ci
+    end
+    pipeline_root --> wf_4_Scheduled_nightly_workflows
+    subgraph sg_wf_5_Keycloak_client_sync_nightly["Keycloak client sync nightly (2 jobs)"]
+      direction TB
+      wf_5_Keycloak_client_sync_nightly(["Trigger: Keycloak client sync nightly"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      job_5_client_tests["client-tests"]:::atlasJob
+      wf_5_Keycloak_client_sync_nightly --> job_5_build
+      job_5_build --> job_5_client_tests
+    end
+    pipeline_root --> wf_5_Keycloak_client_sync_nightly
+    subgraph sg_wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes["Sync with Keycloak Server and send PR with changes (1 jobs)"]
+      direction TB
+      wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes(["Trigger: Sync with Keycloak Server and send PR with changes"]):::atlasWorkflow
+      job_6_sync["sync"]:::atlasJob
+      wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes --> job_6_sync
+    end
+    pipeline_root --> wf_6_Sync_with_Keycloak_Server_and_send_PR_with_changes
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Keycloak_Client_Nightly_Release["Keycloak Client Nightly Release (1 jobs)"]
+      direction TB
+      wf_1_Keycloak_Client_Nightly_Release(["Trigger: Keycloak Client Nightly Release"]):::atlasWorkflow
+      job_1_release["release"]:::atlasJob
+      wf_1_Keycloak_Client_Nightly_Release --> job_1_release
+    end
+    pipeline_root --> wf_1_Keycloak_Client_Nightly_Release
+    subgraph sg_wf_2_Release["Release (1 jobs)"]
+      direction TB
+      wf_2_Release(["Trigger: Release"]):::atlasWorkflow
+      job_2_release["release"]:::atlasJob
+      wf_2_Release --> job_2_release
+    end
+    pipeline_root --> wf_2_Release
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (1 workflows · 4 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Keycloak_Client_Tests["Keycloak Client Tests (4 jobs)"]
+      direction TB
+      wf_3_Keycloak_Client_Tests(["Trigger: Keycloak Client Tests"]):::atlasWorkflow
+      job_3_client_tests_srv_26["client-tests-srv-26"]:::atlasJob
+      job_3_client_tests_srv_nightly["client-tests-srv-nightly"]:::atlasJob
+      job_3_client_tests_jackson3["client-tests-jackson3"]:::atlasJob
+      wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_26
+      wf_3_Keycloak_Client_Tests --> job_3_client_tests_srv_nightly
+      wf_3_Keycloak_Client_Tests --> job_3_client_tests_jackson3
+    end
+    pipeline_root --> wf_3_Keycloak_Client_Tests
+  end
 ```

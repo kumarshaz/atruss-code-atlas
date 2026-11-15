@@ -299,68 +299,91 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["go-gitea/gitea (13 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 26 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_5_compliance["compliance (13 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_5_compliance
-  job_5_files_changed["files-changed"]:::atlasJob
-  job_5_lint_backend["lint-backend"]:::atlasJob
-  job_5_lint_templates["lint-templates"]:::atlasJob
-  wf_5_compliance --> job_5_files_changed
-  job_5_files_changed --> job_5_lint_backend
-  job_5_files_changed --> job_5_lint_templates
-  wf_6_db_tests["db-tests (7 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_6_db_tests
-  job_6_files_changed["files-changed"]:::atlasJob
-  job_6_test_pgsql["test-pgsql"]:::atlasJob
-  job_6_test_sqlite["test-sqlite"]:::atlasJob
-  wf_6_db_tests --> job_6_files_changed
-  job_6_files_changed --> job_6_test_pgsql
-  job_6_files_changed --> job_6_test_sqlite
-  wf_7_docker_dryrun["docker-dryrun (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_7_docker_dryrun
-  job_7_files_changed["files-changed"]:::atlasJob
-  job_7_regular["regular"]:::atlasJob
-  job_7_rootless["rootless"]:::atlasJob
-  wf_7_docker_dryrun --> job_7_files_changed
-  job_7_files_changed --> job_7_regular
-  job_7_files_changed --> job_7_rootless
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_10_release_nightly["release-nightly (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_10_release_nightly
-  job_10_nightly_binary["nightly-binary"]:::atlasJob
-  job_10_nightly_docker_rootful["nightly-docker-rootful"]:::atlasJob
-  job_10_nightly_docker_rootless["nightly-docker-rootless"]:::atlasJob
-  wf_10_release_nightly --> job_10_nightly_binary
-  wf_10_release_nightly --> job_10_nightly_docker_rootful
-  wf_10_release_nightly --> job_10_nightly_docker_rootless
-  wf_11_release_tag_rc["release-tag-rc (3 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_11_release_tag_rc
-  job_11_binary["binary"]:::atlasJob
-  job_11_docker_rootful["docker-rootful"]:::atlasJob
-  job_11_docker_rootless["docker-rootless"]:::atlasJob
-  wf_11_release_tag_rc --> job_11_binary
-  wf_11_release_tag_rc --> job_11_docker_rootful
-  wf_11_release_tag_rc --> job_11_docker_rootless
-  grp_2_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Automation___Other
-  wf_3_disk_clean["disk-clean (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_3_disk_clean
-  job_3_triage["triage"]:::atlasJob
-  wf_3_disk_clean --> job_3_triage
-  wf_4_files_changed["files-changed (1 jobs)"]:::atlasWorkflow
-  grp_2_Automation___Other --> wf_4_files_changed
-  grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Scheduled___Manual
-  wf_0_cron_licenses["cron-licenses (1 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_0_cron_licenses
-  wf_2_cron_translations["cron-translations (2 jobs)"]:::atlasWorkflow
-  grp_3_Scheduled___Manual --> wf_2_cron_translations
-  grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_4_Security___Governance
-  wf_1_cron_lock["cron-lock (1 jobs)"]:::atlasWorkflow
-  grp_4_Security___Governance --> wf_1_cron_lock
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 26 jobs)"]
+    direction TB
+    subgraph sg_wf_5_compliance["compliance (13 jobs)"]
+      direction TB
+      wf_5_compliance(["Trigger: compliance"]):::atlasWorkflow
+      job_5_files_changed["files-changed"]:::atlasJob
+      job_5_lint_backend["lint-backend"]:::atlasJob
+      job_5_lint_templates["lint-templates"]:::atlasJob
+      wf_5_compliance --> job_5_files_changed
+      job_5_files_changed --> job_5_lint_backend
+      job_5_files_changed --> job_5_lint_templates
+    end
+    pipeline_root --> wf_5_compliance
+    subgraph sg_wf_6_db_tests["db-tests (7 jobs)"]
+      direction TB
+      wf_6_db_tests(["Trigger: db-tests"]):::atlasWorkflow
+      job_6_files_changed["files-changed"]:::atlasJob
+      job_6_test_pgsql["test-pgsql"]:::atlasJob
+      job_6_test_sqlite["test-sqlite"]:::atlasJob
+      wf_6_db_tests --> job_6_files_changed
+      job_6_files_changed --> job_6_test_pgsql
+      job_6_files_changed --> job_6_test_sqlite
+    end
+    pipeline_root --> wf_6_db_tests
+    subgraph sg_wf_7_docker_dryrun["docker-dryrun (3 jobs)"]
+      direction TB
+      wf_7_docker_dryrun(["Trigger: docker-dryrun"]):::atlasWorkflow
+      job_7_files_changed["files-changed"]:::atlasJob
+      job_7_regular["regular"]:::atlasJob
+      job_7_rootless["rootless"]:::atlasJob
+      wf_7_docker_dryrun --> job_7_files_changed
+      job_7_files_changed --> job_7_regular
+      job_7_files_changed --> job_7_rootless
+    end
+    pipeline_root --> wf_7_docker_dryrun
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 9 jobs)"]
+    direction TB
+    subgraph sg_wf_10_release_nightly["release-nightly (3 jobs)"]
+      direction TB
+      wf_10_release_nightly(["Trigger: release-nightly"]):::atlasWorkflow
+      job_10_nightly_binary["nightly-binary"]:::atlasJob
+      job_10_nightly_docker_rootful["nightly-docker-rootful"]:::atlasJob
+      job_10_nightly_docker_rootless["nightly-docker-rootless"]:::atlasJob
+      wf_10_release_nightly --> job_10_nightly_binary
+      wf_10_release_nightly --> job_10_nightly_docker_rootful
+      wf_10_release_nightly --> job_10_nightly_docker_rootless
+    end
+    pipeline_root --> wf_10_release_nightly
+    subgraph sg_wf_11_release_tag_rc["release-tag-rc (3 jobs)"]
+      direction TB
+      wf_11_release_tag_rc(["Trigger: release-tag-rc"]):::atlasWorkflow
+      job_11_binary["binary"]:::atlasJob
+      job_11_docker_rootful["docker-rootful"]:::atlasJob
+      job_11_docker_rootless["docker-rootless"]:::atlasJob
+      wf_11_release_tag_rc --> job_11_binary
+      wf_11_release_tag_rc --> job_11_docker_rootful
+      wf_11_release_tag_rc --> job_11_docker_rootless
+    end
+    pipeline_root --> wf_11_release_tag_rc
+  end
+  subgraph sg_grp_2_Automation___Other["Automation & Other (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_3_disk_clean["disk-clean (1 jobs)"]
+      direction TB
+      wf_3_disk_clean(["Trigger: disk-clean"]):::atlasWorkflow
+      job_3_triage["triage"]:::atlasJob
+      wf_3_disk_clean --> job_3_triage
+    end
+    pipeline_root --> wf_3_disk_clean
+    wf_4_files_changed["files-changed (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_4_files_changed
+  end
+  subgraph sg_grp_3_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
+    direction TB
+    wf_0_cron_licenses["cron-licenses (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_0_cron_licenses
+    wf_2_cron_translations["cron-translations (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_2_cron_translations
+  end
+  subgraph sg_grp_4_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_1_cron_lock["cron-lock (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_1_cron_lock
+  end
   wf_more["+3 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

@@ -266,38 +266,56 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["mattermost/mattermost-plugin-calls (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_ci["ci (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_ci
-  job_0_plugin_ci["plugin-ci"]:::atlasJob
-  job_0_code_coverage["code-coverage"]:::atlasJob
-  job_0_lt["lt"]:::atlasJob
-  wf_0_ci --> job_0_plugin_ci
-  wf_0_ci --> job_0_code_coverage
-  wf_0_ci --> job_0_lt
-  wf_1_E2E_Testing["E2E Testing (4 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_E2E_Testing
-  job_1_build_mattermost_plugin_calls["build-mattermost-plugin-calls"]:::atlasJob
-  job_1_build_rtcd_image["build-rtcd-image"]:::atlasJob
-  job_1_generate_matrix["generate-matrix"]:::atlasJob
-  wf_1_E2E_Testing --> job_1_build_mattermost_plugin_calls
-  wf_1_E2E_Testing --> job_1_build_rtcd_image
-  wf_1_E2E_Testing --> job_1_generate_matrix
-  wf_3_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_PR_Test_Analysis_Override
-  job_3_override["override"]:::atlasJob
-  wf_3_PR_Test_Analysis_Override --> job_3_override
-  grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Automation___Other
-  wf_2_E2E_Report_Generation["E2E Report Generation (1 jobs)"]:::atlasWorkflow
-  grp_1_Automation___Other --> wf_2_E2E_Report_Generation
-  job_2_generate_report["generate-report"]:::atlasJob
-  wf_2_E2E_Report_Generation --> job_2_generate_report
-  grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Scheduled___Manual
-  wf_4_PR_Test_Analysis["PR Test Analysis (1 jobs)"]:::atlasWorkflow
-  grp_2_Scheduled___Manual --> wf_4_PR_Test_Analysis
-  job_4_analyze["analyze"]:::atlasJob
-  wf_4_PR_Test_Analysis --> job_4_analyze
+  subgraph sg_grp_0_CI___Verification["CI & Verification (3 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_0_ci["ci (3 jobs)"]
+      direction TB
+      wf_0_ci(["Trigger: ci"]):::atlasWorkflow
+      job_0_plugin_ci["plugin-ci"]:::atlasJob
+      job_0_code_coverage["code-coverage"]:::atlasJob
+      job_0_lt["lt"]:::atlasJob
+      wf_0_ci --> job_0_plugin_ci
+      wf_0_ci --> job_0_code_coverage
+      wf_0_ci --> job_0_lt
+    end
+    pipeline_root --> wf_0_ci
+    subgraph sg_wf_1_E2E_Testing["E2E Testing (4 jobs)"]
+      direction TB
+      wf_1_E2E_Testing(["Trigger: E2E Testing"]):::atlasWorkflow
+      job_1_build_mattermost_plugin_calls["build-mattermost-plugin-calls"]:::atlasJob
+      job_1_build_rtcd_image["build-rtcd-image"]:::atlasJob
+      job_1_generate_matrix["generate-matrix"]:::atlasJob
+      wf_1_E2E_Testing --> job_1_build_mattermost_plugin_calls
+      wf_1_E2E_Testing --> job_1_build_rtcd_image
+      wf_1_E2E_Testing --> job_1_generate_matrix
+    end
+    pipeline_root --> wf_1_E2E_Testing
+    subgraph sg_wf_3_PR_Test_Analysis_Override["PR Test Analysis Override (1 jobs)"]
+      direction TB
+      wf_3_PR_Test_Analysis_Override(["Trigger: PR Test Analysis Override"]):::atlasWorkflow
+      job_3_override["override"]:::atlasJob
+      wf_3_PR_Test_Analysis_Override --> job_3_override
+    end
+    pipeline_root --> wf_3_PR_Test_Analysis_Override
+  end
+  subgraph sg_grp_1_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_2_E2E_Report_Generation["E2E Report Generation (1 jobs)"]
+      direction TB
+      wf_2_E2E_Report_Generation(["Trigger: E2E Report Generation"]):::atlasWorkflow
+      job_2_generate_report["generate-report"]:::atlasJob
+      wf_2_E2E_Report_Generation --> job_2_generate_report
+    end
+    pipeline_root --> wf_2_E2E_Report_Generation
+  end
+  subgraph sg_grp_2_Scheduled___Manual["Scheduled & Manual (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_PR_Test_Analysis["PR Test Analysis (1 jobs)"]
+      direction TB
+      wf_4_PR_Test_Analysis(["Trigger: PR Test Analysis"]):::atlasWorkflow
+      job_4_analyze["analyze"]:::atlasJob
+      wf_4_PR_Test_Analysis --> job_4_analyze
+    end
+    pipeline_root --> wf_4_PR_Test_Analysis
+  end
 ```

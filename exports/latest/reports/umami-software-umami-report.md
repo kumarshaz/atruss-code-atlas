@@ -269,30 +269,48 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["umami-software/umami (5 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_Create_docker_images__cloud_["Create docker images (cloud) (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_Create_docker_images__cloud_
-  job_0_build["build"]:::atlasJob
-  wf_0_Create_docker_images__cloud_ --> job_0_build
-  wf_2_Node_js_CI["Node.js CI (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_2_Node_js_CI
-  job_2_build["build"]:::atlasJob
-  wf_2_Node_js_CI --> job_2_build
-  grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_1_Create_docker_images["Create docker images (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_1_Create_docker_images
-  job_1_build["build"]:::atlasJob
-  wf_1_Create_docker_images --> job_1_build
-  wf_3_Gitleaks["Gitleaks (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_3_Gitleaks
-  job_3_scan["scan"]:::atlasJob
-  wf_3_Gitleaks --> job_3_scan
-  grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Security___Governance
-  wf_4_Close_stale_issues["Close stale issues (1 jobs)"]:::atlasWorkflow
-  grp_2_Security___Governance --> wf_4_Close_stale_issues
-  job_4_stale["stale"]:::atlasJob
-  wf_4_Close_stale_issues --> job_4_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Create_docker_images__cloud_["Create docker images (cloud) (1 jobs)"]
+      direction TB
+      wf_0_Create_docker_images__cloud_(["Trigger: Create docker images (cloud)"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_Create_docker_images__cloud_ --> job_0_build
+    end
+    pipeline_root --> wf_0_Create_docker_images__cloud_
+    subgraph sg_wf_2_Node_js_CI["Node.js CI (1 jobs)"]
+      direction TB
+      wf_2_Node_js_CI(["Trigger: Node.js CI"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      wf_2_Node_js_CI --> job_2_build
+    end
+    pipeline_root --> wf_2_Node_js_CI
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Create_docker_images["Create docker images (1 jobs)"]
+      direction TB
+      wf_1_Create_docker_images(["Trigger: Create docker images"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Create_docker_images --> job_1_build
+    end
+    pipeline_root --> wf_1_Create_docker_images
+    subgraph sg_wf_3_Gitleaks["Gitleaks (1 jobs)"]
+      direction TB
+      wf_3_Gitleaks(["Trigger: Gitleaks"]):::atlasWorkflow
+      job_3_scan["scan"]:::atlasJob
+      wf_3_Gitleaks --> job_3_scan
+    end
+    pipeline_root --> wf_3_Gitleaks
+  end
+  subgraph sg_grp_2_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Close_stale_issues["Close stale issues (1 jobs)"]
+      direction TB
+      wf_4_Close_stale_issues(["Trigger: Close stale issues"]):::atlasWorkflow
+      job_4_stale["stale"]:::atlasJob
+      wf_4_Close_stale_issues --> job_4_stale
+    end
+    pipeline_root --> wf_4_Close_stale_issues
+  end
 ```

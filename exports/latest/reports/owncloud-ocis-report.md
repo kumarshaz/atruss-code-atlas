@@ -440,67 +440,98 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["owncloud/ocis (14 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 24 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_0_Acceptance_Tests["Acceptance Tests (17 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_0_Acceptance_Tests
-  job_0_detect_changes["detect-changes"]:::atlasJob
-  job_0_build_and_test["build-and-test"]:::atlasJob
-  job_0_local_api_tests["local-api-tests"]:::atlasJob
-  wf_0_Acceptance_Tests --> job_0_detect_changes
-  job_0_detect_changes --> job_0_build_and_test
-  job_0_build_and_test --> job_0_local_api_tests
-  wf_5_Acceptance_Tests_K8S["Acceptance Tests K8S (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Acceptance_Tests_K8S
-  job_5_api_tests["api-tests"]:::atlasJob
-  job_5_e2e_tests["e2e-tests"]:::atlasJob
-  wf_5_Acceptance_Tests_K8S --> job_5_api_tests
-  wf_5_Acceptance_Tests_K8S --> job_5_e2e_tests
-  wf_10_Translation_Sync["Translation Sync (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_10_Translation_Sync
-  job_10_sync["sync"]:::atlasJob
-  job_10_sync_web["sync-web"]:::atlasJob
-  wf_10_Translation_Sync --> job_10_sync
-  job_10_sync --> job_10_sync_web
-  grp_1_CI___Verification["CI & Verification (4 workflows · 6 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_1_Check_licenses["Check licenses (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_1_Check_licenses
-  job_1_license_check["license-check"]:::atlasJob
-  wf_1_Check_licenses --> job_1_license_check
-  wf_6_Validate_PR_title["Validate PR title (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_6_Validate_PR_title
-  job_6_validate_pr_title["validate-pr-title"]:::atlasJob
-  wf_6_Validate_PR_title --> job_6_validate_pr_title
-  wf_11_Web_Tests["Web Tests (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_11_Web_Tests
-  job_11_detect_web_changes["detect-web-changes"]:::atlasJob
-  job_11_web_build_test["web-build-test"]:::atlasJob
-  job_11_web_tests_passed["web-tests-passed"]:::atlasJob
-  wf_11_Web_Tests --> job_11_detect_web_changes
-  job_11_detect_web_changes --> job_11_web_build_test
-  job_11_detect_web_changes --> job_11_web_tests_passed
-  job_11_web_build_test --> job_11_web_tests_passed
-  grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_3_Test_Deployment_Examples["Test Deployment Examples (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_3_Test_Deployment_Examples
-  job_3_test["test"]:::atlasJob
-  wf_3_Test_Deployment_Examples --> job_3_test
-  wf_7_Release_NPM_packages["Release NPM packages (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_7_Release_NPM_packages
-  job_7_release_npm["release-npm"]:::atlasJob
-  wf_7_Release_NPM_packages --> job_7_release_npm
-  wf_8_Release["Release (8 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_8_Release
-  job_8_determine_release_type["determine-release-type"]:::atlasJob
-  job_8_generate_code["generate-code"]:::atlasJob
-  wf_8_Release --> job_8_determine_release_type
-  job_8_determine_release_type --> job_8_generate_code
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_9_Remove_stale_branches["Remove stale branches (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_9_Remove_stale_branches
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 24 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Acceptance_Tests["Acceptance Tests (17 jobs)"]
+      direction TB
+      wf_0_Acceptance_Tests(["Trigger: Acceptance Tests"]):::atlasWorkflow
+      job_0_detect_changes["detect-changes"]:::atlasJob
+      job_0_build_and_test["build-and-test"]:::atlasJob
+      job_0_local_api_tests["local-api-tests"]:::atlasJob
+      wf_0_Acceptance_Tests --> job_0_detect_changes
+      job_0_detect_changes --> job_0_build_and_test
+      job_0_build_and_test --> job_0_local_api_tests
+    end
+    pipeline_root --> wf_0_Acceptance_Tests
+    subgraph sg_wf_5_Acceptance_Tests_K8S["Acceptance Tests K8S (2 jobs)"]
+      direction TB
+      wf_5_Acceptance_Tests_K8S(["Trigger: Acceptance Tests K8S"]):::atlasWorkflow
+      job_5_api_tests["api-tests"]:::atlasJob
+      job_5_e2e_tests["e2e-tests"]:::atlasJob
+      wf_5_Acceptance_Tests_K8S --> job_5_api_tests
+      wf_5_Acceptance_Tests_K8S --> job_5_e2e_tests
+    end
+    pipeline_root --> wf_5_Acceptance_Tests_K8S
+    subgraph sg_wf_10_Translation_Sync["Translation Sync (2 jobs)"]
+      direction TB
+      wf_10_Translation_Sync(["Trigger: Translation Sync"]):::atlasWorkflow
+      job_10_sync["sync"]:::atlasJob
+      job_10_sync_web["sync-web"]:::atlasJob
+      wf_10_Translation_Sync --> job_10_sync
+      job_10_sync --> job_10_sync_web
+    end
+    pipeline_root --> wf_10_Translation_Sync
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (4 workflows · 6 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Check_licenses["Check licenses (1 jobs)"]
+      direction TB
+      wf_1_Check_licenses(["Trigger: Check licenses"]):::atlasWorkflow
+      job_1_license_check["license-check"]:::atlasJob
+      wf_1_Check_licenses --> job_1_license_check
+    end
+    pipeline_root --> wf_1_Check_licenses
+    subgraph sg_wf_6_Validate_PR_title["Validate PR title (1 jobs)"]
+      direction TB
+      wf_6_Validate_PR_title(["Trigger: Validate PR title"]):::atlasWorkflow
+      job_6_validate_pr_title["validate-pr-title"]:::atlasJob
+      wf_6_Validate_PR_title --> job_6_validate_pr_title
+    end
+    pipeline_root --> wf_6_Validate_PR_title
+    subgraph sg_wf_11_Web_Tests["Web Tests (3 jobs)"]
+      direction TB
+      wf_11_Web_Tests(["Trigger: Web Tests"]):::atlasWorkflow
+      job_11_detect_web_changes["detect-web-changes"]:::atlasJob
+      job_11_web_build_test["web-build-test"]:::atlasJob
+      job_11_web_tests_passed["web-tests-passed"]:::atlasJob
+      wf_11_Web_Tests --> job_11_detect_web_changes
+      job_11_detect_web_changes --> job_11_web_build_test
+      job_11_detect_web_changes --> job_11_web_tests_passed
+      job_11_web_build_test --> job_11_web_tests_passed
+    end
+    pipeline_root --> wf_11_Web_Tests
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (3 workflows · 10 jobs)"]
+    direction TB
+    subgraph sg_wf_3_Test_Deployment_Examples["Test Deployment Examples (1 jobs)"]
+      direction TB
+      wf_3_Test_Deployment_Examples(["Trigger: Test Deployment Examples"]):::atlasWorkflow
+      job_3_test["test"]:::atlasJob
+      wf_3_Test_Deployment_Examples --> job_3_test
+    end
+    pipeline_root --> wf_3_Test_Deployment_Examples
+    subgraph sg_wf_7_Release_NPM_packages["Release NPM packages (1 jobs)"]
+      direction TB
+      wf_7_Release_NPM_packages(["Trigger: Release NPM packages"]):::atlasWorkflow
+      job_7_release_npm["release-npm"]:::atlasJob
+      wf_7_Release_NPM_packages --> job_7_release_npm
+    end
+    pipeline_root --> wf_7_Release_NPM_packages
+    subgraph sg_wf_8_Release["Release (8 jobs)"]
+      direction TB
+      wf_8_Release(["Trigger: Release"]):::atlasWorkflow
+      job_8_determine_release_type["determine-release-type"]:::atlasJob
+      job_8_generate_code["generate-code"]:::atlasJob
+      wf_8_Release --> job_8_determine_release_type
+      job_8_determine_release_type --> job_8_generate_code
+    end
+    pipeline_root --> wf_8_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    wf_9_Remove_stale_branches["Remove stale branches (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_Remove_stale_branches
+  end
   wf_more["+4 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

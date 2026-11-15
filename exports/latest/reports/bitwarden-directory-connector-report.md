@@ -301,60 +301,92 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/directory-connector (11 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 14 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_1_Build_PR["Build PR (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_1_Build_PR
-  job_1_build["build"]:::atlasJob
-  wf_1_Build_PR --> job_1_build
-  wf_3_Build["Build (8 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Build
-  job_3_setup["setup"]:::atlasJob
-  job_3_linux_cli["linux-cli"]:::atlasJob
-  job_3_macos_arm64_cli["macos-arm64-cli"]:::atlasJob
-  wf_3_Build --> job_3_setup
-  job_3_setup --> job_3_linux_cli
-  job_3_setup --> job_3_macos_arm64_cli
-  wf_5_Integration_Testing["Integration Testing (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Integration_Testing
-  job_5_testing["testing"]:::atlasJob
-  wf_5_Integration_Testing --> job_5_testing
-  wf_6_Lint["Lint (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_6_Lint
-  job_6_lint["lint"]:::atlasJob
-  wf_6_Lint --> job_6_lint
-  wf_9_Testing["Testing (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_9_Testing
-  job_9_testing["testing"]:::atlasJob
-  job_9_rust["rust"]:::atlasJob
-  wf_9_Testing --> job_9_testing
-  wf_9_Testing --> job_9_rust
-  grp_1_CI___Verification["CI & Verification (5 workflows · 7 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Label_PR["Label PR (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Label_PR
-  job_0_label["label"]:::atlasJob
-  wf_0_Label_PR --> job_0_label
-  wf_2_Build__Fork_PR_["Build (Fork PR) (3 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_2_Build__Fork_PR_
-  job_2_check_run["check-run"]:::atlasJob
-  job_2_remove_label["remove-label"]:::atlasJob
-  job_2_run_workflow["run-workflow"]:::atlasJob
-  wf_2_Build__Fork_PR_ --> job_2_check_run
-  job_2_check_run --> job_2_remove_label
-  job_2_check_run --> job_2_run_workflow
-  wf_4_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_4_SDLC___Enforce_PR_labels
-  job_4_enforce_label["enforce-label"]:::atlasJob
-  wf_4_SDLC___Enforce_PR_labels --> job_4_enforce_label
-  wf_7_Respond["Respond (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_7_Respond
-  job_7_respond["respond"]:::atlasJob
-  wf_7_Respond --> job_7_respond
-  wf_8_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_8_Code_Review
-  job_8_review["review"]:::atlasJob
-  wf_8_Code_Review --> job_8_review
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (6 workflows · 14 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Build_PR["Build PR (1 jobs)"]
+      direction TB
+      wf_1_Build_PR(["Trigger: Build PR"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_Build_PR --> job_1_build
+    end
+    pipeline_root --> wf_1_Build_PR
+    subgraph sg_wf_3_Build["Build (8 jobs)"]
+      direction TB
+      wf_3_Build(["Trigger: Build"]):::atlasWorkflow
+      job_3_setup["setup"]:::atlasJob
+      job_3_linux_cli["linux-cli"]:::atlasJob
+      job_3_macos_arm64_cli["macos-arm64-cli"]:::atlasJob
+      wf_3_Build --> job_3_setup
+      job_3_setup --> job_3_linux_cli
+      job_3_setup --> job_3_macos_arm64_cli
+    end
+    pipeline_root --> wf_3_Build
+    subgraph sg_wf_5_Integration_Testing["Integration Testing (1 jobs)"]
+      direction TB
+      wf_5_Integration_Testing(["Trigger: Integration Testing"]):::atlasWorkflow
+      job_5_testing["testing"]:::atlasJob
+      wf_5_Integration_Testing --> job_5_testing
+    end
+    pipeline_root --> wf_5_Integration_Testing
+    subgraph sg_wf_6_Lint["Lint (1 jobs)"]
+      direction TB
+      wf_6_Lint(["Trigger: Lint"]):::atlasWorkflow
+      job_6_lint["lint"]:::atlasJob
+      wf_6_Lint --> job_6_lint
+    end
+    pipeline_root --> wf_6_Lint
+    subgraph sg_wf_9_Testing["Testing (2 jobs)"]
+      direction TB
+      wf_9_Testing(["Trigger: Testing"]):::atlasWorkflow
+      job_9_testing["testing"]:::atlasJob
+      job_9_rust["rust"]:::atlasJob
+      wf_9_Testing --> job_9_testing
+      wf_9_Testing --> job_9_rust
+    end
+    pipeline_root --> wf_9_Testing
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (5 workflows · 7 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Label_PR["Label PR (1 jobs)"]
+      direction TB
+      wf_0_Label_PR(["Trigger: Label PR"]):::atlasWorkflow
+      job_0_label["label"]:::atlasJob
+      wf_0_Label_PR --> job_0_label
+    end
+    pipeline_root --> wf_0_Label_PR
+    subgraph sg_wf_2_Build__Fork_PR_["Build (Fork PR) (3 jobs)"]
+      direction TB
+      wf_2_Build__Fork_PR_(["Trigger: Build (Fork PR)"]):::atlasWorkflow
+      job_2_check_run["check-run"]:::atlasJob
+      job_2_remove_label["remove-label"]:::atlasJob
+      job_2_run_workflow["run-workflow"]:::atlasJob
+      wf_2_Build__Fork_PR_ --> job_2_check_run
+      job_2_check_run --> job_2_remove_label
+      job_2_check_run --> job_2_run_workflow
+    end
+    pipeline_root --> wf_2_Build__Fork_PR_
+    subgraph sg_wf_4_SDLC___Enforce_PR_labels["SDLC / Enforce PR labels (1 jobs)"]
+      direction TB
+      wf_4_SDLC___Enforce_PR_labels(["Trigger: SDLC / Enforce PR labels"]):::atlasWorkflow
+      job_4_enforce_label["enforce-label"]:::atlasJob
+      wf_4_SDLC___Enforce_PR_labels --> job_4_enforce_label
+    end
+    pipeline_root --> wf_4_SDLC___Enforce_PR_labels
+    subgraph sg_wf_7_Respond["Respond (1 jobs)"]
+      direction TB
+      wf_7_Respond(["Trigger: Respond"]):::atlasWorkflow
+      job_7_respond["respond"]:::atlasJob
+      wf_7_Respond --> job_7_respond
+    end
+    pipeline_root --> wf_7_Respond
+    subgraph sg_wf_8_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_8_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_8_review["review"]:::atlasJob
+      wf_8_Code_Review --> job_8_review
+    end
+    pipeline_root --> wf_8_Code_Review
+  end
   wf_more["+1 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

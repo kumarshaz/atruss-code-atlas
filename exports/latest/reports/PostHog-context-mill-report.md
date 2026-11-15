@@ -242,56 +242,87 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/context-mill (9 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 8 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_PostHog_Context_Mill___E2E_tests["PostHog Context Mill - E2E tests (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_PostHog_Context_Mill___E2E_tests
-  job_2_discover["discover"]:::atlasJob
-  job_2_test["test"]:::atlasJob
-  wf_2_PostHog_Context_Mill___E2E_tests --> job_2_discover
-  job_2_discover --> job_2_test
-  wf_3_Install_skill_evals["Install skill evals (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_3_Install_skill_evals
-  job_3_run["run"]:::atlasJob
-  wf_3_Install_skill_evals --> job_3_run
-  wf_4_PostHog_Context_Mill___Integration_tests["PostHog Context Mill - Integration tests (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_PostHog_Context_Mill___Integration_tests
-  job_4_discover["discover"]:::atlasJob
-  job_4_test["test"]:::atlasJob
-  wf_4_PostHog_Context_Mill___Integration_tests --> job_4_discover
-  job_4_discover --> job_4_test
-  wf_5_Mirror_dry_run["Mirror dry run (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Mirror_dry_run
-  job_5_dry_run["dry-run"]:::atlasJob
-  wf_5_Mirror_dry_run --> job_5_dry_run
-  wf_8_Wizard_CI_Trigger["Wizard CI Trigger (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_8_Wizard_CI_Trigger
-  job_8_post_welcome["post-welcome"]:::atlasJob
-  job_8_handle_command["handle-command"]:::atlasJob
-  wf_8_Wizard_CI_Trigger --> job_8_post_welcome
-  wf_8_Wizard_CI_Trigger --> job_8_handle_command
-  grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_0_Build_and_release["Build and release (2 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_0_Build_and_release
-  job_0_check_version["check-version"]:::atlasJob
-  job_0_build_and_release["build-and-release"]:::atlasJob
-  wf_0_Build_and_release --> job_0_check_version
-  job_0_check_version --> job_0_build_and_release
-  wf_6_release_please["release-please (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_6_release_please
-  job_6_release_please["release-please"]:::atlasJob
-  wf_6_release_please --> job_6_release_please
-  grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_1_PostHog_Context_Mill___Build["PostHog Context Mill - Build (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_1_PostHog_Context_Mill___Build
-  job_1_build["build"]:::atlasJob
-  wf_1_PostHog_Context_Mill___Build --> job_1_build
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_7_Security["Security (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_7_Security
-  job_7_semgrep_general["semgrep-general"]:::atlasJob
-  wf_7_Security --> job_7_semgrep_general
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (5 workflows · 8 jobs)"]
+    direction TB
+    subgraph sg_wf_2_PostHog_Context_Mill___E2E_tests["PostHog Context Mill - E2E tests (2 jobs)"]
+      direction TB
+      wf_2_PostHog_Context_Mill___E2E_tests(["Trigger: PostHog Context Mill - E2E tests"]):::atlasWorkflow
+      job_2_discover["discover"]:::atlasJob
+      job_2_test["test"]:::atlasJob
+      wf_2_PostHog_Context_Mill___E2E_tests --> job_2_discover
+      job_2_discover --> job_2_test
+    end
+    pipeline_root --> wf_2_PostHog_Context_Mill___E2E_tests
+    subgraph sg_wf_3_Install_skill_evals["Install skill evals (1 jobs)"]
+      direction TB
+      wf_3_Install_skill_evals(["Trigger: Install skill evals"]):::atlasWorkflow
+      job_3_run["run"]:::atlasJob
+      wf_3_Install_skill_evals --> job_3_run
+    end
+    pipeline_root --> wf_3_Install_skill_evals
+    subgraph sg_wf_4_PostHog_Context_Mill___Integration_tests["PostHog Context Mill - Integration tests (2 jobs)"]
+      direction TB
+      wf_4_PostHog_Context_Mill___Integration_tests(["Trigger: PostHog Context Mill - Integration tests"]):::atlasWorkflow
+      job_4_discover["discover"]:::atlasJob
+      job_4_test["test"]:::atlasJob
+      wf_4_PostHog_Context_Mill___Integration_tests --> job_4_discover
+      job_4_discover --> job_4_test
+    end
+    pipeline_root --> wf_4_PostHog_Context_Mill___Integration_tests
+    subgraph sg_wf_5_Mirror_dry_run["Mirror dry run (1 jobs)"]
+      direction TB
+      wf_5_Mirror_dry_run(["Trigger: Mirror dry run"]):::atlasWorkflow
+      job_5_dry_run["dry-run"]:::atlasJob
+      wf_5_Mirror_dry_run --> job_5_dry_run
+    end
+    pipeline_root --> wf_5_Mirror_dry_run
+    subgraph sg_wf_8_Wizard_CI_Trigger["Wizard CI Trigger (2 jobs)"]
+      direction TB
+      wf_8_Wizard_CI_Trigger(["Trigger: Wizard CI Trigger"]):::atlasWorkflow
+      job_8_post_welcome["post-welcome"]:::atlasJob
+      job_8_handle_command["handle-command"]:::atlasJob
+      wf_8_Wizard_CI_Trigger --> job_8_post_welcome
+      wf_8_Wizard_CI_Trigger --> job_8_handle_command
+    end
+    pipeline_root --> wf_8_Wizard_CI_Trigger
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (2 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Build_and_release["Build and release (2 jobs)"]
+      direction TB
+      wf_0_Build_and_release(["Trigger: Build and release"]):::atlasWorkflow
+      job_0_check_version["check-version"]:::atlasJob
+      job_0_build_and_release["build-and-release"]:::atlasJob
+      wf_0_Build_and_release --> job_0_check_version
+      job_0_check_version --> job_0_build_and_release
+    end
+    pipeline_root --> wf_0_Build_and_release
+    subgraph sg_wf_6_release_please["release-please (1 jobs)"]
+      direction TB
+      wf_6_release_please(["Trigger: release-please"]):::atlasWorkflow
+      job_6_release_please["release-please"]:::atlasJob
+      wf_6_release_please --> job_6_release_please
+    end
+    pipeline_root --> wf_6_release_please
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_1_PostHog_Context_Mill___Build["PostHog Context Mill - Build (1 jobs)"]
+      direction TB
+      wf_1_PostHog_Context_Mill___Build(["Trigger: PostHog Context Mill - Build"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      wf_1_PostHog_Context_Mill___Build --> job_1_build
+    end
+    pipeline_root --> wf_1_PostHog_Context_Mill___Build
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Security["Security (1 jobs)"]
+      direction TB
+      wf_7_Security(["Trigger: Security"]):::atlasWorkflow
+      job_7_semgrep_general["semgrep-general"]:::atlasJob
+      wf_7_Security --> job_7_semgrep_general
+    end
+    pipeline_root --> wf_7_Security
+  end
 ```

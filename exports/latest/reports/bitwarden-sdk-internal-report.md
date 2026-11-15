@@ -385,67 +385,89 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["bitwarden/sdk-internal (25 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 34 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_2_Build_Android["Build Android (5 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_2_Build_Android
-  job_2_build["build"]:::atlasJob
-  job_2_combine["combine"]:::atlasJob
-  job_2_e2e_tests["e2e-tests"]:::atlasJob
-  wf_2_Build_Android --> job_2_build
-  job_2_build --> job_2_combine
-  wf_2_Build_Android --> job_2_e2e_tests
-  wf_4_Build_Swift_Package["Build Swift Package (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_4_Build_Swift_Package
-  job_4_version["version"]:::atlasJob
-  job_4_build["build"]:::atlasJob
-  job_4_e2e_tests["e2e-tests"]:::atlasJob
-  wf_4_Build_Swift_Package --> job_4_version
-  job_4_version --> job_4_build
-  job_4_version --> job_4_e2e_tests
-  job_4_build --> job_4_e2e_tests
-  wf_5_Build__bitwarden_sdk_internal["Build @bitwarden/sdk-internal (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_5_Build__bitwarden_sdk_internal
-  job_5_build["build"]:::atlasJob
-  job_5_e2e_tests["e2e-tests"]:::atlasJob
-  job_5_trigger_wasm_publish["trigger-wasm-publish"]:::atlasJob
-  wf_5_Build__bitwarden_sdk_internal --> job_5_build
-  job_5_build --> job_5_e2e_tests
-  job_5_build --> job_5_trigger_wasm_publish
-  wf_20_Rust_tests["Rust tests (4 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_20_Rust_tests
-  job_20_ci_pass["ci-pass"]:::atlasJob
-  job_20_test["test"]:::atlasJob
-  job_20_test_wasm["test-wasm"]:::atlasJob
-  job_20_test --> job_20_ci_pass
-  wf_20_Rust_tests --> job_20_test
-  wf_20_Rust_tests --> job_20_test_wasm
-  grp_1_CI___Verification["CI & Verification (6 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_CI___Verification
-  wf_0_Breaking_change_check__Fork_PR_["Breaking change check (Fork PR) (5 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_0_Breaking_change_check__Fork_PR_
-  job_0_check_run["check-run"]:::atlasJob
-  job_0_remove_label["remove-label"]:::atlasJob
-  job_0_check_approval["check-approval"]:::atlasJob
-  wf_0_Breaking_change_check__Fork_PR_ --> job_0_check_run
-  job_0_check_run --> job_0_remove_label
-  job_0_check_run --> job_0_check_approval
-  wf_19_Code_Review["Code Review (1 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_19_Code_Review
-  job_19_review["review"]:::atlasJob
-  wf_19_Code_Review --> job_19_review
-  wf_21_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
-  grp_1_CI___Verification --> wf_21_Rustdoc
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_16_Publish_Rust_crates["Publish Rust crates (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_16_Publish_Rust_crates
-  wf_17_Release_Swift_Package["Release Swift Package (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_17_Release_Swift_Package
-  grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Automation___Other
-  wf_9_SDK_Breaking_Change_Detection["SDK Breaking Change Detection (1 jobs)"]:::atlasWorkflow
-  grp_3_Automation___Other --> wf_9_SDK_Breaking_Change_Detection
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (16 workflows · 34 jobs)"]
+    direction TB
+    subgraph sg_wf_2_Build_Android["Build Android (5 jobs)"]
+      direction TB
+      wf_2_Build_Android(["Trigger: Build Android"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_combine["combine"]:::atlasJob
+      job_2_e2e_tests["e2e-tests"]:::atlasJob
+      wf_2_Build_Android --> job_2_build
+      job_2_build --> job_2_combine
+      wf_2_Build_Android --> job_2_e2e_tests
+    end
+    pipeline_root --> wf_2_Build_Android
+    subgraph sg_wf_4_Build_Swift_Package["Build Swift Package (4 jobs)"]
+      direction TB
+      wf_4_Build_Swift_Package(["Trigger: Build Swift Package"]):::atlasWorkflow
+      job_4_version["version"]:::atlasJob
+      job_4_build["build"]:::atlasJob
+      job_4_e2e_tests["e2e-tests"]:::atlasJob
+      wf_4_Build_Swift_Package --> job_4_version
+      job_4_version --> job_4_build
+      job_4_version --> job_4_e2e_tests
+      job_4_build --> job_4_e2e_tests
+    end
+    pipeline_root --> wf_4_Build_Swift_Package
+    subgraph sg_wf_5_Build__bitwarden_sdk_internal["Build @bitwarden/sdk-internal (4 jobs)"]
+      direction TB
+      wf_5_Build__bitwarden_sdk_internal(["Trigger: Build @bitwarden/sdk-internal"]):::atlasWorkflow
+      job_5_build["build"]:::atlasJob
+      job_5_e2e_tests["e2e-tests"]:::atlasJob
+      job_5_trigger_wasm_publish["trigger-wasm-publish"]:::atlasJob
+      wf_5_Build__bitwarden_sdk_internal --> job_5_build
+      job_5_build --> job_5_e2e_tests
+      job_5_build --> job_5_trigger_wasm_publish
+    end
+    pipeline_root --> wf_5_Build__bitwarden_sdk_internal
+    subgraph sg_wf_20_Rust_tests["Rust tests (4 jobs)"]
+      direction TB
+      wf_20_Rust_tests(["Trigger: Rust tests"]):::atlasWorkflow
+      job_20_ci_pass["ci-pass"]:::atlasJob
+      job_20_test["test"]:::atlasJob
+      job_20_test_wasm["test-wasm"]:::atlasJob
+      job_20_test --> job_20_ci_pass
+      wf_20_Rust_tests --> job_20_test
+      wf_20_Rust_tests --> job_20_test_wasm
+    end
+    pipeline_root --> wf_20_Rust_tests
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (6 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Breaking_change_check__Fork_PR_["Breaking change check (Fork PR) (5 jobs)"]
+      direction TB
+      wf_0_Breaking_change_check__Fork_PR_(["Trigger: Breaking change check (Fork PR)"]):::atlasWorkflow
+      job_0_check_run["check-run"]:::atlasJob
+      job_0_remove_label["remove-label"]:::atlasJob
+      job_0_check_approval["check-approval"]:::atlasJob
+      wf_0_Breaking_change_check__Fork_PR_ --> job_0_check_run
+      job_0_check_run --> job_0_remove_label
+      job_0_check_run --> job_0_check_approval
+    end
+    pipeline_root --> wf_0_Breaking_change_check__Fork_PR_
+    subgraph sg_wf_19_Code_Review["Code Review (1 jobs)"]
+      direction TB
+      wf_19_Code_Review(["Trigger: Code Review"]):::atlasWorkflow
+      job_19_review["review"]:::atlasJob
+      wf_19_Code_Review --> job_19_review
+    end
+    pipeline_root --> wf_19_Code_Review
+    wf_21_Rustdoc["Rustdoc (2 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_21_Rustdoc
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    wf_16_Publish_Rust_crates["Publish Rust crates (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_16_Publish_Rust_crates
+    wf_17_Release_Swift_Package["Release Swift Package (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_17_Release_Swift_Package
+  end
+  subgraph sg_grp_3_Automation___Other["Automation & Other (1 workflows · 1 jobs)"]
+    direction TB
+    wf_9_SDK_Breaking_Change_Detection["SDK Breaking Change Detection (1 jobs)"]:::atlasWorkflow
+    pipeline_root --> wf_9_SDK_Breaking_Change_Detection
+  end
   wf_more["+15 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

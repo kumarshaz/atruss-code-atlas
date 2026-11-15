@@ -260,54 +260,87 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["PostHog/charts-clickhouse (15 workflows)"]):::atlasRoot
-  grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 11 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_Scheduled___Manual
-  wf_8_e2e___kubetest["e2e - kubetest (2 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_8_e2e___kubetest
-  job_8_test_kubetest_prep["test-kubetest-prep"]:::atlasJob
-  job_8_test_kubetest["test-kubetest"]:::atlasJob
-  wf_8_e2e___kubetest --> job_8_test_kubetest_prep
-  job_8_test_kubetest_prep --> job_8_test_kubetest
-  wf_9_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_9_Lint_test
-  job_9_eslint["eslint"]:::atlasJob
-  wf_9_Lint_test --> job_9_eslint
-  wf_10_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_10_Lint_test
-  job_10_github_workflows_lint["github-workflows-lint"]:::atlasJob
-  wf_10_Lint_test --> job_10_github_workflows_lint
-  wf_11_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_11_Lint_test
-  job_11_helm_lint["helm-lint"]:::atlasJob
-  wf_11_Lint_test --> job_11_helm_lint
-  wf_12_Lint_test["Lint test (1 jobs)"]:::atlasWorkflow
-  grp_0_Scheduled___Manual --> wf_12_Lint_test
-  job_12_kubetest["kubetest"]:::atlasJob
-  wf_12_Lint_test --> job_12_kubetest
-  grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Release___Deploy
-  wf_1_pr_deploy_cleanup_yaml["pr-deploy-cleanup.yaml (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_1_pr_deploy_cleanup_yaml
-  job_1_cleanup["cleanup"]:::atlasJob
-  wf_1_pr_deploy_cleanup_yaml --> job_1_cleanup
-  wf_2_PR___Preview_Deploy["PR - Preview Deploy (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_2_PR___Preview_Deploy
-  job_2_deploy["deploy"]:::atlasJob
-  wf_2_PR___Preview_Deploy --> job_2_deploy
-  wf_3_Release_Chart["Release Chart (1 jobs)"]:::atlasWorkflow
-  grp_1_Release___Deploy --> wf_3_Release_Chart
-  job_3_release["release"]:::atlasJob
-  wf_3_Release_Chart --> job_3_release
-  grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_CI___Verification
-  wf_0_Codespell["Codespell (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_0_Codespell
-  job_0_codespell["codespell"]:::atlasJob
-  wf_0_Codespell --> job_0_codespell
-  wf_14_Update_docs["Update docs (1 jobs)"]:::atlasWorkflow
-  grp_2_CI___Verification --> wf_14_Update_docs
-  job_14_update_readme["update-readme"]:::atlasJob
-  wf_14_Update_docs --> job_14_update_readme
+  subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (10 workflows · 11 jobs)"]
+    direction TB
+    subgraph sg_wf_8_e2e___kubetest["e2e - kubetest (2 jobs)"]
+      direction TB
+      wf_8_e2e___kubetest(["Trigger: e2e - kubetest"]):::atlasWorkflow
+      job_8_test_kubetest_prep["test-kubetest-prep"]:::atlasJob
+      job_8_test_kubetest["test-kubetest"]:::atlasJob
+      wf_8_e2e___kubetest --> job_8_test_kubetest_prep
+      job_8_test_kubetest_prep --> job_8_test_kubetest
+    end
+    pipeline_root --> wf_8_e2e___kubetest
+    subgraph sg_wf_9_Lint_test["Lint test (1 jobs)"]
+      direction TB
+      wf_9_Lint_test(["Trigger: Lint test"]):::atlasWorkflow
+      job_9_eslint["eslint"]:::atlasJob
+      wf_9_Lint_test --> job_9_eslint
+    end
+    pipeline_root --> wf_9_Lint_test
+    subgraph sg_wf_10_Lint_test["Lint test (1 jobs)"]
+      direction TB
+      wf_10_Lint_test(["Trigger: Lint test"]):::atlasWorkflow
+      job_10_github_workflows_lint["github-workflows-lint"]:::atlasJob
+      wf_10_Lint_test --> job_10_github_workflows_lint
+    end
+    pipeline_root --> wf_10_Lint_test
+    subgraph sg_wf_11_Lint_test["Lint test (1 jobs)"]
+      direction TB
+      wf_11_Lint_test(["Trigger: Lint test"]):::atlasWorkflow
+      job_11_helm_lint["helm-lint"]:::atlasJob
+      wf_11_Lint_test --> job_11_helm_lint
+    end
+    pipeline_root --> wf_11_Lint_test
+    subgraph sg_wf_12_Lint_test["Lint test (1 jobs)"]
+      direction TB
+      wf_12_Lint_test(["Trigger: Lint test"]):::atlasWorkflow
+      job_12_kubetest["kubetest"]:::atlasJob
+      wf_12_Lint_test --> job_12_kubetest
+    end
+    pipeline_root --> wf_12_Lint_test
+  end
+  subgraph sg_grp_1_Release___Deploy["Release & Deploy (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_1_pr_deploy_cleanup_yaml["pr-deploy-cleanup.yaml (1 jobs)"]
+      direction TB
+      wf_1_pr_deploy_cleanup_yaml(["Trigger: pr-deploy-cleanup.yaml"]):::atlasWorkflow
+      job_1_cleanup["cleanup"]:::atlasJob
+      wf_1_pr_deploy_cleanup_yaml --> job_1_cleanup
+    end
+    pipeline_root --> wf_1_pr_deploy_cleanup_yaml
+    subgraph sg_wf_2_PR___Preview_Deploy["PR - Preview Deploy (1 jobs)"]
+      direction TB
+      wf_2_PR___Preview_Deploy(["Trigger: PR - Preview Deploy"]):::atlasWorkflow
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_PR___Preview_Deploy --> job_2_deploy
+    end
+    pipeline_root --> wf_2_PR___Preview_Deploy
+    subgraph sg_wf_3_Release_Chart["Release Chart (1 jobs)"]
+      direction TB
+      wf_3_Release_Chart(["Trigger: Release Chart"]):::atlasWorkflow
+      job_3_release["release"]:::atlasJob
+      wf_3_Release_Chart --> job_3_release
+    end
+    pipeline_root --> wf_3_Release_Chart
+  end
+  subgraph sg_grp_2_CI___Verification["CI & Verification (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_0_Codespell["Codespell (1 jobs)"]
+      direction TB
+      wf_0_Codespell(["Trigger: Codespell"]):::atlasWorkflow
+      job_0_codespell["codespell"]:::atlasJob
+      wf_0_Codespell --> job_0_codespell
+    end
+    pipeline_root --> wf_0_Codespell
+    subgraph sg_wf_14_Update_docs["Update docs (1 jobs)"]
+      direction TB
+      wf_14_Update_docs(["Trigger: Update docs"]):::atlasWorkflow
+      job_14_update_readme["update-readme"]:::atlasJob
+      wf_14_Update_docs --> job_14_update_readme
+    end
+    pipeline_root --> wf_14_Update_docs
+  end
   wf_more["+5 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```

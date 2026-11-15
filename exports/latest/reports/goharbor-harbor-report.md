@@ -432,67 +432,101 @@ graph TD;
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
   pipeline_root(["goharbor/harbor (11 workflows)"]):::atlasRoot
-  grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]:::atlasCategory
-  pipeline_root --> grp_0_CI___Verification
-  wf_0_CI["CI (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_0_CI
-  job_0_UTTEST["UTTEST"]:::atlasJob
-  job_0_APITEST_DB["APITEST_DB"]:::atlasJob
-  job_0_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
-  wf_0_CI --> job_0_UTTEST
-  wf_0_CI --> job_0_APITEST_DB
-  wf_0_CI --> job_0_APITEST_DB_PROXY_CACHE
-  wf_1_API_Schema_Check["API Schema Check (1 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_1_API_Schema_Check
-  job_1_check["check"]:::atlasJob
-  wf_1_API_Schema_Check --> job_1_check
-  wf_3_Build_Package_Workflow["Build Package Workflow (3 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_3_Build_Package_Workflow
-  job_3_BUILD_BASE_IMAGE["BUILD_BASE_IMAGE"]:::atlasJob
-  job_3_BUILD_PACKAGE["BUILD_PACKAGE"]:::atlasJob
-  job_3_CREATE_MANIFEST["CREATE_MANIFEST"]:::atlasJob
-  wf_3_Build_Package_Workflow --> job_3_BUILD_BASE_IMAGE
-  job_3_BUILD_BASE_IMAGE --> job_3_BUILD_PACKAGE
-  job_3_BUILD_BASE_IMAGE --> job_3_CREATE_MANIFEST
-  job_3_BUILD_PACKAGE --> job_3_CREATE_MANIFEST
-  wf_9_CI["CI (6 jobs)"]:::atlasWorkflow
-  grp_0_CI___Verification --> wf_9_CI
-  job_9_UTTEST["UTTEST"]:::atlasJob
-  job_9_APITEST_DB["APITEST_DB"]:::atlasJob
-  job_9_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
-  wf_9_CI --> job_9_UTTEST
-  wf_9_CI --> job_9_APITEST_DB
-  wf_9_CI --> job_9_APITEST_DB_PROXY_CACHE
-  grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]:::atlasCategory
-  pipeline_root --> grp_1_Scheduled___Manual
-  wf_4_Code_scanning___action["Code scanning - action (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_4_Code_scanning___action
-  job_4_CodeQL_Build["CodeQL-Build"]:::atlasJob
-  wf_4_Code_scanning___action --> job_4_CodeQL_Build
-  wf_5_CONFORMANCE_TEST["CONFORMANCE_TEST (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_5_CONFORMANCE_TEST
-  job_5_CONFORMANCE_TEST["CONFORMANCE_TEST"]:::atlasJob
-  wf_5_CONFORMANCE_TEST --> job_5_CONFORMANCE_TEST
-  wf_8_Trivy_Nightly_Scan["Trivy Nightly Scan (1 jobs)"]:::atlasWorkflow
-  grp_1_Scheduled___Manual --> wf_8_Trivy_Nightly_Scan
-  job_8_nightly_scan["nightly-scan"]:::atlasJob
-  wf_8_Trivy_Nightly_Scan --> job_8_nightly_scan
-  grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]:::atlasCategory
-  pipeline_root --> grp_2_Release___Deploy
-  wf_7_Release_Note_Label_Check["Release Note Label Check (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_7_Release_Note_Label_Check
-  job_7_check_label["check-label"]:::atlasJob
-  wf_7_Release_Note_Label_Check --> job_7_check_label
-  wf_10_Publish_Release["Publish Release (1 jobs)"]:::atlasWorkflow
-  grp_2_Release___Deploy --> wf_10_Publish_Release
-  job_10_release["release"]:::atlasJob
-  wf_10_Publish_Release --> job_10_release
-  grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]:::atlasCategory
-  pipeline_root --> grp_3_Security___Governance
-  wf_6_Housekeeping___Close_stale_issues_and_PRs["Housekeeping - Close stale issues and PRs (1 jobs)"]:::atlasWorkflow
-  grp_3_Security___Governance --> wf_6_Housekeeping___Close_stale_issues_and_PRs
-  job_6_stale["stale"]:::atlasJob
-  wf_6_Housekeeping___Close_stale_issues_and_PRs --> job_6_stale
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 17 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (6 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_UTTEST["UTTEST"]:::atlasJob
+      job_0_APITEST_DB["APITEST_DB"]:::atlasJob
+      job_0_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
+      wf_0_CI --> job_0_UTTEST
+      wf_0_CI --> job_0_APITEST_DB
+      wf_0_CI --> job_0_APITEST_DB_PROXY_CACHE
+    end
+    pipeline_root --> wf_0_CI
+    subgraph sg_wf_1_API_Schema_Check["API Schema Check (1 jobs)"]
+      direction TB
+      wf_1_API_Schema_Check(["Trigger: API Schema Check"]):::atlasWorkflow
+      job_1_check["check"]:::atlasJob
+      wf_1_API_Schema_Check --> job_1_check
+    end
+    pipeline_root --> wf_1_API_Schema_Check
+    subgraph sg_wf_3_Build_Package_Workflow["Build Package Workflow (3 jobs)"]
+      direction TB
+      wf_3_Build_Package_Workflow(["Trigger: Build Package Workflow"]):::atlasWorkflow
+      job_3_BUILD_BASE_IMAGE["BUILD_BASE_IMAGE"]:::atlasJob
+      job_3_BUILD_PACKAGE["BUILD_PACKAGE"]:::atlasJob
+      job_3_CREATE_MANIFEST["CREATE_MANIFEST"]:::atlasJob
+      wf_3_Build_Package_Workflow --> job_3_BUILD_BASE_IMAGE
+      job_3_BUILD_BASE_IMAGE --> job_3_BUILD_PACKAGE
+      job_3_BUILD_BASE_IMAGE --> job_3_CREATE_MANIFEST
+      job_3_BUILD_PACKAGE --> job_3_CREATE_MANIFEST
+    end
+    pipeline_root --> wf_3_Build_Package_Workflow
+    subgraph sg_wf_9_CI["CI (6 jobs)"]
+      direction TB
+      wf_9_CI(["Trigger: CI"]):::atlasWorkflow
+      job_9_UTTEST["UTTEST"]:::atlasJob
+      job_9_APITEST_DB["APITEST_DB"]:::atlasJob
+      job_9_APITEST_DB_PROXY_CACHE["APITEST_DB_PROXY_CACHE"]:::atlasJob
+      wf_9_CI --> job_9_UTTEST
+      wf_9_CI --> job_9_APITEST_DB
+      wf_9_CI --> job_9_APITEST_DB_PROXY_CACHE
+    end
+    pipeline_root --> wf_9_CI
+  end
+  subgraph sg_grp_1_Scheduled___Manual["Scheduled & Manual (3 workflows · 3 jobs)"]
+    direction TB
+    subgraph sg_wf_4_Code_scanning___action["Code scanning - action (1 jobs)"]
+      direction TB
+      wf_4_Code_scanning___action(["Trigger: Code scanning - action"]):::atlasWorkflow
+      job_4_CodeQL_Build["CodeQL-Build"]:::atlasJob
+      wf_4_Code_scanning___action --> job_4_CodeQL_Build
+    end
+    pipeline_root --> wf_4_Code_scanning___action
+    subgraph sg_wf_5_CONFORMANCE_TEST["CONFORMANCE_TEST (1 jobs)"]
+      direction TB
+      wf_5_CONFORMANCE_TEST(["Trigger: CONFORMANCE_TEST"]):::atlasWorkflow
+      job_5_CONFORMANCE_TEST["CONFORMANCE_TEST"]:::atlasJob
+      wf_5_CONFORMANCE_TEST --> job_5_CONFORMANCE_TEST
+    end
+    pipeline_root --> wf_5_CONFORMANCE_TEST
+    subgraph sg_wf_8_Trivy_Nightly_Scan["Trivy Nightly Scan (1 jobs)"]
+      direction TB
+      wf_8_Trivy_Nightly_Scan(["Trigger: Trivy Nightly Scan"]):::atlasWorkflow
+      job_8_nightly_scan["nightly-scan"]:::atlasJob
+      wf_8_Trivy_Nightly_Scan --> job_8_nightly_scan
+    end
+    pipeline_root --> wf_8_Trivy_Nightly_Scan
+  end
+  subgraph sg_grp_2_Release___Deploy["Release & Deploy (2 workflows · 2 jobs)"]
+    direction TB
+    subgraph sg_wf_7_Release_Note_Label_Check["Release Note Label Check (1 jobs)"]
+      direction TB
+      wf_7_Release_Note_Label_Check(["Trigger: Release Note Label Check"]):::atlasWorkflow
+      job_7_check_label["check-label"]:::atlasJob
+      wf_7_Release_Note_Label_Check --> job_7_check_label
+    end
+    pipeline_root --> wf_7_Release_Note_Label_Check
+    subgraph sg_wf_10_Publish_Release["Publish Release (1 jobs)"]
+      direction TB
+      wf_10_Publish_Release(["Trigger: Publish Release"]):::atlasWorkflow
+      job_10_release["release"]:::atlasJob
+      wf_10_Publish_Release --> job_10_release
+    end
+    pipeline_root --> wf_10_Publish_Release
+  end
+  subgraph sg_grp_3_Security___Governance["Security & Governance (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_6_Housekeeping___Close_stale_issues_and_PRs["Housekeeping - Close stale issues and PRs (1 jobs)"]
+      direction TB
+      wf_6_Housekeeping___Close_stale_issues_and_PRs(["Trigger: Housekeeping - Close stale issues and PRs"]):::atlasWorkflow
+      job_6_stale["stale"]:::atlasJob
+      wf_6_Housekeeping___Close_stale_issues_and_PRs --> job_6_stale
+    end
+    pipeline_root --> wf_6_Housekeeping___Close_stale_issues_and_PRs
+  end
   wf_more["+1 more workflows"]:::atlasMore
   pipeline_root --> wf_more
 ```
