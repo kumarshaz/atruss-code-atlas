@@ -33,6 +33,8 @@ Atruss Code Atlas is designed as a multi-lens observability platform where a sin
 
 ```mermaid
 flowchart LR
+    accTitle: Atruss Code Atlas Stakeholder Value Topology
+    accDescr: Overview showing how the passive Atruss Code Atlas Engine serves five stakeholder groups: Executives, Software Architects, Software Engineers, DevOps and Platform Engineers, and Infrastructure/Cloud/SRE teams.
     Engine["Atruss Code Atlas Engine<br/>Passive CLI · Policy-as-Code YAML · Tree-sitter"]
 
     Engine --> Exec["a. Executives<br/>6-D A-F Scorecards,<br/>Complexity Heatmaps and Drift Trends"]
@@ -129,7 +131,7 @@ flowchart LR
 | **Ingestion & Discovery** | `FR-005`: Dual-Mode GitHub `/trees` API & Shallow Clone Discovery (27 Columns) | **Implemented** | Executives, Architects, Infra |
 | **Policy-as-Code** | `FR-004` / `FR-021` / `FR-023`: YAML Rules (`ecosystems.yaml`, `architecture-rules.yaml`, `pipeline-rules.yaml`) | **Implemented** | Architects, DevOps |
 | **Pipeline & Security** | `FR-009` / `FR-010` / `FR-021`: 14-Rule CI/CD DAG, Supply-Chain Security & Cross-Workflow Edges | **Implemented** | DevOps, CISO/Executives |
-| **Polyglot Tree-sitter AST** | `FR-012` / `FR-022`: 10-Ecosystem Analyzers (`Python`, `.NET`, `TS/JS`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container/Helm/IaC`) + Cognitive/Clone/Dead-Code | **Implemented** | Architects, SWE |
+| **Polyglot Tree-sitter AST** | `FR-012` / `FR-022`: 10-Ecosystem Analyzers (`Tree-sitter` CST complexity/clones/dead-code for `Python`, `.NET`, `TS/JS`, `Java`; structural & IaC extraction for `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container/Helm/IaC`) | **Implemented** | Architects, SWE |
 | **Fitness & Workspaces** | `FR-023`: Declarative Layer Boundaries, Cycle Detection (`nx.simple_cycles`) & PageRank Blast Radius | **Implemented** | Architects, Infra/SRE, SWE |
 | **Supply Chain & SBOM** | `FR-024`: Lockfiles (`go.mod`, `Cargo.lock`, `Gemfile`, `composer.json`, `mix.exs`, etc.), Offline-Safe OSV.dev Batch API, Redacted Secrets & CycloneDX v1.6 SBOM | **Implemented** | Infra/SRE, CISO, DevOps |
 | **6-D Scorecard & Debt** | `FR-025`: 6-Dimension A–F Scorecard & Technical Debt Estimator (`0–100`) | **Implemented** | Executives, Architects |
@@ -237,12 +239,12 @@ To ensure the Python engine remains a clean, deterministic core that powers CLI 
 
 ## The Material Design 3 Astro Visualizer (Docs-as-Code)
 
-Atruss Code Atlas includes a zero-backend **Astro v5 + Starlight** web application styled with **Google Material Design 3 (`M3`)** tonal surface tokens ([`web/src/styles/material-theme.css`](./web/src/styles/material-theme.css)).
+Atruss Code Atlas includes a zero-backend **Astro 6 + Starlight** web application paired with **Mermaid v12** (`@mermaid-js/layout-elk`) and styled with **Google Material Design 3 (`M3`)** tonal surface tokens ([`web/src/styles/material-theme.css`](./web/src/styles/material-theme.css)), custom M3 logo assets ([`web/src/assets/atruss-logo.png`](./web/src/assets/atruss-logo.png)), and `web/public/favicon.{png,ico}`.
 
 ### End-to-End Portal Build Pipeline:
 1. **The Generator**: The Python CLI analyzes repositories and outputs canonical datasets, SBOMs, SARIF, `llms.txt`, and Arc42 Markdown reports into `./exports/latest/`.
-2. **The Output Bridge**: `scripts/generate-report-stubs.py` converts `./exports/latest/` artifacts into 4-tab Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture` | `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, client-side SVG/PNG diagram downloads, and Print/PDF layout support.
-3. **The Consumer**: Running `npm run copy-data` inside `./web` synchronizes `./exports/latest/` into `web/src/data/latest/`, copies `llms*.txt` into `web/public/`, and generates the MDX report routes.
+2. **The Output Bridge**: [`scripts/generate-org-summary.py`](./scripts/generate-org-summary.py) pre-computes organization maturity and 6-D health rollups (`exports/latest/orgs-summary.json`), and [`scripts/generate-report-stubs.py`](./scripts/generate-report-stubs.py) converts `./exports/latest/` artifacts into 4-tab Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture` | `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, `CrossRepoTopology.astro`, paginated discovery/org grids (`24` cards / `20` org rows per page), client-side SVG/PNG diagram downloads, and Print/PDF layout support.
+3. **The Consumer**: Running `npm run copy-data` inside `./web` regenerates `orgs-summary.json`, synchronizes `./exports/latest/` into `web/src/data/latest/`, copies `llms*.txt` into `web/public/`, and generates the MDX report routes.
 4. **Static Output**: Run `npm run build` in `./web` (or `ASTRO_BASE=/atruss-code-atlas npm run build` for GitHub Pages subpath hosting). The output in `web/dist/` is pure static HTML/CSS/JS ready for GitHub Pages, S3, or internal enterprise hosting.
 
 ---

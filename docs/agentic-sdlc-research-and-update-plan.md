@@ -1,8 +1,8 @@
 # Deep Research & Documentation Update Plan: SDD, RPI → QRSPI, and Harness Engineering Demonstrated on Google Antigravity (with Cross-Ecosystem Education for GitHub Copilot, Claude Code & AWS Kiro)
 
 **Repository**: `kumarshaz/atruss-code-atlas`  
-**Branch**: `docs/update-docs-after-initial-release`  
-**Date**: 2026-11-14  
+**Branch**: `docs/sync-docs-and-specs` *(post-PR #3/#4 documentation & spec sync)*  
+**Date**: 2026-11-15  
 **Author**: Shashi Kumar  
 **Scope Constraint**: **Documentation-Only Plan (Zero Code or Repository Structure Changes)**. All hands-on demonstrations are grounded strictly in **Google Antigravity** combined with the existing repository's **SpecKit (`specs/001`–`009`, `.specify/`)**, **Agent Skills (`.agent/skills/`)**, **Agent Rules (`.agent/rules/`)**, **RPI $\rightarrow$ QRSPI workflows**, and **3-Tier Test & 5-Gate Evaluation Harnesses**. **GitHub Copilot, Claude Code, and AWS Kiro** are covered strictly for **architectural education and cross-product comparison**.
 
@@ -14,6 +14,8 @@ Between 2024 and late 2026, AI-assisted software engineering evolved through fiv
 
 ```mermaid
 flowchart LR
+    accTitle: Five Waves of Agentic Software Engineering Evolution
+    accDescr: Progression from Vibe Coding to Linear RPI, Classical SDD, QRSPI Alignment, and Harness Engineering combining Guides and Sensors.
     W1["Wave 1: Vibe Coding<br/>(Ad-Hoc Prompt & Pray)<br/>High entropy, 34% rewrite tax"]
     W2["Wave 2: Linear RPI<br/>(Research -> Plan -> Implement)<br/>Context compaction, but suffers from<br/>Plan-Reading Illusion & bottom-up bias"]
     W3["Wave 3: Classical SDD<br/>(SpecKit / Kiro EARS)<br/>Intent-first specs, but suffers from<br/>Checkbox Compliance & mock/skip drift"]
@@ -50,6 +52,8 @@ To eliminate RPI's failure modes, **QRSPI** decomposes agentic engineering into 
 
 ```mermaid
 flowchart TD
+    accTitle: QRSPI Epistemic Alignment and Isolated Execution Loop
+    accDescr: Eight-stage workflow dividing Question, Unbiased Research, Design/Specify, Vertical Structure, and Tactical Plan in Phase Group A from Worktree Isolation, Vertical Slice Implementation, and Verify/Self-Heal in Phase Group B.
     subgraph Alignment["Phase Group A: Epistemic Alignment & Specification (Front-Loaded)"]
         Q["1. Question (Q)<br/>Decompose ticket into neutral,<br/>unbiased research questions<br/>(Antigravity /grill-me or speckit-clarify)"]
         R["2. Unbiased Research (R)<br/>Antigravity read-only 'research' subagent<br/>inspects codebase WITHOUT ticket bias<br/>to map ground-truth AST & schemas"]
@@ -112,6 +116,8 @@ Following Martin Fowler and Birgitta Böckeler's taxonomy, a production **Agenti
 
 ```mermaid
 flowchart TB
+    accTitle: Harness Engineering Architecture — Feed-Forward Guides and Feedback Sensors
+    accDescr: How constitutional invariants, rules, skills, and manifests steer the Antigravity Native execution loop while 4 tiers of deterministic sensors verify and trigger self-healing repairs.
     subgraph Guides["1. Feed-Forward Guides in atruss-code-atlas (Steer Before Action)"]
         G_Const["Constitutional Invariants<br/>.specify/memory/constitution.md"]
         G_Rules["Antigravity Workspace Rules<br/>.agent/rules/specify-rules.md &<br/>.agent/rules/headless-shell.md"]
@@ -145,15 +151,15 @@ flowchart TB
 #### Tier 2: The 5-Gate Agentic Workflow Validator (`specs/006B`, `scripts/validate_agent_workflow.py`)
 A single self-contained validator script outputting a machine-readable scorecard (`exports/latest/agent-eval-report.json`, requiring `Grade: A` / `5/5` gates):
 - **Gate 1 — Spec $\rightarrow$ Plan $\rightarrow$ Task Traceability**: Parses `spec.md`, `plan.md`, and `tasks.md` to verify 100% of `FR-\d+` and `SC-\d+` identifiers are mapped to tasks (`30/30` in `009`), and every concrete backticked file path in `plan.md` exists on disk (`missing_plan_targets == 0`).
-- **Gate 2 — AST Anti-Stub & Anti-Skip Audit**: Uses Python's `ast` and `tokenize` modules across all 71 Python files in `src/` and `tests/` to ban empty stub bodies (`pass`, `...`, `return None`), `TODO` comments, `# Mock targeting behavior`, `pytest.skip()`, `pytest.xfail()`, and `@pytest.mark.skip`.
-- **Gate 3 — Full 0-Skip Pytest Execution**: Runs `pytest tests/ --strict-markers -v` and enforces `returncode == 0`, `failed == 0`, `errors == 0`, and **`skipped == 0`**.
+- **Gate 2 — AST Anti-Stub & Anti-Skip Audit**: Uses Python's `ast` and `tokenize` modules across all 95 scanned Python files in `src/` and `tests/` to ban empty stub bodies (`pass`, `...`, `return None`), `TODO` comments, `# Mock targeting behavior`, `pytest.skip()`, `pytest.xfail()`, and `@pytest.mark.skip`.
+- **Gate 3 — Full 0-Skip Pytest Execution**: Runs `pytest tests/ --strict-markers -v` (129 tests) and enforces `returncode == 0`, `failed == 0`, `errors == 0`, and **`skipped == 0`** (when `[dev]` `tree-sitter*` extras declared in `pyproject.toml` are installed).
 - **Gate 4 — Cross-Stack Producer-to-Consumer Schema Contract**: Executes an isolated end-to-end sandbox run (`discover` $\rightarrow$ `analyze-pipeline` $\rightarrow$ `analyze-code`) and validates both sandbox and `exports/latest/` artifacts against the 27-column discovery contract, pipeline topology contract, and Astro Starlight YAML frontmatter + Mermaid requirements.
 - **Gate 5 — SHA-256 Determinism**: Runs repeated analyses against a synthetic repository and verifies identical SHA-256 hashes across `components`, `metrics`, `pipeline`, and `markdown` outputs.
 
-#### Tier 3: Autonomous Self-Healing 100-Repo Benchmark Harness (`specs/008`, `scripts/run_benchmark_loop.py`)
-- **Stratified 100-Repo Corpus (`tests/fixtures/popular_100_corpus.json`) + Live Stratified Random Sampler (`--random-sample --seed`)**: Evaluates 25 `.NET`, 25 `Python`, 25 `React/TS`, and 25 `Java` repositories under bounded concurrency (`--max-concurrent 4`, `--timeout 180`).
+#### Tier 3: Autonomous Self-Healing Corpus Benchmark Harness (`specs/008`, `scripts/run_benchmark_loop.py`)
+- **Stratified Production Corpus (`tests/fixtures/popular_100_corpus.json` — expanded from 100 to 372 repos / 10 ecosystems) + Live Stratified Random Sampler (`--random-sample --seed`)**: Evaluates repositories under bounded concurrency (`--max-concurrent`, `--isolated`, `--checkpoint-dir`, `--resume`, `--timeout`). *(Note: `scripts/curate_corpus.py` still defines 100 entries in `CURATED_CATALOG`, and `--random-sample` targets 4 ecosystems.)*
 - **Structured Anomaly Ledger (`exports/latest/anomalies.json`)**: Captures every classification mismatch, parser exception, or timeout with `stage`, `severity`, and `suggested_action`.
-- **Self-Healing Agent Skill (`.agent/skills/benchmark-self-heal/SKILL.md`)**: Instructs the Antigravity agent to read `anomalies.json`, write a failing unit test first, patch `manifests/ecosystems.yaml` or `src/analyzers/`, verify with `validate_agent_workflow.py`, and replay failed repos (`--replay exports/latest/anomalies.json`) until `crash_free_rate_pct >= 98%` and `classification_accuracy_pct >= 90%`.
+- **Self-Healing Agent Skill (`.agent/skills/benchmark-self-heal/SKILL.md`)**: Instructs the Antigravity agent to read `anomalies.json`, write a failing unit test first, patch `manifests/ecosystems.yaml` or `src/analyzers/`, verify with `validate_agent_workflow.py`, and replay failed repos (`--replay exports/latest/anomalies.json`) toward `crash_free_rate_pct >= 98%` and `classification_accuracy_pct >= 90%`.
 
 ---
 
@@ -194,7 +200,7 @@ All updates below are **purely documentation enhancements**—no code, scripts, 
 
 ### Track 1: In-Repository Documentation Updates (`atruss-code-atlas`)
 
-#### Update 1.1: Expand [`docs/agentic-sdlc-guide.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/docs/agentic-sdlc-guide.md) into the Complete v2.0 Playbook
+#### Update 1.1: Expand [`docs/agentic-sdlc-guide.md`](./agentic-sdlc-guide.md) into the Complete v2.0 Playbook
 Restructure and expand `docs/agentic-sdlc-guide.md` to cover all research outcomes demonstrated through `atruss-code-atlas`:
 1. **Section 1 — Executive Summary: The 5-Wave Evolution of Agentic Engineering**:
    - *Vibe Coding $\rightarrow$ Linear RPI $\rightarrow$ Classical SDD $\rightarrow$ QRSPI $\rightarrow$ Harness Engineering ($\text{Agent} = \text{Model} + \text{Harness}$)*.
@@ -203,17 +209,17 @@ Restructure and expand `docs/agentic-sdlc-guide.md` to cover all research outcom
 3. **Section 3 — Spec-Driven Development (SDD) Maturity & Why Pure SDD Needs a Harness**:
    - Connect the *Blacksmith-to-Goldsmith* 3-Phase SDD progression (*Spec-Shadowing $\rightarrow$ Spec-Mediated $\rightarrow$ Executable Spec-First*) with the empirical "Checkbox Compliance / Reward Hacking" lessons from Iterations `003`–`005`.
 4. **Section 4 — Harness Engineering in `atruss-code-atlas`: Feed-Forward Guides vs. 3-Tier Feedback Sensors**:
-   - Walk through the repository's **Guides** (`.specify/memory/constitution.md`, `.agent/rules/specify-rules.md`, `.agent/rules/headless-shell.md`, `.agent/skills/benchmark-self-heal/SKILL.md`, `.agent/skills/speckit-*/SKILL.md`, `manifests/ecosystems.yaml`) and **3-Tier Sensors** (Tier 1: `httpx.MockTransport` & pinned-SHA shallow clones; Tier 2: the 5-Gate Validator `scripts/validate_agent_workflow.py`; Tier 3: the 100-Repo Self-Healing Benchmark Loop `scripts/run_benchmark_loop.py`).
+   - Walk through the repository's **Guides** (`.specify/memory/constitution.md`, `.agent/rules/specify-rules.md`, `.agent/rules/headless-shell.md`, `.agent/skills/benchmark-self-heal/SKILL.md`, `.agent/skills/speckit-*/SKILL.md`, `manifests/ecosystems.yaml`) and **3-Tier Sensors** (Tier 1: `httpx.MockTransport` & pinned-SHA shallow clones; Tier 2: the 5-Gate Validator `scripts/validate_agent_workflow.py`; Tier 3: the Self-Healing Corpus Benchmark Loop `scripts/run_benchmark_loop.py`).
 5. **Section 5 — Cross-Ecosystem Education: How Antigravity, GitHub Copilot, Claude Code, and AWS Kiro Cross-Pollinate**:
    - Provide an educational comparison of `AGENTS.md`, `SKILL.md` (`agentskills.io`), SpecKit (`specify-cli`), Kiro EARS (`requirements.md -> design.md -> tasks.md`), and VS Code 1.145's `AHP 1.0` vs. Antigravity's `Antigravity-reh` Protobuf daemon—showing readers how the patterns demonstrated in this repo translate conceptually across tools.
 6. **Section 6 — Complete `001`–`009` Feature Attribution Matrix & Enterprise Decision Framework**:
    - Updated attribution table, decision flowchart, and 5-paradigm comparison matrix.
 
-#### Update 1.2: Update [`docs/README.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/docs/README.md) & Root [`README.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/README.md)
-1. **In [`docs/README.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/docs/README.md)**:
+#### Update 1.2: Update [`docs/README.md`](./README.md) & Root [`README.md`](../README.md)
+1. **In [`docs/README.md`](./README.md)**:
    - Add [`docs/agentic-sdlc-research-and-update-plan.md`](./agentic-sdlc-research-and-update-plan.md) to the Documentation Index table and Mermaid lineage map.
    - Update the description of [`docs/agentic-sdlc-guide.md`](./agentic-sdlc-guide.md) to reflect the expanded coverage of RPI $\rightarrow$ QRSPI, SDD, Harness Engineering, and Cross-Ecosystem Education.
-2. **In Root [`README.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/README.md)**:
+2. **In Root [`README.md`](../README.md)**:
    - Update the top key-document links and Section 5 (*How Atruss Code Atlas Was Built: A Living Case Study*) to summarize the RPI $\rightarrow$ QRSPI transition, Harness Engineering ($\text{Guides} + \text{Sensors}$), and Cross-Ecosystem Educational Guide.
 
 ---
@@ -225,6 +231,6 @@ The research and empirical artifacts in `kumarshaz/atruss-code-atlas` map direct
 | Post # | Proposed Title | Core Thesis & Research Anchor | Concrete Evidence Linked from `kumarshaz/atruss-code-atlas` |
 | :--- | :--- | :--- | :--- |
 | **Post 1** | **Why "Research, Plan, Implement" (RPI) Breaks at Scale—and How QRSPI + Spec-Driven Development Fixes It** | Explains why raw RPI fails on complex repositories (Bottom-Up Research Bias, Instruction Budget Overflow, the Plan-Reading Illusion, and Horizontal Layering) and demonstrates the 8-stage **QRSPI** loop paired with **SpecKit** on Google Antigravity. | Links to `specs/001`–`005` vs. `specs/006-core-unification-and-eval/`, showing how split-brain exporters (`utils/` vs `exporters/`) and overwritten CLI flags happened under unverified task lists and were resolved via `/grill-me` + vertical slicing. |
-| **Post 2** | **Harness Engineering in Practice: Why Spec Checkboxes Are Not Enough (Building a 5-Gate Agentic Validator)** | Demonstrates $\text{Agent} = \text{Model} + \text{Harness}$ (Guides vs. Sensors). Shows how agents game static Markdown task lists (`[x] T015`) with silent mocks and `pytest.skip()`, and how to build a zero-trust AST & Schema Validator in `<700` lines of Python. | Links directly to [`scripts/validate_agent_workflow.py`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/scripts/validate_agent_workflow.py) (Gates 1–5: FR traceability, `ast` anti-stub/anti-skip scan, 0-skip pytest, Python-to-Astro contract, SHA-256 determinism) and [`exports/latest/agent-eval-report.json`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/exports/latest/agent-eval-report.json). |
-| **Post 3** | **Self-Healing Agentic Benchmarks: Hardening Static Analyzers Against 100 Real-World GitHub Repositories** | Moves beyond static unit tests ("Known Unknowns") to autonomous chaos/corpus benchmarking ("Unknown Unknowns"). Shows how to package an operational TDD self-healing loop as a portable `SKILL.md` on Antigravity (`/goal`). | Links to [`.agent/skills/benchmark-self-heal/SKILL.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/.agent/skills/benchmark-self-heal/SKILL.md), [`scripts/run_benchmark_loop.py`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/scripts/run_benchmark_loop.py), [`tests/fixtures/popular_100_corpus.json`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/tests/fixtures/popular_100_corpus.json), and [`exports/latest/benchmark_summary.md`](file:///home/kumar/learnCoding/localrepo/atruss-code-atlas/exports/latest/benchmark_summary.md) (`100/100` crash-free, `98%` accuracy). |
+| **Post 2** | **Harness Engineering in Practice: Why Spec Checkboxes Are Not Enough (Building a 5-Gate Agentic Validator)** | Demonstrates $\text{Agent} = \text{Model} + \text{Harness}$ (Guides vs. Sensors). Shows how agents game static Markdown task lists (`[x] T015`) with silent mocks and `pytest.skip()`, and how to build a zero-trust AST & Schema Validator in ~850 lines of Python. | Links directly to [`scripts/validate_agent_workflow.py`](../scripts/validate_agent_workflow.py) (Gates 1–5: FR traceability, `ast` anti-stub/anti-skip scan, 0-skip pytest, Python-to-Astro contract, SHA-256 determinism) and [`exports/latest/agent-eval-report.json`](../exports/latest/agent-eval-report.json). |
+| **Post 3** | **Self-Healing Agentic Benchmarks: Hardening Static Analyzers Against Real-World GitHub Repositories** | Moves beyond static unit tests ("Known Unknowns") to autonomous chaos/corpus benchmarking ("Unknown Unknowns"). Shows how to package an operational TDD self-healing loop as a portable `SKILL.md` on Antigravity (`/goal`). | Links to [`.agent/skills/benchmark-self-heal/SKILL.md`](../.agent/skills/benchmark-self-heal/SKILL.md), [`scripts/run_benchmark_loop.py`](../scripts/run_benchmark_loop.py), [`tests/fixtures/popular_100_corpus.json`](../tests/fixtures/popular_100_corpus.json) (expanded to 372 repos / 10 ecosystems), and [`exports/latest/benchmark_summary.md`](../exports/latest/benchmark_summary.md) (`320/372` / `86.02%` crash-free and `85.31%` classification match on the `--timeout 60` batch run, tracking toward `>=98%` / `>=90%` via `--replay --timeout 180`). |
 | **Post 4** | **Same Brain, Different Cockpit: How Antigravity, GitHub Copilot, Claude Code, and Kiro Are Converging on SDD, Skills (`SKILL.md`), and Harnesses** | Educational deep dive into the 2026 cross-product convergence around `AGENTS.md`, `SKILL.md` (`agentskills.io`), SpecKit, and EARS, while contrasting VS Code 1.145's open Agent Host Protocol (`AHP 1.0`) against Antigravity's native Protobuf/worktree daemon. | Links to `.agent/rules/`, `.agent/skills/`, `.gemini/commands/`, `.specify/`, and `docs/agentic-sdlc-guide.md` in `kumarshaz/atruss-code-atlas`. |

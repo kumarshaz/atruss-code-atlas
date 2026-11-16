@@ -1,9 +1,9 @@
 # Feature Specification: Atruss Code Atlas — Unified Platform Specification (Iterations 001–008 & Horizon 2 Enhancements)
 
-**Feature Branch**: `feat/001-PRD-enhancements-it2`  
-**Created**: 2026-11-14  
-**Status**: Approved — Unified Canonical Specification  
-**Input**: Consolidated Master PRD v2.0 ([`docs/atruss-code-atlas-prd.md`](./atruss-code-atlas-prd.md)), Baseline PRD v1.0 ([`docs/atruss-code-atlas-prd-baseline.md`](./atruss-code-atlas-prd-baseline.md)), and SpecKit Lineage (`specs/001-repo-analyzer` through `specs/008-public-github-100-benchmark`)
+**Feature Branch**: `docs/sync-docs-and-specs` (originally consolidated on `002-horizon2-unified-atlas`, synced with `origin/main`)  
+**Updated**: 2026-11-15  
+**Status**: Approved — Unified Canonical Specification & Implementation Reconciliation  
+**Input**: Consolidated Master PRD v2.1 ([`docs/atruss-code-atlas-prd.md`](../../docs/atruss-code-atlas-prd.md)), Baseline PRD v1.0 ([`docs/atruss-code-atlas-prd-baseline.md`](../../docs/atruss-code-atlas-prd-baseline.md)), and SpecKit Lineage (`specs/001-repo-analyzer` through `specs/008-public-github-100-benchmark`)
 
 ---
 
@@ -16,10 +16,10 @@
   → **A**: **Dual-Mode Ingestion**. Discovery and remote pipeline analysis use GitHub REST API recursive trees (`/git/trees/{sha}?recursive=1`) and `/contents/` endpoints for zero-clone speed, while deep code analysis and `--repos-file` / `benchmark` workflows use shallow blobless clones (`git clone --depth 1 --filter=blob:none --single-branch`) inside auto-purging temporary directories.
 - **Q3 (Policy-as-Code — `001`, `006-core`, Rec #3)**: Where do ecosystem detection rules, 27-column discovery signals, and architectural layer rules live?  
   → **A**: Externalized in declarative YAML manifests (`manifests/ecosystems.yaml` and `manifests/architecture-rules.yaml`). Zero hardcoded ecosystem heuristics in Python engine code.
-- **Q4 (Pipeline Schema & UI Bridge — `004`, `005`, `006-ui`, `006-core`)**: How does the Astro Starlight UI consume Python CLI outputs without client-side runtime API fetches?  
-  → **A**: **Build-Time Data Synchronization + Dual Pipeline Schema**. ` analyze-pipeline` outputs both per-repo `exports/latest/pipelines/{org}-{repo}-pipeline.json` (for `PipelineView.astro`) and aggregate `exports/latest/relationships/pipeline_topology.{json,csv,yaml}`. `npm run copy-data` copies `exports/latest/` and invokes `scripts/generate-report-stubs.py` prior to `astro build`.
+- **Q4 (Pipeline Schema & UI Bridge — `004`, `005`, `006-ui`, `006-core`, PR #3/#4)**: How does the Astro Starlight UI consume Python CLI outputs without client-side runtime API fetches?  
+  → **A**: **Build-Time Data Synchronization + Dual Pipeline Schema**. `analyze-pipeline` outputs both per-repo `exports/latest/pipelines/{org}-{repo}-pipeline.json` (for `PipelineView.astro`) and aggregate `exports/latest/relationships/pipeline_topology.{json,csv,yaml}`. `npm run copy-data` precomputes `exports/latest/orgs-summary.json` via `scripts/generate-org-summary.py`, copies `exports/latest/` (and `public/llms*.txt`), and invokes `scripts/generate-report-stubs.py` prior to `astro build` (Astro 6 + Starlight + Mermaid v12 `@mermaid-js/layout-elk`).
 - **Q5 (Vulnerability Intelligence — Baseline `FR-ANA-06` vs. Rec #4)**: Should dependency vulnerability scanning rely solely on the NIST NVD CPE API?  
-  → **A**: Use **Google's `OSV.dev` Batch API (`https://api.osv.dev/v1/querybatch`)** as the primary package-native vulnerability engine (supporting PyPI, npm, NuGet, and Maven PURLs without API key rate-limit bottlenecks), supplemented by optional NVD CVSS enrichment and CycloneDX v1.6 SBOM export.
+  → **A**: Use **Google's `OSV.dev` Batch API (`https://api.osv.dev/v1/querybatch`)** as the primary package-native vulnerability engine (supporting PyPI, npm, NuGet, Maven, Go, Cargo, RubyGems, Packagist, and Hex PURLs without API key rate-limit bottlenecks) alongside CycloneDX v1.6 SBOM export. *(Implementation note: optional NIST NVD CVSS enrichment is not currently wired in `src/`.)*
 
 ---
 
@@ -79,9 +79,9 @@ As a DevOps engineer, I want `atruss analyze-pipeline` to parse `.github/workflo
 
 ---
 
-### User Story 4 - 4-Ecosystem Structural Code Analysis & Arc42 Report Generation (Priority: P1)
+### User Story 4 - Multi-Ecosystem Structural Code Analysis & Arc42 Report Generation (Priority: P1)
 
-As a software architect, I want `atruss analyze-code` to extract architectural boundaries (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute LoC and complexity metrics across Python, .NET, React/TypeScript/JavaScript, and Java Spring Boot repositories, outputting canonical JSON and self-contained Arc42 Markdown with Mermaid diagrams.
+As a software architect, I want `atruss analyze-code` to extract architectural boundaries (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute LoC and complexity metrics across Python, .NET, React/TypeScript/JavaScript, and Java Spring Boot repositories (extended with generic structural/IaC extraction for Go, Rust, Ruby, PHP, Elixir, and Container/Helm/IaC across the 10-ecosystem corpus), outputting canonical JSON and self-contained Arc42 Markdown with Mermaid diagrams.
 
 **Why this priority**: Reverse-engineers living architectural documentation directly from source code without manual diagram maintenance.
 
@@ -124,25 +124,25 @@ As a consumer of architectural and pipeline intelligence, I want to explore all 
 
 **Acceptance Scenarios**:
 
-1. **Given** exported datasets in `exports/latest/`, **When** the root Command Center (`/`) loads, **Then** `OrgHealthStrip`, `LanguageChart`, `RiskFlags`, and `RepoGrid` render inside M3 tonal surface containers with interactive M3 Filter Chips (`All`, `Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Has Pipeline`, `Has Docker`, `High Risk`) and instant search.
-2. **Given** a repository detail page (`/reports/{org}/{repo}/`), **When** the user switches between the 3 M3 Primary Tabs (`Discovery Overview`, `CI/CD Pipeline DAG`, `Arc42 Code Architecture`), **Then** each view renders its data (or a resilient `EmptyStatePrompt` if unanalyzed) with interactive zoom/pan/reset on Mermaid diagrams.
-3. **Given** multi-organization discovery data, **When** navigating to `/orgs/`, **Then** `OrgComparisonTable` and `LeaderboardView` rank organizations by their computed `OrgMaturityScore` (`0–100`).
+1. **Given** exported datasets in `exports/latest/`, **When** the root Command Center (`/`) loads, **Then** `OrgHealthStrip`, `LanguageChart`, `RiskFlags`, and paginated `RepoGrid` (`24` cards/page) render inside M3 tonal surface containers with 15 interactive M3 Filter Chips (`All`, `Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container / Helm / IaC`, `Tier 1`, `Has Pipeline`, `Has Docker`, `High Risk`) and instant search.
+2. **Given** a repository detail page (`/reports/{org}/{repo}/`), **When** the user switches between the 4 M3 Primary Tabs (`Discovery Overview`, `CI/CD Pipeline DAG`, `Arc42 Code Architecture`, `6-D Scorecard & Security`), **Then** each view renders its data (or a resilient `EmptyStatePrompt` if unanalyzed) with interactive Mermaid zoom/pan/reset and SVG/PNG/PDF export controls.
+3. **Given** multi-organization discovery data precomputed into `exports/latest/orgs-summary.json`, **When** navigating to `/orgs/`, **Then** `OrgComparisonTable` (`20` rows/page) and `LeaderboardView` rank organizations by their computed `OrgMaturityScore` (`0–100`) and render `CrossRepoTopology`.
 
 ---
 
-### User Story 7 - 100-Repo Public GitHub Benchmark, Random Sampler & Self-Healing Agent Loop (Priority: P1)
+### User Story 7 - Corpus Benchmark, Random Sampler & Self-Healing Agent Loop (Priority: P1)
 
-As a platform maintainer running locally or on a Google AI Pro Remote Agent, I want `atruss benchmark` to validate discovery, pipeline DAG reconstruction, and code analysis across a curated corpus of **100 popular public GitHub repositories** (`--corpus popular-100`) and **stratified random samples** (`--random-sample N --seed S`), isolating any failures into `anomalies.json` for test-first self-healing.
+As a platform maintainer running locally or on a Google AI Pro Remote Agent, I want `atruss benchmark` to validate discovery, pipeline DAG reconstruction, and code analysis across the curated popular public GitHub repositories corpus (`--corpus popular-100`, expanded to 372 repos / 10 ecosystems) and **stratified random samples** (`--random-sample N --seed S`), isolating any failures into `anomalies.json` for test-first self-healing.
 
 **Why this priority**: Guarantees production-grade resilience and `>= 90%` classification accuracy across real-world repository layouts without disk exhaustion or unhandled crashes.
 
 **Lineage**: `003-portable-test-harness` (US2), `008-public-github-100-benchmark` (US1–US3).
 
-**Independent Test**: Run `atruss benchmark --corpus popular-100 --limit 12` and `atruss benchmark --random-sample 4 --seed 42`, verifying that `benchmark_manifest.json`, `benchmark_summary.{json,md}`, and `anomalies.json` are generated and temporary clone directories are purged after every repo.
+**Independent Test**: Run `atruss benchmark --corpus popular-100 --limit 12 --isolated` and `atruss benchmark --random-sample 4 --seed 42`, verifying that `benchmark_manifest.json`, `benchmark_summary.{json,md}`, and `anomalies.json` are generated and temporary clone directories are purged after every repo.
 
 **Acceptance Scenarios**:
 
-1. **Given** `tests/fixtures/popular_100_corpus.json` (25 Python, 25 .NET, 25 React/TS/JS, 25 Java Spring Boot repos `< 250MB`), **When** `atruss benchmark` executes, **Then** it enforces a `180s` per-repo circuit breaker, cleans up shallow clones immediately, and achieves `>= 90%` classification accuracy and `>= 98%` crash-free completion.
+1. **Given** `tests/fixtures/popular_100_corpus.json`, **When** `atruss benchmark` executes with `--isolated` and `--checkpoint-dir`, **Then** it enforces per-repo circuit-breaker timeouts, cleans up shallow clones immediately, and tracks progress against `>= 90%` classification accuracy and `>= 98%` crash-free targets.
 2. **Given** any anomaly recorded in `exports/latest/anomalies.json`, **When** the self-healing workflow (`scripts/run_benchmark_loop.py`) runs, **Then** it replays failed targets via `--replay` and verifies all 5 governance gates via `scripts/validate_agent_workflow.py`.
 
 ---
@@ -254,39 +254,39 @@ As a platform engineer or AI agent user, I want to compare two export snapshots 
 
 ### Functional Requirements
 
-#### Baseline Implemented Requirements (`001`–`008`)
-- **FR-001**: System MUST provide the `atruss` CLI (`discover`, `analyze-pipeline`, `analyze-code`, `analyze-coverage`, `benchmark`, `version`) with zero database or message-broker dependencies (`001`, `003`, `005`, `008`).
+#### Baseline Implemented Requirements (`001`–`008` + PR #3/#4 Evolution)
+- **FR-001**: System MUST provide the `atruss` CLI (`discover`, `analyze-pipeline`, `analyze-code`, `analyze-coverage`, `benchmark`, `check`, `diff`, `mcp`, `version`) with zero database or message-broker dependencies (`001`, `003`, `005`, `008`, `009`).
 - **FR-002**: System MUST authenticate to GitHub via optional `--token`, `GH_TOKEN`, or `GITHUB_TOKEN` with `MaskingFormatter` log redaction, and support unauthenticated public scans (`001`, `004`).
 - **FR-003**: System MUST paginate GitHub REST endpoints via RFC 5988 `Link: rel="next"` headers with `asyncio.Semaphore(10)` concurrency, proactive `X-RateLimit-Remaining` throttling, and secondary rate-limit retry backoff (`004`).
-- **FR-004**: System MUST externalize all ecosystem, framework, and 27-column discovery signal rules into `manifests/ecosystems.yaml` and load them dynamically in `src/analyzers/classification.py` (`001`, `006-core`).
+- **FR-004**: System MUST externalize all ecosystem, framework, and 27-column discovery signal rules into `manifests/ecosystems.yaml` across 10 ecosystems and load them dynamically in `src/analyzers/classification.py` (`001`, `006-core`).
 - **FR-005**: `atruss discover` MUST inspect repository file trees via `GET /repos/{owner}/{repo}/git/trees/{sha}?recursive=1` and populate all 27 `DiscoveryManifestItem` fields, supporting `--include-archived`, `--exclude-repo-names`, `--exclude-repo-patterns`, and `--dry-run` (`004`, `006-core`).
-- **FR-006**: System MUST detect multi-ecosystem monorepos by isolating manifest-root subdirectories into independent `ModuleUnit` records resolved by priority (`Java > .NET > Python > JS/TS`) (`001`, `006-core`).
+- **FR-006**: System MUST detect multi-ecosystem monorepos by isolating manifest-root subdirectories into independent `ModuleUnit` records resolved by declared priority order in `manifests/ecosystems.yaml` (`001`, `006-core`).
 - **FR-007**: `atruss analyze-pipeline` and `atruss analyze-code` MUST accept targets via `--from-discovery <json>`, `--repos-file <txt>`, or `--path <dir>` (`002`, `003`, `006-core`).
 - **FR-008**: `GitCloner` MUST execute shallow blobless clones (`git clone --depth 1 --filter=blob:none --single-branch`) inside temporary directories that are automatically deleted upon context exit (`002`, `006-core`, `008`).
 - **FR-009**: `atruss analyze-pipeline` MUST parse `.github/workflows/*.{yml,yaml}` files using `parser.py` and `dag_builder.py` (`NetworkX`) to extract triggers, jobs, runners, step counts, and `needs:` directed edges (`001`, `006-core`).
 - **FR-010**: `atruss analyze-pipeline` MUST evaluate all 7 baseline anti-patterns (`NO_TEST_GATE`, `NO_CACHE`, `NO_ARTIFACT_HANDOFF`, `HARDCODED_SECRET`, `SEQUENTIAL_ONLY`, `UNFILTERED_MAIN_PUSH`, `UNLABELED_SELF_HOSTED`) in `src/analyzers/pipeline/heuristics.py` (`001`, `006-core`).
-- **FR-011**: `atruss analyze-pipeline` MUST export both per-repository `exports/latest/pipelines/{org}-{repo}-pipeline.json` (matching `PipelineView.astro`) and aggregate `exports/latest/relationships/pipeline_topology.{json,csv,yaml}` + `reports/pipeline_topology.md` (`004`, `006-core`).
-- **FR-012**: `src/analyzers/code/` MUST extract structural architecture components (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute `files_analyzed`, `loc`, `sloc`, and cyclomatic complexity across Python (`python_ast.py`), .NET (`dotnet_structural.py`), React/TS/JS (`js_ts_structural.py`), and Java Spring Boot (`java_structural.py`) (`001`, `006-core`).
+- **FR-011**: `atruss analyze-pipeline` MUST export both per-repository `exports/latest/pipelines/{org}-{repo}-pipeline.json` (matching `PipelineView.astro`) and aggregate `exports/latest/relationships/pipeline_topology.{json,csv,yaml}` + `reports/pipeline_architecture.md` *(note: original spec named `pipeline_topology.md`; `markdown_exporter.py` writes `pipeline_architecture.md`)* (`004`, `006-core`).
+- **FR-012**: `src/analyzers/code/` MUST extract structural architecture components (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute `files_analyzed`, `loc`, and `sloc` across Python (`python_ast.py`), .NET (`dotnet_structural.py`), React/TS/JS (`js_ts_structural.py`), and Java Spring Boot (`java_structural.py`), with generic structural/IaC fallback (`_run_generic_structural`) for Go, Rust, Ruby, PHP, Elixir, and Container/Helm/IaC (`001`, `006-core`, `PR #3/#4`).
 - **FR-013**: `atruss analyze-code` MUST export `{org}-{repo}-analysis.json` (`PortableArtifact`) and self-contained Arc42 Markdown `{org}-{repo}-report.md` (with Starlight frontmatter and Mermaid component diagrams) into `exports/latest/reports/` (`001`, `003`, `006-core`).
 - **FR-014**: `atruss analyze-coverage` (`src/analyzers/coverage_parser.py`) MUST extract test coverage percentages (`±2%` tolerance) from `pytest`, `Jest`, `dotnet test`, and `JaCoCo` artifacts/logs (`001`).
 - **FR-015**: `ExportManager` (`src/core/utils/export_manager.py`) MUST write all exports to timestamped `exports/{timestamp}/` folders and automatically synchronize `exports/latest/` (`004`, `006-core`).
-- **FR-016**: `scripts/generate-report-stubs.py` MUST read `exports/latest/repos/repositories.json` and emit per-repository Starlight Markdown stubs (`web/src/content/docs/reports/{org}/{repo}.md`) validated by Zod `docsSchema` in `web/src/content.config.ts` (`005`, `006-ui`).
-- **FR-017**: The Astro web application (`web/`) MUST implement Google Material Design 3 (`web/src/styles/material-theme.css`) across Layer 1 (`AtlasSummary`, `OrgHealthStrip`, `LanguageChart`, `RiskFlags`, `RepoGrid` with M3 Filter Chips & search, `RepoCard`), Layer 2 (`RepoTabs`, `DiscoveryTable`, `PipelineView`, `AntiPatternBadge`, `ArchitectureView`, `EmptyStatePrompt`), and Layer 3 (`/orgs/` `OrgComparisonTable`, `LeaderboardView`) (`005`, `006-ui`, `007`).
+- **FR-016**: `scripts/generate-report-stubs.py` MUST read `exports/latest/repos/repositories.json` and emit per-repository Starlight MDX stubs (`web/src/content/docs/reports/{org}/{repo}.mdx`) validated by Zod `docsSchema` in `web/src/content.config.ts` (`005`, `006-ui`).
+- **FR-017**: The Astro 6 web application (`web/`) MUST implement Google Material Design 3 (`web/src/styles/material-theme.css`) across Layer 1 (`AtlasSummary`, `OrgHealthStrip`, `LanguageChart`, `RiskFlags`, paginated `RepoGrid` 24/page with 15 M3 Filter Chips & search, `RepoCard`), Layer 2 (`RepoTabs` 4-tab view, `DiscoveryTable`, `PipelineView`, `AntiPatternBadge`, `ArchitectureView`, `ScorecardHeatmap`, `EmptyStatePrompt`), and Layer 3 (`/orgs/` `OrgComparisonTable` 20/page, `LeaderboardView`, `CrossRepoTopology` backed by `exports/latest/orgs-summary.json`) (`005`, `006-ui`, `007`, `PR #3/#4`).
 - **FR-018**: `web/` MUST support `ASTRO_SITE` and `ASTRO_BASE` subpath routing via `import.meta.env.BASE_URL` and automated deployment via `.github/workflows/deploy-pages.yml` (`007`).
-- **FR-019**: `atruss benchmark` (`src/cli/commands/benchmark.py`) MUST support `--corpus popular-100` (`tests/fixtures/popular_100_corpus.json`), `--random-sample <N> --seed <int>`, and `--replay <manifest.json>`, enforcing a `180s` per-repo circuit breaker and emitting `benchmark_manifest.json`, `benchmark_summary.{json,md}`, and `anomalies.json` (`008`).
+- **FR-019**: `atruss benchmark` (`src/cli/commands/benchmark.py`) MUST support `--corpus popular-100` (`tests/fixtures/popular_100_corpus.json`, expanded to 372 repos / 10 ecosystems while `scripts/curate_corpus.py` holds 100 entries), `--random-sample <N> --seed <int>` *(4 ecosystems)*, `--replay <manifest.json>`, `--isolated`, `--checkpoint-dir`, `--resume`, and `--timeout`, enforcing a per-repo circuit breaker and emitting `benchmark_manifest.json`, `benchmark_summary.{json,md}`, and `anomalies.json` (`008`, `PR #3/#4`).
 - **FR-020**: `scripts/validate_agent_workflow.py` MUST enforce all 5 governance gates (Gate 1: Spec-Plan-Task Traceability, Gate 2: AST Anti-Stub/Anti-Skip Audit, Gate 3: Pytest 0-Skip Execution, Gate 4: Python-to-Astro Schema Contract Verification, Gate 5: SHA-256 Determinism Check) and emit `exports/latest/agent-eval-report.json` (`006-core`).
 
 #### Horizon 2 Enhancement Requirements (Top 10 Industry Recommendations)
 - **FR-021 (Rec #1)**: `src/analyzers/pipeline/heuristics.py` and `dag_builder.py` MUST detect the 7 CI/CD supply-chain security anti-patterns (`UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `NO_TIMEOUT`, `ARTIFACT_CREDENTIAL_PERSISTENCE`, `STATIC_CLOUD_CREDENTIALS`) and resolve `workflow_call` / `workflow_run` cross-workflow edges.
-- **FR-022 (Rec #2)**: `src/analyzers/code/` MUST integrate `tree-sitter` polyglot syntax-tree analysis across Python, C#, TypeScript/JS, and Java to compute Cyclomatic Complexity, Cognitive Complexity, AST Clone Duplication %, and Dead Code symbols.
+- **FR-022 (Rec #2)**: `src/analyzers/code/` MUST integrate `tree-sitter` polyglot syntax-tree analysis across Python, C#, TypeScript/JS, and Java to compute Cyclomatic Complexity, Cognitive Complexity, AST Clone Duplication %, and Dead Code symbols (with deterministic structural fallback for additional ecosystems or missing grammars).
 - **FR-023 (Rec #3)**: System MUST evaluate declarative architectural layer rules from `manifests/architecture-rules.yaml` against the internal file import graph to detect forbidden layer bypasses and circular dependencies (`nx.simple_cycles`).
-- **FR-024 (Rec #4)**: System MUST parse repository lockfiles/manifests, batch-query `https://api.osv.dev/v1/querybatch` for CVE/GHSA vulnerabilities and upgrade paths, scan source files for high-entropy secrets, and export CycloneDX v1.6 SBOMs (`exports/latest/sbom/{org}-{repo}.cdx.json`).
+- **FR-024 (Rec #4)**: System MUST parse repository lockfiles/manifests across 9 dependency ecosystems, batch-query `https://api.osv.dev/v1/querybatch` (opt-in `--live-osv` / offline fallback) for CVE/GHSA vulnerabilities and upgrade paths, scan source files for high-entropy secrets, and export CycloneDX v1.6 SBOMs (`exports/latest/sbom/{org}-{repo}.cdx.json`). *(Implementation gap note: `DependencyRecord.is_outdated` / `latest_version` remain unpopulated offline, and offline `atruss check` passes `vulnerabilities=[]`.)*
 - **FR-025 (Rec #5)**: System MUST compute a deterministic **6-Dimension A–F Repository Scorecard** (*Code Quality*, *Security*, *Maintainability*, *Test Coverage*, *Dependency Health*, *Pipeline Health*) and **Composite Technical Debt Score (`0–100`)** inside `PortableArtifact`.
 - **FR-026 (Rec #6)**: System MUST correlate code submodules, `Dockerfile`/Kubernetes/Terraform manifests, and GitHub Actions jobs to generate an **Arc42 Section 7 Code-to-Cloud Deployment Traceability Graph**.
 - **FR-027 (Rec #7)**: System MUST provide an `atruss diff --baseline <dir1> --target <dir2>` command emitting `exports/latest/drift/drift_report.{json,md}` to track architectural, pipeline, and scorecard drift across snapshots.
 - **FR-028 (Rec #8)**: System MUST export pipeline, secret, vulnerability, and architectural findings in **OASIS SARIF v2.1.0** format (`exports/latest/sarif/{org}-{repo}.sarif.json`) and provide `atruss check --sarif` for PR quality gating.
-- **FR-029 (Rec #9)**: System MUST generate AI agent context files (`exports/latest/llms/llms.txt` and `llms-full.txt`) and provide a read-only stdio **Model Context Protocol server (`atruss mcp`)** querying `exports/latest/`.
-- **FR-030 (Rec #10)**: The Astro M3 UI (`web/`) MUST provide client-side SVG/PNG diagram download buttons, a multi-tab Print/PDF stylesheet, an M3 Module Complexity & 6-Dimension Scorecard Heatmap (`ScorecardHeatmap.astro`), and a Cross-Repository Topology Explorer on `/orgs/`.
+- **FR-029 (Rec #9)**: System MUST generate AI agent context files (`exports/latest/llms/llms.txt` and `llms-full.txt`) and provide a read-only stdio **Model Context Protocol server (`atruss mcp`)** querying `exports/latest/` (10 tools).
+- **FR-030 (Rec #10)**: The Astro 6 M3 UI (`web/`) MUST provide Mermaid v12 (`@mermaid-js/layout-elk`) rendering with client-side SVG/PNG diagram download buttons, a multi-tab Print/PDF stylesheet, an M3 Module Complexity & 6-Dimension Scorecard Heatmap (`ScorecardHeatmap.astro`), and a Cross-Repository Topology Explorer (`CrossRepoTopology.astro`) on `/orgs/`.
 
 ### Key Entities
 
@@ -317,8 +317,16 @@ As a platform engineer or AI agent user, I want to compare two export snapshots 
 
 ---
 
+## Implementation Audit & Reconciliation Notes (2026-11-15)
+
+- **372-Repo 10-Ecosystem Corpus (`SC-003`, `SC-010`)**: `tests/fixtures/popular_100_corpus.json` expanded to 372 repos across 10 ecosystems; latest snapshot in `exports/latest/benchmark_summary.md` (`Run ID: 2026-11-15_05-24-40`, `--timeout 60`) recorded `320/372` (`86.02%`) crash-free completion (**52** timeouts on large monorepos) and `273/320` (`85.31%`) classification accuracy—below Spec 008 `>= 98%` / `>= 90%` targets. `scripts/curate_corpus.py` still holds 100 entries in `CURATED_CATALOG`, and `atruss benchmark --random-sample` searches the core 4 languages.
+- **Partial Implementation Gaps vs Spec Text**: `DependencyRecord.is_outdated` / `latest_version` remain unpopulated (`no registry lookup`), NIST NVD lookup is unimplemented, offline `atruss check` passes `vulnerabilities=[]`, and Go/Rust/Ruby/PHP/Elixir/Infra use `_run_generic_structural` rather than `tree-sitter` CST parsing.
+- **UI & Output Alignment (`SC-009`)**: Per-repo stubs emit `reports/{org}/{repo}.mdx` (`/reports/{org}/{repo}/`) across 4 M3 tabs styled via `.m3-*` CSS classes (`material-theme.css`) rather than `<md-*>` web components; aggregate pipeline topology Markdown exports to `reports/pipeline_architecture.md`; building 323 pages from the expanded corpus takes ~59s (`58.5s–59.3s`, above the original `< 30s` single-org target).
+
+---
+
 ## Assumptions
 
 - Target repositories are hosted on GitHub (public or private with optional PAT authentication) or available as local Git directories.
-- All development, CLI execution, testing, and Astro static builds run inside a Linux / WSL environment with Python 3.11+ (`.venv`) and Node.js v22+ (`fnm`).
+- All development, CLI execution, testing, and Astro static builds run inside a Linux / WSL environment with Python 3.11+ (`.venv` with `uv pip install -e ".[dev]"`) and Node.js v22+ (`fnm`).
 - The core engine and static web UI remain strictly database-free and broker-free in accordance with Constitution v2.1.0.

@@ -91,3 +91,15 @@ As the project owner, I want a GitHub Actions workflow (`.github/workflows/deplo
 - **SC-002**: 100% of UI surfaces, cards, chips, tabs, and badges utilize Material Design 3 `--md-sys-color-*` and `--md-sys-shape-*` tokens rather than raw hardcoded colors.
 - **SC-003**: Building with `ASTRO_BASE=/atruss-code-atlas` produces 0 broken internal links between `/`, `/orgs/`, and `/reports/{org}/{repo}/`.
 - **SC-004**: `.github/workflows/deploy-pages.yml` validates cleanly and packages `web/dist` for GitHub Pages deployment.
+
+---
+
+## Post-Release Evolution & Implementation Reconciliation (2026-11-15)
+
+The shipped portal in `web/` retained Spec `007` as its foundation and evolved cleanly through Spec `009` (`FR-030`) and PRs `#3`–`#4`:
+
+- **Framework & Mermaid Upgrades**: `web/package.json` uses **Astro 6** (`^6.0.1`), `@astrojs/starlight` (`^0.38.2`), **Mermaid v12** (`^12.3.0`), and `@mermaid-js/layout-elk` (`^1.0.2`), alongside `web/src/assets/atruss-logo.png`, `web/public/favicon.png`, and `web/public/favicon.ico`.
+- **M3 Styling Implementation Note**: `@material/web` (`^2.5.0`) is declared in `web/package.json`, while Astro components implement M3 surfaces, chips, and tabs using custom `.m3-*` CSS classes and `--md-sys-color-*` variables in `web/src/styles/material-theme.css` rather than `<md-filter-chip>` / `<md-tabs>` custom elements.
+- **4-Tab Detail View & `.mdx` Stubs**: `RepoTabs.astro` expanded from 3 tabs to **4 M3 Primary Tabs** (`Discovery Overview`, `CI/CD Pipeline DAG`, `Arc42 Code Architecture`, `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, SVG/PNG diagram download buttons, and `@media print` PDF styling; `scripts/generate-report-stubs.py` emits `web/src/content/docs/reports/{org}/{repo}.mdx` (`/reports/{org}/{repo}/`).
+- **15 Filter Chips, Pagination & Precomputed Org Rollups**: `RepoGrid.astro` expanded from 8 to **15 M3 Filter Chips** covering all 10 corpus ecosystems (`All`, `Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container / Helm / IaC`, `Tier 1`, `Has Pipeline`, `Has Docker`, `High Risk`) with `24`-card pagination; `OrgComparisonTable.astro` paginates at `20` org rows/page backed by `exports/latest/orgs-summary.json` (`scripts/generate-org-summary.py`), plus `CrossRepoTopology.astro` on `/orgs/`.
+- **Scale Build Timing Note (`SC-001`)**: At the expanded 323-page portal size (`323` HTML pages including Pagefind indexing), `npm run build` completes in `~59s` (`58.52s–59.28s`) rather than the initial `< 30s` small-corpus baseline.

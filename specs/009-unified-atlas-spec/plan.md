@@ -1,22 +1,22 @@
 # Implementation Plan: Atruss Code Atlas Unified Specification (001–008 + Horizon 2 Top 10)
 
-**Branch**: `002-horizon2-unified-atlas` | **Date**: 2026-11-14 | **Spec**: [spec.md](./spec.md)
+**Branch**: `docs/sync-docs-and-specs` (originally implemented on `002-horizon2-unified-atlas`) | **Date**: 2026-11-15 | **Spec**: [spec.md](./spec.md)
 **Input**: Consolidated Master PRD ([`docs/atruss-code-atlas-prd.md`](../../docs/atruss-code-atlas-prd.md)) and Unified Specification ([`docs/atruss-code-atlas-unified-spec.md`](../../docs/atruss-code-atlas-unified-spec.md))
 
 ---
 
 ## 1. Summary
 
-This unified implementation plan consolidates the architectural foundation delivered across SpecKit iterations `001` through `008` (`FR-001`–`FR-020`) and delivers the **Top 10 Strategic Horizon 2 Enhancements** (`FR-021`–`FR-030`, `REC-01`–`REC-10`) on branch `002-horizon2-unified-atlas` using Antigravity's parallel subagent swarm workflow (`.agent/skills/horizon2-swarm/`). All deliverables adhere strictly to Constitution v2.1.0 principles and are validated via the 5-Gate Architectural Conformance Validator (`scripts/validate_agent_workflow.py`).
+This unified implementation plan consolidates the architectural foundation delivered across SpecKit iterations `001` through `008` (`FR-001`–`FR-020`) and delivers the **Top 10 Strategic Horizon 2 Enhancements** (`FR-021`–`FR-030`, `REC-01`–`REC-10`) plus post-release 10-ecosystem / Astro 6 / Mermaid v12 ELK enhancements (`PR #3` & `#4`), using Antigravity's parallel subagent swarm workflow (`.agent/skills/horizon2-swarm/`). All deliverables adhere strictly to Constitution v2.1.0 principles and are validated via the 5-Gate Architectural Conformance Validator (`scripts/validate_agent_workflow.py`).
 
 ---
 
 ## 2. Technical Context
 
-- **Language/Version**: Python 3.11+ (`.venv` CLI & Analyzers), Node.js 22+ / Astro v5 + Starlight (`web/`)
-- **Primary Dependencies**: `typer`, `httpx`, `pydantic`, `pyyaml`, `networkx`, `radon`, `rich`, `tree-sitter`, `tree-sitter-language-pack`
-- **Storage**: Deterministic local filesystem (`exports/{timestamp}/` + `exports/latest/`), externalized policy rules (`manifests/ecosystems.yaml`, `manifests/architecture-rules.yaml`, `manifests/pipeline-rules.yaml`)
-- **Testing**: `pytest`, `pytest-asyncio`, Node `tsx` test runner (strict 0-skip enforcement via `scripts/validate_agent_workflow.py`)
+- **Language/Version**: Python 3.11+ (`.venv` CLI & Analyzers), Node.js 22+ / Astro 6 + Starlight + Mermaid v12 (`@mermaid-js/layout-elk`) (`web/`)
+- **Primary Dependencies**: `typer`, `httpx`, `pydantic`, `pyyaml`, `networkx`, `radon`, `bandit`, `tree-sitter`, `tree-sitter-python`, `tree-sitter-c-sharp`, `tree-sitter-typescript`, `tree-sitter-javascript`, `tree-sitter-java`
+- **Storage**: Deterministic local filesystem (`exports/{timestamp}/` + `exports/latest/`, including `orgs-summary.json`), externalized policy rules (`manifests/ecosystems.yaml`, `manifests/architecture-rules.yaml`, `manifests/pipeline-rules.yaml`)
+- **Testing**: `pytest`, `pytest-asyncio`, Node 22 native TypeScript test runner (`node src/tests/*.test.ts`) (strict 0-skip enforcement via `scripts/validate_agent_workflow.py`)
 - **Target Platform**: Cross-platform CLI (Linux, macOS, WSL) + GitHub Pages Static Hosting (`web/astro.config.mjs`)
 - **Performance Goals**: `< 180 seconds` per repo deep analysis (`SC-002`); fast offline delta & gate checks (`atruss diff`, `atruss check`); byte-for-byte SHA-256 deterministic JSON/Markdown/CycloneDX/SARIF/llms.txt outputs (`SC-008`).
 
@@ -42,18 +42,20 @@ This unified implementation plan consolidates the architectural foundation deliv
 
 ```text
 docs/
-├── README.md                               # Canonical Documentation & Specification Index
-├── atruss-code-atlas-prd-baseline.md      # Preserved v1.0 Baseline PRD (Iterations 001–008)
-├── atruss-code-atlas-prd.md               # Consolidated Master PRD v2.0 (Lineage + Top 10 Recommendations)
-├── atruss-code-atlas-unified-spec.md      # Unified SpecKit Specification (FR-001 to FR-030)
-└── agentic-sdlc-guide.md                   # Agentic SDLC Playbook (SpecKit vs. Antigravity Native Swarm + 5-Gate Governance)
+├── README.md                                     # Canonical Documentation & Specification Index
+├── atruss-code-atlas-prd-baseline.md            # Preserved v1.0 Baseline PRD (Iterations 001–008)
+├── atruss-code-atlas-prd.md                     # Consolidated Master PRD v2.0 (Lineage + Top 10 + Audit)
+├── atruss-code-atlas-unified-spec.md            # Unified SpecKit Specification (FR-001 to FR-030)
+├── agentic-sdlc-guide.md                        # Agentic SDLC Playbook (SpecKit vs. Antigravity Swarm)
+├── agentic-sdlc-research-and-update-plan.md     # QRSPI & Harness Engineering Research Plan
+└── metrics-methodology.md                       # 6-D Scorecard, Complexity & 14-Rule Reference
 
 specs/009-unified-atlas-spec/
-├── spec.md                                 # Unified Feature Specification
-├── plan.md                                 # Unified Architectural Plan (this file)
-├── tasks.md                                # Complete Traceability Task Matrix (T001–T030)
+├── spec.md                                       # Unified Feature Specification
+├── plan.md                                       # Unified Architectural Plan (this file)
+├── tasks.md                                      # Complete Traceability Task Matrix (T001–T030)
 └── checklists/
-    └── requirements.md                     # SpecKit Specification Quality Checklist
+    └── requirements.md                           # SpecKit Specification Quality Checklist
 ```
 
 ### 4.2 Core Source, Exporters, Web Portal & Verification Harness
@@ -122,28 +124,36 @@ src/
         └── mcp_server.py                    # Read-only stdio MCP server (`atruss mcp`) with 10 tools
 
 scripts/
-├── curate_corpus.py                         # Curates tests/fixtures/popular_100_corpus.json
-├── generate-report-stubs.py                 # Generates Astro Starlight MDX pages with M3 tabs & ScorecardHeatmap
+├── curate_corpus.py                         # Curates 100-entry catalog in tests/fixtures/popular_100_corpus.json (corpus file holds 372 repos)
+├── generate-org-summary.py                  # Precomputes org maturity & 6-D health rollups into exports/latest/orgs-summary.json
+├── generate-report-stubs.py                 # Generates Astro Starlight MDX pages with 4 M3 tabs & ScorecardHeatmap
 ├── validate_agent_workflow.py               # 5-Gate Architectural Conformance Validator
-└── run_benchmark_loop.py                    # 100-Repository Public GitHub Benchmark Runner
+└── run_benchmark_loop.py                    # Public GitHub Corpus Benchmark & Self-Healing Runner
 
 web/
-├── astro.config.mjs                         # Astro v5 + Starlight config with dynamic ASTRO_BASE
-├── package.json                             # Copies exports/latest & llms*.txt, builds Starlight static portal
+├── astro.config.mjs                         # Astro 6 + Starlight + astro-mermaid config with dynamic ASTRO_BASE
+├── package.json                             # Precomputes orgs-summary, copies exports/latest & llms*.txt, builds Starlight portal
+├── public/
+│   ├── favicon.png                          # Portable PNG favicon
+│   └── favicon.ico                          # ICO favicon
 └── src/
+    ├── assets/
+    │   └── atruss-logo.png                  # Transparent Material Design 3 portal hero logo
     ├── content/docs/
-    │   ├── index.mdx                        # Material Design 3 landing page & multi-repo catalog explorer
-    │   └── orgs/index.mdx                   # Organization comparison, leaderboard & CrossRepoTopology explorer
+    │   ├── index.mdx                        # Material Design 3 landing page & paginated multi-repo catalog explorer (24/page)
+    │   └── orgs/index.mdx                   # Organization comparison (20/page), leaderboard & CrossRepoTopology explorer
     ├── components/
     │   ├── ArchitectureView.astro           # Arc42 architecture viewer with Horizon 2 chips & SVG/PNG export
     │   ├── CrossRepoTopology.astro          # Interactive cross-repo workflow/service Mermaid explorer
     │   ├── LeaderboardView.astro            # Org & repo leaderboard including 6-D scorecards & risk counts
-    │   ├── OrgComparisonTable.astro         # Multi-org comparison table with CVE & fitness columns
+    │   ├── OrgComparisonTable.astro         # Multi-org paginated comparison table with CVE & fitness columns
     │   ├── PipelineView.astro               # Interactive pipeline DAG, cross-workflow edges & SVG/PNG export
+    │   ├── RepoGrid.astro                   # Discovery catalog grid with 15 M3 filter chips & 24-card pagination
     │   ├── RepoTabs.astro                   # 4-tab M3 layout with Print / Save PDF export
     │   └── ScorecardHeatmap.astro           # 6-D Scorecard, complexity heatmap, secrets, CVEs & C2C viewer
     ├── lib/
-    │   └── mermaid-client.ts                # Lazy Mermaid hydration plus client-side SVG/PNG export utilities
+    │   ├── architecture-tree.ts             # Collapsible hierarchical architecture module-tree builder
+    │   └── mermaid-client.ts                # Lazy Mermaid v12 + @mermaid-js/layout-elk hydration plus SVG/PNG export utilities
     ├── styles/
     │   └── material-theme.css               # Material Design 3 tonal color tokens & @media print PDF styling
     └── tests/

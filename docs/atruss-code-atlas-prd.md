@@ -1,10 +1,10 @@
 # Atruss Code Atlas: Consolidated Product Requirements Document (Master PRD v2.0)
 
 **Document ID**: `PRD-ATRUSS-MASTER-V2`  
-**Version**: `2.0.0` (Consolidated Baseline `001`–`008` + Iteration 2 Industry Enhancements)  
-**Branch**: `feat/001-PRD-enhancements-it2`  
-**Date**: 2026-11-14  
-**Status**: Approved — Canonical Product & Architectural Intent  
+**Version**: `2.1.0` (Consolidated Baseline `001`–`008`, Delivered Horizon 2 `FR-021`–`FR-030` & Docs Sync)  
+**Branch**: `docs/sync-docs-and-specs` (synced against `origin/main`)  
+**Date**: 2026-11-15  
+**Status**: Active — Canonical Product Intent & Implementation Reconciliation  
 **Baseline Reference**: [`docs/atruss-code-atlas-prd-baseline.md`](./atruss-code-atlas-prd-baseline.md)  
 **Companion Unified SpecKit Specification**: [`docs/atruss-code-atlas-unified-spec.md`](./atruss-code-atlas-unified-spec.md) & [`specs/009-unified-atlas-spec/spec.md`](../specs/009-unified-atlas-spec/spec.md)
 
@@ -31,7 +31,7 @@ Enterprises suffer from **architectural drift** and **CI/CD pipeline fragmentati
 
 1. **I. Policy-as-Code & Extensibility**: All ecosystem detection, framework classification, 27-column discovery signals (`manifests/ecosystems.yaml`), and architectural fitness rules (`manifests/architecture-rules.yaml`) MUST be externalized as YAML/JSON manifests—never hardcoded in Python engine logic.
 2. **II. Single Source of Truth for Reports**: The canonical JSON export (`exports/latest/`) is the single source of truth. All Markdown, HTML, PDF, SARIF, and Astro M3 UI views MUST derive strictly from canonical exports.
-3. **III. Security & Privacy First**: GitHub tokens (`GH_TOKEN` / `GITHUB_TOKEN`) MUST never be persisted to disk or logs (`MaskingFormatter` in `src/core/auth.py`). Cloned repositories MUST use ephemeral temporary directories purged immediately upon completion. Vulnerability intelligence MUST use package-native `OSV.dev` batch APIs with optional NVD/CVSS enrichment.
+3. **III. Security & Privacy First**: GitHub tokens (`GH_TOKEN` / `GITHUB_TOKEN`) MUST never be persisted to disk or logs (`MaskingFormatter` in `src/core/auth.py`). Cloned repositories MUST use ephemeral temporary directories purged immediately upon completion. Vulnerability intelligence uses package-native `OSV.dev` batch APIs (`api.osv.dev/v1/querybatch`) with offline fallback (optional NIST NVD enrichment remains unimplemented in `src/`).
 4. **IV. Performance & Scalability**: Analysis of any repository under `500k LoC` (`< 250MB`) MUST complete in `< 3 minutes` (`180s` asyncio circuit breaker), supporting bounded concurrent HTTP/clone workers (`Semaphore(10)` for API discovery, `Semaphore(4)` for shallow blobless clones).
 5. **V. Auditability & Determinism**: Running Atruss Code Atlas twice against the same Git commit SHA MUST produce byte-for-byte identical canonical JSON and Markdown content digests (verified by SHA-256 Gate 5).
 6. **VI. Pipeline Visualization as a First-Class Feature**: Pipeline DAG reconstruction, cross-workflow linkage, and security/anti-pattern heuristics are primary product pillars on par with code architecture analysis.
@@ -48,6 +48,8 @@ To consolidate the PRD into a single authoritative source of truth, we conducted
 
 ```mermaid
 flowchart TD
+    accTitle: Atruss Code Atlas Specification Lineage (001 through 009 and Post-Release Evolution)
+    accDescr: Evolutionary flow from Baseline PRD v1.0 through SpecKit iterations 001 to 008, Unified Spec 009 Horizon 2 delivery, and post-release 372-repository 10-ecosystem Astro 6 / Mermaid v12 updates.
     PRD0["Baseline PRD v1.0 (docs/atruss-code-atlas-prd-baseline.md)"] --> S001["001-repo-analyzer<br/>Core CLI, Discovery, NetworkX DAG, Python AST, Coverage"]
     S001 --> S002["002-chain-analysis<br/>--from-discovery Chaining & Temp GitCloner"]
     S002 --> S003["003-portable-test-harness<br/>Purge DB/Celery/FastAPI -> Stateless Docs-as-Code + Pinned SHA Fixtures"]
@@ -58,7 +60,8 @@ flowchart TD
     S006A --> S006B
     S006B --> S007["007-material-design-ui-gh-pages<br/>Material Design 3 Theme, Filter Chips, M3 Tabs, Zoom/Pan, GitHub Pages CI"]
     S007 --> S008["008-public-github-100-benchmark<br/>100-Repo Stratified Corpus, Random Sampler, 180s Circuit Breaker & Self-Heal Loop"]
-    S008 --> V2["Master PRD v2.0 & Unified Spec (009)<br/>Consolidation + Top 10 Industry Recommendations"]
+    S008 --> V2["Master PRD v2.0 & Unified Spec (009)<br/>Horizon 2 FR-021..030 (Tree-sitter, Fitness, OSV/SBOM, 6-D Scorecard, MCP, SARIF)"]
+    V2 --> S003R["PR #3 & #4 Platform Evolution<br/>10 Ecosystems · 372-Repo Corpus · orgs-summary.json · Astro 6 · Mermaid v12 ELK"]
 ```
 
 ### 2.2 Iteration-by-Iteration `Spec -> Plan -> Task` Lineage Analysis
@@ -320,17 +323,19 @@ Based on a comprehensive review of the Baseline PRD (`docs/atruss-code-atlas-prd
 
 ```mermaid
 flowchart LR
+    accTitle: Atruss Code Atlas v2.0 Hexagonal Architecture and Static Web Portal Pipeline
+    accDescr: Architecture diagram showing Inbound Ports (atruss CLI including mcp/check/diff/benchmark, and validate_agent_workflow), Core Domain analyzers, Outbound Adapters (GitHubClient, GitCloner, OSVBatchClient, ExportManager), Immutable Filesystem Contract in exports/latest, and Astro 6 / Mermaid v12 ELK static web portal build pipeline.
     subgraph Inbound["Inbound Ports (CLI & Agent Interfaces)"]
-        CLI["atruss CLI (Typer)<br/>discover | analyze-pipeline | analyze-code<br/>analyze-coverage | benchmark | diff | check"]
-        MCP["atruss mcp (Stdio Server)<br/>Read-Only Agentic Context Port"]
+        CLI["atruss CLI (Typer)<br/>discover | analyze-pipeline | analyze-code<br/>analyze-coverage | benchmark | diff | check | mcp"]
+        MCP["atruss mcp (Stdio Server)<br/>Read-Only Agentic Context Port (10 Tools)"]
         VAL["validate_agent_workflow.py<br/>5-Gate SDD/TDD Validator"]
     end
 
     subgraph Core["Hexagonal Core Domain (Stateless In-Memory Engine)"]
-        CLS["Policy-as-Code Classifier<br/>(manifests/ecosystems.yaml)"]
+        CLS["Policy-as-Code Classifier<br/>(manifests/ecosystems.yaml — 10 Ecosystems)"]
         DAG["Pipeline YAML Parser & NetworkX DAG<br/>+ 14 Security/Anti-Pattern Rules"]
-        AST["Polyglot Code & AST Orchestrator<br/>(Python AST/Radon + Tree-Sitter + Fitness Rules)"]
-        SCA["Lockfile & Dependency Analyzer<br/>+ Secret Entropy Scanner + Coverage Parser"]
+        AST["Polyglot Code & AST Orchestrator<br/>(Tree-Sitter 5 Langs + Generic Structural + Fitness Rules)"]
+        SCA["Lockfile & Dependency Analyzer (9 Eco)<br/>+ Secret Entropy Scanner + Coverage Parser"]
         SCR["6-Dimension A-F Scorecard<br/>& Code-to-Cloud Traceability Linker"]
         DRF["Temporal Drift Diffing Engine<br/>(Snapshot t1 vs Snapshot t2)"]
     end
@@ -343,12 +348,13 @@ flowchart LR
     end
 
     subgraph Storage["Immutable Filesystem Contract"]
-        FS[("exports/{timestamp}/<br/>& exports/latest/<br/>repos/ | pipelines/ | relationships/<br/>reports/ | sbom/ | sarif/ | drift/ | llms/")]
+        FS[("exports/{timestamp}/<br/>& exports/latest/<br/>repos/ | pipelines/ | relationships/ | reports/<br/>sbom/ | sarif/ | drift/ | llms/ | orgs-summary.json")]
     end
 
     subgraph Frontend["Static Web Consumer (Zero-Backend SSG)"]
+        ORG["generate-org-summary.py<br/>Org Maturity Rollup JSON"]
         STUB["generate-report-stubs.py<br/>Build-Time MDX Bridge"]
-        ASTRO["Astro 6 + Starlight + Material Design 3<br/>Layer 1: Command Center (/)<br/>Layer 2: 3-Tab Repo Detail (/reports/{org}/{repo})<br/>Layer 3: Org Leaderboard & Topology (/orgs/)"]
+        ASTRO["Astro 6 + Starlight + Mermaid v12 ELK + M3<br/>Layer 1: Command Center (/ — 15 Chips, 24/Page)<br/>Layer 2: 4-Tab Repo Detail (/reports/{org}/{repo})<br/>Layer 3: Org Leaderboard & Topology (/orgs/ — 20/Page)"]
         GHP["GitHub Pages / Static Host<br/>(deploy-pages.yml)"]
     end
 
@@ -357,8 +363,8 @@ flowchart LR
     SCA --> OSV
     CLS & DAG & AST & SCA & SCR & DRF --> EXP
     EXP --> FS
-    FS --> MCP & VAL & STUB
-    STUB --> ASTRO --> GHP
+    FS --> MCP & VAL & ORG
+    ORG --> STUB --> ASTRO --> GHP
 ```
 
 ### 4.2 Canonical Archival Directory Structure (`exports/{timestamp}/` & `exports/latest/`)
@@ -379,22 +385,26 @@ exports/
     │   ├── pipeline_topology.json                # Org-wide workflow -> environment -> runner relationships
     │   ├── pipeline_topology.csv                 # Flattened deployment chain CSV
     │   └── pipeline_topology.yaml                # YAML deployment topology
+    ├── environments/                             # Supplemental environment inventory snapshots (JSON/YAML/CSV)
+    ├── runners/                                  # Supplemental runner inventory snapshots (JSON/YAML/CSV)
     ├── reports/
     │   ├── {org}-{repo}-analysis.json            # Canonical PortableArtifact (components, metrics, 6-D scorecard, dependencies)
     │   ├── {org}-{repo}-report.md                # Self-contained Arc42 Markdown report with Mermaid diagrams & frontmatter
-    │   └── pipeline_topology.md                  # 3-Subgraph Mermaid deployment topology summary
+    │   └── pipeline_architecture.md              # 3-Subgraph Mermaid aggregate deployment topology report
     ├── sbom/                                     # [v2.0 Rec #4]
     │   └── {org}-{repo}.cdx.json                 # CycloneDX v1.6 JSON Software Bill of Materials + OSV vulnerabilities
     ├── sarif/                                    # [v2.0 Rec #8]
     │   └── {org}-{repo}.sarif.json               # OASIS SARIF v2.1.0 static analysis findings for GitHub Code Scanning
-    ├── drift/                                    # [v2.0 Rec #7]
+    ├── drift/                                    # [v2.0 Rec #7, created by `atruss diff`]
     │   ├── drift_report.json                     # Temporal delta between baseline and target export snapshots
     │   └── drift_report.md                       # Human-readable architectural & pipeline drift summary
     ├── llms/                                     # [v2.0 Rec #9]
     │   ├── llms.txt                              # Concise AI agent architectural index
     │   └── llms-full.txt                         # Full AI agent architectural & pipeline context map
+    ├── catalog-history.json                      # Longitudinal corpus / scan snapshot history index
+    ├── orgs-summary.json                         # Precomputed org maturity & 6-D health rollups (`generate-org-summary.py`)
     ├── benchmark_manifest.json                   # Deterministic replay manifest (seed, corpus/random targets, SHAs)
-    ├── benchmark_summary.json                    # 100-repo benchmark accuracy, runtime, and SLA scorecard
+    ├── benchmark_summary.json                    # Benchmark accuracy, runtime, and SLA scorecard (372-repo corpus / random)
     ├── benchmark_summary.md                      # Markdown benchmark report
     ├── anomalies.json                            # Fault-isolated diagnostic ledger for self-healing agent loop
     └── agent-eval-report.json                    # 5-Gate Agentic Workflow Validator scorecard (Grade A-F)
@@ -427,30 +437,30 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 | **FR-VIZ-01** | System MUST parse all `.github/workflows/*.yml` and `*.yaml` files (both via remote GitHub API contents and local clones) to extract workflow names, trigger events (`on:`), job definitions, runner types (`runs-on`), step counts, environments, and `needs:` dependencies. | P0 | `001` FR-004, `006-core` FR-004 | **Implemented** |
 | **FR-VIZ-02** | System MUST construct a formal NetworkX Directed Acyclic Graph (`nx.DiGraph`) per workflow where jobs are nodes and `needs:` directives are directed edges, computing `is_valid_dag`, `node_count`, `edge_count`, `max_depth`, and `has_parallelism`. | P0 | `001` FR-005, `006-core` T006 | **Implemented** |
 | **FR-VIZ-03** | System MUST detect the 7 core operational pipeline anti-patterns: `NO_TEST_GATE` (`CRITICAL`/`HIGH`), `NO_CACHE` (`MEDIUM`), `NO_ARTIFACT_HANDOFF` (`MEDIUM`), `HARDCODED_SECRET` (`CRITICAL`), `SEQUENTIAL_ONLY` (`LOW`), `UNFILTERED_MAIN_PUSH` (`HIGH`), and `UNLABELED_SELF_HOSTED` (`MEDIUM`). | P0 | `001` FR-006, `006-core` T006 | **Implemented** |
-| **FR-VIZ-04** | System MUST export both per-repository pipeline DAG files (`exports/latest/pipelines/{org}-{repo}-pipeline.json`) AND organization-wide deployment topology files (`exports/latest/relationships/pipeline_topology.{json,csv,yaml}` and `reports/pipeline_topology.md` with 3-subgraph Mermaid diagrams). | P0 | `004` FR-004..006, `006-core` FR-005 | **Implemented** |
-| **FR-VIZ-05** | System MUST detect the 7 advanced CI/CD supply-chain security anti-patterns: `UNPINNED_ACTION` (non-SHA 3rd-party action ref), `TEMPLATE_INJECTION` (untrusted `${{ github.event.* }}` in `run:`), `PWN_REQUEST_RISK` (`pull_request_target` + untrusted checkout), `EXCESSIVE_PERMISSIONS` (missing/write-all `permissions:`), `NO_TIMEOUT` (missing `timeout-minutes:`), `ARTIFACT_CREDENTIAL_PERSISTENCE` (checkout credentials persisted before artifact upload), and `STATIC_CLOUD_CREDENTIALS` (missing OIDC `id-token: write`). | P1 | **Rec #1** (Industry / arXiv:2601.14455) | **Horizon 2 Spec** |
-| **FR-VIZ-06** | System MUST resolve reusable workflow calls (`uses: ./.github/workflows/*.yml` / `org/repo/.github/workflows/*.yml@ref`) and `workflow_run` triggers as explicit `cross_workflow` directed edges across workflow graphs. | P1 | Baseline `FR-VIZ-10` + **Rec #1** | **Horizon 2 Spec** |
+| **FR-VIZ-04** | System MUST export both per-repository pipeline DAG files (`exports/latest/pipelines/{org}-{repo}-pipeline.json`) AND organization-wide deployment topology files (`exports/latest/relationships/pipeline_topology.{json,csv,yaml}` and `reports/pipeline_architecture.md` with 3-subgraph Mermaid diagrams). *(Spec drift note: Baseline PRD/Spec named `pipeline_topology.md`, whereas `markdown_exporter.py` writes `pipeline_architecture.md`.)* | P0 | `004` FR-004..006, `006-core` FR-005 | **Implemented (Filename Delta)** |
+| **FR-VIZ-05** | System MUST detect the 7 advanced CI/CD supply-chain security anti-patterns: `UNPINNED_ACTION` (non-SHA 3rd-party action ref), `TEMPLATE_INJECTION` (untrusted `${{ github.event.* }}` in `run:`), `PWN_REQUEST_RISK` (`pull_request_target` + untrusted checkout), `EXCESSIVE_PERMISSIONS` (missing/write-all `permissions:`), `NO_TIMEOUT` (missing `timeout-minutes:`), `ARTIFACT_CREDENTIAL_PERSISTENCE` (checkout credentials persisted before artifact upload), and `STATIC_CLOUD_CREDENTIALS` (missing OIDC `id-token: write`). | P1 | **Rec #1** (Industry / arXiv:2601.14455) | **Implemented (`009` Horizon 2)** |
+| **FR-VIZ-06** | System MUST resolve reusable workflow calls (`uses: ./.github/workflows/*.yml` / `org/repo/.github/workflows/*.yml@ref`) and `workflow_run` triggers as explicit `cross_workflow` directed edges across workflow graphs. | P1 | Baseline `FR-VIZ-10` + **Rec #1** | **Implemented (`009` Horizon 2)** |
 
 ### 5.3 Domain 3: Polyglot Code Structure, AST & Architectural Fitness (`FR-ANA-*`)
 
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
-| **FR-ANA-01** | System MUST extract structural architectural components (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute `files_analyzed`, `loc`, and `sloc` across all 4 MVP ecosystems: Python (`python_ast.py`), .NET (`dotnet_structural.py`), React/TS/JS (`js_ts_structural.py`), and Java Spring Boot (`java_structural.py`). | P0 | `001` FR-007, `006-core` FR-007 | **Implemented** |
-| **FR-ANA-02** | System MUST compute Cyclomatic Complexity (`avg_cyclomatic_complexity`, `max_cyclomatic_complexity`) for Python via `radon`/AST and across `.NET`, `React/TS/JS`, and `Java` via `tree-sitter` AST decision-point traversal (with structural fallback). | P0 | Baseline `FR-ANA-02`, `006-core` T011 + **Rec #2** | **Implemented (Py) / Rec #2 (Polyglot)** |
+| **FR-ANA-01** | System MUST extract structural architectural components (`API_ROUTE`, `SERVICE`, `DATA_ACCESS_LAYER`, `UI_COMPONENT`, `MODULE`) and compute `files_analyzed`, `loc`, and `sloc` across the core 4 ecosystems (`python_ast.py`, `dotnet_structural.py`, `js_ts_structural.py`, `java_structural.py`), extended in `orchestrator.py` across all 10 ecosystems via generic structural/IaC fallback for Go, Rust, Ruby, PHP, Elixir, and Container/Helm/IaC. | P0 | `001` FR-007, `006-core` FR-007, PR #3/#4 | **Implemented** |
+| **FR-ANA-02** | System MUST compute Cyclomatic Complexity (`avg_cyclomatic_complexity`, `max_cyclomatic_complexity`) for Python via `radon`/AST and across `.NET`, `React/TS/JS`, and `Java` via `tree-sitter` AST decision-point traversal (with deterministic fallback when `tree-sitter` is absent or for Go/Rust/Ruby/PHP/Elixir/Infra). | P0 | Baseline `FR-ANA-02`, `006-core` T011 + **Rec #2** | **Implemented (5-Lang Tree-sitter + Fallback)** |
 | **FR-ANA-03** | System MUST extract test coverage percentages (`±2%` tolerance) from CI/CD test artifacts and logs supporting `pytest` (`coverage.xml`/stdout), `Jest`/`Vitest`, `dotnet test` (Cobertura), and `JaCoCo` (`jacoco.xml`). | P1 | `001` FR-009 (`coverage_parser.py`) | **Implemented** |
-| **FR-ANA-04** | System MUST compute per-class/module **Cognitive Complexity** (penalizing nested control flow structures and recursion) and **AST Token Clone Duplication %** across all supported ecosystems via `tree-sitter`. | P1 | Baseline `FR-ANA-03/04` + **Rec #2** | **Horizon 2 Spec** |
-| **FR-ANA-05** | System MUST construct file-level and symbol-level import/call graphs to identify **Dead Code** (unreferenced internal functions/classes/exports) and actual cross-component dependency edges. | P1 | Baseline `FR-ANA-05` + **Rec #2** | **Horizon 2 Spec** |
-| **FR-ANA-06** | System MUST evaluate declarative **Architectural Fitness Functions** from `manifests/architecture-rules.yaml` against the internal import graph to flag forbidden layer bypasses (e.g., `UI_COMPONENT -> DATA_ACCESS_LAYER` or `API_ROUTE -> DATA_ACCESS_LAYER` bypassing `SERVICE`) and circular module dependencies (`nx.simple_cycles`). | P1 | **Rec #3** (Fitness Functions) | **Horizon 2 Spec** |
-| **FR-ANA-07** | System MUST correlate discovered code submodules, `Dockerfile` / Kubernetes / Terraform manifests, and GitHub Actions deployment jobs into a unified **Code-to-Cloud Traceability Graph** (Arc42 Section 7 Deployment View). | P1 | **Rec #6** (Code-to-Cloud Bridge) | **Horizon 2 Spec** |
+| **FR-ANA-04** | System MUST compute per-class/module **Cognitive Complexity** (penalizing nested control flow structures and recursion) and **AST Token Clone Duplication %** via `tree-sitter` (Python, C#, TS/JS, Java) with structural fallback on remaining ecosystems. | P1 | Baseline `FR-ANA-03/04` + **Rec #2** | **Implemented (5-Lang Tree-sitter + Fallback)** |
+| **FR-ANA-05** | System MUST construct file-level and symbol-level import/call graphs to identify **Dead Code** (unreferenced internal functions/classes/exports) and actual cross-component dependency edges. | P1 | Baseline `FR-ANA-05` + **Rec #2** | **Implemented (5-Lang Tree-sitter + Fallback)** |
+| **FR-ANA-06** | System MUST evaluate declarative **Architectural Fitness Functions** from `manifests/architecture-rules.yaml` against the internal import graph to flag forbidden layer bypasses (`ATRUSS-ARCH-001`–`ATRUSS-ARCH-005`) and circular module dependencies (`nx.simple_cycles`). | P1 | **Rec #3** (Fitness Functions) | **Implemented (`009` Horizon 2)** |
+| **FR-ANA-07** | System MUST correlate discovered code submodules, `Dockerfile` / Kubernetes / Terraform manifests, and GitHub Actions deployment jobs into a unified **Code-to-Cloud Traceability Graph** (Arc42 Section 7 Deployment View). | P1 | **Rec #6** (Code-to-Cloud Bridge) | **Implemented (`009` Horizon 2)** |
 
 ### 5.4 Domain 4: Supply-Chain Security, OSV Vulnerability Intelligence & SBOM (`FR-SEC-*`)
 
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
-| **FR-SEC-01** | System MUST parse direct and locked transitive package dependencies across Python (`requirements.txt`, `pyproject.toml`, `uv.lock`, `poetry.lock`), .NET (`*.csproj`, `packages.lock.json`), JS/TS (`package.json`, `package-lock.json`, `pnpm-lock.yaml`), and Java (`pom.xml`, `build.gradle`). | P1 | Baseline `FR-ING-06` + **Rec #4** | **Horizon 2 Spec** |
-| **FR-SEC-02** | System MUST query Google's **OSV.dev Batch API (`https://api.osv.dev/v1/querybatch`)** (with optional NIST NVD CVSS enrichment and offline cache support) to detect vulnerable dependencies, malware advisories (`MAL-*`), severity ratings, and fixed upgrade versions. | P1 | Baseline `FR-ANA-06/08` + **Rec #4** | **Horizon 2 Spec** |
-| **FR-SEC-03** | System MUST export a standard **CycloneDX v1.6 JSON SBOM** (`exports/latest/sbom/{org}-{repo}.cdx.json`) containing all discovered packages, PURL identifiers, licenses, and vulnerability annotations. | P2 | **Rec #4** (SBOM Compliance) | **Horizon 2 Spec** |
-| **FR-SEC-04** | System MUST scan both `.github/workflows/*.yml` and repository source/configuration files for hardcoded secrets using combined regex signatures (`AKIA*`, `ghp_*`, `github_pat_*`, `sk-*`, private keys) and Shannon entropy analysis while honoring `.gitignore`. | P0 | Baseline `FR-ANA-07`, `006-core` T006 + **Rec #4** | **Implemented (Pipelines) / Rec #4 (Repo)** |
+| **FR-SEC-01** | System MUST parse direct and locked transitive package dependencies across 9 code ecosystems (`requirements.txt`, `pyproject.toml`, `uv.lock`, `poetry.lock`, `*.csproj`, `packages.lock.json`, `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `pom.xml`, `build.gradle`, `go.mod`, `Cargo.lock`, `Gemfile`, `composer.json`, `mix.exs`, etc.). *(Gap note: `DependencyRecord.is_outdated` / `latest_version` schema fields exist but remain unpopulated by registry version checks.)* | P1 | Baseline `FR-ING-06` + **Rec #4** | **Implemented (No Registry Version Lookup)** |
+| **FR-SEC-02** | System MUST query Google's **OSV.dev Batch API (`https://api.osv.dev/v1/querybatch`)** with offline cache fallback to detect vulnerable dependencies, malware advisories (`MAL-*`), severity ratings, and fixed upgrade versions. *(Gap note: optional NIST NVD CVSS enrichment is not implemented in `src/`; offline `atruss check` passes `vulnerabilities=[]`.)* | P1 | Baseline `FR-ANA-06/08` + **Rec #4** | **Implemented (`OSV.dev` Only)** |
+| **FR-SEC-03** | System MUST export a standard **CycloneDX v1.6 JSON SBOM** (`exports/latest/sbom/{org}-{repo}.cdx.json`) containing all discovered packages, PURL identifiers, licenses, and vulnerability annotations. | P2 | **Rec #4** (SBOM Compliance) | **Implemented (`009` Horizon 2)** |
+| **FR-SEC-04** | System MUST scan both `.github/workflows/*.yml` and repository source/configuration files for hardcoded secrets using combined regex signatures (`AKIA*`, `ghp_*`, `github_pat_*`, `sk-*`, private keys) and Shannon entropy analysis while honoring `.gitignore`. | P0 | Baseline `FR-ANA-07`, `006-core` T006 + **Rec #4** | **Implemented (`009` Horizon 2)** |
 
 ### 5.5 Domain 5: Multi-Format Exporters, Scorecards & Temporal Drift (`FR-RPT-*`)
 
@@ -458,29 +468,29 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 | :--- | :--- | :---: | :--- | :--- |
 | **FR-RPT-01** | System MUST output canonical JSON (`{org}-{repo}-analysis.json`) and self-contained Arc42 Markdown (`{org}-{repo}-report.md` with YAML frontmatter and Mermaid diagrams) into `exports/{timestamp}/reports/` and `exports/latest/reports/`. | P0 | `001` FR-008, `003` FR-001..002, `006-core` FR-008 | **Implemented** |
 | **FR-RPT-02** | System MUST stamp every exported JSON, CSV, YAML, and Markdown artifact with the analyzed repository Git commit `sha` and ISO-8601 `analyzed_at` timestamp, producing byte-for-byte deterministic content for identical inputs. | P0 | Baseline `FR-RPT-09`, `NFR-DET-01`, `006-core` Gate 5 | **Implemented** |
-| **FR-RPT-03** | System MUST compute a deterministic **6-Dimension A–F Repository Scorecard** (*Code Quality*, *Security*, *Maintainability*, *Test Coverage*, *Dependency Health*, *Pipeline Health*) and **Composite Technical Debt Score (`0–100`)** for every analyzed repository and monorepo module. | P0 | Baseline `FR-RPT-04`, `FR-ANA-10` + **Rec #5** | **Horizon 2 Spec** |
-| **FR-RPT-04** | System MUST provide an `atruss diff --baseline <dir1> --target <dir2>` CLI command that compares two export snapshots to generate `exports/latest/drift/drift_report.{json,md}` detailing new anti-patterns, complexity changes, architectural violations, and scorecard grade regressions. | P1 | **Rec #7** (Temporal Drift) | **Horizon 2 Spec** |
-| **FR-RPT-05** | System MUST export static analysis findings (pipeline anti-patterns, hardcoded secrets, CVEs, and architectural fitness violations) in **OASIS SARIF v2.1.0** format (`exports/latest/sarif/{org}-{repo}.sarif.json`) and support `atruss check --sarif` for CI/CD PR quality gates. | P1 | **Rec #8** (SARIF PR Gate) | **Horizon 2 Spec** |
-| **FR-RPT-06** | System MUST generate AI-ready **`llms.txt`** and **`llms-full.txt`** architectural context indexes (`exports/latest/llms/`) and provide a read-only stdio **Model Context Protocol server (`atruss mcp`)** for AI coding agents. | P2 | **Rec #9** (MCP & `llms.txt`) | **Horizon 2 Spec** |
+| **FR-RPT-03** | System MUST compute a deterministic **6-Dimension A–F Repository Scorecard** (*Code Quality*, *Security*, *Maintainability*, *Test Coverage*, *Dependency Health*, *Pipeline Health*) and **Composite Technical Debt Score (`0–100`)** for every analyzed repository and monorepo module. | P0 | Baseline `FR-RPT-04`, `FR-ANA-10` + **Rec #5** | **Implemented (`009` Horizon 2)** |
+| **FR-RPT-04** | System MUST provide an `atruss diff --baseline <dir1> --target <dir2>` CLI command that compares two export snapshots to generate `exports/latest/drift/drift_report.{json,md}` detailing new anti-patterns, complexity changes, architectural violations, and scorecard grade regressions. | P1 | **Rec #7** (Temporal Drift) | **Implemented (`009` Horizon 2)** |
+| **FR-RPT-05** | System MUST export static analysis findings (pipeline anti-patterns, hardcoded secrets, CVEs, and architectural fitness violations) in **OASIS SARIF v2.1.0** format (`exports/latest/sarif/{org}-{repo}.sarif.json`) and support `atruss check --sarif` for CI/CD PR quality gates. | P1 | **Rec #8** (SARIF PR Gate) | **Implemented (`009` Horizon 2)** |
+| **FR-RPT-06** | System MUST generate AI-ready **`llms.txt`** and **`llms-full.txt`** architectural context indexes (`exports/latest/llms/`) and provide a read-only stdio **Model Context Protocol server (`atruss mcp`)** exposing 10 tools for AI coding agents. | P2 | **Rec #9** (MCP & `llms.txt`) | **Implemented (`009` Horizon 2)** |
 
 ### 5.6 Domain 6: Material Design 3 Astro Observatory & Interactive UX (`FR-UI-*`)
 
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
-| **FR-UI-01** | System MUST provide a static Astro 6 + Starlight web application (`web/`) styled with a comprehensive **Google Material Design 3 (`material-theme.css`)** dark/light tonal surface hierarchy (`--md-sys-color-*`), `Roboto Flex` / `JetBrains Mono` typography, and `Material Symbols Outlined` iconography. | P0 | `005` FR-002, `007` FR-001 | **Implemented** |
-| **FR-UI-02** | System MUST synchronize `exports/latest/` into `web/src/content/docs/reports/` at build time via `npm run copy-data` and `scripts/generate-report-stubs.py`, validating frontmatter via Starlight's Zod `docsSchema`. | P0 | `005` Clarifications, `006-ui` FR-001..002 | **Implemented** |
-| **FR-UI-03** | System MUST render **Layer 1: Atlas Command Center (`/`)** featuring `OrgHealthStrip.astro`, `LanguageChart.astro` (build-time accessible SVG), `RiskFlags.astro`, and `RepoGrid.astro` + `RepoCard.astro` with interactive **M3 Filter Chips** (`All`, `Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Has Pipeline`, `Has Docker`, `High Risk`) and live text search. | P0 | `006-ui` FR-004, `007` FR-002..003 | **Implemented** |
-| **FR-UI-04** | System MUST render **Layer 2: Tabbed M3 Repository Detail View (`/reports/{org}/{repo}/`)** with `RepoTabs.astro` switching cleanly between **Tab 1: Discovery Overview (`DiscoveryTable.astro`)**, **Tab 2: CI/CD Pipeline DAG (`PipelineView.astro` + `AntiPatternBadge.astro`)**, and **Tab 3: Arc42 Code Architecture (`ArchitectureView.astro`)**, with graceful `EmptyStatePrompt.astro` fallbacks and interactive Mermaid zoom/pan/reset controls. | P0 | `006-ui` FR-005..006, `007` FR-004 | **Implemented** |
-| **FR-UI-05** | System MUST render **Layer 3: Multi-Organization Comparison Leaderboard (`/orgs/`)** (`OrgComparisonTable.astro`, `LeaderboardView.astro`) ranking organizations by computed `OrgMaturityScore` (`0–100`). | P1 | `006-ui` FR-007, `007` T010 | **Implemented** |
+| **FR-UI-01** | System MUST provide a static Astro 6 + Starlight web application (`web/`) styled with **Google Material Design 3 (`material-theme.css`)** dark/light tonal surface hierarchy (`--md-sys-color-*`), typography, custom M3 logo/favicons, and **Mermaid v12 + `@mermaid-js/layout-elk`** rendering. *(Note: `web/package.json` includes `@material/web`, while Astro components style elements using custom `.m3-*` CSS classes and token variables rather than `<md-*>` custom elements.)* | P0 | `005` FR-002, `007` FR-001, PR #3/#4 | **Implemented** |
+| **FR-UI-02** | System MUST precompute `exports/latest/orgs-summary.json` via `scripts/generate-org-summary.py`, synchronize `exports/latest/` into `web/src/content/docs/reports/{org}/{repo}.mdx` (and `public/llms*.txt`) at build time via `npm run copy-data` + `scripts/generate-report-stubs.py`, validating frontmatter via Starlight's Zod `docsSchema`. | P0 | `005` Clarifications, `006-ui` FR-001..002, PR #3/#4 | **Implemented** |
+| **FR-UI-03** | System MUST render **Layer 1: Atlas Command Center (`/`)** featuring `OrgHealthStrip.astro`, `LanguageChart.astro`, `RiskFlags.astro`, and paginated `RepoGrid.astro` (24 cards/page) + `RepoCard.astro` with 15 interactive **M3 Filter Chips** (all 10 ecosystems + status chips) and live text search. | P0 | `006-ui` FR-004, `007` FR-002..003, PR #3/#4 | **Implemented** |
+| **FR-UI-04** | System MUST render **Layer 2: 4-Tab M3 Repository Detail View (`/reports/{org}-{repo}/`)** with `RepoTabs.astro` switching cleanly between **Tab 1: Discovery Overview (`DiscoveryTable.astro`)**, **Tab 2: CI/CD Pipeline DAG (`PipelineView.astro` + `AntiPatternBadge.astro`)**, **Tab 3: Arc42 Code Architecture (`ArchitectureView.astro`)**, and **Tab 4: 6-D Scorecard & Security (`ScorecardHeatmap.astro`)**, with graceful `EmptyStatePrompt.astro` fallbacks and interactive Mermaid zoom/pan/reset controls. | P0 | `006-ui` FR-005..006, `007` FR-004, `009` FR-030 | **Implemented (Evolved to 4 Tabs)** |
+| **FR-UI-05** | System MUST render **Layer 3: Multi-Organization Comparison Leaderboard (`/orgs/`)** (`OrgComparisonTable.astro` with 20-row pagination, `LeaderboardView.astro`) backed by `orgs-summary.json` ranking organizations by `OrgMaturityScore` (`0–100`). | P1 | `006-ui` FR-007, `007` T010, PR #3/#4 | **Implemented** |
 | **FR-UI-06** | System MUST support configurable `ASTRO_SITE` and `ASTRO_BASE` environment variables with `import.meta.env.BASE_URL`-safe links across all components and automated deployment to GitHub Pages via `.github/workflows/deploy-pages.yml`. | P0 | `007` FR-005..006 | **Implemented** |
-| **FR-UI-07** | System MUST provide client-side **Export as SVG / PNG** buttons (`FR-VIZ-08`) on Mermaid diagrams, a **Print / Export to PDF** view (`FR-RPT-03`), an **M3 6-Dimension Scorecard & Complexity Heatmap (`ScorecardHeatmap.astro`, `FR-RPT-06`)**, and a **Cross-Repo Reusable Workflow & Dependency Graph** on `/orgs/`. | P1 | Baseline `FR-RPT-03/06`, `FR-VIZ-08` + **Rec #10** | **Horizon 2 Spec** |
+| **FR-UI-07** | System MUST provide client-side **Export as SVG / PNG** buttons (`FR-VIZ-08`) on Mermaid diagrams, a **Print / Export to PDF** view (`FR-RPT-03`), an **M3 6-Dimension Scorecard & Complexity Heatmap (`ScorecardHeatmap.astro`, `FR-RPT-06`)**, and a **Cross-Repo Reusable Workflow & Dependency Graph (`CrossRepoTopology.astro`)** on `/orgs/`. | P1 | Baseline `FR-RPT-03/06`, `FR-VIZ-08` + **Rec #10** | **Implemented (`009` Horizon 2)** |
 
-### 5.7 Domain 7: 100-Repo Benchmark Harness & 5-Gate Agentic Governance (`FR-GOV-*`)
+### 5.7 Domain 7: Benchmark Harness & 5-Gate Agentic Governance (`FR-GOV-*`)
 
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
-| **FR-GOV-01** | System MUST maintain a version-controlled, validated **100 Popular Public GitHub Repositories Corpus** (`tests/fixtures/popular_100_corpus.json` + `scripts/curate_corpus.py`) stratified across 25 Python, 25 .NET, 25 React/TS/JS, and 25 Java Spring Boot repositories (`< 250MB` / `< 500k LoC` each), including pinned golden fixtures (`dotnet/eShop`, `github-samples/pets-workshop`, `Azure-Samples/todo-nodejs-mongo-terraform`, `hamvocke/spring-testing`). | P0 | `003` FR-005, `008` FR-001 | **Implemented** |
-| **FR-GOV-02** | System MUST provide an `atruss benchmark` CLI command (`src/cli/commands/benchmark.py`) supporting `--corpus popular-100`, `--random-sample <N> --seed <int>` (stratified across star tiers `100..1000`, `1000..10000`, `>10000`), and `--replay <benchmark_manifest.json>`, with bounded concurrency and a `180s` per-repo circuit breaker. | P0 | `008` FR-002..003 | **Implemented** |
+| **FR-GOV-01** | System MUST maintain a version-controlled benchmark corpus (`tests/fixtures/popular_100_corpus.json`), originally stratified across 100 repos (4 ecosystems) and later expanded to **372 public GitHub repositories across 10 ecosystems**. *(Drift note: `scripts/curate_corpus.py` still defines a 100-repo `CURATED_CATALOG`, so running `--write` would overwrite the 372-repo expansion unless synchronized.)* | P0 | `003` FR-005, `008` FR-001 | **Implemented (Script Drift Noted)** |
+| **FR-GOV-02** | System MUST provide an `atruss benchmark` CLI command (`src/cli/commands/benchmark.py`) supporting `--corpus popular-100`, `--random-sample <N> --seed <int>` *(currently queries the core 4 search languages)*, `--replay <manifest.json>`, `--isolated` subprocess memory isolation, `--checkpoint-dir`, `--resume`, and configurable `--timeout`. | P0 | `008` FR-002..003, PR #3/#4 | **Implemented** |
 | **FR-GOV-03** | System MUST isolate per-repository benchmark failures into `exports/latest/anomalies.json` without crashing the batch, emit `benchmark_summary.{json,md}`, and provide an autonomous self-healing loop (`scripts/run_benchmark_loop.py` and `.agent/skills/benchmark-self-heal/SKILL.md`). | P0 | `008` FR-004..005 | **Implemented** |
 | **FR-GOV-04** | System MUST enforce the **5-Gate Agentic Coding Workflow Validator** (`scripts/validate_agent_workflow.py`) checking: Gate 1 (Spec-Plan-Task Traceability), Gate 2 (AST Anti-Stub & Anti-Skip Audit), Gate 3 (Full Pytest Execution with 0 Skips), Gate 4 (Python-to-Astro Schema Contract Verification), and Gate 5 (SHA-256 Determinism Check), outputting `exports/latest/agent-eval-report.json`. | P0 | `006-core` FR-009..010 | **Implemented** |
 
@@ -489,12 +499,13 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 ## 6. Policy-as-Code Manifests, Heuristics & Scoring Specifications
 
 ### 6.1 Ecosystem Classification & Monorepo Resolution (`manifests/ecosystems.yaml`)
-- **Priority Order**: `java_springboot` (100) > `.net` (90) > `python` (80) > `react_ts_js` (70).
+- **Declared 10-Ecosystem Priority Order (`manifests/ecosystems.yaml`)**: `java_springboot` (100) > `.net` (90) > `python` (80) > `go` (78) > `rust` (76) > `ruby` (74) > `php` (72) > `elixir` (71) > `react_ts_js` (70) > `infra_devops` (40).
 - **Sub-Classifications**:
   - **Java (`java_springboot`)**: `Spring Boot`, `Quarkus`, `Java Maven/Gradle`.
   - **.NET (`.net`)**: `ASP.NET Core`, `.NET Worker Service`, `Blazor`, `.NET Application`, `.NET Library`.
   - **Python (`python`)**: `FastAPI`, `Django`, `Flask`, `Python Application`.
   - **JavaScript/TypeScript (`react_ts_js`)**: `Next.js`, `Angular`, `Astro`, `React (Vite)`, `React`, `Express / Node API`, `TypeScript`, `Node.js`.
+  - **Additional 6 Production Corpus Ecosystems**: `Go` (`go.mod`), `Rust` (`Cargo.toml`), `Ruby` (`Gemfile`), `PHP` (`composer.json`), `Elixir` (`mix.exs`), and `Container / Helm / IaC` (`Dockerfile`, `Chart.yaml`, `*.tf`).
 - **27-Column Discovery Signals**: Declarative regex lists in `manifests/ecosystems.yaml` evaluate `HasAPI`, `HasService`, `HasFrontend`, `HasDatabase`, `HasDockerfile`, `HasPipeline`, `HasKubernetes`, and `HasTerraform`, mapping to `DeployableTypes`, `TechnologyStack`, and 4-tier `DocumentationPriority` (`Tier 1 - Critical` when 90-day releases >= 3; `Tier 2 - Active` when `HasPipeline` is true on primary ecosystems; `Tier 3 - Maintenance` when language is known; `Tier 4 - Unclassified` otherwise).
 
 ### 6.2 Complete 14-Rule Pipeline Anti-Pattern & Security Matrix
@@ -508,13 +519,13 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 | **PIPE-005** | `SEQUENTIAL_ONLY` | `LOW` | Workflow DAG has `>= 3` jobs where `edge_count == node_count - 1` and `dag_longest_path_length == node_count - 1` (zero parallelism). | **Implemented** |
 | **PIPE-006** | `UNFILTERED_MAIN_PUSH` | `HIGH` | Deploy-capable workflow triggers on `push` without `branches:` or `tags:` filters. | **Implemented** |
 | **PIPE-007** | `UNLABELED_SELF_HOSTED` | `MEDIUM` | Job specifies `runs-on: self-hosted` without constraint labels. | **Implemented** |
-| **PIPE-008** | `UNPINNED_ACTION` | `HIGH` | Third-party step `uses: owner/repo@ref` (excluding `actions/*` or local `./*`) is not pinned to a 40-char commit SHA. | **Horizon 2 (Rec #1)** |
-| **PIPE-009** | `TEMPLATE_INJECTION` | `CRITICAL` | Step `run:` script directly interpolates untrusted GitHub event context (`${{ github.event.issue.* }}`, `${{ github.event.pull_request.* }}`, `${{ github.head_ref }}`). | **Horizon 2 (Rec #1)** |
-| **PIPE-010** | `PWN_REQUEST_RISK` | `CRITICAL` | Workflow triggers on `pull_request_target` and checks out untrusted PR head ref/SHA. | **Horizon 2 (Rec #1)** |
-| **PIPE-011** | `EXCESSIVE_PERMISSIONS` | `HIGH` | Workflow omits `permissions:` block or specifies `permissions: write-all`. | **Horizon 2 (Rec #1)** |
-| **PIPE-012** | `NO_TIMEOUT` | `LOW` | Job omits `timeout-minutes:`, allowing hung runners to run up to 360 minutes. | **Horizon 2 (Rec #1)** |
-| **PIPE-013** | `ARTIFACT_CREDENTIAL_PERSISTENCE` | `MEDIUM` | Job runs `actions/checkout` without `persist-credentials: false` and uploads workspace artifacts. | **Horizon 2 (Rec #1)** |
-| **PIPE-014** | `STATIC_CLOUD_CREDENTIALS` | `HIGH` | Cloud auth step uses static secret keys without `permissions: id-token: write` (OIDC). | **Horizon 2 (Rec #1)** |
+| **PIPE-008** | `UNPINNED_ACTION` | `HIGH` | Third-party step `uses: owner/repo@ref` (excluding `actions/*` or local `./*`) is not pinned to a 40-char commit SHA. | **Implemented (`009` Horizon 2)** |
+| **PIPE-009** | `TEMPLATE_INJECTION` | `CRITICAL` | Step `run:` script directly interpolates untrusted GitHub event context (`${{ github.event.issue.* }}`, `${{ github.event.pull_request.* }}`, `${{ github.head_ref }}`). | **Implemented (`009` Horizon 2)** |
+| **PIPE-010** | `PWN_REQUEST_RISK` | `CRITICAL` | Workflow triggers on `pull_request_target` and checks out untrusted PR head ref/SHA. | **Implemented (`009` Horizon 2)** |
+| **PIPE-011** | `EXCESSIVE_PERMISSIONS` | `HIGH` | Workflow omits `permissions:` block or specifies `permissions: write-all`. | **Implemented (`009` Horizon 2)** |
+| **PIPE-012** | `NO_TIMEOUT` | `LOW` | Job omits `timeout-minutes:`, allowing hung runners to run up to 360 minutes. | **Implemented (`009` Horizon 2)** |
+| **PIPE-013** | `ARTIFACT_CREDENTIAL_PERSISTENCE` | `MEDIUM` | Job runs `actions/checkout` without `persist-credentials: false` and uploads workspace artifacts. | **Implemented (`009` Horizon 2)** |
+| **PIPE-014** | `STATIC_CLOUD_CREDENTIALS` | `HIGH` | Cloud auth step uses static secret keys without `permissions: id-token: write` (OIDC). | **Implemented (`009` Horizon 2)** |
 
 ### 6.3 6-Dimension A–F Repository Scorecard & Org Maturity Formulas
 
@@ -538,7 +549,7 @@ $$\text{OrgMaturityScore} = \left(\frac{\text{repos\_with\_pipeline}}{\text{tota
 | **NFR-POR-01** | Portability | Core CLI and Astro UI MUST operate 100% offline/statelessly without PostgreSQL, Redis, Celery, or FastAPI. | Enforced by `pyproject.toml` and Gate 4 sandbox contract check. |
 | **NFR-PERF-01** | Performance | Discovery of 100 repos `< 2 min`; deep analysis of `< 500k LoC` repo `< 3 min` (`180s`); Astro build `< 30s`. | Enforced by `asyncio.wait_for(..., timeout=180.0)` and `test_performance.py`. |
 | **NFR-SEC-01** | Token Privacy | GitHub PATs MUST never be written to disk, stdout, or log files; temp clones MUST auto-purge. | Enforced by `MaskingFormatter` (`src/core/auth.py`) and `TemporaryDirectory` context managers. |
-| **NFR-SEC-02** | Live Advisory Sourcing | Dependency vulnerability scans MUST query `OSV.dev` / NVD APIs dynamically rather than vendoring stale static CVE tables. | Enforced by `OSVBatchClient` configuration layer. |
+| **NFR-SEC-02** | Live Advisory Sourcing | Dependency vulnerability scans query `OSV.dev` (`/v1/querybatch`) when enabled via `--live-osv`, with offline graceful fallback rather than vendoring stale static CVE tables. *(Optional NIST NVD enrichment is not implemented.)* | Enforced by `OSVBatchClient` configuration layer. |
 | **NFR-EXT-01** | Schema & Manifest First | Ecosystem rules live in `manifests/*.yaml`; UI reads exclusively from `exports/latest/` validated by Zod/Pydantic schemas. | Enforced by `test_classification.py` and Gate 4 Astro contract validator. |
 | **NFR-QUAL-01** | Zero-Skip TDD | 100% of unit and integration tests MUST execute and pass with `0 skipped` tests and `0` stub bodies. | Enforced by Gate 2 (AST scan) and Gate 3 (`pytest --strict-markers`) in `validate_agent_workflow.py`. |
 
@@ -549,11 +560,24 @@ $$\text{OrgMaturityScore} = \left(\frac{\text{repos\_with\_pipeline}}{\text{tota
 ### 8.1 Baseline MVP & Foundation Tracks (Iterations `001`–`008` — **COMPLETE ✅**)
 - [x] **Track `001`–`003`**: Stateless Python CLI (`atruss`), Policy-as-Code classification, NetworkX pipeline DAGs, coverage parser, and pinned-SHA fixture test harness.
 - [x] **Track `004`**: Async `GitHubClient`, Link pagination, proactive rate-limit protection, 27-column ADO-parity discovery schema, and `exports/{timestamp}/` + `exports/latest/` archival.
-- [x] **Track `005`–`007`**: Astro 6 + Starlight + Google Material Design 3 web observatory (`web/`), 3-tab repository detail view, interactive M3 filter chips, `/orgs/` maturity leaderboard, and `.github/workflows/deploy-pages.yml`.
-- [x] **Track `006-core` & `008`**: 4-ecosystem structural code analyzers (`Python`, `.NET`, `React/TS/JS`, `Java Spring Boot`), 5-Gate Agentic Workflow Validator (Grade `A`, 0 skipped tests), and 100-repo popular + random public GitHub benchmark runner (`atruss benchmark`).
+- [x] **Track `005`–`007`**: Astro 6 + Starlight + Mermaid v12 ELK + Google Material Design 3 web observatory (`web/`), 4-tab repository detail view (`RepoTabs.astro` + `ScorecardHeatmap.astro`), 15 interactive M3 filter chips + 24/20 pagination, `/orgs/` maturity leaderboard (`orgs-summary.json`), and `.github/workflows/deploy-pages.yml`.
+- [x] **Track `006-core` & `008`**: Structural code analyzers (10-ecosystem corpus expansion in `tests/fixtures/popular_100_corpus.json`), 5-Gate Agentic Workflow Validator, and public GitHub corpus + random benchmark runner (`atruss benchmark` with `--isolated`, `--checkpoint-dir`, `--resume`).
 
-### 8.2 Horizon 2 Strategic Enhancement Tracks (Recommendations `#1`–`#10`)
-- [ ] **Track `009` (Unified Spec & Polyglot AST / Fitness Engine — Recs `#2`, `#3`, `#5`)**: `tree-sitter` polyglot AST integration, Cognitive Complexity & Clone Duplication, `manifests/architecture-rules.yaml` layer violation detection, and the 6-Dimension A–F Repository Scorecard.
-- [ ] **Track `010` (CI/CD Supply-Chain Security & OSV/SBOM Scanner — Recs `#1`, `#4`)**: 7 advanced GitHub Actions supply-chain rules (`zizmor`/`poutine` parity), `workflow_call` cross-workflow DAG edges, lockfile parsing, `OSV.dev` batch vulnerability lookup, and CycloneDX v1.6 SBOM export.
-- [ ] **Track `011` (Code-to-Cloud Traceability, Drift Diffing & SARIF PR Gate — Recs `#6`, `#7`, `#8`)**: Arc42 Section 7 Code-to-Cloud deployment graph, `atruss diff` snapshot delta engine, and `atruss check --sarif` OASIS SARIF v2.1.0 exporter.
-- [ ] **Track `012` (AI Agent MCP / `llms.txt` & M3 Interactive Exports — Recs `#9`, `#10`)**: Build-time `llms.txt` / `llms-full.txt` generation, `atruss mcp` stdio server, client-side SVG/PNG/PDF export buttons, `ScorecardHeatmap.astro`, and cross-repo topology explorer.
+### 8.2 Horizon 2 Strategic Enhancement Tracks (Recommendations `#1`–`#10` — **COMPLETE ✅**)
+- [x] **Track `009` (Unified Spec & Polyglot AST / Fitness Engine — Recs `#2`, `#3`, `#5`)**: `tree-sitter` polyglot AST integration (Python, C#, TS/JS, Java), Cognitive Complexity & Clone Duplication, `manifests/architecture-rules.yaml` layer violation detection, and the 6-Dimension A–F Repository Scorecard (`src/analyzers/scorecard.py`).
+- [x] **Track `010` (CI/CD Supply-Chain Security & OSV/SBOM Scanner — Recs `#1`, `#4`)**: 7 advanced GitHub Actions supply-chain rules (`PIPE-008`–`PIPE-014`), `workflow_call` / `workflow_run` cross-workflow DAG edges, 9-ecosystem lockfile parsing, `OSV.dev` batch vulnerability lookup (`--live-osv`), redacted secret scanning, and CycloneDX v1.6 SBOM export.
+- [x] **Track `011` (Code-to-Cloud Traceability, Drift Diffing & SARIF PR Gate — Recs `#6`, `#7`, `#8`)**: Arc42 Section 7 Code-to-Cloud deployment graph, `atruss diff` snapshot delta engine, and `atruss check --sarif` OASIS SARIF v2.1.0 exporter.
+- [x] **Track `012` (AI Agent MCP / `llms.txt` & M3 Interactive Exports — Recs `#9`, `#10`)**: Build-time `llms.txt` / `llms-full.txt` generation, `atruss mcp` stdio server (10 tools), client-side SVG/PNG/PDF export buttons, `ScorecardHeatmap.astro`, and `CrossRepoTopology.astro`.
+
+---
+
+## 9. Implementation Audit & Known Gaps vs Target Specification (2026-11-15)
+
+A forensic audit comparing the Consolidated Master PRD, Specs `007`–`009`, and `origin/main` implementation identified the following remaining gaps between documented targets and runtime code:
+
+1. **Outdated Dependency Lookup (`DependencyRecord.is_outdated` / `latest_version`) & NVD Enrichment (`FR-SEC-01`, `FR-SEC-02`)**: `src/models/artifacts.py` declares `is_outdated` and `latest_version` and `src/analyzers/scorecard.py` reads `is_outdated`, but no analyzer queries package registries to populate those fields (`is_outdated` stays `False`). Only `OSV.dev` (`/v1/querybatch`) is implemented; NIST NVD lookup is absent, and offline `atruss check` passes `vulnerabilities=[]`.
+2. **Polyglot Tree-sitter Coverage Across the 10-Ecosystem Corpus (`FR-ANA-02`, `FR-ANA-04`, `FR-ANA-05`)**: `TreeSitterEngine` (`pyproject.toml` + `src/analyzers/code/treesitter_engine.py`) supports Python, C#, TypeScript/TSX, JavaScript, and Java. Go, Rust, Ruby, PHP, Elixir, and Container/Helm/IaC (`infra_devops`) currently fall back to `_run_generic_structural()` (LOC metrics and top 250 `"module"` entries).
+3. **Latest 372-Repo Benchmark Run vs Spec 008 SLA & Accuracy Targets (`SC-003`, `SC-010`)**: In `exports/latest/benchmark_summary.md` (`Run ID: 2026-11-15_05-24-40`, `--timeout 60`), 372 repositories achieved **86.02%** (`320/372`) crash-free completion (**52** timeouts on large monorepos such as `n8n`, `supabase`, `home-assistant/core`) and **85.31%** (`273/320`) classification accuracy—below Spec 008 targets (`>= 98%` crash-free and `>= 90%` accuracy). Furthermore, `scripts/curate_corpus.py` still defines 100 entries in `CURATED_CATALOG` while `tests/fixtures/popular_100_corpus.json` contains 372 repos, and `benchmark --random-sample` (`ECOSYSTEM_SEARCH_LANG`) searches 4 languages.
+4. **Pipeline Topology Markdown Filename Drift (`FR-VIZ-04`)**: Consolidated PRD and Spec 009 reference `exports/latest/reports/pipeline_topology.md`, whereas `src/core/exporters/markdown_exporter.py` emits `exports/latest/reports/pipeline_architecture.md`.
+5. **Material Design UI Implementation Alignment (`FR-UI-01`, `FR-UI-04`, `Spec 007`, `SC-001`)**: `web/package.json` includes `@material/web` (`^2.5.0`) and Astro components render Material Design 3 styling via custom `.m3-*` classes and CSS custom properties in `web/src/styles/material-theme.css` rather than `<md-*>` web components; per-repo stubs emit `reports/{org}/{repo}.mdx` across 4 tabs (evolved beyond Spec 007's 3 tabs and 8 filter chips). At 323 generated pages from the 372-repo corpus, full `npm run build` takes ~59s (compared to the initial `< 30s` target).
+6. **Local Environment Tree-sitter Sync Sensitivity (`SC-006`)**: Environments whose `.venv` lacks `tree-sitter*` wheels declared in `pyproject.toml` / `requirements.txt` fail 5 tests in `tests/unit/test_treesitter_engine.py`; installing declared `[dev]` dependencies (`uv pip install -e ".[dev]"`) is required for full CST test parity.

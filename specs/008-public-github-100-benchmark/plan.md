@@ -68,24 +68,34 @@ src/
 
 ```mermaid
 sequenceDiagram
+    accTitle: Self-Healing Benchmark Loop Architecture
+    accDescr: Sequence showing how an autonomous agent runs atruss benchmark with isolated subprocess execution and checkpoints, logs anomalies to anomalies.json, writes failing pytest regressions, patches analyzers or ecosystems.yaml, validates via the 5-Gate Validator, replays failures, and rebuilds the Astro M3 portal.
     participant Agent as Local / Remote Agent (Google AI Pro)
-    participant CLI as atruss benchmark
+    participant CLI as atruss benchmark (--isolated / --checkpoint-dir)
     participant GitHub as Public GitHub API / Git
     participant Ledger as exports/latest/anomalies.json
     participant Pytest as pytest + validate_agent_workflow.py
-    participant Astro as Astro M3 UI (web/)
+    participant Astro as Astro 6 M3 UI (web/)
 
-    Agent->>CLI: Run batch (e.g., --corpus popular-100 --limit 20 or --random-sample 10)
+    Agent->>CLI: Run batch (--corpus popular-100 --isolated --resume or --random-sample N)
     CLI->>GitHub: Fetch tree + shallow clone (--depth 1 --filter=blob:none)
-    CLI->>CLI: Run Discover + Pipeline DAG + Code AST (180s timeout)
-    CLI->>Ledger: Record any parser error / classification mismatch
-    CLI->>Agent: Emit benchmark_summary.json & anomalies.json
-    alt Anomalies Found (Pass Rate < 98%)
-        Agent->>Ledger: Inspect stack trace / file pattern in anomalies.json
+    CLI->>CLI: Run Discover + Pipeline DAG + Code AST (circuit breaker timeout)
+    CLI->>Ledger: Record any timeout, parser error, or classification mismatch
+    CLI->>Agent: Emit benchmark_summary.{json,md} & checkpointed results
+    alt Anomalies Found (Crash-Free < 98% or Accuracy < 90%)
+        Agent->>Ledger: Inspect stack trace / repo in anomalies.json
         Agent->>Pytest: Write failing unit test reproducing edge case
         Agent->>CLI: Patch src/analyzers/ or manifests/ecosystems.yaml
         Agent->>Pytest: Verify all unit/integration tests + 5-Gate Validator pass
-        Agent->>CLI: Re-run failed repos via --replay
+        Agent->>CLI: Re-run failed repos via --replay anomalies.json --timeout 180
     end
-    Agent->>Astro: npm run copy-data && npm run build (Publish updated Atlas)
+    Agent->>Astro: npm run copy-data (orgs-summary.json + MDX) && npm run build
 ```
+
+---
+
+## Post-Release Evolution Notes (2026-11-15)
+
+- `atruss benchmark` added subprocess isolation (`--isolated`), checkpointing (`--checkpoint-dir`, `--resume`), and replay of `anomalies.json`.
+- `tests/fixtures/popular_100_corpus.json` expanded to 372 repos / 10 ecosystems (while `scripts/curate_corpus.py` still holds 100 catalog entries and `ECOSYSTEM_SEARCH_LANG` in `src/cli/commands/benchmark.py` remains 4 languages).
+- `web/` portal builds now run `scripts/generate-org-summary.py` (`exports/latest/orgs-summary.json`) during `npm run copy-data` prior to Astro 6 static generation.
