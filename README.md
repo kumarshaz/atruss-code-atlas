@@ -33,13 +33,13 @@ Atruss Code Atlas is designed as a multi-lens observability platform where a sin
 
 ```mermaid
 flowchart LR
-    Engine["Atruss Code Atlas Engine<br/>(Passive CLI + Policy-as-Code YAML + Tree-sitter)"]
-    
-    Engine --> Exec["a. Executives<br/>6-D A-F Scorecards,<br/>Complexity Heatmaps & Drift Trends"]
-    Engine --> Arch["b. Software Architects<br/>Arc42 + C2C Docs, Tree-sitter AST,<br/>Monorepo DAGs & Fitness Rules"]
-    Engine --> SWE["c. Software Engineers<br/>End-to-End Traces, PR Diffs,<br/>llms.txt & Stdio MCP Server"]
-    Engine --> DevOps["d. DevOps & Platform<br/>CI/CD & Cross-Workflow DAGs,<br/>Supply-Chain Rules & SARIF Gates"]
-    Engine --> Infra["e. Infra, Cloud & SRE<br/>Docker/K8s/TF Code-to-Cloud,<br/>Blast Radius & OTel Overlays"]
+    Engine["Atruss Code Atlas Engine<br/>Passive CLI · Policy-as-Code YAML · Tree-sitter"]
+
+    Engine --> Exec["a. Executives<br/>6-D A-F Scorecards,<br/>Complexity Heatmaps and Drift Trends"]
+    Engine --> Arch["b. Software Architects<br/>Arc42 + C2C Docs, Tree-sitter AST,<br/>Monorepo DAGs and Fitness Rules"]
+    Engine --> SWE["c. Software Engineers<br/>End-to-End Traces, PR Diffs,<br/>llms.txt and Stdio MCP Server"]
+    Engine --> DevOps["d. DevOps and Platform<br/>CI/CD and Cross-Workflow DAGs,<br/>Supply-Chain Rules and SARIF Gates"]
+    Engine --> Infra["e. Infra, Cloud and SRE<br/>Docker/K8s/TF Code-to-Cloud,<br/>Blast Radius and OTel Overlays"]
 ```
 
 ---
