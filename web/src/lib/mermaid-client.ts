@@ -186,11 +186,25 @@ export function needsVisibleMermaidRepair(preEl: HTMLElement): boolean {
     return rect.width <= 24 || rect.height <= 24;
 }
 
+/** Snapshot raw Mermaid source into `data-diagram` before any renderer replaces it with SVG. */
+export function snapshotMermaidSources(scope: ParentNode = document): void {
+    scope.querySelectorAll<HTMLElement>('pre.mermaid').forEach((preEl) => {
+        if (preEl.hasAttribute('data-diagram')) return;
+        if (preEl.querySelector('svg')) return;
+        const raw = (preEl.textContent || '').trim();
+        if (raw && !raw.startsWith('#mermaid-') && !raw.includes('@keyframes')) {
+            preEl.setAttribute('data-diagram', raw);
+        }
+    });
+}
+
 /** Re-render visible `<pre class="mermaid">` blocks in a container (fixing hidden-tab & theme contrast). */
 export async function repairVisibleMermaidBlocks(
     container: ParentNode,
     force = false
 ): Promise<void> {
+    snapshotMermaidSources(container);
+
     const activeTheme =
         typeof document !== 'undefined' &&
         document.documentElement.getAttribute('data-theme') === 'light'
@@ -201,9 +215,10 @@ export async function repairVisibleMermaidBlocks(
         if (preEl.closest('[hidden]')) continue;
         if (!force && !needsVisibleMermaidRepair(preEl)) continue;
 
-        const source =
-            preEl.getAttribute('data-diagram') || (preEl.textContent || '').trim();
-        if (!source) continue;
+        const hasSvg = Boolean(preEl.querySelector('svg'));
+        const attrSource = (preEl.getAttribute('data-diagram') || '').trim();
+        const source = attrSource || (!hasSvg ? (preEl.textContent || '').trim() : '');
+        if (!source || source.startsWith('#mermaid-') || source.includes('@keyframes')) continue;
         if (!preEl.hasAttribute('data-diagram')) {
             preEl.setAttribute('data-diagram', source);
         }

@@ -267,6 +267,7 @@ const repoSlug = `${org}-${repo_name}`;
         bindDiagramZoom,
         renderMermaidSvg,
         repairVisibleMermaidBlocks,
+        snapshotMermaidSources,
     } from '../lib/mermaid-client';
     import {
         buildArchTreeGraph,
@@ -455,8 +456,15 @@ const repoSlug = `${org}-${repo_name}`;
         attributeFilter: ['data-theme'],
     });
 
-    document.addEventListener('DOMContentLoaded', () => initArchitectureScope(document));
-    document.addEventListener('astro:page-load', () => initArchitectureScope(document));
+    snapshotMermaidSources(document);
+    document.addEventListener('DOMContentLoaded', () => {
+        snapshotMermaidSources(document);
+        initArchitectureScope(document);
+    });
+    document.addEventListener('astro:page-load', () => {
+        snapshotMermaidSources(document);
+        initArchitectureScope(document);
+    });
     document.addEventListener('atruss:tab-activated', (ev: any) => {
         const panel = ev?.detail?.panel;
         if (panel) {
