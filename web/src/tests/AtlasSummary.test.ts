@@ -220,6 +220,10 @@ function testMermaidWatermarkAndTitleContracts() {
     archSrc.includes('data-expand-toggle="true"'),
     'ArchitectureView.astro must expose fullscreen lightbox toggle'
   );
+  assert.ok(
+    !archSrc.includes('Download Report Diagram SVG'),
+    'ArchitectureView.astro must not mount a redundant report-level diagram exporter above multi-diagram Markdown reports'
+  );
 
   const pipelineSrc = fs.readFileSync(
     path.resolve(process.cwd(), 'src/components/PipelineView.astro'),

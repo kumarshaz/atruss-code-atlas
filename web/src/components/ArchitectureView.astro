@@ -245,34 +245,15 @@ const defaultArchTreeTitle = `${org}/${repo_name} — Module Architecture Tree`;
             <div
                 class="m3-card-elevated m3-architecture-card"
                 data-arch-markdown="true"
-                data-zoom-container="true"
             >
                 <header class="m3-arch-toolbar">
                     <div class="m3-arch-title">
                         <span class="material-symbols-outlined" aria-hidden="true">architecture</span>
                         <h4>Arc42 Architecture &amp; Dependency Report</h4>
                     </div>
-                    <div class="m3-zoom-controls" role="group" aria-label="Architecture report zoom and export">
-                        <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
-                            <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
-                        </button>
-                        <span class="m3-zoom-pct" data-zoom-label="true">100%</span>
-                        <button type="button" class="m3-zoom-btn" data-zoom-action="in" title="Zoom in">
-                            <span class="material-symbols-outlined" aria-hidden="true">zoom_in</span>
-                        </button>
-                        <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
-                            <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
-                        </button>
-                        <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download Report Diagram SVG">
-                            <span class="material-symbols-outlined" aria-hidden="true">download</span>
-                        </button>
-                        <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download Report Diagram PNG">
-                            <span class="material-symbols-outlined" aria-hidden="true">image</span>
-                        </button>
-                    </div>
                 </header>
 
-                <div class="m3-architecture-content markdown-content" data-zoom-target="true">
+                <div class="m3-architecture-content markdown-content">
                     <Content />
                 </div>
             </div>
@@ -465,29 +446,7 @@ const defaultArchTreeTitle = `${org}/${repo_name} — Module Architecture Tree`;
         scope.querySelectorAll<HTMLElement>('[data-arch-markdown="true"]').forEach((mdCard) => {
             const wrap = mdCard.closest<HTMLElement>('[data-repo-slug]');
             const slug = wrap?.dataset.repoSlug || 'architecture';
-            const getPrimaryHost = () =>
-                mdCard.querySelector<HTMLElement>('.m3-mermaid-host:has(svg)') ||
-                mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
-                mdCard.querySelector<HTMLElement>('.m3-mermaid-host') ||
-                mdCard.querySelector<HTMLElement>('pre.mermaid');
-
             repairVisibleMermaidBlocks(mdCard, forceMarkdown, { filenamePrefix: slug });
-
-            bindDiagramExportButtons(mdCard, {
-                getSvgContainer: getPrimaryHost,
-                getSource: () => getPrimaryHost()?.getAttribute('data-diagram') || undefined,
-                filenameBase: () => {
-                    const host = getPrimaryHost();
-                    const fig = host?.closest<HTMLElement>('figure.m3-mermaid-figure');
-                    return (
-                        fig?.dataset.filenameBase ||
-                        buildDiagramFilename(
-                            slug,
-                            fig?.dataset.diagramTitle || 'Building Block View'
-                        )
-                    );
-                },
-            });
         });
 
         bindDiagramZoom(scope);
