@@ -87,3 +87,14 @@ As a developer running Atruss Code Atlas locally or on a **Google AI Pro Remote 
 - **SC-002**: `atruss benchmark` processes repositories with zero temp-disk accumulation (temp directory size returns to baseline after every repo).
 - **SC-003**: Ecosystem classification accuracy across the benchmark corpus reaches `>= 90%` (satisfying PRD §9 MVP Definition of Done) and pipeline/code extraction achieves `>= 98%` crash-free completion.
 - **SC-004**: All benchmarked repositories render cleanly in the Material Design 3 Astro dashboard (`web/`) and Organization Leaderboard (`/orgs/`).
+
+---
+
+## Post-Release Evolution & Implementation Reconciliation (2026-11-15)
+
+- **372-Repo / 10-Ecosystem Corpus Expansion**: `tests/fixtures/popular_100_corpus.json` expanded from the original 100-repo / 4-ecosystem catalog to **372 public GitHub repositories** across **10 ecosystems** (`Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`, `Container / Helm / IaC`).
+- **Known Script & Sampler Gaps**:
+  - `scripts/curate_corpus.py` (`CURATED_CATALOG`) still defines only **100 repositories** across the original 4 ecosystems; running `--write` would overwrite the 372-repo corpus file unless `CURATED_CATALOG` is updated first.
+  - `src/cli/commands/benchmark.py` (`ECOSYSTEM_SEARCH_LANG`) restricts `--random-sample` GitHub searches to the original 4 languages (`Python`, `C#`, `TypeScript`, `Java`).
+- **Added CLI Fault-Isolation & Resume Controls**: `atruss benchmark` added `--isolated` (subprocess-isolated per-repo execution to prevent memory accumulation), `--checkpoint-dir`, `--resume`, and configurable `--timeout` (default `180s` in spec; commonly invoked with `--timeout 60` for batch triage and `--timeout 180` for `--replay`).
+- **Observed Latest Run vs `SC-003` Targets**: In `exports/latest/benchmark_summary.md` (`Run ID: 2026-11-15_05-24-40`, `--timeout 60`), evaluation across all 372 repositories recorded **320/372 (`86.02%`)** crash-free completion (**52** timeouts on oversized monorepos such as `n8n`, `supabase`, `home-assistant/core`) and **273/320 (`85.31%`)** classification accuracy—leaving tuning headroom against `SC-003` (`>= 98%` crash-free, `>= 90%` accuracy).

@@ -1,8 +1,8 @@
 # The Agentic SDLC Playbook: SpecKit SDD vs. Antigravity Native Agentic Coding
 
-**Case Study & Engineering Framework Guide from Atruss Code Atlas (`001`–`009` + Horizon 2 Swarm)**  
-**Date**: 2026-11-14 | **Branch**: `002-horizon2-unified-atlas`  
-**Related Artifacts**: [Master PRD v2.0](./atruss-code-atlas-prd.md) | [Unified SpecKit Spec](./atruss-code-atlas-unified-spec.md) | [Constitution v2.1.0](../.specify/memory/constitution.md) | [5-Gate Validator](../scripts/validate_agent_workflow.py)
+**Case Study & Engineering Framework Guide from Atruss Code Atlas (`001`–`009` + Horizon 2 Swarm & PR #3/#4 Evolution)**  
+**Date**: 2026-11-15 | **Branch**: `docs/sync-docs-and-specs` *(Horizon 2 implemented on `002-horizon2-unified-atlas`)*  
+**Related Artifacts**: [Master PRD v2.1](./atruss-code-atlas-prd.md) | [Unified SpecKit Spec](./atruss-code-atlas-unified-spec.md) | [Constitution v2.1.0](../.specify/memory/constitution.md) | [5-Gate Validator](../scripts/validate_agent_workflow.py)
 
 ---
 
@@ -26,13 +26,15 @@ The diagram below illustrates the chronological evolution of Atruss Code Atlas, 
 
 ```mermaid
 flowchart TD
+    accTitle: Evolution of Atruss Code Atlas Engineering Paradigms
+    accDescr: Chronological transition from Phase I SpecKit SDD Flow (001 to 006A), through Cross-Iteration Drift, to Phase II Antigravity Native Agentic Coding and Parallel Swarm Delivery (006B to 009 Horizon 2 and 10-ecosystem Astro 6 evolution).
     subgraph Phase1["Phase I: Classical SpecKit SDD Flow (Iterations 001 - 006A)"]
         direction TB
         S001["001-repo-analyzer<br/>CLI Scaffolding, GitHub Trees API,<br/>Initial NetworkX & Python AST"]
         S002["002-chain-analysis<br/>Trigger -> Entrypoint -> Script DAG,<br/>7 Anti-Patterns, CVE & Blast Radius"]
         S003["003-portable-test-harness<br/>Shallow GitCloner (--depth 1),<br/>Offline Fixtures & CLI Harness"]
         S004["004-structured-output-formats<br/>27-Col Discovery Schema,<br/>A-F Scorecard, Arc42 + Mermaid Exporters"]
-        S005["005-atruss-astro-dashboard<br/>Astro v5 + Starlight Portal,<br/>MDX Stub Generator & Views"]
+        S005["005-atruss-astro-dashboard<br/>Astro v5 (later v6) + Starlight Portal,<br/>MDX Stub Generator & Views"]
         S006A["006-ui-data-integration (Track A)<br/>Multi-Repo Catalog Aggregation,<br/>Org Health Strip & Repo Cards"]
 
         S001 --> S002 --> S003 --> S004 --> S005 --> S006A
@@ -44,12 +46,12 @@ flowchart TD
         D3["Hardcoded Python Classification Rules<br/>Violating Policy-as-Code Constitution"]
     end
 
-    subgraph Phase2["Phase II: Antigravity Native Agentic Coding + Parallel Swarm (006B - Horizon 2)"]
+    subgraph Phase2["Phase II: Antigravity Native Agentic Coding + Parallel Swarm (006B - Horizon 2 + PR #3/#4)"]
         direction TB
         A006B["006-core-unification-and-eval (Track B)<br/>/grill-me Alignment, YAML Policy-as-Code,<br/>4-Ecosystem Analyzers, 0-Skip Pytest,<br/>5-Gate Conformance Validator"]
         A007["007-material-design-ui-gh-pages<br/>Material Design 3 Tonal Token System,<br/>M3 Interactive Filter Chips & Tabs,<br/>Subpath-Safe GitHub Pages CI/CD"]
-        A008["008-public-github-100-benchmark<br/>100-Repo Stratified GitHub Corpus,<br/>Random Sampler & Fault-Isolated Ledger,<br/>Autonomous Self-Healing Skill (/goal)"]
-        A009["009-unified-atlas-spec + 002-horizon2<br/>Parallel Disjoint Swarm (.agent/skills/horizon2-swarm),<br/>Tree-sitter, OSV, CycloneDX 1.6, Fitness Rules,<br/>SARIF, diff/check/mcp & M3 Heatmaps (FR-021..030)"]
+        A008["008-public-github-100-benchmark<br/>Stratified GitHub Corpus (100 -> 372 Repos),<br/>Random Sampler & Fault-Isolated Ledger,<br/>Autonomous Self-Healing Skill (/goal)"]
+        A009["009-unified-atlas-spec + 002-horizon2 + PR #3/#4<br/>Parallel Disjoint Swarm (.agent/skills/horizon2-swarm),<br/>Tree-sitter, OSV, CycloneDX 1.6, Fitness Rules,<br/>SARIF, diff/check/mcp, Astro 6 & Mermaid v12 ELK"]
 
         A006B --> A007 --> A008 --> A009
     end
@@ -68,6 +70,8 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
+    accTitle: SpecKit Specification-Driven Development (SDD) Workflow
+    accDescr: Sequential handoffs between Engineer/PO, Constitution, Specify, Clarify, Plan, Tasks, Analyze, and Implement phases.
     autonumber
     actor Eng as Engineer / Product Owner
     participant Const as .specify/memory/constitution.md
@@ -109,6 +113,8 @@ When SpecKit was used *without* automated AST and runtime contract gates between
 
 ```mermaid
 flowchart LR
+    accTitle: Antigravity Native Agentic Coding and 5-Gate Verification Loop
+    accDescr: Three-stage closed loop connecting Interactive Alignment (/grill-me, /plan), Autonomous Swarm Execution (/goal, parallel waves, self-healing skills), and Deterministic 5-Gate Verification culminating in Grade A deliverables.
     subgraph Align["1. Interactive Alignment"]
         Grill["/grill-me<br/>Interactive Architecture Interview<br/>(Resolves trade-offs & edge cases)"]
         PlanCmd["/plan<br/>Codebase-Aware Blueprint"]
@@ -155,7 +161,7 @@ The table below catalogs every capability in Atruss Code Atlas alongside the age
 | **`002-chain-analysis`** | Deep `Trigger -> Entrypoint -> Script -> Dependency` DAG, cycle/orphan detection, 7 anti-patterns, CVE & blast radius | **SpecKit Flow** (`specify` -> `clarify` -> `plan` -> `tasks`) | `specs/002-chain-analysis/`, `src/analyzers/pipeline/heuristics.py` | `speckit-clarify` effectively bounded cycle-handling and air-gapped CVE degradation rules. |
 | **`003-portable-test-harness`** | Ephemeral shallow cloner (`--depth 1`), portable CLI runner, pinned-SHA test fixtures | **SpecKit Flow** | `specs/003-portable-test-harness/`, `src/core/utils/git_cloner.py` | Good isolation of test fixtures, but created parallel exporter helpers in `src/core/utils/`. |
 | **`004-structured-output-formats`** | 27-Column `DiscoveryManifestItem` schema, CSV/JSON/YAML exporters, A–F Scorecard, Arc42 Markdown generator | **SpecKit Flow** | `specs/004-structured-output-formats/`, `src/core/exporters/` | **Drift Warning**: Focusing only on `004/tasks.md` caused regression of `003` CLI flags and split-brain exporters. |
-| **`005-atruss-astro-dashboard`** | Astro v5 + Starlight Docs-as-Code portal, `generate-report-stubs.py`, `PipelineView.astro`, `ArchitectureView.astro` | **SpecKit Flow** | `specs/005-atruss-astro-dashboard/`, `web/`, `scripts/generate-report-stubs.py` | UI built cleanly against sample fixtures, but lacked automated contract checks against Python CLI output paths. |
+| **`005-atruss-astro-dashboard`** | Initial Astro Starlight Docs-as-Code portal (later upgraded to **Astro 6 + Mermaid v12 ELK**), `generate-report-stubs.py`, `PipelineView.astro`, `ArchitectureView.astro` | **SpecKit Flow** | `specs/005-atruss-astro-dashboard/`, `web/`, `scripts/generate-report-stubs.py` | UI built cleanly against sample fixtures, but lacked automated contract checks against Python CLI output paths. |
 | **`006-ui-data-integration` (Track A)** | Multi-repository catalog (`catalog.json`), `AtlasSummary.astro`, `OrgHealthStrip.astro`, `RepoGrid.astro` | **SpecKit Flow** | `specs/006-ui-data-integration/`, `web/src/components/` | Completed Phase A–D UI components, exposing the need to unify the underlying Python data pipeline. |
 | **`006-core-unification-and-eval` (Track B)** | Exporter & CLI unification, `manifests/ecosystems.yaml` Policy-as-Code, 4-ecosystem structural analyzers (`.NET`, `Python`, `React/TS`, `Java`), 0-skip test suite, **5-Gate Validator** | **Antigravity Native** (`/grill-me` + `/goal`) + **SpecKit Artifacts** | `specs/006-core-unification-and-eval/`, `manifests/ecosystems.yaml`, `src/analyzers/code/*`, `scripts/validate_agent_workflow.py` | Combining `/grill-me` alignment with an automated 5-Gate AST/Contract validator permanently eliminated mock/skip drift. |
 | **`007-material-design-ui-gh-pages`** | Google Material Design 3 (`M3`) token system (`material-theme.css`), interactive M3 filter chips & tabs, subpath-safe GitHub Pages CI/CD | **Antigravity Native** (`/grill-me` + full-stack UI build verification) | `specs/007-material-design-ui-gh-pages/`, `web/src/styles/material-theme.css`, `.github/workflows/deploy-pages.yml` | Antigravity's native build-and-verify loop caught `BASE_URL` subpath routing bugs immediately via `ASTRO_BASE` builds. |
@@ -170,6 +176,8 @@ Rather than discarding SpecKit in Phase II, Atruss Code Atlas **fused SpecKit's 
 
 ```mermaid
 flowchart TD
+    accTitle: Hybrid 3-Layer SpecKit and Antigravity 5-Gate Governance Model
+    accDescr: Integration of SpecKit Docs-as-Code contracts, Antigravity native /grill-me and /goal execution, and automated 5-Gate verification gating merges.
     subgraph SpecKitLayer["Layer 1: SpecKit Docs-as-Code Contract (Compliance & Audit)"]
         Const["Constitution (.specify/memory/constitution.md)"]
         Spec["Feature Spec (specs/00X/spec.md)<br/>User Stories + FR-001..FR-NNN + SC-001..SC-NNN"]
@@ -188,7 +196,7 @@ flowchart TD
     subgraph GateLayer["Layer 3: Automated 5-Gate Conformance Validator (Zero-Trust Verification)"]
         Gate1["Gate 1: Traceability<br/>100% FR-to-Task mapping &<br/>all plan.md file paths exist on disk"]
         Gate2["Gate 2: AST Anti-Stub Audit<br/>0 pytest.skip, 0 empty pass bodies,<br/>0 '# Mock targeting' or TODO comments"]
-        Gate3["Gate 3: Full Pytest Suite<br/>120+ tests passing, 0 failures, 0 skips"]
+        Gate3["Gate 3: Full Pytest Suite<br/>129 tests passing, 0 failures, 0 skips<br/>(requires [dev] tree-sitter extras synced)"]
         Gate4["Gate 4: Cross-Stack Schema Contract<br/>Python JSON, SBOM, SARIF, llms.txt & history<br/>match Astro UI component contracts"]
         Gate5["Gate 5: SHA-256 Determinism<br/>Repeated CLI runs produce identical digests<br/>across all 8 core & Horizon 2 artifacts"]
     end
@@ -213,6 +221,8 @@ Software engineering organizations have diverse risk profiles, regulatory obliga
 
 ```mermaid
 flowchart TD
+    accTitle: Enterprise Agentic SDLC Selection Flowchart
+    accDescr: Decision tree helping teams select between Pure SpecKit SDD, Hybrid SpecKit + Antigravity 5-Gate Flow, and Antigravity Native Interactive or Autonomous Goal workflows based on compliance and iteration needs.
     Start(["New Engineering Initiative or Feature"]) --> Q1{"Is formal regulatory or ARB<br/>audit sign-off required<br/>BEFORE coding starts?<br/>(e.g., SOC2, FinTech, Gov, Medical)"}
 
     Q1 -->|"Yes (Strict Pre-Code Gate)"| Q2{"Does the feature span multiple<br/>iterations or complex<br/>cross-stack boundaries?"}

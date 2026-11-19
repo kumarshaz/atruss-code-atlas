@@ -57,7 +57,7 @@ $$\text{technical\_debt\_score} = 100.0 - \text{overall\_score}$$
 
 ## 3. Engineering Maturity Leaderboard Index
 
-The **Organization Maturity Score (`0 – 100`)** on the Executive Leaderboard ([`web/src/components/LeaderboardView.astro`](../web/src/components/LeaderboardView.astro)) measures how consistently an organization automates and governs its delivery pipelines:
+The **Organization Maturity Score (`0 – 100`)** on the Executive Leaderboard ([`web/src/components/LeaderboardView.astro`](../web/src/components/LeaderboardView.astro), pre-computed into `exports/latest/orgs-summary.json` by [`scripts/generate-org-summary.py`](../scripts/generate-org-summary.py)) measures how consistently an organization automates and governs its delivery pipelines:
 
 $$\text{maturity\_score} = (0.60 \times \text{pipeline\_coverage\_pct}) + \left(0.40 \times \frac{\text{clean\_pipelined\_repos}}{\text{evaluated\_pipelined\_repos}} \times 100\right)$$
 
@@ -71,7 +71,7 @@ $$\text{maturity\_score} = (0.60 \times \text{pipeline\_coverage\_pct}) + \left(
 
 ## 4. Structural Code, Complexity & Graph Metrics
 
-Implemented in [`src/analyzers/code/treesitter_engine.py`](../src/analyzers/code/treesitter_engine.py) using `tree-sitter` Concrete Syntax Trees (with deterministic fallbacks for additional ecosystems):
+Implemented in [`src/analyzers/code/treesitter_engine.py`](../src/analyzers/code/treesitter_engine.py) using `tree-sitter` Concrete Syntax Trees for **Python, C# (.NET), TypeScript/TSX, JavaScript, and Java** (with line/module structural fallbacks in [`src/analyzers/code/orchestrator.py`](../src/analyzers/code/orchestrator.py) for Go, Rust, Ruby, PHP, Elixir, and Container/Helm/IaC):
 
 - **Cyclomatic Complexity (CC)**: Starts at `1` per function/method and increments for every decision branch (`if`, `elif`, `for`, `while`, `case`, `catch`, ternary `?:`, and boolean short-circuit operators `&&` / `||` / `and` / `or`).
 - **Cognitive Complexity**: Increments for control-flow breaks and adds a **nesting-depth penalty** (`+depth`) for nested branches, capturing human readability overhead rather than pure path count.
@@ -85,6 +85,6 @@ Implemented in [`src/analyzers/code/treesitter_engine.py`](../src/analyzers/code
 
 - **14-Rule CI/CD Policy Engine ([`manifests/pipeline-rules.yaml`](../manifests/pipeline-rules.yaml))**:
   - **Operational (`AP-001`–`AP-007`)**: `NO_TEST_GATE`, `NO_CACHE`, `NO_ARTIFACT_HANDOFF`, `SEQUENTIAL_ONLY`, `UNFILTERED_MAIN_PUSH`, `UNLABELED_SELF_HOSTED` (plus `HARDCODED_SECRET`).
-  - **Supply-Chain Security (`AP-008`–`AP-014`)**: `UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `ARTIFACT_CREDENTIAL_PERSISTENCE`, `STATIC_CLOUD_CREDENTIALS`, `UNVERIFIED_CURL_PIPE`.
-- **Architecture Fitness Functions ([`manifests/architecture-rules.yaml`](../manifests/architecture-rules.yaml))**: Evaluates declarative layer-dependency rules (`ATRUSS-ARCH-*`) against internal import edges and detects circular module cycles (`nx.simple_cycles`).
-- **Supply-Chain & SBOM**: Parses lockfiles and manifests across 10 ecosystems to emit offline-capable **CycloneDX v1.6** SBOMs and match package PURLs/versions against cached **OSV** advisories.
+  - **Supply-Chain Security (`AP-008`–`AP-014`)**: `UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `NO_TIMEOUT` (`ATRUSS-PIPE-012`), `ARTIFACT_CREDENTIAL_PERSISTENCE`, `STATIC_CLOUD_CREDENTIALS`.
+- **Architecture Fitness Functions ([`manifests/architecture-rules.yaml`](../manifests/architecture-rules.yaml))**: Evaluates declarative layer-dependency rules (`ATRUSS-ARCH-001`–`ATRUSS-ARCH-005`) against internal import edges and detects circular module cycles (`nx.simple_cycles`).
+- **Supply-Chain & SBOM**: Parses lockfiles and manifests across 9 dependency ecosystems (`Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`)—while `infra_devops` covers Docker, Helm, Kubernetes, and Terraform assets without package lockfiles—to emit offline-capable **CycloneDX v1.6** SBOMs and match package PURLs/versions against cached or opt-in live **OSV** advisories. *(Note: `DependencyRecord.is_outdated` defaults to `False` in offline scans because registry-latest version lookup is not yet populated in `src/analyzers/dependencies/`.)*

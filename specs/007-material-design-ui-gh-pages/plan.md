@@ -90,3 +90,10 @@ web/
 - `--md-sys-shape-corner-medium`: `12px`
 - `--md-sys-shape-corner-large`: `16px`
 - `--md-sys-shape-corner-extra-large`: `24px`
+
+---
+
+## Post-Release Evolution Notes (2026-11-15)
+
+- **Added Portal Assets & Libs**: `web/src/components/RepoTabs.astro`, `ScorecardHeatmap.astro`, `CrossRepoTopology.astro`, `LeaderboardView.astro`, `web/src/lib/mermaid-client.ts` (Mermaid v12 + `@mermaid-js/layout-elk` + SVG/PNG export), `web/src/lib/architecture-tree.ts`, `web/src/assets/atruss-logo.png`, `web/public/favicon.{png,ico}`, and `scripts/generate-org-summary.py` (precomputing `exports/latest/orgs-summary.json` inside `npm run copy-data`).
+- **Component Architecture Note**: M3 UI elements use CSS `.m3-*` classes and CSS custom properties (`material-theme.css`) rather than `<md-*>` DOM custom elements, and Google Fonts stylesheet links in `web/astro.config.mjs` may be paired cleanly with system/font fallbacks in offline builds.
