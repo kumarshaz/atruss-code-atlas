@@ -72,6 +72,7 @@ const jumpableNodes = Object.values(archTree.nodes)
         return b.totalComponents - a.totalComponents || a.path.localeCompare(b.path);
     });
 const repoSlug = `${org}-${repo_name}`;
+const defaultArchTreeTitle = `${org}/${repo_name} — Module Architecture Tree`;
 ---
 
 {Content || archTree.hasTree ? (
@@ -142,6 +143,8 @@ const repoSlug = `${org}-${repo_name}`;
                 class="m3-card-elevated m3-arch-tree-card"
                 data-arch-root="true"
                 data-zoom-container="true"
+                data-zoom-mode="svg"
+                aria-label={defaultArchTreeTitle}
             >
                 <script
                     type="application/json"
@@ -152,9 +155,9 @@ const repoSlug = `${org}-${repo_name}`;
                 <header class="m3-diagram-toolbar">
                     <div class="m3-section-header">
                         <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
-                        <h4>Top-Level Architecture Tree (TD)</h4>
+                        <h4 data-diagram-title="true">{defaultArchTreeTitle}</h4>
                     </div>
-                    <div class="m3-zoom-controls" role="group" aria-label="Architecture tree zoom and export">
+                    <div class="m3-zoom-controls" role="group" aria-label={`Controls for ${defaultArchTreeTitle}`}>
                         <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                             <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
                         </button>
@@ -165,11 +168,33 @@ const repoSlug = `${org}-${repo_name}`;
                         <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                             <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
                         </button>
-                        <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+                        <button
+                            type="button"
+                            class="m3-zoom-btn"
+                            data-export-format="svg"
+                            title={`Download SVG: ${defaultArchTreeTitle}`}
+                            aria-label={`Download SVG: ${defaultArchTreeTitle}`}
+                        >
                             <span class="material-symbols-outlined" aria-hidden="true">download</span>
                         </button>
-                        <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+                        <button
+                            type="button"
+                            class="m3-zoom-btn"
+                            data-export-format="png"
+                            title={`Download high-resolution PNG: ${defaultArchTreeTitle}`}
+                            aria-label={`Download high-resolution PNG: ${defaultArchTreeTitle}`}
+                        >
                             <span class="material-symbols-outlined" aria-hidden="true">image</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="m3-zoom-btn"
+                            data-expand-toggle="true"
+                            aria-expanded="false"
+                            title="Open diagram in fullscreen lightbox"
+                            aria-label="Open diagram in fullscreen lightbox"
+                        >
+                            <span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>
                         </button>
                     </div>
                 </header>
@@ -262,12 +287,16 @@ const repoSlug = `${org}-${repo_name}`;
 
 <script>
     import {
-        applyResponsiveSvgStyle,
+        bindDiagramExpand,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        buildDiagramFilename,
+        finalizeRenderedMermaidSvg,
         renderMermaidSvg,
         repairVisibleMermaidBlocks,
+        resolveDiagramTitle,
         snapshotMermaidSources,
+        syncDiagramCardTitle,
     } from '../lib/mermaid-client';
     import {
         buildArchTreeGraph,
@@ -368,13 +397,20 @@ const repoSlug = `${org}-${repo_name}`;
         updateArchNavigation(root, payload, activeNodeId);
 
         const graphDef = buildArchTreeGraph(payload, activeNodeId);
+        const diagramTitle = resolveDiagramTitle(
+            graphDef,
+            root,
+            0,
+            `${payload.repoLabel} — Module Architecture Tree`
+        );
+        syncDiagramCardTitle(root, diagramTitle);
         canvas.dataset.diagramSource = graphDef;
         try {
             const svg = await renderMermaidSvg('arch-tree', graphDef);
             canvas.innerHTML = svg;
             const svgEl = canvas.querySelector('svg');
             if (svgEl) {
-                applyResponsiveSvgStyle(svgEl);
+                finalizeRenderedMermaidSvg(svgEl);
                 svgEl.querySelectorAll<SVGGElement>('.node').forEach((nodeEl) => {
                     const nid = nodeEl.id || nodeEl.getAttribute('data-id') || '';
                     const match = nid.match(/child_(node_\d+)/);
@@ -413,7 +449,11 @@ const repoSlug = `${org}-${repo_name}`;
                 bindDiagramExportButtons(root, {
                     getSvgContainer: () => canvas,
                     getSource: () => canvas?.dataset.diagramSource,
-                    filenameBase: `${slug}-arch-tree`,
+                    filenameBase: () =>
+                        buildDiagramFilename(
+                            slug,
+                            root.dataset.diagramTitle || 'Module Architecture Tree'
+                        ),
                 });
             }
 
@@ -425,28 +465,40 @@ const repoSlug = `${org}-${repo_name}`;
         scope.querySelectorAll<HTMLElement>('[data-arch-markdown="true"]').forEach((mdCard) => {
             const wrap = mdCard.closest<HTMLElement>('[data-repo-slug]');
             const slug = wrap?.dataset.repoSlug || 'architecture';
+            const getPrimaryHost = () =>
+                mdCard.querySelector<HTMLElement>('.m3-mermaid-host:has(svg)') ||
+                mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
+                mdCard.querySelector<HTMLElement>('.m3-mermaid-host') ||
+                mdCard.querySelector<HTMLElement>('pre.mermaid');
+
+            repairVisibleMermaidBlocks(mdCard, forceMarkdown, { filenamePrefix: slug });
+
             bindDiagramExportButtons(mdCard, {
-                getSvgContainer: () =>
-                    mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
-                    mdCard.querySelector<HTMLElement>('pre.mermaid'),
-                getSource: () =>
-                    (
-                        mdCard.querySelector<HTMLElement>('pre.mermaid:has(svg)') ||
-                        mdCard.querySelector<HTMLElement>('pre.mermaid')
-                    )?.getAttribute('data-diagram') || undefined,
-                filenameBase: `${slug}-arc42-diagram`,
+                getSvgContainer: getPrimaryHost,
+                getSource: () => getPrimaryHost()?.getAttribute('data-diagram') || undefined,
+                filenameBase: () => {
+                    const host = getPrimaryHost();
+                    const fig = host?.closest<HTMLElement>('figure.m3-mermaid-figure');
+                    return (
+                        fig?.dataset.filenameBase ||
+                        buildDiagramFilename(
+                            slug,
+                            fig?.dataset.diagramTitle || 'Building Block View'
+                        )
+                    );
+                },
             });
         });
 
-        repairVisibleMermaidBlocks(scope, forceMarkdown);
         bindDiagramZoom(scope);
+        bindDiagramExpand(scope);
     }
 
     const archThemeObserver = new MutationObserver(() => {
         document.querySelectorAll<HTMLElement>('.m3-architecture-wrap').forEach((wrap) => {
             if (wrap.closest('[hidden]')) return;
-            wrap.querySelectorAll<HTMLElement>('pre.mermaid').forEach((pre) => {
-                pre.dataset.archRenderedVisible = '';
+            wrap.querySelectorAll<HTMLElement>('.m3-mermaid-host, pre.mermaid').forEach((host) => {
+                host.dataset.archRenderedVisible = '';
             });
             initArchitectureScope(wrap, true);
         });

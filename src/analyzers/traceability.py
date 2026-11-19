@@ -641,6 +641,7 @@ def render_code_to_cloud_mermaid(edges: list[CodeToCloudEdge]) -> str:
 
     lines: list[str] = [
         "flowchart LR",
+        "    %% title: Code-to-Cloud Deployment Traceability",
         "    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb",
         "    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb",
         "    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb",

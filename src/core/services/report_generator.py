@@ -527,6 +527,7 @@ def generate_arc42_markdown(
         "",
         "```mermaid",
         "graph TD;",
+        f"    %% title: Building Block View — {_mermaid_label(repo_name)}",
         *MERMAID_CLASS_DEFS,
     ])
 
