@@ -139,18 +139,25 @@ const limitedEdges = crossEdges.slice(0, 28);
 const serializedTopology = JSON.stringify({ edges: limitedEdges })
     .replace(/<\//g, '<\\/')
     .replace(/<!--/g, '<\\!--');
+const defaultTopologyTitle = 'Cross-Repository Topology & Shared Dependencies';
 ---
 
-<section class="m3-card-elevated m3-cross-topo-card" data-cross-topo-root="true" data-zoom-container="true">
+<section
+    class="m3-card-elevated m3-cross-topo-card"
+    data-cross-topo-root="true"
+    data-zoom-container="true"
+    data-zoom-mode="svg"
+    aria-label={defaultTopologyTitle}
+>
     <script type="application/json" data-cross-topo-payload="true" set:html={serializedTopology} />
 
     <header class="m3-diagram-toolbar">
         <div class="m3-section-header">
             <span class="material-symbols-outlined" aria-hidden="true">hub</span>
-            <h4>Cross-Repository Topology &amp; Shared Dependencies</h4>
+            <h4 data-diagram-title="true">{defaultTopologyTitle}</h4>
         </div>
 
-        <div class="m3-zoom-controls" role="group" aria-label="Cross-repository topology controls">
+        <div class="m3-zoom-controls" role="group" aria-label={`Controls for ${defaultTopologyTitle}`}>
             <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                 <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
             </button>
@@ -161,11 +168,33 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
             <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                 <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
             </button>
-            <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+            <button
+                type="button"
+                class="m3-zoom-btn"
+                data-export-format="svg"
+                title={`Download SVG: ${defaultTopologyTitle}`}
+                aria-label={`Download SVG: ${defaultTopologyTitle}`}
+            >
                 <span class="material-symbols-outlined" aria-hidden="true">download</span>
             </button>
-            <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+            <button
+                type="button"
+                class="m3-zoom-btn"
+                data-export-format="png"
+                title={`Download high-resolution PNG: ${defaultTopologyTitle}`}
+                aria-label={`Download high-resolution PNG: ${defaultTopologyTitle}`}
+            >
                 <span class="material-symbols-outlined" aria-hidden="true">image</span>
+            </button>
+            <button
+                type="button"
+                class="m3-zoom-btn"
+                data-expand-toggle="true"
+                aria-expanded="false"
+                title="Open diagram in fullscreen lightbox"
+                aria-label="Open diagram in fullscreen lightbox"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>
             </button>
         </div>
     </header>
@@ -199,17 +228,25 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
 
 <script>
     import {
-        applyResponsiveSvgStyle,
+        bindDiagramExpand,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        buildDiagramFilename,
+        finalizeRenderedMermaidSvg,
         getMermaidClassDefs,
         renderMermaidSvg,
+        resolveDiagramTitle,
         safeId,
         safeLabel,
+        syncDiagramCardTitle,
     } from '../lib/mermaid-client';
 
     function buildCrossTopologyGraph(edges: Array<{ kind: string; source: string; target: string }>): string {
-        const lines = ['flowchart TD', ...getMermaidClassDefs()];
+        const lines = [
+            'flowchart TD',
+            '  %% title: Cross-Repository Topology & Shared Dependencies',
+            ...getMermaidClassDefs(),
+        ];
         const srcNodes = new Map<string, string>();
         const targetNodes = new Map<string, { label: string; cls: string }>();
 
@@ -250,6 +287,7 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
     async function renderCrossTopology(): Promise<void> {
         const roots = document.querySelectorAll<HTMLElement>('[data-cross-topo-root="true"]');
         for (const root of roots) {
+            if (root.closest('[hidden]')) continue;
             const payloadEl = root.querySelector<HTMLScriptElement>('[data-cross-topo-payload]');
             const canvas = root.querySelector<HTMLElement>('[data-cross-topo-canvas]');
             if (!payloadEl || !canvas) continue;
@@ -264,11 +302,18 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
             if (edges.length === 0) continue;
 
             const graphDef = buildCrossTopologyGraph(edges);
+            const diagramTitle = resolveDiagramTitle(
+                graphDef,
+                root,
+                0,
+                'Cross-Repository Topology & Shared Dependencies'
+            );
+            syncDiagramCardTitle(root, diagramTitle);
             canvas.dataset.diagramSource = graphDef;
             try {
                 const svg = await renderMermaidSvg('cross-topo', graphDef);
                 canvas.innerHTML = svg;
-                applyResponsiveSvgStyle(canvas.querySelector('svg'));
+                finalizeRenderedMermaidSvg(canvas.querySelector('svg'));
             } catch (err) {
                 console.error('CrossRepoTopology Mermaid render failed:', err);
             }
@@ -276,11 +321,25 @@ const serializedTopology = JSON.stringify({ edges: limitedEdges })
             bindDiagramExportButtons(root, {
                 getSvgContainer: () => canvas,
                 getSource: () => canvas.dataset.diagramSource || graphDef,
-                filenameBase: 'cross-repo-topology',
+                filenameBase: () =>
+                    buildDiagramFilename(
+                        '',
+                        root.dataset.diagramTitle ||
+                            'Cross-Repository Topology & Shared Dependencies'
+                    ),
             });
         }
         bindDiagramZoom();
+        bindDiagramExpand();
     }
+
+    const crossTopoThemeObserver = new MutationObserver(() => {
+        renderCrossTopology();
+    });
+    crossTopoThemeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+    });
 
     document.addEventListener('DOMContentLoaded', renderCrossTopology);
     document.addEventListener('astro:page-load', renderCrossTopology);

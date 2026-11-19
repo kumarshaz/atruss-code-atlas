@@ -40,7 +40,12 @@ def _classify_workflow_group(wf_name: str, triggers: list[str]) -> str:
 
 def _render_pipeline_mermaid(artifact: PortableArtifact) -> str:
     """Generate a bounded top-down (TD) Mermaid flowchart from an artifact's pipelines."""
-    lines = ["```mermaid", "graph TD;", *MERMAID_CLASS_DEFS]
+    lines = [
+        "```mermaid",
+        "graph TD;",
+        f"  %% title: CI/CD Pipeline Topology — {_mermaid_label(artifact.repository)}",
+        *MERMAID_CLASS_DEFS,
+    ]
 
     if not artifact.pipelines:
         lines.append("  NoWorkflows[No Workflows Detected]:::atlasMore")
@@ -309,6 +314,7 @@ class MarkdownArchiver:
         ]
         lines.append("```mermaid")
         lines.append("flowchart TD")
+        lines.append("    %% title: Aggregate Pipeline Dependencies Map")
         lines.extend(MERMAID_CLASS_DEFS)
 
         # Build strict 3-subgraphs with ASCII-safe node IDs

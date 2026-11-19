@@ -102,6 +102,13 @@ const serializedPayload = JSON.stringify(clientPayload)
     .replace(/<\//g, '<\\/')
     .replace(/<!--/g, '<\\!--');
 const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
+const distinctCategories = new Set(clientPayload.workflows.map((wf) => wf.category));
+const defaultPipelineTitle =
+    clientPayload.workflows.length === 1
+        ? `${org}/${repo_name} — ${clientPayload.workflows[0].name} Job Dependency DAG`
+        : clientPayload.workflows.length > 5 && distinctCategories.size > 1
+          ? `${org}/${repo_name} — Pipeline Categories Overview`
+          : `${org}/${repo_name} — Workflow Hierarchy Overview`;
 ---
 
 {showEmptyState ? (
@@ -118,13 +125,18 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     >
         <script type="application/json" data-pipeline-payload set:html={serializedPayload} />
 
-        <section class="m3-card-elevated m3-diagram-card" data-zoom-container="true">
+        <section
+            class="m3-card-elevated m3-diagram-card"
+            data-zoom-container="true"
+            data-zoom-mode="svg"
+            aria-label={defaultPipelineTitle}
+        >
             <header class="m3-diagram-toolbar">
                 <div class="m3-section-header">
                     <span class="material-symbols-outlined" aria-hidden="true">schema</span>
-                    <h4>Workflow Dependency DAG (Top-Down)</h4>
+                    <h4 data-diagram-title="true">{defaultPipelineTitle}</h4>
                 </div>
-                <div class="m3-zoom-controls" role="group" aria-label="Diagram zoom and export controls">
+                <div class="m3-zoom-controls" role="group" aria-label={`Controls for ${defaultPipelineTitle}`}>
                     <button type="button" class="m3-zoom-btn" data-zoom-action="out" title="Zoom out">
                         <span class="material-symbols-outlined" aria-hidden="true">zoom_out</span>
                     </button>
@@ -135,11 +147,33 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                     <button type="button" class="m3-zoom-btn" data-zoom-action="reset" title="Reset zoom">
                         <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
                     </button>
-                    <button type="button" class="m3-zoom-btn" data-export-format="svg" title="Download SVG">
+                    <button
+                        type="button"
+                        class="m3-zoom-btn"
+                        data-export-format="svg"
+                        title={`Download SVG: ${defaultPipelineTitle}`}
+                        aria-label={`Download SVG: ${defaultPipelineTitle}`}
+                    >
                         <span class="material-symbols-outlined" aria-hidden="true">download</span>
                     </button>
-                    <button type="button" class="m3-zoom-btn" data-export-format="png" title="Download PNG">
+                    <button
+                        type="button"
+                        class="m3-zoom-btn"
+                        data-export-format="png"
+                        title={`Download high-resolution PNG: ${defaultPipelineTitle}`}
+                        aria-label={`Download high-resolution PNG: ${defaultPipelineTitle}`}
+                    >
                         <span class="material-symbols-outlined" aria-hidden="true">image</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="m3-zoom-btn"
+                        data-expand-toggle="true"
+                        aria-expanded="false"
+                        title="Open diagram in fullscreen lightbox"
+                        aria-label="Open diagram in fullscreen lightbox"
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>
                     </button>
                 </div>
             </header>
@@ -273,28 +307,36 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
 
 <script>
     import {
-        applyResponsiveSvgStyle,
+        bindDiagramExpand,
         bindDiagramExportButtons,
         bindDiagramZoom,
+        buildDiagramFilename,
+        finalizeRenderedMermaidSvg,
         getMermaidClassDefs,
         renderMermaidSvg,
+        resolveDiagramTitle,
         safeId,
         safeLabel,
+        syncDiagramCardTitle,
     } from '../lib/mermaid-client';
 
     function buildOverviewGraph(
         payload: any,
         filterCategory?: string
     ): { graphDef: string; catNames: string[] } {
-        const lines = ['flowchart TD', ...getMermaidClassDefs()];
+        const cleanRepo = String(payload?.repoLabel || 'Repository')
+            .replace(/[\r\n]+/g, ' ')
+            .trim();
         const wfs = Array.isArray(payload?.workflows) ? payload.workflows : [];
         if (wfs.length === 0) {
-            lines.push('  empty["No Workflows Detected"]:::atlasMore');
+            const lines = [
+                'flowchart TD',
+                `  %% title: ${cleanRepo} — Workflow Hierarchy Overview`,
+                ...getMermaidClassDefs(),
+                '  empty["No Workflows Detected"]:::atlasMore',
+            ];
             return { graphDef: lines.join('\n'), catNames: [] };
         }
-
-        const rootLabel = `${safeLabel(payload.repoLabel)} (${wfs.length} workflows)`;
-        lines.push(`  repo_root(["${rootLabel}"]):::atlasRoot`);
 
         const categories = new Map<string, any[]>();
         for (const wf of wfs) {
@@ -307,6 +349,17 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0])
         );
         const catNames = sortedCats.map(([catName]) => catName);
+
+        const cleanCat = filterCategory ? filterCategory.replace(/[\r\n]+/g, ' ').trim() : '';
+        const titleText = cleanCat
+            ? `${cleanRepo} — ${cleanCat} Workflows`
+            : wfs.length > 5 && sortedCats.length > 1
+              ? `${cleanRepo} — Pipeline Categories Overview`
+              : `${cleanRepo} — Workflow Hierarchy Overview`;
+
+        const lines = ['flowchart TD', `  %% title: ${titleText}`, ...getMermaidClassDefs()];
+        const rootLabel = `${safeLabel(payload.repoLabel)} (${wfs.length} workflows)`;
+        lines.push(`  repo_root(["${rootLabel}"]):::atlasRoot`);
 
         if (sortedCats.length === 0) {
             lines.push('  empty["No Matching Workflows"]:::atlasMore');
@@ -372,8 +425,18 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         return { graphDef: lines.join('\n'), catNames };
     }
 
-    function buildWorkflowGraph(wf: any): string {
-        const lines = ['flowchart TD', ...getMermaidClassDefs()];
+    function buildWorkflowGraph(wf: any, repoLabel?: string): string {
+        const cleanRepo = String(repoLabel || '')
+            .replace(/[\r\n]+/g, ' ')
+            .trim();
+        const cleanWf = String(wf?.name || 'Workflow')
+            .replace(/[\r\n]+/g, ' ')
+            .trim();
+        const titleText = cleanRepo
+            ? `${cleanRepo} — ${cleanWf} Job Dependency DAG`
+            : `${cleanWf} Job Dependency DAG`;
+
+        const lines = ['flowchart TD', `  %% title: ${titleText}`, ...getMermaidClassDefs()];
         if (!wf) {
             lines.push('  empty["Workflow Not Found"]:::atlasMore');
             return lines.join('\n');
@@ -455,6 +518,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
 
         const payloadScript = root.querySelector<HTMLScriptElement>('[data-pipeline-payload]');
         const canvas = root.querySelector<HTMLElement>('[data-pipeline-canvas]');
+        const card = root.querySelector<HTMLElement>('.m3-diagram-card');
         if (!payloadScript || !canvas) return;
 
         let payload: any;
@@ -472,7 +536,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
         if (mode.startsWith('wf:')) {
             const idx = Number(mode.slice(3));
             const wf = payload.workflows?.[idx];
-            graphDef = buildWorkflowGraph(wf);
+            graphDef = buildWorkflowGraph(wf, payload.repoLabel);
             hintText = `Viewing job dependency DAG for "${wf?.name || 'workflow'}" (flowchart TD).`;
         } else if (mode.startsWith('cat:')) {
             const cat = mode.slice(4);
@@ -504,6 +568,13 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             btn.classList.toggle('is-active', btn.dataset.pipelineSelect === mode);
         });
 
+        const diagramTitle = resolveDiagramTitle(
+            graphDef,
+            card || root,
+            0,
+            `${payload.repoLabel || 'Pipeline'} — Workflow Dependency DAG`
+        );
+        syncDiagramCardTitle(card || root, diagramTitle);
         canvas.dataset.diagramSource = graphDef;
 
         try {
@@ -511,7 +582,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
             canvas.innerHTML = svg;
             const svgEl = canvas.querySelector('svg');
             if (svgEl) {
-                applyResponsiveSvgStyle(svgEl);
+                finalizeRenderedMermaidSvg(svgEl);
 
                 // Allow clicking category or workflow nodes inside the SVG to drill down
                 if (!mode.startsWith('wf:')) {
@@ -548,6 +619,7 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     function initPipelineRoots(scope: ParentNode = document) {
         scope.querySelectorAll<HTMLElement>('[data-pipeline-root="true"]').forEach((root) => {
             const slug = root.dataset.repoSlug || 'pipeline';
+            const card = root.querySelector<HTMLElement>('.m3-diagram-card');
             if (!root.dataset.pipelineBound) {
                 root.dataset.pipelineBound = 'true';
                 root.dataset.activeMode = root.dataset.defaultMode || 'overview';
@@ -568,10 +640,15 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
                 }
 
                 const canvas = root.querySelector<HTMLElement>('[data-pipeline-canvas]');
-                bindDiagramExportButtons(root, {
+                const titleTarget = card || root;
+                bindDiagramExportButtons(titleTarget, {
                     getSvgContainer: () => canvas,
                     getSource: () => canvas?.dataset.diagramSource,
-                    filenameBase: `${slug}-pipeline-dag`,
+                    filenameBase: () =>
+                        buildDiagramFilename(
+                            slug,
+                            titleTarget.dataset.diagramTitle || 'Workflow Dependency DAG'
+                        ),
                 });
             }
 
@@ -594,16 +671,19 @@ const defaultMode = clientPayload.workflows.length === 1 ? 'wf:0' : 'overview';
     document.addEventListener('DOMContentLoaded', () => {
         initPipelineRoots();
         bindDiagramZoom();
+        bindDiagramExpand();
     });
     document.addEventListener('astro:page-load', () => {
         initPipelineRoots();
         bindDiagramZoom();
+        bindDiagramExpand();
     });
     document.addEventListener('atruss:tab-activated', (ev: any) => {
         const panel = ev?.detail?.panel;
         if (panel) {
             initPipelineRoots(panel);
-            bindDiagramZoom();
+            bindDiagramZoom(panel);
+            bindDiagramExpand(panel);
         }
     });
 </script>
