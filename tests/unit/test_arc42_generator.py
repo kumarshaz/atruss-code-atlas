@@ -22,6 +22,7 @@ def test_arc42_generation():
     assert "## Building Block View" in markdown
     assert "```mermaid" in markdown
     assert "graph TD;" in markdown
+    assert "%% title: Building Block View — TestRepo" in markdown
     assert "api_gateway --> database" in markdown
 
 

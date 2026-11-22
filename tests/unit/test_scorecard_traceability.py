@@ -309,6 +309,7 @@ jobs:
 
     mermaid = render_code_to_cloud_mermaid(edges)
     assert mermaid.startswith("flowchart LR")
+    assert "%% title: Code-to-Cloud Deployment Traceability" in mermaid
     assert 'subgraph code_modules["Code Modules"]' in mermaid
     assert 'subgraph build_artifacts["Build Artifacts / Containers"]' in mermaid
     assert 'subgraph ci_jobs["CI/CD Jobs"]' in mermaid

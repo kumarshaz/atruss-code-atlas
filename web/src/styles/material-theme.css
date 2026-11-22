@@ -592,10 +592,15 @@ header.header {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  margin: 0 !important;
   padding: 0.25rem;
   border-radius: var(--md-sys-shape-corner-full);
   background-color: var(--md-sys-color-surface-container-high);
   border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.m3-zoom-controls > * {
+  margin: 0 !important;
 }
 
 .m3-zoom-btn {
@@ -604,6 +609,7 @@ header.header {
   justify-content: center;
   width: 2rem;
   height: 2rem;
+  margin: 0 !important;
   border-radius: var(--md-sys-shape-corner-full);
   border: none;
   background: transparent;
@@ -616,13 +622,199 @@ header.header {
   color: var(--md-sys-color-on-secondary-container);
 }
 
+.m3-zoom-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
 .m3-zoom-pct {
   font-family: var(--md-ref-typeface-mono);
   font-size: 0.75rem;
   font-weight: 600;
   min-width: 3rem;
+  margin: 0 !important;
   text-align: center;
   color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Mermaid Blueprint Figures, Descriptive Titles, Toolbars & Fullscreen Lightbox */
+.mermaid-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1990;
+  background: rgba(10, 14, 20, 0.76);
+  backdrop-filter: blur(2px);
+}
+
+.mermaid-lightbox-backdrop[hidden] {
+  display: none !important;
+}
+
+.m3-mermaid-figure.mermaid-blueprint {
+  position: relative;
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem 1.15rem;
+  border-radius: var(--md-sys-shape-corner-medium);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-lowest);
+  background-image: radial-gradient(rgba(141, 145, 153, 0.16) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+:root[data-theme='light'] .m3-mermaid-figure.mermaid-blueprint {
+  background-image: radial-gradient(rgba(116, 119, 127, 0.18) 1px, transparent 1px);
+}
+
+.mermaid-blueprint-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  font-family: var(--md-ref-typeface-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--md-sys-color-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.mermaid-blueprint-title {
+  flex: 1 1 200px;
+  min-width: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.84rem;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-transform: none;
+  color: var(--md-sys-color-on-surface);
+}
+
+.mermaid-toolbar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.mermaid-toolbar > * {
+  margin: 0;
+}
+
+.mermaid-toolbar-sep {
+  width: 1px;
+  height: 1.1rem;
+  background-color: var(--md-sys-color-outline-variant);
+  margin: 0 0.15rem !important;
+}
+
+.mermaid-zoom-label {
+  min-width: 3.1rem;
+  text-align: center;
+  font-family: var(--md-ref-typeface-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  letter-spacing: 0.03em;
+}
+
+.mermaid-toolbar-btn,
+.mermaid-blueprint-zoom {
+  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  color: var(--md-sys-color-on-surface);
+  font-family: var(--md-ref-typeface-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.mermaid-toolbar-btn:hover,
+.mermaid-blueprint-zoom:hover {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: var(--md-sys-color-primary);
+}
+
+.mermaid-toolbar-btn:disabled,
+.mermaid-blueprint-zoom:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.mermaid-viewport {
+  width: 100%;
+  overflow: auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-surface-container-lowest);
+}
+
+.mermaid-zoom-stage {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.m3-mermaid-host {
+  width: 100%;
+  text-align: center;
+}
+
+.m3-mermaid-host svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.m3-mermaid-figure.mermaid-blueprint.is-expanded,
+.m3-card-elevated.is-expanded {
+  position: fixed;
+  inset: 1.5rem;
+  z-index: 2000;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.m3-mermaid-figure.mermaid-blueprint.is-expanded .mermaid-viewport,
+.m3-card-elevated.is-expanded .m3-diagram-viewport {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.75rem;
+}
+
+.m3-mermaid-figure.mermaid-blueprint.is-expanded .mermaid-zoom-stage,
+.m3-card-elevated.is-expanded .m3-diagram-canvas {
+  width: auto;
+  min-width: 100%;
+  margin: auto;
+}
+
+.m3-mermaid-figure.mermaid-blueprint.is-expanded svg,
+.m3-card-elevated.is-expanded svg {
+  max-width: none;
+}
+
+.m3-card-elevated.is-expanded .m3-cross-edges-grid {
+  display: none;
 }
 
 /* Multi-Tab PDF Print & Executive Export Formatting */
@@ -646,6 +838,8 @@ header.header {
   .m3-tabs-bar,
   .m3-report-actions,
   .m3-zoom-controls,
+  .mermaid-toolbar,
+  .mermaid-lightbox-backdrop,
   .m3-tree-nav,
   footer.sl-flex {
     display: none !important;
@@ -668,13 +862,15 @@ header.header {
 
   .m3-card-elevated,
   .m3-card-filled,
-  .m3-card-outlined {
+  .m3-card-outlined,
+  .m3-mermaid-figure.mermaid-blueprint {
     box-shadow: none !important;
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  .m3-diagram-viewport {
+  .m3-diagram-viewport,
+  .mermaid-viewport {
     max-height: none !important;
     overflow: visible !important;
   }
@@ -683,7 +879,10 @@ header.header {
 /* Ensure Mermaid static & dynamic node labels maintain crisp contrast in both themes */
 :root[data-theme='light'] pre.mermaid .node.atlasRoot .nodeLabel,
 :root[data-theme='light'] pre.mermaid .node.atlasRoot span,
-:root[data-theme='light'] pre.mermaid .node.atlasRoot p {
+:root[data-theme='light'] pre.mermaid .node.atlasRoot p,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasRoot .nodeLabel,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasRoot span,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasRoot p {
   color: #001d36 !important;
 }
 
@@ -695,13 +894,25 @@ header.header {
 :root[data-theme='light'] pre.mermaid .node.atlasWorkflow p,
 :root[data-theme='light'] pre.mermaid .node.atlasJob .nodeLabel,
 :root[data-theme='light'] pre.mermaid .node.atlasJob span,
-:root[data-theme='light'] pre.mermaid .node.atlasJob p {
+:root[data-theme='light'] pre.mermaid .node.atlasJob p,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasCategory .nodeLabel,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasCategory span,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasCategory p,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasWorkflow .nodeLabel,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasWorkflow span,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasWorkflow p,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasJob .nodeLabel,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasJob span,
+:root[data-theme='light'] .m3-mermaid-host .node.atlasJob p {
   color: #181c22 !important;
 }
 
 :root[data-theme='dark'] pre.mermaid .node.atlasRoot .nodeLabel,
 :root[data-theme='dark'] pre.mermaid .node.atlasRoot span,
-:root[data-theme='dark'] pre.mermaid .node.atlasRoot p {
+:root[data-theme='dark'] pre.mermaid .node.atlasRoot p,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasRoot .nodeLabel,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasRoot span,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasRoot p {
   color: #d3e4ff !important;
 }
 
@@ -713,6 +924,15 @@ header.header {
 :root[data-theme='dark'] pre.mermaid .node.atlasWorkflow p,
 :root[data-theme='dark'] pre.mermaid .node.atlasJob .nodeLabel,
 :root[data-theme='dark'] pre.mermaid .node.atlasJob span,
-:root[data-theme='dark'] pre.mermaid .node.atlasJob p {
+:root[data-theme='dark'] pre.mermaid .node.atlasJob p,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasCategory .nodeLabel,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasCategory span,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasCategory p,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasWorkflow .nodeLabel,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasWorkflow span,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasWorkflow p,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasJob .nodeLabel,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasJob span,
+:root[data-theme='dark'] .m3-mermaid-host .node.atlasJob p {
   color: #dfe3eb !important;
 }

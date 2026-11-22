@@ -303,11 +303,18 @@ export function buildBreadcrumbs(
 /** Generate a bounded, strictly top-down (`flowchart TD`) Mermaid DAG for a tree node. */
 export function buildArchTreeGraph(payload: ArchTreePayload, activeNodeId: string): string {
     const current = payload.nodes[activeNodeId] || payload.nodes[payload.rootId];
+    const cleanRepoLabel = String(payload.repoLabel || 'Repository').replace(/[\r\n]+/g, ' ').trim();
     if (!current || !payload.hasTree) {
-        return 'flowchart TD\n  empty["No Architectural Components Detected"]';
+        return `flowchart TD\n  %% title: ${cleanRepoLabel} — Module Architecture Tree\n  empty["No Architectural Components Detected"]`;
     }
 
-    const lines: string[] = ['flowchart TD', ...getMermaidClassDefs()];
+    const cleanScope = String(current.path || current.label || '').replace(/[\r\n]+/g, ' ').trim();
+    const diagramTitle =
+        current.id === payload.rootId
+            ? `${cleanRepoLabel} — Module Architecture Tree`
+            : `${cleanRepoLabel} — ${cleanScope} Module Tree`;
+
+    const lines: string[] = ['flowchart TD', `  %% title: ${diagramTitle}`, ...getMermaidClassDefs()];
     const focusLabel =
         current.id === payload.rootId
             ? `${current.label} (${current.totalComponents} components)`

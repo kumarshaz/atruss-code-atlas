@@ -138,6 +138,7 @@ def test_render_pipeline_mermaid_large_multi_workflow_tree():
 
     mermaid = _render_pipeline_mermaid(artifact)
     assert "graph TD;" in mermaid
+    assert "%% title: CI/CD Pipeline Topology — acme/big-ci" in mermaid
     assert 'pipeline_root(["acme/big-ci (5 workflows)"])' in mermaid
     assert "CI & Verification" in mermaid
     assert "Security & Governance" in mermaid
