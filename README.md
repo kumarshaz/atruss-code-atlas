@@ -201,6 +201,7 @@ export TMPDIR="$(pwd)/.cache/tmp"
 # 2. Run automated subprocess-isolated, checkpointed benchmarking
 #    - --isolated: frees Tree-sitter/Python memory after each repo & enforces hard timeouts
 #    - --checkpoint-dir + --resume: checkpoints each repo JSON and skips completed repos if re-run
+#    - --live-osv + --diff-previous: enable live OSV.dev queries & compute daily drift_report.{json,md}
 atruss benchmark \
   --corpus popular-100 \
   --isolated \
@@ -208,6 +209,15 @@ atruss benchmark \
   --timeout 60 \
   --max-concurrent 5 \
   --resume
+
+# Or run a scheduled daily target list (used by .github/workflows/daily-export.yml)
+atruss benchmark \
+  --corpus-file manifests/daily-repos.json \
+  --isolated \
+  --no-resume \
+  --live-osv \
+  --diff-previous \
+  --timeout 180
 
 # 3. (Optional) Replay only failed/timed-out repositories with a higher timeout
 atruss benchmark --replay exports/latest/anomalies.json --isolated --timeout 180
@@ -260,5 +270,5 @@ Atruss Code Atlas was engineered as a living case study in **Specification-Drive
    - **Feedback Sensors** catch drift automatically: the **5-Gate Agentic Workflow Validator** ([`scripts/validate_agent_workflow.py`](./scripts/validate_agent_workflow.py)), `ruff`, `pytest`, and Astro `npm test && npm run build`.
 3. **Multi-Repo & 10-Ecosystem Scope via Antigravity Subagents & GitHub Native Flows**:
    - The **372-repository production corpus** ([`tests/fixtures/popular_100_corpus.json`](./tests/fixtures/popular_100_corpus.json)) across **10 ecosystems** and **multi-repository project topologies** (split server/client/helm/operator repos) was implemented by orchestrating parallel Antigravity subagents (`invoke_subagent`) across specialized domain lanes (Polyglot AST & Fitness, Pipeline & Security, SBOM/OSV, Scorecard/Traceability/MCP, Astro M3 UI, and Harness Verification).
-   - Every branch push and PR runs natively in GitHub Actions: [`.github/workflows/tests.yml`](./.github/workflows/tests.yml) enforces lint, unit, Astro portal dual-builds, integration tests, and the 5-Gate validator, while [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) publishes the static portal to GitHub Pages.
+   - Every branch push and PR runs natively in GitHub Actions: [`.github/workflows/tests.yml`](./.github/workflows/tests.yml) enforces lint, unit, Astro portal dual-builds, integration tests, and the 5-Gate validator, [`.github/workflows/daily-export.yml`](./.github/workflows/daily-export.yml) refreshes `exports/latest/` daily from [`manifests/daily-repos.json`](./manifests/daily-repos.json) with `--isolated`, `--live-osv`, and `--diff-previous`, and [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) publishes the static portal to GitHub Pages.
 

@@ -4,6 +4,13 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        description: "Git ref or branch to checkout when invoked after an automated export push"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -21,6 +28,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.checkout_ref || github.ref }}
+          persist-credentials: false
 
       - name: Setup Node.js v22
         uses: actions/setup-node@v4

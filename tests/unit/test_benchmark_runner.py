@@ -243,6 +243,9 @@ def test_benchmark_cli_registered():
     assert "--checkpoint-dir" in plain_stdout
     assert "--resume" in plain_stdout
     assert "--isolated" in plain_stdout
+    assert "--live-osv" in plain_stdout
+    assert "--diff-baseline" in plain_stdout
+    assert "--diff-previous" in plain_stdout
 
 
 @pytest.mark.asyncio
@@ -321,3 +324,290 @@ async def test_github_client_search_rate_limit_scales_threshold():
     async with GitHubClient(transport=httpx.MockTransport(handler)) as client:
         data = await asyncio.wait_for(client.get("/search/repositories"), timeout=2.0)
         assert data == {"items": []}
+
+
+def test_daily_repos_manifest_schema_and_live_head_tracking():
+    """Verify manifests/daily-repos.json validates via CorpusEntry and omits pinned_sha."""
+    daily_path = Path("manifests/daily-repos.json")
+    assert daily_path.exists()
+    data = json.loads(daily_path.read_text(encoding="utf-8"))
+    entries = select_corpus_entries(daily_path)
+    assert len(entries) == data["total"] == len(data["repositories"]) >= 1
+    assert len({e.full_name for e in entries}) == len(entries)
+    assert all(e.pinned_sha is None for e in entries)
+    for e in entries:
+        assert e.url.startswith("https://github.com/")
+        assert e.clone_url.endswith(".git")
+
+
+@pytest.mark.asyncio
+async def test_execute_benchmark_live_osv_org_summary_and_diff_previous(tmp_path: Path):
+    """
+    Verify execute_benchmark wires live OSV into analysis/SBOM/SARIF/orgs-summary.json
+    and generates drift_report.{json,md} when diff_previous=True.
+    """
+    repo_dir = tmp_path / "vuln-py"
+    (repo_dir / ".github" / "workflows").mkdir(parents=True)
+    (repo_dir / "requirements.txt").write_text("requests==2.31.0\n", encoding="utf-8")
+    (repo_dir / "app.py").write_text(
+        "def ping(ok):\n    return 1 if ok else 0\n",
+        encoding="utf-8",
+    )
+    (repo_dir / ".github" / "workflows" / "ci.yml").write_text(
+        "name: CI\non:\n  push:\n    branches: [main]\n"
+        "permissions:\n  contents: read\n"
+        "jobs:\n  test:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n"
+        "    steps:\n      - run: pytest\n",
+        encoding="utf-8",
+    )
+
+    entries = [
+        CorpusEntry(
+            org="acme",
+            name="vuln-py",
+            full_name="acme/vuln-py",
+            url="https://github.com/acme/vuln-py",
+            clone_url="https://github.com/acme/vuln-py.git",
+            ecosystem_key="python",
+            expected_ecosystem="Python",
+            pinned_sha=None,
+        )
+    ]
+
+    def osv_handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/v1/querybatch":
+            return httpx.Response(
+                200,
+                json={
+                    "results": [
+                        {
+                            "vulns": [
+                                {
+                                    "id": "GHSA-test-requests-001",
+                                    "aliases": ["CVE-2026-99999"],
+                                    "summary": "Mocked test advisory for benchmark live OSV wiring",
+                                    "database_specific": {"severity": "HIGH"},
+                                }
+                            ]
+                        }
+                    ]
+                },
+            )
+        return httpx.Response(404, json={})
+
+    exports_root = tmp_path / "exports"
+
+    # First offline run populates baseline exports/latest and orgs-summary.json
+    _, _, latest1 = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(exports_root),
+        log_dir=str(tmp_path / "logs"),
+        local_repo_resolver=lambda _e: repo_dir,
+        enable_live_osv=False,
+    )
+    orgs1 = json.loads((latest1 / "orgs-summary.json").read_text(encoding="utf-8"))
+    assert len(orgs1) == 1
+    assert orgs1[0]["org"] == "acme"
+    assert orgs1[0]["open_cves"] == 0
+
+    # Second run enables live OSV + diff_previous and compares against first run
+    _, _, latest2 = await execute_benchmark(
+        entries=entries,
+        mode="corpus",
+        output_dir=str(exports_root),
+        log_dir=str(tmp_path / "logs"),
+        local_repo_resolver=lambda _e: repo_dir,
+        enable_live_osv=True,
+        osv_transport=httpx.MockTransport(osv_handler),
+        diff_previous=True,
+    )
+
+    analysis = json.loads(
+        (latest2 / "reports" / "acme-vuln-py-analysis.json").read_text(encoding="utf-8")
+    )
+    assert len(analysis["vulnerabilities"]) == 1
+    assert analysis["vulnerabilities"][0]["id"] == "GHSA-test-requests-001"
+
+    sbom = json.loads((latest2 / "sbom" / "acme-vuln-py.cdx.json").read_text(encoding="utf-8"))
+    assert len(sbom.get("vulnerabilities", [])) == 1
+
+    sarif = json.loads(
+        (latest2 / "sarif" / "acme-vuln-py.sarif.json").read_text(encoding="utf-8")
+    )
+    assert any(
+        "GHSA-test-requests-001" in res.get("message", {}).get("text", "")
+        for run in sarif["runs"]
+        for res in run.get("results", [])
+    )
+
+    orgs2 = json.loads((latest2 / "orgs-summary.json").read_text(encoding="utf-8"))
+    assert orgs2[0]["open_cves"] == 1
+
+    drift_json_path = latest2 / "drift" / "drift_report.json"
+    drift_md_path = latest2 / "drift" / "drift_report.md"
+    assert drift_json_path.exists()
+    assert drift_md_path.exists()
+    drift_data = json.loads(drift_json_path.read_text(encoding="utf-8"))
+    assert drift_data["has_regression"] is True
+    assert drift_data["summary"]["new_vulnerabilities_count"] == 1
+
+
+@pytest.mark.asyncio
+async def test_benchmark_subprocess_worker_propagates_live_osv_and_cache(tmp_path: Path):
+    """Verify --isolated subprocess worker receives enable_live_osv and reads osv_cache_path."""
+    from src.analyzers.dependencies.manifest_parser import build_purl
+    from src.cli.commands.benchmark import _run_single_repo_subprocess
+
+    cache_file = tmp_path / "osv_cache.json"
+    purl = build_purl("pypi", "requests", "2.31.0")
+    cache_file.write_text(
+        json.dumps(
+            {
+                purl: [
+                    {
+                        "id": "GHSA-cache-isolated-01",
+                        "aliases": [],
+                        "summary": "Cached advisory verified inside subprocess worker",
+                        "database_specific": {"severity": "CRITICAL"},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    repo_dir = tmp_path / "sub-repo"
+    repo_dir.mkdir()
+    (repo_dir / "requirements.txt").write_text("requests==2.31.0\n", encoding="utf-8")
+    (repo_dir / "app.py").write_text("def hello(): return 'hi'\n", encoding="utf-8")
+
+    entry = CorpusEntry(
+        org="acme",
+        name="sub-repo",
+        full_name="acme/sub-repo",
+        url=repo_dir.as_uri(),
+        clone_url=repo_dir.as_uri(),
+        ecosystem_key="python",
+        expected_ecosystem="Python",
+    )
+
+    # Create local git commit so GitCloner clones cleanly in subprocess
+    import subprocess
+
+    subprocess.run(["git", "init", "-b", "main"], cwd=repo_dir, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=repo_dir,
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Test"], cwd=repo_dir, check=True, capture_output=True
+    )
+    subprocess.run(["git", "add", "."], cwd=repo_dir, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "init"], cwd=repo_dir, check=True, capture_output=True)
+
+    outcome = await _run_single_repo_subprocess(
+        entry,
+        semaphore=asyncio.Semaphore(1),
+        timeout=30.0,
+        token=None,
+        analyzed_date="2026-11-18",
+        enable_live_osv=True,
+        osv_cache_path=cache_file,
+    )
+    art = outcome["code_artifact"]
+    assert art is not None
+    assert len(art.vulnerabilities) == 1
+    assert art.vulnerabilities[0].id == "GHSA-cache-isolated-01"
+
+
+def test_benchmark_cli_corpus_file_isolated_diff_previous(tmp_path: Path):
+    """Verify `atruss benchmark --corpus-file --isolated --diff-previous` E2E CLI flags."""
+    import subprocess
+
+    repo_dir = tmp_path / "cli-repo"
+    repo_dir.mkdir()
+    (repo_dir / "pyproject.toml").write_text("[project]\nname='cli-repo'\n", encoding="utf-8")
+    (repo_dir / "app.py").write_text("def run(x):\n    return 1 if x else 0\n", encoding="utf-8")
+    subprocess.run(["git", "init", "-b", "main"], cwd=repo_dir, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=repo_dir,
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Test"], cwd=repo_dir, check=True, capture_output=True
+    )
+    subprocess.run(["git", "add", "."], cwd=repo_dir, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "init"], cwd=repo_dir, check=True, capture_output=True)
+
+    corpus_file = tmp_path / "daily.json"
+    corpus_file.write_text(
+        json.dumps(
+            {
+                "repositories": [
+                    {
+                        "org": "acme",
+                        "name": "cli-repo",
+                        "full_name": "acme/cli-repo",
+                        "url": repo_dir.as_uri(),
+                        "clone_url": repo_dir.as_uri(),
+                        "ecosystem_key": "python",
+                        "expected_ecosystem": "Python",
+                        "pinned_ref": "main",
+                        "pinned_sha": None,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exports_dir = tmp_path / "exports"
+    logs_dir = tmp_path / "logs"
+    runner = CliRunner()
+
+    first = runner.invoke(
+        app,
+        [
+            "benchmark",
+            "--corpus-file",
+            str(corpus_file),
+            "--output-dir",
+            str(exports_dir),
+            "--log-path",
+            str(logs_dir),
+            "--isolated",
+            "--no-resume",
+            "--no-live-osv",
+            "--diff-previous",
+        ],
+    )
+    assert first.exit_code == 0, first.stdout
+    assert (exports_dir / "latest" / "orgs-summary.json").exists()
+    assert not (exports_dir / "latest" / "drift" / "drift_report.json").exists()
+
+    second = runner.invoke(
+        app,
+        [
+            "benchmark",
+            "--corpus-file",
+            str(corpus_file),
+            "--output-dir",
+            str(exports_dir),
+            "--log-path",
+            str(logs_dir),
+            "--isolated",
+            "--no-resume",
+            "--no-live-osv",
+            "--diff-previous",
+        ],
+    )
+    assert second.exit_code == 0, second.stdout
+    assert (exports_dir / "latest" / "orgs-summary.json").exists()
+    assert (exports_dir / "latest" / "drift" / "drift_report.json").exists()
+    assert (exports_dir / "latest" / "drift" / "drift_report.md").exists()
+

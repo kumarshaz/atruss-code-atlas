@@ -6,10 +6,12 @@ import os
 import random
 import shutil
 import sys
+import tempfile
 import time
 import traceback
 from collections import Counter, defaultdict
 from collections.abc import Awaitable, Callable
+from contextlib import redirect_stdout
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +22,7 @@ import typer
 
 from src.analyzers.classification import Ecosystem, classify_repository
 from src.analyzers.code.orchestrator import _collect_repo_files_and_contents
+from src.analyzers.drift import compute_drift_report, render_drift_markdown
 from src.analyzers.pipeline.parser import discover_local_workflows
 from src.cli.commands.analyze_code import _analyze_repo_code, _get_git_sha
 from src.cli.commands.analyze_pipeline import _analyze_workflows_from_contents
@@ -27,6 +30,7 @@ from src.core.auth import setup_secure_logging
 from src.core.exporters.discovery_exporter import DiscoveryArchiver
 from src.core.exporters.llms_exporter import export_llms_context
 from src.core.exporters.markdown_exporter import MarkdownArchiver
+from src.core.exporters.org_summary_exporter import export_org_summary
 from src.core.exporters.pipeline_exporter import TopologyArchiver
 from src.core.exporters.sarif_exporter import export_sarif_report
 from src.core.exporters.sbom_exporter import export_cyclonedx_sbom
@@ -430,6 +434,10 @@ def _analyze_cloned_repo_sync(
     repo_path: Path,
     entry: CorpusEntry,
     analyzed_date: str,
+    *,
+    enable_live_osv: bool = False,
+    osv_transport: httpx.BaseTransport | None = None,
+    osv_cache_path: Path | None = None,
 ) -> dict[str, Any]:
     """
     Execute Stage 1 (Discover), Stage 2 (Pipeline DAG), and Stage 3 (Arc42 Code AST)
@@ -536,7 +544,13 @@ def _analyze_cloned_repo_sync(
     # Stage 3: Structural Code Analysis & Arc42 Report
     code_artifact: PortableArtifact | None = None
     try:
-        code_artifact = _analyze_repo_code(repo_path, entry.full_name)
+        code_artifact = _analyze_repo_code(
+            repo_path,
+            entry.full_name,
+            enable_live_osv=enable_live_osv,
+            osv_transport=osv_transport,
+            osv_cache_path=osv_cache_path,
+        )
         if code_artifact is not None and code_artifact.sha == "unknown" and sha != "unknown":
             code_artifact = code_artifact.model_copy(update={"sha": sha})
     except Exception as exc:
@@ -581,10 +595,20 @@ async def _execute_with_clone(
     timeout: float,
     analyzed_date: str,
     override_path: Path | None,
+    *,
+    enable_live_osv: bool = False,
+    osv_transport: httpx.BaseTransport | None = None,
+    osv_cache_path: Path | None = None,
 ) -> dict[str, Any]:
     if override_path is not None:
         return await asyncio.to_thread(
-            _analyze_cloned_repo_sync, override_path, entry, analyzed_date
+            _analyze_cloned_repo_sync,
+            override_path,
+            entry,
+            analyzed_date,
+            enable_live_osv=enable_live_osv,
+            osv_transport=osv_transport,
+            osv_cache_path=osv_cache_path,
         )
 
     async with GitCloner.clone_async(
@@ -595,7 +619,13 @@ async def _execute_with_clone(
         timeout=timeout,
     ) as cloned_dir:
         return await asyncio.to_thread(
-            _analyze_cloned_repo_sync, Path(cloned_dir), entry, analyzed_date
+            _analyze_cloned_repo_sync,
+            Path(cloned_dir),
+            entry,
+            analyzed_date,
+            enable_live_osv=enable_live_osv,
+            osv_transport=osv_transport,
+            osv_cache_path=osv_cache_path,
         )
 
 
@@ -607,6 +637,10 @@ async def _run_single_repo(
     analyzed_date: str,
     local_repo_resolver: Callable[[CorpusEntry], Awaitable[Path | None] | Path | None]
     | None = None,
+    *,
+    enable_live_osv: bool = False,
+    osv_transport: httpx.BaseTransport | None = None,
+    osv_cache_path: Path | None = None,
 ) -> dict[str, Any]:
     async with semaphore:
         t0 = time.perf_counter()
@@ -617,7 +651,16 @@ async def _run_single_repo(
                 override_path = await maybe if asyncio.iscoroutine(maybe) else maybe
 
             payload = await asyncio.wait_for(
-                _execute_with_clone(entry, token, timeout, analyzed_date, override_path),
+                _execute_with_clone(
+                    entry,
+                    token,
+                    timeout,
+                    analyzed_date,
+                    override_path,
+                    enable_live_osv=enable_live_osv,
+                    osv_transport=osv_transport,
+                    osv_cache_path=osv_cache_path,
+                ),
                 timeout=timeout,
             )
             duration = round(time.perf_counter() - t0, 3)
@@ -785,7 +828,7 @@ def _clear_latest_artifact_dirs(exports_root: Path) -> None:
     latest = exports_root / "latest"
     if not latest.exists():
         return
-    for sub in ("repos", "pipelines", "relationships", "reports", "sbom", "sarif", "llms"):
+    for sub in ("repos", "pipelines", "relationships", "reports", "sbom", "sarif", "drift", "llms"):
         target = latest / sub
         if target.exists() and target.is_dir():
             shutil.rmtree(target)
@@ -827,22 +870,41 @@ def _deserialize_outcome(raw: dict[str, Any]) -> dict[str, Any]:
     return outcome
 
 
+def _parse_worker_stdout(raw_stdout: bytes) -> dict[str, Any]:
+    text = raw_stdout.decode("utf-8").strip()
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        for line in reversed(text.splitlines()):
+            candidate = line.strip()
+            if candidate.startswith("{"):
+                return json.loads(candidate)
+        raise
+
+
 def _run_worker_from_stdin() -> None:
     req = json.loads(sys.stdin.read())
     entry = CorpusEntry.model_validate(req["entry"])
     timeout = float(req["timeout"])
     analyzed_date = str(req["analyzed_date"])
     token = os.getenv("GH_TOKEN") or req.get("token")
+    enable_live_osv = bool(req.get("enable_live_osv", False))
+    raw_cache = req.get("osv_cache_path")
+    osv_cache_path = Path(raw_cache) if raw_cache else None
     sem = asyncio.Semaphore(1)
-    outcome = asyncio.run(
-        _run_single_repo(
-            entry,
-            semaphore=sem,
-            timeout=timeout,
-            token=token,
-            analyzed_date=analyzed_date,
+    # Keep typer.echo/library logs on stderr so child stdout emits clean JSON only.
+    with redirect_stdout(sys.stderr):
+        outcome = asyncio.run(
+            _run_single_repo(
+                entry,
+                semaphore=sem,
+                timeout=timeout,
+                token=token,
+                analyzed_date=analyzed_date,
+                enable_live_osv=enable_live_osv,
+                osv_cache_path=osv_cache_path,
+            )
         )
-    )
     sys.stdout.write(json.dumps(_serialize_outcome(outcome)))
     sys.stdout.flush()
 
@@ -854,6 +916,8 @@ async def _run_single_repo_subprocess(
     timeout: float,
     token: str | None,
     analyzed_date: str,
+    enable_live_osv: bool = False,
+    osv_cache_path: Path | None = None,
 ) -> dict[str, Any]:
     req_bytes = json.dumps(
         {
@@ -861,6 +925,8 @@ async def _run_single_repo_subprocess(
             "timeout": timeout,
             "analyzed_date": analyzed_date,
             "token": token,
+            "enable_live_osv": enable_live_osv,
+            "osv_cache_path": str(osv_cache_path) if osv_cache_path else None,
         }
     ).encode("utf-8")
 
@@ -919,7 +985,7 @@ async def _run_single_repo_subprocess(
 
         if proc.returncode == 0 and stdout:
             try:
-                return _deserialize_outcome(json.loads(stdout.decode("utf-8")))
+                return _deserialize_outcome(_parse_worker_stdout(stdout))
             except Exception as exc:
                 err_msg = f"Worker payload decode failed: {exc}"
         else:
@@ -939,12 +1005,12 @@ async def _run_single_repo_subprocess(
             duration_seconds=duration,
             within_sla=duration <= timeout,
             error=err_msg,
-            stage_failed="worker",
+            stage_failed="analyze-code",
         )
         anom = AnomalyRecord(
             repo=entry.full_name,
             sha=entry.pinned_sha or "unknown",
-            stage="worker",
+            stage="analyze-code",
             error_type="WorkerProcessError",
             message=err_msg,
             expected_ecosystem=entry.expected_ecosystem,
@@ -952,6 +1018,45 @@ async def _run_single_repo_subprocess(
             timestamp=_utc_iso(),
         )
         return {"result": res, "anomalies": [anom]}
+
+
+def _capture_drift_baseline(
+    output_dir: Path,
+    clean_latest: bool,
+    diff_baseline: Path | str | None,
+    diff_previous: bool,
+) -> tuple[Path | None, tempfile.TemporaryDirectory[str] | None]:
+    """Snapshot an existing `latest/` baseline before cleanup if drift computation is enabled."""
+    latest_existing = output_dir / "latest"
+    snapshot_subdirs = ("repos", "pipelines", "relationships", "reports", "sbom", "sarif", "llms")
+    if diff_previous and latest_existing.exists() and any(
+        (latest_existing / sub).exists() for sub in ("repos", "reports", "pipelines")
+    ):
+        temp_ctx = tempfile.TemporaryDirectory(prefix="atruss_bench_prev_")
+        snap_root = Path(temp_ctx.name)
+        for sub in snapshot_subdirs:
+            src_sub = latest_existing / sub
+            if src_sub.exists():
+                shutil.copytree(src_sub, snap_root / sub, dirs_exist_ok=True)
+        return snap_root, temp_ctx
+
+    if diff_baseline is not None:
+        cand_base = Path(diff_baseline)
+        if cand_base.exists():
+            if clean_latest and latest_existing.exists() and cand_base.resolve() in (
+                latest_existing.resolve(),
+                output_dir.resolve(),
+            ):
+                temp_ctx = tempfile.TemporaryDirectory(prefix="atruss_bench_base_")
+                snap_root = Path(temp_ctx.name)
+                for sub in snapshot_subdirs:
+                    src_sub = latest_existing / sub
+                    if src_sub.exists():
+                        shutil.copytree(src_sub, snap_root / sub, dirs_exist_ok=True)
+                return snap_root, temp_ctx
+            return cand_base, None
+
+    return None, None
 
 
 async def execute_benchmark(
@@ -970,12 +1075,18 @@ async def execute_benchmark(
     checkpoint_dir: Path | str | None = None,
     resume: bool = True,
     isolated: bool = False,
+    enable_live_osv: bool = False,
+    osv_transport: httpx.BaseTransport | None = None,
+    osv_cache_path: Path | None = None,
+    diff_baseline: Path | str | None = None,
+    diff_previous: bool = False,
 ) -> tuple[BenchmarkSummary, list[AnomalyRecord], Path]:
     """
     Execute the fault-isolated 3-stage benchmark across `entries` and publish
-    Astro-compatible artifacts, `benchmark_manifest.json`, `benchmark_summary.{json,md}`,
-    and `anomalies.json`. Supports optional per-repo checkpointing (`checkpoint_dir`,
-    `resume`) and memory-isolated subprocess execution (`isolated`).
+    Astro-compatible artifacts, `orgs-summary.json`, optional `drift_report.{json,md}`,
+    `benchmark_manifest.json`, `benchmark_summary.{json,md}`, and `anomalies.json`.
+    Supports optional per-repo checkpointing (`checkpoint_dir`, `resume`), memory-isolated
+    subprocess execution (`isolated`), live OSV queries (`enable_live_osv`), and drift comparison.
     """
     logger = setup_secure_logging(Path(log_dir) / "benchmark.log", token)
     started_at = _utc_iso()
@@ -987,12 +1098,14 @@ async def execute_benchmark(
         ckpt_root.mkdir(parents=True, exist_ok=True)
 
     logger.info(
-        "Starting %s benchmark for %d repositories (concurrency=%d, timeout=%.1fs, isolated=%s)",
+        "Starting %s benchmark for %d repositories "
+        "(concurrency=%d, timeout=%.1fs, isolated=%s, live_osv=%s)",
         mode,
         len(entries),
         max_concurrent,
         timeout,
         isolated and local_repo_resolver is None,
+        enable_live_osv,
     )
 
     semaphore = asyncio.Semaphore(max_concurrent)
@@ -1012,6 +1125,8 @@ async def execute_benchmark(
                 timeout=timeout,
                 token=token,
                 analyzed_date=analyzed_date,
+                enable_live_osv=enable_live_osv,
+                osv_cache_path=osv_cache_path,
             )
         else:
             outcome = await _run_single_repo(
@@ -1021,82 +1136,112 @@ async def execute_benchmark(
                 token=token,
                 analyzed_date=analyzed_date,
                 local_repo_resolver=local_repo_resolver,
+                enable_live_osv=enable_live_osv,
+                osv_transport=osv_transport,
+                osv_cache_path=osv_cache_path,
             )
 
         if ckpt_file is not None:
             ckpt_file.write_text(json.dumps(_serialize_outcome(outcome)), encoding="utf-8")
         return outcome
 
-    outcomes = await asyncio.gather(
-        *(_run_or_load(idx, entry) for idx, entry in enumerate(entries))
-    )
+    temp_baseline_ctx: tempfile.TemporaryDirectory[str] | None = None
+    try:
+        resolved_diff_baseline, temp_baseline_ctx = _capture_drift_baseline(
+            Path(output_dir),
+            clean_latest=clean_latest,
+            diff_baseline=diff_baseline,
+            diff_previous=diff_previous,
+        )
 
-    results: list[BenchmarkRepoResult] = []
-    anomalies: list[AnomalyRecord] = []
-    discovery_items: list[DiscoveryManifestItem] = []
-    all_nodes: list[TopologyNode] = []
-    all_runs: list[WorkflowRun] = []
+        outcomes = await asyncio.gather(
+            *(_run_or_load(idx, entry) for idx, entry in enumerate(entries))
+        )
 
-    manager = ExportManager(base_dir=output_dir, timestamp=run_ts)
-    if clean_latest:
-        _clear_latest_artifact_dirs(Path(output_dir))
+        results: list[BenchmarkRepoResult] = []
+        anomalies: list[AnomalyRecord] = []
+        discovery_items: list[DiscoveryManifestItem] = []
+        all_nodes: list[TopologyNode] = []
+        all_runs: list[WorkflowRun] = []
 
-    topo_archiver = TopologyArchiver(manager)
-    reports_dir = manager.base_path / "reports"
-    md_exporter = MarkdownExporter(str(reports_dir))
+        manager = ExportManager(base_dir=output_dir, timestamp=run_ts)
+        if clean_latest:
+            _clear_latest_artifact_dirs(Path(output_dir))
 
-    manifest_entries: list[CorpusEntry] = []
-    for entry, outcome in zip(entries, outcomes, strict=True):
-        res: BenchmarkRepoResult = outcome["result"]
-        results.append(res)
-        anomalies.extend(outcome.get("anomalies", []))
+        topo_archiver = TopologyArchiver(manager)
+        reports_dir = manager.base_path / "reports"
+        md_exporter = MarkdownExporter(str(reports_dir))
 
-        pinned_sha = res.resolved_sha if res.resolved_sha != "unknown" else entry.pinned_sha
-        manifest_entries.append(entry.model_copy(update={"pinned_sha": pinned_sha}))
+        manifest_entries: list[CorpusEntry] = []
+        for entry, outcome in zip(entries, outcomes, strict=True):
+            res: BenchmarkRepoResult = outcome["result"]
+            results.append(res)
+            anomalies.extend(outcome.get("anomalies", []))
 
-        if "discovery_item" in outcome:
-            discovery_items.append(outcome["discovery_item"])
+            pinned_sha = res.resolved_sha if res.resolved_sha != "unknown" else entry.pinned_sha
+            manifest_entries.append(entry.model_copy(update={"pinned_sha": pinned_sha}))
 
-        if "astro_workflows" in outcome:
-            topo_archiver.export_repo_pipeline(
-                org=entry.org,
-                repo=entry.name,
-                sha=res.resolved_sha,
-                workflows=outcome["astro_workflows"],
+            if "discovery_item" in outcome:
+                discovery_items.append(outcome["discovery_item"])
+
+            if "astro_workflows" in outcome:
+                topo_archiver.export_repo_pipeline(
+                    org=entry.org,
+                    repo=entry.name,
+                    sha=res.resolved_sha,
+                    workflows=outcome["astro_workflows"],
+                )
+            all_nodes.extend(outcome.get("topo_nodes", []))
+            all_runs.extend(outcome.get("wf_runs", []))
+
+            art: PortableArtifact | None = outcome.get("code_artifact")
+            if art is not None:
+                safe_prefix = f"{entry.org}-{entry.name}"
+                (reports_dir / f"{safe_prefix}-analysis.json").write_text(
+                    art.model_dump_json(indent=2), encoding="utf-8"
+                )
+                md_exporter.export(
+                    art,
+                    filename=f"{safe_prefix}-report.md",
+                    include_frontmatter=True,
+                )
+                export_cyclonedx_sbom(
+                    art.repository,
+                    art.sha,
+                    art.dependencies,
+                    art.vulnerabilities,
+                    output_path=manager.get_path("sbom", f"{safe_prefix}.cdx.json"),
+                )
+                export_sarif_report(
+                    art,
+                    output_path=manager.get_path("sarif", f"{safe_prefix}.sarif.json"),
+                    repo_name=art.repository,
+                )
+
+        DiscoveryArchiver(manager).export(discovery_items)
+        topo_archiver.export(all_nodes, all_runs)
+        MarkdownArchiver(manager).export(all_nodes, all_runs)
+        latest_dir = manager.publish_to_latest()
+        export_llms_context(latest_dir, output_dir=manager.base_path / "llms")
+        manager.publish_to_latest(modules=["llms"])
+
+        if resolved_diff_baseline is not None:
+            drift_report = compute_drift_report(resolved_diff_baseline, latest_dir)
+            drift_json = json.dumps(drift_report, indent=2) + "\n"
+            drift_md = render_drift_markdown(drift_report)
+            manager.get_path("drift", "drift_report.json").write_text(
+                drift_json, encoding="utf-8"
             )
-        all_nodes.extend(outcome.get("topo_nodes", []))
-        all_runs.extend(outcome.get("wf_runs", []))
+            manager.get_path("drift", "drift_report.md").write_text(drift_md, encoding="utf-8")
+            manager.publish_to_latest(modules=["drift"])
 
-        art: PortableArtifact | None = outcome.get("code_artifact")
-        if art is not None:
-            safe_prefix = f"{entry.org}-{entry.name}"
-            (reports_dir / f"{safe_prefix}-analysis.json").write_text(
-                art.model_dump_json(indent=2), encoding="utf-8"
-            )
-            md_exporter.export(
-                art,
-                filename=f"{safe_prefix}-report.md",
-                include_frontmatter=True,
-            )
-            export_cyclonedx_sbom(
-                art.repository,
-                art.sha,
-                art.dependencies,
-                art.vulnerabilities,
-                output_path=manager.get_path("sbom", f"{safe_prefix}.cdx.json"),
-            )
-            export_sarif_report(
-                art,
-                output_path=manager.get_path("sarif", f"{safe_prefix}.sarif.json"),
-                repo_name=art.repository,
-            )
-
-    DiscoveryArchiver(manager).export(discovery_items)
-    topo_archiver.export(all_nodes, all_runs)
-    MarkdownArchiver(manager).export(all_nodes, all_runs)
-    latest_dir = manager.publish_to_latest()
-    export_llms_context(latest_dir, output_dir=manager.base_path / "llms")
-    manager.publish_to_latest(modules=["llms"])
+        orgs_summary_latest, _ = export_org_summary(
+            latest_dir, output_path=latest_dir / "orgs-summary.json"
+        )
+        shutil.copy2(orgs_summary_latest, manager.base_path / "orgs-summary.json")
+    finally:
+        if temp_baseline_ctx is not None:
+            temp_baseline_ctx.cleanup()
     scored_arts = [
         o["code_artifact"]
         for o in outcomes
@@ -1267,14 +1412,30 @@ def benchmark(
         "--isolated/--no-isolated",
         help="Run each repository in a memory-isolated subprocess with hard timeout enforcement",
     ),
+    live_osv: bool = typer.Option(
+        False,
+        "--live-osv/--no-live-osv",
+        help="Enable live OSV.dev batch vulnerability queries during code analysis",
+    ),
+    diff_baseline: str | None = typer.Option(
+        None,
+        "--diff-baseline",
+        help="Optional baseline archival snapshot directory for drift_report.{json,md}",
+    ),
+    diff_previous: bool = typer.Option(
+        False,
+        "--diff-previous/--no-diff-previous",
+        help="Compare against existing exports/latest snapshot before replacement and emit drift",
+    ),
 ) -> None:
     """
     Run stratified public GitHub benchmarks (`popular-100`, `--random-sample`, or `--replay`),
     capturing classification accuracy, pipeline DAGs, Arc42 reports, and `anomalies.json`.
     """
-    if not corpus and random_sample is None and not replay:
+    if not corpus and not corpus_file and random_sample is None and not replay:
         typer.echo(
-            "Error: Specify --corpus popular-100, --random-sample <N>, or --replay <manifest.json>",
+            "Error: Specify --corpus popular-100, --corpus-file <path>, "
+            "--random-sample <N>, or --replay <manifest.json>",
             err=True,
         )
         raise typer.Exit(1)
@@ -1304,12 +1465,12 @@ def benchmark(
     else:
         mode = "corpus"
         effective_seed = seed
-        corpus_name = str(corpus)
         target_corpus_path = (
             Path(corpus_file)
             if corpus_file
             else (DEFAULT_CORPUS_PATH if corpus == "popular-100" else Path(str(corpus)))
         )
+        corpus_name = Path(corpus_file).name if corpus_file else str(corpus)
         entries = select_corpus_entries(target_corpus_path, ecosystem=ecosystem, limit=limit)
 
     if not entries:
@@ -1330,6 +1491,9 @@ def benchmark(
             checkpoint_dir=checkpoint_dir,
             resume=resume,
             isolated=isolated,
+            enable_live_osv=live_osv,
+            diff_baseline=diff_baseline,
+            diff_previous=diff_previous,
         )
     )
 

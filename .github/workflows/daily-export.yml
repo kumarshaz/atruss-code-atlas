@@ -1,0 +1,155 @@
+name: Daily Target Repo Exports & Portal Refresh
+
+on:
+  schedule:
+    # Daily at 06:00 UTC (01:00 EST / 02:00 EDT)
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      corpus_file:
+        description: "Corpus JSON defining target repositories (must track CorpusEntry schema)"
+        required: false
+        type: string
+        default: "manifests/daily-repos.json"
+      limit:
+        description: "Optional max repository count override (blank runs full target file)"
+        required: false
+        type: string
+        default: ""
+      timeout:
+        description: "Per-repository analysis timeout in seconds"
+        required: false
+        type: string
+        default: "180"
+      max_concurrent:
+        description: "Max concurrent isolated repository workers"
+        required: false
+        type: string
+        default: "4"
+      live_osv:
+        description: "Enable live OSV.dev batch vulnerability queries"
+        required: false
+        type: boolean
+        default: true
+      diff_previous:
+        description: "Generate drift_report.{json,md} against previous exports/latest snapshot"
+        required: false
+        type: boolean
+        default: true
+      deploy_pages:
+        description: "Trigger GitHub Pages deployment when exports/latest changes"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "daily-repo-exports"
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    outputs:
+      committed: ${{ steps.commit_exports.outputs.committed }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Atruss Code Atlas
+        run: pip install -e ".[dev]"
+
+      - name: Install Astro portal dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Run daily exports (discovery, pipelines, code AST, OSV, SBOM, SARIF, drift, org summary)
+        env:
+          # Set repository secret ATRUSS_GH_PAT if any target repo in manifests/daily-repos.json is private.
+          GH_TOKEN: ${{ secrets.ATRUSS_GH_PAT || secrets.GITHUB_TOKEN }}
+          CORPUS_FILE: ${{ inputs.corpus_file || 'manifests/daily-repos.json' }}
+          LIMIT_VAL: ${{ inputs.limit || '' }}
+          TIMEOUT_VAL: ${{ inputs.timeout || '180' }}
+          MAX_CONCURRENT_VAL: ${{ inputs.max_concurrent || '4' }}
+          LIVE_OSV_VAL: ${{ github.event_name == 'schedule' && 'true' || inputs.live_osv }}
+          DIFF_PREV_VAL: ${{ github.event_name == 'schedule' && 'true' || inputs.diff_previous }}
+        run: |
+          args=(
+            benchmark
+            --corpus-file "$CORPUS_FILE"
+            --isolated
+            --no-resume
+            --timeout "$TIMEOUT_VAL"
+            --max-concurrent "$MAX_CONCURRENT_VAL"
+          )
+          if [ -n "$LIMIT_VAL" ]; then
+            args+=(--limit "$LIMIT_VAL")
+          fi
+          if [ "$LIVE_OSV_VAL" = "true" ]; then
+            args+=(--live-osv)
+          else
+            args+=(--no-live-osv)
+          fi
+          if [ "$DIFF_PREV_VAL" = "true" ]; then
+            args+=(--diff-previous)
+          else
+            args+=(--no-diff-previous)
+          fi
+          atruss "${args[@]}"
+          python scripts/generate-org-summary.py \
+            --exports-dir exports/latest \
+            --output exports/latest/orgs-summary.json
+
+      - name: Smoke-test Astro portal & exports schema before committing
+        working-directory: web
+        env:
+          ASTRO_SITE: "https://${{ github.repository_owner }}.github.io"
+          ASTRO_BASE: "/${{ github.event.repository.name }}"
+        run: npm test && npm run build
+
+      - name: Commit and push updated exports/latest telemetry
+        id: commit_exports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A exports/latest/
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes in exports/latest/ to commit."
+          else
+            git commit -m "chore(daily-export): refresh exports/latest snapshot"
+            git push
+            echo "committed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: export
+    if: ${{ needs.export.outputs.committed == 'true' && (github.event_name == 'schedule' || inputs.deploy_pages != false) }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      checkout_ref: main
+    secrets: inherit
