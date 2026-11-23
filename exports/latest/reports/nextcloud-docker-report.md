@@ -40,6 +40,7 @@ description: Arc42 and Pipeline report for nextcloud/docker
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — nextcloud/docker
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -79,6 +80,7 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -567,6 +569,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — nextcloud/docker
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

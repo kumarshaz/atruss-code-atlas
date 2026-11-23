@@ -6,7 +6,7 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 # Repository Architecture Analysis: getsentry/sentry-php
 
 ## Metadata
-- **SHA**: `f55afd0b9e64be39621d42e820d2b50284785c2b`
+- **SHA**: `cc1fb598f6c358a8b0b22115dddcad094bdcce2d`
 - **Primary Ecosystem**: PHP
 
 ## Quality Metrics
@@ -23,17 +23,17 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 - **fitness_violation_count**: 0
 - **framework**: Symfony
 - **import_edges**: 3 entry(ies)
-- **loc**: 57678
+- **loc**: 57896
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 1
-- **sloc**: 38775
+- **sloc**: 38931
 - **test_file_count**: 180
 
 # Architecture: getsentry/sentry-php
 
 ## Context
 - **Repository**: `getsentry/sentry-php`
-- **SHA**: `f55afd0b9e64be39621d42e820d2b50284785c2b`
+- **SHA**: `cc1fb598f6c358a8b0b22115dddcad094bdcce2d`
 - **Ecosystem**: PHP
 - **Framework**: Symfony
 
@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — getsentry/sentry-php
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -156,22 +157,51 @@ Showing top 60 representative components out of 251 across 5 module group(s):
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (77.41/100)
-- **Technical Debt Score**: 22.59
-- **Estimated Remediation Effort**: 19.17h
+- **Overall Grade**: `D` (66.90/100)
+- **Technical Debt Score**: 33.10
+- **Estimated Remediation Effort**: 48.30h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 99.81 | 0.20 | avg_cc=1.00, max_cc=1, duplication=0.13%, dead_code=0 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=22, outdated=0, vulnerable=0, has_lockfile=True |
+| Dependency Health | `A` | 90.91 | 0.15 | dependencies=22, outdated=0, vulnerable=4, has_lockfile=True |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
-| Pipeline Health | `F` | 49.00 | 0.15 | workflows=6, operational_antipatterns=12, parallel_branches=True |
-| Security | `F` | 48.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=3 |
+| Pipeline Health | `F` | 52.00 | 0.15 | workflows=5, operational_antipatterns=11, parallel_branches=True |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=27, secrets=0, pipeline_security_findings=3 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 22 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 22 | **Vulnerabilities**: 27 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-25mq-v84q-4j7r`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-34xg-wgjx-8xph`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-94pj-82f3-465w`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9vw2-f4vp-x7gf`** `phpunit/phpunit` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-c2w2-prh8-qm98`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-cwmx-hcrq-mhc3`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-cwxw-98qj-8qjx`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f283-ghqc-fg79`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f2wf-25xc-69c9`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f57v-q966-7fh6`** `monolog/monolog` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-f7vp-7xgx-4w4r`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-g446-98w2-8p5w`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h95v-h523-3mw8`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hq7v-mx3g-29hw`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-m6ch-gg5f-wxx3`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-mh6w-vxff-9wqp`** `phpunit/phpunit` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-q559-8m2m-g699`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q7rv-6hp3-vh96`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qrr6-mg7r-m243`** `phpunit/phpunit` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-r7c9-c69m-rph8`** `phpunit/phpunit` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-v5mv-p594-2x33`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-vm85-hxw5-5432`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-vvj3-c3rp-c85p`** `phpunit/phpunit` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-w248-ffj2-4v5q`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-wm3w-8rrp-j577`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-wpwq-4j6v-78m3`** `guzzlehttp/guzzle` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-wxmh-65f7-jcvw`** `guzzlehttp/psr7` `` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `guzzlehttp/psr7` `*` (composer, `composer.json`)
@@ -180,7 +210,7 @@ Showing top 60 representative components out of 251 across 5 module group(s):
 - `symfony/options-resolver` `*` (composer, `composer.json`)
 - `@sentry/decision-model-linter` `0.3.0` (npm, `decision-model-linter/package-lock.json`)
 - `@sentry/decision-model-linter` `0.3.0` (npm, `decision-model-linter/package.json`)
-- `carthage-software/mago` `1.30.0` (composer, `composer.json`)
+- `carthage-software/mago` `1.60.2` (composer, `composer.json`)
 - `friendsofphp/php-cs-fixer` `3.4` (composer, `composer.json`)
 - `guzzlehttp/guzzle` `*` (composer, `composer.json`)
 - `guzzlehttp/promises` `*` (composer, `composer.json`)
@@ -201,6 +231,7 @@ Showing top 60 representative components out of 251 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -221,6 +252,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — getsentry/sentry-php
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -228,8 +260,8 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-  pipeline_root(["getsentry/sentry-php (6 workflows)"]):::atlasRoot
-  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]
+  pipeline_root(["getsentry/sentry-php (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 9 jobs)"]
     direction TB
     subgraph sg_wf_0_Backward_compatibility["Backward compatibility (1 jobs)"]
       direction TB
@@ -267,13 +299,6 @@ graph TD;
       wf_4_Code_style_and_static_analysis --> job_4_mago
     end
     pipeline_root --> wf_4_Code_style_and_static_analysis
-    subgraph sg_wf_5_Validate_PR["Validate PR (1 jobs)"]
-      direction TB
-      wf_5_Validate_PR(["Trigger: Validate PR"]):::atlasWorkflow
-      job_5_validate_pr["validate-pr"]:::atlasJob
-      wf_5_Validate_PR --> job_5_validate_pr
-    end
-    pipeline_root --> wf_5_Validate_PR
   end
   subgraph sg_grp_1_Release___Deploy["Release & Deploy (1 workflows · 1 jobs)"]
     direction TB

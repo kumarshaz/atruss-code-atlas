@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for PostHog/posthog-elixir
 # Repository Architecture Analysis: PostHog/posthog-elixir
 
 ## Metadata
-- **SHA**: `febb4c67ab9cf8892bcafbe3ce179162d375c98e`
+- **SHA**: `5d37478809de22150006168be1d74c9b70a1dc8f`
 - **Primary Ecosystem**: Elixir
 
 ## Quality Metrics
 - **ast_engine**: fallback
 - **avg_cognitive_complexity**: 0.0
 - **avg_cyclomatic_complexity**: 0.0
-- **component_count**: 92
+- **component_count**: 94
 - **dead_code_count**: 0
 - **dead_code_symbols**: 0 entry(ies)
 - **duplication_pct**: 0.0
 - **file_complexities**: 0 entry(ies)
-- **files_analyzed**: 92
+- **files_analyzed**: 94
 - **fitness_passed**: True
 - **fitness_violation_count**: 0
 - **framework**: Elixir Mix
 - **import_edges**: 0 entry(ies)
-- **loc**: 27981
+- **loc**: 30276
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 0
-- **sloc**: 22832
-- **test_file_count**: 47
+- **sloc**: 24663
+- **test_file_count**: 48
 
 # Architecture: PostHog/posthog-elixir
 
 ## Context
 - **Repository**: `PostHog/posthog-elixir`
-- **SHA**: `febb4c67ab9cf8892bcafbe3ce179162d375c98e`
+- **SHA**: `5d37478809de22150006168be1d74c9b70a1dc8f`
 - **Ecosystem**: Elixir
 - **Framework**: Elixir Mix
 
@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for PostHog/posthog-elixir
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — PostHog/posthog-elixir
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -48,11 +49,11 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-    repo_root(["PostHog/posthog-elixir (92 components)"]):::atlasRoot
-    subgraph sg_dir_0_test["test (42)"]
+    repo_root(["PostHog/posthog-elixir (94 components)"]):::atlasRoot
+    subgraph sg_dir_0_test["test (43)"]
       direction TB
-      dir_0_test["test (42)"]:::atlasCategory
-      sub_0_0_posthog["posthog (33)"]:::atlasWorkflow
+      dir_0_test["test (43)"]:::atlasCategory
+      sub_0_0_posthog["posthog (34)"]:::atlasWorkflow
       dir_0_test --> sub_0_0_posthog
       sub_0_1_support["support (4)"]:::atlasWorkflow
       dir_0_test --> sub_0_1_support
@@ -62,10 +63,10 @@ graph TD;
       dir_0_test --> sub_0_more
     end
     repo_root --> dir_0_test
-    subgraph sg_dir_1_lib["lib (34)"]
+    subgraph sg_dir_1_lib["lib (35)"]
       direction TB
-      dir_1_lib["lib (34)"]:::atlasCategory
-      sub_1_0_posthog["posthog (31)"]:::atlasWorkflow
+      dir_1_lib["lib (35)"]:::atlasCategory
+      sub_1_0_posthog["posthog (32)"]:::atlasWorkflow
       dir_1_lib --> sub_1_0_posthog
       sub_1_1_mix["mix (2)"]:::atlasWorkflow
       dir_1_lib --> sub_1_1_mix
@@ -94,10 +95,10 @@ graph TD;
 
 ## Component Details
 
-Showing top 60 representative components out of 92 across 5 module group(s):
+Showing top 60 representative components out of 94 across 5 module group(s):
 
-- **Module `test`** (42 components — module: 42)
-- **Module `lib`** (34 components — module: 34)
+- **Module `test`** (43 components — module: 43)
+- **Module `lib`** (35 components — module: 35)
 - **Module `sdk_compliance_adapter`** (9 components — module: 9)
 - **Module `config`** (4 components — module: 4)
 - **Module `(root)`** (3 components — module: 3)
@@ -153,6 +154,7 @@ Showing top 60 representative components out of 92 across 5 module group(s):
 - **local_evaluator_structs** (`test/support/local_evaluator_structs.ex`): module
 - **local_evaluator_test** (`test/posthog/feature_flags/local_evaluator_test.exs`): module
 - **missing_key_knowledge_test** (`test/posthog/feature_flags/missing_key_knowledge_test.exs`): module
+- **missing_probe_coordinator** (`lib/posthog/feature_flags/missing_probe_coordinator.ex`): module
 - **mix** (`mix.exs`): module
 - **mix** (`sdk_compliance_adapter/mix.exs`): module
 - **mocks** (`test/support/api/mocks.ex`): module
@@ -161,26 +163,54 @@ Showing top 60 representative components out of 92 across 5 module group(s):
 - **plug** (`lib/posthog/integrations/plug.ex`): module
 - **plug_test** (`test/posthog/integrations/plug_test.exs`): module
 - **posthog** (`lib/posthog.ex`): module
-- **posthog.package_source_code** (`lib/mix/tasks/posthog.package_source_code.ex`): module
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `B` (87.10/100)
-- **Technical Debt Score**: 12.90
-- **Estimated Remediation Effort**: 12.22h
+- **Overall Grade**: `D` (68.96/100)
+- **Technical Debt Score**: 31.04
+- **Estimated Remediation Effort**: 43.76h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=14, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `A` | 96.43 | 0.15 | dependencies=14, outdated=0, vulnerable=1, has_lockfile=False |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
 | Pipeline Health | `D` | 60.00 | 0.15 | workflows=8, operational_antipatterns=15, parallel_branches=True |
-| Security | `B` | 88.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=1 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=27, secrets=0, pipeline_security_findings=1 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 14 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 14 | **Vulnerabilities**: 27 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `EEF-CVE-2026-105659`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-105660`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-108525`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-108529`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-109584`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-110314`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-110499`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-111101`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-113436`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-115269`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-116078`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-39803`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-39804`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-39805`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-39806`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-39807`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-42786`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-42788`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-74836`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `EEF-CVE-2026-75484`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-375f-4r2h-f99j`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9q9q-324x-93r2`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-c67r-gc9j-2qf7`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-frh3-6pv6-rc8j`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-pf94-94m9-536p`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q6v9-r226-v65f`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-rf5q-vwxw-gmrf`** `bandit` `1.7` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `bandit` `1.7` (hex, `mix.exs`)
@@ -202,6 +232,7 @@ Showing top 60 representative components out of 92 across 5 module group(s):
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -236,6 +267,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — PostHog/posthog-elixir
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

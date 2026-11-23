@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for Azure-Samples/todo-nodejs-mongo-terra
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — Azure-Samples/todo-nodejs-mongo-terraform
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -119,17 +120,17 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `D` (60.62/100)
-- **Technical Debt Score**: 39.38
-- **Estimated Remediation Effort**: 40.92h
+- **Overall Grade**: `F` (57.04/100)
+- **Technical Debt Score**: 42.96
+- **Estimated Remediation Effort**: 313.81h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `F` | 50.50 | 0.20 | avg_cc=3.50, max_cc=22, duplication=60.36%, dead_code=6 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=1356, outdated=0, vulnerable=0, has_lockfile=True |
+| Dependency Health | `A` | 97.46 | 0.15 | dependencies=1356, outdated=0, vulnerable=69, has_lockfile=True |
 | Maintainability | `D` | 68.50 | 0.15 | avg_cognitive=3.68, max_cognitive=29, fitness_violations=3, oversized_files=0 |
 | Pipeline Health | `C` | 77.00 | 0.15 | workflows=1, operational_antipatterns=2, parallel_branches=False |
-| Security | `F` | 16.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=7 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=272, secrets=0, pipeline_security_findings=7 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=False, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -140,7 +141,49 @@ graph TD;
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 1356 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 1356 | **Vulnerabilities**: 272 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-23c5-xmqv-rm74`** `minimatch` `9.0.3` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-25h7-pfq9-p65f`** `flatted` `3.3.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-25h7-pfq9-p65f`** `flatted` `3.3.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-27r3-jxmh-p828`** `body-parser` `1.20.3` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2883-xcg3-v3hh`** `js-yaml` `3.14.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2883-xcg3-v3hh`** `js-yaml` `4.1.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2883-xcg3-v3hh`** `js-yaml` `4.1.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-28wg-ghj8-5hjv`** `nanoid` `3.3.8` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2g4f-4pwh-qvx6`** `ajv` `6.12.6` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2g4f-4pwh-qvx6`** `ajv` `6.12.6` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2j2x-hqr9-3h42`** `react-router` `7.5.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-2v37-7h3g-55p8`** `nanoid` `3.3.8` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2w69-qvjg-hvjx`** `react-router` `7.5.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-337j-9hxr-rhxg`** `react-router` `7.5.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-35jp-ww65-95wh`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-35jp-ww65-95wh`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-37ch-88jc-xwx2`** `path-to-regexp` `0.1.12` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3cgp-3xvw-98x8`** `react-router` `7.5.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-3g43-6gmg-66jw`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-3g43-6gmg-66jw`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `1.1.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `1.1.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `1.1.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `2.0.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `1.1.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3jxr-9vmj-r5cp`** `brace-expansion` `1.1.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3p68-rc4w-qgx5`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-3p68-rc4w-qgx5`** `axios` `1.8.2` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `3.1.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3ppc-4f35-3m26`** `minimatch` `9.0.3` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3v7f-55p6-f55p`** `picomatch` `2.3.1` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `@azure/identity` `4.2.1` (npm, `src/api/package-lock.json`)
@@ -179,6 +222,7 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -299,6 +343,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — Azure-Samples/todo-nodejs-mongo-terraform
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

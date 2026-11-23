@@ -1,12 +1,12 @@
 {
   "repository": "PostHog/posthog-elixir",
-  "sha": "febb4c67ab9cf8892bcafbe3ce179162d375c98e",
+  "sha": "5d37478809de22150006168be1d74c9b70a1dc8f",
   "ecosystem": "Elixir",
   "metrics": {
-    "files_analyzed": 92,
-    "loc": 27981,
-    "sloc": 22832,
-    "component_count": 92,
+    "files_analyzed": 94,
+    "loc": 30276,
+    "sloc": 24663,
+    "component_count": 94,
     "avg_cyclomatic_complexity": 0.0,
     "max_cyclomatic_complexity": 0,
     "ast_engine": "fallback",
@@ -17,7 +17,7 @@
     "dead_code_symbols": [],
     "file_complexities": [],
     "import_edges": [],
-    "test_file_count": 47,
+    "test_file_count": 48,
     "framework": "Elixir Mix",
     "fitness_passed": true,
     "fitness_violation_count": 0
@@ -1207,11 +1207,11 @@
         },
         "compliance": {
           "name": "PostHog SDK compliance tests",
-          "uses": "PostHog/posthog-sdk-test-harness/.github/workflows/test-sdk-action.yml@ffa6cc38dbc4efa64b474d2d81a6c6abad4cd07a",
+          "uses": "PostHog/posthog-sdk-test-harness/.github/workflows/test-sdk-action.yml@dde638562d33572b5c8ac3a2eafc98b92ffa2261",
           "with": {
             "adapter-dockerfile": "sdk_compliance_adapter/Dockerfile",
             "adapter-context": ".",
-            "test-harness-version": "1.0.0",
+            "test-harness-version": "1.32.0",
             "report-name": "sdk-compliance-elixir-v0-gzip"
           }
         }
@@ -1608,6 +1608,12 @@
       "line": 1
     },
     {
+      "name": "missing_probe_coordinator",
+      "type": "module",
+      "file": "lib/posthog/feature_flags/missing_probe_coordinator.ex",
+      "line": 1
+    },
+    {
       "name": "result",
       "type": "module",
       "file": "lib/posthog/feature_flags/result.ex",
@@ -1884,6 +1890,12 @@
       "line": 1
     },
     {
+      "name": "remote_config_payload_test",
+      "type": "module",
+      "file": "test/posthog/feature_flags/remote_config_payload_test.exs",
+      "line": 1
+    },
+    {
       "name": "result_test",
       "type": "module",
       "file": "test/posthog/feature_flags/result_test.exs",
@@ -1939,10 +1951,10 @@
     }
   ],
   "scorecard": {
-    "overall_score": 87.1,
-    "overall_grade": "B",
-    "technical_debt_score": 12.9,
-    "remediation_hours": 12.22,
+    "overall_score": 68.96,
+    "overall_grade": "D",
+    "technical_debt_score": 31.04,
+    "remediation_hours": 43.76,
     "dimensions": {
       "code_quality": {
         "name": "Code Quality",
@@ -1953,10 +1965,10 @@
       },
       "security": {
         "name": "Security",
-        "score": 88.0,
-        "grade": "B",
+        "score": 0.0,
+        "grade": "F",
         "weight": 0.2,
-        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=1"
+        "details": "vulnerabilities=27, secrets=0, pipeline_security_findings=1"
       },
       "maintainability": {
         "name": "Maintainability",
@@ -1974,10 +1986,10 @@
       },
       "dependency_health": {
         "name": "Dependency Health",
-        "score": 100.0,
+        "score": 96.43,
         "grade": "A",
         "weight": 0.15,
-        "details": "dependencies=14, outdated=0, vulnerable=0, has_lockfile=False"
+        "details": "dependencies=14, outdated=0, vulnerable=1, has_lockfile=False"
       },
       "pipeline_health": {
         "name": "Pipeline Health",
@@ -2130,7 +2142,35 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "EEF-CVE-2026-105659",
+        "EEF-CVE-2026-105660",
+        "EEF-CVE-2026-108525",
+        "EEF-CVE-2026-108529",
+        "EEF-CVE-2026-109584",
+        "EEF-CVE-2026-110314",
+        "EEF-CVE-2026-110499",
+        "EEF-CVE-2026-111101",
+        "EEF-CVE-2026-113436",
+        "EEF-CVE-2026-115269",
+        "EEF-CVE-2026-116078",
+        "EEF-CVE-2026-39803",
+        "EEF-CVE-2026-39804",
+        "EEF-CVE-2026-39805",
+        "EEF-CVE-2026-39806",
+        "EEF-CVE-2026-39807",
+        "EEF-CVE-2026-42786",
+        "EEF-CVE-2026-42788",
+        "EEF-CVE-2026-74836",
+        "EEF-CVE-2026-75484",
+        "GHSA-375f-4r2h-f99j",
+        "GHSA-9q9q-324x-93r2",
+        "GHSA-c67r-gc9j-2qf7",
+        "GHSA-frh3-6pv6-rc8j",
+        "GHSA-pf94-94m9-536p",
+        "GHSA-q6v9-r226-v65f",
+        "GHSA-rf5q-vwxw-gmrf"
+      ]
     },
     {
       "name": "credo",
@@ -2172,7 +2212,359 @@
       "vulnerability_ids": []
     }
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    {
+      "id": "EEF-CVE-2026-105659",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-105660",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-108525",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-108529",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-109584",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-110314",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-110499",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-111101",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-113436",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-115269",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-116078",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-39803",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-39804",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-39805",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-39806",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-39807",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-42786",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-42788",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-74836",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "EEF-CVE-2026-75484",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-375f-4r2h-f99j",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-9q9q-324x-93r2",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-c67r-gc9j-2qf7",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-frh3-6pv6-rc8j",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-pf94-94m9-536p",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-q6v9-r226-v65f",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    },
+    {
+      "id": "GHSA-rf5q-vwxw-gmrf",
+      "package": "bandit",
+      "purl": "pkg:hex/bandit@1.7",
+      "installed_version": "1.7",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "mix.exs",
+      "line": 85
+    }
+  ],
   "secrets": [],
   "fitness_violations": [],
   "code_to_cloud_edges": [

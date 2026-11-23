@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for spring-projects/spring-petclinic
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — spring-projects/spring-petclinic
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -110,17 +111,17 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `D` (65.20/100)
-- **Technical Debt Score**: 34.80
-- **Estimated Remediation Effort**: 41.89h
+- **Overall Grade**: `F` (55.85/100)
+- **Technical Debt Score**: 44.15
+- **Estimated Remediation Effort**: 81.23h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `F` | 55.00 | 0.20 | avg_cc=1.49, max_cc=14, duplication=78.46%, dead_code=10 |
-| Dependency Health | `B` | 85.00 | 0.15 | dependencies=50, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `C` | 76.00 | 0.15 | dependencies=50, outdated=0, vulnerable=9, has_lockfile=False |
 | Maintainability | `B` | 82.00 | 0.15 | avg_cognitive=0.62, max_cognitive=17, fitness_violations=2, oversized_files=0 |
 | Pipeline Health | `C` | 71.00 | 0.15 | workflows=3, operational_antipatterns=4, parallel_branches=False |
-| Security | `F` | 40.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=5 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=37, secrets=0, pipeline_security_findings=5 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -130,7 +131,46 @@ graph TD;
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 50 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 50 | **Vulnerabilities**: 37 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-22wj-vf5f-wrvj`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-22wj-vf5f-wrvj`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-24rp-q3w6-vc56`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-24rp-q3w6-vc56`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-45hx-wfhj-473x`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-45hx-wfhj-473x`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-562r-vg33-8x8h`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-562r-vg33-8x8h`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-56v8-86gj-66jp`** `org.springframework.boot:spring-boot-devtools` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-673j-qm5f-xpv8`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-673j-qm5f-xpv8`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-727h-hrw8-jg8q`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-727h-hrw8-jg8q`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-7rpj-hg47-cx62`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-7rpj-hg47-cx62`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-88cc-g835-76rp`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-88cc-g835-76rp`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-8hfc-fq58-r658`** `org.springframework.boot:spring-boot-starter-actuator` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-8hfc-fq58-r658`** `org.springframework.boot:spring-boot-starter-actuator` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-98qh-xjc8-98pq`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-98qh-xjc8-98pq`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h376-j262-vhq6`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h376-j262-vhq6`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h86w-m5rm-xr33`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h86w-m5rm-xr33`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hq9p-pm7w-8p54`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hq9p-pm7w-8p54`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-j92g-9f8w-j867`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-j92g-9f8w-j867`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-m6vm-37g8-gqvh`** `com.mysql:mysql-connector-j` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-m6vm-37g8-gqvh`** `com.mysql:mysql-connector-j` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-mgvc-8q2h-5pgc`** `org.springframework.boot:spring-boot-starter-actuator` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-mgvc-8q2h-5pgc`** `org.springframework.boot:spring-boot-starter-actuator` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-r38f-c4h4-hqq2`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-r38f-c4h4-hqq2`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-v7wg-cpwc-24m4`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-v7wg-cpwc-24m4`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `com.github.ben-manes.caffeine:caffeine` `*` (Maven, `build.gradle`)
@@ -169,13 +209,14 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
         mod__devcontainer[".devcontainer"]:::atlasCategory
-        mod_48c3516b_754a_4033_93da_9d0145f0c9d2["48c3516b-754a-4033-93da-9d0145f0c9d2"]:::atlasCategory
+        mod_6f9e5f9a_096d_4217_8bc7_efc03bd45e46["6f9e5f9a-096d-4217-8bc7-efc03bd45e46"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
@@ -191,14 +232,14 @@ flowchart LR
     end
     job_deploy_and_test_cluster_yml_deploy_and_test_cluster -->|DEPLOYS_TO| env_kubernetes
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
-    mod_48c3516b_754a_4033_93da_9d0145f0c9d2 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_6f9e5f9a_096d_4217_8bc7_efc03bd45e46 -->|PACKAGED_BY| art_docker_compose_yml
     art_k8s_db_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
     art_k8s_petclinic_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
 ```
 
 - `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job) --[DEPLOYS_TO]--> `kubernetes` (environment)
 - `.devcontainer` (code_module) --[PACKAGED_BY]--> `.devcontainer/Dockerfile` (container)
-- `48c3516b-754a-4033-93da-9d0145f0c9d2` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `6f9e5f9a-096d-4217-8bc7-efc03bd45e46` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `k8s/db.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 - `k8s/petclinic.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 
@@ -207,6 +248,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — spring-projects/spring-petclinic
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

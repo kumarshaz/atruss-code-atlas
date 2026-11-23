@@ -1,18 +1,18 @@
 {
   "repository": "dotnet/eShop",
-  "sha": "913acea66708a59595351174cee9b29f37179d29",
+  "sha": "ab10e4c68fd26369578ebfb3fd1ccf3b867d0444",
   "ecosystem": ".NET",
   "metrics": {
     "files_analyzed": 547,
-    "loc": 26354,
-    "sloc": 20711,
+    "loc": 26398,
+    "sloc": 20752,
     "component_count": 124,
     "avg_cyclomatic_complexity": 1.65,
     "max_cyclomatic_complexity": 25,
     "ast_engine": "tree-sitter",
-    "avg_cognitive_complexity": 0.75,
+    "avg_cognitive_complexity": 0.76,
     "max_cognitive_complexity": 28,
-    "duplication_pct": 83.77,
+    "duplication_pct": 83.61,
     "dead_code_count": 82,
     "dead_code_symbols": [
       {
@@ -377,7 +377,7 @@
       },
       {
         "file": "src/WebApp/Services/BasketState.cs",
-        "loc": 172,
+        "loc": 175,
         "cyclomatic": 13,
         "cognitive": 14
       },
@@ -920,7 +920,7 @@
         "confidence": 0.8
       }
     ],
-    "test_file_count": 64,
+    "test_file_count": 65,
     "framework": "ASP.NET Core",
     "fitness_passed": false,
     "fitness_violation_count": 11
@@ -938,11 +938,11 @@
           "runs-on": "ubuntu-latest",
           "steps": [
             {
-              "uses": "actions/checkout@v4"
+              "uses": "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
             },
             {
               "name": "Use Node.js",
-              "uses": "actions/setup-node@v4",
+              "uses": "actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
               "with": {
                 "node-version": "20.x"
               }
@@ -1017,16 +1017,16 @@
           "runs-on": "ubuntu-latest",
           "steps": [
             {
-              "uses": "actions/checkout@v4"
+              "uses": "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
             },
             {
-              "uses": "actions/setup-dotnet@v4",
+              "uses": "actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
               "with": {
-                "dotnet-version": "10.0.x"
+                "dotnet-version": "11.0.x"
               }
             },
             {
-              "uses": "actions/setup-node@v4",
+              "uses": "actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
               "with": {
                 "node-version": "lts/*"
               }
@@ -1049,7 +1049,7 @@
               }
             },
             {
-              "uses": "actions/upload-artifact@v4",
+              "uses": "actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f",
               "if": "always()",
               "with": {
                 "name": "playwright-report",
@@ -1158,11 +1158,11 @@
           "runs-on": "windows-latest",
           "steps": [
             {
-              "uses": "actions/checkout@v4"
+              "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262"
             },
             {
               "name": "Setup .NET (global.json)",
-              "uses": "actions/setup-dotnet@v3"
+              "uses": "actions/setup-dotnet@55ec9447dda3d1cf6bd587150f3262f30ee10815"
             },
             {
               "name": "Update Workloads",
@@ -1270,11 +1270,11 @@
           "runs-on": "ubuntu-latest",
           "steps": [
             {
-              "uses": "actions/checkout@v4"
+              "uses": "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
             },
             {
               "name": "Setup .NET (global.json)",
-              "uses": "actions/setup-dotnet@v3"
+              "uses": "actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1"
             },
             {
               "name": "Build",
@@ -1591,7 +1591,6 @@
       "file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
       "ecosystem": ".net",
       "dependencies": [
-        "Identity.API",
         "Ordering.API",
         "Ordering.Domain",
         "Ordering.Infrastructure"
@@ -2454,31 +2453,31 @@
     }
   ],
   "scorecard": {
-    "overall_score": 52.05,
+    "overall_score": 43.67,
     "overall_grade": "F",
-    "technical_debt_score": 47.95,
-    "remediation_hours": 87.24,
+    "technical_debt_score": 56.33,
+    "remediation_hours": 104.3,
     "dimensions": {
       "code_quality": {
         "name": "Code Quality",
         "score": 40.0,
         "grade": "F",
         "weight": 0.2,
-        "details": "avg_cc=1.65, max_cc=25, duplication=83.77%, dead_code=82"
+        "details": "avg_cc=1.65, max_cc=25, duplication=83.61%, dead_code=82"
       },
       "security": {
         "name": "Security",
-        "score": 38.0,
+        "score": 0.0,
         "grade": "F",
         "weight": 0.2,
-        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=5"
+        "details": "vulnerabilities=15, secrets=0, pipeline_security_findings=5"
       },
       "maintainability": {
         "name": "Maintainability",
         "score": 0.0,
         "grade": "F",
         "weight": 0.15,
-        "details": "avg_cognitive=0.75, max_cognitive=28, fitness_violations=11, oversized_files=1"
+        "details": "avg_cognitive=0.76, max_cognitive=28, fitness_violations=11, oversized_files=1"
       },
       "test_coverage": {
         "name": "Test Coverage",
@@ -2489,10 +2488,10 @@
       },
       "dependency_health": {
         "name": "Dependency Health",
-        "score": 100.0,
+        "score": 94.8,
         "grade": "A",
         "weight": 0.15,
-        "details": "dependencies=124, outdated=0, vulnerable=0, has_lockfile=True"
+        "details": "dependencies=125, outdated=0, vulnerable=13, has_lockfile=True"
       },
       "pipeline_health": {
         "name": "Pipeline Health",
@@ -2726,10 +2725,10 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Aspire.Azure.AI.OpenAI",
+      "name": "Aspire.Azure.AI.Extensions.OpenAI",
       "version": "",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Aspire.Azure.AI.OpenAI",
+      "purl": "pkg:nuget/Aspire.Azure.AI.Extensions.OpenAI",
       "manifest_file": "src/Catalog.API/Catalog.API.csproj",
       "line": 34,
       "is_direct": true,
@@ -2766,9 +2765,9 @@
     },
     {
       "name": "Google.Protobuf",
-      "version": "3.29.3",
+      "version": "3.36.2",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Google.Protobuf@3.29.3",
+      "purl": "pkg:nuget/Google.Protobuf@3.36.2",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 64,
       "is_direct": true,
@@ -2779,9 +2778,9 @@
     },
     {
       "name": "Grpc.Net.Client",
-      "version": "2.67.0",
+      "version": "2.85.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Grpc.Net.Client@2.67.0",
+      "purl": "pkg:nuget/Grpc.Net.Client@2.85.0",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 65,
       "is_direct": true,
@@ -2792,9 +2791,9 @@
     },
     {
       "name": "Grpc.Tools",
-      "version": "2.69.0",
+      "version": "2.85.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Grpc.Tools@2.69.0",
+      "purl": "pkg:nuget/Grpc.Tools@2.85.0",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 66,
       "is_direct": true,
@@ -2818,9 +2817,9 @@
     },
     {
       "name": "Microsoft.Maui.Controls",
-      "version": "9.0.30",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls@9.0.30",
+      "purl": "pkg:nuget/Microsoft.Maui.Controls@11.0.10",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 71,
       "is_direct": true,
@@ -2830,10 +2829,10 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Maui.Controls.Compatibility",
-      "version": "9.0.30",
+      "name": "Microsoft.Maui.Controls.Maps",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls.Compatibility@9.0.30",
+      "purl": "pkg:nuget/Microsoft.Maui.Controls.Maps@11.0.10",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 72,
       "is_direct": true,
@@ -2843,10 +2842,10 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Maui.Controls.Maps",
-      "version": "9.0.30",
+      "name": "Microsoft.Extensions.Logging.Debug",
+      "version": "11.0.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls.Maps@9.0.30",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Debug@11.0.0",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 73,
       "is_direct": true,
@@ -2856,25 +2855,12 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Extensions.Logging.Debug",
-      "version": "9.0.0",
+      "name": "CommunityToolkit.Maui",
+      "version": "17.0.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Debug@9.0.0",
+      "purl": "pkg:nuget/CommunityToolkit.Maui@17.0.0",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
       "line": 74,
-      "is_direct": true,
-      "license": null,
-      "is_outdated": false,
-      "latest_version": null,
-      "vulnerability_ids": []
-    },
-    {
-      "name": "CommunityToolkit.Maui",
-      "version": "9.1.1",
-      "ecosystem": "NuGet",
-      "purl": "pkg:nuget/CommunityToolkit.Maui@9.1.1",
-      "manifest_file": "src/ClientApp/ClientApp.csproj",
-      "line": 75,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -2887,7 +2873,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/IdentityModel@7.0.0",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
-      "line": 76,
+      "line": 75,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -2896,24 +2882,11 @@
     },
     {
       "name": "CommunityToolkit.Mvvm",
-      "version": "8.3.2",
+      "version": "8.4.2",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/CommunityToolkit.Mvvm@8.3.2",
+      "purl": "pkg:nuget/CommunityToolkit.Mvvm@8.4.2",
       "manifest_file": "src/ClientApp/ClientApp.csproj",
-      "line": 77,
-      "is_direct": true,
-      "license": null,
-      "is_outdated": false,
-      "latest_version": null,
-      "vulnerability_ids": []
-    },
-    {
-      "name": "Microsoft.Extensions.Options",
-      "version": "",
-      "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Extensions.Options",
-      "manifest_file": "src/EventBus/EventBus.csproj",
-      "line": 10,
+      "line": 76,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -2935,9 +2908,9 @@
     },
     {
       "name": "Microsoft.AspNetCore.Components.WebView.Maui",
-      "version": "9.0.30",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView.Maui@9.0.30",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView.Maui@11.0.10",
       "manifest_file": "src/HybridApp/HybridApp.csproj",
       "line": 66,
       "is_direct": true,
@@ -2948,9 +2921,9 @@
     },
     {
       "name": "Microsoft.Maui.Controls",
-      "version": "9.0.30",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls@9.0.30",
+      "purl": "pkg:nuget/Microsoft.Maui.Controls@11.0.10",
       "manifest_file": "src/HybridApp/HybridApp.csproj",
       "line": 67,
       "is_direct": true,
@@ -2960,10 +2933,10 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Maui.Controls.Compatibility",
-      "version": "9.0.30",
+      "name": "Microsoft.Extensions.Http",
+      "version": "11.0.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls.Compatibility@9.0.30",
+      "purl": "pkg:nuget/Microsoft.Extensions.Http@11.0.0",
       "manifest_file": "src/HybridApp/HybridApp.csproj",
       "line": 68,
       "is_direct": true,
@@ -2973,25 +2946,12 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Extensions.Http",
-      "version": "9.0.0",
+      "name": "Microsoft.Extensions.Logging.Debug",
+      "version": "11.0.0",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Extensions.Http@9.0.0",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Debug@11.0.0",
       "manifest_file": "src/HybridApp/HybridApp.csproj",
       "line": 69,
-      "is_direct": true,
-      "license": null,
-      "is_outdated": false,
-      "latest_version": null,
-      "vulnerability_ids": []
-    },
-    {
-      "name": "Microsoft.Extensions.Logging.Debug",
-      "version": "9.0.0",
-      "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Debug@9.0.0",
-      "manifest_file": "src/HybridApp/HybridApp.csproj",
-      "line": 70,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3048,7 +3008,10 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-ff4q-64jc-gx98",
+        "GHSA-v9xq-2mvm-x8xc"
+      ]
     },
     {
       "name": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
@@ -3220,19 +3183,6 @@
       "vulnerability_ids": []
     },
     {
-      "name": "System.Reflection.TypeExtensions",
-      "version": "",
-      "ecosystem": "NuGet",
-      "purl": "pkg:nuget/System.Reflection.TypeExtensions",
-      "manifest_file": "src/Ordering.Domain/Ordering.Domain.csproj",
-      "line": 9,
-      "is_direct": true,
-      "license": null,
-      "is_outdated": false,
-      "latest_version": null,
-      "vulnerability_ids": []
-    },
-    {
       "name": "Npgsql.EntityFrameworkCore.PostgreSQL",
       "version": "",
       "ecosystem": "NuGet",
@@ -3259,10 +3209,10 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Aspire.Azure.AI.OpenAI",
+      "name": "Aspire.Azure.AI.Extensions.OpenAI",
       "version": "",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Aspire.Azure.AI.OpenAI",
+      "purl": "pkg:nuget/Aspire.Azure.AI.Extensions.OpenAI",
       "manifest_file": "src/WebApp/WebApp.csproj",
       "line": 21,
       "is_direct": true,
@@ -3321,7 +3271,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-jwvw-v7c5-m82h"
+      ]
     },
     {
       "name": "Grpc.Net.ClientFactory",
@@ -3439,6 +3391,21 @@
       "is_outdated": false,
       "latest_version": null,
       "vulnerability_ids": []
+    },
+    {
+      "name": "Aspire.Hosting.AppHost",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "manifest_file": "src/eShop.AppHost/eShop.AppHost.csproj",
+      "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": [
+        "GHSA-f7vh-h5g3-7jrh"
+      ]
     },
     {
       "name": "Aspire.Hosting.Dotnet",
@@ -3594,7 +3561,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-v5pm-xwqc-g5wc"
+      ]
     },
     {
       "name": "Scalar.AspNetCore",
@@ -3620,7 +3589,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-q7cg-43mg-qp69"
+      ]
     },
     {
       "name": "Microsoft.Extensions.Http.Resilience",
@@ -3659,7 +3630,11 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-4625-4j76-fww9",
+        "GHSA-mr8r-92fq-pj8p",
+        "GHSA-q834-8qmm-v933"
+      ]
     },
     {
       "name": "OpenTelemetry.Extensions.Hosting",
@@ -3685,7 +3660,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-vh2m-22xx-q94f"
+      ]
     },
     {
       "name": "OpenTelemetry.Instrumentation.GrpcNetClient",
@@ -3711,7 +3688,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-vh2m-22xx-q94f"
+      ]
     },
     {
       "name": "OpenTelemetry.Instrumentation.Runtime",
@@ -3764,6 +3743,21 @@
       "is_outdated": false,
       "latest_version": null,
       "vulnerability_ids": []
+    },
+    {
+      "name": "Aspire.Hosting.AppHost",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "manifest_file": "tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj",
+      "line": 13,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": [
+        "GHSA-f7vh-h5g3-7jrh"
+      ]
     },
     {
       "name": "Aspire.Hosting.Redis",
@@ -3849,12 +3843,27 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Asp.Versioning.Http.Client",
       "manifest_file": "tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj",
-      "line": 12,
+      "line": 11,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
       "latest_version": null,
       "vulnerability_ids": []
+    },
+    {
+      "name": "Aspire.Hosting.AppHost",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "manifest_file": "tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj",
+      "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": [
+        "GHSA-f7vh-h5g3-7jrh"
+      ]
     },
     {
       "name": "Aspire.Hosting.PostgreSQL",
@@ -3910,9 +3919,9 @@
     },
     {
       "name": "Microsoft.Maui.Controls",
-      "version": "9.0.40",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls@9.0.40",
+      "purl": "pkg:nuget/Microsoft.Maui.Controls@11.0.10",
       "manifest_file": "tests/ClientApp.UnitTests/ClientApp.UnitTests.csproj",
       "line": 15,
       "is_direct": true,
@@ -3922,25 +3931,12 @@
       "vulnerability_ids": []
     },
     {
-      "name": "Microsoft.Maui.Controls.Compatibility",
-      "version": "9.0.40",
+      "name": "Microsoft.Maui.Controls.Maps",
+      "version": "11.0.10",
       "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls.Compatibility@9.0.40",
+      "purl": "pkg:nuget/Microsoft.Maui.Controls.Maps@11.0.10",
       "manifest_file": "tests/ClientApp.UnitTests/ClientApp.UnitTests.csproj",
       "line": 17,
-      "is_direct": true,
-      "license": null,
-      "is_outdated": false,
-      "latest_version": null,
-      "vulnerability_ids": []
-    },
-    {
-      "name": "Microsoft.Maui.Controls.Maps",
-      "version": "9.0.40",
-      "ecosystem": "NuGet",
-      "purl": "pkg:nuget/Microsoft.Maui.Controls.Maps@9.0.40",
-      "manifest_file": "tests/ClientApp.UnitTests/ClientApp.UnitTests.csproj",
-      "line": 18,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3953,7 +3949,35 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Asp.Versioning.Http.Client",
       "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Aspire.Hosting.AppHost",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
       "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": [
+        "GHSA-f7vh-h5g3-7jrh"
+      ]
+    },
+    {
+      "name": "Aspire.Hosting.Dotnet",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.Dotnet",
+      "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
+      "line": 13,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3966,7 +3990,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Aspire.Hosting.PostgreSQL",
       "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
-      "line": 13,
+      "line": 14,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3979,7 +4003,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Microsoft.AspNetCore.Mvc.Testing",
       "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
-      "line": 14,
+      "line": 15,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3992,7 +4016,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Microsoft.AspNetCore.TestHost",
       "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
-      "line": 15,
+      "line": 16,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -4005,7 +4029,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/xunit.v3.mtp-v2",
       "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
-      "line": 16,
+      "line": 17,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -4044,12 +4068,27 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Asp.Versioning.Http.Client",
       "manifest_file": "tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj",
-      "line": 14,
+      "line": 13,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
       "latest_version": null,
       "vulnerability_ids": []
+    },
+    {
+      "name": "Aspire.Hosting.AppHost",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "manifest_file": "tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj",
+      "line": 14,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": [
+        "GHSA-f7vh-h5g3-7jrh"
+      ]
     },
     {
       "name": "Aspire.Hosting.PostgreSQL",
@@ -4117,7 +4156,203 @@
       "vulnerability_ids": []
     }
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    {
+      "id": "GHSA-ff4q-64jc-gx98",
+      "package": "Duende.IdentityServer",
+      "purl": "pkg:nuget/Duende.IdentityServer",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_RUNTIME",
+      "manifest_file": "src/Identity.API/Identity.API.csproj",
+      "line": 12
+    },
+    {
+      "id": "GHSA-v9xq-2mvm-x8xc",
+      "package": "Duende.IdentityServer",
+      "purl": "pkg:nuget/Duende.IdentityServer",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_RUNTIME",
+      "manifest_file": "src/Identity.API/Identity.API.csproj",
+      "line": 12
+    },
+    {
+      "id": "GHSA-jwvw-v7c5-m82h",
+      "package": "Google.Protobuf",
+      "purl": "pkg:nuget/Google.Protobuf",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_RUNTIME",
+      "manifest_file": "src/WebApp/WebApp.csproj",
+      "line": 25
+    },
+    {
+      "id": "GHSA-f7vh-h5g3-7jrh",
+      "package": "Aspire.Hosting.AppHost",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.AppHost/eShop.AppHost.csproj",
+      "line": 12
+    },
+    {
+      "id": "GHSA-v5pm-xwqc-g5wc",
+      "package": "Microsoft.OpenApi",
+      "purl": "pkg:nuget/Microsoft.OpenApi",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_RUNTIME",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 16
+    },
+    {
+      "id": "GHSA-q7cg-43mg-qp69",
+      "package": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Authentication.JwtBearer",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 18
+    },
+    {
+      "id": "GHSA-4625-4j76-fww9",
+      "package": "OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "purl": "pkg:nuget/OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 21
+    },
+    {
+      "id": "GHSA-mr8r-92fq-pj8p",
+      "package": "OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "purl": "pkg:nuget/OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 21
+    },
+    {
+      "id": "GHSA-q834-8qmm-v933",
+      "package": "OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "purl": "pkg:nuget/OpenTelemetry.Exporter.OpenTelemetryProtocol",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 21
+    },
+    {
+      "id": "GHSA-vh2m-22xx-q94f",
+      "package": "OpenTelemetry.Instrumentation.AspNetCore",
+      "purl": "pkg:nuget/OpenTelemetry.Instrumentation.AspNetCore",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 23
+    },
+    {
+      "id": "GHSA-vh2m-22xx-q94f",
+      "package": "OpenTelemetry.Instrumentation.Http",
+      "purl": "pkg:nuget/OpenTelemetry.Instrumentation.Http",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj",
+      "line": 25
+    },
+    {
+      "id": "GHSA-f7vh-h5g3-7jrh",
+      "package": "Aspire.Hosting.AppHost",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj",
+      "line": 13
+    },
+    {
+      "id": "GHSA-f7vh-h5g3-7jrh",
+      "package": "Aspire.Hosting.AppHost",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj",
+      "line": 12
+    },
+    {
+      "id": "GHSA-f7vh-h5g3-7jrh",
+      "package": "Aspire.Hosting.AppHost",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj",
+      "line": 12
+    },
+    {
+      "id": "GHSA-f7vh-h5g3-7jrh",
+      "package": "Aspire.Hosting.AppHost",
+      "purl": "pkg:nuget/Aspire.Hosting.AppHost",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj",
+      "line": 14
+    }
+  ],
   "secrets": [],
   "fitness_violations": [
     {
@@ -4228,7 +4463,7 @@
       "rule_id": "ATRUSS-ARCH-005",
       "type": "COMPLEXITY_THRESHOLD",
       "severity": "MEDIUM",
-      "message": "Repository duplication_pct (83.77) exceeds policy threshold (15.0).",
+      "message": "Repository duplication_pct (83.61) exceeds policy threshold (15.0).",
       "source_component": "src/ClientApp/Services/Basket/Protos/Basket.cs",
       "target_component": "duplication_pct",
       "source_layer": "REPOSITORY",

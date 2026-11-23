@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for dotnet/eShop
 # Repository Architecture Analysis: dotnet/eShop
 
 ## Metadata
-- **SHA**: `913acea66708a59595351174cee9b29f37179d29`
+- **SHA**: `ab10e4c68fd26369578ebfb3fd1ccf3b867d0444`
 - **Primary Ecosystem**: .NET
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
-- **avg_cognitive_complexity**: 0.75
+- **avg_cognitive_complexity**: 0.76
 - **avg_cyclomatic_complexity**: 1.65
 - **component_count**: 124
 - **dead_code_count**: 82
 - **dead_code_symbols**: 50 entry(ies)
-- **duplication_pct**: 83.77
+- **duplication_pct**: 83.61
 - **file_complexities**: 25 entry(ies)
 - **files_analyzed**: 547
 - **fitness_passed**: False
 - **fitness_violation_count**: 11
 - **framework**: ASP.NET Core
 - **import_edges**: 100 entry(ies)
-- **loc**: 26354
+- **loc**: 26398
 - **max_cognitive_complexity**: 28
 - **max_cyclomatic_complexity**: 25
-- **sloc**: 20711
-- **test_file_count**: 64
+- **sloc**: 20752
+- **test_file_count**: 65
 
 # Architecture: dotnet/eShop
 
 ## Context
 - **Repository**: `dotnet/eShop`
-- **SHA**: `913acea66708a59595351174cee9b29f37179d29`
+- **SHA**: `ab10e4c68fd26369578ebfb3fd1ccf3b867d0444`
 - **Ecosystem**: .NET
 - **Framework**: ASP.NET Core
 
@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for dotnet/eShop
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — dotnet/eShop
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -85,7 +86,6 @@ graph TD;
     sub_0_2_Identity_API -.->|"1 dep"| sub_0_more
     sub_1_1_Application_UnitTests -.->|"1 dep"| sub_0_2_Identity_API
     sub_1_2_Basket_FunctionalTests -.->|"1 dep"| sub_0_more
-    sub_1_more -.->|"1 dep"| sub_0_2_Identity_API
 ```
 
 ## Component Details
@@ -100,7 +100,6 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - **CreateOrderIdentifiedCommandHandler** (`src/Ordering.API/Application/Commands/CreateOrderCommandHandler.cs`): SERVICE (deps: CreateOrderCommandHandler, IdentifiedCommandHandler, IdentityService, OrderRepository, OrderingIntegrationEventService)
 - **Ordering.API** (`src/Ordering.API/Ordering.API.csproj`): MODULE (deps: EventBusRabbitMQ, IntegrationEventLogEF, Ordering.Domain, Ordering.Infrastructure, eShop.ServiceDefaults)
 - **AppEnvironmentService** (`src/ClientApp/Services/AppEnvironment/AppEnvironmentService.cs`): SERVICE (deps: BasketService, CatalogService, IdentityService, OrderService)
-- **Ordering.FunctionalTests** (`tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`): MODULE (deps: Identity.API, Ordering.API, Ordering.Domain, Ordering.Infrastructure)
 - **BasketService** (`src/ClientApp/Services/Basket/BasketService.cs`): SERVICE (deps: FixUriService, IdentityService, SettingsService)
 - **CancelOrderCommandHandler** (`src/Ordering.API/Application/Commands/CancelOrderCommandHandler.cs`): SERVICE (deps: CancelOrderIdentifiedCommandHandler, IdentifiedCommandHandler, OrderRepository)
 - **CancelOrderIdentifiedCommandHandler** (`src/Ordering.API/Application/Commands/CancelOrderCommandHandler.cs`): SERVICE (deps: CancelOrderCommandHandler, IdentifiedCommandHandler, OrderRepository)
@@ -110,6 +109,7 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - **OrderStatusChangedToAwaitingValidationDomainEventHandler** (`src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToAwaitingValidationDomainEventHandler.cs`): SERVICE (deps: BuyerRepository, OrderRepository, OrderingIntegrationEventService)
 - **OrderStatusChangedToPaidDomainEventHandler** (`src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToPaidDomainEventHandler.cs`): SERVICE (deps: BuyerRepository, OrderRepository, OrderingIntegrationEventService)
 - **OrderStatusChangedToStockConfirmedDomainEventHandler** (`src/Ordering.API/Application/DomainEventHandlers/OrderStatusChangedToStockConfirmedDomainEventHandler.cs`): SERVICE (deps: BuyerRepository, OrderRepository, OrderingIntegrationEventService)
+- **Ordering.FunctionalTests** (`tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`): MODULE (deps: Ordering.API, Ordering.Domain, Ordering.Infrastructure)
 - **Ordering.UnitTests** (`tests/Ordering.UnitTests/Ordering.UnitTests.csproj`): MODULE (deps: Ordering.API, Ordering.Domain, Ordering.Infrastructure)
 - **SetAwaitingValidationIdentifiedOrderStatusCommandHandler** (`src/Ordering.API/Application/Commands/SetAwaitingValidationOrderStatusCommandHandler.cs`): SERVICE (deps: IdentifiedCommandHandler, OrderRepository, SetAwaitingValidationOrderStatusCommandHandler)
 - **SetAwaitingValidationOrderStatusCommandHandler** (`src/Ordering.API/Application/Commands/SetAwaitingValidationOrderStatusCommandHandler.cs`): SERVICE (deps: IdentifiedCommandHandler, OrderRepository, SetAwaitingValidationIdentifiedOrderStatusCommandHandler)
@@ -158,17 +158,17 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `F` (52.05/100)
-- **Technical Debt Score**: 47.95
-- **Estimated Remediation Effort**: 87.24h
+- **Overall Grade**: `F` (43.67/100)
+- **Technical Debt Score**: 56.33
+- **Estimated Remediation Effort**: 104.30h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `F` | 40.00 | 0.20 | avg_cc=1.65, max_cc=25, duplication=83.77%, dead_code=82 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=124, outdated=0, vulnerable=0, has_lockfile=True |
-| Maintainability | `F` | 0.00 | 0.15 | avg_cognitive=0.75, max_cognitive=28, fitness_violations=11, oversized_files=1 |
+| Code Quality | `F` | 40.00 | 0.20 | avg_cc=1.65, max_cc=25, duplication=83.61%, dead_code=82 |
+| Dependency Health | `A` | 94.80 | 0.15 | dependencies=125, outdated=0, vulnerable=13, has_lockfile=True |
+| Maintainability | `F` | 0.00 | 0.15 | avg_cognitive=0.76, max_cognitive=28, fitness_violations=11, oversized_files=1 |
 | Pipeline Health | `C` | 73.00 | 0.15 | workflows=4, operational_antipatterns=6, parallel_branches=False |
-| Security | `F` | 38.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=5 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=15, secrets=0, pipeline_security_findings=5 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -181,13 +181,30 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockConfirmedOrderStatusCommandHandler -> SetStockConfirmedOrderStatusIdentifiedCommandHandler -> SetStockConfirmedOrderStatusCommandHandler)
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockRejectedOrderStatusCommandHandler -> SetStockRejectedOrderStatusIdentifiedCommandHandler -> SetStockRejectedOrderStatusCommandHandler)
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (ShipOrderCommandHandler -> ShipOrderIdentifiedCommandHandler -> ShipOrderCommandHandler)
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (83.77) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (83.61) exceeds policy threshold (15.0).
 - **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0).
 - **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0).
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 124 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 125 | **Vulnerabilities**: 15 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-4625-4j76-fww9`** `OpenTelemetry.Exporter.OpenTelemetryProtocol` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f7vh-h5g3-7jrh`** `Aspire.Hosting.AppHost` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f7vh-h5g3-7jrh`** `Aspire.Hosting.AppHost` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f7vh-h5g3-7jrh`** `Aspire.Hosting.AppHost` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f7vh-h5g3-7jrh`** `Aspire.Hosting.AppHost` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f7vh-h5g3-7jrh`** `Aspire.Hosting.AppHost` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-ff4q-64jc-gx98`** `Duende.IdentityServer` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-jwvw-v7c5-m82h`** `Google.Protobuf` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-mr8r-92fq-pj8p`** `OpenTelemetry.Exporter.OpenTelemetryProtocol` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q7cg-43mg-qp69`** `Microsoft.AspNetCore.Authentication.JwtBearer` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q834-8qmm-v933`** `OpenTelemetry.Exporter.OpenTelemetryProtocol` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-v5pm-xwqc-g5wc`** `Microsoft.OpenApi` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-v9xq-2mvm-x8xc`** `Duende.IdentityServer` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-vh2m-22xx-q94f`** `OpenTelemetry.Instrumentation.AspNetCore` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-vh2m-22xx-q94f`** `OpenTelemetry.Instrumentation.Http` `` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `Asp.Versioning.Http` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
@@ -200,10 +217,16 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - `Asp.Versioning.Http.Client` `*` (NuGet, `tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj`)
 - `Asp.Versioning.Mvc.ApiExplorer` `*` (NuGet, `src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj`)
 - `Asp.Versioning.OpenApi` `*` (NuGet, `src/eShop.ServiceDefaults/eShop.ServiceDefaults.csproj`)
-- `Aspire.Azure.AI.OpenAI` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
-- `Aspire.Azure.AI.OpenAI` `*` (NuGet, `src/WebApp/WebApp.csproj`)
+- `Aspire.Azure.AI.Extensions.OpenAI` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
+- `Aspire.Azure.AI.Extensions.OpenAI` `*` (NuGet, `src/WebApp/WebApp.csproj`)
+- `Aspire.Hosting.AppHost` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.AppHost` `*` (NuGet, `tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj`)
+- `Aspire.Hosting.AppHost` `*` (NuGet, `tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj`)
+- `Aspire.Hosting.AppHost` `*` (NuGet, `tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`)
+- `Aspire.Hosting.AppHost` `*` (NuGet, `tests/Webhooks.FunctionalTests/Webhooks.FunctionalTests.csproj`)
 - `Aspire.Hosting.Azure.AppContainers` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
 - `Aspire.Hosting.Dotnet` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
+- `Aspire.Hosting.Dotnet` `*` (NuGet, `tests/Ordering.FunctionalTests/Ordering.FunctionalTests.csproj`)
 - `Aspire.Hosting.Foundry` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
 - `Aspire.Hosting.PostgreSQL` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
 - `Aspire.Hosting.PostgreSQL` `*` (NuGet, `tests/Catalog.FunctionalTests/Catalog.FunctionalTests.csproj`)
@@ -214,18 +237,13 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - `Aspire.Hosting.Redis` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
 - `Aspire.Hosting.Redis` `*` (NuGet, `tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj`)
 - `Aspire.Hosting.Yarp` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
-- `Aspire.Npgsql` `*` (NuGet, `src/OrderProcessor/OrderProcessor.csproj`)
-- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Catalog.API/Catalog.API.csproj`)
-- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Identity.API/Identity.API.csproj`)
-- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Ordering.API/Ordering.API.csproj`)
-- `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL` `*` (NuGet, `src/Webhooks.API/Webhooks.API.csproj`)
-- `Aspire.RabbitMQ.Client` `*` (NuGet, `src/EventBusRabbitMQ/EventBusRabbitMQ.csproj`)
-- ... (+94 more dependencies)
+- ... (+95 more dependencies)
 
 ## Section 7: Code-to-Cloud Deployment Traceability
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -249,6 +267,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — dotnet/eShop
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for argoproj/notifications-engine
 # Repository Architecture Analysis: argoproj/notifications-engine
 
 ## Metadata
-- **SHA**: `0086b66d6687c9a47d0805a6a7429631bb5ac40c`
+- **SHA**: `adb8572f32ba5a8f411afb87bfeb6c5fb4d1258b`
 - **Primary Ecosystem**: Go
 
 ## Quality Metrics
 - **ast_engine**: fallback
 - **avg_cognitive_complexity**: 0.0
 - **avg_cyclomatic_complexity**: 0.0
-- **component_count**: 84
+- **component_count**: 82
 - **dead_code_count**: 0
 - **dead_code_symbols**: 0 entry(ies)
 - **duplication_pct**: 0.0
 - **file_complexities**: 0 entry(ies)
-- **files_analyzed**: 84
+- **files_analyzed**: 82
 - **fitness_passed**: True
 - **fitness_violation_count**: 0
 - **framework**: Go Service
 - **import_edges**: 0 entry(ies)
-- **loc**: 14921
+- **loc**: 14355
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 0
-- **sloc**: 12475
-- **test_file_count**: 34
+- **sloc**: 12007
+- **test_file_count**: 33
 
 # Architecture: argoproj/notifications-engine
 
 ## Context
 - **Repository**: `argoproj/notifications-engine`
-- **SHA**: `0086b66d6687c9a47d0805a6a7429631bb5ac40c`
+- **SHA**: `adb8572f32ba5a8f411afb87bfeb6c5fb4d1258b`
 - **Ecosystem**: Go
 - **Framework**: Go Service
 
@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for argoproj/notifications-engine
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — argoproj/notifications-engine
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -48,11 +49,11 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-    repo_root(["argoproj/notifications-engine (84 components)"]):::atlasRoot
-    subgraph sg_dir_0_pkg["pkg (81)"]
+    repo_root(["argoproj/notifications-engine (82 components)"]):::atlasRoot
+    subgraph sg_dir_0_pkg["pkg (79)"]
       direction TB
-      dir_0_pkg["pkg (81)"]:::atlasCategory
-      sub_0_0_services["services (45)"]:::atlasWorkflow
+      dir_0_pkg["pkg (79)"]:::atlasCategory
+      sub_0_0_services["services (43)"]:::atlasWorkflow
       dir_0_pkg --> sub_0_0_services
       sub_0_1_cmd["cmd (8)"]:::atlasWorkflow
       dir_0_pkg --> sub_0_1_cmd
@@ -70,9 +71,9 @@ graph TD;
 
 ## Component Details
 
-Showing top 60 representative components out of 84 across 3 module group(s):
+Showing top 60 representative components out of 82 across 3 module group(s):
 
-- **Module `pkg`** (81 components — module: 81)
+- **Module `pkg`** (79 components — module: 79)
 - **Module `examples`** (2 components — module: 2)
 - **Module `docs`** (1 components — module: 1)
 
@@ -139,22 +140,64 @@ Showing top 60 representative components out of 84 across 3 module group(s):
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (78.30/100)
-- **Technical Debt Score**: 21.70
-- **Estimated Remediation Effort**: 13.43h
+- **Overall Grade**: `C` (72.52/100)
+- **Technical Debt Score**: 27.48
+- **Estimated Remediation Effort**: 122.87h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
-| Dependency Health | `B` | 85.00 | 0.15 | dependencies=130, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `B` | 81.15 | 0.15 | dependencies=130, outdated=0, vulnerable=10, has_lockfile=False |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
 | Pipeline Health | `A` | 99.00 | 0.15 | workflows=1, operational_antipatterns=2, parallel_branches=True |
-| Security | `F` | 26.00 | 0.20 | vulnerabilities=0, secrets=2, pipeline_security_findings=2 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=108, secrets=2, pipeline_security_findings=2 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 130 | **Vulnerabilities**: 0 | **Secrets**: 2
+- **Dependencies Parsed**: 130 | **Vulnerabilities**: 108 | **Secrets**: 2
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-259r-337f-4rfw`** `github.com/klauspost/compress` `1.18.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2v4p-qf9q-27wj`** `google.golang.org/grpc` `1.71.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3f24-pcvm-5jqc`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-45gg-vh54-h5m9`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4g68-3pwx-5vfj`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-52jh-2xxh-pwh6`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-55h8-8g96-x4hj`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-5cgq-3rg8-m6cv`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-5cv4-jp36-h3mw`** `golang.org/x/net` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-78mq-xcr3-xm33`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-7qmq-8cc4-hxwg`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-89gr-r52h-f8rx`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-8m2x-3m6q-6w8j`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-8r68-gvr4-jh7j`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9983-vrx2-fg9c`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9m57-25v3-79x9`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f5wc-c3c7-36mc`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-f6x5-jh6r-wrfv`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-fcjp-h8cc-6879`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-gxhx-2686-5h9g`** `github.com/slack-go/slack` `0.16.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hrxh-6v49-42gf`** `google.golang.org/grpc` `1.71.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-j5w8-q4qc-rx2x`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-jppx-rxg9-jmrx`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-jxxm-27vp-c3m5`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-mh63-6h87-95cp`** `github.com/golang-jwt/jwt/v4` `4.5.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-p3j5-5hrq-p75h`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-p77j-4mvh-x3m3`** `google.golang.org/grpc` `1.71.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-p957-7v2w-g93g`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-pq2q-rcw4-3hr6`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-pwx7-fx9r-hr4h`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q4h4-gmj2-qvw2`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-q7gw-24fr-5p69`** `go.opentelemetry.io/otel/trace` `1.35.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qc2q-p7wx-3px3`** `google.golang.org/grpc` `1.71.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qpw4-5x99-6vjp`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qrcv-3558-gj4f`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qrvq-68c2-7grw`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-r72h-j7qq-v6qg`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-rm3j-f69w-wqmq`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-v722-jcv5-w7mc`** `github.com/nats-io/nats-server/v2` `2.11.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-vgwf-h737-ff37`** `golang.org/x/crypto` `0.38.0` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Secret Findings (Redacted)
 - **[CRITICAL] `ATRUSS-SEC-004`** at `docs/services/github.md:48` (`-----BEGIN ... PRIVATE KEY----- [REDACTED]`)
@@ -197,12 +240,13 @@ Showing top 60 representative components out of 84 across 3 module group(s):
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2["636845dd-2d9b-492e-8c1e-d438d4b83ac2"]:::atlasCategory
+        mod_2203e10d_222b_4cc9_ab1f_54f92f162f50["2203e10d-222b-4cc9-ab1f-54f92f162f50"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art_coverage_out["coverage.out"]:::atlasWorkflow
@@ -211,20 +255,21 @@ flowchart LR
         job_ci_yaml_lint_go["ci.yaml#lint-go"]:::atlasJob
         job_ci_yaml_test["ci.yaml#test"]:::atlasJob
     end
-    mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2 -->|BUILT_BY| job_ci_yaml_lint_go
-    mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2 -->|BUILT_BY| job_ci_yaml_test
-    mod_636845dd_2d9b_492e_8c1e_d438d4b83ac2 -->|PACKAGED_BY| art_coverage_out
+    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|BUILT_BY| job_ci_yaml_lint_go
+    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|BUILT_BY| job_ci_yaml_test
+    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|PACKAGED_BY| art_coverage_out
 ```
 
-- `636845dd-2d9b-492e-8c1e-d438d4b83ac2` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
-- `636845dd-2d9b-492e-8c1e-d438d4b83ac2` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
-- `636845dd-2d9b-492e-8c1e-d438d4b83ac2` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
+- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
+- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
+- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
 
 
 ## CI/CD Pipeline Topology
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — argoproj/notifications-engine
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

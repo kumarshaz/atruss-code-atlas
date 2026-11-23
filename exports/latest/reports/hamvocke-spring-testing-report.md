@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for hamvocke/spring-testing
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — hamvocke/spring-testing
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -60,17 +61,17 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (78.35/100)
-- **Technical Debt Score**: 21.65
-- **Estimated Remediation Effort**: 19.73h
+- **Overall Grade**: `F` (56.30/100)
+- **Technical Debt Score**: 43.70
+- **Estimated Remediation Effort**: 41.25h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `C` | 75.00 | 0.20 | avg_cc=1.25, max_cc=6, duplication=64.11%, dead_code=0 |
-| Dependency Health | `B` | 85.00 | 0.15 | dependencies=11, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `C` | 71.36 | 0.15 | dependencies=11, outdated=0, vulnerable=3, has_lockfile=False |
 | Maintainability | `A` | 94.00 | 0.15 | avg_cognitive=0.23, max_cognitive=4, fitness_violations=1, oversized_files=0 |
 | Pipeline Health | `F` | 40.00 | 0.15 | workflows=0 |
-| Security | `A` | 100.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=0 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=16, secrets=0, pipeline_security_findings=0 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=False, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -79,7 +80,25 @@ graph TD;
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 11 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 11 | **Vulnerabilities**: 16 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-22wj-vf5f-wrvj`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-24rp-q3w6-vc56`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-36p3-wjmg-h94x`** `org.springframework.boot:spring-boot-starter-web` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-45hx-wfhj-473x`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-562r-vg33-8x8h`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-673j-qm5f-xpv8`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-727h-hrw8-jg8q`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-7rpj-hg47-cx62`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-88cc-g835-76rp`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-98qh-xjc8-98pq`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h376-j262-vhq6`** `com.h2database:h2` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-h86w-m5rm-xr33`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hq9p-pm7w-8p54`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-j92g-9f8w-j867`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-r38f-c4h4-hqq2`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-v7wg-cpwc-24m4`** `org.postgresql:postgresql` `` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `au.com.dius.pact.consumer:junit5` `4.6.17` (Maven, `build.gradle`)
@@ -98,26 +117,28 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2e0e095c_f29a_4769_9a0a_0ddd371c94b8["2e0e095c-f29a-4769-9a0a-0ddd371c94b8"]:::atlasCategory
+        mod_8325e7d2_06d0_4ff1_ac19_ac02bd7d70e4["8325e7d2-06d0-4ff1-ac19-ac02bd7d70e4"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
-    mod_2e0e095c_f29a_4769_9a0a_0ddd371c94b8 -->|PACKAGED_BY| art_Dockerfile
+    mod_8325e7d2_06d0_4ff1_ac19_ac02bd7d70e4 -->|PACKAGED_BY| art_Dockerfile
 ```
 
-- `2e0e095c-f29a-4769-9a0a-0ddd371c94b8` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `8325e7d2-06d0-4ff1-ac19-ac02bd7d70e4` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
 
 
 ## CI/CD Pipeline Topology
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — hamvocke/spring-testing
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

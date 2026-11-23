@@ -26,29 +26,10 @@
               }
             },
             {
-              "id": "ATRUSS-PIPE-001",
-              "name": "NO_TEST_GATE",
+              "id": "ATRUSS-PIPE-003",
+              "name": "NO_ARTIFACT_HANDOFF",
               "shortDescription": {
-                "text": "Deployment job executes without an upstream test gate in its needs chain."
-              },
-              "defaultConfiguration": {
-                "level": "error"
-              },
-              "properties": {
-                "tags": [
-                  "atruss",
-                  "pipeline"
-                ]
-              },
-              "help": {
-                "text": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
-              }
-            },
-            {
-              "id": "ATRUSS-PIPE-002",
-              "name": "NO_CACHE",
-              "shortDescription": {
-                "text": "Workflow installs dependencies without caching configured."
+                "text": "Multi-job build and deploy workflow lacks artifact handoff."
               },
               "defaultConfiguration": {
                 "level": "warning"
@@ -60,26 +41,7 @@
                 ]
               },
               "help": {
-                "text": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
-              }
-            },
-            {
-              "id": "ATRUSS-PIPE-011",
-              "name": "EXCESSIVE_PERMISSIONS",
-              "shortDescription": {
-                "text": "Workflow grants write-all or omits least-privilege permissions."
-              },
-              "defaultConfiguration": {
-                "level": "error"
-              },
-              "properties": {
-                "tags": [
-                  "atruss",
-                  "pipeline"
-                ]
-              },
-              "help": {
-                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+                "text": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
               }
             },
             {
@@ -102,10 +64,10 @@
               }
             },
             {
-              "id": "ATRUSS-SEC-002",
-              "name": "GITHUB_TOKEN",
+              "id": "ATRUSS-SEC-004",
+              "name": "PRIVATE_KEY",
               "shortDescription": {
-                "text": "Potential hardcoded GitHub Personal Access Token detected."
+                "text": "Private key material header detected."
               },
               "defaultConfiguration": {
                 "level": "error"
@@ -119,54 +81,1102 @@
               "help": {
                 "text": "Remove hardcoded credential and use secret management."
               }
+            },
+            {
+              "id": "ATRUSS-SEC-005",
+              "name": "HIGH_ENTROPY_SECRET",
+              "shortDescription": {
+                "text": "High-entropy credential candidate detected."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "secret"
+                ]
+              },
+              "help": {
+                "text": "Remove hardcoded credential and use secret management."
+              }
+            },
+            {
+              "id": "GHSA-26w7-cxv4-gfx2",
+              "name": "VULNERABILITY_GHSA-26w7-cxv4-gfx2",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-26w7-cxv4-gfx2 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-2883-xcg3-v3hh",
+              "name": "VULNERABILITY_GHSA-2883-xcg3-v3hh",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-2883-xcg3-v3hh affecting js-yaml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-28wg-ghj8-5hjv",
+              "name": "VULNERABILITY_GHSA-28wg-ghj8-5hjv",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-28wg-ghj8-5hjv affecting nanoid."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-2p49-hgcm-8545",
+              "name": "VULNERABILITY_GHSA-2p49-hgcm-8545",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-2p49-hgcm-8545 affecting svgo."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-2pvr-wf23-7pc7",
+              "name": "VULNERABILITY_GHSA-2pvr-wf23-7pc7",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-2pvr-wf23-7pc7 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-2v37-7h3g-55p8",
+              "name": "VULNERABILITY_GHSA-2v37-7h3g-55p8",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-2v37-7h3g-55p8 affecting nanoid."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-376h-93r7-7g6f",
+              "name": "VULNERABILITY_GHSA-376h-93r7-7g6f",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-376h-93r7-7g6f affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-4g3v-8h47-v7g6",
+              "name": "VULNERABILITY_GHSA-4g3v-8h47-v7g6",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-4g3v-8h47-v7g6 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-4q55-j62x-fr9h",
+              "name": "VULNERABILITY_GHSA-4q55-j62x-fr9h",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-4q55-j62x-fr9h affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-4vpr-x523-8j87",
+              "name": "VULNERABILITY_GHSA-4vpr-x523-8j87",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-4vpr-x523-8j87 affecting svgo."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-4w7w-66w2-5vf9",
+              "name": "VULNERABILITY_GHSA-4w7w-66w2-5vf9",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-4w7w-66w2-5vf9 affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-52cp-r559-cp3m",
+              "name": "VULNERABILITY_GHSA-52cp-r559-cp3m",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-52cp-r559-cp3m affecting js-yaml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-587h-7wmj-h5pm",
+              "name": "VULNERABILITY_GHSA-587h-7wmj-h5pm",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-587h-7wmj-h5pm affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-5p4m-2wfm-xmqj",
+              "name": "VULNERABILITY_GHSA-5p4m-2wfm-xmqj",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-5p4m-2wfm-xmqj affecting js-yaml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-68fv-2mgg-jv7q",
+              "name": "VULNERABILITY_GHSA-68fv-2mgg-jv7q",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-68fv-2mgg-jv7q affecting source-map-js."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-698v-4r3x-3vcv",
+              "name": "VULNERABILITY_GHSA-698v-4r3x-3vcv",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-698v-4r3x-3vcv affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-6g55-p6wh-862q",
+              "name": "VULNERABILITY_GHSA-6g55-p6wh-862q",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-6g55-p6wh-862q affecting postcss."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-6w46-j5rx-g56g",
+              "name": "VULNERABILITY_GHSA-6w46-j5rx-g56g",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-6w46-j5rx-g56g affecting pytest."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-737v-mqg7-c878",
+              "name": "VULNERABILITY_GHSA-737v-mqg7-c878",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-737v-mqg7-c878 affecting defu."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-77vg-94rm-hx3p",
+              "name": "VULNERABILITY_GHSA-77vg-94rm-hx3p",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-77vg-94rm-hx3p affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-7pw4-f3q4-r2p2",
+              "name": "VULNERABILITY_GHSA-7pw4-f3q4-r2p2",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-7pw4-f3q4-r2p2 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-7w5x-hrqm-74c2",
+              "name": "VULNERABILITY_GHSA-7w5x-hrqm-74c2",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-7w5x-hrqm-74c2 affecting smol-toml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-8hv8-536x-4wqp",
+              "name": "VULNERABILITY_GHSA-8hv8-536x-4wqp",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-8hv8-536x-4wqp affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-98hj-9722-w3j8",
+              "name": "VULNERABILITY_GHSA-98hj-9722-w3j8",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-98hj-9722-w3j8 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-9hjg-9r4m-mvj7",
+              "name": "VULNERABILITY_GHSA-9hjg-9r4m-mvj7",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-9hjg-9r4m-mvj7 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-9jrq-w75r-8gcw",
+              "name": "VULNERABILITY_GHSA-9jrq-w75r-8gcw",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-9jrq-w75r-8gcw affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-9rgm-9g3h-6x36",
+              "name": "VULNERABILITY_GHSA-9rgm-9g3h-6x36",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-9rgm-9g3h-6x36 affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-9wx4-h78v-vm56",
+              "name": "VULNERABILITY_GHSA-9wx4-h78v-vm56",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-9wx4-h78v-vm56 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-f23m-r3pf-42rh",
+              "name": "VULNERABILITY_GHSA-f23m-r3pf-42rh",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-f23m-r3pf-42rh affecting lodash-es."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-f48w-9m4c-m7f5",
+              "name": "VULNERABILITY_GHSA-f48w-9m4c-m7f5",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-f48w-9m4c-m7f5 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-f88m-g3jw-g9cj",
+              "name": "VULNERABILITY_GHSA-f88m-g3jw-g9cj",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-f88m-g3jw-g9cj affecting sharp."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-fx2h-pf6j-xcff",
+              "name": "VULNERABILITY_GHSA-fx2h-pf6j-xcff",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-fx2h-pf6j-xcff affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-fxqj-rqcc-2cmp",
+              "name": "VULNERABILITY_GHSA-fxqj-rqcc-2cmp",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-fxqj-rqcc-2cmp affecting postcss."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-g7r4-m6w7-qqqr",
+              "name": "VULNERABILITY_GHSA-g7r4-m6w7-qqqr",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-g7r4-m6w7-qqqr affecting esbuild."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-gc5v-m9x4-r6x2",
+              "name": "VULNERABILITY_GHSA-gc5v-m9x4-r6x2",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-gc5v-m9x4-r6x2 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-h67p-54hq-rp68",
+              "name": "VULNERABILITY_GHSA-h67p-54hq-rp68",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-h67p-54hq-rp68 affecting js-yaml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-hx4r-w6wj-j8fg",
+              "name": "VULNERABILITY_GHSA-hx4r-w6wj-j8fg",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-hx4r-w6wj-j8fg affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-j22f-vq7h-c4qm",
+              "name": "VULNERABILITY_GHSA-j22f-vq7h-c4qm",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-j22f-vq7h-c4qm affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-j687-52p2-xcff",
+              "name": "VULNERABILITY_GHSA-j687-52p2-xcff",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-j687-52p2-xcff affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-jrpj-wcv7-9fh9",
+              "name": "VULNERABILITY_GHSA-jrpj-wcv7-9fh9",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-jrpj-wcv7-9fh9 affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-mcm9-63f2-9j32",
+              "name": "VULNERABILITY_GHSA-mcm9-63f2-9j32",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-mcm9-63f2-9j32 affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-mh32-jxcr-mh9f",
+              "name": "VULNERABILITY_GHSA-mh32-jxcr-mh9f",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-mh32-jxcr-mh9f affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-mrhx-c7xc-m3w5",
+              "name": "VULNERABILITY_GHSA-mrhx-c7xc-m3w5",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-mrhx-c7xc-m3w5 affecting zod."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-p9ff-h696-f583",
+              "name": "VULNERABILITY_GHSA-p9ff-h696-f583",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-p9ff-h696-f583 affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-qx2v-qp2m-jg93",
+              "name": "VULNERABILITY_GHSA-qx2v-qp2m-jg93",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-qx2v-qp2m-jg93 affecting postcss."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r28c-9q8g-f849",
+              "name": "VULNERABILITY_GHSA-r28c-9q8g-f849",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r28c-9q8g-f849 affecting postcss."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r3h5-4585-7x3w",
+              "name": "VULNERABILITY_GHSA-r3h5-4585-7x3w",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r3h5-4585-7x3w affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r4xh-jqrq-34v2",
+              "name": "VULNERABILITY_GHSA-r4xh-jqrq-34v2",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r4xh-jqrq-34v2 affecting smol-toml."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r5fr-rjxr-66jc",
+              "name": "VULNERABILITY_GHSA-r5fr-rjxr-66jc",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r5fr-rjxr-66jc affecting lodash-es."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r825-w8mm-5pxw",
+              "name": "VULNERABILITY_GHSA-r825-w8mm-5pxw",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r825-w8mm-5pxw affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-r9w8-h9r3-54w4",
+              "name": "VULNERABILITY_GHSA-r9w8-h9r3-54w4",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-r9w8-h9r3-54w4 affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-rgj7-g3m4-5g8c",
+              "name": "VULNERABILITY_GHSA-rgj7-g3m4-5g8c",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-rgj7-g3m4-5g8c affecting sharp."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-rj75-hqrm-r3gf",
+              "name": "VULNERABILITY_GHSA-rj75-hqrm-r3gf",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-rj75-hqrm-r3gf affecting postcss-selector-parser."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-rq7h-c2jc-7f22",
+              "name": "VULNERABILITY_GHSA-rq7h-c2jc-7f22",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-rq7h-c2jc-7f22 affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-v2wj-q39q-566r",
+              "name": "VULNERABILITY_GHSA-v2wj-q39q-566r",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-v2wj-q39q-566r affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-v6wh-96g9-6wx3",
+              "name": "VULNERABILITY_GHSA-v6wh-96g9-6wx3",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-v6wh-96g9-6wx3 affecting vite."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-w27v-7q3p-w38r",
+              "name": "VULNERABILITY_GHSA-w27v-7q3p-w38r",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-w27v-7q3p-w38r affecting svgo."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-w9m9-85wc-3x92",
+              "name": "VULNERABILITY_GHSA-w9m9-85wc-3x92",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-w9m9-85wc-3x92 affecting postcss-selector-parser."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-wf3x-273g-mvxv",
+              "name": "VULNERABILITY_GHSA-wf3x-273g-mvxv",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-wf3x-273g-mvxv affecting devalue."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-wq5f-xc86-pv6w",
+              "name": "VULNERABILITY_GHSA-wq5f-xc86-pv6w",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-wq5f-xc86-pv6w affecting sharp."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-xr5h-phrj-8vxv",
+              "name": "VULNERABILITY_GHSA-xr5h-phrj-8vxv",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-xr5h-phrj-8vxv affecting astro."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-xwg4-73v4-xw9w",
+              "name": "VULNERABILITY_GHSA-xwg4-73v4-xw9w",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-xwg4-73v4-xw9w affecting nanoid."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "PYSEC-2026-1845",
+              "name": "VULNERABILITY_PYSEC-2026-1845",
+              "shortDescription": {
+                "text": "Known vulnerability PYSEC-2026-1845 affecting pytest."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "PYSEC-2026-1872",
+              "name": "VULNERABILITY_PYSEC-2026-1872",
+              "shortDescription": {
+                "text": "Known vulnerability PYSEC-2026-1872 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "PYSEC-2026-1873",
+              "name": "VULNERABILITY_PYSEC-2026-1873",
+              "shortDescription": {
+                "text": "Known vulnerability PYSEC-2026-1873 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "PYSEC-2026-2275",
+              "name": "VULNERABILITY_PYSEC-2026-2275",
+              "shortDescription": {
+                "text": "Known vulnerability PYSEC-2026-2275 affecting requests."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
             }
           ]
         }
       },
       "results": [
         {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'benchmark' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/benchmark.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 25,
-                  "endLine": 66
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-002",
+          "ruleId": "ATRUSS-PIPE-003",
           "level": "warning",
           "message": {
-            "text": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching."
+            "text": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push)."
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": ".github/workflows/benchmark.yml",
+                  "uri": ".github/workflows/daily-export.yml",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 37,
-                  "endLine": 37
+                  "startLine": 145,
+                  "endLine": 155
                 }
               }
             }
@@ -175,61 +1185,7 @@
             "severity": "MEDIUM",
             "category": "pipeline",
             "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/deploy-pages.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 18,
-                  "endLine": 53
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-001",
-          "level": "error",
-          "message": {
-            "text": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/deploy-pages.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 55,
-                  "endLine": 64
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "HIGH",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+            "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
           }
         },
         {
@@ -242,12 +1198,12 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": ".github/workflows/deploy-pages.yml",
+                  "uri": ".github/workflows/daily-export.yml",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 55,
-                  "endLine": 64
+                  "startLine": 145,
+                  "endLine": 155
                 }
               }
             }
@@ -260,234 +1216,102 @@
           }
         },
         {
-          "ruleId": "ATRUSS-PIPE-011",
+          "ruleId": "ATRUSS-SEC-005",
           "level": "error",
           "message": {
-            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"APP_STORE_CONNECT_AUTH_KEY_PATH\": \"~/pr***REDACTED***\","
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": ".github/workflows/tests.yml",
+                  "uri": "exports/latest/reports/bitwarden-directory-connector-analysis.json",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 3,
-                  "endLine": 7
+                  "startLine": 1743,
+                  "endLine": 1743
                 }
               }
             }
           ],
           "properties": {
             "severity": "HIGH",
-            "category": "pipeline",
+            "category": "secret",
             "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+            "remediation": "Remove hardcoded credential and use secret management."
           }
         },
         {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'lint-and-unit' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/tests.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 10,
-                  "endLine": 19
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'web-check' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/tests.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 21,
-                  "endLine": 34
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'integration-and-e2e' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/tests.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 36,
-                  "endLine": 45
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'agent-workflow-eval' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/tests.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 47,
-                  "endLine": 56
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-ARCH-005",
-          "level": "warning",
-          "message": {
-            "text": "Repository duplication_pct (67.83) exceeds policy threshold (15.0)."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "src/cli/commands/benchmark.py",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 1,
-                  "endLine": 1
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "MEDIUM",
-            "category": "architecture",
-            "repository": "kumarshaz/atruss-code-atlas"
-          }
-        },
-        {
-          "ruleId": "ATRUSS-ARCH-005",
-          "level": "warning",
-          "message": {
-            "text": "Repository max_cognitive_complexity (81.0) exceeds policy threshold (25.0)."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "src/cli/commands/benchmark.py",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 1,
-                  "endLine": 1
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "MEDIUM",
-            "category": "architecture",
-            "repository": "kumarshaz/atruss-code-atlas"
-          }
-        },
-        {
-          "ruleId": "ATRUSS-ARCH-005",
-          "level": "warning",
-          "message": {
-            "text": "Repository max_cyclomatic_complexity (39.0) exceeds policy threshold (20.0)."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "src/cli/commands/benchmark.py",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 1,
-                  "endLine": 1
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "MEDIUM",
-            "category": "architecture",
-            "repository": "kumarshaz/atruss-code-atlas"
-          }
-        },
-        {
-          "ruleId": "ATRUSS-SEC-002",
+          "ruleId": "ATRUSS-SEC-005",
           "level": "error",
           "message": {
-            "text": "Potential hardcoded GitHub Personal Access Token detected. Snippet: SECRET_TOKEN: \"ghp_***REDACTED***\""
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"APP_STORE_CONNECT_AUTH_KEY_PATH\": \"~/pr***REDACTED***\","
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tests/integration/test_pipeline_dag_e2e.py",
+                  "uri": "exports/latest/reports/bitwarden-directory-connector-analysis.json",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 67,
-                  "endLine": 67
+                  "startLine": 1880,
+                  "endLine": 1880
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.67 > 4.5) detected. Snippet: \"id_token_audience\": \"6105***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/getsentry-snuba-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3646,
+                  "endLine": 3646
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/getsentry-spotlight-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 754,
+                  "endLine": 754
                 }
               }
             }
@@ -497,6 +1321,3153 @@
             "category": "secret",
             "repository": "kumarshaz/atruss-code-atlas",
             "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/getsentry-spotlight-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1122,
+                  "endLine": 1122
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.67 > 4.5) detected. Snippet: \"id_token_audience\": \"6105***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/getsentry-symbolicator-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1970,
+                  "endLine": 1970
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=5.02 > 4.5) detected. Snippet: \"repo_secrets\": \"CENT***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-agento11y-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2176,
+                  "endLine": 2176
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.58 > 4.5) detected. Snippet: ...\"token\":\"glc_***REDACTED***\",\"api_key\":\"kR7f***REDACTED***\"}`)},`)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-agento11y-report.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 252,
+                  "endLine": 252
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.59 > 4.5) detected. Snippet: ...ecret\", raw: json.RawMessage(`{\"token\":\"glc_***REDACTED***\",\"api_key\":\"kR7f***REDACTED***\"}`)},`)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-agento11y-report.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 253,
+                  "endLine": 253
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.64 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-alloy-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 699,
+                  "endLine": 699
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.54 > 4.5) detected. Snippet: \"repo_secrets\": \"SLAC***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-alloy-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 5943,
+                  "endLine": 5943
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.64 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-beyla-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 157,
+                  "endLine": 157
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.64 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-beyla-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 240,
+                  "endLine": 240
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.64 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-beyla-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 338,
+                  "endLine": 338
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.71 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-gcx-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 431,
+                  "endLine": 431
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.71 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-gcx-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 567,
+                  "endLine": 567
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.92 > 4.5) detected. Snippet: \"repo_secrets\": \"ANSI***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-grafana-ansible-collection-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 533,
+                  "endLine": 533
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.92 > 4.5) detected. Snippet: \"repo_secrets\": \"ANSI***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-grafana-ansible-collection-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1042,
+                  "endLine": 1042
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.92 > 4.5) detected. Snippet: \"repo_secrets\": \"ANSI***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-grafana-ansible-collection-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1463,
+                  "endLine": 1463
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.69 > 4.5) detected. Snippet: \"repo_secrets\": \"ANSI***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-grafana-ansible-collection-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1564,
+                  "endLine": 1564
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=5.14 > 4.5) detected. Snippet: \"repo_secrets\": \"MAVE***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-grafana-foundation-sdk-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1191,
+                  "endLine": 1191
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.81 > 4.5) detected. Snippet: \"repo_secrets\": \"PUBL***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-helm-charts-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 586,
+                  "endLine": 586
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.84 > 4.5) detected. Snippet: \"repo_secrets\": \"GPG_***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-helm-charts-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1065,
+                  "endLine": 1065
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.78 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-loki-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 340,
+                  "endLine": 340
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.78 > 4.5) detected. Snippet: \"repo_secrets\": \"ANTH***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-loki-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 438,
+                  "endLine": 438
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.58 > 4.5) detected. Snippet: \"repo_secrets\": \"CROW***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-traces-drilldown-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1131,
+                  "endLine": 1131
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.58 > 4.5) detected. Snippet: \"repo_secrets\": \"CROW***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-traces-drilldown-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1230,
+                  "endLine": 1230
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.58 > 4.5) detected. Snippet: \"repo_secrets\": \"CROW***REDACTED***\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/grafana-traces-drilldown-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1323,
+                  "endLine": 1323
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/home-assistant-operating-system-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 821,
+                  "endLine": 821
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Private key material header detected. Snippet: -----BEGIN ... PRIVATE KEY----- [REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/keycloak-terraform-provider-keycloak-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 802,
+                  "endLine": 802
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "CRITICAL",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "High-entropy credential candidate (H=4.56 > 4.5) detected. Snippet: \"MINIO_ROOT_PASSWORD\": \"bWlu***REDACTED***\","
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "exports/latest/reports/nextcloud-groupfolders-analysis.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4009,
+                  "endLine": 4009
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "secret",
+            "repository": "kumarshaz/atruss-code-atlas",
+            "remediation": "Remove hardcoded credential and use secret management."
+          }
+        },
+        {
+          "ruleId": "GHSA-9hjg-9r4m-mvj7",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9hjg-9r4m-mvj7] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-9wx4-h78v-vm56",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9wx4-h78v-vm56] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-gc5v-m9x4-r6x2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-gc5v-m9x4-r6x2] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1872",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1872] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1873",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1873] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-2275",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-2275] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-6w46-j5rx-g56g",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-6w46-j5rx-g56g] pytest 8.1.1: Vulnerable package pytest"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1845",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1845] pytest 8.1.1: Vulnerable package pytest"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pyproject.toml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-9hjg-9r4m-mvj7",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9hjg-9r4m-mvj7] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-9wx4-h78v-vm56",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9wx4-h78v-vm56] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-gc5v-m9x4-r6x2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-gc5v-m9x4-r6x2] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1872",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1872] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1873",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1873] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-2275",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-2275] requests 2.31.0: Vulnerable package requests"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-6w46-j5rx-g56g",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-6w46-j5rx-g56g] pytest 8.1.1: Vulnerable package pytest"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "PYSEC-2026-1845",
+          "level": "warning",
+          "message": {
+            "text": "[PYSEC-2026-1845] pytest 8.1.1: Vulnerable package pytest"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository duplication_pct (77.15) exceeds policy threshold (15.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/analyzers/dependencies/manifest_parser.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cognitive_complexity (304.0) exceeds policy threshold (25.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/analyzers/dependencies/manifest_parser.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "ATRUSS-ARCH-005",
+          "level": "warning",
+          "message": {
+            "text": "Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/analyzers/dependencies/manifest_parser.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "architecture",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-26w7-cxv4-gfx2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-26w7-cxv4-gfx2] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-2pvr-wf23-7pc7",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-2pvr-wf23-7pc7] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-376h-93r7-7g6f",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-376h-93r7-7g6f] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-4g3v-8h47-v7g6",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-4g3v-8h47-v7g6] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-7pw4-f3q4-r2p2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-7pw4-f3q4-r2p2] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-8hv8-536x-4wqp",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-8hv8-536x-4wqp] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-98hj-9722-w3j8",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-98hj-9722-w3j8] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-f48w-9m4c-m7f5",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-f48w-9m4c-m7f5] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-j687-52p2-xcff",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-j687-52p2-xcff] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-jrpj-wcv7-9fh9",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-jrpj-wcv7-9fh9] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-mh32-jxcr-mh9f",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-mh32-jxcr-mh9f] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r3h5-4585-7x3w",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r3h5-4585-7x3w] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-xr5h-phrj-8vxv",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-xr5h-phrj-8vxv] astro 6.1.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2468,
+                  "endLine": 2468
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-737v-mqg7-c878",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-737v-mqg7-c878] defu 6.1.4: Vulnerable package defu"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3461,
+                  "endLine": 3461
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-4q55-j62x-fr9h",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-4q55-j62x-fr9h] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-77vg-94rm-hx3p",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-77vg-94rm-hx3p] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-9rgm-9g3h-6x36",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9rgm-9g3h-6x36] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-hx4r-w6wj-j8fg",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-hx4r-w6wj-j8fg] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-j22f-vq7h-c4qm",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-j22f-vq7h-c4qm] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-mcm9-63f2-9j32",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-mcm9-63f2-9j32] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r9w8-h9r3-54w4",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r9w8-h9r3-54w4] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-wf3x-273g-mvxv",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-wf3x-273g-mvxv] devalue 5.6.4: Vulnerable package devalue"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3500,
+                  "endLine": 3500
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-g7r4-m6w7-qqqr",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-g7r4-m6w7-qqqr] esbuild 0.27.4: Vulnerable package esbuild"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3700,
+                  "endLine": 3700
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-2883-xcg3-v3hh",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-2883-xcg3-v3hh] js-yaml 4.1.1: Vulnerable package js-yaml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4528,
+                  "endLine": 4528
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-52cp-r559-cp3m",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-52cp-r559-cp3m] js-yaml 4.1.1: Vulnerable package js-yaml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4528,
+                  "endLine": 4528
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-5p4m-2wfm-xmqj",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-5p4m-2wfm-xmqj] js-yaml 4.1.1: Vulnerable package js-yaml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4528,
+                  "endLine": 4528
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-h67p-54hq-rp68",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-h67p-54hq-rp68] js-yaml 4.1.1: Vulnerable package js-yaml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4528,
+                  "endLine": 4528
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-f23m-r3pf-42rh",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-f23m-r3pf-42rh] lodash-es 4.17.23: Vulnerable package lodash-es"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4616,
+                  "endLine": 4616
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r5fr-rjxr-66jc",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r5fr-rjxr-66jc] lodash-es 4.17.23: Vulnerable package lodash-es"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4616,
+                  "endLine": 4616
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-28wg-ghj8-5hjv",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-28wg-ghj8-5hjv] nanoid 3.3.11: Vulnerable package nanoid"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 5820,
+                  "endLine": 5820
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-2v37-7h3g-55p8",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-2v37-7h3g-55p8] nanoid 3.3.11: Vulnerable package nanoid"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 5820,
+                  "endLine": 5820
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-xwg4-73v4-xw9w",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-xwg4-73v4-xw9w] nanoid 3.3.11: Vulnerable package nanoid"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 5820,
+                  "endLine": 5820
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-6g55-p6wh-862q",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-6g55-p6wh-862q] postcss 8.5.8: Vulnerable package postcss"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6121,
+                  "endLine": 6121
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-fxqj-rqcc-2cmp",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-fxqj-rqcc-2cmp] postcss 8.5.8: Vulnerable package postcss"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6121,
+                  "endLine": 6121
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-qx2v-qp2m-jg93",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-qx2v-qp2m-jg93] postcss 8.5.8: Vulnerable package postcss"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6121,
+                  "endLine": 6121
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r28c-9q8g-f849",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r28c-9q8g-f849] postcss 8.5.8: Vulnerable package postcss"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6121,
+                  "endLine": 6121
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-rj75-hqrm-r3gf",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-rj75-hqrm-r3gf] postcss-selector-parser 6.1.2: Vulnerable package postcss-selector-parser"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6174,
+                  "endLine": 6174
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-w9m9-85wc-3x92",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-w9m9-85wc-3x92] postcss-selector-parser 6.1.2: Vulnerable package postcss-selector-parser"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6174,
+                  "endLine": 6174
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-f88m-g3jw-g9cj",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-f88m-g3jw-g9cj] sharp 0.34.5: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6682,
+                  "endLine": 6682
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-rgj7-g3m4-5g8c",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-rgj7-g3m4-5g8c] sharp 0.34.5: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6682,
+                  "endLine": 6682
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-wq5f-xc86-pv6w",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-wq5f-xc86-pv6w] sharp 0.34.5: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6682,
+                  "endLine": 6682
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-7w5x-hrqm-74c2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-7w5x-hrqm-74c2] smol-toml 1.6.1: Vulnerable package smol-toml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6770,
+                  "endLine": 6770
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r4xh-jqrq-34v2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r4xh-jqrq-34v2] smol-toml 1.6.1: Vulnerable package smol-toml"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6770,
+                  "endLine": 6770
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-68fv-2mgg-jv7q",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-68fv-2mgg-jv7q] source-map-js 1.2.1: Vulnerable package source-map-js"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6791,
+                  "endLine": 6791
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-2p49-hgcm-8545",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-2p49-hgcm-8545] svgo 4.0.1: Vulnerable package svgo"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6854,
+                  "endLine": 6854
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-4vpr-x523-8j87",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-4vpr-x523-8j87] svgo 4.0.1: Vulnerable package svgo"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6854,
+                  "endLine": 6854
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-w27v-7q3p-w38r",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-w27v-7q3p-w38r] svgo 4.0.1: Vulnerable package svgo"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6854,
+                  "endLine": 6854
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-4w7w-66w2-5vf9",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-4w7w-66w2-5vf9] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-587h-7wmj-h5pm",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-587h-7wmj-h5pm] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-698v-4r3x-3vcv",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-698v-4r3x-3vcv] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-9jrq-w75r-8gcw",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-9jrq-w75r-8gcw] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-fx2h-pf6j-xcff",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-fx2h-pf6j-xcff] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-p9ff-h696-f583",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-p9ff-h696-f583] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r825-w8mm-5pxw",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r825-w8mm-5pxw] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-rq7h-c2jc-7f22",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-rq7h-c2jc-7f22] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-v2wj-q39q-566r",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-v2wj-q39q-566r] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-v6wh-96g9-6wx3",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-v6wh-96g9-6wx3] vite 7.3.1: Vulnerable package vite"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7308,
+                  "endLine": 7308
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-mrhx-c7xc-m3w5",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-mrhx-c7xc-m3w5] zod 4.3.6: Vulnerable package zod"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7447,
+                  "endLine": 7447
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-26w7-cxv4-gfx2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-26w7-cxv4-gfx2] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-2pvr-wf23-7pc7",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-2pvr-wf23-7pc7] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-376h-93r7-7g6f",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-376h-93r7-7g6f] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-4g3v-8h47-v7g6",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-4g3v-8h47-v7g6] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-7pw4-f3q4-r2p2",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-7pw4-f3q4-r2p2] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-8hv8-536x-4wqp",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-8hv8-536x-4wqp] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-98hj-9722-w3j8",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-98hj-9722-w3j8] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-f48w-9m4c-m7f5",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-f48w-9m4c-m7f5] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-j687-52p2-xcff",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-j687-52p2-xcff] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-jrpj-wcv7-9fh9",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-jrpj-wcv7-9fh9] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-mh32-jxcr-mh9f",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-mh32-jxcr-mh9f] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-r3h5-4585-7x3w",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-r3h5-4585-7x3w] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-xr5h-phrj-8vxv",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-xr5h-phrj-8vxv] astro 6.0.1: Vulnerable package astro"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-f88m-g3jw-g9cj",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-f88m-g3jw-g9cj] sharp 0.34.2: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-rgj7-g3m4-5g8c",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-rgj7-g3m4-5g8c] sharp 0.34.2: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-wq5f-xc86-pv6w",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-wq5f-xc86-pv6w] sharp 0.34.2: Vulnerable package sharp"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
           }
         }
       ]

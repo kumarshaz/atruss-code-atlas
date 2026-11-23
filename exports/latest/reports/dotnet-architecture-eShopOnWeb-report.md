@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for dotnet-architecture/eShopOnWeb
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — dotnet-architecture/eShopOnWeb
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -117,17 +118,17 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (72.70/100)
-- **Technical Debt Score**: 27.30
-- **Estimated Remediation Effort**: 38.58h
+- **Overall Grade**: `F` (59.02/100)
+- **Technical Debt Score**: 40.98
+- **Estimated Remediation Effort**: 56.00h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `F` | 55.00 | 0.20 | avg_cc=1.43, max_cc=10, duplication=85.03%, dead_code=17 |
-| Dependency Health | `B` | 85.00 | 0.15 | dependencies=77, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `C` | 79.16 | 0.15 | dependencies=77, outdated=0, vulnerable=9, has_lockfile=False |
 | Maintainability | `B` | 89.00 | 0.15 | avg_cognitive=0.45, max_cognitive=9, fitness_violations=1, oversized_files=1 |
 | Pipeline Health | `B` | 82.00 | 0.15 | workflows=2, operational_antipatterns=4, parallel_branches=False |
-| Security | `D` | 64.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=3 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=14, secrets=0, pipeline_security_findings=3 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -136,7 +137,23 @@ graph TD;
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 77 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 77 | **Vulnerabilities**: 14 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-59j7-ghrg-fj52`** `System.IdentityModel.Tokens.Jwt` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-59j7-ghrg-fj52`** `System.IdentityModel.Tokens.Jwt` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-59j7-ghrg-fj52`** `System.IdentityModel.Tokens.Jwt` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-5mfx-4wcx-rv27`** `Azure.Identity` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-8g4q-xg66-9fp4`** `System.Text.Json` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-cpw3-h88j-9f6x`** `System.Text.Json` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-g27p-qf6j-c96c`** `Microsoft.AspNetCore.Components.WebAssembly.Server` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-hh2w-p6rv-4g7w`** `System.Text.Json` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-m5vv-6r4h-3vj9`** `Azure.Identity` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-q7cg-43mg-qp69`** `Microsoft.AspNetCore.Authentication.JwtBearer` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-q7cg-43mg-qp69`** `Microsoft.AspNetCore.Authentication.JwtBearer` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-qjpx-jqm5-h2c4`** `Microsoft.AspNetCore.Components.WebAssembly.Server` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-qrmm-w75w-3wpx`** `Swashbuckle.AspNetCore.SwaggerUI` `` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-wvxc-855f-jvrv`** `Azure.Identity` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 
 ### Inventory Sample
 - `Ardalis.ApiEndpoints` `*` (NuGet, `src/PublicApi/PublicApi.csproj`)
@@ -175,12 +192,13 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_8334e582_72ab_481a_a988_4f2995829874["8334e582-72ab-481a-a988-4f2995829874"]:::atlasCategory
+        mod_30f46da6_9d9c_4c57_91d5_38df77790727["30f46da6-9d9c-4c57-91d5-38df77790727"]:::atlasCategory
         mod_src_PublicApi["src/PublicApi"]:::atlasCategory
         mod_src_Web["src/Web"]:::atlasCategory
     end
@@ -193,8 +211,8 @@ flowchart LR
         art_src_PublicApi_Dockerfile["src/PublicApi/Dockerfile"]:::atlasWorkflow
         art_src_Web_Dockerfile["src/Web/Dockerfile"]:::atlasWorkflow
     end
-    mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_override_yml
-    mod_8334e582_72ab_481a_a988_4f2995829874 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_30f46da6_9d9c_4c57_91d5_38df77790727 -->|PACKAGED_BY| art_docker_compose_override_yml
+    mod_30f46da6_9d9c_4c57_91d5_38df77790727 -->|PACKAGED_BY| art_docker_compose_yml
     mod_src_PublicApi -->|PACKAGED_BY| art_docker_compose_yml
     mod_src_PublicApi -->|PACKAGED_BY| art_src_PublicApi_Dockerfile
     mod_src_Web -->|PACKAGED_BY| art_docker_compose_yml
@@ -207,8 +225,8 @@ flowchart LR
     art_src_Web_Dockerfile -->|PACKAGED_BY| art_infra_main_bicep
 ```
 
-- `8334e582-72ab-481a-a988-4f2995829874` (code_module) --[PACKAGED_BY]--> `docker-compose.override.yml` (container)
-- `8334e582-72ab-481a-a988-4f2995829874` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `30f46da6-9d9c-4c57-91d5-38df77790727` (code_module) --[PACKAGED_BY]--> `docker-compose.override.yml` (container)
+- `30f46da6-9d9c-4c57-91d5-38df77790727` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `src/PublicApi` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `src/PublicApi` (code_module) --[PACKAGED_BY]--> `src/PublicApi/Dockerfile` (container)
 - `src/Web` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
@@ -225,6 +243,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — dotnet-architecture/eShopOnWeb
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

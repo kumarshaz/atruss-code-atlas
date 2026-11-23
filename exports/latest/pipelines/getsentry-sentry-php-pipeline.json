@@ -1,8 +1,8 @@
 {
   "org": "getsentry",
   "repository": "sentry-php",
-  "sha": "f55afd0b9e64be39621d42e820d2b50284785c2b",
-  "analyzed_at": "2026-11-15T05:22:52Z",
+  "sha": "cc1fb598f6c358a8b0b22115dddcad094bdcce2d",
+  "analyzed_at": "2026-11-23T17:35:15Z",
   "workflows": [
     {
       "id": "backward-compatibility.yml",
@@ -416,58 +416,6 @@
           "file_source": ".github/workflows/static-analysis.yaml",
           "start_line": 50,
           "end_line": 66,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        }
-      ]
-    },
-    {
-      "id": "validate-pr.yml",
-      "path": ".github/workflows/validate-pr.yml",
-      "name": "Validate PR",
-      "triggers": [
-        "pull_request_target"
-      ],
-      "jobs": [
-        {
-          "id": "validate-pr",
-          "name": "validate-pr",
-          "runner": "ubuntu-24.04",
-          "steps_count": 1,
-          "needs": []
-        }
-      ],
-      "dag_metrics": {
-        "node_count": 1,
-        "edge_count": 0,
-        "is_valid_dag": true,
-        "max_depth": 0
-      },
-      "cross_workflow_edges": [],
-      "blast_radius": {
-        "betweenness_centrality": {
-          "validate-pr": 0.0
-        },
-        "pagerank": {
-          "validate-pr": 1.0
-        },
-        "downstream_impact": {
-          "validate-pr": []
-        },
-        "critical_nodes": [
-          "validate-pr"
-        ],
-        "max_blast_radius": 0
-      },
-      "anti_patterns": [
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/validate-pr.yml",
-          "start_line": 8,
-          "end_line": 16,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]

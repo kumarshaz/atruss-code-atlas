@@ -1,8 +1,8 @@
 {
   "org": "kumarshaz",
   "repository": "atruss-code-atlas",
-  "sha": "57dd5638aa381e3cc2338e713752117eaad9eebd",
-  "analyzed_at": "2026-11-15T05:22:51Z",
+  "sha": "bf7f47c2443632410bea3d1278b95ce102157618",
+  "analyzed_at": "2026-11-23T17:35:15Z",
   "workflows": [
     {
       "id": "benchmark.yml",
@@ -43,27 +43,90 @@
         ],
         "max_blast_radius": 0
       },
+      "anti_patterns": []
+    },
+    {
+      "id": "daily-export.yml",
+      "path": ".github/workflows/daily-export.yml",
+      "name": "Daily Target Repo Exports & Portal Refresh",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "export",
+          "name": "export",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "export"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/daily-export.yml",
+          "source_job": "deploy",
+          "target_workflow": ".github/workflows/deploy-pages.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy": 0.0,
+          "export": 0.0
+        },
+        "pagerank": {
+          "deploy": 0.649123,
+          "export": 0.350877
+        },
+        "downstream_impact": {
+          "deploy": [],
+          "export": [
+            "deploy"
+          ]
+        },
+        "critical_nodes": [
+          "deploy",
+          "export"
+        ],
+        "max_blast_radius": 1
+      },
       "anti_patterns": [
         {
-          "rule_id": "ATRUSS-PIPE-002",
-          "type": "NO_CACHE",
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
           "severity": "MEDIUM",
-          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
           "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/benchmark.yml",
-          "start_line": 37,
-          "end_line": 37,
-          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          "file_source": ".github/workflows/daily-export.yml",
+          "start_line": 145,
+          "end_line": 155,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
         },
         {
           "rule_id": "ATRUSS-PIPE-012",
           "type": "NO_TIMEOUT",
           "severity": "LOW",
-          "message": "Job 'benchmark' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/benchmark.yml",
-          "start_line": 25,
-          "end_line": 66,
+          "file_source": ".github/workflows/daily-export.yml",
+          "start_line": 145,
+          "end_line": 155,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
@@ -74,14 +137,15 @@
       "name": "Deploy Material UI to GitHub Pages",
       "triggers": [
         "push",
-        "workflow_dispatch"
+        "workflow_dispatch",
+        "workflow_call"
       ],
       "jobs": [
         {
           "id": "build",
           "name": "build",
           "runner": "ubuntu-latest",
-          "steps_count": 7,
+          "steps_count": 8,
           "needs": []
         },
         {
@@ -122,41 +186,7 @@
         ],
         "max_blast_radius": 1
       },
-      "anti_patterns": [
-        {
-          "rule_id": "ATRUSS-PIPE-001",
-          "type": "NO_TEST_GATE",
-          "severity": "HIGH",
-          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/deploy-pages.yml",
-          "start_line": 55,
-          "end_line": 64,
-          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/deploy-pages.yml",
-          "start_line": 18,
-          "end_line": 53,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/deploy-pages.yml",
-          "start_line": 55,
-          "end_line": 64,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        }
-      ]
+      "anti_patterns": []
     },
     {
       "id": "tests.yml",
@@ -194,7 +224,7 @@
           "id": "agent-workflow-eval",
           "name": "agent-workflow-eval",
           "runner": "ubuntu-latest",
-          "steps_count": 4,
+          "steps_count": 5,
           "needs": [
             "integration-and-e2e"
           ]
@@ -239,63 +269,7 @@
         ],
         "max_blast_radius": 2
       },
-      "anti_patterns": [
-        {
-          "rule_id": "ATRUSS-PIPE-011",
-          "type": "EXCESSIVE_PERMISSIONS",
-          "severity": "HIGH",
-          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/tests.yml",
-          "start_line": 3,
-          "end_line": 7,
-          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'lint-and-unit' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/tests.yml",
-          "start_line": 10,
-          "end_line": 19,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'web-check' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/tests.yml",
-          "start_line": 21,
-          "end_line": 34,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'integration-and-e2e' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/tests.yml",
-          "start_line": 36,
-          "end_line": 45,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'agent-workflow-eval' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/tests.yml",
-          "start_line": 47,
-          "end_line": 56,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        }
-      ]
+      "anti_patterns": []
     }
   ]
 }

@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for dani-garcia/vaultwarden
 # Repository Architecture Analysis: dani-garcia/vaultwarden
 
 ## Metadata
-- **SHA**: `bd7beab76e42c3e9605f1c9b96814ee97f70e376`
+- **SHA**: `384fe6b4423e34cd62028fa1ebd1c54f69f3507e`
 - **Primary Ecosystem**: Rust
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
 - **avg_cognitive_complexity**: 1.13
 - **avg_cyclomatic_complexity**: 1.96
-- **component_count**: 67
+- **component_count**: 68
 - **dead_code_count**: 0
 - **dead_code_symbols**: 0 entry(ies)
-- **duplication_pct**: 4.58
+- **duplication_pct**: 4.52
 - **file_complexities**: 25 entry(ies)
-- **files_analyzed**: 92
+- **files_analyzed**: 93
 - **fitness_passed**: True
 - **fitness_violation_count**: 0
 - **framework**: Axum / Actix / Rocket
 - **import_edges**: 100 entry(ies)
-- **loc**: 42319
+- **loc**: 42831
 - **max_cognitive_complexity**: 11
 - **max_cyclomatic_complexity**: 10
-- **sloc**: 33051
+- **sloc**: 33456
 - **test_file_count**: 26
 
 # Architecture: dani-garcia/vaultwarden
 
 ## Context
 - **Repository**: `dani-garcia/vaultwarden`
-- **SHA**: `bd7beab76e42c3e9605f1c9b96814ee97f70e376`
+- **SHA**: `384fe6b4423e34cd62028fa1ebd1c54f69f3507e`
 - **Ecosystem**: Rust
 - **Framework**: Axum / Actix / Rocket
 
@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for dani-garcia/vaultwarden
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — dani-garcia/vaultwarden
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -48,13 +49,13 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-    repo_root(["dani-garcia/vaultwarden (67 components)"]):::atlasRoot
-    subgraph sg_dir_0_src["src (63)"]
+    repo_root(["dani-garcia/vaultwarden (68 components)"]):::atlasRoot
+    subgraph sg_dir_0_src["src (64)"]
       direction TB
-      dir_0_src["src (63)"]:::atlasCategory
+      dir_0_src["src (64)"]:::atlasCategory
       sub_0_0_api["api (25)"]:::atlasWorkflow
       dir_0_src --> sub_0_0_api
-      sub_0_1_db["db (24)"]:::atlasWorkflow
+      sub_0_1_db["db (25)"]:::atlasWorkflow
       dir_0_src --> sub_0_1_db
       sub_0_2__module_root_["(module root) (12)"]:::atlasWorkflow
       dir_0_src --> sub_0_2__module_root_
@@ -74,9 +75,9 @@ graph TD;
 
 ## Component Details
 
-Showing top 60 representative components out of 67 across 5 module group(s):
+Showing top 60 representative components out of 68 across 5 module group(s):
 
-- **Module `src`** (63 components — module: 63)
+- **Module `src`** (64 components — module: 64)
 - **Module `(root)`** (1 components — module: 1)
 - **Module `docker`** (1 components — module: 1)
 - **Module `macros`** (1 components — module: 1)
@@ -133,6 +134,7 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 - **schema** (`src/db/schema.rs`): module
 - **send** (`src/auth/send.rs`): module
 - **send** (`src/db/models/send.rs`): module
+- **send_controls** (`src/db/models/org_policy/send_controls.rs`): module
 - **sends** (`src/api/core/sends.rs`): module
 - **sso** (`src/sso.rs`): module
 - **sso_auth** (`src/db/models/sso_auth.rs`): module
@@ -141,21 +143,20 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 - **test_seeder** (`src/api/test_seeder.rs`): module
 - **two_factor** (`src/auth/two_factor.rs`): module
 - **two_factor** (`src/db/models/two_factor.rs`): module
-- **two_factor_duo_context** (`src/db/models/two_factor_duo_context.rs`): module
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `D` (65.43/100)
-- **Technical Debt Score**: 34.57
-- **Estimated Remediation Effort**: 46.06h
+- **Overall Grade**: `D` (65.21/100)
+- **Technical Debt Score**: 34.79
+- **Estimated Remediation Effort**: 175.10h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `A` | 93.13 | 0.20 | avg_cc=1.96, max_cc=10, duplication=4.58%, dead_code=0 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=965, outdated=0, vulnerable=0, has_lockfile=True |
+| Code Quality | `A` | 93.22 | 0.20 | avg_cc=1.96, max_cc=10, duplication=4.52%, dead_code=0 |
+| Dependency Health | `A` | 98.41 | 0.15 | dependencies=941, outdated=0, vulnerable=30, has_lockfile=True |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=1.13, max_cognitive=11, fitness_violations=0, oversized_files=0 |
 | Pipeline Health | `F` | 42.00 | 0.15 | workflows=9, operational_antipatterns=5, parallel_branches=False |
-| Security | `F` | 0.00 | 0.20 | vulnerabilities=0, secrets=2, pipeline_security_findings=13 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=129, secrets=2, pipeline_security_findings=13 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -165,20 +166,61 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 965 | **Vulnerabilities**: 0 | **Secrets**: 2
+- **Dependencies Parsed**: 941 | **Vulnerabilities**: 129 | **Secrets**: 2
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-22p9-wv53-3rq4`** `linkify-it` `5.0.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-268h-hp4c-crq3`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-268h-hp4c-crq3`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-268h-hp4c-crq3`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-27r3-jxmh-p828`** `body-parser` `2.2.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2gc4-cqfq-p2gv`** `engine.io` `6.6.8` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2gqq-gqf2-x968`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2jfj-6hjv-fm6j`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2m5v-pch6-74hx`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2m8v-j782-fhvr`** `socket.io-parser` `4.2.6` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2x7j-588g-ccc2`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2x7j-588g-ccc2`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2x7j-588g-ccc2`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-35p6-xmwp-9g52`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-39m8-27wv-hr27`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-39m8-27wv-hr27`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-39m8-27wv-hr27`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-3xpg-4rpp-hhhm`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4cwx-7wf7-3272`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4ffr-jq9g-5ffx`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4ffr-jq9g-5ffx`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4ffr-jq9g-5ffx`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4g23-2xm8-66gc`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4g23-2xm8-66gc`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4g23-2xm8-66gc`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4mjr-xmp4-gh2g`** `qs` `6.15.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4qv8-2p9j-2685`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4w7w-5xrc-9h26`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-55q2-fjhq-7xh7`** `dompurify` `3.4.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-55wc-3pg8-jfw6`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6688-9rhm-gjv2`** `dompurify` `3.4.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-68fv-2mgg-jv7q`** `source-map-js` `1.2.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6pq8-jhm2-2vcw`** `qs` `6.15.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6vj9-mwq6-2f5v`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6vj9-mwq6-2f5v`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6vj9-mwq6-2f5v`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-76mc-f452-cxcm`** `dompurify` `3.4.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-8436-99hf-9mmv`** `undici` `7.25.0` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-85x2-q946-cp5h`** `nodemailer` `8.0.5` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-85x2-q946-cp5h`** `nodemailer` `8.0.7` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Secret Findings (Redacted)
-- **[HIGH] `ATRUSS-SEC-005`** at `.env.template:453` (`# ADMIN_TOKEN='$arg***REDACTED***'`)
-- **[HIGH] `ATRUSS-SEC-005`** at `src/static/scripts/datatables.js:11336` (`const _publicKey = 'BE1A***REDACTED***';`)
+- **[HIGH] `ATRUSS-SEC-005`** at `.env.template:456` (`# ADMIN_TOKEN='$arg***REDACTED***'`)
+- **[HIGH] `ATRUSS-SEC-005`** at `src/static/scripts/datatables.js:11338` (`const _publicKey = 'BE1A***REDACTED***';`)
 
 ### Inventory Sample
 - `argon2` `0.6.0` (cargo, `Cargo.toml`)
-- `aws-config` `1.13.0` (cargo, `Cargo.toml`)
+- `aws-config` `1.13.3` (cargo, `Cargo.toml`)
 - `aws-credential-types` `1.3.1` (cargo, `Cargo.toml`)
-- `aws-smithy-runtime-api` `1.19.2` (cargo, `Cargo.toml`)
+- `aws-smithy-runtime-api` `1.22.0` (cargo, `Cargo.toml`)
 - `bigdecimal` `0.4.11` (cargo, `Cargo.toml`)
-- `bytes` `1.12.1` (cargo, `Cargo.toml`)
-- `cached` `4.1.0` (cargo, `Cargo.toml`)
+- `bytes` `1.12.2` (cargo, `Cargo.toml`)
 - `chrono` `0.4.45` (cargo, `Cargo.toml`)
 - `chrono-tz` `0.10.4` (cargo, `Cargo.toml`)
 - `cookie` `0.18.2` (cargo, `Cargo.toml`)
@@ -187,34 +229,36 @@ Showing top 60 representative components out of 67 across 5 module group(s):
 - `data-encoding` `2.11.1` (cargo, `Cargo.toml`)
 - `data-url` `0.3.2` (cargo, `Cargo.toml`)
 - `derive_more` `2.1.1` (cargo, `Cargo.toml`)
-- `diesel` `2.3.14` (cargo, `Cargo.toml`)
+- `diesel` `2.4.0` (cargo, `Cargo.toml`)
 - `diesel-derive-newtype` `2.1.3` (cargo, `Cargo.toml`)
-- `diesel_migrations` `2.3.2` (cargo, `Cargo.toml`)
+- `diesel_migrations` `2.4.0` (cargo, `Cargo.toml`)
 - `dotenvy` `0.15.7` (cargo, `Cargo.toml`)
-- `email_address` `0.2.9` (cargo, `Cargo.toml`)
+- `email_address` `0.2.10` (cargo, `Cargo.toml`)
 - `fern` `0.7.1` (cargo, `Cargo.toml`)
 - `futures` `0.3.34` (cargo, `Cargo.toml`)
 - `governor` `0.10.4` (cargo, `Cargo.toml`)
 - `grass_compiler` `0.13.4` (cargo, `Cargo.toml`)
 - `handlebars` `6.4.4` (cargo, `Cargo.toml`)
 - `hickory-resolver` `0.26.3` (cargo, `Cargo.toml`)
-- `html5gum` `0.9.0` (cargo, `Cargo.toml`)
-- `http` `1.5.0` (cargo, `Cargo.toml`)
+- `html5gum` `0.9.2` (cargo, `Cargo.toml`)
 - `ipnet` `2.12.2` (cargo, `Cargo.toml`)
 - `job_scheduler_ng` `2.5.0` (cargo, `Cargo.toml`)
-- ... (+935 more dependencies)
+- `jsonwebtoken` `12.0.0` (cargo, `Cargo.toml`)
+- `lettre` `0.11.24` (cargo, `Cargo.toml`)
+- ... (+911 more dependencies)
 
 ## Section 7: Code-to-Cloud Deployment Traceability
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
+        mod_ba84f955_1918_431e_bad6_3ad42e5ff421["ba84f955-1918-431e-bad6-3ad42e5ff421"]:::atlasCategory
         mod_docker["docker"]:::atlasCategory
-        mod_f87e7a9e_5cce_4c6c_abba_628962386f02["f87e7a9e-5cce-4c6c-abba-628962386f02"]:::atlasCategory
         mod_macros["macros"]:::atlasCategory
         mod_playwright["playwright"]:::atlasCategory
         mod_playwright_compose_keycloak["playwright/compose/keycloak"]:::atlasCategory
@@ -242,6 +286,9 @@ flowchart LR
     end
     job_release_yml_docker_build -->|DEPLOYS_TO| env_release
     job_release_yml_merge_manifests -->|DEPLOYS_TO| env_release
+    mod_ba84f955_1918_431e_bad6_3ad42e5ff421 -->|BUILT_BY| job_hadolint_yml_hadolint
+    mod_ba84f955_1918_431e_bad6_3ad42e5ff421 -->|PACKAGED_BY| art_Dockerfile
+    mod_ba84f955_1918_431e_bad6_3ad42e5ff421 -->|PACKAGED_BY| art_playwright_docker_compose_yml
     mod_docker -->|BUILT_BY| job_check_templates_yml_docker_templates
     mod_docker -->|BUILT_BY| job_hadolint_yml_hadolint
     mod_docker -->|DEPLOYED_BY| job_release_yml_merge_manifests
@@ -253,9 +300,6 @@ flowchart LR
     mod_docker -->|PACKAGED_BY| art_playwright_compose_playwright_Dockerfile
     mod_docker -->|PACKAGED_BY| art_playwright_compose_warden_Dockerfile
     mod_docker -->|PACKAGED_BY| art_playwright_docker_compose_yml
-    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|BUILT_BY| job_hadolint_yml_hadolint
-    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|PACKAGED_BY| art_Dockerfile
-    mod_f87e7a9e_5cce_4c6c_abba_628962386f02 -->|PACKAGED_BY| art_playwright_docker_compose_yml
     mod_macros -->|PACKAGED_BY| art_Dockerfile
     mod_macros -->|PACKAGED_BY| art_docker_Dockerfile_alpine
     mod_macros -->|PACKAGED_BY| art_docker_Dockerfile_debian
@@ -285,6 +329,9 @@ flowchart LR
 
 - `release.yml#docker-build` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
 - `release.yml#merge-manifests` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
+- `ba84f955-1918-431e-bad6-3ad42e5ff421` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `ba84f955-1918-431e-bad6-3ad42e5ff421` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `ba84f955-1918-431e-bad6-3ad42e5ff421` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
 - `docker` (code_module) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
 - `docker` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
 - `docker` (code_module) --[DEPLOYED_BY]--> `release.yml#merge-manifests` (ci_job)
@@ -296,9 +343,6 @@ flowchart LR
 - `docker` (code_module) --[PACKAGED_BY]--> `playwright/compose/playwright/Dockerfile` (container)
 - `docker` (code_module) --[PACKAGED_BY]--> `playwright/compose/warden/Dockerfile` (container)
 - `docker` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
-- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
-- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
-- `f87e7a9e-5cce-4c6c-abba-628962386f02` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
 - `macros` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
 - `macros` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.alpine` (container)
 - `macros` (code_module) --[PACKAGED_BY]--> `docker/Dockerfile.debian` (container)
@@ -329,6 +373,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — dani-garcia/vaultwarden
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

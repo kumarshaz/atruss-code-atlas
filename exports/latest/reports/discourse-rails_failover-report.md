@@ -40,6 +40,7 @@ description: Arc42 and Pipeline report for discourse/rails_failover
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — discourse/rails_failover
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -127,22 +128,49 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (79.75/100)
-- **Technical Debt Score**: 20.25
-- **Estimated Remediation Effort**: 17.06h
+- **Overall Grade**: `D` (69.70/100)
+- **Technical Debt Score**: 30.30
+- **Estimated Remediation Effort**: 44.58h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=11, outdated=0, vulnerable=0, has_lockfile=False |
+| Dependency Health | `B` | 86.36 | 0.15 | dependencies=11, outdated=0, vulnerable=3, has_lockfile=False |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
 | Pipeline Health | `C` | 75.00 | 0.15 | workflows=1, operational_antipatterns=6, parallel_branches=True |
-| Security | `F` | 40.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=5 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=25, secrets=0, pipeline_security_findings=5 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=False, test_files_detected=True |
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 11 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 11 | **Vulnerabilities**: 25 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-6wx8-w4f5-wwcr`** `concurrent-ruby` `1.3.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9822-6m93-xqf4`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-9822-6m93-xqf4`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-9p3v-wf2w-v29c`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-9p3v-wf2w-v29c`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-9wrq-xvmp-xjc8`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-9wrq-xvmp-xjc8`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-fjfg-q662-gm6j`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-fjfg-q662-gm6j`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-gm25-fpmr-43fj`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-gm25-fpmr-43fj`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-h8w8-99g7-qmvj`** `concurrent-ruby` `1.3.4` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-jmgf-p46x-982h`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-jmgf-p46x-982h`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-jwhv-rgqc-fqj5`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-jwhv-rgqc-fqj5`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-m46p-ggm5-5j83`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-m46p-ggm5-5j83`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-p4c6-77gc-694x`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-p4c6-77gc-694x`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-rvpq-5xqx-pfpp`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-rvpq-5xqx-pfpp`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-rxq3-gm4p-5fj4`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-rxq3-gm4p-5fj4`** `rails` `` (fixed: `none`, REACHABLE_FROM_CI)
+- **[MEDIUM] `GHSA-wv3x-4vxv-whpp`** `concurrent-ruby` `1.3.4` (fixed: `none`, UNREACHABLE_DORMANT)
 
 ### Inventory Sample
 - `byebug` `*` (gem, `spec/support/dummy_app/Gemfile`)
@@ -161,6 +189,7 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -181,6 +210,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — discourse/rails_failover
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

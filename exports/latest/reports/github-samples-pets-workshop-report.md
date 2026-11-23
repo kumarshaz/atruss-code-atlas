@@ -41,6 +41,7 @@ description: Arc42 and Pipeline report for github-samples/pets-workshop
 
 ```mermaid
 graph TD;
+    %% title: Building Block View — github-samples/pets-workshop
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
@@ -74,17 +75,17 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `B` (80.60/100)
-- **Technical Debt Score**: 19.40
-- **Estimated Remediation Effort**: 20.13h
+- **Overall Grade**: `D` (60.29/100)
+- **Technical Debt Score**: 39.71
+- **Estimated Remediation Effort**: 110.20h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `C` | 75.00 | 0.20 | avg_cc=1.89, max_cc=9, duplication=68.88%, dead_code=0 |
-| Dependency Health | `A` | 100.00 | 0.15 | dependencies=407, outdated=0, vulnerable=0, has_lockfile=True |
+| Dependency Health | `A` | 97.91 | 0.15 | dependencies=407, outdated=0, vulnerable=17, has_lockfile=True |
 | Maintainability | `A` | 94.00 | 0.15 | avg_cognitive=0.94, max_cognitive=11, fitness_violations=1, oversized_files=0 |
 | Pipeline Health | `F` | 40.00 | 0.15 | workflows=0 |
-| Security | `A` | 100.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=0 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=85, secrets=0, pipeline_security_findings=0 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=False, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -93,7 +94,49 @@ graph TD;
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 407 | **Vulnerabilities**: 0 | **Secrets**: 0
+- **Dependencies Parsed**: 407 | **Vulnerabilities**: 85 | **Secrets**: 0
+
+### Known Vulnerabilities (OSV)
+- **[MEDIUM] `GHSA-26w7-cxv4-gfx2`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-26w7-cxv4-gfx2`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-2883-xcg3-v3hh`** `js-yaml` `4.1.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-28wg-ghj8-5hjv`** `nanoid` `3.3.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2p49-hgcm-8545`** `svgo` `4.0.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-2pvr-wf23-7pc7`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-2pvr-wf23-7pc7`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-2v37-7h3g-55p8`** `nanoid` `3.3.11` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-376h-93r7-7g6f`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-376h-93r7-7g6f`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-38fc-9xqv-7f7q`** `sqlalchemy` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-4g3v-8h47-v7g6`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-4g3v-8h47-v7g6`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-4grg-w6v8-c28g`** `flask` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-4q55-j62x-fr9h`** `devalue` `5.7.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-4vpr-x523-8j87`** `svgo` `4.0.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-52cp-r559-cp3m`** `js-yaml` `4.1.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-562c-5r94-xh97`** `flask` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-587h-7wmj-h5pm`** `vite` `7.3.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-5p4m-2wfm-xmqj`** `js-yaml` `4.1.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-5wv5-4vpf-pj6m`** `flask` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-68fv-2mgg-jv7q`** `source-map-js` `1.2.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-68rp-wp8r-4726`** `flask` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-698v-4r3x-3vcv`** `vite` `7.3.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6g55-p6wh-862q`** `postcss` `8.5.6` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-77vg-94rm-hx3p`** `devalue` `5.7.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-7pw4-f3q4-r2p2`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-7pw4-f3q4-r2p2`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-7w5x-hrqm-74c2`** `smol-toml` `1.6.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-887w-45rq-vxgf`** `sqlalchemy` `` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-8hv8-536x-4wqp`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-8hv8-536x-4wqp`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-98hj-9722-w3j8`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-98hj-9722-w3j8`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-9jrq-w75r-8gcw`** `vite` `7.3.2` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-9rgm-9g3h-6x36`** `devalue` `5.7.1` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-c57f-mm3j-27q9`** `@astrojs/node` `10.0.4` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-c57f-mm3j-27q9`** `@astrojs/node` `10.0.4` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-f48w-9m4c-m7f5`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
+- **[MEDIUM] `GHSA-f48w-9m4c-m7f5`** `astro` `6.1.6` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 
 ### Inventory Sample
 - `flask` `*` (PyPI, `app/server/requirements.txt`)
@@ -132,6 +175,7 @@ graph TD;
 
 ```mermaid
 flowchart LR
+    %% title: Code-to-Cloud Deployment Traceability
     classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
     classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
@@ -155,6 +199,7 @@ flowchart LR
 
 ```mermaid
 graph TD;
+  %% title: CI/CD Pipeline Topology — github-samples/pets-workshop
   classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
   classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
   classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb

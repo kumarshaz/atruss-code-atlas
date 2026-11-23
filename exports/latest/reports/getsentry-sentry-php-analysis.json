@@ -1,11 +1,11 @@
 {
   "repository": "getsentry/sentry-php",
-  "sha": "f55afd0b9e64be39621d42e820d2b50284785c2b",
+  "sha": "cc1fb598f6c358a8b0b22115dddcad094bdcce2d",
   "ecosystem": "PHP",
   "metrics": {
     "files_analyzed": 310,
-    "loc": 57678,
-    "sloc": 38775,
+    "loc": 57896,
+    "sloc": 38931,
     "component_count": 251,
     "avg_cyclomatic_complexity": 1.0,
     "max_cyclomatic_complexity": 1,
@@ -639,7 +639,7 @@
               }
             },
             {
-              "uses": "actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
+              "uses": "actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
               "with": {
                 "node-version": "24"
               }
@@ -1003,79 +1003,6 @@
           "mago",
           "php-cs-fixer",
           "phpstan"
-        ],
-        "max_blast_radius": 0
-      }
-    },
-    {
-      "id": "validate-pr.yml",
-      "path": ".github/workflows/validate-pr.yml",
-      "name": "Validate PR",
-      "triggers": [
-        "pull_request_target"
-      ],
-      "jobs": {
-        "validate-pr": {
-          "runs-on": "ubuntu-24.04",
-          "permissions": {
-            "pull-requests": "write"
-          },
-          "steps": [
-            {
-              "uses": "getsentry/github-workflows/validate-pr@30ddc1838281e269f315dff54b65be65d63de5c2",
-              "with": {
-                "app-id": "${{ vars.SDK_MAINTAINER_BOT_APP_ID }}",
-                "private-key": "${{ secrets.SDK_MAINTAINER_BOT_PRIVATE_KEY }}"
-              }
-            }
-          ]
-        }
-      },
-      "job_nodes": [
-        {
-          "id": "validate-pr",
-          "name": "validate-pr",
-          "runner": "ubuntu-24.04",
-          "steps_count": 1,
-          "needs": [],
-          "environment": null
-        }
-      ],
-      "dag_metrics": {
-        "node_count": 1,
-        "edge_count": 0,
-        "is_valid_dag": true,
-        "max_depth": 0
-      },
-      "findings": [
-        "[LOW] NO_TIMEOUT: Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners."
-      ],
-      "anti_patterns": [
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/validate-pr.yml",
-          "start_line": 8,
-          "end_line": 16,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        }
-      ],
-      "cross_workflow_edges": [],
-      "blast_radius": {
-        "betweenness_centrality": {
-          "validate-pr": 0.0
-        },
-        "pagerank": {
-          "validate-pr": 1.0
-        },
-        "downstream_impact": {
-          "validate-pr": []
-        },
-        "critical_nodes": [
-          "validate-pr"
         ],
         "max_blast_radius": 0
       }
@@ -2591,10 +2518,10 @@
     }
   ],
   "scorecard": {
-    "overall_score": 77.41,
-    "overall_grade": "C",
-    "technical_debt_score": 22.59,
-    "remediation_hours": 19.17,
+    "overall_score": 66.9,
+    "overall_grade": "D",
+    "technical_debt_score": 33.1,
+    "remediation_hours": 48.3,
     "dimensions": {
       "code_quality": {
         "name": "Code Quality",
@@ -2605,10 +2532,10 @@
       },
       "security": {
         "name": "Security",
-        "score": 48.0,
+        "score": 0.0,
         "grade": "F",
         "weight": 0.2,
-        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=3"
+        "details": "vulnerabilities=27, secrets=0, pipeline_security_findings=3"
       },
       "maintainability": {
         "name": "Maintainability",
@@ -2626,17 +2553,17 @@
       },
       "dependency_health": {
         "name": "Dependency Health",
-        "score": 100.0,
+        "score": 90.91,
         "grade": "A",
         "weight": 0.15,
-        "details": "dependencies=22, outdated=0, vulnerable=0, has_lockfile=True"
+        "details": "dependencies=22, outdated=0, vulnerable=4, has_lockfile=True"
       },
       "pipeline_health": {
         "name": "Pipeline Health",
-        "score": 49.0,
+        "score": 52.0,
         "grade": "F",
         "weight": 0.15,
-        "details": "workflows=6, operational_antipatterns=12, parallel_branches=True"
+        "details": "workflows=5, operational_antipatterns=11, parallel_branches=True"
       }
     }
   },
@@ -2652,7 +2579,14 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-34xg-wgjx-8xph",
+        "GHSA-c2w2-prh8-qm98",
+        "GHSA-hq7v-mx3g-29hw",
+        "GHSA-q7rv-6hp3-vh96",
+        "GHSA-vm85-hxw5-5432",
+        "GHSA-wxmh-65f7-jcvw"
+      ]
     },
     {
       "name": "jean85/pretty-package-versions",
@@ -2695,9 +2629,9 @@
     },
     {
       "name": "carthage-software/mago",
-      "version": "1.30.0",
+      "version": "1.60.2",
       "ecosystem": "composer",
-      "purl": "pkg:composer/carthage-software/mago@1.30.0",
+      "purl": "pkg:composer/carthage-software/mago@1.60.2",
       "manifest_file": "composer.json",
       "line": 35,
       "is_direct": false,
@@ -2730,7 +2664,23 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-25mq-v84q-4j7r",
+        "GHSA-94pj-82f3-465w",
+        "GHSA-cwmx-hcrq-mhc3",
+        "GHSA-cwxw-98qj-8qjx",
+        "GHSA-f283-ghqc-fg79",
+        "GHSA-f2wf-25xc-69c9",
+        "GHSA-f7vp-7xgx-4w4r",
+        "GHSA-g446-98w2-8p5w",
+        "GHSA-h95v-h523-3mw8",
+        "GHSA-m6ch-gg5f-wxx3",
+        "GHSA-q559-8m2m-g699",
+        "GHSA-v5mv-p594-2x33",
+        "GHSA-w248-ffj2-4v5q",
+        "GHSA-wm3w-8rrp-j577",
+        "GHSA-wpwq-4j6v-78m3"
+      ]
     },
     {
       "name": "guzzlehttp/promises",
@@ -2756,7 +2706,9 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-f57v-q966-7fh6"
+      ]
     },
     {
       "name": "nyholm/psr7",
@@ -2873,7 +2825,13 @@
       "license": null,
       "is_outdated": false,
       "latest_version": null,
-      "vulnerability_ids": []
+      "vulnerability_ids": [
+        "GHSA-9vw2-f4vp-x7gf",
+        "GHSA-mh6w-vxff-9wqp",
+        "GHSA-qrr6-mg7r-m243",
+        "GHSA-r7c9-c69m-rph8",
+        "GHSA-vvj3-c3rp-c85p"
+      ]
     },
     {
       "name": "spiral/roadrunner-http",
@@ -2928,7 +2886,359 @@
       "vulnerability_ids": []
     }
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    {
+      "id": "GHSA-34xg-wgjx-8xph",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-c2w2-prh8-qm98",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-hq7v-mx3g-29hw",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-q7rv-6hp3-vh96",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-vm85-hxw5-5432",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-wxmh-65f7-jcvw",
+      "package": "guzzlehttp/psr7",
+      "purl": "pkg:composer/guzzlehttp/psr7",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 29
+    },
+    {
+      "id": "GHSA-25mq-v84q-4j7r",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-94pj-82f3-465w",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-cwmx-hcrq-mhc3",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-cwxw-98qj-8qjx",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-f283-ghqc-fg79",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-f2wf-25xc-69c9",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-f7vp-7xgx-4w4r",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-g446-98w2-8p5w",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-h95v-h523-3mw8",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-m6ch-gg5f-wxx3",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-q559-8m2m-g699",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-v5mv-p594-2x33",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-w248-ffj2-4v5q",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-wm3w-8rrp-j577",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-wpwq-4j6v-78m3",
+      "package": "guzzlehttp/guzzle",
+      "purl": "pkg:composer/guzzlehttp/guzzle",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "UNREACHABLE_DORMANT",
+      "manifest_file": "composer.json",
+      "line": 37
+    },
+    {
+      "id": "GHSA-f57v-q966-7fh6",
+      "package": "monolog/monolog",
+      "purl": "pkg:composer/monolog/monolog",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 39
+    },
+    {
+      "id": "GHSA-9vw2-f4vp-x7gf",
+      "package": "phpunit/phpunit",
+      "purl": "pkg:composer/phpunit/phpunit",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 48
+    },
+    {
+      "id": "GHSA-mh6w-vxff-9wqp",
+      "package": "phpunit/phpunit",
+      "purl": "pkg:composer/phpunit/phpunit",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 48
+    },
+    {
+      "id": "GHSA-qrr6-mg7r-m243",
+      "package": "phpunit/phpunit",
+      "purl": "pkg:composer/phpunit/phpunit",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 48
+    },
+    {
+      "id": "GHSA-r7c9-c69m-rph8",
+      "package": "phpunit/phpunit",
+      "purl": "pkg:composer/phpunit/phpunit",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 48
+    },
+    {
+      "id": "GHSA-vvj3-c3rp-c85p",
+      "package": "phpunit/phpunit",
+      "purl": "pkg:composer/phpunit/phpunit",
+      "installed_version": "",
+      "fixed_version": null,
+      "severity": "MEDIUM",
+      "cvss_score": null,
+      "summary": "",
+      "reachability": "REACHABLE_FROM_CI",
+      "manifest_file": "composer.json",
+      "line": 48
+    }
+  ],
   "secrets": [],
   "fitness_violations": [],
   "code_to_cloud_edges": [
