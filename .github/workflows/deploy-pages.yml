@@ -58,10 +58,9 @@ jobs:
       - name: Sync discovery data & build Astro M3 site
         working-directory: web
         env:
-          ASTRO_SITE: "https://${{ github.repository_owner }}.github.io"
-        run: |
-          export ASTRO_BASE="/${GITHUB_REPOSITORY#*/}"
-          npm run build
+          ASTRO_SITE: "https://atruss.shashinkumar.com"
+          ASTRO_BASE: "/"
+        run: npm run build
 
       - name: Upload static Pages artifact
         uses: actions/upload-pages-artifact@v3

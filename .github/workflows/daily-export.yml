@@ -123,10 +123,9 @@ jobs:
       - name: Smoke-test Astro portal & exports schema before committing
         working-directory: web
         env:
-          ASTRO_SITE: "https://${{ github.repository_owner }}.github.io"
-        run: |
-          export ASTRO_BASE="/${GITHUB_REPOSITORY#*/}"
-          npm test && npm run build
+          ASTRO_SITE: "https://atruss.shashinkumar.com"
+          ASTRO_BASE: "/"
+        run: npm test && npm run build
 
       - name: Commit and push updated exports/latest telemetry
         id: commit_exports
