@@ -312,6 +312,25 @@ jobs:
     assert findings[0]["type"] == "NO_TIMEOUT"
     assert findings[0]["severity"] == "LOW"
 
+    reusable_caller_yaml = """
+name: Reusable Caller Does Not Trigger NO_TIMEOUT
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/upload-artifact@v4
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-pages.yml
+"""
+    caller_types = [f["type"] for f in _analyze_raw(reusable_caller_yaml)]
+    assert "NO_TIMEOUT" not in caller_types
+
 
 def test_pipe_013_artifact_credential_persistence():
     unsafe_yaml = """

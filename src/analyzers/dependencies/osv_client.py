@@ -5,6 +5,7 @@ import logging
 import math
 import os
 import re
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -309,11 +310,21 @@ class OSVBatchClient:
             return
         try:
             self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-            sorted_payload = {k: cache[k] for k in sorted(cache)}
-            self.cache_path.write_text(
-                json.dumps(sorted_payload, indent=2) + "\n",
-                encoding="utf-8",
+            merged = {**self.load_cache(), **cache}
+            sorted_payload = {k: merged[k] for k in sorted(merged)}
+            fd, tmp_name = tempfile.mkstemp(
+                prefix=".osv_cache_",
+                suffix=".tmp",
+                dir=str(self.cache_path.parent),
             )
+            tmp_path = Path(tmp_name)
+            try:
+                with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                    handle.write(json.dumps(sorted_payload, indent=2) + "\n")
+                os.replace(tmp_path, self.cache_path)
+            except Exception:
+                tmp_path.unlink(missing_ok=True)
+                raise
         except OSError as exc:
             logger.warning("Failed to write OSV cache %s: %s", self.cache_path, exc)
 

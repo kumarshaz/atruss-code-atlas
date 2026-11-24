@@ -92,6 +92,7 @@ class AnomalyRecord(BaseModel):
         "discover",
         "analyze-pipeline",
         "analyze-code",
+        "worker",
         "timeout",
         "classification",
     ]

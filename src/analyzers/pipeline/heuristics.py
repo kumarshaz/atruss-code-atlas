@@ -793,6 +793,9 @@ def analyze_workflow_anti_patterns(
     for jid, jdata in jobs.items():
         if not isinstance(jdata, dict):
             continue
+        # Reusable workflow caller jobs (`jobs.<id>.uses` without steps) cannot set timeout-minutes.
+        if jdata.get("uses") and not jdata.get("steps"):
+            continue
         if jdata.get("timeout-minutes") is None:
             _emit(
                 "NO_TIMEOUT",
