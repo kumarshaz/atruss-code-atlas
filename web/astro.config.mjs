@@ -27,6 +27,9 @@ export default defineConfig({
 				src: './src/assets/atruss-logo.png',
 				alt: 'Atruss Code Atlas',
 			},
+			components: {
+				Head: './src/components/BaseHead.astro',
+			},
 			tableOfContents: false,
 			favicon: '/favicon.png',
 			customCss: ['./src/styles/material-theme.css'],
