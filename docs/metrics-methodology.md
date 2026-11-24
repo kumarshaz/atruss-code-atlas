@@ -57,7 +57,7 @@ $$\text{technical\_debt\_score} = 100.0 - \text{overall\_score}$$
 
 ## 3. Engineering Maturity Leaderboard Index
 
-The **Organization Maturity Score (`0 – 100`)** on the Executive Leaderboard ([`web/src/components/LeaderboardView.astro`](../web/src/components/LeaderboardView.astro), pre-computed into `exports/latest/orgs-summary.json` by [`scripts/generate-org-summary.py`](../scripts/generate-org-summary.py)) measures how consistently an organization automates and governs its delivery pipelines:
+The **Organization Maturity Score (`0 – 100`)** on the Executive Leaderboard ([`web/src/components/LeaderboardView.astro`](../web/src/components/LeaderboardView.astro), pre-computed into `exports/latest/orgs-summary.json` automatically during `atruss benchmark` via `src/core/exporters/org_summary_exporter.py` and re-synchronized by [`scripts/generate-org-summary.py`](../scripts/generate-org-summary.py) on `npm run copy-data`; computed across the full merged portfolio under `--merge-latest`) measures how consistently an organization automates and governs its delivery pipelines:
 
 $$\text{maturity\_score} = (0.60 \times \text{pipeline\_coverage\_pct}) + \left(0.40 \times \frac{\text{clean\_pipelined\_repos}}{\text{evaluated\_pipelined\_repos}} \times 100\right)$$
 
@@ -66,6 +66,7 @@ $$\text{maturity\_score} = (0.60 \times \text{pipeline\_coverage\_pct}) + \left(
 - **Complementary Columns**:
   - **6-D Scorecard**: Mean `overall_score` and corresponding `A–F` grade across analyzed repositories in the organization.
   - **Security & Fitness**: Total open OSV CVEs and architectural fitness rule violations aggregated across the organization.
+  - **Portfolio Trend History**: When running with `--merge-latest`, both `orgs-summary.json` and `catalog-history.json` evaluate all repositories present in the merged `exports/latest/` catalog rather than shrinking historical averages to the refreshed daily subset.
 
 ---
 
@@ -85,6 +86,6 @@ Implemented in [`src/analyzers/code/treesitter_engine.py`](../src/analyzers/code
 
 - **14-Rule CI/CD Policy Engine ([`manifests/pipeline-rules.yaml`](../manifests/pipeline-rules.yaml))**:
   - **Operational (`AP-001`–`AP-007`)**: `NO_TEST_GATE`, `NO_CACHE`, `NO_ARTIFACT_HANDOFF`, `SEQUENTIAL_ONLY`, `UNFILTERED_MAIN_PUSH`, `UNLABELED_SELF_HOSTED` (plus `HARDCODED_SECRET`).
-  - **Supply-Chain Security (`AP-008`–`AP-014`)**: `UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `NO_TIMEOUT` (`ATRUSS-PIPE-012`), `ARTIFACT_CREDENTIAL_PERSISTENCE`, `STATIC_CLOUD_CREDENTIALS`.
+  - **Supply-Chain Security (`AP-008`–`AP-014`)**: `UNPINNED_ACTION`, `TEMPLATE_INJECTION`, `PWN_REQUEST_RISK`, `EXCESSIVE_PERMISSIONS`, `NO_TIMEOUT` (`ATRUSS-PIPE-012`, exempting reusable-workflow caller jobs `jobs.<id>.uses` without `steps:` where GitHub Actions forbids `timeout-minutes`), `ARTIFACT_CREDENTIAL_PERSISTENCE`, `STATIC_CLOUD_CREDENTIALS`.
 - **Architecture Fitness Functions ([`manifests/architecture-rules.yaml`](../manifests/architecture-rules.yaml))**: Evaluates declarative layer-dependency rules (`ATRUSS-ARCH-001`–`ATRUSS-ARCH-005`) against internal import edges and detects circular module cycles (`nx.simple_cycles`).
-- **Supply-Chain & SBOM**: Parses lockfiles and manifests across 9 dependency ecosystems (`Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`)—while `infra_devops` covers Docker, Helm, Kubernetes, and Terraform assets without package lockfiles—to emit offline-capable **CycloneDX v1.6** SBOMs and match package PURLs/versions against cached or opt-in live **OSV** advisories. *(Note: `DependencyRecord.is_outdated` defaults to `False` in offline scans because registry-latest version lookup is not yet populated in `src/analyzers/dependencies/`.)*
+- **Supply-Chain & SBOM**: Parses lockfiles and manifests across 9 dependency ecosystems (`Python`, `.NET`, `JavaScript/TypeScript`, `Java`, `Go`, `Rust`, `Ruby`, `PHP`, `Elixir`)—while `infra_devops` covers Docker, Helm, Kubernetes, and Terraform assets without package lockfiles—to emit offline-capable **CycloneDX v1.6** SBOMs and match package PURLs/versions against cached (atomic cross-worker `--osv-cache-path`) or opt-in live (`--live-osv`) **OSV** advisories. *(Note: `DependencyRecord.is_outdated` defaults to `False` in offline scans because registry-latest version lookup is not yet populated in `src/analyzers/dependencies/`.)*

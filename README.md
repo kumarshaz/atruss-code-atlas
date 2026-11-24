@@ -187,9 +187,14 @@ atruss benchmark --random-sample 12 --seed 2026
 python scripts/validate_agent_workflow.py --spec specs/009-unified-atlas-spec
 ```
 
-### 2. Reproducible Corpus Benchmarking, Checkpointing & Portal Refresh
+### 2. Reproducible Corpus Benchmarking, Checkpointing & Selective Daily Refresh
 
-Large-scale exploration across the full 372-repository production corpus (`tests/fixtures/popular_100_corpus.json`) automatically exports `repos/`, `pipelines/`, `reports/`, `sbom/`, `sarif/`, `llms/`, `catalog-history.json`, `benchmark_summary.{json,md}`, `benchmark_manifest.json`, and `anomalies.json` into `exports/latest/`.
+Large-scale exploration across the full 372-repository production corpus (`tests/fixtures/popular_100_corpus.json`) automatically exports `repos/`, `pipelines/`, `reports/`, `sbom/`, `sarif/`, `llms/`, `orgs-summary.json`, `catalog-history.json`, `benchmark_summary.{json,md}`, `benchmark_manifest.json`, and `anomalies.json` into `exports/latest/`.
+
+`atruss benchmark` supports two publication modes for `exports/latest/`:
+
+* **Clean Replacement (`--clean-latest`, default)**: Clears and rebuilds `repos/`, `pipelines/`, `relationships/`, `reports/`, `sbom/`, `sarif/`, `drift/`, and `llms/` inside `exports/latest/` from the current benchmark batch (`--corpus popular-100`).
+* **Selective Incremental Refresh (`--merge-latest`)**: Upserts only the repositories in the current batch (such as the 13 live-HEAD targets in [`manifests/daily-repos.json`](./manifests/daily-repos.json)) into the existing **320-repository** `exports/latest/` showcase—preserving all other untouched repositories, handling colliding short repo names cleanly in `pipeline_topology.*`, reusing `analyzed_at` timestamps when a workflow SHA and DAG are unchanged, sharing an atomic JSON cache across workers via `--osv-cache-path`, emitting clean-labeled `drift_report.{json,md}` via `--diff-previous`, and recomputing full-portfolio `orgs-summary.json`, `llms*.txt`, and `catalog-history.json`.
 
 To keep multi-GB monorepo scans repeatable and resilient on memory- or time-constrained hosts (e.g., 8 GB RAM VMs or CI runners):
 
@@ -201,7 +206,6 @@ export TMPDIR="$(pwd)/.cache/tmp"
 # 2. Run automated subprocess-isolated, checkpointed benchmarking
 #    - --isolated: frees Tree-sitter/Python memory after each repo & enforces hard timeouts
 #    - --checkpoint-dir + --resume: checkpoints each repo JSON and skips completed repos if re-run
-#    - --live-osv + --diff-previous: enable live OSV.dev queries & compute daily drift_report.{json,md}
 atruss benchmark \
   --corpus popular-100 \
   --isolated \
@@ -210,7 +214,8 @@ atruss benchmark \
   --max-concurrent 5 \
   --resume
 
-# Or run a scheduled daily target list merging updates into exports/latest/ (used by .github/workflows/daily-export.yml)
+# Or run a selective daily target list merging updates into the 320-repo exports/latest/ showcase
+# (automated in .github/workflows/daily-export.yml)
 atruss benchmark \
   --corpus-file manifests/daily-repos.json \
   --merge-latest \
@@ -232,7 +237,7 @@ npm run build
 ASTRO_SITE=https://kumarshaz.github.io ASTRO_BASE=/atruss-code-atlas npm run build
 ```
 
-> **Note on Checkpoints**: Checkpoints in `.cache/bench_results/` are local-only scratch state; once `atruss benchmark` completes and publishes `exports/latest/`, clean up `.cache/bench_results/` and `.cache/tmp/` before committing.
+> **Note on Checkpoints**: Checkpoints in `.cache/bench_results/` and OSV caches in `.cache/osv_cache.json` are local-only scratch state (gitignored under `.cache/`); once `atruss benchmark` completes and publishes `exports/latest/`, clean up `.cache/bench_results/` and `.cache/tmp/` before committing.
 
 ---
 
@@ -272,5 +277,21 @@ Atruss Code Atlas was engineered as a living case study in **Specification-Drive
    - **Feedback Sensors** catch drift automatically: the **5-Gate Agentic Workflow Validator** ([`scripts/validate_agent_workflow.py`](./scripts/validate_agent_workflow.py)), `ruff`, `pytest`, and Astro `npm test && npm run build`.
 3. **Multi-Repo & 10-Ecosystem Scope via Antigravity Subagents & GitHub Native Flows**:
    - The **372-repository production corpus** ([`tests/fixtures/popular_100_corpus.json`](./tests/fixtures/popular_100_corpus.json)) across **10 ecosystems** and **multi-repository project topologies** (split server/client/helm/operator repos) was implemented by orchestrating parallel Antigravity subagents (`invoke_subagent`) across specialized domain lanes (Polyglot AST & Fitness, Pipeline & Security, SBOM/OSV, Scorecard/Traceability/MCP, Astro M3 UI, and Harness Verification).
-   - Every branch push and PR runs natively in GitHub Actions: [`.github/workflows/tests.yml`](./.github/workflows/tests.yml) enforces lint, unit, Astro portal dual-builds, integration tests, and the 5-Gate validator, [`.github/workflows/daily-export.yml`](./.github/workflows/daily-export.yml) refreshes `exports/latest/` daily from [`manifests/daily-repos.json`](./manifests/daily-repos.json) with `--isolated`, `--live-osv`, and `--diff-previous`, and [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) publishes the static portal to GitHub Pages.
+   - Every branch push and PR runs natively in GitHub Actions under coordinated concurrency (`exports-latest-writer` serializing `exports/latest/` writers):
+     - [`.github/workflows/tests.yml`](./.github/workflows/tests.yml) enforces lint, unit, Astro portal dual-builds, integration tests, and the 5-Gate validator.
+     - [`.github/workflows/daily-export.yml`](./.github/workflows/daily-export.yml) runs daily at `05:23 UTC` (`cron: "23 5 * * *"`) against [`manifests/daily-repos.json`](./manifests/daily-repos.json) using `--merge-latest --isolated --live-osv --osv-cache-path .cache/osv_cache.json --diff-previous`, refreshing the 13 curated repos while preserving the remaining 307 repos in `exports/latest/`. It smoke-tests `web/` (`npm test && npm run build`), checks [`scripts/has_semantic_export_changes.py`](./scripts/has_semantic_export_changes.py) to skip timestamp-only commits, pushes with rebase retry, and chains directly into [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) only when real changes are committed.
+     - [`.github/workflows/benchmark.yml`](./.github/workflows/benchmark.yml) is retained as a manual `workflow_dispatch` runner for full-corpus (`--corpus popular-100`) or `--random-sample` sweeps.
+
+```mermaid
+flowchart TD
+    accTitle: Selective Daily Refresh and GitHub Pages Deployment Flow
+    accDescr: Automated workflow running daily-export.yml against manifests/daily-repos.json with --merge-latest, preserving untouched showcase repos, smoke-testing the Astro portal, gating commits via semantic diff detection, and deploying GitHub Pages when real changes exist.
+    Trigger["Daily Cron (23 5 * * *) / workflow_dispatch"] --> Bench["atruss benchmark --corpus-file manifests/daily-repos.json<br/>--merge-latest --isolated --live-osv --diff-previous"]
+    Bench --> Merge["Merge 13 Refreshed Repos + Preserve 307 Untouched Repos<br/>(Collision-Safe Topology · Full 320-Repo Orgs/LLMs/Catalog History)"]
+    Merge --> Smoke["Astro Smoke Test (cd web && npm test && npm run build)"]
+    Smoke --> SemCheck{"scripts/has_semantic_export_changes.py<br/>SHAs, CVEs, Reports, Drift, or Orgs Changed?"}
+    SemCheck -->|"Timestamp-Only Noise"| Skip["Restore exports/latest/<br/>Skip Commit and Pages Deploy"]
+    SemCheck -->|"Semantic Delta Detected"| Push["Commit + Rebase/Push exports/latest/ to main"]
+    Push --> Deploy["deploy-pages.yml (workflow_call)<br/>Build & Publish 320-Repo Portal to GitHub Pages"]
+```
 

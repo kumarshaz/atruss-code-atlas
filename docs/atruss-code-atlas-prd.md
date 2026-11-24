@@ -337,14 +337,14 @@ flowchart LR
         AST["Polyglot Code & AST Orchestrator<br/>(Tree-Sitter 5 Langs + Generic Structural + Fitness Rules)"]
         SCA["Lockfile & Dependency Analyzer (9 Eco)<br/>+ Secret Entropy Scanner + Coverage Parser"]
         SCR["6-Dimension A-F Scorecard<br/>& Code-to-Cloud Traceability Linker"]
-        DRF["Temporal Drift Diffing Engine<br/>(Snapshot t1 vs Snapshot t2)"]
+        DRF["Temporal Drift Diffing Engine<br/>(atruss diff & benchmark --diff-previous)"]
     end
 
     subgraph Outbound["Outbound Adapters (Clients & Deterministic Exporters)"]
         GH["GitHubClient (Async httpx)<br/>Link Pagination + Rate-Limit Guard"]
         CLN["GitCloner (Shallow Blobless)<br/>--depth 1 --filter=blob:none"]
-        OSV["OSV.dev Batch Client<br/>(api.osv.dev/v1/querybatch)"]
-        EXP["Unified ExportManager<br/>JSON | CSV | YAML | Arc42 MD<br/>SARIF v2.1 | CycloneDX SBOM | llms.txt"]
+        OSV["OSV.dev Batch Client<br/>(api.osv.dev/v1/querybatch + Atomic Cache)"]
+        EXP["Unified ExportManager & Merge Mode<br/>(--clean-latest / --merge-latest Upsert)<br/>JSON | CSV | YAML | Arc42 MD | SARIF | SBOM | llms.txt"]
     end
 
     subgraph Storage["Immutable Filesystem Contract"]
@@ -352,10 +352,10 @@ flowchart LR
     end
 
     subgraph Frontend["Static Web Consumer (Zero-Backend SSG)"]
-        ORG["generate-org-summary.py<br/>Org Maturity Rollup JSON"]
+        ORG["org_summary_exporter & generate-org-summary.py<br/>Full-Portfolio Org Maturity Rollup JSON"]
         STUB["generate-report-stubs.py<br/>Build-Time MDX Bridge"]
         ASTRO["Astro 6 + Starlight + Mermaid v12 ELK + M3<br/>Layer 1: Command Center (/ — 15 Chips, 24/Page)<br/>Layer 2: 4-Tab Repo Detail (/reports/{org}/{repo})<br/>Layer 3: Org Leaderboard & Topology (/orgs/ — 20/Page)"]
-        GHP["GitHub Pages / Static Host<br/>(deploy-pages.yml)"]
+        GHP["GitHub Pages / Static Host<br/>(daily-export.yml -> semantic gate -> deploy-pages.yml)"]
     end
 
     CLI --> CLS & DAG & AST & SCA & SCR & DRF
@@ -395,18 +395,18 @@ exports/
     │   └── {org}-{repo}.cdx.json                 # CycloneDX v1.6 JSON Software Bill of Materials + OSV vulnerabilities
     ├── sarif/                                    # [v2.0 Rec #8]
     │   └── {org}-{repo}.sarif.json               # OASIS SARIF v2.1.0 static analysis findings for GitHub Code Scanning
-    ├── drift/                                    # [v2.0 Rec #7, created by `atruss diff`]
-    │   ├── drift_report.json                     # Temporal delta between baseline and target export snapshots
+    ├── drift/                                    # [v2.0 Rec #7, created by `atruss diff` or `benchmark --diff-previous`]
+    │   ├── drift_report.json                     # Temporal delta between baseline (`exports/latest (previous)`) and target snapshots
     │   └── drift_report.md                       # Human-readable architectural & pipeline drift summary
     ├── llms/                                     # [v2.0 Rec #9]
     │   ├── llms.txt                              # Concise AI agent architectural index
     │   └── llms-full.txt                         # Full AI agent architectural & pipeline context map
-    ├── catalog-history.json                      # Longitudinal corpus / scan snapshot history index
-    ├── orgs-summary.json                         # Precomputed org maturity & 6-D health rollups (`generate-org-summary.py`)
-    ├── benchmark_manifest.json                   # Deterministic replay manifest (seed, corpus/random targets, SHAs)
-    ├── benchmark_summary.json                    # Benchmark accuracy, runtime, and SLA scorecard (372-repo corpus / random)
+    ├── catalog-history.json                      # Longitudinal corpus / full-portfolio snapshot history index
+    ├── orgs-summary.json                         # Precomputed org maturity & 6-D health rollups (`org_summary_exporter.py` / `generate-org-summary.py`)
+    ├── benchmark_manifest.json                   # Deterministic replay manifest (seed, corpus/random/daily targets, resolved SHAs)
+    ├── benchmark_summary.json                    # Benchmark accuracy, runtime, and SLA scorecard (372-repo corpus / daily / random)
     ├── benchmark_summary.md                      # Markdown benchmark report
-    ├── anomalies.json                            # Fault-isolated diagnostic ledger for self-healing agent loop
+    ├── anomalies.json                            # Fault-isolated diagnostic ledger for self-healing agent loop (`stage`: `worker`, `timeout`, etc.)
     └── agent-eval-report.json                    # 5-Gate Agentic Workflow Validator scorecard (Grade A-F)
 ```
 
@@ -458,7 +458,7 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
 | **FR-SEC-01** | System MUST parse direct and locked transitive package dependencies across 9 code ecosystems (`requirements.txt`, `pyproject.toml`, `uv.lock`, `poetry.lock`, `*.csproj`, `packages.lock.json`, `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `pom.xml`, `build.gradle`, `go.mod`, `Cargo.lock`, `Gemfile`, `composer.json`, `mix.exs`, etc.). *(Gap note: `DependencyRecord.is_outdated` / `latest_version` schema fields exist but remain unpopulated by registry version checks.)* | P1 | Baseline `FR-ING-06` + **Rec #4** | **Implemented (No Registry Version Lookup)** |
-| **FR-SEC-02** | System MUST query Google's **OSV.dev Batch API (`https://api.osv.dev/v1/querybatch`)** with offline cache fallback to detect vulnerable dependencies, malware advisories (`MAL-*`), severity ratings, and fixed upgrade versions. *(Gap note: optional NIST NVD CVSS enrichment is not implemented in `src/`; offline `atruss check` passes `vulnerabilities=[]`.)* | P1 | Baseline `FR-ANA-06/08` + **Rec #4** | **Implemented (`OSV.dev` Only)** |
+| **FR-SEC-02** | System MUST query Google's **OSV.dev Batch API (`https://api.osv.dev/v1/querybatch`)** via `--live-osv` with atomic cross-worker JSON cache persistence (`--osv-cache-path`) and offline cache fallback to detect vulnerable dependencies, malware advisories (`MAL-*`), severity ratings, and fixed upgrade versions. *(Gap note: optional NIST NVD CVSS enrichment is not implemented in `src/`; offline `atruss check` passes `vulnerabilities=[]`.)* | P1 | Baseline `FR-ANA-06/08` + **Rec #4** | **Implemented (`OSV.dev` Only)** |
 | **FR-SEC-03** | System MUST export a standard **CycloneDX v1.6 JSON SBOM** (`exports/latest/sbom/{org}-{repo}.cdx.json`) containing all discovered packages, PURL identifiers, licenses, and vulnerability annotations. | P2 | **Rec #4** (SBOM Compliance) | **Implemented (`009` Horizon 2)** |
 | **FR-SEC-04** | System MUST scan both `.github/workflows/*.yml` and repository source/configuration files for hardcoded secrets using combined regex signatures (`AKIA*`, `ghp_*`, `github_pat_*`, `sk-*`, private keys) and Shannon entropy analysis while honoring `.gitignore`. | P0 | Baseline `FR-ANA-07`, `006-core` T006 + **Rec #4** | **Implemented (`009` Horizon 2)** |
 
@@ -490,8 +490,8 @@ All requirements across Baseline PRD v1.0, SpecKit Iterations `001`–`008`, and
 | ID | Requirement Statement | Priority | Lineage Origin | Status |
 | :--- | :--- | :---: | :--- | :--- |
 | **FR-GOV-01** | System MUST maintain a version-controlled benchmark corpus (`tests/fixtures/popular_100_corpus.json`), originally stratified across 100 repos (4 ecosystems) and later expanded to **372 public GitHub repositories across 10 ecosystems**. *(Drift note: `scripts/curate_corpus.py` still defines a 100-repo `CURATED_CATALOG`, so running `--write` would overwrite the 372-repo expansion unless synchronized.)* | P0 | `003` FR-005, `008` FR-001 | **Implemented (Script Drift Noted)** |
-| **FR-GOV-02** | System MUST provide an `atruss benchmark` CLI command (`src/cli/commands/benchmark.py`) supporting `--corpus popular-100`, `--random-sample <N> --seed <int>` *(currently queries the core 4 search languages)*, `--replay <manifest.json>`, `--isolated` subprocess memory isolation, `--checkpoint-dir`, `--resume`, and configurable `--timeout`. | P0 | `008` FR-002..003, PR #3/#4 | **Implemented** |
-| **FR-GOV-03** | System MUST isolate per-repository benchmark failures into `exports/latest/anomalies.json` without crashing the batch, emit `benchmark_summary.{json,md}`, and provide an autonomous self-healing loop (`scripts/run_benchmark_loop.py` and `.agent/skills/benchmark-self-heal/SKILL.md`). | P0 | `008` FR-004..005 | **Implemented** |
+| **FR-GOV-02** | System MUST provide an `atruss benchmark` CLI command (`src/cli/commands/benchmark.py`) supporting `--corpus popular-100`, `--corpus-file <path>` (including curated `manifests/daily-repos.json`), `--clean-latest / --merge-latest` selective upsert mode (preserving untouched showcase artifacts & colliding short repo names in `pipeline_topology.*`), `--live-osv` with atomic `--osv-cache-path`, `--diff-previous` / `--diff-baseline`, `--random-sample <N> --seed <int>` *(currently queries the core 4 search languages)*, `--replay <manifest.json>`, `--isolated` subprocess memory isolation, `--checkpoint-dir`, `--resume`, and configurable `--timeout`. | P0 | `008` FR-002..003, PR #3/#4/#7/#8 | **Implemented** |
+| **FR-GOV-03** | System MUST isolate per-repository benchmark failures (`stage`: `clone`, `discover`, `analyze-pipeline`, `analyze-code`, `worker`, `timeout`, `classification`) into `exports/latest/anomalies.json` without crashing the batch, emit `benchmark_summary.{json,md}`, preserve prior artifacts for failed repos under `--merge-latest`, automate selective daily refreshes via `.github/workflows/daily-export.yml` (`scripts/has_semantic_export_changes.py`), and provide an autonomous self-healing loop (`scripts/run_benchmark_loop.py` and `.agent/skills/benchmark-self-heal/SKILL.md`). | P0 | `008` FR-004..005, PR #7/#8 | **Implemented** |
 | **FR-GOV-04** | System MUST enforce the **5-Gate Agentic Coding Workflow Validator** (`scripts/validate_agent_workflow.py`) checking: Gate 1 (Spec-Plan-Task Traceability), Gate 2 (AST Anti-Stub & Anti-Skip Audit), Gate 3 (Full Pytest Execution with 0 Skips), Gate 4 (Python-to-Astro Schema Contract Verification), and Gate 5 (SHA-256 Determinism Check), outputting `exports/latest/agent-eval-report.json`. | P0 | `006-core` FR-009..010 | **Implemented** |
 
 ---
@@ -581,3 +581,4 @@ A forensic audit comparing the Consolidated Master PRD, Specs `007`–`009`, and
 4. **Pipeline Topology Markdown Filename Drift (`FR-VIZ-04`)**: Consolidated PRD and Spec 009 reference `exports/latest/reports/pipeline_topology.md`, whereas `src/core/exporters/markdown_exporter.py` emits `exports/latest/reports/pipeline_architecture.md`.
 5. **Material Design UI Implementation Alignment (`FR-UI-01`, `FR-UI-04`, `Spec 007`, `SC-001`)**: `web/package.json` includes `@material/web` (`^2.5.0`) and Astro components render Material Design 3 styling via custom `.m3-*` classes and CSS custom properties in `web/src/styles/material-theme.css` rather than `<md-*>` web components; per-repo stubs emit `reports/{org}/{repo}.mdx` across 4 tabs (evolved beyond Spec 007's 3 tabs and 8 filter chips). At 323 generated pages from the 372-repo corpus, full `npm run build` takes ~59s (compared to the initial `< 30s` target).
 6. **Local Environment Tree-sitter Sync Sensitivity (`SC-006`)**: Environments whose `.venv` lacks `tree-sitter*` wheels declared in `pyproject.toml` / `requirements.txt` fail 5 tests in `tests/unit/test_treesitter_engine.py`; installing declared `[dev]` dependencies (`uv pip install -e ".[dev]"`) is required for full CST test parity.
+7. **Selective Daily Export Refresh & 320-Repo Showcase Preservation (2026-11-24, PR #7/#8)**: `.github/workflows/daily-export.yml` refreshes the 13 live-HEAD curated repositories in `manifests/daily-repos.json` daily (`23 5 * * *`, `05:23 UTC`) using `atruss benchmark --merge-latest --isolated --no-resume --live-osv --osv-cache-path .cache/osv_cache.json --diff-previous`, keeping the remaining 307 repositories in the 320-repo `exports/latest/` catalog intact across `repositories.*`, `reports/`, `pipelines/`, `sbom/`, `sarif/`, `llms/`, `orgs-summary.json`, `catalog-history.json`, and collision-aware `pipeline_topology.*`. `scripts/has_semantic_export_changes.py` filters wall-clock-only diffs before committing and chaining into `deploy-pages.yml`; `.github/workflows/benchmark.yml` is `workflow_dispatch`-only and shares concurrency group `exports-latest-writer`. *(Note: reusable caller jobs via `jobs.<id>.uses` without `steps:` are exempted from `ATRUSS-PIPE-012` `NO_TIMEOUT`.)*

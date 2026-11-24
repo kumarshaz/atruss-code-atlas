@@ -44,3 +44,5 @@ To build with a GitHub Pages base path (as executed in `.github/workflows/deploy
 ```bash
 ASTRO_SITE="https://kumarshaz.github.io" ASTRO_BASE="/atruss-code-atlas" npm run build
 ```
+
+When `.github/workflows/daily-export.yml` detects semantic updates from the daily `--merge-latest` run across `manifests/daily-repos.json`, it chains directly into `.github/workflows/deploy-pages.yml` via `workflow_call` so the live portal reflects refreshed curated repositories while keeping the rest of the 320-repo showcase intact.
