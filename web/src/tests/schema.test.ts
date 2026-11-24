@@ -40,6 +40,14 @@ function testExportsLatestContracts() {
     !astroCfg.includes('github.com/organization/atruss-code-atlas'),
     'astro.config.mjs must not use placeholder organization URL'
   );
+  assert.ok(
+    astroCfg.includes('https://atruss.shashinkumar.com'),
+    'astro.config.mjs must default site to https://atruss.shashinkumar.com'
+  );
+  assert.ok(
+    !astroCfg.includes("'/atruss-code-atlas'") && !astroCfg.includes('"/atruss-code-atlas"'),
+    'astro.config.mjs must not hardcode /atruss-code-atlas base path'
+  );
 }
 
 function testHorizon2OptionalExportSchemas() {

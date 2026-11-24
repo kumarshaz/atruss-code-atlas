@@ -37,9 +37,9 @@ Run from `web/` (using Node.js v22+):
 | `npm run build` | Sync latest data, build static HTML/CSS/JS + Pagefind search index to `dist/` |
 | `npm run preview` | Preview production static build locally |
 
-### GitHub Pages Subpath Build
+### Custom Domain & Environment Overrides
 
-To build with a GitHub Pages base path (as executed in `.github/workflows/deploy-pages.yml`):
+By default, `astro.config.mjs` (and `.github/workflows/deploy-pages.yml`) builds for `https://atruss.shashinkumar.com` at the root base `/`. To override `site` or build under a subpath (as also verified in `.github/workflows/tests.yml`):
 
 ```bash
 ASTRO_SITE="https://kumarshaz.github.io" ASTRO_BASE="/atruss-code-atlas" npm run build

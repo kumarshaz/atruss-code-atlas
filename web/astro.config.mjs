@@ -2,12 +2,12 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
 
-const site = process.env.ASTRO_SITE || undefined;
+const site = process.env.ASTRO_SITE || 'https://atruss.shashinkumar.com';
 const base = process.env.ASTRO_BASE || '/';
 
 export default defineConfig({
-	...(site ? { site } : {}),
-	base,
+	site,
+	...(base && base !== '/' ? { base } : {}),
 	integrations: [
 		mermaid({
 			autoTheme: true,

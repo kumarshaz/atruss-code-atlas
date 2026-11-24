@@ -229,6 +229,7 @@ cd web
 npm run copy-data
 npm test
 npm run build
+# Optional: verify subpath build override for non-custom-domain hosting
 ASTRO_SITE=https://kumarshaz.github.io ASTRO_BASE=/atruss-code-atlas npm run build
 ```
 
@@ -257,7 +258,7 @@ Atruss Code Atlas includes a zero-backend **Astro 6 + Starlight** web applicatio
 1. **The Generator**: The Python CLI analyzes repositories and outputs canonical datasets, SBOMs, SARIF, `llms.txt`, and Arc42 Markdown reports into `./exports/latest/`.
 2. **The Output Bridge**: [`scripts/generate-org-summary.py`](./scripts/generate-org-summary.py) pre-computes organization maturity and 6-D health rollups (`exports/latest/orgs-summary.json`), and [`scripts/generate-report-stubs.py`](./scripts/generate-report-stubs.py) converts `./exports/latest/` artifacts into 4-tab Material Design 3 Astro MDX pages (`Discovery Overview` | `CI/CD Pipeline DAG` | `Arc42 Code Architecture` | `6-D Scorecard & Security`) with `ScorecardHeatmap.astro`, `CrossRepoTopology.astro`, paginated discovery/org grids (`24` cards / `20` org rows per page), client-side SVG/PNG diagram downloads, and Print/PDF layout support.
 3. **The Consumer**: Running `npm run copy-data` inside `./web` regenerates `orgs-summary.json`, synchronizes `./exports/latest/` into `web/src/data/latest/`, copies `llms*.txt` into `web/public/`, and generates the MDX report routes.
-4. **Static Output**: Run `npm run build` in `./web` (or `ASTRO_BASE=/atruss-code-atlas npm run build` for GitHub Pages subpath hosting). The output in `web/dist/` is pure static HTML/CSS/JS ready for GitHub Pages, S3, or internal enterprise hosting.
+4. **Static Output**: Run `npm run build` in `./web` to build for the custom domain (`https://atruss.shashinkumar.com` at root `/`, optionally overridable via `ASTRO_SITE` / `ASTRO_BASE`). The output in `web/dist/` is pure static HTML/CSS/JS ready for GitHub Pages, S3, or internal enterprise hosting.
 
 ---
 
