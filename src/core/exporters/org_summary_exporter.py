@@ -51,6 +51,7 @@ def build_org_summary(exports_dir: Path) -> list[dict[str, Any]]:
     summaries: list[dict[str, Any]] = []
 
     for org, org_repos in sorted(org_map.items()):
+        safe_org = org.replace("/", "_")
         total_repos = len(org_repos)
         repos_with_pipeline = sum(1 for r in org_repos if r.get("HasPipeline"))
         repos_with_docker = sum(1 for r in org_repos if r.get("HasDockerfile"))
@@ -67,6 +68,7 @@ def build_org_summary(exports_dir: Path) -> list[dict[str, Any]]:
                 pdata = None
                 for cand in (
                     pipeline_dir / f"{org}-{rname}-pipeline.json",
+                    pipeline_dir / f"{safe_org}-{rname}-pipeline.json",
                     pipeline_dir / f"local-{rname}-pipeline.json",
                     pipeline_dir / f"{rname}-pipeline.json",
                 ):
@@ -96,7 +98,6 @@ def build_org_summary(exports_dir: Path) -> list[dict[str, Any]]:
         best_repo: dict[str, Any] | None = None
         best_repo_score = -1.0
         lang_counts: Counter[str] = Counter()
-        safe_org = org.replace("/", "_")
 
         for r in org_repos:
             lang = str(r.get("PrimaryLanguage") or "").strip()

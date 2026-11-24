@@ -210,12 +210,14 @@ atruss benchmark \
   --max-concurrent 5 \
   --resume
 
-# Or run a scheduled daily target list (used by .github/workflows/daily-export.yml)
+# Or run a scheduled daily target list merging updates into exports/latest/ (used by .github/workflows/daily-export.yml)
 atruss benchmark \
   --corpus-file manifests/daily-repos.json \
+  --merge-latest \
   --isolated \
   --no-resume \
   --live-osv \
+  --osv-cache-path .cache/osv_cache.json \
   --diff-previous \
   --timeout 180
 

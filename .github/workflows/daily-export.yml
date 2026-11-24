@@ -46,7 +46,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: "daily-repo-exports"
+  group: "exports-latest-writer"
   cancel-in-progress: false
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.ref }}
 
       - name: Setup Python 3.12
         uses: actions/setup-python@v5
@@ -94,13 +94,16 @@ jobs:
           LIVE_OSV_VAL: ${{ github.event_name == 'schedule' && 'true' || inputs.live_osv }}
           DIFF_PREV_VAL: ${{ github.event_name == 'schedule' && 'true' || inputs.diff_previous }}
         run: |
+          mkdir -p .cache
           args=(
             benchmark
             --corpus-file "$CORPUS_FILE"
+            --merge-latest
             --isolated
             --no-resume
             --timeout "$TIMEOUT_VAL"
             --max-concurrent "$MAX_CONCURRENT_VAL"
+            --osv-cache-path .cache/osv_cache.json
           )
           if [ -n "$LIMIT_VAL" ]; then
             args+=(--limit "$LIMIT_VAL")
@@ -116,16 +119,14 @@ jobs:
             args+=(--no-diff-previous)
           fi
           atruss "${args[@]}"
-          python scripts/generate-org-summary.py \
-            --exports-dir exports/latest \
-            --output exports/latest/orgs-summary.json
 
       - name: Smoke-test Astro portal & exports schema before committing
         working-directory: web
         env:
           ASTRO_SITE: "https://${{ github.repository_owner }}.github.io"
-          ASTRO_BASE: "/${{ github.event.repository.name }}"
-        run: npm test && npm run build
+        run: |
+          export ASTRO_BASE="/${GITHUB_REPOSITORY#*/}"
+          npm test && npm run build
 
       - name: Commit and push updated exports/latest telemetry
         id: commit_exports
@@ -133,12 +134,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A exports/latest/
-          if git diff --cached --quiet; then
+          if git diff --cached --quiet || ! python scripts/has_semantic_export_changes.py; then
+            git reset -q HEAD -- exports/latest/
+            git checkout -- exports/latest/ || true
+            git clean -fd -- exports/latest/
             echo "committed=false" >> "$GITHUB_OUTPUT"
-            echo "No changes in exports/latest/ to commit."
+            echo "No semantic changes in exports/latest/ to commit."
           else
             git commit -m "chore(daily-export): refresh exports/latest snapshot"
-            git push
+            pushed=false
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin "${{ github.ref_name }}"
+              if git push origin "HEAD:${{ github.ref_name }}"; then
+                pushed=true
+                break
+              fi
+              sleep 3
+            done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to push exports/latest snapshot after 3 attempts."
+              exit 1
+            fi
             echo "committed=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -151,5 +167,5 @@ jobs:
       id-token: write
     uses: ./.github/workflows/deploy-pages.yml
     with:
-      checkout_ref: main
+      checkout_ref: ${{ github.ref_name }}
     secrets: inherit

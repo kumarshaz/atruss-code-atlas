@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import csv
 import json
 import os
 import random
@@ -1005,12 +1006,12 @@ async def _run_single_repo_subprocess(
             duration_seconds=duration,
             within_sla=duration <= timeout,
             error=err_msg,
-            stage_failed="analyze-code",
+            stage_failed="worker",
         )
         anom = AnomalyRecord(
             repo=entry.full_name,
             sha=entry.pinned_sha or "unknown",
-            stage="analyze-code",
+            stage="worker",
             error_type="WorkerProcessError",
             message=err_msg,
             expected_ecosystem=entry.expected_ecosystem,
@@ -1020,26 +1021,204 @@ async def _run_single_repo_subprocess(
         return {"result": res, "anomalies": [anom]}
 
 
+def _merge_discovery_items(
+    existing_latest: Path,
+    fresh_items: list[DiscoveryManifestItem],
+) -> list[DiscoveryManifestItem]:
+    """Upsert fresh discovery items into existing `exports/latest/repos/repositories.json`."""
+    repos_json = existing_latest / "repos" / "repositories.json"
+    if not repos_json.exists():
+        return fresh_items
+
+    try:
+        raw_payload = json.loads(repos_json.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return fresh_items
+
+    raw_items = (
+        raw_payload.get("items", raw_payload) if isinstance(raw_payload, dict) else raw_payload
+    )
+    if not isinstance(raw_items, list):
+        return fresh_items
+
+    valid_fields = set(DiscoveryManifestItem.__dataclass_fields__.keys())
+    fresh_by_key: dict[str, DiscoveryManifestItem] = {}
+    for item in fresh_items:
+        key = (item.RepositoryId or f"{item.Organization}/{item.RepositoryName}").strip().lower()
+        fresh_by_key[key] = item
+
+    merged: list[DiscoveryManifestItem] = []
+    seen_keys: set[str] = set()
+    for raw in raw_items:
+        if not isinstance(raw, dict):
+            continue
+        org = str(raw.get("Organization", "")).strip()
+        name = str(raw.get("RepositoryName", "")).strip()
+        rid = str(raw.get("RepositoryId", "")).strip()
+        key = (rid if "/" in rid else (f"{org}/{name}" if org and name else rid or name)).lower()
+        if not key or key in seen_keys:
+            continue
+        seen_keys.add(key)
+        if key in fresh_by_key:
+            merged.append(fresh_by_key[key])
+        else:
+            filtered = {k: v for k, v in raw.items() if k in valid_fields}
+            try:
+                merged.append(DiscoveryManifestItem(**filtered))
+            except TypeError:
+                continue
+
+    remaining = [
+        item
+        for key, item in fresh_by_key.items()
+        if key not in seen_keys
+    ]
+    remaining.sort(key=lambda d: (d.Organization.lower(), d.RepositoryName.lower()))
+    merged.extend(remaining)
+    return merged
+
+
+def _merge_pipeline_topology(
+    existing_latest: Path,
+    refreshed_repo_names: set[str],
+    fresh_nodes: list[TopologyNode],
+    fresh_runs: list[WorkflowRun],
+) -> tuple[list[TopologyNode], list[WorkflowRun]]:
+    """Preserve untouched repositories in `pipeline_topology.*` during `--merge-latest`."""
+    refreshed_low = {name.strip().lower() for name in refreshed_repo_names if name.strip()}
+    preserved_nodes: list[TopologyNode] = []
+    preserved_runs: list[WorkflowRun] = []
+
+    topo_json = existing_latest / "relationships" / "pipeline_topology.json"
+    if topo_json.exists():
+        try:
+            payload = json.loads(topo_json.read_text(encoding="utf-8"))
+            items = payload.get("items", payload) if isinstance(payload, dict) else payload
+            if isinstance(items, list):
+                valid_fields = set(TopologyNode.__dataclass_fields__.keys())
+                for item in items:
+                    if not isinstance(item, dict):
+                        continue
+                    rname = str(item.get("repoName", "")).strip().lower()
+                    rid = str(item.get("repoId", "")).strip().lower()
+                    if rname in refreshed_low or rid in refreshed_low:
+                        continue
+                    filtered = {k: v for k, v in item.items() if k in valid_fields}
+                    try:
+                        preserved_nodes.append(TopologyNode(**filtered))
+                    except TypeError:
+                        continue
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    topo_csv = existing_latest / "relationships" / "pipeline_topology.csv"
+    if topo_csv.exists():
+        try:
+            with open(topo_csv, encoding="utf-8", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    rname = str(row.get("RepoName", "")).strip()
+                    if not rname or rname.lower() in refreshed_low:
+                        continue
+                    preserved_runs.append(
+                        WorkflowRun(
+                            repo_name=rname,
+                            workflow_name=str(row.get("WorkflowName", "")),
+                            target_env=str(row.get("DeploymentTarget", "")),
+                            resource=str(row.get("DeploymentResource", "")),
+                        )
+                    )
+        except OSError:
+            pass
+
+    return preserved_nodes + fresh_nodes, preserved_runs + fresh_runs
+
+
+def _existing_pipeline_analyzed_at(
+    existing_latest: Path,
+    org: str,
+    repo: str,
+    sha: str,
+    workflows: list[dict[str, Any]],
+) -> str | None:
+    """Reuse existing `analyzed_at` when `--merge-latest` sees identical pipeline SHA & DAG."""
+    safe_org = org.replace("/", "_") if org else "local"
+    safe_repo = repo.split("/")[-1].replace("/", "_")
+    pfile = existing_latest / "pipelines" / f"{safe_org}-{safe_repo}-pipeline.json"
+    if not pfile.exists():
+        return None
+    try:
+        existing = json.loads(pfile.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if (
+        isinstance(existing, dict)
+        and existing.get("sha") == sha
+        and existing.get("workflows") == workflows
+        and isinstance(existing.get("analyzed_at"), str)
+    ):
+        return existing["analyzed_at"]
+    return None
+
+
+def _build_portfolio_history_snapshot(latest_dir: Path) -> dict[str, Any] | None:
+    """Build portfolio scorecard snapshot from all merged `reports/*-analysis.json` files."""
+    reports_dir = latest_dir / "reports"
+    if not reports_dir.is_dir():
+        return None
+    repos_sc_summary: dict[str, dict[str, Any]] = {}
+    scorecard_total = 0.0
+    total_vulns = 0
+    total_fitness = 0
+    total_secrets = 0
+    for rfile in sorted(reports_dir.glob("*-analysis.json")):
+        try:
+            data = json.loads(rfile.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        sc = data.get("scorecard")
+        if not isinstance(sc, dict) or sc.get("overall_score") is None:
+            continue
+        repo_key = str(data.get("repository") or rfile.stem.removesuffix("-analysis"))
+        overall_score = float(sc.get("overall_score", 0.0) or 0.0)
+        scorecard_total += overall_score
+        vulns = data.get("vulnerabilities") or []
+        fitness = data.get("fitness_violations") or []
+        secrets = data.get("secrets") or []
+        total_vulns += len(vulns)
+        total_fitness += len(fitness)
+        total_secrets += len(secrets)
+        repos_sc_summary[repo_key] = {
+            "overall_score": overall_score,
+            "overall_grade": sc.get("overall_grade", "N/A"),
+            "technical_debt_score": float(sc.get("technical_debt_score", 0.0) or 0.0),
+            "vulnerabilities_count": len(vulns),
+            "fitness_violations_count": len(fitness),
+            "secrets_count": len(secrets),
+        }
+    if not repos_sc_summary:
+        return None
+    return {
+        "command": "benchmark",
+        "repo_count": len(repos_sc_summary),
+        "average_overall_score": round(scorecard_total / len(repos_sc_summary), 2),
+        "total_vulnerabilities": total_vulns,
+        "total_fitness_violations": total_fitness,
+        "total_secrets": total_secrets,
+        "repos": repos_sc_summary,
+    }
+
+
 def _capture_drift_baseline(
     output_dir: Path,
     clean_latest: bool,
     diff_baseline: Path | str | None,
     diff_previous: bool,
-) -> tuple[Path | None, tempfile.TemporaryDirectory[str] | None]:
+) -> tuple[Path | None, tempfile.TemporaryDirectory[str] | None, str | None]:
     """Snapshot an existing `latest/` baseline before cleanup if drift computation is enabled."""
     latest_existing = output_dir / "latest"
     snapshot_subdirs = ("repos", "pipelines", "relationships", "reports", "sbom", "sarif", "llms")
-    if diff_previous and latest_existing.exists() and any(
-        (latest_existing / sub).exists() for sub in ("repos", "reports", "pipelines")
-    ):
-        temp_ctx = tempfile.TemporaryDirectory(prefix="atruss_bench_prev_")
-        snap_root = Path(temp_ctx.name)
-        for sub in snapshot_subdirs:
-            src_sub = latest_existing / sub
-            if src_sub.exists():
-                shutil.copytree(src_sub, snap_root / sub, dirs_exist_ok=True)
-        return snap_root, temp_ctx
-
     if diff_baseline is not None:
         cand_base = Path(diff_baseline)
         if cand_base.exists():
@@ -1053,10 +1232,21 @@ def _capture_drift_baseline(
                     src_sub = latest_existing / sub
                     if src_sub.exists():
                         shutil.copytree(src_sub, snap_root / sub, dirs_exist_ok=True)
-                return snap_root, temp_ctx
-            return cand_base, None
+                return snap_root, temp_ctx, str(diff_baseline)
+            return cand_base, None, str(diff_baseline)
 
-    return None, None
+    if diff_previous and latest_existing.exists() and any(
+        (latest_existing / sub).exists() for sub in ("repos", "reports", "pipelines")
+    ):
+        temp_ctx = tempfile.TemporaryDirectory(prefix="atruss_bench_prev_")
+        snap_root = Path(temp_ctx.name)
+        for sub in snapshot_subdirs:
+            src_sub = latest_existing / sub
+            if src_sub.exists():
+                shutil.copytree(src_sub, snap_root / sub, dirs_exist_ok=True)
+        return snap_root, temp_ctx, f"{output_dir.as_posix().rstrip('/')}/latest (previous)"
+
+    return None, None, None
 
 
 async def execute_benchmark(
@@ -1147,7 +1337,7 @@ async def execute_benchmark(
 
     temp_baseline_ctx: tempfile.TemporaryDirectory[str] | None = None
     try:
-        resolved_diff_baseline, temp_baseline_ctx = _capture_drift_baseline(
+        resolved_diff_baseline, temp_baseline_ctx, baseline_label = _capture_drift_baseline(
             Path(output_dir),
             clean_latest=clean_latest,
             diff_baseline=diff_baseline,
@@ -1163,6 +1353,8 @@ async def execute_benchmark(
         discovery_items: list[DiscoveryManifestItem] = []
         all_nodes: list[TopologyNode] = []
         all_runs: list[WorkflowRun] = []
+        refreshed_pipe_names: set[str] = set()
+        existing_latest = Path(output_dir) / "latest"
 
         manager = ExportManager(base_dir=output_dir, timestamp=run_ts)
         if clean_latest:
@@ -1185,12 +1377,27 @@ async def execute_benchmark(
                 discovery_items.append(outcome["discovery_item"])
 
             if "astro_workflows" in outcome:
+                existing_ts = (
+                    _existing_pipeline_analyzed_at(
+                        existing_latest,
+                        entry.org,
+                        entry.name,
+                        res.resolved_sha,
+                        outcome["astro_workflows"],
+                    )
+                    if not clean_latest
+                    else None
+                )
                 topo_archiver.export_repo_pipeline(
                     org=entry.org,
                     repo=entry.name,
                     sha=res.resolved_sha,
                     workflows=outcome["astro_workflows"],
+                    analyzed_at=existing_ts,
                 )
+                if res.stage_failed != "analyze-pipeline":
+                    refreshed_pipe_names.add(entry.name)
+                    refreshed_pipe_names.add(entry.full_name)
             all_nodes.extend(outcome.get("topo_nodes", []))
             all_runs.extend(outcome.get("wf_runs", []))
 
@@ -1218,6 +1425,15 @@ async def execute_benchmark(
                     repo_name=art.repository,
                 )
 
+        if not clean_latest:
+            discovery_items = _merge_discovery_items(existing_latest, discovery_items)
+            all_nodes, all_runs = _merge_pipeline_topology(
+                existing_latest,
+                refreshed_pipe_names,
+                all_nodes,
+                all_runs,
+            )
+
         DiscoveryArchiver(manager).export(discovery_items)
         topo_archiver.export(all_nodes, all_runs)
         MarkdownArchiver(manager).export(all_nodes, all_runs)
@@ -1226,7 +1442,13 @@ async def execute_benchmark(
         manager.publish_to_latest(modules=["llms"])
 
         if resolved_diff_baseline is not None:
-            drift_report = compute_drift_report(resolved_diff_baseline, latest_dir)
+            target_label = f"{Path(output_dir).as_posix().rstrip('/')}/latest"
+            drift_report = compute_drift_report(
+                resolved_diff_baseline,
+                latest_dir,
+                baseline_label=baseline_label,
+                target_label=target_label,
+            )
             drift_json = json.dumps(drift_report, indent=2) + "\n"
             drift_md = render_drift_markdown(drift_report)
             manager.get_path("drift", "drift_report.json").write_text(
@@ -1242,39 +1464,46 @@ async def execute_benchmark(
     finally:
         if temp_baseline_ctx is not None:
             temp_baseline_ctx.cleanup()
-    scored_arts = [
-        o["code_artifact"]
-        for o in outcomes
-        if o.get("code_artifact") is not None and o["code_artifact"].scorecard is not None
-    ]
-    avg_sc = (
-        round(
-            sum(a.scorecard.overall_score for a in scored_arts if a.scorecard) / len(scored_arts),
-            2,
-        )
-        if scored_arts
-        else 0.0
+
+    history_payload = (
+        _build_portfolio_history_snapshot(latest_dir) if not clean_latest else None
     )
-    repos_sc_summary = {
-        a.repository: {
-            "overall_score": a.scorecard.overall_score if a.scorecard else 0.0,
-            "overall_grade": a.scorecard.overall_grade if a.scorecard else "N/A",
-            "technical_debt_score": a.scorecard.technical_debt_score if a.scorecard else 0.0,
-            "vulnerabilities_count": len(a.vulnerabilities),
-            "fitness_violations_count": len(a.fitness_violations),
-            "secrets_count": len(a.secrets),
+    if history_payload is None:
+        scored_arts = [
+            o["code_artifact"]
+            for o in outcomes
+            if o.get("code_artifact") is not None and o["code_artifact"].scorecard is not None
+        ]
+        avg_sc = (
+            round(
+                sum(a.scorecard.overall_score for a in scored_arts if a.scorecard)
+                / len(scored_arts),
+                2,
+            )
+            if scored_arts
+            else 0.0
+        )
+        repos_sc_summary = {
+            a.repository: {
+                "overall_score": a.scorecard.overall_score if a.scorecard else 0.0,
+                "overall_grade": a.scorecard.overall_grade if a.scorecard else "N/A",
+                "technical_debt_score": a.scorecard.technical_debt_score if a.scorecard else 0.0,
+                "vulnerabilities_count": len(a.vulnerabilities),
+                "fitness_violations_count": len(a.fitness_violations),
+                "secrets_count": len(a.secrets),
+            }
+            for a in scored_arts
         }
-        for a in scored_arts
-    }
-    manager.append_catalog_history({
-        "command": "benchmark",
-        "repo_count": len(results),
-        "average_overall_score": avg_sc,
-        "total_vulnerabilities": sum(len(a.vulnerabilities) for a in scored_arts),
-        "total_fitness_violations": sum(len(a.fitness_violations) for a in scored_arts),
-        "total_secrets": sum(len(a.secrets) for a in scored_arts),
-        "repos": repos_sc_summary,
-    })
+        history_payload = {
+            "command": "benchmark",
+            "repo_count": len(results),
+            "average_overall_score": avg_sc,
+            "total_vulnerabilities": sum(len(a.vulnerabilities) for a in scored_arts),
+            "total_fitness_violations": sum(len(a.fitness_violations) for a in scored_arts),
+            "total_secrets": sum(len(a.secrets) for a in scored_arts),
+            "repos": repos_sc_summary,
+        }
+    manager.append_catalog_history(history_payload)
 
     total = len(results)
     completed = sum(1 for r in results if r.status == "passed")
@@ -1417,6 +1646,16 @@ def benchmark(
         "--live-osv/--no-live-osv",
         help="Enable live OSV.dev batch vulnerability queries during code analysis",
     ),
+    osv_cache_path: str | None = typer.Option(
+        None,
+        "--osv-cache-path",
+        help="Optional shared JSON cache file for OSV.dev lookups across isolated workers",
+    ),
+    clean_latest: bool = typer.Option(
+        True,
+        "--clean-latest/--merge-latest",
+        help="Replace exports/latest/ or merge/upsert this batch into existing exports/latest/",
+    ),
     diff_baseline: str | None = typer.Option(
         None,
         "--diff-baseline",
@@ -1492,6 +1731,8 @@ def benchmark(
             resume=resume,
             isolated=isolated,
             enable_live_osv=live_osv,
+            osv_cache_path=Path(osv_cache_path) if osv_cache_path else None,
+            clean_latest=clean_latest,
             diff_baseline=diff_baseline,
             diff_previous=diff_previous,
         )

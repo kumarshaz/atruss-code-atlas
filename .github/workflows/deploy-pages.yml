@@ -59,8 +59,9 @@ jobs:
         working-directory: web
         env:
           ASTRO_SITE: "https://${{ github.repository_owner }}.github.io"
-          ASTRO_BASE: "/${{ github.event.repository.name }}"
-        run: npm run build
+        run: |
+          export ASTRO_BASE="/${GITHUB_REPOSITORY#*/}"
+          npm run build
 
       - name: Upload static Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -611,3 +611,261 @@ def test_benchmark_cli_corpus_file_isolated_diff_previous(tmp_path: Path):
     assert (exports_dir / "latest" / "drift" / "drift_report.json").exists()
     assert (exports_dir / "latest" / "drift" / "drift_report.md").exists()
 
+    drift_data = json.loads(
+        (exports_dir / "latest" / "drift" / "drift_report.json").read_text(encoding="utf-8")
+    )
+    assert "atruss_bench_prev_" not in drift_data["summary"]["baseline_dir"]
+    assert drift_data["summary"]["baseline_dir"].endswith("latest (previous)")
+    assert drift_data["summary"]["target_dir"].endswith("/latest")
+
+
+@pytest.mark.asyncio
+async def test_execute_benchmark_merge_latest_preserves_existing_repos(tmp_path: Path):
+    """
+    Verify `--merge-latest` (`clean_latest=False`) preserves untouched repos across
+    repositories.json, reports, sbom, sarif, pipelines, topology, orgs-summary, and
+    catalog-history while updating target repos cleanly with zero ghost removals in drift.
+    """
+    import subprocess
+
+    def _make_git_repo(name: str, pkg_spec: str) -> Path:
+        rdir = tmp_path / name
+        (rdir / ".github" / "workflows").mkdir(parents=True)
+        (rdir / "requirements.txt").write_text(pkg_spec, encoding="utf-8")
+        (rdir / "app.py").write_text("def ok(x):\n    return 1 if x else 0\n", encoding="utf-8")
+        (rdir / ".github" / "workflows" / "ci.yml").write_text(
+            "name: CI\non:\n  push:\n    branches: [main]\n"
+            "permissions:\n  contents: read\n"
+            "jobs:\n  test:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n"
+            "    steps:\n      - run: pytest\n",
+            encoding="utf-8",
+        )
+        subprocess.run(["git", "init", "-b", "main"], cwd=rdir, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "config", "user.email", "test@example.com"],
+            cwd=rdir,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "Test"], cwd=rdir, check=True, capture_output=True
+        )
+        subprocess.run(["git", "add", "."], cwd=rdir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "init"], cwd=rdir, check=True, capture_output=True)
+        return rdir
+
+    repo_a_dir = _make_git_repo("alpha", "flask==3.0.0\n")
+    repo_b_dir = _make_git_repo("beta", "requests==2.31.0\n")
+
+    entry_a = CorpusEntry(
+        org="org-a",
+        name="alpha",
+        full_name="org-a/alpha",
+        url=repo_a_dir.as_uri(),
+        clone_url=repo_a_dir.as_uri(),
+        ecosystem_key="python",
+        expected_ecosystem="Python",
+    )
+    entry_b = CorpusEntry(
+        org="org-b",
+        name="beta",
+        full_name="org-b/beta",
+        url=repo_b_dir.as_uri(),
+        clone_url=repo_b_dir.as_uri(),
+        ecosystem_key="python",
+        expected_ecosystem="Python",
+    )
+
+    exports_dir = tmp_path / "exports"
+    logs_dir = tmp_path / "logs"
+
+    # Initial full export populates both org-a/alpha and org-b/beta
+    _, _, latest1 = await execute_benchmark(
+        entries=[entry_a, entry_b],
+        mode="corpus",
+        output_dir=str(exports_dir),
+        log_dir=str(logs_dir),
+        local_repo_resolver=lambda e: repo_a_dir if e.name == "alpha" else repo_b_dir,
+        clean_latest=True,
+    )
+    first_pipe_b = json.loads((latest1 / "pipelines" / "org-b-beta-pipeline.json").read_text())
+
+    # Merge-refresh ONLY org-b/beta with an injected OSV advisory
+    def osv_handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/v1/querybatch":
+            return httpx.Response(
+                200,
+                json={
+                    "results": [
+                        {
+                            "vulns": [
+                                {
+                                    "id": "GHSA-merge-beta-01",
+                                    "summary": "CVE found during incremental daily refresh",
+                                    "database_specific": {"severity": "HIGH"},
+                                }
+                            ]
+                        }
+                    ]
+                },
+            )
+        return httpx.Response(404, json={})
+
+    _, _, latest2 = await execute_benchmark(
+        entries=[entry_b],
+        mode="corpus",
+        output_dir=str(exports_dir),
+        log_dir=str(logs_dir),
+        local_repo_resolver=lambda _e: repo_b_dir,
+        clean_latest=False,
+        enable_live_osv=True,
+        osv_transport=httpx.MockTransport(osv_handler),
+        diff_previous=True,
+    )
+
+    # Untouched org-a/alpha remains intact across discovery, reports, SBOM, SARIF, and topology
+    repos_payload = json.loads(
+        (latest2 / "repos" / "repositories.json").read_text(encoding="utf-8")
+    )
+    assert repos_payload["count"] == 2
+    assert {item["RepositoryId"] for item in repos_payload["items"]} == {
+        "org-a/alpha",
+        "org-b/beta",
+    }
+    assert (latest2 / "reports" / "org-a-alpha-analysis.json").exists()
+    assert (latest2 / "sbom" / "org-a-alpha.cdx.json").exists()
+    assert (latest2 / "sarif" / "org-a-alpha.sarif.json").exists()
+
+    topo_json = json.loads(
+        (latest2 / "relationships" / "pipeline_topology.json").read_text(encoding="utf-8")
+    )
+    assert {item["repoName"] for item in topo_json["items"]} == {"alpha", "beta"}
+
+    # Unchanged workflow SHA preserves analyzed_at in merge mode
+    second_pipe_b = json.loads((latest2 / "pipelines" / "org-b-beta-pipeline.json").read_text())
+    assert second_pipe_b["analyzed_at"] == first_pipe_b["analyzed_at"]
+
+    # Updated org-b/beta advisory reflected in orgs-summary, portfolio catalog-history, and drift
+    orgs = json.loads((latest2 / "orgs-summary.json").read_text(encoding="utf-8"))
+    by_org = {o["org"]: o for o in orgs}
+    assert set(by_org.keys()) == {"org-a", "org-b"}
+    assert by_org["org-b"]["open_cves"] == 1
+
+    history = json.loads((latest2 / "catalog-history.json").read_text(encoding="utf-8"))
+    assert history["snapshots"][-1]["repo_count"] == 2
+
+    drift = json.loads((latest2 / "drift" / "drift_report.json").read_text(encoding="utf-8"))
+    assert drift["summary"]["removed_repos_count"] == 0
+    assert drift["summary"]["new_vulnerabilities_count"] == 1
+
+
+def test_semantic_export_change_detector_filters_timestamp_noise(tmp_path: Path):
+    """Verify scripts/has_semantic_export_changes.py ignores volatile timestamps only."""
+    import subprocess
+
+    from scripts.has_semantic_export_changes import has_semantic_export_changes
+
+    repo = tmp_path / "repo"
+    (repo / "exports" / "latest" / "repos").mkdir(parents=True)
+    (repo / "exports" / "latest" / "drift").mkdir(parents=True)
+    (repo / "exports" / "latest" / "repos" / "repositories.json").write_text(
+        json.dumps(
+            {
+                "count": 1,
+                "items": [
+                    {
+                        "Organization": "acme",
+                        "RepositoryName": "app",
+                        "LastUpdate": "2026-11-22T00:00:00Z",
+                        "AnalyzedDate": "2026-11-22",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    (repo / "exports" / "latest" / "benchmark_summary.json").write_text(
+        json.dumps({"run_id": "2026-11-22_00-00-00"}), encoding="utf-8"
+    )
+    (repo / "exports" / "latest" / "drift" / "drift_report.json").write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "baseline_dir": "exports/latest (previous)",
+                    "new_vulnerabilities_count": 0,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    subprocess.run(["git", "init", "-b", "main"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Test"], cwd=repo, check=True, capture_output=True
+    )
+    subprocess.run(["git", "add", "."], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "baseline"], cwd=repo, check=True, capture_output=True)
+
+    # Touch only volatile timestamps and zero-change drift report
+    (repo / "exports" / "latest" / "repos" / "repositories.json").write_text(
+        json.dumps(
+            {
+                "count": 1,
+                "items": [
+                    {
+                        "Organization": "acme",
+                        "RepositoryName": "app",
+                        "LastUpdate": "2026-11-23T06:00:00Z",
+                        "AnalyzedDate": "2026-11-23",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    (repo / "exports" / "latest" / "benchmark_summary.json").write_text(
+        json.dumps({"run_id": "2026-11-23_06-00-00"}), encoding="utf-8"
+    )
+    subprocess.run(
+        ["git", "add", "-A", "exports/latest/"], cwd=repo, check=True, capture_output=True
+    )
+    assert has_semantic_export_changes(repo) is False
+
+    # Introducing a new CVE in drift report triggers semantic change detection
+    (repo / "exports" / "latest" / "drift" / "drift_report.json").write_text(
+        json.dumps(
+            {
+                "summary": {
+                    "baseline_dir": "exports/latest (previous)",
+                    "new_vulnerabilities_count": 1,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    subprocess.run(
+        ["git", "add", "-A", "exports/latest/"], cwd=repo, check=True, capture_output=True
+    )
+    assert has_semantic_export_changes(repo) is True
+
+
+def test_osv_cache_save_merges_concurrent_writes(tmp_path: Path):
+    """Verify OSVBatchClient.save_cache preserves keys written by sibling workers."""
+    from src.analyzers.dependencies.osv_client import OSVBatchClient
+
+    cache_file = tmp_path / "shared_osv.json"
+    c1 = OSVBatchClient(cache_path=cache_file)
+    c2 = OSVBatchClient(cache_path=cache_file)
+
+    c1.save_cache({"pkg:pypi/flask@3.0.0": [{"id": "GHSA-a"}]})
+    c2.save_cache({"pkg:pypi/requests@2.31.0": [{"id": "GHSA-b"}]})
+
+    loaded = json.loads(cache_file.read_text(encoding="utf-8"))
+    assert set(loaded.keys()) == {"pkg:pypi/flask@3.0.0", "pkg:pypi/requests@2.31.0"}
+

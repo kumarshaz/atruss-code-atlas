@@ -257,7 +257,13 @@ def _grade_dropped(from_grade: str, to_grade: str) -> bool:
     return _GRADE_RANK.get(to_grade.upper(), 0) < _GRADE_RANK.get(from_grade.upper(), 0)
 
 
-def compute_drift_report(baseline_dir: Path, target_dir: Path) -> dict[str, Any]:
+def compute_drift_report(
+    baseline_dir: Path,
+    target_dir: Path,
+    *,
+    baseline_label: str | None = None,
+    target_label: str | None = None,
+) -> dict[str, Any]:
     """
     Compare two archival export snapshots (baseline vs. target) across inventory,
     pipeline topologies/anti-patterns, architecture components, fitness violations,
@@ -508,8 +514,8 @@ def compute_drift_report(baseline_dir: Path, target_dir: Path) -> dict[str, Any]
     has_regression = len(regressions) > 0
 
     summary: dict[str, Any] = {
-        "baseline_dir": str(base_dir),
-        "target_dir": str(tgt_dir),
+        "baseline_dir": baseline_label if baseline_label is not None else str(base_dir),
+        "target_dir": target_label if target_label is not None else str(tgt_dir),
         "added_repos_count": len(added_repos),
         "removed_repos_count": len(removed_repos),
         "changed_repos_count": len(changed_repos),
