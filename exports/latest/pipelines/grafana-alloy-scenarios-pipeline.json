@@ -1,0 +1,197 @@
+{
+  "org": "grafana",
+  "repository": "alloy-scenarios",
+  "sha": "10a8373825acff859a35d2acaf1fbcdd884e1e1d",
+  "analyzed_at": "2026-11-15T05:22:53Z",
+  "workflows": [
+    {
+      "id": "check-image-versions.yml",
+      "path": ".github/workflows/check-image-versions.yml",
+      "name": "check-image-versions",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "check",
+          "name": "Compose fallbacks vs image-versions.env",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check": 0.0
+        },
+        "pagerank": {
+          "check": 1.0
+        },
+        "downstream_impact": {
+          "check": []
+        },
+        "critical_nodes": [
+          "check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "validate-k8s-scenarios.yml",
+      "path": ".github/workflows/validate-k8s-scenarios.yml",
+      "name": "validate-k8s-scenarios",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "validate",
+          "name": "Validate ${{ matrix.scenario }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "kind-integration",
+          "name": "Kind integration ${{ matrix.scenario }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "kind-integration": 0.0,
+          "validate": 0.0
+        },
+        "pagerank": {
+          "kind-integration": 0.5,
+          "validate": 0.5
+        },
+        "downstream_impact": {
+          "kind-integration": [],
+          "validate": []
+        },
+        "critical_nodes": [
+          "kind-integration",
+          "validate"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-k8s-scenarios.yml",
+          "start_line": 84,
+          "end_line": 105,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'validate' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-k8s-scenarios.yml",
+          "start_line": 81,
+          "end_line": 81,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "validate-scenarios.yml",
+      "path": ".github/workflows/validate-scenarios.yml",
+      "name": "validate-scenarios",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "detect",
+          "name": "Detect affected scenarios",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "scan",
+          "name": "Scan images",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "detect"
+          ]
+        },
+        {
+          "id": "smoke",
+          "name": "Smoke test",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "detect",
+            "scan"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "detect": 0.0,
+          "scan": 0.0,
+          "smoke": 0.0
+        },
+        "pagerank": {
+          "detect": 0.19758,
+          "scan": 0.281551,
+          "smoke": 0.520869
+        },
+        "downstream_impact": {
+          "detect": [
+            "scan",
+            "smoke"
+          ],
+          "scan": [
+            "smoke"
+          ],
+          "smoke": []
+        },
+        "critical_nodes": [
+          "smoke",
+          "scan",
+          "detect"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": []
+    }
+  ]
+}

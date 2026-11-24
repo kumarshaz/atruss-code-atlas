@@ -1,0 +1,945 @@
+{
+  "org": "plausible",
+  "repository": "analytics",
+  "sha": "8e5982c237c8d17be02170e8063b3dd9b8e76085",
+  "analyzed_at": "2026-11-15T05:22:49Z",
+  "workflows": [
+    {
+      "id": "all-checks-pass.yml",
+      "path": ".github/workflows/all-checks-pass.yml",
+      "name": "All checks pass",
+      "triggers": [
+        "pull_request",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "enforce-all-checks",
+          "name": "enforce-all-checks",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "enforce-all-checks": 0.0
+        },
+        "pagerank": {
+          "enforce-all-checks": 1.0
+        },
+        "downstream_impact": {
+          "enforce-all-checks": []
+        },
+        "critical_nodes": [
+          "enforce-all-checks"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'enforce-all-checks' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/all-checks-pass.yml",
+          "start_line": 8,
+          "end_line": 18,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-private-images-ghcr.yml",
+      "path": ".github/workflows/build-private-images-ghcr.yml",
+      "name": "Build Private Images GHCR",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-private-images-ghcr.yml",
+          "start_line": 15,
+          "end_line": 98,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-public-images-ghcr.yml",
+      "path": ".github/workflows/build-public-images-ghcr.yml",
+      "name": "Build Public Images GHCR",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner || 'ubuntu-22.04' }}",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "push",
+          "name": "push",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "push": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "push": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "push"
+          ],
+          "push": []
+        },
+        "critical_nodes": [
+          "push",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-public-images-ghcr.yml",
+          "start_line": 19,
+          "end_line": 89,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'build' step 1 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-public-images-ghcr.yml",
+          "start_line": 33,
+          "end_line": 36,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-public-images-ghcr.yml",
+          "start_line": 19,
+          "end_line": 89,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'push' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-public-images-ghcr.yml",
+          "start_line": 91,
+          "end_line": 129,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "comment-preview-url.yml",
+      "path": ".github/workflows/comment-preview-url.yml",
+      "name": "Add preview environment URL to PR",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "comment",
+          "name": "comment",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "comment": 0.0
+        },
+        "pagerank": {
+          "comment": 1.0
+        },
+        "downstream_impact": {
+          "comment": []
+        },
+        "critical_nodes": [
+          "comment"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'comment' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/comment-preview-url.yml",
+          "start_line": 14,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "elixir.yml",
+      "path": ".github/workflows/elixir.yml",
+      "name": "Elixir CI",
+      "triggers": [
+        "pull_request",
+        "push",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build and test (${{ matrix.mix_env }}, ${{ matrix.postgres_image }}, ${{ matrix.mix_test_partition }})",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 16,
+          "needs": []
+        },
+        {
+          "id": "e2e",
+          "name": "End-to-end tests",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 23,
+          "needs": []
+        },
+        {
+          "id": "merge-sharded-e2e-test-report",
+          "name": "merge-sharded-e2e-test-report",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": [
+            "e2e"
+          ]
+        },
+        {
+          "id": "static",
+          "name": "Static checks (format, credo, dialyzer)",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "e2e": 0.0,
+          "merge-sharded-e2e-test-report": 0.0,
+          "static": 0.0
+        },
+        "pagerank": {
+          "build": 0.206186,
+          "e2e": 0.206186,
+          "merge-sharded-e2e-test-report": 0.381443,
+          "static": 0.206186
+        },
+        "downstream_impact": {
+          "build": [],
+          "e2e": [
+            "merge-sharded-e2e-test-report"
+          ],
+          "merge-sharded-e2e-test-report": [],
+          "static": []
+        },
+        "critical_nodes": [
+          "merge-sharded-e2e-test-report",
+          "e2e",
+          "build",
+          "static"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/elixir.yml",
+          "start_line": 23,
+          "end_line": 118,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'static' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/elixir.yml",
+          "start_line": 273,
+          "end_line": 310,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "hex-audit.yml",
+      "path": ".github/workflows/hex-audit.yml",
+      "name": "Hex audit",
+      "triggers": [
+        "pull_request",
+        "push",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "audit",
+          "name": "Hex audit",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "audit": 0.0
+        },
+        "pagerank": {
+          "audit": 1.0
+        },
+        "downstream_impact": {
+          "audit": []
+        },
+        "critical_nodes": [
+          "audit"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'audit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/hex-audit.yml",
+          "start_line": 19,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "iana-registry-check.yml",
+      "path": ".github/workflows/iana-registry-check.yml",
+      "name": "IANA registry check",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "check-iana-registries",
+          "name": "Check IANA IP registries  up to date",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-iana-registries": 0.0
+        },
+        "pagerank": {
+          "check-iana-registries": 1.0
+        },
+        "downstream_impact": {
+          "check-iana-registries": []
+        },
+        "critical_nodes": [
+          "check-iana-registries"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-iana-registries' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/iana-registry-check.yml",
+          "start_line": 13,
+          "end_line": 59,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "migrations-validation.yml",
+      "path": ".github/workflows/migrations-validation.yml",
+      "name": "Validate migrations",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "validate",
+          "name": "App code does not change at the same time",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate": 0.0
+        },
+        "pagerank": {
+          "validate": 1.0
+        },
+        "downstream_impact": {
+          "validate": []
+        },
+        "critical_nodes": [
+          "validate"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/migrations-validation.yml",
+          "start_line": 14,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "node.yml",
+      "path": ".github/workflows/node.yml",
+      "name": "NPM CI",
+      "triggers": [
+        "push",
+        "pull_request",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "Build and test",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 36,
+          "end_line": 36,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/node.yml",
+          "start_line": 21,
+          "end_line": 46,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish-docs.yml",
+      "path": ".github/workflows/publish-docs.yml",
+      "name": "Publish Elixir documentation",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish-docs.yml",
+          "start_line": 21,
+          "end_line": 59,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "terraform-e2e.yml",
+      "path": ".github/workflows/terraform-e2e.yml",
+      "name": "Terraform E2E Tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "terraform",
+          "name": "Terraform",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "terraform": 0.0
+        },
+        "pagerank": {
+          "terraform": 1.0
+        },
+        "downstream_impact": {
+          "terraform": []
+        },
+        "critical_nodes": [
+          "terraform"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'terraform' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/terraform-e2e.yml",
+          "start_line": 21,
+          "end_line": 98,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tracker-script-npm-release.yml",
+      "path": ".github/workflows/tracker-script-npm-release.yml",
+      "name": "Tracker: publish NPM release",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tracker-release-npm",
+          "name": "tracker-release-npm",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tracker-release-npm": 0.0
+        },
+        "pagerank": {
+          "tracker-release-npm": 1.0
+        },
+        "downstream_impact": {
+          "tracker-release-npm": []
+        },
+        "critical_nodes": [
+          "tracker-release-npm"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'tracker-release-npm' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tracker-script-npm-release.yml",
+          "start_line": 9,
+          "end_line": 82,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tracker-script-npm-release.yml",
+          "start_line": 35,
+          "end_line": 35,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tracker-release-npm' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tracker-script-npm-release.yml",
+          "start_line": 9,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tracker-script-update.yml",
+      "path": ".github/workflows/tracker-script-update.yml",
+      "name": "Tracker script update",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "tracker-script-update",
+          "name": "tracker-script-update",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tracker-script-update": 0.0
+        },
+        "pagerank": {
+          "tracker-script-update": 1.0
+        },
+        "downstream_impact": {
+          "tracker-script-update": []
+        },
+        "critical_nodes": [
+          "tracker-script-update"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tracker-script-update.yml",
+          "start_line": 84,
+          "end_line": 93,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tracker-script-update' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/tracker-script-update.yml",
+          "start_line": 11,
+          "end_line": 140,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "tracker.yml",
+      "path": ".github/workflows/tracker.yml",
+      "name": "Tracker CI",
+      "triggers": [
+        "workflow_dispatch",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "merge-sharded-test-report",
+          "name": "merge-sharded-test-report",
+          "runner": "blacksmith-4vcpu-ubuntu-2404",
+          "steps_count": 5,
+          "needs": [
+            "test"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "merge-sharded-test-report": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "merge-sharded-test-report": 0.649123,
+          "test": 0.350877
+        },
+        "downstream_impact": {
+          "merge-sharded-test-report": [],
+          "test": [
+            "merge-sharded-test-report"
+          ]
+        },
+        "critical_nodes": [
+          "merge-sharded-test-report",
+          "test"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "typos.yml",
+      "path": ".github/workflows/typos.yml",
+      "name": "Check spelling",
+      "triggers": [
+        "pull_request",
+        "push",
+        "merge_group"
+      ],
+      "jobs": [
+        {
+          "id": "typos",
+          "name": "typos",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "typos": 0.0
+        },
+        "pagerank": {
+          "typos": 1.0
+        },
+        "downstream_impact": {
+          "typos": []
+        },
+        "critical_nodes": [
+          "typos"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'typos' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/typos.yml",
+          "start_line": 13,
+          "end_line": 19,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

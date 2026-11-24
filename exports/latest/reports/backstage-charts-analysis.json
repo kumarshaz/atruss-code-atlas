@@ -1,0 +1,1322 @@
+{
+  "repository": "backstage/charts",
+  "sha": "9487804d669853142d6f0e39cc6c838904454b90",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 48,
+    "loc": 2739,
+    "sloc": 2234,
+    "component_count": 48,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 14,
+    "framework": "Helm Chart",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "automate_stale.yml",
+      "path": ".github/workflows/automate_stale.yml",
+      "name": "Automate staleness",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "stale": {
+          "permissions": {
+            "issues": "write",
+            "pull-requests": "write"
+          },
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93",
+              "id": "stale",
+              "with": {
+                "stale-issue-message": "This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.\n",
+                "days-before-issue-stale": 60,
+                "days-before-issue-close": 7,
+                "exempt-issue-labels": "after-vacations,will-fix",
+                "stale-issue-label": "stale",
+                "stale-pr-message": "This PR has been automatically marked as stale because it has not had recent activity from the author. It will be closed if no further activity occurs. If the PR was closed and you want it re-opened, let us know and we'll re-open the PR so that you can continue the contribution!\n",
+                "days-before-pr-stale": 7,
+                "days-before-pr-close": 5,
+                "exempt-pr-labels": "after-vacations,will-fix",
+                "stale-pr-label": "stale",
+                "operations-per-run": 100
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/automate_stale.yml",
+          "start_line": 11,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "lint.yaml",
+      "path": ".github/workflows/lint.yaml",
+      "name": "Lint Charts",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "lint": {
+          "runs-on": "ubuntu-latest",
+          "env": {
+            "GO111MODULE": true
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": 3.12
+              }
+            },
+            {
+              "name": "Set up chart-testing",
+              "uses": "helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510"
+            },
+            {
+              "name": "Run chart-testing (list-changed)",
+              "id": "list-changed",
+              "run": "changed=$(ct list-changed --target-branch \"${{ github.event.pull_request.base.ref }}\")\nif [[ -n \"$changed\" ]]; then\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Add NGINX Ingress and Bitnami Repository",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "helm repo add ingress-nginx \"https://kubernetes.github.io/ingress-nginx\"\nhelm repo update\n"
+            },
+            {
+              "name": "Run chart-testing (lint)",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "ct lint --config ct.yaml --target-branch \"${{ github.event.pull_request.base.ref }}\""
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'lint' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'lint' step 6 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'lint' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yaml",
+          "start_line": 30,
+          "end_line": 35,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'lint' step 6 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yaml",
+          "start_line": 44,
+          "end_line": 44,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yaml",
+          "start_line": 3,
+          "end_line": 4,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yaml",
+          "start_line": 11,
+          "end_line": 44,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0
+        },
+        "pagerank": {
+          "lint": 1.0
+        },
+        "downstream_impact": {
+          "lint": []
+        },
+        "critical_nodes": [
+          "lint"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pre-commit-comment.yaml",
+      "path": ".github/workflows/pre-commit-comment.yaml",
+      "name": "Pre-commit Comment",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": {
+        "comment": {
+          "name": "Comment on PR",
+          "runs-on": "ubuntu-latest",
+          "if": "github.event.workflow_run.event == 'pull_request'",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Get PR number from workflow run",
+              "id": "pr-number",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "with": {
+                "script": "// Get PR number from the workflow run event\nconst headRepo = context.payload.workflow_run.head_repository.owner.login;\nconst headBranch = context.payload.workflow_run.head_branch;\n\nconsole.log(`Looking for PR with head: ${headRepo}:${headBranch}`);\n\nconst { data: pullRequests } = await github.rest.pulls.list({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  state: 'open',\n  head: `${headRepo}:${headBranch}`,\n});\n\nif (pullRequests.length > 0) {\n  core.setOutput('number', pullRequests[0].number);\n}\n"
+              }
+            },
+            {
+              "name": "Delete previous pre-commit failure comments",
+              "if": "steps.pr-number.outputs.number",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "env": {
+                "PR_NUMBER": "${{ steps.pr-number.outputs.number }}"
+              },
+              "with": {
+                "script": "const prNumber = parseInt(process.env.PR_NUMBER, 10);\n\n// Get all comments on the PR\nconst { data: comments } = await github.rest.issues.listComments({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  issue_number: prNumber,\n});\n\nconsole.log(`Found ${comments.length} total comments on PR #${prNumber}`);\n\nconst botComments = comments.filter(comment => {\n  return comment.user.login === 'github-actions[bot]' && \n         comment.body && \n         comment.body.includes('⚠️ Pre-commit Hook Failures');\n});\n\nfor (const comment of botComments) {\n  await github.rest.issues.deleteComment({\n    owner: context.repo.owner,\n    repo: context.repo.repo,\n    comment_id: comment.id,\n  });\n}\n"
+              }
+            },
+            {
+              "name": "Post comment",
+              "if": "steps.pr-number.outputs.number && github.event.workflow_run.conclusion == 'failure'",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "env": {
+                "PR_NUMBER": "${{ steps.pr-number.outputs.number }}"
+              },
+              "with": {
+                "script": "const prNumber = parseInt(process.env.PR_NUMBER, 10);\n\nconst body = `## ⚠️ Pre-commit Hook Failures\n\nThe pre-commit hooks detected issues that need to be fixed.\n\n**To fix these issues:**\n\n1. Install required dependencies:\n   - [pre-commit](https://pre-commit.com/#install)\n   - [helm-docs](https://github.com/norwoodj/helm-docs#installation)\n\n2. Run pre-commit on all files:\n   \\`\\`\\`bash\n   pre-commit run --all-files\n   \\`\\`\\`\n\n3. Commit and push the changes`;\n\nawait github.rest.issues.createComment({\n  issue_number: prNumber,\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  body: body\n});\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "comment",
+          "name": "Comment on PR",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'comment' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'comment' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pre-commit-comment.yaml",
+          "start_line": 10,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": "Pre-commit",
+          "source_job": "",
+          "target_workflow": ".github/workflows/pre-commit-comment.yaml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "comment": 0.0
+        },
+        "pagerank": {
+          "comment": 1.0
+        },
+        "downstream_impact": {
+          "comment": []
+        },
+        "critical_nodes": [
+          "comment"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pre-commit.yaml",
+      "path": ".github/workflows/pre-commit.yaml",
+      "name": "Pre-commit",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "pre-commit": {
+          "name": "Pre-commit",
+          "runs-on": "ubuntu-latest",
+          "env": {
+            "GO111MODULE": true
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": 3.12
+              }
+            },
+            {
+              "uses": "actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+              "with": {
+                "go-version": "^1"
+              }
+            },
+            {
+              "name": "Setup helm-docs",
+              "run": "go install github.com/norwoodj/helm-docs/cmd/helm-docs@latest"
+            },
+            {
+              "name": "Set up Helm",
+              "uses": "azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310",
+              "with": {
+                "version": "v3.16.4"
+              }
+            },
+            {
+              "name": "Install helm-unittest plugin",
+              "run": "helm plugin install https://github.com/helm-unittest/helm-unittest --version v1.0.3"
+            },
+            {
+              "name": "Build chart dependencies",
+              "run": "helm dependency build charts/backstage"
+            },
+            {
+              "name": "Run pre-commit",
+              "uses": "pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd",
+              "with": {
+                "extra_args": "--verbose --all-files --show-diff-on-failure"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "pre-commit",
+          "name": "Pre-commit",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'pre-commit' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'pre-commit' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'pre-commit' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pre-commit.yaml",
+          "start_line": 11,
+          "end_line": 47,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pre-commit.yaml",
+          "start_line": 3,
+          "end_line": 4,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pre-commit' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pre-commit.yaml",
+          "start_line": 11,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "pre-commit": 0.0
+        },
+        "pagerank": {
+          "pre-commit": 1.0
+        },
+        "downstream_impact": {
+          "pre-commit": []
+        },
+        "critical_nodes": [
+          "pre-commit"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release Charts",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "release": {
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "write",
+            "packages": "write",
+            "id-token": "write"
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Configure Git",
+              "run": "git config user.name \"$GITHUB_ACTOR\"\ngit config user.email \"$GITHUB_ACTOR@users.noreply.github.com\"\n"
+            },
+            {
+              "name": "Run chart-releaser",
+              "uses": "helm/chart-releaser-action@92c6b97fa9f664492a2592e0d1d80bc6bf378957",
+              "with": {
+                "config": "cr.yaml"
+              },
+              "env": {
+                "CR_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Login to GitHub Container Registry",
+              "uses": "docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Install Cosign",
+              "uses": "sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532"
+            },
+            {
+              "name": "Install Oras",
+              "uses": "oras-project/setup-oras@5e2f2482b30b0cb3e14e67f89a80c88c659a7c63"
+            },
+            {
+              "name": "Publish and Sign OCI Charts",
+              "run": "for chart in `find .cr-release-packages -name '*.tgz' -print`; do\n  helm push ${chart} oci://ghcr.io/${GITHUB_REPOSITORY} |& tee helm-push-output.log\n  file_name=${chart##*/}\n  chart_name=${file_name%-*}\n  digest=$(awk -F \"[, ]+\" '/Digest/{print $NF}' < helm-push-output.log)\n  cosign sign -y \"ghcr.io/${GITHUB_REPOSITORY}/${chart_name}@${digest}\"\n\n  oras push \"ghcr.io/${GITHUB_REPOSITORY}/${chart_name}:artifacthub.io\" \"./charts/${chart_name}/artifacthub-repo.yml:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml\"\ndone\n",
+              "env": {
+                "COSIGN_EXPERIMENTAL": 1
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 11,
+          "end_line": 62,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 11,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "spellcheck.yaml",
+      "path": ".github/workflows/spellcheck.yaml",
+      "name": "Codespell",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "codespell": {
+          "name": "Codespell",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout Code",
+              "uses": "actions/checkout@v7.0.1"
+            },
+            {
+              "name": "Codespell",
+              "uses": "codespell-project/actions-codespell@v2",
+              "with": {
+                "skip": ".git",
+                "check_filenames": true,
+                "check_hidden": true
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "codespell",
+          "name": "Codespell",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] UNPINNED_ACTION: Job 'codespell' step 2 uses unpinned action 'codespell-project/actions-codespell@v2'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'codespell' step 2 uses unpinned action 'codespell-project/actions-codespell@v2'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/spellcheck.yaml",
+          "start_line": 14,
+          "end_line": 14,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/spellcheck.yaml",
+          "start_line": 3,
+          "end_line": 4,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/spellcheck.yaml",
+          "start_line": 7,
+          "end_line": 18,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "codespell": 0.0
+        },
+        "pagerank": {
+          "codespell": 1.0
+        },
+        "downstream_impact": {
+          "codespell": []
+        },
+        "critical_nodes": [
+          "codespell"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "Test Charts",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "test": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Set up Helm",
+              "uses": "azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310",
+              "with": {
+                "version": "v3.10.0"
+              }
+            },
+            {
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": 3.12
+              }
+            },
+            {
+              "name": "Set up chart-testing",
+              "uses": "helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510"
+            },
+            {
+              "name": "Run chart-testing (list-changed)",
+              "id": "list-changed",
+              "run": "changed=$(ct list-changed --target-branch \"${{ github.event.pull_request.base.ref }}\")\nif [[ -n \"$changed\" ]]; then\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Add NGINX Ingress and Bitnami Repository",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "helm repo add ingress-nginx \"https://kubernetes.github.io/ingress-nginx\"\nhelm repo update\n"
+            },
+            {
+              "name": "Create KIND Cluster",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "uses": "helm/kind-action@ea822c7bf1874f08e5a491df991c228edffc3376"
+            },
+            {
+              "name": "Install Gateway API CRDs",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.0/standard-install.yaml"
+            },
+            {
+              "name": "Install Ingress Controller",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "helm install ingress-nginx/ingress-nginx --generate-name --set controller.service.type='NodePort' --set controller.admissionWebhooks.enabled=false"
+            },
+            {
+              "name": "Run chart-testing (install)",
+              "if": "steps.list-changed.outputs.changed == 'true'",
+              "run": "ct install --config ct-install.yaml --target-branch \"${{ github.event.pull_request.base.ref }}\""
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'test' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'test' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'test' step 10 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'test' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 11,
+          "end_line": 59,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'test' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 33,
+          "end_line": 38,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'test' step 10 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 59,
+          "end_line": 59,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 3,
+          "end_line": 4,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 11,
+          "end_line": 59,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/backstage/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "artifacthub-repo",
+      "type": "module",
+      "file": "charts/backstage/artifacthub-repo.yml",
+      "line": 1
+    },
+    {
+      "name": "chart_schema",
+      "type": "module",
+      "file": "charts/backstage/chart_schema.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/backstage/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "appConfig-values",
+      "type": "module",
+      "file": "charts/backstage/ci/appConfig-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "autoscaling-values",
+      "type": "module",
+      "file": "charts/backstage/ci/autoscaling-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/backstage/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "extraDeploy-values",
+      "type": "module",
+      "file": "charts/backstage/ci/extraDeploy-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "extraVolumes-values",
+      "type": "module",
+      "file": "charts/backstage/ci/extraVolumes-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute-values",
+      "type": "module",
+      "file": "charts/backstage/ci/httproute-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "image-digest-values",
+      "type": "module",
+      "file": "charts/backstage/ci/image-digest-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-extraHosts-values",
+      "type": "module",
+      "file": "charts/backstage/ci/ingress-extraHosts-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-values",
+      "type": "module",
+      "file": "charts/backstage/ci/ingress-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "lifecycle-values",
+      "type": "module",
+      "file": "charts/backstage/ci/lifecycle-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "postgres-generated-creds-values",
+      "type": "module",
+      "file": "charts/backstage/ci/postgres-generated-creds-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "postgres-provided-creds-values",
+      "type": "module",
+      "file": "charts/backstage/ci/postgres-provided-creds-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "priorityClassName-values",
+      "type": "module",
+      "file": "charts/backstage/ci/priorityClassName-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "probes-values",
+      "type": "module",
+      "file": "charts/backstage/ci/probes-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-dualstack-ip-family-values",
+      "type": "module",
+      "file": "charts/backstage/ci/service-dualstack-ip-family-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-monitor",
+      "type": "module",
+      "file": "charts/backstage/ci/service-monitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "strategy-values",
+      "type": "module",
+      "file": "charts/backstage/ci/strategy-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "topologySpreadConstraints-values",
+      "type": "module",
+      "file": "charts/backstage/ci/topologySpreadConstraints-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "app-config-configmap",
+      "type": "module",
+      "file": "charts/backstage/templates/app-config-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "backstage-deployment",
+      "type": "module",
+      "file": "charts/backstage/templates/backstage-deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-list",
+      "type": "module",
+      "file": "charts/backstage/templates/extra-list.yaml",
+      "line": 1
+    },
+    {
+      "name": "hpa",
+      "type": "module",
+      "file": "charts/backstage/templates/hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute",
+      "type": "module",
+      "file": "charts/backstage/templates/httproute.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/backstage/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy-egress",
+      "type": "module",
+      "file": "charts/backstage/templates/networkpolicy-egress.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy",
+      "type": "module",
+      "file": "charts/backstage/templates/networkpolicy.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb",
+      "type": "module",
+      "file": "charts/backstage/templates/pdb.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/backstage/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/backstage/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor",
+      "type": "module",
+      "file": "charts/backstage/templates/servicemonitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap_test",
+      "type": "module",
+      "file": "charts/backstage/tests/configmap_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "cross_cutting_test",
+      "type": "module",
+      "file": "charts/backstage/tests/cross_cutting_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment_test",
+      "type": "module",
+      "file": "charts/backstage/tests/deployment_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra_deploy_test",
+      "type": "module",
+      "file": "charts/backstage/tests/extra_deploy_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "hpa_test",
+      "type": "module",
+      "file": "charts/backstage/tests/hpa_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "httproute_test",
+      "type": "module",
+      "file": "charts/backstage/tests/httproute_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress_test",
+      "type": "module",
+      "file": "charts/backstage/tests/ingress_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy_egress_test",
+      "type": "module",
+      "file": "charts/backstage/tests/networkpolicy_egress_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "networkpolicy_test",
+      "type": "module",
+      "file": "charts/backstage/tests/networkpolicy_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "pdb_test",
+      "type": "module",
+      "file": "charts/backstage/tests/pdb_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "service_test",
+      "type": "module",
+      "file": "charts/backstage/tests/service_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount_test",
+      "type": "module",
+      "file": "charts/backstage/tests/serviceaccount_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "servicemonitor_test",
+      "type": "module",
+      "file": "charts/backstage/tests/servicemonitor_test.yaml",
+      "line": 1
+    },
+    {
+      "name": "validation_test",
+      "type": "module",
+      "file": "charts/backstage/tests/validation_test.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 61.85,
+    "overall_grade": "D",
+    "technical_debt_score": 38.15,
+    "remediation_hours": 34.54,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 0.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=9"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 19.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=7, operational_antipatterns=10, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "lint.yaml#lint",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "pre-commit.yaml#pre-commit",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "pre-commit.yaml#pre-commit",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "release.yml#release",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "test.yml#test",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "test.yml#test",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "automate_stale.yml#stale",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "lint.yaml#lint",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "pre-commit-comment.yaml#comment",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "spellcheck.yaml#codespell",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "pre-commit.yaml#pre-commit",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "release.yml#release",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    },
+    {
+      "source": "charts/backstage",
+      "source_type": "code_module",
+      "target": "test.yml#test",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

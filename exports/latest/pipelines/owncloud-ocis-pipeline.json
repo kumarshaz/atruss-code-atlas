@@ -1,0 +1,1302 @@
+{
+  "org": "owncloud",
+  "repository": "ocis",
+  "sha": "eff619182b6bcffd8731a0a7124cf09bab5e1df8",
+  "analyzed_at": "2026-11-15T05:22:50Z",
+  "workflows": [
+    {
+      "id": "acceptance-tests.yml",
+      "path": ".github/workflows/acceptance-tests.yml",
+      "name": "Acceptance Tests",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "detect-changes",
+          "name": "detect-changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "build-and-test",
+          "name": "build-and-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "detect-changes"
+          ]
+        },
+        {
+          "id": "local-api-tests",
+          "name": "${{ matrix.suite }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "cli-tests",
+          "name": "${{ matrix.suite }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "ldap-pool-tests",
+          "name": "ldapPool-${{ matrix.suite }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "core-api-tests",
+          "name": "${{ matrix.suite }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "e2e-tests",
+          "name": "e2e-${{ matrix.suite }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 16,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "litmus",
+          "name": "litmus",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "cs3api",
+          "name": "cs3api",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "wopi-builtin",
+          "name": "wopi-builtin",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "wopi-cs3",
+          "name": "wopi-cs3",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "external-ldap-tests",
+          "name": "external-ldap-smoke",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "external-ldap-distributed-tests",
+          "name": "external-ldap-distributed-smoke",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "nats-jwt-tests",
+          "name": "natsJwt-${{ matrix.name }}-${{ matrix.creds }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "nats-jwt-startup-check",
+          "name": "natsJwt-startup-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build-and-test"
+          ]
+        },
+        {
+          "id": "acceptance-coverage",
+          "name": "acceptance-coverage",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "detect-changes",
+            "local-api-tests",
+            "cli-tests",
+            "ldap-pool-tests",
+            "core-api-tests"
+          ]
+        },
+        {
+          "id": "all-acceptance-tests",
+          "name": "all-acceptance-tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "detect-changes",
+            "local-api-tests",
+            "cli-tests",
+            "ldap-pool-tests",
+            "core-api-tests",
+            "litmus",
+            "cs3api",
+            "wopi-builtin",
+            "wopi-cs3",
+            "e2e-tests",
+            "external-ldap-tests",
+            "external-ldap-distributed-tests",
+            "nats-jwt-tests",
+            "nats-jwt-startup-check"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 17,
+        "edge_count": 33,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "acceptance-coverage": 0.0,
+          "all-acceptance-tests": 0.0,
+          "build-and-test": 0.054167,
+          "cli-tests": 0.001362,
+          "core-api-tests": 0.001362,
+          "cs3api": 0.000321,
+          "detect-changes": 0.0,
+          "e2e-tests": 0.000321,
+          "external-ldap-distributed-tests": 0.000321,
+          "external-ldap-tests": 0.000321,
+          "ldap-pool-tests": 0.001362,
+          "litmus": 0.000321,
+          "local-api-tests": 0.001362,
+          "nats-jwt-startup-check": 0.000321,
+          "nats-jwt-tests": 0.000321,
+          "wopi-builtin": 0.000321,
+          "wopi-cs3": 0.000321
+        },
+        "pagerank": {
+          "acceptance-coverage": 0.101105,
+          "all-acceptance-tests": 0.369293,
+          "build-and-test": 0.041508,
+          "cli-tests": 0.035058,
+          "core-api-tests": 0.035058,
+          "cs3api": 0.035058,
+          "detect-changes": 0.032344,
+          "e2e-tests": 0.035058,
+          "external-ldap-distributed-tests": 0.035058,
+          "external-ldap-tests": 0.035058,
+          "ldap-pool-tests": 0.035058,
+          "litmus": 0.035058,
+          "local-api-tests": 0.035058,
+          "nats-jwt-startup-check": 0.035058,
+          "nats-jwt-tests": 0.035058,
+          "wopi-builtin": 0.035058,
+          "wopi-cs3": 0.035058
+        },
+        "downstream_impact": {
+          "acceptance-coverage": [],
+          "all-acceptance-tests": [],
+          "build-and-test": [
+            "acceptance-coverage",
+            "all-acceptance-tests",
+            "cli-tests",
+            "core-api-tests",
+            "cs3api",
+            "e2e-tests",
+            "external-ldap-distributed-tests",
+            "external-ldap-tests",
+            "ldap-pool-tests",
+            "litmus",
+            "local-api-tests",
+            "nats-jwt-startup-check",
+            "nats-jwt-tests",
+            "wopi-builtin",
+            "wopi-cs3"
+          ],
+          "cli-tests": [
+            "acceptance-coverage",
+            "all-acceptance-tests"
+          ],
+          "core-api-tests": [
+            "acceptance-coverage",
+            "all-acceptance-tests"
+          ],
+          "cs3api": [
+            "all-acceptance-tests"
+          ],
+          "detect-changes": [
+            "acceptance-coverage",
+            "all-acceptance-tests",
+            "build-and-test",
+            "cli-tests",
+            "core-api-tests",
+            "cs3api",
+            "e2e-tests",
+            "external-ldap-distributed-tests",
+            "external-ldap-tests",
+            "ldap-pool-tests",
+            "litmus",
+            "local-api-tests",
+            "nats-jwt-startup-check",
+            "nats-jwt-tests",
+            "wopi-builtin",
+            "wopi-cs3"
+          ],
+          "e2e-tests": [
+            "all-acceptance-tests"
+          ],
+          "external-ldap-distributed-tests": [
+            "all-acceptance-tests"
+          ],
+          "external-ldap-tests": [
+            "all-acceptance-tests"
+          ],
+          "ldap-pool-tests": [
+            "acceptance-coverage",
+            "all-acceptance-tests"
+          ],
+          "litmus": [
+            "all-acceptance-tests"
+          ],
+          "local-api-tests": [
+            "acceptance-coverage",
+            "all-acceptance-tests"
+          ],
+          "nats-jwt-startup-check": [
+            "all-acceptance-tests"
+          ],
+          "nats-jwt-tests": [
+            "all-acceptance-tests"
+          ],
+          "wopi-builtin": [
+            "all-acceptance-tests"
+          ],
+          "wopi-cs3": [
+            "all-acceptance-tests"
+          ]
+        },
+        "critical_nodes": [
+          "all-acceptance-tests",
+          "acceptance-coverage",
+          "build-and-test",
+          "cli-tests",
+          "core-api-tests",
+          "ldap-pool-tests",
+          "local-api-tests",
+          "cs3api",
+          "e2e-tests",
+          "external-ldap-distributed-tests",
+          "external-ldap-tests",
+          "litmus",
+          "nats-jwt-startup-check",
+          "nats-jwt-tests",
+          "wopi-builtin",
+          "wopi-cs3",
+          "detect-changes"
+        ],
+        "max_blast_radius": 16
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'detect-changes' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 33,
+          "end_line": 61,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'local-api-tests' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 308,
+          "end_line": 308,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'core-api-tests' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 523,
+          "end_line": 523,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nats-jwt-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 951,
+          "end_line": 1027,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'nats-jwt-startup-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 1031,
+          "end_line": 1061,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'acceptance-coverage' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/acceptance-tests.yml",
+          "start_line": 1063,
+          "end_line": 1105,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "check-licenses.yml",
+      "path": ".github/workflows/check-licenses.yml",
+      "name": "Check licenses",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "license-check",
+          "name": "license-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "license-check": 0.0
+        },
+        "pagerank": {
+          "license-check": 1.0
+        },
+        "downstream_impact": {
+          "license-check": []
+        },
+        "critical_nodes": [
+          "license-check"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/check-licenses.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        }
+      ]
+    },
+    {
+      "id": "commit-message.yml",
+      "path": ".github/workflows/commit-message.yml",
+      "name": "Validate commit message",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "validate",
+          "name": "validate",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/commit-message.yml",
+          "source_job": "validate",
+          "target_workflow": "owncloud/reusable-workflows/.github/workflows/semantic-git-message.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate": 0.0
+        },
+        "pagerank": {
+          "validate": 1.0
+        },
+        "downstream_impact": {
+          "validate": []
+        },
+        "critical_nodes": [
+          "validate"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/commit-message.yml",
+          "start_line": 11,
+          "end_line": 12,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "deployment-test.yml",
+      "path": ".github/workflows/deployment-test.yml",
+      "name": "Test Deployment Examples",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "${{ matrix.example }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "k6-load-test.yml",
+      "path": ".github/workflows/k6-load-test.yml",
+      "name": "k6 Load Test",
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "k6-load-test",
+          "name": "k6-load-test",
+          "runner": "self-hosted, loadtest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "k6-load-test": 0.0
+        },
+        "pagerank": {
+          "k6-load-test": 1.0
+        },
+        "downstream_impact": {
+          "k6-load-test": []
+        },
+        "critical_nodes": [
+          "k6-load-test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "k8s.yml",
+      "path": ".github/workflows/k8s.yml",
+      "name": "Acceptance Tests K8S",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "api-tests",
+          "name": "${{ matrix.suite }}-k8s",
+          "runner": "ubuntu-26.04",
+          "steps_count": 18,
+          "needs": []
+        },
+        {
+          "id": "e2e-tests",
+          "name": "e2e-${{ matrix.suite }}-k8s",
+          "runner": "ubuntu-latest",
+          "steps_count": 18,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "api-tests": 0.0,
+          "e2e-tests": 0.0
+        },
+        "pagerank": {
+          "api-tests": 0.5,
+          "e2e-tests": 0.5
+        },
+        "downstream_impact": {
+          "api-tests": [],
+          "e2e-tests": []
+        },
+        "critical_nodes": [
+          "api-tests",
+          "e2e-tests"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pr-title.yml",
+      "path": ".github/workflows/pr-title.yml",
+      "name": "Validate PR title",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "validate-pr-title",
+          "name": "Validate PR title",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr-title": 0.0
+        },
+        "pagerank": {
+          "validate-pr-title": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr-title": []
+        },
+        "critical_nodes": [
+          "validate-pr-title"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate-pr-title' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-title.yml",
+          "start_line": 15,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-npm-packages.yml",
+      "path": ".github/workflows/release-npm-packages.yml",
+      "name": "Release NPM packages",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "release-npm",
+          "name": "Publish NPM package",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-npm": 0.0
+        },
+        "pagerank": {
+          "release-npm": 1.0
+        },
+        "downstream_impact": {
+          "release-npm": []
+        },
+        "critical_nodes": [
+          "release-npm"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-npm' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-npm-packages.yml",
+          "start_line": 17,
+          "end_line": 95,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-npm-packages.yml",
+          "start_line": 44,
+          "end_line": 44,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "determine-release-type",
+          "name": "determine-release-type",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "generate-code",
+          "name": "generate-code",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "determine-release-type"
+          ]
+        },
+        {
+          "id": "build-binaries",
+          "name": "build-binaries (${{ matrix.os }})",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "determine-release-type",
+            "generate-code"
+          ]
+        },
+        {
+          "id": "security-scan-trivy",
+          "name": "security-scan-trivy",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "license-check",
+          "name": "license-check",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "determine-release-type",
+            "generate-code"
+          ]
+        },
+        {
+          "id": "generate-changelog",
+          "name": "generate-changelog",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "determine-release-type"
+          ]
+        },
+        {
+          "id": "create-github-release",
+          "name": "create-github-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "determine-release-type",
+            "build-binaries",
+            "license-check",
+            "generate-changelog",
+            "security-scan-trivy"
+          ]
+        },
+        {
+          "id": "audit-release",
+          "name": "audit-release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "determine-release-type",
+            "generate-code",
+            "build-binaries",
+            "security-scan-trivy",
+            "license-check",
+            "generate-changelog",
+            "create-github-release"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 8,
+        "edge_count": 18,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "audit-release": 0.0,
+          "build-binaries": 0.011905,
+          "create-github-release": 0.0,
+          "determine-release-type": 0.0,
+          "generate-changelog": 0.0,
+          "generate-code": 0.0,
+          "license-check": 0.011905,
+          "security-scan-trivy": 0.0
+        },
+        "pagerank": {
+          "audit-release": 0.379313,
+          "build-binaries": 0.086519,
+          "create-github-release": 0.194709,
+          "determine-release-type": 0.059052,
+          "generate-changelog": 0.067418,
+          "generate-code": 0.067418,
+          "license-check": 0.086519,
+          "security-scan-trivy": 0.059052
+        },
+        "downstream_impact": {
+          "audit-release": [],
+          "build-binaries": [
+            "audit-release",
+            "create-github-release"
+          ],
+          "create-github-release": [
+            "audit-release"
+          ],
+          "determine-release-type": [
+            "audit-release",
+            "build-binaries",
+            "create-github-release",
+            "generate-changelog",
+            "generate-code",
+            "license-check"
+          ],
+          "generate-changelog": [
+            "audit-release",
+            "create-github-release"
+          ],
+          "generate-code": [
+            "audit-release",
+            "build-binaries",
+            "create-github-release",
+            "license-check"
+          ],
+          "license-check": [
+            "audit-release",
+            "create-github-release"
+          ],
+          "security-scan-trivy": [
+            "audit-release",
+            "create-github-release"
+          ]
+        },
+        "critical_nodes": [
+          "audit-release",
+          "create-github-release",
+          "build-binaries",
+          "license-check",
+          "generate-code",
+          "generate-changelog",
+          "determine-release-type",
+          "security-scan-trivy"
+        ],
+        "max_blast_radius": 6
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'determine-release-type' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 25,
+          "end_line": 80,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 97,
+          "end_line": 97,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        }
+      ]
+    },
+    {
+      "id": "remove_stale_branches.yml",
+      "path": ".github/workflows/remove_stale_branches.yml",
+      "name": "Remove stale branches",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "remove-stale-branches",
+          "name": "Remove Stale Branches",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "remove-stale-branches": 0.0
+        },
+        "pagerank": {
+          "remove-stale-branches": 1.0
+        },
+        "downstream_impact": {
+          "remove-stale-branches": []
+        },
+        "critical_nodes": [
+          "remove-stale-branches"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "translation-sync.yml",
+      "path": ".github/workflows/translation-sync.yml",
+      "name": "Translation Sync",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sync",
+          "name": "sync",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "sync-web",
+          "name": "sync-web",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "sync"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/translation-sync.yml",
+          "source_job": "sync",
+          "target_workflow": "owncloud/reusable-workflows/.github/workflows/translation-sync.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/translation-sync.yml",
+          "source_job": "sync-web",
+          "target_workflow": "owncloud/reusable-workflows/.github/workflows/translation-sync.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sync": 0.0,
+          "sync-web": 0.0
+        },
+        "pagerank": {
+          "sync": 0.350877,
+          "sync-web": 0.649123
+        },
+        "downstream_impact": {
+          "sync": [
+            "sync-web"
+          ],
+          "sync-web": []
+        },
+        "critical_nodes": [
+          "sync-web",
+          "sync"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sync' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/translation-sync.yml",
+          "start_line": 12,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sync-web' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/translation-sync.yml",
+          "start_line": 30,
+          "end_line": 41,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "web-tests.yml",
+      "path": ".github/workflows/web-tests.yml",
+      "name": "Web Tests",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "detect-web-changes",
+          "name": "detect-web-changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "web-build-test",
+          "name": "web-build-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": [
+            "detect-web-changes"
+          ]
+        },
+        {
+          "id": "web-tests-passed",
+          "name": "web-tests-passed",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "detect-web-changes",
+            "web-build-test"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "detect-web-changes": 0.0,
+          "web-build-test": 0.0,
+          "web-tests-passed": 0.0
+        },
+        "pagerank": {
+          "detect-web-changes": 0.19758,
+          "web-build-test": 0.281551,
+          "web-tests-passed": 0.520869
+        },
+        "downstream_impact": {
+          "detect-web-changes": [
+            "web-build-test",
+            "web-tests-passed"
+          ],
+          "web-build-test": [
+            "web-tests-passed"
+          ],
+          "web-tests-passed": []
+        },
+        "critical_nodes": [
+          "web-tests-passed",
+          "web-build-test",
+          "detect-web-changes"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'detect-web-changes' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/web-tests.yml",
+          "start_line": 36,
+          "end_line": 67,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'web-build-test' step 9 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/web-tests.yml",
+          "start_line": 119,
+          "end_line": 125,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'web-build-test' step 10 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/web-tests.yml",
+          "start_line": 129,
+          "end_line": 135,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        }
+      ]
+    },
+    {
+      "id": "weekly_pipeline_report.yml",
+      "path": ".github/workflows/weekly_pipeline_report.yml",
+      "name": "Weekly Pipeline Report",
+      "triggers": [
+        "workflow_dispatch",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "generate-report",
+          "name": "Generate Pipeline Report",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "generate-report": 0.0
+        },
+        "pagerank": {
+          "generate-report": 1.0
+        },
+        "downstream_impact": {
+          "generate-report": []
+        },
+        "critical_nodes": [
+          "generate-report"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "zizmor.yml",
+      "path": ".github/workflows/zizmor.yml",
+      "name": "Zizmor",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "zizmor",
+          "name": "Zizmor",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/zizmor.yml",
+          "source_job": "zizmor",
+          "target_workflow": "owncloud/reusable-workflows/.github/workflows/zizmor.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "zizmor": 0.0
+        },
+        "pagerank": {
+          "zizmor": 1.0
+        },
+        "downstream_impact": {
+          "zizmor": []
+        },
+        "critical_nodes": [
+          "zizmor"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/zizmor.yml",
+          "start_line": 28,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,977 @@
+{
+  "org": "mattermost",
+  "repository": "mattermost-plugin-playbooks",
+  "sha": "e2ad0b6892c29001a03dda9f35bbe9a8363105b4",
+  "analyzed_at": "2026-11-15T05:22:56Z",
+  "workflows": [
+    {
+      "id": "ci.yaml",
+      "path": ".github/workflows/ci.yaml",
+      "name": "ci",
+      "triggers": [
+        "pull_request",
+        "push",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "buildenv",
+          "name": "Build Environment",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "lint-web",
+          "name": "lint-web",
+          "runner": "ubuntu-22.04",
+          "steps_count": 15,
+          "needs": [
+            "buildenv"
+          ]
+        },
+        {
+          "id": "lint-go",
+          "name": "lint-go",
+          "runner": "ubuntu-22.04",
+          "steps_count": 8,
+          "needs": [
+            "buildenv"
+          ]
+        },
+        {
+          "id": "lint",
+          "name": "lint",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": [
+            "lint-go",
+            "lint-web"
+          ]
+        },
+        {
+          "id": "dist",
+          "name": "dist",
+          "runner": "ubuntu-22.04",
+          "steps_count": 7,
+          "needs": [
+            "buildenv",
+            "lint"
+          ]
+        },
+        {
+          "id": "dist-fips",
+          "name": "dist-fips",
+          "runner": "ubuntu-22.04",
+          "steps_count": 6,
+          "needs": [
+            "buildenv",
+            "lint"
+          ]
+        },
+        {
+          "id": "upload",
+          "name": "upload",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": [
+            "dist"
+          ]
+        },
+        {
+          "id": "upload-fips",
+          "name": "upload-fips",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": [
+            "dist-fips"
+          ]
+        },
+        {
+          "id": "test",
+          "name": "test",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "lint",
+            "buildenv"
+          ]
+        },
+        {
+          "id": "test-fips",
+          "name": "test-fips",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "lint",
+            "buildenv"
+          ]
+        },
+        {
+          "id": "generate-specs",
+          "name": "generate-specs",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "e2e-cypress-tests",
+          "name": "e2e-cypress-tests-run-${{ matrix.runId }}",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "buildenv",
+            "lint",
+            "generate-specs",
+            "dist"
+          ]
+        },
+        {
+          "id": "e2e-cypress-tests-fips",
+          "name": "e2e-cypress-tests-fips-run-${{ matrix.runId }}",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "buildenv",
+            "lint",
+            "generate-specs",
+            "dist-fips"
+          ]
+        },
+        {
+          "id": "e2e-playwright-tests",
+          "name": "e2e-playwright-tests",
+          "runner": "ubuntu-22.04",
+          "steps_count": 4,
+          "needs": [
+            "buildenv",
+            "lint",
+            "dist"
+          ]
+        },
+        {
+          "id": "report-test-results",
+          "name": "report-test-results",
+          "runner": "ubuntu-22.04",
+          "steps_count": 3,
+          "needs": [
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "e2e-playwright-tests",
+            "test",
+            "test-fips"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 15,
+        "edge_count": 30,
+        "is_valid_dag": true,
+        "max_depth": 5
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "buildenv": 0.0,
+          "dist": 0.021978,
+          "dist-fips": 0.021978,
+          "e2e-cypress-tests": 0.00989,
+          "e2e-cypress-tests-fips": 0.012637,
+          "e2e-playwright-tests": 0.007143,
+          "generate-specs": 0.0,
+          "lint": 0.10989,
+          "lint-go": 0.002747,
+          "lint-web": 0.002747,
+          "report-test-results": 0.0,
+          "test": 0.004396,
+          "test-fips": 0.004396,
+          "upload": 0.0,
+          "upload-fips": 0.0
+        },
+        "pagerank": {
+          "buildenv": 0.031738,
+          "dist": 0.045759,
+          "dist-fips": 0.045759,
+          "e2e-cypress-tests": 0.072212,
+          "e2e-cypress-tests-fips": 0.078695,
+          "e2e-playwright-tests": 0.058724,
+          "generate-specs": 0.031738,
+          "lint": 0.090786,
+          "lint-go": 0.034735,
+          "lint-web": 0.034735,
+          "report-test-results": 0.287715,
+          "test": 0.045759,
+          "test-fips": 0.045759,
+          "upload": 0.044703,
+          "upload-fips": 0.051185
+        },
+        "downstream_impact": {
+          "buildenv": [
+            "dist",
+            "dist-fips",
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "e2e-playwright-tests",
+            "lint",
+            "lint-go",
+            "lint-web",
+            "report-test-results",
+            "test",
+            "test-fips",
+            "upload",
+            "upload-fips"
+          ],
+          "dist": [
+            "e2e-cypress-tests",
+            "e2e-playwright-tests",
+            "report-test-results",
+            "upload"
+          ],
+          "dist-fips": [
+            "e2e-cypress-tests-fips",
+            "report-test-results",
+            "upload-fips"
+          ],
+          "e2e-cypress-tests": [
+            "report-test-results"
+          ],
+          "e2e-cypress-tests-fips": [
+            "report-test-results"
+          ],
+          "e2e-playwright-tests": [
+            "report-test-results"
+          ],
+          "generate-specs": [
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "report-test-results"
+          ],
+          "lint": [
+            "dist",
+            "dist-fips",
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "e2e-playwright-tests",
+            "report-test-results",
+            "test",
+            "test-fips",
+            "upload",
+            "upload-fips"
+          ],
+          "lint-go": [
+            "dist",
+            "dist-fips",
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "e2e-playwright-tests",
+            "lint",
+            "report-test-results",
+            "test",
+            "test-fips",
+            "upload",
+            "upload-fips"
+          ],
+          "lint-web": [
+            "dist",
+            "dist-fips",
+            "e2e-cypress-tests",
+            "e2e-cypress-tests-fips",
+            "e2e-playwright-tests",
+            "lint",
+            "report-test-results",
+            "test",
+            "test-fips",
+            "upload",
+            "upload-fips"
+          ],
+          "report-test-results": [],
+          "test": [
+            "report-test-results"
+          ],
+          "test-fips": [
+            "report-test-results"
+          ],
+          "upload": [],
+          "upload-fips": []
+        },
+        "critical_nodes": [
+          "report-test-results",
+          "lint",
+          "e2e-cypress-tests-fips",
+          "e2e-cypress-tests",
+          "dist",
+          "dist-fips",
+          "e2e-playwright-tests",
+          "upload-fips",
+          "test",
+          "test-fips",
+          "upload",
+          "lint-go",
+          "lint-web",
+          "buildenv",
+          "generate-specs"
+        ],
+        "max_blast_radius": 13
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 275,
+          "end_line": 304,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'upload-fips' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 305,
+          "end_line": 334,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'dist' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 220,
+          "end_line": 222,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'dist-fips' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 260,
+          "end_line": 262,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'upload' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 287,
+          "end_line": 289,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'upload-fips' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 317,
+          "end_line": 319,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'e2e-cypress-tests' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 526,
+          "end_line": 529,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'e2e-cypress-tests-fips' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 637,
+          "end_line": 640,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'e2e-playwright-tests' step 2 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 744,
+          "end_line": 747,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'buildenv' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 19,
+          "end_line": 37,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'lint-web' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 38,
+          "end_line": 126,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'lint-go' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 128,
+          "end_line": 176,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'lint' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 182,
+          "end_line": 199,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'dist' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 200,
+          "end_line": 233,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'upload' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 275,
+          "end_line": 304,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'upload-fips' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 305,
+          "end_line": 334,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'test' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 335,
+          "end_line": 371,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'test-fips' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 373,
+          "end_line": 414,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'generate-specs' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 416,
+          "end_line": 430,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'e2e-cypress-tests' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 432,
+          "end_line": 540,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'e2e-cypress-tests-fips' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 542,
+          "end_line": 652,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Job 'e2e-playwright-tests' omits least-privilege 'permissions:' or sets write-all.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 654,
+          "end_line": 755,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'buildenv' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 19,
+          "end_line": 37,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-web' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 38,
+          "end_line": 126,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-go' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 128,
+          "end_line": 176,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 182,
+          "end_line": 199,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dist' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 200,
+          "end_line": 233,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dist-fips' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 235,
+          "end_line": 273,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 275,
+          "end_line": 304,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'upload-fips' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 305,
+          "end_line": 334,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 335,
+          "end_line": 371,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-fips' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 373,
+          "end_line": 414,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'generate-specs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 416,
+          "end_line": 430,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-cypress-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 432,
+          "end_line": 540,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-cypress-tests-fips' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 542,
+          "end_line": 652,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'e2e-playwright-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 654,
+          "end_line": 755,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'report-test-results' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 757,
+          "end_line": 779,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'dist' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 209,
+          "end_line": 209,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'dist-fips' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 247,
+          "end_line": 247,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'upload' step 4 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 296,
+          "end_line": 296,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-014",
+          "type": "STATIC_CLOUD_CREDENTIALS",
+          "severity": "HIGH",
+          "message": "Job 'upload-fips' step 4 uses cloud authentication without OIDC 'id-token: write' or relies on static cloud keys.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yaml",
+          "start_line": 326,
+          "end_line": 326,
+          "remediation": "Configure short-lived OIDC federation with 'permissions: id-token: write' and replace long-lived static cloud keys."
+        }
+      ]
+    },
+    {
+      "id": "codeql-analysis.yml",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 2 uses unpinned action 'github/codeql-action/init@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 33,
+          "end_line": 33,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 3 uses unpinned action 'github/codeql-action/autobuild@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 41,
+          "end_line": 41,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'analyze' step 4 uses unpinned action 'github/codeql-action/analyze@v4'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 45,
+          "end_line": 45,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql-analysis.yml",
+          "start_line": 16,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-test-analysis-override.yml",
+      "path": ".github/workflows/pr-test-analysis-override.yml",
+      "name": "PR Test Analysis Override",
+      "triggers": [
+        "issue_comment"
+      ],
+      "jobs": [
+        {
+          "id": "override",
+          "name": "override",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/pr-test-analysis-override.yml",
+          "source_job": "override",
+          "target_workflow": "mattermost/mattermost-test-automation-toolkit/.github/workflows/pr-test-analysis-override.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "override": 0.0
+        },
+        "pagerank": {
+          "override": 1.0
+        },
+        "downstream_impact": {
+          "override": []
+        },
+        "critical_nodes": [
+          "override"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'override' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-test-analysis-override.yml",
+          "start_line": 13,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pr-test-analysis.yml",
+      "path": ".github/workflows/pr-test-analysis.yml",
+      "name": "PR Test Analysis",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "analyze",
+          "name": "analyze",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/pr-test-analysis.yml",
+          "source_job": "analyze",
+          "target_workflow": "mattermost/mattermost-test-automation-toolkit/.github/workflows/pr-test-analysis.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-test-analysis.yml",
+          "start_line": 26,
+          "end_line": 48,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

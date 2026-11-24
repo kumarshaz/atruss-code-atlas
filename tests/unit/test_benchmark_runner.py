@@ -869,3 +869,80 @@ def test_osv_cache_save_merges_concurrent_writes(tmp_path: Path):
     loaded = json.loads(cache_file.read_text(encoding="utf-8"))
     assert set(loaded.keys()) == {"pkg:pypi/flask@3.0.0", "pkg:pypi/requests@2.31.0"}
 
+
+@pytest.mark.asyncio
+async def test_merge_latest_preserves_colliding_repo_name_topology(tmp_path: Path):
+    """Verify refreshing `org-b/shared` keeps `org-a/shared` workflows in pipeline_topology."""
+    import subprocess
+
+    def _make_repo(dirname: str, wf_name: str) -> Path:
+        rdir = tmp_path / dirname
+        (rdir / ".github" / "workflows").mkdir(parents=True)
+        (rdir / "app.py").write_text("def ok(): return 1\n", encoding="utf-8")
+        (rdir / ".github" / "workflows" / "ci.yml").write_text(
+            f"name: {wf_name}\non:\n  push:\n    branches: [main]\n"
+            "permissions:\n  contents: read\n"
+            "jobs:\n  test:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n"
+            "    steps:\n      - run: pytest\n",
+            encoding="utf-8",
+        )
+        subprocess.run(["git", "init", "-b", "main"], cwd=rdir, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "config", "user.email", "test@example.com"],
+            cwd=rdir,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "Test"], cwd=rdir, check=True, capture_output=True
+        )
+        subprocess.run(["git", "add", "."], cwd=rdir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "init"], cwd=rdir, check=True, capture_output=True)
+        return rdir
+
+    repo_a = _make_repo("a_shared", "AlphaWorkflow")
+    repo_b = _make_repo("b_shared", "BetaWorkflow")
+    entry_a = CorpusEntry(
+        org="org-a",
+        name="shared",
+        full_name="org-a/shared",
+        url=repo_a.as_uri(),
+        clone_url=repo_a.as_uri(),
+        ecosystem_key="python",
+        expected_ecosystem="Python",
+    )
+    entry_b = CorpusEntry(
+        org="org-b",
+        name="shared",
+        full_name="org-b/shared",
+        url=repo_b.as_uri(),
+        clone_url=repo_b.as_uri(),
+        ecosystem_key="python",
+        expected_ecosystem="Python",
+    )
+
+    exports_dir = tmp_path / "exports"
+    logs_dir = tmp_path / "logs"
+
+    await execute_benchmark(
+        entries=[entry_a, entry_b],
+        mode="corpus",
+        output_dir=str(exports_dir),
+        log_dir=str(logs_dir),
+        local_repo_resolver=lambda e: repo_a if e.org == "org-a" else repo_b,
+        clean_latest=True,
+    )
+
+    _, _, latest2 = await execute_benchmark(
+        entries=[entry_b],
+        mode="corpus",
+        output_dir=str(exports_dir),
+        log_dir=str(logs_dir),
+        local_repo_resolver=lambda _e: repo_b,
+        clean_latest=False,
+    )
+
+    topo = json.loads((latest2 / "relationships" / "pipeline_topology.json").read_text())
+    wf_names = {item["workflowName"] for item in topo["items"]}
+    assert {"AlphaWorkflow", "BetaWorkflow"}.issubset(wf_names)
+

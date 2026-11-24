@@ -1,0 +1,697 @@
+{
+  "repository": "home-assistant/docker",
+  "sha": "2b9dfe4d4908e07a3704a0efad09e221ea046f10",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 0,
+    "loc": 0,
+    "sloc": 0,
+    "component_count": 0,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Unknown",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "builder.yml",
+      "path": ".github/workflows/builder.yml",
+      "name": "Build base images",
+      "triggers": [
+        "pull_request",
+        "push",
+        "release"
+      ],
+      "jobs": {
+        "init": {
+          "name": "Initialize build",
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "version": "${{ steps.version.outputs.version }}",
+            "matrix": "${{ steps.matrix.outputs.matrix }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Get version",
+              "id": "version",
+              "uses": "home-assistant/actions/helpers/version@master",
+              "with": {
+                "type": "${{ env.BUILD_TYPE }}"
+              }
+            },
+            {
+              "name": "Get build matrix",
+              "id": "matrix",
+              "uses": "home-assistant/builder/actions/prepare-multi-arch-matrix@7412f0023ea9b6e58e8bb5059f1660f51376f49a",
+              "with": {
+                "architectures": "${{ env.ARCHITECTURES }}",
+                "image-name": "${{ env.IMAGE_NAME }}"
+              }
+            }
+          ]
+        },
+        "build": {
+          "name": "Build ${{ matrix.arch }} base image",
+          "needs": "init",
+          "runs-on": "${{ matrix.os }}",
+          "permissions": {
+            "contents": "read",
+            "id-token": "write",
+            "packages": "write"
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": "${{ fromJSON(needs.init.outputs.matrix) }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Check if requirements or workflow has changed",
+              "uses": "tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96",
+              "if": "github.event_name != 'release'",
+              "id": "wheels_deps_changed",
+              "with": {
+                "files": "requirements.txt\n.github/workflows/builder.yml\n"
+              }
+            },
+            {
+              "name": "Build wheels cp314",
+              "uses": "home-assistant/wheels@9e17ab1ed5c4c79d8b61e29fa63de25ca2710716",
+              "if": "github.event_name == 'release' || steps.wheels_deps_changed.outputs.any_changed == 'true'",
+              "with": {
+                "tag": "musllinux_1_2",
+                "abi": "cp314",
+                "arch": "${{ matrix.arch }}",
+                "wheels-key": "${{ secrets.WHEELS_KEY }}",
+                "apk": "mariadb-dev;postgresql-dev;libffi-dev",
+                "requirements": "requirements.txt"
+              }
+            },
+            {
+              "name": "Build base image",
+              "uses": "home-assistant/builder/actions/build-image@7412f0023ea9b6e58e8bb5059f1660f51376f49a",
+              "with": {
+                "arch": "${{ matrix.arch }}",
+                "container-registry-password": "${{ secrets.GITHUB_TOKEN }}",
+                "cosign-base-identity": "https://github.com/home-assistant/docker-base/.*",
+                "cosign-base-verify": "ghcr.io/home-assistant/base-python:3.14-alpine3.24",
+                "image": "${{ matrix.image }}",
+                "image-tags": "${{ needs.init.outputs.version }}\nlatest\n",
+                "push": "${{ github.event_name == 'release' }}",
+                "version": "${{ needs.init.outputs.version }}"
+              }
+            }
+          ]
+        },
+        "manifest": {
+          "name": "Publish multi-arch manifest",
+          "needs": [
+            "init",
+            "build"
+          ],
+          "if": "github.event_name == 'release'",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "id-token": "write",
+            "packages": "write"
+          },
+          "steps": [
+            {
+              "name": "Publish multi-arch manifest",
+              "uses": "home-assistant/builder/actions/publish-multi-arch-manifest@7412f0023ea9b6e58e8bb5059f1660f51376f49a",
+              "with": {
+                "architectures": "${{ env.ARCHITECTURES }}",
+                "container-registry-password": "${{ secrets.GITHUB_TOKEN }}",
+                "image-name": "${{ env.IMAGE_NAME }}",
+                "image-tags": "${{ needs.init.outputs.version }}\nlatest\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "init",
+          "name": "Initialize build",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build",
+          "name": "Build ${{ matrix.arch }} base image",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 4,
+          "needs": [
+            "init"
+          ],
+          "environment": null
+        },
+        {
+          "id": "manifest",
+          "name": "Publish multi-arch manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "init",
+            "build"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'manifest' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[HIGH] UNPINNED_ACTION: Job 'init' step 2 uses unpinned action 'home-assistant/actions/helpers/version@master'. Pin to a 40-character commit SHA.",
+        "[LOW] NO_TIMEOUT: Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'manifest' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'manifest' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 102,
+          "end_line": 119,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 102,
+          "end_line": 119,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'init' step 2 uses unpinned action 'home-assistant/actions/helpers/version@master'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 40,
+          "end_line": 40,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 26,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 51,
+          "end_line": 100,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/builder.yml",
+          "start_line": 102,
+          "end_line": 119,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "init": 0.0,
+          "manifest": 0.0
+        },
+        "pagerank": {
+          "build": 0.281551,
+          "init": 0.19758,
+          "manifest": 0.520869
+        },
+        "downstream_impact": {
+          "build": [
+            "manifest"
+          ],
+          "init": [
+            "build",
+            "manifest"
+          ],
+          "manifest": []
+        },
+        "critical_nodes": [
+          "manifest",
+          "build",
+          "init"
+        ],
+        "max_blast_radius": 2
+      }
+    },
+    {
+      "id": "hadolint.yml",
+      "path": ".github/workflows/hadolint.yml",
+      "name": "hadolint",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "golangci": {
+          "name": "lint",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "uses": "hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "golangci",
+          "name": "lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'golangci' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/hadolint.yml",
+          "start_line": 2,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'golangci' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/hadolint.yml",
+          "start_line": 8,
+          "end_line": 13,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "golangci": 0.0
+        },
+        "pagerank": {
+          "golangci": 1.0
+        },
+        "downstream_impact": {
+          "golangci": []
+        },
+        "critical_nodes": [
+          "golangci"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "release-drafter.yml",
+      "path": ".github/workflows/release-drafter.yml",
+      "name": "Release Drafter",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "update_release_draft": {
+          "runs-on": "ubuntu-latest",
+          "name": "Release Drafter",
+          "steps": [
+            {
+              "name": "Checkout the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Find Next Version",
+              "id": "version",
+              "run": "declare -i newpost\nlatest=$(git describe --tags $(git rev-list --tags --max-count=1))\nlatestpre=$(echo \"$latest\" | awk '{split($0,a,\".\"); print a[1] \".\" a[2]}')\ndatepre=$(date --utc '+%Y.%m')\nif [[ \"$latestpre\" == \"$datepre\" ]]; then\n    latestpost=$(echo \"$latest\" | awk '{split($0,a,\".\"); print a[3]}')\n    newpost=$latestpost+1\nelse\n    newpost=0\nfi\necho Current version:    $latest\necho New target version: $datepre.$newpost\necho \"version=$datepre.$newpost\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Run Release Drafter",
+              "uses": "release-drafter/release-drafter@978bb0b30c5ee8cdd332ced253758157150d43f0",
+              "with": {
+                "tag": "${{ steps.version.outputs.version }}",
+                "name": "${{ steps.version.outputs.version }}"
+              },
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "update_release_draft",
+          "name": "Release Drafter",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'update_release_draft' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'update_release_draft' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'update_release_draft' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 9,
+          "end_line": 40,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update_release_draft' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-drafter.yml",
+          "start_line": 9,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update_release_draft": 0.0
+        },
+        "pagerank": {
+          "update_release_draft": 1.0
+        },
+        "downstream_impact": {
+          "update_release_draft": []
+        },
+        "critical_nodes": [
+          "update_release_draft"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "shellcheck.yml",
+      "path": ".github/workflows/shellcheck.yml",
+      "name": "Shellcheck",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "shellcheck": {
+          "name": "Shellcheck",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "name": "Run ShellCheck",
+              "uses": "ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca",
+              "env": {
+                "SHELLCHECK_OPTS": "-s bash"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "shellcheck",
+          "name": "Shellcheck",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/shellcheck.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/shellcheck.yml",
+          "start_line": 10,
+          "end_line": 18,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "shellcheck": 0.0
+        },
+        "pagerank": {
+          "shellcheck": 1.0
+        },
+        "downstream_impact": {
+          "shellcheck": []
+        },
+        "critical_nodes": [
+          "shellcheck"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [],
+  "scorecard": {
+    "overall_score": 76.0,
+    "overall_grade": "C",
+    "technical_debt_score": 24.0,
+    "remediation_hours": 19.5,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 52.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=4"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=3, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 49.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=4, operational_antipatterns=9, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "Brotli",
+      "version": "1.2.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/brotli@1.2.1",
+      "manifest_file": "requirements.txt",
+      "line": 1,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "mysqlclient",
+      "version": "2.3.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/mysqlclient@2.3.0",
+      "manifest_file": "requirements.txt",
+      "line": 2,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "psycopg2",
+      "version": "2.9.13",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/psycopg2@2.9.13",
+      "manifest_file": "requirements.txt",
+      "line": 3,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": ".devcontainer",
+      "source_type": "code_module",
+      "target": ".devcontainer/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "b0372cf2-d160-41e2-a0e8-2256080e7d36",
+      "source_type": "code_module",
+      "target": "Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

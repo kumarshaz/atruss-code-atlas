@@ -1078,16 +1078,73 @@ def _merge_discovery_items(
     return merged
 
 
+def _colliding_repo_names(existing_latest: Path) -> set[str]:
+    """Return lowercased short repo names shared by 2+ orgs in `repositories.json`."""
+    repos_json = existing_latest / "repos" / "repositories.json"
+    if not repos_json.exists():
+        return set()
+    try:
+        payload = json.loads(repos_json.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    items = payload.get("items", payload) if isinstance(payload, dict) else payload
+    if not isinstance(items, list):
+        return set()
+    orgs_by_name: dict[str, set[str]] = defaultdict(set)
+    for raw in items:
+        if not isinstance(raw, dict):
+            continue
+        org = str(raw.get("Organization", "")).strip().lower()
+        rname = str(raw.get("RepositoryName", "")).strip().lower()
+        if org and rname:
+            orgs_by_name[rname].add(org)
+    return {name for name, orgs in orgs_by_name.items() if len(orgs) > 1}
+
+
+def _read_existing_workflow_keys(
+    existing_latest: Path, org: str, repo: str
+) -> set[tuple[str, str]]:
+    """Read `(repo_low, workflow_name_low)` pairs from an existing `*-pipeline.json`."""
+    safe_org = org.replace("/", "_") if org else "local"
+    safe_repo = repo.split("/")[-1].replace("/", "_")
+    pfile = existing_latest / "pipelines" / f"{safe_org}-{safe_repo}-pipeline.json"
+    if not pfile.exists():
+        return set()
+    try:
+        data = json.loads(pfile.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    wfs = data.get("workflows") if isinstance(data, dict) else None
+    if not isinstance(wfs, list):
+        return set()
+    repo_low = safe_repo.lower()
+    return {
+        (repo_low, str(wf.get("name", "")).strip().lower())
+        for wf in wfs
+        if isinstance(wf, dict) and wf.get("name")
+    }
+
+
 def _merge_pipeline_topology(
     existing_latest: Path,
     refreshed_repo_names: set[str],
     fresh_nodes: list[TopologyNode],
     fresh_runs: list[WorkflowRun],
+    colliding_wf_keys: set[tuple[str, str]] | None = None,
 ) -> tuple[list[TopologyNode], list[WorkflowRun]]:
     """Preserve untouched repositories in `pipeline_topology.*` during `--merge-latest`."""
     refreshed_low = {name.strip().lower() for name in refreshed_repo_names if name.strip()}
+    colliding_keys = colliding_wf_keys or set()
     preserved_nodes: list[TopologyNode] = []
     preserved_runs: list[WorkflowRun] = []
+
+    def _is_replaced(rname: str, rid: str, wf_name: str) -> bool:
+        r_low = rname.strip().lower()
+        id_low = rid.strip().lower()
+        wf_low = wf_name.strip().lower()
+        if r_low in refreshed_low or id_low in refreshed_low:
+            return True
+        return (r_low, wf_low) in colliding_keys
 
     topo_json = existing_latest / "relationships" / "pipeline_topology.json"
     if topo_json.exists():
@@ -1099,9 +1156,10 @@ def _merge_pipeline_topology(
                 for item in items:
                     if not isinstance(item, dict):
                         continue
-                    rname = str(item.get("repoName", "")).strip().lower()
-                    rid = str(item.get("repoId", "")).strip().lower()
-                    if rname in refreshed_low or rid in refreshed_low:
+                    rname = str(item.get("repoName", ""))
+                    rid = str(item.get("repoId", ""))
+                    wfname = str(item.get("workflowName", ""))
+                    if _is_replaced(rname, rid, wfname):
                         continue
                     filtered = {k: v for k, v in item.items() if k in valid_fields}
                     try:
@@ -1117,12 +1175,13 @@ def _merge_pipeline_topology(
             with open(topo_csv, encoding="utf-8", newline="") as handle:
                 for row in csv.DictReader(handle):
                     rname = str(row.get("RepoName", "")).strip()
-                    if not rname or rname.lower() in refreshed_low:
+                    wfname = str(row.get("WorkflowName", ""))
+                    if not rname or _is_replaced(rname, "", wfname):
                         continue
                     preserved_runs.append(
                         WorkflowRun(
                             repo_name=rname,
-                            workflow_name=str(row.get("WorkflowName", "")),
+                            workflow_name=wfname,
                             target_env=str(row.get("DeploymentTarget", "")),
                             resource=str(row.get("DeploymentResource", "")),
                         )
@@ -1354,7 +1413,9 @@ async def execute_benchmark(
         all_nodes: list[TopologyNode] = []
         all_runs: list[WorkflowRun] = []
         refreshed_pipe_names: set[str] = set()
+        colliding_wf_keys: set[tuple[str, str]] = set()
         existing_latest = Path(output_dir) / "latest"
+        colliding_names = _colliding_repo_names(existing_latest) if not clean_latest else set()
 
         manager = ExportManager(base_dir=output_dir, timestamp=run_ts)
         if clean_latest:
@@ -1377,6 +1438,20 @@ async def execute_benchmark(
                 discovery_items.append(outcome["discovery_item"])
 
             if "astro_workflows" in outcome:
+                if res.stage_failed != "analyze-pipeline":
+                    if entry.name.strip().lower() in colliding_names:
+                        refreshed_pipe_names.add(entry.full_name)
+                        colliding_wf_keys.update(
+                            _read_existing_workflow_keys(existing_latest, entry.org, entry.name)
+                        )
+                        for wf in outcome["astro_workflows"]:
+                            if isinstance(wf, dict) and wf.get("name"):
+                                colliding_wf_keys.add(
+                                    (entry.name.strip().lower(), str(wf["name"]).strip().lower())
+                                )
+                    else:
+                        refreshed_pipe_names.add(entry.name)
+                        refreshed_pipe_names.add(entry.full_name)
                 existing_ts = (
                     _existing_pipeline_analyzed_at(
                         existing_latest,
@@ -1395,9 +1470,6 @@ async def execute_benchmark(
                     workflows=outcome["astro_workflows"],
                     analyzed_at=existing_ts,
                 )
-                if res.stage_failed != "analyze-pipeline":
-                    refreshed_pipe_names.add(entry.name)
-                    refreshed_pipe_names.add(entry.full_name)
             all_nodes.extend(outcome.get("topo_nodes", []))
             all_runs.extend(outcome.get("wf_runs", []))
 
@@ -1432,6 +1504,7 @@ async def execute_benchmark(
                 refreshed_pipe_names,
                 all_nodes,
                 all_runs,
+                colliding_wf_keys=colliding_wf_keys,
             )
 
         DiscoveryArchiver(manager).export(discovery_items)

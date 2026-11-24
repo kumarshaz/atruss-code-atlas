@@ -1,0 +1,321 @@
+{
+  "repository": "appwrite/playground-for-android",
+  "sha": "41fad10524034884d12ff5397d9168c4a4ce68d0",
+  "ecosystem": "Java",
+  "metrics": {
+    "files_analyzed": 3,
+    "loc": 537,
+    "sloc": 489,
+    "component_count": 0,
+    "avg_cyclomatic_complexity": 10.67,
+    "max_cyclomatic_complexity": 23,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 3.33,
+    "max_cognitive_complexity": 9,
+    "duplication_pct": 66.02,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [
+      {
+        "file": "app/src/main/java/io/appwrite/playgroundforandroid/MainActivity.kt",
+        "loc": 154,
+        "cyclomatic": 7,
+        "cognitive": 9
+      },
+      {
+        "file": "app/src/main/java/io/appwrite/playgroundforandroid/Extensions.kt",
+        "loc": 17,
+        "cyclomatic": 2,
+        "cognitive": 1
+      },
+      {
+        "file": "app/src/main/java/io/appwrite/playgroundforandroid/PlaygroundViewModel.kt",
+        "loc": 366,
+        "cyclomatic": 23,
+        "cognitive": 0
+      }
+    ],
+    "import_edges": [],
+    "framework": "Java Maven/Gradle",
+    "fitness_passed": false,
+    "fitness_violation_count": 2
+  },
+  "pipelines": [
+    {
+      "id": "build.yml",
+      "path": ".github/workflows/build.yml",
+      "name": "build",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "build": {
+          "runs-on": "ubuntu-latest",
+          "timeout-minutes": 30,
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "uses": "actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78",
+              "with": {
+                "distribution": "temurin",
+                "java-version": 17,
+                "cache": "gradle"
+              }
+            },
+            {
+              "run": "./gradlew assembleDebug"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [],
+      "anti_patterns": [],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [],
+  "scorecard": {
+    "overall_score": 73.55,
+    "overall_grade": "C",
+    "technical_debt_score": 26.45,
+    "remediation_hours": 22.82,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 33.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "avg_cc=10.67, max_cc=23, duplication=66.02%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 88.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "avg_cognitive=3.33, max_cognitive=9, fitness_violations=2, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=9, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "workflows=1, operational_antipatterns=0, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "io.appwrite:sdk-for-android",
+      "version": "5.1.0",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/io.appwrite/sdk-for-android@5.1.0",
+      "manifest_file": "app/build.gradle",
+      "line": 39,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "org.jetbrains.kotlin:kotlin-stdlib",
+      "version": "",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib",
+      "manifest_file": "app/build.gradle",
+      "line": 41,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "androidx.core:core-ktx",
+      "version": "1.8.0",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/androidx.core/core-ktx@1.8.0",
+      "manifest_file": "app/build.gradle",
+      "line": 42,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "androidx.appcompat:appcompat",
+      "version": "1.5.0",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/androidx.appcompat/appcompat@1.5.0",
+      "manifest_file": "app/build.gradle",
+      "line": 43,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "com.google.android.material:material",
+      "version": "1.6.1",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/com.google.android.material/material@1.6.1",
+      "manifest_file": "app/build.gradle",
+      "line": 44,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "androidx.constraintlayout:constraintlayout",
+      "version": "2.1.4",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/androidx.constraintlayout/constraintlayout@2.1.4",
+      "manifest_file": "app/build.gradle",
+      "line": 45,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "androidx.lifecycle:lifecycle-viewmodel-ktx",
+      "version": "2.5.1",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.5.1",
+      "manifest_file": "app/build.gradle",
+      "line": 46,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "com.android.tools.build:gradle",
+      "version": "8.5.2",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/com.android.tools.build/gradle@8.5.2",
+      "manifest_file": "build.gradle",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "org.jetbrains.kotlin:kotlin-gradle-plugin",
+      "version": "",
+      "ecosystem": "Maven",
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-gradle-plugin",
+      "manifest_file": "build.gradle",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [
+    {
+      "rule_id": "ATRUSS-ARCH-005",
+      "type": "COMPLEXITY_THRESHOLD",
+      "severity": "MEDIUM",
+      "message": "Repository duplication_pct (66.02) exceeds policy threshold (15.0).",
+      "source_component": "app/src/main/java/io/appwrite/playgroundforandroid/MainActivity.kt",
+      "target_component": "duplication_pct",
+      "source_layer": "REPOSITORY",
+      "target_layer": "THRESHOLD",
+      "file_source": "app/src/main/java/io/appwrite/playgroundforandroid/MainActivity.kt",
+      "start_line": 1,
+      "end_line": 1
+    },
+    {
+      "rule_id": "ATRUSS-ARCH-005",
+      "type": "COMPLEXITY_THRESHOLD",
+      "severity": "MEDIUM",
+      "message": "Repository max_cyclomatic_complexity (23.0) exceeds policy threshold (20.0).",
+      "source_component": "app/src/main/java/io/appwrite/playgroundforandroid/MainActivity.kt",
+      "target_component": "max_cyclomatic_complexity",
+      "source_layer": "REPOSITORY",
+      "target_layer": "THRESHOLD",
+      "file_source": "app/src/main/java/io/appwrite/playgroundforandroid/MainActivity.kt",
+      "start_line": 1,
+      "end_line": 1
+    }
+  ],
+  "code_to_cloud_edges": [],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

@@ -1,0 +1,489 @@
+{
+  "repository": "chatwoot/charts",
+  "sha": "15d0e5842aa9d04a26b59dd856fe1b70c5e9a939",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 11,
+    "loc": 542,
+    "sloc": 461,
+    "component_count": 11,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 1,
+    "framework": "Helm Chart",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "lint-test.yaml",
+      "path": ".github/workflows/lint-test.yaml",
+      "name": "Lint and Test Charts",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "lint-test": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@v2",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Set up Helm",
+              "uses": "azure/setup-helm@v1",
+              "with": {
+                "version": "v3.4.0"
+              }
+            },
+            {
+              "name": "Add helm dependencies",
+              "run": "helm repo add bitnami \"https://charts.bitnami.com/bitnami\"\n"
+            },
+            {
+              "uses": "actions/setup-python@v2",
+              "with": {
+                "python-version": 3.7
+              }
+            },
+            {
+              "name": "Set up chart-testing",
+              "uses": "helm/chart-testing-action@v2.1.0"
+            },
+            {
+              "name": "Run chart-testing (list-changed)",
+              "id": "list-changed",
+              "run": "changed=$(ct list-changed --target-branch main)\nif [[ -n \"$changed\" ]]; then\n  echo \"::set-output name=changed::true\"\nfi\n"
+            },
+            {
+              "name": "Run chart-testing (lint)",
+              "run": "ct lint --target-branch main"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "lint-test",
+          "name": "lint-test",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'lint-test' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] UNPINNED_ACTION: Job 'lint-test' step 2 uses unpinned action 'azure/setup-helm@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'lint-test' step 5 uses unpinned action 'helm/chart-testing-action@v2.1.0'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'lint-test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'lint-test' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-test.yaml",
+          "start_line": 10,
+          "end_line": 43,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint-test' step 2 uses unpinned action 'azure/setup-helm@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-test.yaml",
+          "start_line": 19,
+          "end_line": 19,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'lint-test' step 5 uses unpinned action 'helm/chart-testing-action@v2.1.0'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-test.yaml",
+          "start_line": 32,
+          "end_line": 32,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-test.yaml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint-test.yaml",
+          "start_line": 10,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint-test": 0.0
+        },
+        "pagerank": {
+          "lint-test": 1.0
+        },
+        "downstream_impact": {
+          "lint-test": []
+        },
+        "critical_nodes": [
+          "lint-test"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "release.yaml",
+      "path": ".github/workflows/release.yaml",
+      "name": "Release Charts",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "release": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@v2",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Configure Git",
+              "run": "git config user.name \"$GITHUB_ACTOR\"\ngit config user.email \"$GITHUB_ACTOR@users.noreply.github.com\"\n"
+            },
+            {
+              "name": "Install Helm",
+              "uses": "azure/setup-helm@v1",
+              "with": {
+                "version": "v3.4.0"
+              }
+            },
+            {
+              "name": "Add helm dependencies",
+              "run": "helm repo add bitnami \"https://charts.bitnami.com/bitnami\"\n"
+            },
+            {
+              "name": "Run chart-releaser",
+              "uses": "helm/chart-releaser-action@v1.2.1",
+              "env": {
+                "CR_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "release",
+          "name": "release",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] UNPINNED_ACTION: Job 'release' step 3 uses unpinned action 'azure/setup-helm@v1'. Pin to a 40-character commit SHA.",
+        "[HIGH] UNPINNED_ACTION: Job 'release' step 5 uses unpinned action 'helm/chart-releaser-action@v1.2.1'. Pin to a 40-character commit SHA.",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 9,
+          "end_line": 34,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'release' step 3 uses unpinned action 'azure/setup-helm@v1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 23,
+          "end_line": 23,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-008",
+          "type": "UNPINNED_ACTION",
+          "severity": "HIGH",
+          "message": "Job 'release' step 5 uses unpinned action 'helm/chart-releaser-action@v1.2.1'. Pin to a 40-character commit SHA.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 32,
+          "end_line": 32,
+          "remediation": "Pin third-party actions to a full 40-character commit SHA (for example, uses: owner/action@<40-hex-sha> # v1.2.3)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yaml",
+          "start_line": 9,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/chatwoot/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values.ci",
+      "type": "module",
+      "file": "charts/chatwoot/values.ci.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/chatwoot/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "env-configmap",
+      "type": "module",
+      "file": "charts/chatwoot/templates/env-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/chatwoot/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "migrations-job",
+      "type": "module",
+      "file": "charts/chatwoot/templates/migrations-job.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/chatwoot/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "web-deployment",
+      "type": "module",
+      "file": "charts/chatwoot/templates/web-deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "web-service",
+      "type": "module",
+      "file": "charts/chatwoot/templates/web-service.yaml",
+      "line": 1
+    },
+    {
+      "name": "worker-deployment",
+      "type": "module",
+      "file": "charts/chatwoot/templates/worker-deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "test-connection",
+      "type": "module",
+      "file": "charts/chatwoot/templates/tests/test-connection.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 72.7,
+    "overall_grade": "C",
+    "technical_debt_score": 27.3,
+    "remediation_hours": 20.82,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 28.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=6"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 54.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=2, operational_antipatterns=4, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "lint-test.yaml#lint-test",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "lint-test.yaml#lint-test",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "release.yaml#release",
+      "source_type": "ci_job",
+      "target": "azure",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "release.yaml#release",
+      "source_type": "ci_job",
+      "target": "kubernetes",
+      "target_type": "environment",
+      "relationship": "DEPLOYS_TO"
+    },
+    {
+      "source": "charts/chatwoot",
+      "source_type": "code_module",
+      "target": "lint-test.yaml#lint-test",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    },
+    {
+      "source": "charts/chatwoot",
+      "source_type": "code_module",
+      "target": "release.yaml#release",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

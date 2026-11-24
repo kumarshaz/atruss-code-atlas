@@ -1,0 +1,1094 @@
+{
+  "repository": "mattermost/mattermost-helm",
+  "sha": "07025cf61b2fd7f656d08723acdba53de238454e",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 125,
+    "loc": 15499,
+    "sloc": 14315,
+    "component_count": 125,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 13,
+    "framework": "Helm Chart",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "pull-request.yml",
+      "path": ".github/workflows/pull-request.yml",
+      "name": "Validate PR",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "lint": {
+          "name": "Lint Project",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Execute Lint",
+              "run": "make lint"
+            }
+          ]
+        },
+        "test": {
+          "name": "Test",
+          "runs-on": "ubuntu-22.04",
+          "needs": [
+            "lint"
+          ],
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Execute Tests",
+              "run": "make test"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "lint",
+          "name": "Lint Project",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "test",
+          "name": "Test",
+          "runner": "ubuntu-22.04",
+          "steps_count": 2,
+          "needs": [
+            "lint"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull-request.yml",
+          "start_line": 3,
+          "end_line": 7,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull-request.yml",
+          "start_line": 10,
+          "end_line": 20,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull-request.yml",
+          "start_line": 22,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "lint": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "lint": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "lint"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "release-charts": {
+          "name": "Release Charts",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Release Charts",
+              "run": "make release",
+              "env": {
+                "CR_TOKEN": "${{ github.token }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "release-charts",
+          "name": "Release Charts",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'release-charts' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'release-charts' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-charts' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 11,
+          "end_line": 24,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-charts' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 11,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-charts": 0.0
+        },
+        "pagerank": {
+          "release-charts": 1.0
+        },
+        "downstream_impact": {
+          "release-charts": []
+        },
+        "critical_nodes": [
+          "release-charts"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/focalboard/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/focalboard/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/focalboard/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/focalboard/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc",
+      "type": "module",
+      "file": "charts/focalboard/templates/pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/focalboard/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/focalboard/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "test-connection",
+      "type": "module",
+      "file": "charts/focalboard/templates/tests/test-connection.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/mattermost/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost/examples/gdc/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost/templates/deployment-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-hpa",
+      "type": "module",
+      "file": "charts/mattermost/templates/deployment-mattermost-hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-jobserver",
+      "type": "module",
+      "file": "charts/mattermost/templates/deployment-mattermost-jobserver.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost/templates/ingress-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-mattermost-dbsecret",
+      "type": "module",
+      "file": "charts/mattermost/templates/secret-mattermost-dbsecret.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-mattermost-license",
+      "type": "module",
+      "file": "charts/mattermost/templates/secret-mattermost-license.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-account",
+      "type": "module",
+      "file": "charts/mattermost/templates/service-account.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost/templates/service-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-app-config-test",
+      "type": "module",
+      "file": "charts/mattermost/templates/tests/mattermost-app-config-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-app-test",
+      "type": "module",
+      "file": "charts/mattermost/templates/tests/mattermost-app-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "efs-pv",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/efs-pv.yaml",
+      "line": 1
+    },
+    {
+      "name": "efs-pvc",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/efs-pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "efs-storage-class",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/efs-storage-class.yaml",
+      "line": 1
+    },
+    {
+      "name": "hpa",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "nfs-pv",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/nfs-pv.yaml",
+      "line": 1
+    },
+    {
+      "name": "nfs-pvc",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/nfs-pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "role",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/role.yaml",
+      "line": 1
+    },
+    {
+      "name": "rolebinding",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/rolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/mattermost-calls-offloader/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "secrets",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/secrets.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "test-connection",
+      "type": "module",
+      "file": "charts/mattermost-chaos-engine/templates/tests/test-connection.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/client.yaml",
+      "line": 1
+    },
+    {
+      "name": "data",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/data.yaml",
+      "line": 1
+    },
+    {
+      "name": "discovery-svc",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/discovery-svc.yaml",
+      "line": 1
+    },
+    {
+      "name": "ds-master",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/ds-master.yaml",
+      "line": 1
+    },
+    {
+      "name": "master",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/master.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-elasticsearch/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "dashboards-configmap",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/dashboards-configmap.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "job",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/job.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/secret.yaml",
+      "line": 1
+    },
+    {
+      "name": "svc",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/charts/mattermost-grafana/templates/svc.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "init-container-values",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/ci/init-container-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap-loadtest-config",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/configmap-loadtest-config.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap-mattermost-config",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/configmap-mattermost-config.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/deployment-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-hpa",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/deployment-mattermost-hpa.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-jobserver",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/deployment-mattermost-jobserver.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment-mattermost-loadtest",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/deployment-mattermost-loadtest.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/ingress-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-mattermost-dbsecret",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/secret-mattermost-dbsecret.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-mattermost-license",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/secret-mattermost-license.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-account",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/service-account.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-mattermost-app",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/service-mattermost-app.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-app-config-test",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/tests/mattermost-app-config-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-app-test",
+      "type": "module",
+      "file": "charts/mattermost-enterprise-edition/templates/tests/mattermost-app-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-operator/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values-with-mattermost",
+      "type": "module",
+      "file": "charts/mattermost-operator/values-with-mattermost.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-operator/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-clusterinstallations",
+      "type": "module",
+      "file": "charts/mattermost-operator/crds/crd-clusterinstallations.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-mattermostrestoredbs",
+      "type": "module",
+      "file": "charts/mattermost-operator/crds/crd-mattermostrestoredbs.yaml",
+      "line": 1
+    },
+    {
+      "name": "crd-mattermosts",
+      "type": "module",
+      "file": "charts/mattermost-operator/crds/crd-mattermosts.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrole",
+      "type": "module",
+      "file": "charts/mattermost-operator/templates/mattermost-operator/clusterrole.yaml",
+      "line": 1
+    },
+    {
+      "name": "clusterrolebinding",
+      "type": "module",
+      "file": "charts/mattermost-operator/templates/mattermost-operator/clusterrolebinding.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-operator/templates/mattermost-operator/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost",
+      "type": "module",
+      "file": "charts/mattermost-operator/templates/mattermost-operator/mattermost.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/mattermost-operator/templates/mattermost-operator/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "configmap-mattermost-push-proxy",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/configmap-mattermost-push-proxy.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "external_secrets",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/external_secrets.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "secrets",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/secrets.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-monitor",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/service-monitor.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-push-proxy-config-test",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/tests/mattermost-push-proxy-config-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-push-proxy-test",
+      "type": "module",
+      "file": "charts/mattermost-push-proxy/templates/tests/mattermost-push-proxy-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "daemonset",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/templates/daemonset.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "serviceaccount",
+      "type": "module",
+      "file": "charts/mattermost-rtcd/templates/serviceaccount.yaml",
+      "line": 1
+    },
+    {
+      "name": "Chart",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/Chart.yaml",
+      "line": 1
+    },
+    {
+      "name": "values",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/values.yaml",
+      "line": 1
+    },
+    {
+      "name": "default-values",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/ci/default-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-values",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/ci/extra-values.yaml",
+      "line": 1
+    },
+    {
+      "name": "deployment",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/deployment.yaml",
+      "line": 1
+    },
+    {
+      "name": "extra-deploy",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/extra-deploy.yaml",
+      "line": 1
+    },
+    {
+      "name": "ingress",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/ingress.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc-plugins",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/pvc-plugins.yaml",
+      "line": 1
+    },
+    {
+      "name": "pvc",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/pvc.yaml",
+      "line": 1
+    },
+    {
+      "name": "route",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/route.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-config",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/secret-config.yaml",
+      "line": 1
+    },
+    {
+      "name": "secret-mattermost-dbsecret",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/secret-mattermost-dbsecret.yaml",
+      "line": 1
+    },
+    {
+      "name": "service-account",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/service-account.yaml",
+      "line": 1
+    },
+    {
+      "name": "service",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/service.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-config-test",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/tests/mattermost-config-test.yaml",
+      "line": 1
+    },
+    {
+      "name": "mattermost-test",
+      "type": "module",
+      "file": "charts/mattermost-team-edition/templates/tests/mattermost-test.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 84.85,
+    "overall_grade": "B",
+    "technical_debt_score": 15.15,
+    "remediation_hours": 10.29,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 76.0,
+        "grade": "C",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=2"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 71.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=2, operational_antipatterns=4, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "charts/mattermost",
+      "source_type": "code_module",
+      "target": "docker/app/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "docker/app",
+      "source_type": "code_module",
+      "target": "docker/app/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

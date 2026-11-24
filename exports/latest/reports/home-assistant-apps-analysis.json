@@ -1,0 +1,580 @@
+{
+  "repository": "home-assistant/apps",
+  "sha": "c0f85bb9935683b4cdc0e9a871ed1853e1c69821",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 3,
+    "loc": 99,
+    "sloc": 99,
+    "component_count": 3,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Container",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "lint.yml",
+      "path": ".github/workflows/lint.yml",
+      "name": "Lint",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "hadolint": {
+          "runs-on": "ubuntu-latest",
+          "name": "hadolint",
+          "steps": [
+            {
+              "name": "Check out the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run linter",
+              "uses": "hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387",
+              "with": {
+                "recursive": true,
+                "config": ".hadolint.yaml"
+              }
+            }
+          ]
+        },
+        "yamllint": {
+          "runs-on": "ubuntu-latest",
+          "name": "YAMLLint",
+          "steps": [
+            {
+              "name": "Check out the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run YAMLLint",
+              "uses": "frenck/action-yamllint@34b4bbcaeabedcfefad6adea8c5bbc42af0e2d47"
+            }
+          ]
+        },
+        "shellcheck": {
+          "runs-on": "ubuntu-latest",
+          "name": "ShellCheck",
+          "steps": [
+            {
+              "name": "Check out the repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run linter",
+              "uses": "ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38",
+              "env": {
+                "SHELLCHECK_OPTS": "-e SC1008 -s bash -x"
+              },
+              "with": {
+                "additional_files": "check_certificate_renewal discovery finish lock-tables-for-backup matter-server-discovery reboot run shutdown universal-silabs-flasher-up unlock-tables-for-backup vlc-discovery"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "hadolint",
+          "name": "hadolint",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "yamllint",
+          "name": "YAMLLint",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "shellcheck",
+          "name": "ShellCheck",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'hadolint' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'yamllint' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'hadolint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yml",
+          "start_line": 15,
+          "end_line": 28,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'yamllint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yml",
+          "start_line": 30,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'shellcheck' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/lint.yml",
+          "start_line": 42,
+          "end_line": 69,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "hadolint": 0.0,
+          "shellcheck": 0.0,
+          "yamllint": 0.0
+        },
+        "pagerank": {
+          "hadolint": 0.333333,
+          "shellcheck": 0.333333,
+          "yamllint": 0.333333
+        },
+        "downstream_impact": {
+          "hadolint": [],
+          "shellcheck": [],
+          "yamllint": []
+        },
+        "critical_nodes": [
+          "hadolint",
+          "shellcheck",
+          "yamllint"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "repository-updater.yaml",
+      "path": ".github/workflows/repository-updater.yaml",
+      "name": "Repository updater",
+      "triggers": [
+        "repository_dispatch"
+      ],
+      "jobs": {
+        "update": {
+          "uses": "home-assistant/workflows/.github/workflows/repository-updater.yaml@43290e4d60baf0ff53555e1766aa0d4ec5cb3a89",
+          "secrets": {
+            "UPDATER_TOKEN": "${{ secrets.UPDATER_TOKEN }}"
+          }
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "update",
+          "name": "update",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'update' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/repository-updater.yaml",
+          "start_line": 13,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/repository-updater.yaml",
+          "source_job": "update",
+          "target_workflow": "home-assistant/workflows/.github/workflows/repository-updater.yaml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update": 0.0
+        },
+        "pagerank": {
+          "update": 1.0
+        },
+        "downstream_impact": {
+          "update": []
+        },
+        "critical_nodes": [
+          "update"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "restrict-task-creation.yml",
+      "path": ".github/workflows/restrict-task-creation.yml",
+      "name": "Restrict task creation",
+      "triggers": [
+        "issues"
+      ],
+      "jobs": {
+        "check-authorization": {
+          "runs-on": "ubuntu-latest",
+          "if": "github.event.issue.type.name == 'Task'",
+          "steps": [
+            {
+              "name": "Check if user is authorized",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "with": {
+                "script": "const issueAuthor = context.payload.issue.user.login;\n\n// Check if user is an organization member\ntry {\n  await github.rest.orgs.checkMembershipForUser({\n    org: 'home-assistant',\n    username: issueAuthor\n  });\n  console.log(`✅ ${issueAuthor} is an organization member`);\n  return; // Authorized\n} catch (error) {\n  console.log(\n    `❌ ${issueAuthor} is not authorized to create Task issues`\n  );\n}\n\n// Close the issue with a comment\nawait github.rest.issues.createComment({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  issue_number: context.issue.number,\n  body: `Hi @${issueAuthor}, thank you for your contribution!\\n\\n` +\n        `Task issues are restricted to Open Home Foundation ` +\n        `staff and authorized contributors.\\n\\n` +\n        `If you would like to:\\n` +\n        `- Report a bug: Please use the issue tracker of the ` +\n        `app's own repository, listed on the ` +\n        `[new issue page](https://github.com/home-assistant/` +\n        `apps/issues/new/choose)\\n` +\n        `- Request a feature: Please submit to ` +\n        `[Feature Requests](` +\n        `https://github.com/orgs/home-assistant/discussions)\\n\\n` +\n        `If you believe you should have access to create ` +\n        `Task issues, please contact the maintainers.`\n});\n\nawait github.rest.issues.update({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  issue_number: context.issue.number,\n  state: 'closed'\n});\n\n// Add a label to indicate this was auto-closed\nawait github.rest.issues.addLabels({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  issue_number: context.issue.number,\n  labels: ['auto-closed']\n});\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "check-authorization",
+          "name": "check-authorization",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'check-authorization' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-authorization' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/restrict-task-creation.yml",
+          "start_line": 13,
+          "end_line": 71,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-authorization": 0.0
+        },
+        "pagerank": {
+          "check-authorization": 1.0
+        },
+        "downstream_impact": {
+          "check-authorization": []
+        },
+        "critical_nodes": [
+          "check-authorization"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "stale.yml",
+      "path": ".github/workflows/stale.yml",
+      "name": "Stale",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "stale": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "30 days stale issues",
+              "uses": "actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93",
+              "with": {
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}",
+                "days-before-issue-stale": 30,
+                "days-before-issue-close": 7,
+                "operations-per-run": 150,
+                "remove-stale-when-updated": true,
+                "stale-issue-label": "stale",
+                "exempt-issue-labels": "pinned,security,Help wanted",
+                "stale-issue-message": "This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "stale",
+          "name": "stale",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/stale.yml",
+          "start_line": 14,
+          "end_line": 30,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "stale": 0.0
+        },
+        "pagerank": {
+          "stale": 1.0
+        },
+        "downstream_impact": {
+          "stale": []
+        },
+        "critical_nodes": [
+          "stale"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "build",
+      "type": "module",
+      "file": "assist_microphone/build.yaml",
+      "line": 1
+    },
+    {
+      "name": "config",
+      "type": "module",
+      "file": "assist_microphone/config.yaml",
+      "line": 1
+    },
+    {
+      "name": "en",
+      "type": "module",
+      "file": "assist_microphone/translations/en.yaml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 78.45,
+    "overall_grade": "C",
+    "technical_debt_score": 21.55,
+    "remediation_hours": 14.39,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 32.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=3, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 87.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "workflows=4, operational_antipatterns=6, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [
+    {
+      "rule_id": "ATRUSS-SEC-004",
+      "type": "PRIVATE_KEY",
+      "severity": "CRITICAL",
+      "file_source": "git_pull/DOCS.md",
+      "start_line": 58,
+      "end_line": 64,
+      "redacted_snippet": "-----BEGIN ... PRIVATE KEY----- [REDACTED]",
+      "entropy": 3.4171,
+      "message": "Private key material header detected."
+    },
+    {
+      "rule_id": "ATRUSS-SEC-004",
+      "type": "PRIVATE_KEY",
+      "severity": "CRITICAL",
+      "file_source": "letsencrypt/DOCS.md",
+      "start_line": 1494,
+      "end_line": 1497,
+      "redacted_snippet": "-----BEGIN ... PRIVATE KEY----- [REDACTED]",
+      "entropy": 3.1058,
+      "message": "Private key material header detected."
+    },
+    {
+      "rule_id": "ATRUSS-SEC-005",
+      "type": "HIGH_ENTROPY_SECRET",
+      "severity": "HIGH",
+      "file_source": "mosquitto/DOCS.md",
+      "start_line": 69,
+      "end_line": 69,
+      "redacted_snippet": "password: \"PBKD***REDACTED***\"",
+      "entropy": 5.7038,
+      "message": "High-entropy credential candidate (H=5.70 > 4.5) detected."
+    }
+  ],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "lint.yml#hadolint",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "lint.yml#shellcheck",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "lint.yml#yamllint",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "repository-updater.yaml#update",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "restrict-task-creation.yml#check-authorization",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "stale.yml#stale",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "assist_microphone",
+      "source_type": "code_module",
+      "target": "assist_microphone/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

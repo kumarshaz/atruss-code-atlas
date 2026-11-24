@@ -1,0 +1,615 @@
+{
+  "repository": "RocketChat/Docker.Official.Image",
+  "sha": "81d2a27dffb0af550a80bfd7fcd8d5c8298d44a6",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 5,
+    "loc": 319,
+    "sloc": 277,
+    "component_count": 5,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Docker Compose",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "automatic-updates.yml",
+      "path": ".github/workflows/automatic-updates.yml",
+      "name": "Automatically update Docker image versions",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": {
+        "build": {
+          "runs-on": "ubuntu-latest",
+          "if": "github.repository_owner == 'rocketchat'",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd"
+            },
+            {
+              "name": "Run automation script",
+              "uses": "actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd",
+              "id": "updt",
+              "with": {
+                "result-encoding": "string",
+                "script": "const { default: script } = await import(`${process.env.GITHUB_WORKSPACE}/build-automation.mjs`);\nreturn script(github);\n"
+              }
+            },
+            {
+              "name": "Create update PR",
+              "id": "cpr",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.GH_API_TOKEN }}",
+                "author": "rocketchat-github-ci <buildmaster@rocket.chat>",
+                "branch": "update-branch",
+                "base": "main",
+                "commit-message": "feat: Rocket.Chat ${{ steps.updt.outputs.result }}",
+                "title": "feat: Rocket.Chat ${{ steps.updt.outputs.result }}",
+                "delete-branch": true,
+                "reviewers": "sampaiodiego\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/automatic-updates.yml",
+          "start_line": 10,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "build-test.yml",
+      "path": ".github/workflows/build-test.yml",
+      "name": "build-test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "gen-matrix": {
+          "name": "generate-matrix",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "read"
+          },
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd"
+            },
+            {
+              "name": "Calculate file differences",
+              "id": "diff",
+              "uses": "step-security/changed-files@3dbe17c78367e7d60f00d78ae6781a35be47b4a1",
+              "with": {
+                "json": true,
+                "escape_json": false
+              }
+            },
+            {
+              "name": "Generate testing matrix",
+              "uses": "actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd",
+              "id": "generator",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "script": "const script = require(`${process.env.GITHUB_WORKSPACE}/genMatrix.js`)\nreturn script(\n  ${{ steps.diff.outputs.added_files }},\n  ${{ steps.diff.outputs.modified_files }},\n  ${{ steps.diff.outputs.renamed_files }},\n);\n"
+              }
+            }
+          ],
+          "outputs": {
+            "matrix": "${{ steps.generator.outputs.result }}"
+          }
+        },
+        "build": {
+          "if": "${{ fromJson(needs.gen-matrix.outputs.matrix) }}",
+          "needs": "gen-matrix",
+          "name": "build",
+          "runs-on": "ubuntu-latest",
+          "timeout-minutes": 60,
+          "permissions": {
+            "contents": "read"
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": "${{ fromJson(needs.gen-matrix.outputs.matrix) }}"
+          },
+          "steps": [
+            {
+              "name": "Get short node version",
+              "uses": "actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd",
+              "id": "short-version",
+              "with": {
+                "result-encoding": "string",
+                "script": "const version = \"${{ matrix.version }}\".split('.');\nreturn `${version[0]}.${version[1]}`\n"
+              }
+            },
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd"
+            },
+            {
+              "name": "Build image",
+              "uses": "docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8",
+              "with": {
+                "push": false,
+                "load": true,
+                "context": ".",
+                "file": "./${{ steps.short-version.outputs.result }}/Dockerfile",
+                "tags": "rocket.chat:${{ matrix.version }}"
+              }
+            },
+            {
+              "name": "Run Image",
+              "env": {
+                "IMAGE": "rocket.chat",
+                "RELEASE": "${{ matrix.version }}",
+                "DEPRECATED_COMPOSE_ACK": "true"
+              },
+              "run": "docker compose up -d"
+            },
+            {
+              "name": "Wait for Rocket.Chat to start up",
+              "uses": "cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156",
+              "with": {
+                "url": "http://localhost:3000/health",
+                "responseCode": "200",
+                "timeout": 60000,
+                "interval": 1000
+              }
+            },
+            {
+              "name": "Show logs if failed",
+              "if": "failure()",
+              "env": {
+                "DEPRECATED_COMPOSE_ACK": "true"
+              },
+              "run": "docker compose logs"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "gen-matrix",
+          "name": "generate-matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "gen-matrix"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'build' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[LOW] NO_TIMEOUT: Job 'gen-matrix' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'build' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-test.yml",
+          "start_line": 59,
+          "end_line": 112,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'gen-matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-test.yml",
+          "start_line": 25,
+          "end_line": 57,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "gen-matrix": 0.0
+        },
+        "pagerank": {
+          "build": 0.649123,
+          "gen-matrix": 0.350877
+        },
+        "downstream_impact": {
+          "build": [],
+          "gen-matrix": [
+            "build"
+          ]
+        },
+        "critical_nodes": [
+          "build",
+          "gen-matrix"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "official-pr.yml",
+      "path": ".github/workflows/official-pr.yml",
+      "name": "Create official images PR",
+      "triggers": [
+        "pull_request_target",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "pr": {
+          "runs-on": "ubuntu-latest",
+          "if": "github.repository_owner == 'rocketchat' && (github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true)",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Checkout the Docker.Official.Image repo",
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+              "with": {
+                "path": "Docker.Official.Image",
+                "ref": "${{ github.event.pull_request.base.ref || github.ref }}",
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Checkout the official-images repo",
+              "uses": "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+              "with": {
+                "path": "official-images",
+                "repository": "docker-library/official-images"
+              }
+            },
+            {
+              "name": "Snapshot the published library file",
+              "run": "cp official-images/library/rocket.chat /tmp/rocket.chat.old"
+            },
+            {
+              "name": "Generate Stackbrew for diff",
+              "run": "cd Docker.Official.Image\n./stackbrew.js > ../official-images/library/rocket.chat\n"
+            },
+            {
+              "name": "Classify changes",
+              "id": "diff",
+              "env": {
+                "SOURCE_PR": "${{ github.event.pull_request.html_url }}"
+              },
+              "run": "node Docker.Official.Image/library-diff.mjs \\\n  /tmp/rocket.chat.old \\\n  official-images/library/rocket.chat \\\n  Docker.Official.Image\n"
+            },
+            {
+              "name": "Report no-op",
+              "if": "steps.diff.outputs.changed != 'true'",
+              "run": "echo \"library/rocket.chat is unchanged - skipping the official-images PR\""
+            },
+            {
+              "name": "Create PR in official-images",
+              "id": "create-pr",
+              "if": "steps.diff.outputs.changed == 'true'",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.GH_API_TOKEN }}",
+                "push-to-fork": "rocketchat/official-images",
+                "path": "official-images",
+                "branch": "rocketchat",
+                "commit-message": "${{ steps.diff.outputs.title }}",
+                "title": "${{ steps.diff.outputs.title }}",
+                "body": "${{ steps.diff.outputs.body }}"
+              }
+            },
+            {
+              "name": "PR details",
+              "if": "steps.diff.outputs.changed == 'true'",
+              "run": "echo \"Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}\"\necho \"Pull Request URL - ${{ steps.create-pr.outputs.pull-request-url }}\"\n"
+            },
+            {
+              "name": "Create PR comment",
+              "uses": "peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9",
+              "if": "${{ github.event_name == 'pull_request_target' && steps.create-pr.outputs.pull-request-url != '' }}",
+              "with": {
+                "issue-number": "${{ github.event.pull_request.number }}",
+                "body": "Created PR on the official-images repo (${{ steps.create-pr.outputs.pull-request-url }}). See https://github.com/docker-library/faq#an-images-source-changed-in-git-now-what if you are wondering when it will be available on the Docker Hub.\n"
+              }
+            },
+            {
+              "name": "Dump context",
+              "if": "always()",
+              "uses": "crazy-max/ghaction-dump-context@5355a8e5e6ac5a302e746a1c4b7747a0393863c8"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "pr",
+          "name": "pr",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'pr' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/official-pr.yml",
+          "start_line": 18,
+          "end_line": 92,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "pr": 0.0
+        },
+        "pagerank": {
+          "pr": 1.0
+        },
+        "downstream_impact": {
+          "pr": []
+        },
+        "critical_nodes": [
+          "pr"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "compose",
+      "type": "module",
+      "file": "compose.yml",
+      "line": 1
+    },
+    {
+      "name": "traefik",
+      "type": "module",
+      "file": "traefik.yml",
+      "line": 1
+    },
+    {
+      "name": "automatic-updates",
+      "type": "module",
+      "file": ".github/workflows/automatic-updates.yml",
+      "line": 1
+    },
+    {
+      "name": "build-test",
+      "type": "module",
+      "file": ".github/workflows/build-test.yml",
+      "line": 1
+    },
+    {
+      "name": "official-pr",
+      "type": "module",
+      "file": ".github/workflows/official-pr.yml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 86.35,
+    "overall_grade": "B",
+    "technical_debt_score": 13.65,
+    "remediation_hours": 6.41,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 79.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=3, operational_antipatterns=4, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "8.5",
+      "source_type": "code_module",
+      "target": "8.5/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "8.6",
+      "source_type": "code_module",
+      "target": "8.6/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "8.7",
+      "source_type": "code_module",
+      "target": "8.7/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "8.8",
+      "source_type": "code_module",
+      "target": "8.8/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "8.9",
+      "source_type": "code_module",
+      "target": "8.9/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "8d32dac8-3055-492e-8251-3f272d79c6cc",
+      "source_type": "code_module",
+      "target": "build-test.yml#build",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "templates/node14",
+      "source_type": "code_module",
+      "target": "templates/node14/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "templates/node20",
+      "source_type": "code_module",
+      "target": "templates/node20/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "templates/node22",
+      "source_type": "code_module",
+      "target": "templates/node22/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "templates/node24",
+      "source_type": "code_module",
+      "target": "templates/node24/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

@@ -1,0 +1,3861 @@
+{
+  "repository": "nextcloud/documentation",
+  "sha": "962d63ba78cb757f0c50f2c0b97e4b42983768f1",
+  "ecosystem": "Python",
+  "metrics": {
+    "files_analyzed": 5,
+    "loc": 747,
+    "sloc": 420,
+    "component_count": 0,
+    "avg_cyclomatic_complexity": 2.22,
+    "max_cyclomatic_complexity": 5,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 1.22,
+    "max_cognitive_complexity": 4,
+    "duplication_pct": 58.1,
+    "dead_code_count": 2,
+    "dead_code_symbols": [
+      {
+        "name": "setup",
+        "file": "_ext/edit_on_github.py",
+        "line": 43
+      },
+      {
+        "name": "setup",
+        "file": "conf.py",
+        "line": 83
+      }
+    ],
+    "file_complexities": [
+      {
+        "file": "conf.py",
+        "loc": 168,
+        "cyclomatic": 13,
+        "cognitive": 4
+      },
+      {
+        "file": "user_manual/conf.py",
+        "loc": 182,
+        "cyclomatic": 5,
+        "cognitive": 4
+      },
+      {
+        "file": "_ext/edit_on_github.py",
+        "loc": 47,
+        "cyclomatic": 4,
+        "cognitive": 3
+      },
+      {
+        "file": "developer_manual/conf.py",
+        "loc": 190,
+        "cyclomatic": 1,
+        "cognitive": 0
+      },
+      {
+        "file": "admin_manual/conf.py",
+        "loc": 160,
+        "cyclomatic": 1,
+        "cognitive": 0
+      }
+    ],
+    "import_edges": [
+      {
+        "source_file": "_ext/edit_on_github.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "_ext/edit_on_github.py",
+        "target_symbol": "pprint",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "_ext/edit_on_github.py",
+        "target_symbol": "warnings",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "admin_manual/conf.py",
+        "target_symbol": "conf",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "admin_manual/conf.py",
+        "target_symbol": "generateVersionsDocs",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "admin_manual/conf.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "admin_manual/conf.py",
+        "target_symbol": "sys",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "conf.py",
+        "target_symbol": "datetime",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "conf.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "conf.py",
+        "target_symbol": "sphinx_rtd_theme",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "conf.py",
+        "target_symbol": "sys",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "developer_manual/conf.py",
+        "target_symbol": "StandaloneHTMLBuilder",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "developer_manual/conf.py",
+        "target_symbol": "conf",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "developer_manual/conf.py",
+        "target_symbol": "generateVersionsDocs",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "developer_manual/conf.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "developer_manual/conf.py",
+        "target_symbol": "sys",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "user_manual/conf.py",
+        "target_symbol": "conf",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "user_manual/conf.py",
+        "target_symbol": "generateVersionsDocs",
+        "confidence": 0.8
+      },
+      {
+        "source_file": "user_manual/conf.py",
+        "target_symbol": "os",
+        "confidence": 0.5
+      },
+      {
+        "source_file": "user_manual/conf.py",
+        "target_symbol": "sys",
+        "confidence": 0.5
+      }
+    ],
+    "test_file_count": 3,
+    "framework": "Unknown",
+    "fitness_passed": false,
+    "fitness_violation_count": 1
+  },
+  "pipelines": [
+    {
+      "id": "block-merge-eol.yml",
+      "path": ".github/workflows/block-merge-eol.yml",
+      "name": "Block merges for EOL",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "block-merges-eol": {
+          "name": "Block merges for EOL branches",
+          "if": "startsWith( github.base_ref, 'stable')",
+          "runs-on": "ubuntu-latest-low",
+          "steps": [
+            {
+              "name": "Set server major version environment",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "with": {
+                "github-token": "${{secrets.GITHUB_TOKEN}}",
+                "script": "const regex = /^stable(\\d+)$/\nconst baseRef = context.payload.pull_request.base.ref\nconst match = baseRef.match(regex)\nif (match) {\n  console.log('Setting server_major to ' + match[1]);\n  core.exportVariable('server_major', match[1]);\n  console.log('Setting current_day to ' + (new Date()).toISOString().substr(0, 10));\n  core.exportVariable('current_day', (new Date()).toISOString().substr(0, 10));\n}\n"
+              }
+            },
+            {
+              "name": "Checking if server ${{ env.server_major }} is EOL",
+              "if": "${{ env.server_major != '' }}",
+              "run": "curl -s https://raw.githubusercontent.com/nextcloud-releases/updater_server/production/config/major_versions.json \\\n  | jq '.[\"${{ env.server_major }}\"][\"eol\"] // \"9999-99-99\" | . >= \"${{ env.current_day }}\"' \\\n  | grep -q true\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "block-merges-eol",
+          "name": "Block merges for EOL branches",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'block-merges-eol' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'block-merges-eol' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/block-merge-eol.yml",
+          "start_line": 21,
+          "end_line": 49,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "block-merges-eol": 0.0
+        },
+        "pagerank": {
+          "block-merges-eol": 1.0
+        },
+        "downstream_impact": {
+          "block-merges-eol": []
+        },
+        "critical_nodes": [
+          "block-merges-eol"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "build-docs.yml",
+      "path": ".github/workflows/build-docs.yml",
+      "name": "Build documentation (reusable)",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": {
+        "build-html": {
+          "name": "Building ${{ matrix.manual.name }} HTML",
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "manual": [
+                {
+                  "name": "user_manual",
+                  "directory": "user_manual",
+                  "make_target": "html",
+                  "build_path": "_build/html",
+                  "publish": true
+                },
+                {
+                  "name": "user_manual-en",
+                  "directory": "user_manual",
+                  "make_target": "html-lang-en",
+                  "build_path": "_build/html",
+                  "publish": false
+                },
+                {
+                  "name": "developer_manual",
+                  "directory": "developer_manual",
+                  "make_target": "html",
+                  "build_path": "_build/html/com",
+                  "publish": true
+                },
+                {
+                  "name": "admin_manual",
+                  "directory": "admin_manual",
+                  "make_target": "html",
+                  "build_path": "_build/html/com",
+                  "publish": true
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ inputs.ref }}"
+              }
+            },
+            {
+              "name": "Get stable branches",
+              "id": "stable_branches",
+              "run": "branches=$(git ls-remote --heads origin \"heads/stable[0-9][0-9]\" \\\n  | awk '{gsub(/^refs\\/heads\\/stable/, \"\", $2); print $2}' \\\n  | sort -n -r | tr '\\n' ' ')\necho \"branches=$branches\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Setup PHP for version detection",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962"
+            },
+            {
+              "name": "Detect and export version constants",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "run": "# Detect current highest released stable and lowest supported stable via\n# GitHub API (same logic as build/build-index.php and generate-top-index.yml).\n# Exports DOCS_VERSION_STABLE and DOCS_VERSION_START so conf.py always has\n# accurate values without manual updates to any branch.\neval $(php build/detect-versions.php ${{ steps.stable_branches.outputs.branches }})\necho \"DOCS_VERSION_STABLE=$highest_stable\" >> $GITHUB_ENV\necho \"DOCS_VERSION_START=$lowest_stable\"   >> $GITHUB_ENV\n\n# Compute display version: branch number for stableNN builds, dev version for master.\nbranch=\"${{ inputs.branch }}\"\nif [[ \"$branch\" =~ ^stable([0-9]+)$ ]]; then\n  echo \"DOCS_DISPLAY_VERSION=${BASH_REMATCH[1]}\" >> $GITHUB_ENV\nelse\n  echo \"DOCS_DISPLAY_VERSION=$((highest_stable + 1))\" >> $GITHUB_ENV\nfi\n"
+            },
+            {
+              "name": "Validate conf.py fallbacks are current",
+              "if": "inputs.branch == 'master'",
+              "run": "conf_stable=$(grep -m1 \"os.environ.get('DOCS_VERSION_STABLE'\" conf.py | grep -o '[0-9]\\+')\nconf_start=$(grep -m1  \"os.environ.get('DOCS_VERSION_START'\"  conf.py | grep -o '[0-9]\\+')\nerr=0\nif [ \"$DOCS_VERSION_STABLE\" != \"$conf_stable\" ]; then\n  echo \"::error::conf.py fallback version_stable ($conf_stable) != current highest stable ($DOCS_VERSION_STABLE). Update the fallback in conf.py.\"\n  err=1\nfi\nif [ \"$DOCS_VERSION_START\" != \"$conf_start\" ]; then\n  echo \"::error::conf.py fallback version_start ($conf_start) != current lowest stable ($DOCS_VERSION_START). Update the fallback in conf.py.\"\n  err=1\nfi\nexit $err\n"
+            },
+            {
+              "name": "Resolve Python version",
+              "id": "pyver",
+              "run": "# Read the version from the checked-out branch (ref input) so each\n# version builds with its own Python; fall back to 3.13 if absent.\nif [ -f .python-version ]; then\n  echo \"version=$(tr -d '[:space:]' < .python-version)\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"version=3.13\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Set up Python",
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "${{ steps.pyver.outputs.version }}",
+                "cache": "pip"
+              }
+            },
+            {
+              "name": "Install pip dependencies",
+              "run": "python -m pip install -r requirements.txt"
+            },
+            {
+              "name": "Build html documentation",
+              "run": "cd ${{ matrix.manual.directory }} && make ${{ matrix.manual.make_target }}"
+            },
+            {
+              "name": "Upload static documentation",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "if": "${{ matrix.manual.publish }}",
+              "with": {
+                "name": "${{ inputs.branch }}__${{ matrix.manual.name }}",
+                "path": "${{ matrix.manual.directory }}/${{ matrix.manual.build_path }}"
+              }
+            }
+          ]
+        },
+        "build-epub": {
+          "name": "Building ${{ matrix.manual.name }} ePub",
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "manual": [
+                {
+                  "name": "user_manual",
+                  "directory": "user_manual",
+                  "build_epub_path": "_build/epub/Nextcloud_User_Manual.epub"
+                },
+                {
+                  "name": "admin_manual",
+                  "directory": "admin_manual",
+                  "build_epub_path": "_build/epub/Nextcloud_Server_Administration_Manual.epub"
+                },
+                {
+                  "name": "developer_manual",
+                  "directory": "developer_manual",
+                  "build_epub_path": "_build/epub/Nextcloud_Developer_Manual.epub"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ inputs.ref }}"
+              }
+            },
+            {
+              "name": "Resolve Python version",
+              "id": "pyver",
+              "run": "if [ -f .python-version ]; then\n  echo \"version=$(tr -d '[:space:]' < .python-version)\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"version=3.13\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Set up Python",
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "${{ steps.pyver.outputs.version }}",
+                "cache": "pip"
+              }
+            },
+            {
+              "name": "Install pip dependencies",
+              "run": "python -m pip install -r requirements.txt"
+            },
+            {
+              "name": "Build epub documentation",
+              "run": "set -e\n# HTML sets DOCS_DISPLAY_VERSION via detect-versions and PDF via DOCS_RELEASE;\n# the epub job needs it too so stable branches render their real version.\nif [[ \"${{ inputs.branch }}\" =~ ^stable([0-9]+)$ ]]; then\n  export DOCS_DISPLAY_VERSION=\"${BASH_REMATCH[1]}\"\nfi\ncd ${{ matrix.manual.directory }}\nmake epub\nls -la ${{ matrix.manual.build_epub_path }}\n"
+            },
+            {
+              "name": "Upload ePub documentation",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "with": {
+                "name": "${{ inputs.branch }}__${{ matrix.manual.name }}-epub",
+                "path": "${{ matrix.manual.directory }}/${{ matrix.manual.build_epub_path }}"
+              }
+            }
+          ]
+        },
+        "prepare-pdf-image": {
+          "name": "Prepare PDF build image",
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "image": "${{ steps.result.outputs.image }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ inputs.ref }}",
+                "fetch-depth": 2
+              }
+            },
+            {
+              "name": "Check whether Dockerfile changed",
+              "id": "changed",
+              "run": "if git diff --name-only HEAD^ HEAD -- .devcontainer/Dockerfile 2>/dev/null | grep -q .; then\n  echo \"dockerfile_changed=true\" >> $GITHUB_OUTPUT\nelse\n  echo \"dockerfile_changed=false\" >> $GITHUB_OUTPUT\nfi\n"
+            },
+            {
+              "name": "Set up Docker Buildx",
+              "if": "steps.changed.outputs.dockerfile_changed == 'true'",
+              "uses": "docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069"
+            },
+            {
+              "name": "Login to GitHub Container Registry",
+              "if": "steps.changed.outputs.dockerfile_changed == 'true'",
+              "uses": "docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Build and push image with SHA tag",
+              "if": "steps.changed.outputs.dockerfile_changed == 'true'",
+              "uses": "docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc",
+              "with": {
+                "context": ".devcontainer",
+                "push": true,
+                "tags": "ghcr.io/${{ github.repository }}/sphinx-latex:sha-${{ github.sha }}",
+                "cache-from": "type=registry,ref=ghcr.io/${{ github.repository }}/sphinx-latex:latest",
+                "cache-to": "type=inline"
+              }
+            },
+            {
+              "name": "Output image reference",
+              "id": "result",
+              "run": "if [ \"${{ steps.changed.outputs.dockerfile_changed }}\" = \"true\" ]; then\n  echo \"image=ghcr.io/${{ github.repository }}/sphinx-latex:sha-${{ github.sha }}\" >> $GITHUB_OUTPUT\nelse\n  echo \"image=ghcr.io/${{ github.repository }}/sphinx-latex:latest\" >> $GITHUB_OUTPUT\nfi\n"
+            }
+          ]
+        },
+        "build-pdf": {
+          "name": "Building ${{ matrix.manual.name }} PDF",
+          "runs-on": "ubuntu-latest",
+          "needs": "prepare-pdf-image",
+          "container": "${{ needs.prepare-pdf-image.outputs.image }}",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "manual": [
+                {
+                  "name": "user_manual",
+                  "directory": "user_manual",
+                  "build_pdf_path": "_build/latex/Nextcloud_User_Manual.pdf"
+                },
+                {
+                  "name": "admin_manual",
+                  "directory": "admin_manual",
+                  "build_pdf_path": "_build/latex/Nextcloud_Server_Administration_Manual.pdf"
+                }
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ inputs.ref }}"
+              }
+            },
+            {
+              "name": "Resolve Python version",
+              "id": "pyver",
+              "run": "if [ -f .python-version ]; then\n  echo \"version=$(tr -d '[:space:]' < .python-version)\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"version=3.13\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "Set up Python",
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "${{ steps.pyver.outputs.version }}"
+              }
+            },
+            {
+              "name": "Install pip dependencies",
+              "run": "python -m pip install -r requirements.txt"
+            },
+            {
+              "name": "Compute PDF release version",
+              "id": "pdf_version",
+              "shell": "bash",
+              "run": "branch=\"${{ inputs.branch }}\"\nif [[ \"$branch\" =~ ^stable([0-9]+)$ ]]; then\n  echo \"release=${BASH_REMATCH[1]}\" >> $GITHUB_OUTPUT\nelse\n  # master: derive the dev version from conf.py.\n  version_stable=$(grep -m1 '^\\s*version_stable\\s*=' conf.py | grep -o '[0-9]\\+')\n  echo \"release=$((version_stable + 1))\" >> $GITHUB_OUTPUT\nfi\n"
+            },
+            {
+              "name": "Build pdf documentation",
+              "env": {
+                "DOCS_RELEASE": "${{ steps.pdf_version.outputs.release }}"
+              },
+              "run": "set -e\ncd ${{ matrix.manual.directory }}\nmake latexpdf\nls -la ${{ matrix.manual.build_pdf_path }}\n"
+            },
+            {
+              "name": "Upload PDF documentation",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "with": {
+                "name": "${{ inputs.branch }}__${{ matrix.manual.name }}-pdf",
+                "path": "${{ matrix.manual.directory }}/${{ matrix.manual.build_pdf_path }}"
+              }
+            }
+          ]
+        },
+        "stage-and-check": {
+          "name": "Stage and check documentation",
+          "needs": [
+            "build-html",
+            "build-pdf",
+            "build-epub"
+          ],
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "branch_name": "${{ steps.branch.outputs.branch_name }}",
+            "additional_deployment": "${{ steps.branch.outputs.additional_deployment }}",
+            "artifact_name": "${{ steps.branch.outputs.artifact_name }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ inputs.ref }}"
+              }
+            },
+            {
+              "name": "Download this branch's build artifacts",
+              "uses": "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "with": {
+                "pattern": "${{ inputs.branch }}__*",
+                "path": "artifacts/"
+              }
+            },
+            {
+              "name": "Determine deployment targets (branch_name and version_name)",
+              "id": "branch",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "run": "# Logical branch to deploy is passed in explicitly by the caller.\ncurrent_branch=\"${{ inputs.branch }}\"\n\n# Find the highest numbered stable branch that has a v{N}.0.0 release.\n# Mirrors the is_version_released() check in build/build-index.php:\n# a branch whose first release doesn't exist yet (e.g. RC-only) is skipped.\nhighest_stable=\"\"\nfor n in $(git ls-remote --heads origin | sed -n 's?.*refs/heads/stable\\([0-9]\\{2\\}\\)$?\\1?p' | sort -n -r); do\n  # Nextcloud moved to nextcloud-releases/server starting with v32\n  if [ \"$n\" -ge 32 ]; then\n    repo=\"nextcloud-releases/server\"\n  else\n    repo=\"nextcloud/server\"\n  fi\n  http_status=$(curl -s -o /dev/null -w \"%{http_code}\" \\\n    -H \"Authorization: token ${GITHUB_TOKEN}\" \\\n    \"https://api.github.com/repos/${repo}/releases/tags/v${n}.0.0\")\n  if [ \"$http_status\" = \"200\" ]; then\n    highest_stable=\"$n\"\n    echo \"stable${n}: v${n}.0.0 released — using as highest stable\"\n    break\n  else\n    echo \"stable${n}: v${n}.0.0 not released yet (HTTP ${http_status}) — skipping\"\n  fi\ndone\n\nif [ -z \"$highest_stable\" ]; then\n  echo \"ERROR: No released stable branch found\"\n  exit 1\nfi\nhighest_stable_branch=\"stable${highest_stable}\"\n\necho \"Current branch: $current_branch\"\necho \"Highest released stable branch: $highest_stable_branch\"\n\n# Map branch to deployment folder names\ncase \"$current_branch\" in\n  \"master\")\n    echo \"branch_name=latest\" >> $GITHUB_OUTPUT\n    ;;\n  \"$highest_stable_branch\")\n    echo \"branch_name=stable\" >> $GITHUB_OUTPUT\n    echo \"additional_deployment=${highest_stable}\" >> $GITHUB_OUTPUT\n    ;;\n  *)\n    branch_for_deploy=\"${current_branch#stable}\"\n    echo \"branch_name=$branch_for_deploy\" >> $GITHUB_OUTPUT\n    ;;\nesac\n\n# Artifact name is unique per version so the deploy job can download\n# every version's staged output together (pattern staged-docs-*).\necho \"artifact_name=staged-docs-${current_branch}\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Log deployment targets",
+              "run": "echo \"Deployment target folder: ${{ steps.branch.outputs.branch_name }}\"\necho \"Additional deployment folder (if applicable): ${{ steps.branch.outputs.additional_deployment }}\"\necho \"Artifact name: ${{ steps.branch.outputs.artifact_name }}\"\n"
+            },
+            {
+              "name": "Organize artifacts for deployment",
+              "id": "organize",
+              "run": "branch=\"${{ steps.branch.outputs.branch_name }}\"\nadditional=\"${{ steps.branch.outputs.additional_deployment }}\"\n\nmkdir -p \"stage/${branch}\"\n\n# Artifacts are named \"<inputs.branch>__<manual>[-epub|-pdf]\"; strip that\n# prefix so the deployed folders are just user_manual/admin_manual/etc.\nprefix=\"${{ inputs.branch }}__\"\n\n# Copy artifacts preserving their manual folder structure\nfor artifact in artifacts/*; do\n  if [ -d \"$artifact\" ]; then\n    manual_name=\"$(basename \"$artifact\")\"\n    manual_name=\"${manual_name#$prefix}\"\n    mkdir -p \"stage/${branch}/${manual_name}\"\n    cp -r \"$artifact/\"* \"stage/${branch}/${manual_name}/\"\n  fi\ndone\n\n# Move PDF and ePub files to the root of the branch folder\necho \"Looking for PDF and ePub files to move...\"\nfind \"stage/${branch}/\" -maxdepth 2 \\( -name \"*.pdf\" -o -name \"*.epub\" \\) -type f\nfor f in \"stage/${branch}\"/*/*.pdf \"stage/${branch}\"/*/*.epub; do\n  if [ -f \"$f\" ]; then\n    echo \"Moving: $f\"\n    mv \"$f\" \"stage/${branch}/\"\n  fi\ndone\n\n# Duplicate into the additional versioned folder for the highest stable.\nif [ -n \"${additional}\" ]; then\n  rm -rf \"stage/${additional}\"\n  cp -r \"stage/${branch}\" \"stage/${additional}\"\nfi\n\n# Clean up empty directories\nfind stage -type d -empty -delete\n\necho \"Staged artifacts:\"\nfind stage -type f | head -20\n"
+            },
+            {
+              "name": "Upload staged artifacts",
+              "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "with": {
+                "name": "${{ steps.branch.outputs.artifact_name }}",
+                "path": "stage/",
+                "retention-days": 1
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build-html",
+          "name": "Building ${{ matrix.manual.name }} HTML",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build-epub",
+          "name": "Building ${{ matrix.manual.name }} ePub",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "prepare-pdf-image",
+          "name": "Prepare PDF build image",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build-pdf",
+          "name": "Building ${{ matrix.manual.name }} PDF",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "prepare-pdf-image"
+          ],
+          "environment": null
+        },
+        {
+          "id": "stage-and-check",
+          "name": "Stage and check documentation",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build-html",
+            "build-pdf",
+            "build-epub"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'prepare-pdf-image' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'build-html' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[LOW] NO_TIMEOUT: Job 'build-html' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'build-epub' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'prepare-pdf-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'build-pdf' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'stage-and-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'build-html' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'build-epub' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'build-pdf' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'stage-and-check' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'prepare-pdf-image' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 229,
+          "end_line": 282,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'build-html' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 95,
+          "end_line": 111,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-html' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 43,
+          "end_line": 159,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-epub' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 164,
+          "end_line": 224,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'prepare-pdf-image' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 229,
+          "end_line": 282,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-pdf' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 286,
+          "end_line": 355,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'stage-and-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 363,
+          "end_line": 516,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-html' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 77,
+          "end_line": 77,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-epub' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 186,
+          "end_line": 186,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build-pdf' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 306,
+          "end_line": 306,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'stage-and-check' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-docs.yml",
+          "start_line": 375,
+          "end_line": 375,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-epub": 0.0,
+          "build-html": 0.0,
+          "build-pdf": 0.083333,
+          "prepare-pdf-image": 0.0,
+          "stage-and-check": 0.0
+        },
+        "pagerank": {
+          "build-epub": 0.109619,
+          "build-html": 0.109619,
+          "build-pdf": 0.202795,
+          "prepare-pdf-image": 0.109619,
+          "stage-and-check": 0.468348
+        },
+        "downstream_impact": {
+          "build-epub": [
+            "stage-and-check"
+          ],
+          "build-html": [
+            "stage-and-check"
+          ],
+          "build-pdf": [
+            "stage-and-check"
+          ],
+          "prepare-pdf-image": [
+            "build-pdf",
+            "stage-and-check"
+          ],
+          "stage-and-check": []
+        },
+        "critical_nodes": [
+          "stage-and-check",
+          "build-pdf",
+          "prepare-pdf-image",
+          "build-epub",
+          "build-html"
+        ],
+        "max_blast_radius": 2
+      }
+    },
+    {
+      "id": "check-occ-command.yml",
+      "path": ".github/workflows/check-occ-command.yml",
+      "name": "Check occ command syntax",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "check-occ-command": {
+          "name": "Check occ command syntax",
+          "runs-on": "ubuntu-latest-low",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run script",
+              "run": "RST_FILE=\"$(find ./ -name '*.rst')\"\nmapfile -t RST_FILE <<< \"$RST_FILE\"\nfor file in \"${RST_FILE[@]}\"; do\n  if [ \"$(grep \"php occ\" \"$file\" | grep -v \"sudo -E -u www-data php occ\" | grep -v \"docker\" | wc -l)\" -gt 0 ]; then\n    printf \"%b%s%b\\n\" \"\\e[0;31m\" \"$file does not use the 'sudo -E -u www-data php occ' syntax in some places which is required.\" \"\\e[0m\"\n    echo \"See $(grep \"php occ\" \"$file\" | grep -v \"sudo -E -u www-data php occ\" | grep -v \"docker\")\"\n    FAIL=1\n  fi\ndone\nif [ -n \"$FAIL\" ]; then\n  exit 1\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "check-occ-command",
+          "name": "Check occ command syntax",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'check-occ-command' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-occ-command' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/check-occ-command.yml",
+          "start_line": 12,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-occ-command": 0.0
+        },
+        "pagerank": {
+          "check-occ-command": 1.0
+        },
+        "downstream_impact": {
+          "check-occ-command": []
+        },
+        "critical_nodes": [
+          "check-occ-command"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "codespell.yml",
+      "path": ".github/workflows/codespell.yml",
+      "name": "Codespell",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "codespell": {
+          "name": "Check spelling",
+          "runs-on": "self-hosted",
+          "steps": [
+            {
+              "name": "Check out code",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Check spelling",
+              "uses": "codespell-project/actions-codespell@8f01853be192eb0f849a5c7d721450e7a467c579",
+              "with": {
+                "skip": "**.svg,**.js"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "codespell",
+          "name": "Check spelling",
+          "runner": "self-hosted",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[MEDIUM] UNLABELED_SELF_HOSTED: Job 'codespell' targets 'self-hosted' without constraint labels.",
+        "[LOW] NO_TIMEOUT: Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-007",
+          "type": "UNLABELED_SELF_HOSTED",
+          "severity": "MEDIUM",
+          "message": "Job 'codespell' targets 'self-hosted' without constraint labels.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codespell.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "remediation": "Specify dedicated runner labels (for example, [self-hosted, linux, x64, prod]) or use ephemeral GitHub-hosted runners."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'codespell' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codespell.yml",
+          "start_line": 13,
+          "end_line": 25,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "codespell": 0.0
+        },
+        "pagerank": {
+          "codespell": 1.0
+        },
+        "downstream_impact": {
+          "codespell": []
+        },
+        "critical_nodes": [
+          "codespell"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "dependabot-approve-merge.yml",
+      "path": ".github/workflows/dependabot-approve-merge.yml",
+      "name": "Auto approve Dependabot PRs",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": {
+        "auto-approve-merge": {
+          "if": "github.event.pull_request.user.login == 'dependabot[bot]'",
+          "runs-on": "ubuntu-latest-low",
+          "env": {
+            "ALLOW_MAJOR": false,
+            "ALLOW_MINOR": true,
+            "IGNORE_PATTERN": ""
+          },
+          "permissions": {
+            "pull-requests": "write",
+            "contents": "write"
+          },
+          "steps": [
+            {
+              "name": "Disabled on forks",
+              "if": "${{ github.event.pull_request.head.repo.full_name != github.repository }}",
+              "run": "echo 'Can not approve PRs from forks'\nexit 1\n"
+            },
+            {
+              "uses": "mdecoleman/pr-branch-name@55795d86b4566d300d237883103f052125cc7508",
+              "id": "branchname",
+              "with": {
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Dependabot metadata",
+              "id": "metadata",
+              "if": "startsWith(steps.branchname.outputs.branch, 'dependabot/')",
+              "uses": "dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Check for ignored dependencies in the PR",
+              "id": "validate",
+              "if": "startsWith(steps.branchname.outputs.branch, 'dependabot/')",
+              "env": {
+                "IGNORE_PATTERN": "${{ env.IGNORE_PATTERN }}",
+                "DEPENDENCY_NAMES": "${{ steps.metadata.outputs.dependency-names }}"
+              },
+              "run": "if [[ -z ${IGNORE_PATTERN} ]]; then\n    echo \"ignore=false\" >> \"$GITHUB_OUTPUT\"\nelif [[ -z ${DEPENDENCY_NAMES} ]]; then\n    echo \"ignore=false\" >> \"$GITHUB_OUTPUT\"\nelif [[ ${DEPENDENCY_NAMES} =~ ${IGNORE_PATTERN} ]]; then\n    echo \"ignore=true\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            },
+            {
+              "name": "GitHub actions bot approve",
+              "id": "auto_approve",
+              "if": "${{ startsWith(steps.branchname.outputs.branch, 'dependabot/') && steps.validate.outputs.ignore != 'true' }}",
+              "run": "gh pr review --approve \"$PR_URL\"",
+              "env": {
+                "PR_URL": "${{ github.event.pull_request.html_url }}",
+                "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Auto merge",
+              "uses": "alexwilson/enable-github-automerge-action@2c32e18a76e0726ffe7a573bfff2d42a20885126",
+              "if": "${{ startsWith(steps.branchname.outputs.branch, 'dependabot/') && steps.auto_approve.conclusion == 'success' && (github.event.action == 'opened' || github.event.action == 'reopened') && ( steps.metadata.outputs.update-type == 'version-update:semver-patch' || (fromJSON(env.ALLOW_MINOR) && steps.metadata.outputs.update-type == 'version-update:semver-minor') || (fromJSON(env.ALLOW_MAJOR) && steps.metadata.outputs.update-type == 'version-update:semver-major') ) }}",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "auto-approve-merge",
+          "name": "auto-approve-merge",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'auto-approve-merge' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'auto-approve-merge' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/dependabot-approve-merge.yml",
+          "start_line": 26,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "auto-approve-merge": 0.0
+        },
+        "pagerank": {
+          "auto-approve-merge": 1.0
+        },
+        "downstream_impact": {
+          "auto-approve-merge": []
+        },
+        "critical_nodes": [
+          "auto-approve-merge"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "deploy-docs.yml",
+      "path": ".github/workflows/deploy-docs.yml",
+      "name": "Deploy documentation",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "prepare": {
+          "name": "Compute branch matrix",
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "branches": "${{ steps.set.outputs.branches }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962",
+              "with": {
+                "php-version": "8.3"
+              }
+            },
+            {
+              "name": "Compute branch matrix",
+              "id": "set",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+                "INPUT_BRANCH": "${{ inputs.branch }}"
+              },
+              "run": "# Manual single-branch dispatch: build only the requested branch.\nif [ -n \"${INPUT_BRANCH}\" ]; then\n  branches_json=$(printf '%s' \"${INPUT_BRANCH}\" | jq -R . | jq -cs .)\n  echo \"Single-branch dispatch: ${branches_json}\"\n  echo \"branches=${branches_json}\" >> $GITHUB_OUTPUT\n  exit 0\nfi\n\n# Scheduled / plain dispatch: master + every stable branch that is still\n# within the support window. Ancient branches (e.g. stable10) are on the\n# remote but out of support and would blow past the 256-jobs-per-run cap.\nnums=$(git ls-remote --heads origin \"heads/stable[0-9][0-9]\" \\\n  | sed -n 's?.*refs/heads/stable\\([0-9]\\{2\\}\\)$?\\1?p' | sort -n)\n\n# Reuse the shared helper to get the supported range (lowest..highest).\neval $(php build/detect-versions.php ${nums})\necho \"Supported stable range: ${lowest_stable}..${highest_stable}\"\n\nselected=\"master\"\nfor n in ${nums}; do\n  if [ \"$n\" -ge \"$lowest_stable\" ] && [ \"$n\" -le \"$highest_stable\" ]; then\n    selected=\"${selected} stable${n}\"\n  fi\ndone\n\nbranches_json=$(printf '%s\\n' ${selected} | jq -R . | jq -cs .)\necho \"Matrix branches: ${branches_json}\"\necho \"branches=${branches_json}\" >> $GITHUB_OUTPUT\n"
+            }
+          ]
+        },
+        "build": {
+          "name": "Build ${{ matrix.branch }}",
+          "needs": "prepare",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "branch": "${{ fromJson(needs.prepare.outputs.branches) }}"
+            }
+          },
+          "uses": "./.github/workflows/build-docs.yml",
+          "with": {
+            "branch": "${{ matrix.branch }}",
+            "ref": "${{ matrix.branch }}"
+          },
+          "secrets": "inherit"
+        },
+        "deploy": {
+          "name": "Deploy documentation for gh-pages",
+          "needs": "build",
+          "if": "${{ !cancelled() }}",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "write",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Checkout gh-pages branch",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "gh-pages",
+                "fetch-depth": 1,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Download all staged version artifacts",
+              "uses": "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "with": {
+                "pattern": "staged-docs-*",
+                "merge-multiple": true,
+                "path": "stage/"
+              }
+            },
+            {
+              "name": "Fail if nothing was staged",
+              "id": "staged",
+              "run": "if [ -z \"$(ls -A stage/ 2>/dev/null)\" ]; then\n  echo \"::warning::No staged artifacts found — all builds failed. Nothing to deploy.\"\n  echo \"has_stage=false\" >> $GITHUB_OUTPUT\nelse\n  echo \"Staged version folders:\"\n  ls -1 stage/\n  echo \"has_stage=true\" >> $GITHUB_OUTPUT\nfi\n"
+            },
+            {
+              "name": "Apply staged artifacts to gh-pages",
+              "id": "apply",
+              "if": "steps.staged.outputs.has_stage == 'true'",
+              "run": "deployed=\"\"\nfor d in stage/*/; do\n  [ -d \"$d\" ] || continue\n  branch=\"$(basename \"$d\")\"\n  echo \"Applying version folder: ${branch}\"\n  deployed=\"${deployed} ${branch}\"\n\n  mkdir -p \"server/${branch}\"\n  for artifact in \"stage/${branch}\"/*; do\n    if [ -d \"$artifact\" ]; then\n      manual_name=\"$(basename \"$artifact\")\"\n      rm -rf \"server/${branch}/${manual_name}\"\n      cp -r \"$artifact\" \"server/${branch}/${manual_name}\"\n    fi\n  done\n\n  # Copy PDF and ePub files to the root of the branch folder\n  for f in \"stage/${branch}\"/*.pdf \"stage/${branch}\"/*.epub; do\n    if [ -f \"$f\" ]; then\n      echo \"Copying: $f\"\n      cp \"$f\" \"server/${branch}/\"\n    fi\n  done\ndone\n\n# Record which folders we deployed this run, so later steps only touch\n# those (not the ancient version folders already present on gh-pages).\necho \"folders=$(echo ${deployed} | xargs)\" >> $GITHUB_OUTPUT\n\n# Cleanup empty directories\nfind . -type d -empty -delete\n\n# Strip noindex from stable docs BEFORE pruning. Sphinx always emits a\n# noindex robots meta, but the deployed stable pages have it stripped\n# (they are the canonical, indexed version). If we pruned first, every\n# rebuilt stable file would still carry that meta and so differ from\n# HEAD by a \"real\" line — defeating the prune and leaving timestamp-only\n# files in the PR. Stripping first makes noise-only stable pages match\n# HEAD, so the prune below can revert them.\nif [ -d server/stable ]; then\n  find server/stable -name '*.html' -print0 | \\\n    xargs -0 perl -pi -e 's{<meta name=\"robots\" content=\"noindex, follow\" />\\n?}{}g'\nfi\n\n# ----------------------------------------------------------------\n# Prune build-only noise so the PR carries exclusively real content\n# changes. A rebuilt page differs every night even when its content\n# is identical, because of:\n#   - Sphinx build-time timestamps (lastupdated / \"Last updated on\")\n#   - mermaid diagram zoom ids (random UUID regenerated each build)\n# Files whose ENTIRE diff is noise are reverted to HEAD; files with a\n# real change are kept untouched (noise lines ride along, harmless).\n# ----------------------------------------------------------------\nNOISE='lastupdated|Last updated on|data-zoom-id'\n\n# Read-only diffs must not take .git/index.lock: a `git diff` that\n# refreshes the index while a `git checkout` writes it races on the\n# lock. GIT_OPTIONAL_LOCKS=0 suppresses the refresh write; we also\n# materialise each file list fully before running any checkout, and\n# batch the reverts into a single checkout call.\nexport GIT_OPTIONAL_LOCKS=0\n\n# 1) Collect HTML files whose only changes are noise, then revert them.\n: > /tmp/revert-html.txt\ngit diff --name-only HEAD -- '*.html' > /tmp/changed-html.txt\nwhile IFS= read -r f; do\n  [ -n \"$f\" ] || continue\n  real=$(git diff HEAD -- \"$f\" | grep -E '^[+-]' | grep -vE '^[+-]{3}' | grep -ivE \"$NOISE\" | wc -l)\n  [ \"$real\" -eq 0 ] && printf '%s\\n' \"$f\" >> /tmp/revert-html.txt\ndone < /tmp/changed-html.txt\nif [ -s /tmp/revert-html.txt ]; then\n  xargs -a /tmp/revert-html.txt -r git checkout HEAD --\nfi\n\n# 2) PDF/ePub binaries regenerate every build with no content change.\n#    Keep them only for a version folder that still has a real HTML\n#    change after step 1; otherwise revert them too. Runs after the\n#    HTML revert so the per-folder check sees the pruned tree.\n: > /tmp/revert-bin.txt\ngit diff --name-only HEAD -- '*.pdf' '*.epub' > /tmp/changed-bin.txt\nwhile IFS= read -r f; do\n  [ -n \"$f\" ] || continue\n  case \"$f\" in\n    server/*)\n      vdir=\"server/$(printf '%s' \"${f#server/}\" | cut -d/ -f1)\"\n      remaining=$(git diff --name-only HEAD -- \"$vdir\" | grep -vE '\\.(epub|pdf)$' | wc -l)\n      [ \"$remaining\" -eq 0 ] && printf '%s\\n' \"$f\" >> /tmp/revert-bin.txt\n      ;;\n    *) printf '%s\\n' \"$f\" >> /tmp/revert-bin.txt ;;\n  esac\ndone < /tmp/changed-bin.txt\nif [ -s /tmp/revert-bin.txt ]; then\n  xargs -a /tmp/revert-bin.txt -r git checkout HEAD --\nfi\n\n# Anything real left to deploy? (tracked diffs or brand-new files)\nif [ -n \"$(git status --porcelain)\" ]; then\n  echo \"has_changes=true\" >> $GITHUB_OUTPUT\nelse\n  echo \"has_changes=false\" >> $GITHUB_OUTPUT\n  echo \"::notice::Skipping deploy PR: only build noise (timestamps, mermaid ids, binaries) changed\"\nfi\n"
+            },
+            {
+              "name": "Write robots.txt",
+              "if": "steps.apply.outputs.has_changes == 'true'",
+              "run": "cat > robots.txt << 'EOF'\nUser-agent: *\n# Only the stable version should be indexed\nAllow: /server/stable/\nDisallow: /server/\nEOF\n"
+            },
+            {
+              "name": "Clean up staging cache before commit",
+              "if": "steps.apply.outputs.has_changes == 'true'",
+              "run": "rm -rf stage/"
+            },
+            {
+              "name": "Add various redirects for go.php and user_manual english version",
+              "if": "steps.apply.outputs.has_changes == 'true'",
+              "run": "default_branch=\"${{ github.event.repository.default_branch }}\"\n# gh-pages is checked out single-branch, so there is no origin/<default>\n# tracking ref. Fetch with an explicit refspec to create it.\ngit fetch origin \"${default_branch}:refs/remotes/origin/${default_branch}\"\ngit checkout \"origin/${default_branch}\" -- go.php/index.html user_manual/index.html\n\n# Only the folders deployed this run — not every historical version\n# already on gh-pages (some old ones have an incompatible layout).\nfor branch in ${{ steps.apply.outputs.folders }}; do\n  rm -rf \"server/${branch}/go.php\"\n  mkdir -p \"server/${branch}/go.php\" \"server/${branch}/user_manual\"\n  cp go.php/index.html \"server/${branch}/go.php/index.html\"\n  cp user_manual/index.html \"server/${branch}/user_manual/index.html\"\ndone\n"
+            },
+            {
+              "name": "Compose PR body",
+              "id": "body",
+              "if": "steps.apply.outputs.has_changes == 'true'",
+              "run": "# Stage everything so new files count too (create-pull-request commits this).\ngit add -A\n{\n  echo \"text<<PR_BODY_EOF\"\n  echo \"This PR was automatically generated by the scheduled deploy workflow.\"\n  echo \"\"\n  echo \"Documentation rebuilt for: **${{ steps.apply.outputs.folders }}**\"\n  echo \"\"\n  echo \"| Version folder | Files changed |\"\n  echo \"| --- | ---: |\"\n  total=0\n  for branch in ${{ steps.apply.outputs.folders }}; do\n    n=$(git diff --cached --name-only -- \"server/${branch}\" | wc -l | tr -d ' ')\n    total=$((total + n))\n    echo \"| \\`${branch}\\` | ${n} |\"\n  done\n  # Files outside the deployed version folders (redirects, robots.txt, …).\n  other=$(git diff --cached --name-only -- . ':(exclude)server/*' | wc -l | tr -d ' ')\n  echo \"| _other_ | ${other} |\"\n  echo \"| **Total** | **$((total + other))** |\"\n  echo \"PR_BODY_EOF\"\n} >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Create Pull Request for documentation deployment",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "id": "cpr",
+              "if": "steps.apply.outputs.has_changes == 'true'",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "commit-message": "chore: update documentation",
+                "committer": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "automated/deploy/documentation",
+                "base": "gh-pages",
+                "title": "Documentation update",
+                "body": "${{ steps.body.outputs.text }}",
+                "delete-branch": true,
+                "labels": "automated, 3. to review"
+              }
+            },
+            {
+              "name": "Enable Pull Request Automerge",
+              "run": "gh pr merge --merge --auto \"${{ steps.cpr.outputs.pull-request-number }}\"",
+              "if": "steps.cpr.outputs.pull-request-number != ''",
+              "env": {
+                "GH_TOKEN": "${{ secrets.COMMAND_BOT_PAT }}"
+              }
+            }
+          ]
+        },
+        "summary": {
+          "needs": [
+            "prepare",
+            "build",
+            "deploy"
+          ],
+          "runs-on": "ubuntu-latest-low",
+          "if": "always()",
+          "permissions": {
+            "contents": "read"
+          },
+          "name": "deploy-summary",
+          "steps": [
+            {
+              "name": "Summary status",
+              "run": "echo \"prepare: ${{ needs.prepare.result }}\"\necho \"build:   ${{ needs.build.result }}\"\necho \"deploy:  ${{ needs.deploy.result }}\"\n# prepare must succeed and deploy must not fail. Individual build legs\n# may fail (fail-fast disabled); those versions are simply not deployed.\nif [ \"${{ needs.prepare.result }}\" != \"success\" ] || [ \"${{ needs.deploy.result }}\" = \"failure\" ]; then\n  exit 1\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "prepare",
+          "name": "Compute branch matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build",
+          "name": "Build ${{ matrix.branch }}",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "prepare"
+          ],
+          "environment": null
+        },
+        {
+          "id": "deploy",
+          "name": "Deploy documentation for gh-pages",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [
+            "build"
+          ],
+          "environment": null
+        },
+        {
+          "id": "summary",
+          "name": "deploy-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "prepare",
+            "build",
+            "deploy"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 3
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'summary' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[LOW] NO_TIMEOUT: Job 'prepare' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 101,
+          "end_line": 342,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'summary' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 344,
+          "end_line": 364,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 101,
+          "end_line": 342,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'prepare' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 33,
+          "end_line": 81,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 85,
+          "end_line": 96,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 101,
+          "end_line": 342,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-docs.yml",
+          "start_line": 344,
+          "end_line": 364,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/deploy-docs.yml",
+          "source_job": "build",
+          "target_workflow": ".github/workflows/build-docs.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.166667,
+          "deploy": 0.0,
+          "prepare": 0.0,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "build": 0.191893,
+          "deploy": 0.216216,
+          "prepare": 0.134661,
+          "summary": 0.457231
+        },
+        "downstream_impact": {
+          "build": [
+            "deploy",
+            "summary"
+          ],
+          "deploy": [
+            "summary"
+          ],
+          "prepare": [
+            "build",
+            "deploy",
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "summary",
+          "build",
+          "deploy",
+          "prepare"
+        ],
+        "max_blast_radius": 3
+      }
+    },
+    {
+      "id": "docker-build.yml",
+      "path": ".github/workflows/docker-build.yml",
+      "name": "Build and publish sphinx-latex Docker image",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "build-and-publish": {
+          "name": "Build and publish sphinx-latex Docker image",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "name": "Set up Docker Buildx",
+              "uses": "docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069"
+            },
+            {
+              "name": "Login to GitHub Container Registry",
+              "if": "github.event_name != 'pull_request'",
+              "uses": "docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Extract metadata for Docker",
+              "id": "meta",
+              "uses": "docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302",
+              "with": {
+                "images": "ghcr.io/${{ github.repository }}/sphinx-latex",
+                "tags": "type=raw,value=latest,enable={{is_default_branch}}\ntype=sha,prefix=sha-\n"
+              }
+            },
+            {
+              "name": "Build and publish Docker image",
+              "uses": "docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc",
+              "with": {
+                "context": ".devcontainer",
+                "push": "${{ github.event_name != 'pull_request' }}",
+                "tags": "${{ steps.meta.outputs.tags }}",
+                "labels": "${{ steps.meta.outputs.labels }}",
+                "cache-from": "type=registry,ref=ghcr.io/${{ github.repository }}/sphinx-latex:latest",
+                "cache-to": "type=inline"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build-and-publish",
+          "name": "Build and publish sphinx-latex Docker image",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'build-and-publish' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[LOW] NO_TIMEOUT: Job 'build-and-publish' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build-and-publish' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-build.yml",
+          "start_line": 19,
+          "end_line": 55,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-and-publish' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/docker-build.yml",
+          "start_line": 19,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-and-publish": 0.0
+        },
+        "pagerank": {
+          "build-and-publish": 1.0
+        },
+        "downstream_impact": {
+          "build-and-publish": []
+        },
+        "critical_nodes": [
+          "build-and-publish"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "fixup.yml",
+      "path": ".github/workflows/fixup.yml",
+      "name": "Block fixup and squash commits",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "commit-message-check": {
+          "if": "github.event.pull_request.draft == false",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "name": "Block fixup and squash commits",
+          "runs-on": "ubuntu-latest-low",
+          "steps": [
+            {
+              "name": "Run check",
+              "uses": "skjnldsv/block-fixup-merge-action@c138ea99e45e186567b64cf065ce90f7158c236a",
+              "with": {
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "commit-message-check",
+          "name": "Block fixup and squash commits",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'commit-message-check' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'commit-message-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/fixup.yml",
+          "start_line": 23,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "commit-message-check": 0.0
+        },
+        "pagerank": {
+          "commit-message-check": 1.0
+        },
+        "downstream_impact": {
+          "commit-message-check": []
+        },
+        "critical_nodes": [
+          "commit-message-check"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "generate-top-index.yml",
+      "path": ".github/workflows/generate-top-index.yml",
+      "name": "Build documentation index",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "build-and-deploy": {
+          "name": "Build index.html",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "write",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Get stable branches",
+              "id": "branch",
+              "run": "branches=$(git ls-remote --heads origin \"heads/stable[0-9][0-9]\" | awk '{gsub(/^refs\\/heads\\/stable/, \"\", $2); print $2}' | sort -n -r | tr '\\n' ' ')\necho \"branches=$branches\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Setup php",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962"
+            },
+            {
+              "name": "Generate index.html",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "run": "php build/build-index.php ${{ steps.branch.outputs.branches }}\nmv build/index.html /tmp/index.html\nmv build/static/ /tmp/static/\n"
+            },
+            {
+              "name": "Verify index.html structure and links",
+              "run": "# Temporarily put index.html in build folder for verification\ncp /tmp/index.html build/index.html\nphp build/verify-index.php\n"
+            },
+            {
+              "name": "Checkout gh-pages branch",
+              "if": "github.event_name == 'push'",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "gh-pages",
+                "fetch-depth": 1,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Apply generated files to gh-pages",
+              "if": "github.event_name == 'push'",
+              "run": "rm -rf index.html static/\nmv /tmp/index.html index.html\nmv /tmp/static/ static/\n"
+            },
+            {
+              "name": "Create Pull Request for index deployment",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "id": "cpr",
+              "if": "github.event_name == 'push'",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "commit-message": "chore: update index.html for documentation",
+                "committer": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "automated/deploy/documentation-index",
+                "base": "gh-pages",
+                "title": "Documentation index update",
+                "body": "This PR was automatically generated by the CI workflow and\nincludes the latest changes to the documentation index.\n",
+                "delete-branch": true,
+                "labels": "automated, 3. to review"
+              }
+            },
+            {
+              "name": "Enable Pull Request Automerge",
+              "run": "gh pr merge --merge --auto \"${{ steps.cpr.outputs.pull-request-number }}\"",
+              "if": "steps.cpr.outputs.pull-request-number != ''",
+              "env": {
+                "GH_TOKEN": "${{ secrets.COMMAND_BOT_PAT }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build-and-deploy",
+          "name": "Build index.html",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'build-and-deploy' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[LOW] NO_TIMEOUT: Job 'build-and-deploy' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build-and-deploy' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/generate-top-index.yml",
+          "start_line": 15,
+          "end_line": 90,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-and-deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/generate-top-index.yml",
+          "start_line": 15,
+          "end_line": 90,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-and-deploy": 0.0
+        },
+        "pagerank": {
+          "build-and-deploy": 1.0
+        },
+        "downstream_impact": {
+          "build-and-deploy": []
+        },
+        "critical_nodes": [
+          "build-and-deploy"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "generate_catalog_templates.yml",
+      "path": ".github/workflows/generate_catalog_templates.yml",
+      "name": "Generate catalog templates (POT) files fetched automatically by transifex",
+      "triggers": [
+        "workflow_dispatch",
+        "push"
+      ],
+      "jobs": {
+        "user_manual": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "3.13"
+              }
+            },
+            {
+              "name": "Install pip dependencies",
+              "run": "python -m pip install -r requirements.txt"
+            },
+            {
+              "name": "Generate POT files using Makefile",
+              "run": "cd user_manual && make gettext"
+            },
+            {
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "id": "cpr",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "commit-message": "chore(l10n): Updates catalog templates (POT files fetched automatically by transifex)",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "automated/noid/update-l10n",
+                "title": "Updates catalog templates"
+              }
+            },
+            {
+              "uses": "hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363",
+              "if": "steps.cpr.outputs.pull-request-operation == 'created'",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "pull-request-number": "${{ steps.cpr.outputs.pull-request-number }}"
+              }
+            },
+            {
+              "uses": "pascalgn/automerge-action@7961b8b5eec56cc088c140b56d864285eabd3f67",
+              "if": "steps.cpr.outputs.pull-request-operation == 'created'",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+                "MERGE_LABELS": "",
+                "MERGE_RETRIES": 10,
+                "MERGE_RETRY_SLEEP": 60000,
+                "PULL_REQUEST": "${{ steps.cpr.outputs.pull-request-number }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "user_manual",
+          "name": "user_manual",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+        "[LOW] NO_TIMEOUT: Job 'user_manual' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/generate_catalog_templates.yml",
+          "start_line": 28,
+          "end_line": 28,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'user_manual' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/generate_catalog_templates.yml",
+          "start_line": 15,
+          "end_line": 57,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "user_manual": 0.0
+        },
+        "pagerank": {
+          "user_manual": 1.0
+        },
+        "downstream_impact": {
+          "user_manual": []
+        },
+        "critical_nodes": [
+          "user_manual"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "labeling.yml",
+      "path": ".github/workflows/labeling.yml",
+      "name": "Labeling",
+      "triggers": [
+        "pull_request",
+        "issues"
+      ],
+      "jobs": {
+        "label-by-files": {
+          "if": "github.event_name == 'pull_request'",
+          "name": "Label by changed files",
+          "runs-on": "ubuntu-latest-low",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Apply labels based on changed files",
+              "uses": "actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13",
+              "with": {
+                "repo-token": "${{ secrets.GITHUB_TOKEN }}",
+                "sync-labels": false
+              }
+            }
+          ]
+        },
+        "triage-pr": {
+          "needs": [
+            "label-by-files"
+          ],
+          "if": "always() && github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')\n",
+          "name": "Apply default PR triage label",
+          "runs-on": "ubuntu-latest-low",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Add '3. to review' if no triage label is set",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "script": "const triageLabels = ['0. Needs triage', '1. to develop', '2. developing', '3. to review', '4. to release']\nconst currentLabels = context.payload.pull_request.labels.map(l => l.name)\nif (!triageLabels.some(l => currentLabels.includes(l))) {\n  await github.rest.issues.addLabels({\n    owner: context.repo.owner,\n    repo: context.repo.repo,\n    issue_number: context.payload.pull_request.number,\n    labels: ['3. to review'],\n  })\n}\n"
+              }
+            }
+          ]
+        },
+        "triage-issue": {
+          "if": "github.event_name == 'issues'",
+          "name": "Apply default issue triage label",
+          "runs-on": "ubuntu-latest-low",
+          "permissions": {
+            "issues": "write"
+          },
+          "steps": [
+            {
+              "name": "Add '0. Needs triage' if no triage label is set",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "script": "const triageLabels = ['0. Needs triage', '1. to develop', '2. developing', '3. to review', '4. to release']\nconst currentLabels = context.payload.issue.labels.map(l => l.name)\nif (!triageLabels.some(l => currentLabels.includes(l))) {\n  await github.rest.issues.addLabels({\n    owner: context.repo.owner,\n    repo: context.repo.repo,\n    issue_number: context.payload.issue.number,\n    labels: ['0. Needs triage'],\n  })\n}\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "label-by-files",
+          "name": "Label by changed files",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "triage-pr",
+          "name": "Apply default PR triage label",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "label-by-files"
+          ],
+          "environment": null
+        },
+        {
+          "id": "triage-issue",
+          "name": "Apply default issue triage label",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'label-by-files' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'triage-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'triage-issue' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'label-by-files' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/labeling.yml",
+          "start_line": 16,
+          "end_line": 31,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/labeling.yml",
+          "start_line": 33,
+          "end_line": 62,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'triage-issue' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/labeling.yml",
+          "start_line": 63,
+          "end_line": 87,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "label-by-files": 0.0,
+          "triage-issue": 0.0,
+          "triage-pr": 0.0
+        },
+        "pagerank": {
+          "label-by-files": 0.25974,
+          "triage-issue": 0.25974,
+          "triage-pr": 0.48052
+        },
+        "downstream_impact": {
+          "label-by-files": [
+            "triage-pr"
+          ],
+          "triage-issue": [],
+          "triage-pr": []
+        },
+        "critical_nodes": [
+          "triage-pr",
+          "label-by-files",
+          "triage-issue"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "openapi-build.yml",
+      "path": ".github/workflows/openapi-build.yml",
+      "name": "OpenAPI",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "openapi": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Set up php",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962",
+              "with": {
+                "php-version": "8.1",
+                "extensions": "bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib",
+                "coverage": "none",
+                "ini-file": "development"
+              },
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Build using Makefile",
+              "run": "make openapi-spec"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "openapi",
+          "name": "openapi",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'openapi' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'openapi' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/openapi-build.yml",
+          "start_line": 13,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "openapi": 0.0
+        },
+        "pagerank": {
+          "openapi": 1.0
+        },
+        "downstream_impact": {
+          "openapi": []
+        },
+        "critical_nodes": [
+          "openapi"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "pr-feedback.yml",
+      "path": ".github/workflows/pr-feedback.yml",
+      "name": "Ask for feedback on PRs",
+      "triggers": [
+        "schedule"
+      ],
+      "jobs": {
+        "pr-feedback": {
+          "if": "${{ github.repository_owner == 'nextcloud' }}",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "The get-github-handles-from-website action",
+              "uses": "marcelklehr/get-github-handles-from-website-action@06b2239db0a48fe1484ba0bfd966a3ab81a08308",
+              "id": "scrape",
+              "with": {
+                "website": "https://nextcloud.com/team/"
+              }
+            },
+            {
+              "name": "Get blocklist",
+              "id": "blocklist",
+              "run": "blocklist=$(curl https://raw.githubusercontent.com/nextcloud/.github/master/non-community-usernames.txt | paste -s -d, -)\necho \"blocklist=$blocklist\" >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "uses": "nextcloud-libraries/pr-feedback-action@4738cf661995d96df3512409ec17c900a4081d33",
+              "with": {
+                "feedback-message": "Hello there,\nThank you so much for taking the time and effort to create a pull request to our Nextcloud project.\n\nWe hope that the review process is going smooth and is helpful for you. We want to ensure your pull request is reviewed to your satisfaction. If you have a moment, our community management team would very much appreciate your feedback on your experience with this PR review process.\n\nYour feedback is valuable to us as we continuously strive to improve our community developer experience. Please take a moment to complete our short survey by clicking on the following link: https://cloud.nextcloud.com/apps/forms/s/i9Ago4EQRZ7TWxjfmeEpPkf6\n\nThank you for contributing to Nextcloud and we hope to hear from you soon!\n\n(If you believe you should not receive this message, you can add yourself to the [blocklist](https://github.com/nextcloud/.github/blob/master/non-community-usernames.txt).)\n",
+                "days-before-feedback": 14,
+                "max-days-overdue": 7,
+                "exempt-authors": "${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }}",
+                "exempt-bots": true
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "pr-feedback",
+          "name": "pr-feedback",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'pr-feedback' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'pr-feedback' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pr-feedback.yml",
+          "start_line": 23,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "pr-feedback": 0.0
+        },
+        "pagerank": {
+          "pr-feedback": 1.0
+        },
+        "downstream_impact": {
+          "pr-feedback": []
+        },
+        "critical_nodes": [
+          "pr-feedback"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "sphinx-lint.yml",
+      "path": ".github/workflows/sphinx-lint.yml",
+      "name": "Sphinx Lint",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "sphinx-lint": {
+          "name": "Lint RST files",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Set up Python",
+              "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+              "with": {
+                "python-version": "3.13",
+                "cache": "pip"
+              }
+            },
+            {
+              "name": "Install sphinx-lint",
+              "run": "pip install sphinx-lint==1.0.2"
+            },
+            {
+              "name": "Register sphinx-lint problem matcher",
+              "run": "echo \"::add-matcher::.github/problem-matchers/sphinx-lint.json\""
+            },
+            {
+              "name": "Run sphinx-lint",
+              "run": "sphinx-lint admin_manual developer_manual user_manual"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "sphinx-lint",
+          "name": "Lint RST files",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'sphinx-lint' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sphinx-lint' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinx-lint.yml",
+          "start_line": 14,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sphinx-lint": 0.0
+        },
+        "pagerank": {
+          "sphinx-lint": 1.0
+        },
+        "downstream_impact": {
+          "sphinx-lint": []
+        },
+        "critical_nodes": [
+          "sphinx-lint"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "sphinxbuild.yml",
+      "path": ".github/workflows/sphinxbuild.yml",
+      "name": "Build documentation",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": {
+        "build": {
+          "name": "Build and stage",
+          "uses": "./.github/workflows/build-docs.yml",
+          "with": {
+            "branch": "${{ github.base_ref || github.ref_name }}"
+          },
+          "secrets": "inherit"
+        },
+        "link-check": {
+          "name": "Check for broken links",
+          "needs": "build",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Download staged artifacts",
+              "uses": "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "with": {
+                "name": "${{ needs.build.outputs.artifact_name }}",
+                "path": "stage/"
+              }
+            },
+            {
+              "name": "Checkout go.php and its check",
+              "if": "needs.build.outputs.branch_name == 'latest'",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "path": "repo",
+                "sparse-checkout": "go.php/index.html\nbuild/check-go-php-redirects.sh\nbuild/tests/test-check-go-php-redirects.sh\n",
+                "sparse-checkout-cone-mode": false
+              }
+            },
+            {
+              "name": "Check go.php redirect targets",
+              "if": "needs.build.outputs.branch_name == 'latest'",
+              "run": "bash repo/build/tests/test-check-go-php-redirects.sh\nrepo/build/check-go-php-redirects.sh repo/go.php/index.html \"stage/${{ needs.build.outputs.branch_name }}\"\n"
+            },
+            {
+              "name": "Strip canonical links from validation HTML",
+              "run": "find \"stage/${{ needs.build.outputs.branch_name }}\" -name '*.html' -print0 | while IFS= read -r -d '' f; do\n  perl -0pi -e 's{^\\s*<link rel=\"canonical\" href=\"https://docs\\.nextcloud\\.com/server/[^\"]*\" />\\n}{}m' \"$f\"\ndone\nls -la stage/*\n"
+            },
+            {
+              "name": "Check for broken links with lychee",
+              "uses": "lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8",
+              "with": {
+                "fail": true,
+                "token": "${{ secrets.GITHUB_TOKEN }}",
+                "jobSummary": true,
+                "args": "--root-dir \"$(pwd)/stage\"\n--offline --no-progress\n--remap \"https://docs.nextcloud.com/server/latest/ file://$(pwd)/stage/${{ needs.build.outputs.branch_name }}/\"\n--remap \"https://docs.nextcloud.com/server/ file://$(pwd)/stage/\"\n--exclude 'go\\.php' --exclude 'mailto:' --exclude-path '.*/404\\.html' --exclude-path '.*/_static/.*'\n--exclude \"/user_manual/\" --include \"/user_manual/en/\"\n--exclude '^file://.*/stage/(latest|stable)/(developer_manual|admin_manual|user_manual)/?$'\n--exclude '^file://.*/stage/[0-9]+/'\n'stage/${{ needs.build.outputs.branch_name }}/user_manual/en/**/*.html'\n'stage/${{ needs.build.outputs.branch_name }}/admin_manual/**/*.html'\n'stage/${{ needs.build.outputs.branch_name }}/developer_manual/**/*.html'\n"
+              }
+            }
+          ]
+        },
+        "netlify-preview": {
+          "name": "Deploy Netlify preview",
+          "needs": "build",
+          "if": "github.event_name == 'pull_request'",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Download staged artifacts",
+              "uses": "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "with": {
+                "name": "${{ needs.build.outputs.artifact_name }}",
+                "path": "stage/"
+              }
+            },
+            {
+              "name": "Assemble Netlify deploy directory",
+              "run": "branch=\"${{ needs.build.outputs.branch_name }}\"\nmkdir -p netlify-deploy\n\n# Copy each manual directory into the deploy directory\nfor manual in admin_manual developer_manual user_manual; do\n  if [ -d \"stage/${branch}/${manual}\" ]; then\n    cp -r \"stage/${branch}/${manual}\" \"netlify-deploy/${manual}\"\n  fi\ndone\n\n# PDF and ePub files (kept at root of deploy dir)\nfind \"stage/${branch}\" -maxdepth 1 \\( -name \"*.pdf\" -o -name \"*.epub\" \\) -exec cp {} netlify-deploy/ \\;\n\n# Minimal root index linking to the deployed content\ncat > netlify-deploy/index.html <<'EOF'\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Nextcloud Documentation Preview</title>\n  <style>body{font-family:sans-serif;max-width:600px;margin:2rem auto}ul{line-height:2}</style>\n</head>\n<body>\n  <h1>Nextcloud Documentation Preview</h1>\n  <ul>\n    <li><a href=\"admin_manual/\">Administration Manual</a></li>\n    <li><a href=\"developer_manual/\">Developer Manual</a></li>\n    <li><a href=\"user_manual/en/\">User Manual (English)</a></li>\n    <li><a href=\"Nextcloud_User_Manual.pdf\">User Manual PDF</a> / <a href=\"Nextcloud_User_Manual.epub\">ePub</a></li>\n    <li><a href=\"Nextcloud_Server_Administration_Manual.pdf\">Administration Manual PDF</a> / <a href=\"Nextcloud_Server_Administration_Manual.epub\">ePub</a></li>\n    <li><a href=\"Nextcloud_Developer_Manual.epub\">Developer Manual ePub</a></li>\n  </ul>\n</body>\n</html>\nEOF\n"
+            },
+            {
+              "name": "List deploy directory tree",
+              "run": "find netlify-deploy -print | sort"
+            },
+            {
+              "name": "Install Netlify CLI",
+              "run": "npm install -g netlify-cli"
+            },
+            {
+              "name": "Deploy to Netlify",
+              "id": "netlify",
+              "continue-on-error": true,
+              "run": "set +e\noutput=$(netlify deploy \\\n  --dir=netlify-deploy \\\n  --site=\"${{ secrets.NETLIFY_SITE_ID }}\" \\\n  --auth=\"${{ secrets.NETLIFY_AUTH_TOKEN }}\" \\\n  --alias=\"pr-${{ github.event.pull_request.number }}\" \\\n  --message=\"Preview for PR #${{ github.event.pull_request.number }}\" 2>&1)\nexit_code=$?\necho \"$output\"\n# Strip ANSI codes, then extract the URL from \"Draft URL: <https://...>\"\npreview_url=$(printf '%s\\n' \"$output\" \\\n  | sed 's/\\x1b\\[[0-9;]*[mGKHFJABCDsuKl]//g' \\\n  | grep -oP '(?:Draft URL|Website Draft URL|Website URL):\\s+<?\\Khttps://[^>\\s]+' \\\n  | head -1)\necho \"url=${preview_url}\" >> \"$GITHUB_OUTPUT\"\nexit $exit_code\n"
+            },
+            {
+              "name": "Post PR preview comment",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "env": {
+                "PREVIEW_URL": "${{ steps.netlify.outputs.url }}"
+              },
+              "with": {
+                "script": "const previewUrl = process.env.PREVIEW_URL || '';\nconst prNumber = context.payload.pull_request.number;\nconst MAX_LINKS = 20;\nconst COMMENT_MARKER = '<!-- netlify-preview-comment -->';\nconst updatedAt = new Date().toUTCString();\n\n// Fetch all changed files in the PR (auto-paginated)\nconst allFiles = await github.paginate(github.rest.pulls.listFiles, {\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  pull_number: prNumber,\n  per_page: 100,\n});\n\n// Keep only RST files that live inside a built manual\nconst manuals = ['admin_manual/', 'developer_manual/', 'user_manual/'];\nconst rstFiles = allFiles\n  .map(f => f.filename)\n  .filter(f => manuals.some(m => f.startsWith(m)) && f.endsWith('.rst'));\n\n// Build the changed-pages section\nlet changedSection = '';\nif (previewUrl && rstFiles.length > 0) {\n  const links = rstFiles.map(f => {\n    // user_manual HTML is deployed under user_manual/en/; other manuals deploy as-is\n    const htmlPath = f.startsWith('user_manual/')\n      ? f.replace(/^user_manual\\//, 'user_manual/en/').replace(/\\.rst$/, '.html')\n      : f.replace(/\\.rst$/, '.html');\n    return `- [${f}](${previewUrl}/${htmlPath})`;\n  });\n  const shown = links.slice(0, MAX_LINKS);\n  const extra = links.length - shown.length;\n  const extraLine = extra > 0\n    ? `\\n_…and ${extra} more. [View all changed files](https://github.com/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}/files)_`\n    : '';\n  changedSection = [\n    '',\n    `<details>`,\n    `<summary>📄 ${rstFiles.length} changed documentation ${rstFiles.length === 1 ? 'page' : 'pages'}</summary>`,\n    '',\n    shown.join('\\n') + extraLine,\n    '</details>',\n  ].join('\\n');\n} else if (rstFiles.length === 0) {\n  changedSection = '\\n_No RST documentation pages changed in this PR._';\n}\n\n// Compose the full comment body\nconst previewLine = previewUrl\n  ? `🔍 **[Open preview →](${previewUrl})**`\n  : '⚠️ Preview deployment failed or was skipped.';\nconst body = [\n  COMMENT_MARKER,\n  '## 📖 Documentation Preview',\n  '',\n  previewLine,\n  changedSection,\n  '',\n  `_Last updated: ${updatedAt}_`,\n].join('\\n');\n\n// Update existing bot comment or create a new one\nconst comments = await github.paginate(github.rest.issues.listComments, {\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  issue_number: prNumber,\n  per_page: 100,\n});\nconst existing = comments.find(c => c.body && c.body.includes(COMMENT_MARKER));\nif (existing) {\n  await github.rest.issues.updateComment({\n    owner: context.repo.owner,\n    repo: context.repo.repo,\n    comment_id: existing.id,\n    body,\n  });\n} else {\n  await github.rest.issues.createComment({\n    owner: context.repo.owner,\n    repo: context.repo.repo,\n    issue_number: prNumber,\n    body,\n  });\n}\n"
+              }
+            }
+          ]
+        },
+        "summary": {
+          "needs": [
+            "build",
+            "link-check",
+            "netlify-preview"
+          ],
+          "runs-on": "ubuntu-latest-low",
+          "if": "always()",
+          "permissions": {
+            "contents": "read"
+          },
+          "name": "build-deploy-summary",
+          "steps": [
+            {
+              "name": "Summary status",
+              "run": "if ${{ github.event_name == 'pull_request' }}\nthen\n  echo \"Pull request: build and link-check must succeed; netlify-preview must succeed or fail (non-fatal on forks).\"\n  if ${{ needs.build.result != 'success' || needs.link-check.result != 'success' || (needs.netlify-preview.result != 'success' && needs.netlify-preview.result != 'failure') }}; then exit 1; fi\nelse\n  echo \"Push: build and link-check must succeed; netlify-preview must be skipped.\"\n  if ${{ needs.build.result != 'success' || needs.link-check.result != 'success' || needs.netlify-preview.result != 'skipped' }}; then exit 1; fi\nfi\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "Build and stage",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "link-check",
+          "name": "Check for broken links",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [
+            "build"
+          ],
+          "environment": null
+        },
+        {
+          "id": "netlify-preview",
+          "name": "Deploy Netlify preview",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ],
+          "environment": null
+        },
+        {
+          "id": "summary",
+          "name": "build-deploy-summary",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 1,
+          "needs": [
+            "build",
+            "link-check",
+            "netlify-preview"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 5,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[HIGH] NO_TEST_GATE: HIGH: Job 'netlify-preview' performs deployment without an upstream test job in its 'needs:' chain.",
+        "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+        "[MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'netlify-preview' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'link-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'netlify-preview' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'netlify-preview' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 116,
+          "end_line": 289,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 176,
+          "end_line": 176,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 116,
+          "end_line": 289,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'netlify-preview' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 181,
+          "end_line": 198,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 27,
+          "end_line": 32,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'link-check' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 37,
+          "end_line": 103,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'netlify-preview' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 116,
+          "end_line": 289,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'summary' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sphinxbuild.yml",
+          "start_line": 290,
+          "end_line": 310,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/sphinxbuild.yml",
+          "source_job": "build",
+          "target_workflow": ".github/workflows/build-docs.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "link-check": 0.0,
+          "netlify-preview": 0.0,
+          "summary": 0.0
+        },
+        "pagerank": {
+          "build": 0.142213,
+          "link-check": 0.182508,
+          "netlify-preview": 0.182508,
+          "summary": 0.492771
+        },
+        "downstream_impact": {
+          "build": [
+            "link-check",
+            "netlify-preview",
+            "summary"
+          ],
+          "link-check": [
+            "summary"
+          ],
+          "netlify-preview": [
+            "summary"
+          ],
+          "summary": []
+        },
+        "critical_nodes": [
+          "summary",
+          "link-check",
+          "netlify-preview",
+          "build"
+        ],
+        "max_blast_radius": 3
+      }
+    },
+    {
+      "id": "squash-gh-pages.yml",
+      "path": ".github/workflows/squash-gh-pages.yml",
+      "name": "Squash gh-pages history",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "test": {
+          "name": "Test squash script",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Run unit tests",
+              "run": "bash build/tests/test-squash-gh-pages.sh"
+            }
+          ]
+        },
+        "squash": {
+          "name": "Squash gh-pages",
+          "needs": "test",
+          "if": "github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && !contains(github.ref_name, 'rc') && !contains(github.ref_name, 'beta') && !contains(github.ref_name, 'alpha'))",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "ref": "${{ github.event.repository.default_branch }}",
+                "fetch-depth": 0,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Setup PHP",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962",
+              "with": {
+                "php-version": "8.3"
+              }
+            },
+            {
+              "name": "Detect lowest supported version",
+              "id": "versions",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "run": "mapfile -t nums < <(git ls-remote --heads origin \"heads/stable[0-9][0-9]\" \\\n  | sed -n 's?.*refs/heads/stable\\([0-9]\\{2\\}\\)$?\\1?p' | sort -n)\neval \"$(php build/detect-versions.php \"${nums[@]}\")\"\necho \"Folders below server/${lowest_stable} are frozen\"\necho \"lowest_stable=${lowest_stable}\" >> \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Fetch gh-pages history",
+              "run": "git fetch --no-tags origin +refs/heads/gh-pages:refs/heads/gh-pages"
+            },
+            {
+              "name": "Rewrite gh-pages",
+              "id": "rewrite",
+              "run": "echo \"old=$(git rev-parse gh-pages)\" >> \"$GITHUB_OUTPUT\"\nbuild/squash-gh-pages.sh gh-pages \"${{ steps.versions.outputs.lowest_stable }}\" \\\n  refs/heads/gh-pages-squashed | tee -a \"$GITHUB_OUTPUT\"\n"
+            },
+            {
+              "name": "Close open deploy pull requests",
+              "if": "steps.rewrite.outputs.changed == 'true' && inputs.dry_run != true",
+              "env": {
+                "GH_TOKEN": "${{ secrets.COMMAND_BOT_PAT }}"
+              },
+              "run": "gh pr list --repo \"${{ github.repository }}\" --base gh-pages --state open \\\n  --json number,headRefName \\\n  --jq '.[] | select(.headRefName | startswith(\"automated/deploy/\")) | .number' \\\n| while read -r number; do\n  gh pr close \"${number}\" --repo \"${{ github.repository }}\" --delete-branch \\\n    --comment \"Closed because gh-pages was squashed. The next scheduled deploy reopens it on the new history.\"\ndone\n"
+            },
+            {
+              "name": "Push rewritten gh-pages",
+              "if": "steps.rewrite.outputs.changed == 'true' && inputs.dry_run != true",
+              "env": {
+                "DEPLOY_KEY": "${{ secrets.GH_PAGES_DEPLOY_KEY }}"
+              },
+              "run": "key=\"${RUNNER_TEMP}/gh-pages-deploy-key\"\nhosts=\"${RUNNER_TEMP}/github-known-hosts\"\ninstall -m 600 /dev/null \"${key}\"\nprintf '%s\\n' \"${DEPLOY_KEY}\" > \"${key}\"\n# GitHub's published host keys, fetched over TLS rather than trusted on first use.\ncurl -fsSL https://api.github.com/meta | jq -r '.ssh_keys[] | \"github.com \" + .' > \"${hosts}\"\nGIT_SSH_COMMAND=\"ssh -i ${key} -o IdentitiesOnly=yes -o UserKnownHostsFile=${hosts} -o StrictHostKeyChecking=yes\" git push \\\n  --force-with-lease=\"refs/heads/gh-pages:${{ steps.rewrite.outputs.old }}\" \\\n  \"git@github.com:${{ github.repository }}.git\" \\\n  refs/heads/gh-pages-squashed:refs/heads/gh-pages\nrm -f \"${key}\"\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "test",
+          "name": "Test squash script",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "squash",
+          "name": "Squash gh-pages",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "test"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'squash' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/squash-gh-pages.yml",
+          "start_line": 42,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'squash' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/squash-gh-pages.yml",
+          "start_line": 55,
+          "end_line": 136,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "squash": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "squash": 0.649123,
+          "test": 0.350877
+        },
+        "downstream_impact": {
+          "squash": [],
+          "test": [
+            "squash"
+          ]
+        },
+        "critical_nodes": [
+          "squash",
+          "test"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "sync-workflow-templates.yml",
+      "path": ".github/workflows/sync-workflow-templates.yml",
+      "name": "Update workflows",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "dispatch": {
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "branches": [
+                "${{ github.event.repository.default_branch }}",
+                "stable35",
+                "stable34",
+                "stable33"
+              ]
+            }
+          },
+          "name": "Update workflows in ${{ matrix.branches }}",
+          "permissions": {
+            "contents": "write",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Check actor permission",
+              "uses": "skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7",
+              "with": {
+                "require": "admin"
+              }
+            },
+            {
+              "name": "Checkout workflow repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "path": "source",
+                "repository": "${{ github.repository_owner }}/.github"
+              }
+            },
+            {
+              "name": "Checkout app",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "path": "target",
+                "ref": "${{ matrix.branches }}"
+              }
+            },
+            {
+              "name": "Check for active merge freeze",
+              "id": "freeze",
+              "env": {
+                "BRANCH_NAME": "${{ matrix.branches }}"
+              },
+              "run": "if [[ ! -f target/.github/workflows/block-merge-freeze.yml ]]; then\n  echo 'No block-merge-freeze workflow, continuing'\n  exit 0\nfi\nif [[ \"$BRANCH_NAME\" == 'main' || \"$BRANCH_NAME\" == 'master' ]]; then\n  SERVER_REF='master'\nelif [[ \"$BRANCH_NAME\" =~ ^stable[0-9]+$ ]]; then\n  SERVER_REF=\"$BRANCH_NAME\"\nelse\n  echo 'Not based on master/main/stable*, so skipping freeze check'\n  exit 0\nfi\ncurl -sf \"https://raw.githubusercontent.com/nextcloud/server/$SERVER_REF/version.php\" --output version.php\nif grep 'OC_VersionString' version.php | grep -q -i -E '(\\.0\\.0 RC[3-9]|\\.[1-9][0-9]* RC)'; then\n  echo \"Merge freeze is active for $SERVER_REF, skipping\"\n  echo 'active=true' >> $GITHUB_OUTPUT\nfi\nrm version.php\n"
+            },
+            {
+              "name": "Copy all workflow templates",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "run": "echo 'SUMMARY<<EOF' >> $GITHUB_ENV\ndraft_only=0\nfor workflow in ./source/workflow-templates/*.yml; do\n  echo \"❓ Looking for $workflow\"\n  if [ -f \"$workflow\" ]; then\n    filename=$(basename \"$workflow\")\n    target_file=\"./target/.github/workflows/$filename\"\n\n    # Only copy if the file exists in the target repository\n    if [ -f \"$target_file\" ]; then\n      if [ -f \"./target/.github/actions-lock.txt\" ]; then\n        locked_version=$(grep \" $filename\" ./target/.github/actions-lock.txt | cat)\n      else\n        echo \"# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors\" >> ./target/.github/actions-lock.txt\n        echo \"# SPDX-License\"\"-Identifier: MIT\" >> ./target/.github/actions-lock.txt\n        locked_version=\"\"\n      fi\n      locked_version=$(echo $locked_version | cut -f 1 -d \" \")\n      new_version=$(md5sum $workflow | cut -f 1 -d \" \")\n\n      # Only update if the action changes\n      if [[ \"$locked_version\" != \"$new_version\" ]]; then\n        echo \"ℹ️ Locked version: $locked_version\"\n        echo \"ℹ️ Current version: $new_version\"\n        echo \"🆙 Updating existing workflow: $filename\"\n        echo \"- 🆙 Updated [$filename](https://github.com/${GITHUB_REPOSITORY_OWNER}/.github/commits/HEAD/workflow-templates/$filename)\" >> $GITHUB_ENV\n\n        cp \"$workflow\" \"$target_file\"\n\n        # Apply patch if one exists\n        if [ -f \"$target_file.patch\" ]; then\n          echo \"🩹 Applying patch\"\n          cd ./target\n          set +e\n          patch -p1 < \".github/workflows/$filename.patch\"\n          patch_worked=$?\n          set -e\n          cd -\n          if [[ \"$patch_worked\" == \"0\" ]]; then\n            echo \"  - Patch applied\" >> $GITHUB_ENV\n          else\n            echo \"  - [ ] ❌ Patch failed\" >> $GITHUB_ENV\n            draft_only=1\n          fi\n        fi\n\n        if [[ \"$locked_version\" != \"\" ]]; then\n          sed -i \"s/$locked_version $filename/$new_version $filename/\" ./target/.github/actions-lock.txt\n        else\n          echo \"$new_version $filename\" >> ./target/.github/actions-lock.txt\n        fi\n      else\n        echo \"✅ Skipping $filename: already up to date\"\n      fi\n    else\n      echo \"⏭️ Skipping $filename: does not exist in target repository\"\n    fi\n  fi\ndone\necho 'EOF' >> $GITHUB_ENV\necho \"DRAFT_ONLY=${draft_only}\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_WORKFLOWS }}",
+                "commit-message": "ci(actions): Update workflow templates from organization template repository",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "path": "target",
+                "signoff": true,
+                "branch": "automated/noid/${{ matrix.branches }}-update-workflows",
+                "title": "[${{ matrix.branches }}] ci(actions): Update workflow templates from organization template repository",
+                "draft": "${{ env.DRAFT_ONLY == 1 }}",
+                "add-paths": ".github/workflows/*.yml,.github/actions-lock.txt",
+                "body": "Automated update of all workflow templates from [${{ github.repository_owner }}/.github](https://github.com/${{ github.repository_owner }}/.github)\n${{ env.SUMMARY }}\n",
+                "labels": "dependencies\n3. to review\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "dispatch",
+          "name": "Update workflows in ${{ matrix.branches }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'dispatch' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[LOW] NO_TIMEOUT: Job 'dispatch' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'dispatch' step 5 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sync-workflow-templates.yml",
+          "start_line": 85,
+          "end_line": 147,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dispatch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sync-workflow-templates.yml",
+          "start_line": 21,
+          "end_line": 167,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "dispatch": 0.0
+        },
+        "pagerank": {
+          "dispatch": 1.0
+        },
+        "downstream_impact": {
+          "dispatch": []
+        },
+        "critical_nodes": [
+          "dispatch"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "transifex.yml",
+      "path": ".github/workflows/transifex.yml",
+      "name": "AutoMerge Transifex Pull Requests",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "approve": {
+          "if": "github.event.pull_request.user.login == 'transifex-integration[bot]'",
+          "runs-on": "ubuntu-latest-low",
+          "permissions": {
+            "pull-requests": "write",
+            "contents": "write"
+          },
+          "name": "Approve",
+          "steps": [
+            {
+              "uses": "hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "uses": "hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363",
+              "with": {
+                "github-token": "${{ secrets.COMMAND_BOT_PAT }}"
+              }
+            },
+            {
+              "name": "Auto merge",
+              "uses": "alexwilson/enable-github-automerge-action@2c32e18a76e0726ffe7a573bfff2d42a20885126",
+              "with": {
+                "github-token": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "approve",
+          "name": "Approve",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'approve' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'approve' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/transifex.yml",
+          "start_line": 9,
+          "end_line": 32,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "approve": 0.0
+        },
+        "pagerank": {
+          "approve": 1.0
+        },
+        "downstream_impact": {
+          "approve": []
+        },
+        "critical_nodes": [
+          "approve"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "update-workflow.yml",
+      "path": ".github/workflows/update-workflow.yml",
+      "name": "Checkout File from Master",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "checkout": {
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "target_branch": [
+                "stable33",
+                "stable34",
+                "stable35"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "fetch-depth": 0,
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "ref": "${{ matrix.target_branch }}"
+              }
+            },
+            {
+              "name": "Configure Git",
+              "run": "git config --local user.email \"nextcloud-command@users.noreply.github.com\"\ngit config --local user.name \"nextcloud-command\"\n"
+            },
+            {
+              "name": "Checkout file from master",
+              "run": "echo \"Checking out file: ${{ inputs.file_path }} from master branch\"\ngit checkout origin/master -- ${{ inputs.file_path }}\n"
+            },
+            {
+              "name": "Adjust Python version for older branches",
+              "run": "# Extract version from branch name (e.g., stable32 -> 32)\nVERSION=$(echo \"${{ matrix.target_branch }}\" | sed 's/stable//')\n\n# For branches stable19-stable31, use Python 3.10 instead of 3.13\nif [ \"$VERSION\" -le 31 ]; then\n  if grep -q \"3.13\" \"${{ inputs.file_path }}\"; then\n    sed -i 's/3\\.13/3.10/g' \"${{ inputs.file_path }}\"\n    echo \"Updated Python version to 3.10 for stable$VERSION\"\n  fi\nfi\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_WORKFLOWS }}",
+                "commit-message": "chore: update ${{ inputs.file_path }} from master branch",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "workflow/update-${{ inputs.file_path }}-${{ matrix.target_branch }}",
+                "base": "${{ matrix.target_branch }}",
+                "title": "[${{ matrix.target_branch }}] chore: update `${{ inputs.file_path }}` from the master branch",
+                "body": "Automated update of `${{ inputs.file_path }}` from the master branch",
+                "labels": "github_actions, 3. to review",
+                "assignees": "${{ github.actor }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "checkout",
+          "name": "checkout",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'checkout' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-workflow.yml",
+          "start_line": 3,
+          "end_line": 10,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'checkout' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-workflow.yml",
+          "start_line": 13,
+          "end_line": 68,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "checkout": 0.0
+        },
+        "pagerank": {
+          "checkout": 1.0
+        },
+        "downstream_impact": {
+          "checkout": []
+        },
+        "critical_nodes": [
+          "checkout"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [],
+  "scorecard": {
+    "overall_score": 51.55,
+    "overall_grade": "F",
+    "technical_debt_score": 48.45,
+    "remediation_hours": 72.73,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 71.0,
+        "grade": "C",
+        "weight": 0.2,
+        "details": "avg_cc=2.22, max_cc=5, duplication=58.10%, dead_code=2"
+      },
+      "security": {
+        "name": "Security",
+        "score": 0.0,
+        "grade": "F",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=2, pipeline_security_findings=8"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 94.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=1.22, max_cognitive=4, fitness_violations=1, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=39, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 0.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=19, operational_antipatterns=43, parallel_branches=True"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "alabaster",
+      "version": "1.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/alabaster@1.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 1,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Babel",
+      "version": "2.18.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/babel@2.18.0",
+      "manifest_file": "requirements.txt",
+      "line": 2,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "certifi",
+      "version": "2026.10.23",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/certifi@2026.10.23",
+      "manifest_file": "requirements.txt",
+      "line": 3,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/charset-normalizer@3.5.2",
+      "manifest_file": "requirements.txt",
+      "line": 4,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "docutils",
+      "version": "0.21.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/docutils@0.21.2",
+      "manifest_file": "requirements.txt",
+      "line": 5,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "idna",
+      "version": "3.20",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/idna@3.20",
+      "manifest_file": "requirements.txt",
+      "line": 6,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "imagesize",
+      "version": "2.0.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/imagesize@2.0.1",
+      "manifest_file": "requirements.txt",
+      "line": 7,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "importlib-metadata",
+      "version": "10.1.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/importlib-metadata@10.1.0",
+      "manifest_file": "requirements.txt",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/jinja2@3.1.6",
+      "manifest_file": "requirements.txt",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/markupsafe@3.0.4",
+      "manifest_file": "requirements.txt",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/packaging@26.3",
+      "manifest_file": "requirements.txt",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Pillow",
+      "version": "13.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/pillow@13.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/pygments@2.21.0",
+      "manifest_file": "requirements.txt",
+      "line": 13,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/pyyaml@6.0.3",
+      "manifest_file": "requirements.txt",
+      "line": 14,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "reportlab",
+      "version": "4.5.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/reportlab@4.5.1",
+      "manifest_file": "requirements.txt",
+      "line": 15,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/requests@2.34.2",
+      "manifest_file": "requirements.txt",
+      "line": 16,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rst2pdf",
+      "version": "0.105",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/rst2pdf@0.105",
+      "manifest_file": "requirements.txt",
+      "line": 17,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "smartypants",
+      "version": "2.0.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/smartypants@2.0.2",
+      "manifest_file": "requirements.txt",
+      "line": 18,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "svglib",
+      "version": "2.3.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/svglib@2.3.2",
+      "manifest_file": "requirements.txt",
+      "line": 19,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "snowballstemmer",
+      "version": "3.1.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/snowballstemmer@3.1.1",
+      "manifest_file": "requirements.txt",
+      "line": 20,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Sphinx",
+      "version": "9.2.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx@9.2.0",
+      "manifest_file": "requirements.txt",
+      "line": 21,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-copybutton",
+      "version": "0.5.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-copybutton@0.5.2",
+      "manifest_file": "requirements.txt",
+      "line": 22,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-rtd-theme",
+      "version": "3.1.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-rtd-theme@3.1.0",
+      "manifest_file": "requirements.txt",
+      "line": 23,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-rtd-dark-mode",
+      "version": "1.3.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-rtd-dark-mode@1.3.0",
+      "manifest_file": "requirements.txt",
+      "line": 24,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-applehelp",
+      "version": "2.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-applehelp@2.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 25,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-devhelp",
+      "version": "2.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-devhelp@2.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 26,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-htmlhelp",
+      "version": "2.1.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-htmlhelp@2.1.0",
+      "manifest_file": "requirements.txt",
+      "line": 27,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-jquery",
+      "version": "4.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-jquery@4.1",
+      "manifest_file": "requirements.txt",
+      "line": 28,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-jsmath",
+      "version": "2.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-jsmath@2.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 29,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-mermaid",
+      "version": "2.1.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-mermaid@2.1.1",
+      "manifest_file": "requirements.txt",
+      "line": 30,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-lint",
+      "version": "1.0.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-lint@1.0.2",
+      "manifest_file": "requirements.txt",
+      "line": 31,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-notfound-page",
+      "version": "1.1.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-notfound-page@1.1.0",
+      "manifest_file": "requirements.txt",
+      "line": 32,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-phpdomain",
+      "version": "0.15.3",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-phpdomain@0.15.3",
+      "manifest_file": "requirements.txt",
+      "line": 33,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-qthelp",
+      "version": "2.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-qthelp@2.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 34,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinxcontrib-serializinghtml",
+      "version": "2.0.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinxcontrib-serializinghtml@2.0.0",
+      "manifest_file": "requirements.txt",
+      "line": 35,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-toolbox",
+      "version": "4.3.1",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-toolbox@4.3.1",
+      "manifest_file": "requirements.txt",
+      "line": 36,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sphinx-reredirects",
+      "version": "1.1.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/sphinx-reredirects@1.1.0",
+      "manifest_file": "requirements.txt",
+      "line": 37,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/urllib3@2.8.0",
+      "manifest_file": "requirements.txt",
+      "line": 38,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "zipp",
+      "version": "4.1.2",
+      "ecosystem": "PyPI",
+      "purl": "pkg:pypi/zipp@4.1.2",
+      "manifest_file": "requirements.txt",
+      "line": 39,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [
+    {
+      "rule_id": "ATRUSS-SEC-005",
+      "type": "HIGH_ENTROPY_SECRET",
+      "severity": "HIGH",
+      "file_source": "developer_manual/client_apis/LoginFlow/index.rst",
+      "start_line": 137,
+      "end_line": 137,
+      "redacted_snippet": "\"token\":\"mQUY***REDACTED***\",",
+      "entropy": 5.601,
+      "message": "High-entropy credential candidate (H=5.60 > 4.5) detected."
+    },
+    {
+      "rule_id": "ATRUSS-SEC-005",
+      "type": "HIGH_ENTROPY_SECRET",
+      "severity": "HIGH",
+      "file_source": "developer_manual/client_apis/LoginFlow/index.rst",
+      "start_line": 158,
+      "end_line": 158,
+      "redacted_snippet": "\"appPassword\":\"yKTV***REDACTED***\"",
+      "entropy": 5.4335,
+      "message": "High-entropy credential candidate (H=5.43 > 4.5) detected."
+    }
+  ],
+  "fitness_violations": [
+    {
+      "rule_id": "ATRUSS-ARCH-005",
+      "type": "COMPLEXITY_THRESHOLD",
+      "severity": "MEDIUM",
+      "message": "Repository duplication_pct (58.1) exceeds policy threshold (15.0).",
+      "source_component": "conf.py",
+      "target_component": "duplication_pct",
+      "source_layer": "REPOSITORY",
+      "target_layer": "THRESHOLD",
+      "file_source": "conf.py",
+      "start_line": 1,
+      "end_line": 1
+    }
+  ],
+  "code_to_cloud_edges": [
+    {
+      "source": ".devcontainer",
+      "source_type": "code_module",
+      "target": "build-docs.yml#prepare-pdf-image",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": ".devcontainer",
+      "source_type": "code_module",
+      "target": "docker-build.yml#build-and-publish",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    },
+    {
+      "source": ".devcontainer",
+      "source_type": "code_module",
+      "target": ".devcontainer/Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": ".devcontainer/Dockerfile",
+      "source_type": "container",
+      "target": "build-docs.yml#prepare-pdf-image",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": ".devcontainer/Dockerfile",
+      "source_type": "container",
+      "target": "docker-build.yml#build-and-publish",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

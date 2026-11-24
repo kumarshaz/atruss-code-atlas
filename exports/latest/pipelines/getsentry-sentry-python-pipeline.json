@@ -1,0 +1,2027 @@
+{
+  "org": "getsentry",
+  "repository": "sentry-python",
+  "sha": "26ef57190d48d90e5ae2483db52dd4ce9b863f15",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "changelog-preview.yml",
+      "path": ".github/workflows/changelog-preview.yml",
+      "name": "Changelog Preview",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "changelog-preview",
+          "name": "changelog-preview",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/changelog-preview.yml",
+          "source_job": "changelog-preview",
+          "target_workflow": "getsentry/craft/.github/workflows/changelog-preview.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "changelog-preview": 0.0
+        },
+        "pagerank": {
+          "changelog-preview": 1.0
+        },
+        "downstream_impact": {
+          "changelog-preview": []
+        },
+        "critical_nodes": [
+          "changelog-preview"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changelog-preview' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/changelog-preview.yml",
+          "start_line": 17,
+          "end_line": 20,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "lint",
+          "name": "Lint Sources",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "build_lambda_layer",
+          "name": "Build Package",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "docs",
+          "name": "Build SDK API Doc",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build_lambda_layer": 0.0,
+          "docs": 0.0,
+          "lint": 0.0
+        },
+        "pagerank": {
+          "build_lambda_layer": 0.333333,
+          "docs": 0.333333,
+          "lint": 0.333333
+        },
+        "downstream_impact": {
+          "build_lambda_layer": [],
+          "docs": [],
+          "lint": []
+        },
+        "critical_nodes": [
+          "build_lambda_layer",
+          "docs",
+          "lint"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'build_lambda_layer' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 49,
+          "end_line": 49,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'docs' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 74,
+          "end_line": 74,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "enforce-license-compliance.yml",
+      "path": ".github/workflows/enforce-license-compliance.yml",
+      "name": "Enforce License Compliance",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "enforce-license-compliance",
+          "name": "enforce-license-compliance",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "enforce-license-compliance": 0.0
+        },
+        "pagerank": {
+          "enforce-license-compliance": 1.0
+        },
+        "downstream_impact": {
+          "enforce-license-compliance": []
+        },
+        "critical_nodes": [
+          "enforce-license-compliance"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/enforce-license-compliance.yml",
+          "start_line": 3,
+          "end_line": 9,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'enforce-license-compliance' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/enforce-license-compliance.yml",
+          "start_line": 17,
+          "end_line": 23,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-comment-issues.yml",
+      "path": ".github/workflows/release-comment-issues.yml",
+      "name": "Automation: Notify issues for release",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release-comment-issues",
+          "name": "Notify issues",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-comment-issues": 0.0
+        },
+        "pagerank": {
+          "release-comment-issues": 1.0
+        },
+        "downstream_impact": {
+          "release-comment-issues": []
+        },
+        "critical_nodes": [
+          "release-comment-issues"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-comment-issues' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-comment-issues.yml",
+          "start_line": 19,
+          "end_line": 39,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-comment-issues' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-comment-issues.yml",
+          "start_line": 19,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release",
+          "name": "Release a new version",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 19,
+          "end_line": 40,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 19,
+          "end_line": 40,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-agents.yml",
+      "path": ".github/workflows/test-integrations-agents.yml",
+      "name": "Test Agents",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-agents",
+          "name": "Agents",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-agents": 0.0
+        },
+        "pagerank": {
+          "test-agents": 1.0
+        },
+        "downstream_impact": {
+          "test-agents": []
+        },
+        "critical_nodes": [
+          "test-agents"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-agents.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-agents' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-agents.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-ai-workflow.yml",
+      "path": ".github/workflows/test-integrations-ai-workflow.yml",
+      "name": "Test AI Workflow",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-ai_workflow",
+          "name": "AI Workflow",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-ai_workflow": 0.0
+        },
+        "pagerank": {
+          "test-ai_workflow": 1.0
+        },
+        "downstream_impact": {
+          "test-ai_workflow": []
+        },
+        "critical_nodes": [
+          "test-ai_workflow"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-ai-workflow.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-ai_workflow' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-ai-workflow.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-ai.yml",
+      "path": ".github/workflows/test-integrations-ai.yml",
+      "name": "Test AI",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-ai",
+          "name": "AI",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-ai": 0.0
+        },
+        "pagerank": {
+          "test-ai": 1.0
+        },
+        "downstream_impact": {
+          "test-ai": []
+        },
+        "critical_nodes": [
+          "test-ai"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-ai.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-ai' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-ai.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-cloud.yml",
+      "path": ".github/workflows/test-integrations-cloud.yml",
+      "name": "Test Cloud",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-cloud",
+          "name": "Cloud",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-cloud": 0.0
+        },
+        "pagerank": {
+          "test-cloud": 1.0
+        },
+        "downstream_impact": {
+          "test-cloud": []
+        },
+        "critical_nodes": [
+          "test-cloud"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-cloud.yml",
+          "start_line": 42,
+          "end_line": 43,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-cloud' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-cloud.yml",
+          "start_line": 31,
+          "end_line": 31,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-common.yml",
+      "path": ".github/workflows/test-integrations-common.yml",
+      "name": "Test Common",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-common",
+          "name": "Common",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-common": 0.0
+        },
+        "pagerank": {
+          "test-common": 1.0
+        },
+        "downstream_impact": {
+          "test-common": []
+        },
+        "critical_nodes": [
+          "test-common"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-common.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-common' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-common.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-dbs.yml",
+      "path": ".github/workflows/test-integrations-dbs.yml",
+      "name": "Test DBs",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-dbs",
+          "name": "DBs",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 13,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-dbs": 0.0
+        },
+        "pagerank": {
+          "test-dbs": 1.0
+        },
+        "downstream_impact": {
+          "test-dbs": []
+        },
+        "critical_nodes": [
+          "test-dbs"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-dbs.yml",
+          "start_line": 70,
+          "end_line": 71,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-dbs' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-dbs.yml",
+          "start_line": 57,
+          "end_line": 57,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-flags.yml",
+      "path": ".github/workflows/test-integrations-flags.yml",
+      "name": "Test Flags",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-flags",
+          "name": "Flags",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-flags": 0.0
+        },
+        "pagerank": {
+          "test-flags": 1.0
+        },
+        "downstream_impact": {
+          "test-flags": []
+        },
+        "critical_nodes": [
+          "test-flags"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-flags.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-flags' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-flags.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-gevent.yml",
+      "path": ".github/workflows/test-integrations-gevent.yml",
+      "name": "Test Gevent",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-gevent",
+          "name": "Gevent",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 6,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-gevent": 0.0
+        },
+        "pagerank": {
+          "test-gevent": 1.0
+        },
+        "downstream_impact": {
+          "test-gevent": []
+        },
+        "critical_nodes": [
+          "test-gevent"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-gevent.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-gevent' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-gevent.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-graphql.yml",
+      "path": ".github/workflows/test-integrations-graphql.yml",
+      "name": "Test GraphQL",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-graphql",
+          "name": "GraphQL",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-graphql": 0.0
+        },
+        "pagerank": {
+          "test-graphql": 1.0
+        },
+        "downstream_impact": {
+          "test-graphql": []
+        },
+        "critical_nodes": [
+          "test-graphql"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-graphql.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-graphql' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-graphql.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-mcp.yml",
+      "path": ".github/workflows/test-integrations-mcp.yml",
+      "name": "Test MCP",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-mcp",
+          "name": "MCP",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-mcp": 0.0
+        },
+        "pagerank": {
+          "test-mcp": 1.0
+        },
+        "downstream_impact": {
+          "test-mcp": []
+        },
+        "critical_nodes": [
+          "test-mcp"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-mcp.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-mcp' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-mcp.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-misc.yml",
+      "path": ".github/workflows/test-integrations-misc.yml",
+      "name": "Test Misc",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-misc",
+          "name": "Misc",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-misc": 0.0
+        },
+        "pagerank": {
+          "test-misc": 1.0
+        },
+        "downstream_impact": {
+          "test-misc": []
+        },
+        "critical_nodes": [
+          "test-misc"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-misc.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-misc' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-misc.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-network.yml",
+      "path": ".github/workflows/test-integrations-network.yml",
+      "name": "Test Network",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-network",
+          "name": "Network",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 10,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-network": 0.0
+        },
+        "pagerank": {
+          "test-network": 1.0
+        },
+        "downstream_impact": {
+          "test-network": []
+        },
+        "critical_nodes": [
+          "test-network"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-network.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-network' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-network.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-tasks.yml",
+      "path": ".github/workflows/test-integrations-tasks.yml",
+      "name": "Test Tasks",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-tasks",
+          "name": "Tasks",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 14,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-tasks": 0.0
+        },
+        "pagerank": {
+          "test-tasks": 1.0
+        },
+        "downstream_impact": {
+          "test-tasks": []
+        },
+        "critical_nodes": [
+          "test-tasks"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-tasks.yml",
+          "start_line": 54,
+          "end_line": 55,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-tasks' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-tasks.yml",
+          "start_line": 38,
+          "end_line": 38,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-web-1.yml",
+      "path": ".github/workflows/test-integrations-web-1.yml",
+      "name": "Test Web 1",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-web_1",
+          "name": "Web 1",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-web_1": 0.0
+        },
+        "pagerank": {
+          "test-web_1": 1.0
+        },
+        "downstream_impact": {
+          "test-web_1": []
+        },
+        "critical_nodes": [
+          "test-web_1"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-web-1.yml",
+          "start_line": 55,
+          "end_line": 56,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-web_1' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-web-1.yml",
+          "start_line": 44,
+          "end_line": 44,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test-integrations-web-2.yml",
+      "path": ".github/workflows/test-integrations-web-2.yml",
+      "name": "Test Web 2",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "test-web_2",
+          "name": "Web 2",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 15,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test-web_2": 0.0
+        },
+        "pagerank": {
+          "test-web_2": 1.0
+        },
+        "downstream_impact": {
+          "test-web_2": []
+        },
+        "critical_nodes": [
+          "test-web_2"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-web-2.yml",
+          "start_line": 38,
+          "end_line": 39,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-013",
+          "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
+          "severity": "MEDIUM",
+          "message": "Job 'test-web_2' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test-integrations-web-2.yml",
+          "start_line": 27,
+          "end_line": 27,
+          "remediation": "Set 'with: persist-credentials: false' on actions/checkout steps in jobs that upload artifacts."
+        }
+      ]
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "files-changed",
+          "name": "Detect changed files",
+          "runner": "ubuntu-24.04",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "common",
+          "name": "Common",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "mcp",
+          "name": "MCP",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "agents",
+          "name": "Agents",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "ai_workflow",
+          "name": "AI Workflow",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "ai",
+          "name": "AI",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "dbs",
+          "name": "DBs",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "flags",
+          "name": "Flags",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "gevent",
+          "name": "Gevent",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "graphql",
+          "name": "GraphQL",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "network",
+          "name": "Network",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "tasks",
+          "name": "Tasks",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "web_1",
+          "name": "Web 1",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "web_2",
+          "name": "Web 2",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "files-changed"
+          ]
+        },
+        {
+          "id": "report",
+          "name": "Combine and report coverage",
+          "runner": "ubuntu-22.04",
+          "steps_count": 5,
+          "needs": [
+            "files-changed",
+            "common",
+            "mcp",
+            "agents",
+            "ai_workflow",
+            "ai",
+            "cloud",
+            "dbs",
+            "flags",
+            "gevent",
+            "graphql",
+            "network",
+            "tasks",
+            "web_1",
+            "web_2",
+            "misc"
+          ]
+        },
+        {
+          "id": "check-required",
+          "name": "All tests passed",
+          "runner": "ubuntu-22.04",
+          "steps_count": 1,
+          "needs": [
+            "files-changed",
+            "common",
+            "mcp",
+            "agents",
+            "ai_workflow",
+            "ai",
+            "cloud",
+            "dbs",
+            "flags",
+            "gevent",
+            "graphql",
+            "network",
+            "tasks",
+            "web_1",
+            "web_2",
+            "misc"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 18,
+        "edge_count": 47,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "agents",
+          "target_workflow": ".github/workflows/test-integrations-agents.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "ai",
+          "target_workflow": ".github/workflows/test-integrations-ai.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "ai_workflow",
+          "target_workflow": ".github/workflows/test-integrations-ai-workflow.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "cloud",
+          "target_workflow": ".github/workflows/test-integrations-cloud.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "common",
+          "target_workflow": ".github/workflows/test-integrations-common.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "dbs",
+          "target_workflow": ".github/workflows/test-integrations-dbs.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "flags",
+          "target_workflow": ".github/workflows/test-integrations-flags.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "gevent",
+          "target_workflow": ".github/workflows/test-integrations-gevent.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "graphql",
+          "target_workflow": ".github/workflows/test-integrations-graphql.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "mcp",
+          "target_workflow": ".github/workflows/test-integrations-mcp.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "misc",
+          "target_workflow": ".github/workflows/test-integrations-misc.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "network",
+          "target_workflow": ".github/workflows/test-integrations-network.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "tasks",
+          "target_workflow": ".github/workflows/test-integrations-tasks.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "web_1",
+          "target_workflow": ".github/workflows/test-integrations-web-1.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/test.yml",
+          "source_job": "web_2",
+          "target_workflow": ".github/workflows/test-integrations-web-2.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "agents": 0.0,
+          "ai": 0.0,
+          "ai_workflow": 0.0,
+          "check-required": 0.0,
+          "cloud": 0.0,
+          "common": 0.0,
+          "dbs": 0.0,
+          "files-changed": 0.0,
+          "flags": 0.0,
+          "gevent": 0.0,
+          "graphql": 0.0,
+          "mcp": 0.0,
+          "misc": 0.0,
+          "network": 0.0,
+          "report": 0.0,
+          "tasks": 0.0,
+          "web_1": 0.0,
+          "web_2": 0.0
+        },
+        "pagerank": {
+          "agents": 0.032571,
+          "ai": 0.032571,
+          "ai_workflow": 0.032571,
+          "check-required": 0.240211,
+          "cloud": 0.032571,
+          "common": 0.032571,
+          "dbs": 0.032571,
+          "files-changed": 0.03102,
+          "flags": 0.032571,
+          "gevent": 0.032571,
+          "graphql": 0.032571,
+          "mcp": 0.032571,
+          "misc": 0.032571,
+          "network": 0.032571,
+          "report": 0.240211,
+          "tasks": 0.032571,
+          "web_1": 0.032571,
+          "web_2": 0.032571
+        },
+        "downstream_impact": {
+          "agents": [
+            "check-required",
+            "report"
+          ],
+          "ai": [
+            "check-required",
+            "report"
+          ],
+          "ai_workflow": [
+            "check-required",
+            "report"
+          ],
+          "check-required": [],
+          "cloud": [
+            "check-required",
+            "report"
+          ],
+          "common": [
+            "check-required",
+            "report"
+          ],
+          "dbs": [
+            "check-required",
+            "report"
+          ],
+          "files-changed": [
+            "agents",
+            "ai",
+            "ai_workflow",
+            "check-required",
+            "cloud",
+            "common",
+            "dbs",
+            "flags",
+            "gevent",
+            "graphql",
+            "mcp",
+            "misc",
+            "network",
+            "report",
+            "tasks",
+            "web_1",
+            "web_2"
+          ],
+          "flags": [
+            "check-required",
+            "report"
+          ],
+          "gevent": [
+            "check-required",
+            "report"
+          ],
+          "graphql": [
+            "check-required",
+            "report"
+          ],
+          "mcp": [
+            "check-required",
+            "report"
+          ],
+          "misc": [
+            "check-required",
+            "report"
+          ],
+          "network": [
+            "check-required",
+            "report"
+          ],
+          "report": [],
+          "tasks": [
+            "check-required",
+            "report"
+          ],
+          "web_1": [
+            "check-required",
+            "report"
+          ],
+          "web_2": [
+            "check-required",
+            "report"
+          ]
+        },
+        "critical_nodes": [
+          "check-required",
+          "report",
+          "agents",
+          "ai",
+          "ai_workflow",
+          "cloud",
+          "common",
+          "dbs",
+          "flags",
+          "gevent",
+          "graphql",
+          "mcp",
+          "misc",
+          "network",
+          "tasks",
+          "web_1",
+          "web_2",
+          "files-changed"
+        ],
+        "max_blast_radius": 17
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 171,
+          "end_line": 176,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'common' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 63,
+          "end_line": 67,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'mcp' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 68,
+          "end_line": 72,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'agents' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 73,
+          "end_line": 77,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'ai_workflow' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 78,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'ai' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 83,
+          "end_line": 87,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'cloud' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 88,
+          "end_line": 92,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dbs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 93,
+          "end_line": 97,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'flags' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 98,
+          "end_line": 102,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'gevent' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 103,
+          "end_line": 107,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'graphql' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 108,
+          "end_line": 112,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'network' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 113,
+          "end_line": 117,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tasks' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 118,
+          "end_line": 122,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'web_1' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 123,
+          "end_line": 127,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'web_2' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 128,
+          "end_line": 132,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'misc' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 133,
+          "end_line": 137,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'report' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 138,
+          "end_line": 185,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-required' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/test.yml",
+          "start_line": 186,
+          "end_line": 212,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update-tox.yml",
+      "path": ".github/workflows/update-tox.yml",
+      "name": "Update test matrix",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "update-tox",
+          "name": "Update test matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-tox": 0.0
+        },
+        "pagerank": {
+          "update-tox": 1.0
+        },
+        "downstream_impact": {
+          "update-tox": []
+        },
+        "critical_nodes": [
+          "update-tox"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "validate-pr.yml",
+      "path": ".github/workflows/validate-pr.yml",
+      "name": "Validate PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": [
+        {
+          "id": "validate-pr",
+          "name": "validate-pr",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr": 0.0
+        },
+        "pagerank": {
+          "validate-pr": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr": []
+        },
+        "critical_nodes": [
+          "validate-pr"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-pr.yml",
+          "start_line": 8,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

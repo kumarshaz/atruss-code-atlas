@@ -2,8 +2,8 @@ name: Daily Target Repo Exports & Portal Refresh
 
 on:
   schedule:
-    # Daily at 06:00 UTC (01:00 EST / 02:00 EDT)
-    - cron: "0 6 * * *"
+    # Daily at 05:23 UTC (off-peak minute to avoid top-of-hour GitHub cron delays)
+    - cron: "23 5 * * *"
   workflow_dispatch:
     inputs:
       corpus_file:

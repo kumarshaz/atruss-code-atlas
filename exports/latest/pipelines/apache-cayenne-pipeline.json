@@ -1,0 +1,380 @@
+{
+  "org": "apache",
+  "repository": "cayenne",
+  "sha": "db4e883ee1caa7ab343b7f638f8c0b1ee923af8a",
+  "analyzed_at": "2026-11-15T05:22:53Z",
+  "workflows": [
+    {
+      "id": "build-mac.yml",
+      "path": ".github/workflows/build-mac.yml",
+      "name": "build mac",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "dmg",
+          "name": "Mac dmg",
+          "runner": "macos-15",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "dmg": 0.0
+        },
+        "pagerank": {
+          "dmg": 1.0
+        },
+        "downstream_impact": {
+          "dmg": []
+        },
+        "critical_nodes": [
+          "dmg"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "release-dist.yml",
+      "path": ".github/workflows/release-dist.yml",
+      "name": "release dist",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "source",
+          "name": "Source release",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": []
+        },
+        {
+          "id": "generic",
+          "name": "Generic assembly",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "source"
+          ]
+        },
+        {
+          "id": "windows",
+          "name": "Windows assembly",
+          "runner": "windows-latest",
+          "steps_count": 3,
+          "needs": [
+            "source"
+          ]
+        },
+        {
+          "id": "mac",
+          "name": "Mac assembly",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "source"
+          ]
+        },
+        {
+          "id": "bundle",
+          "name": "Release bundle",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "source",
+            "generic",
+            "windows",
+            "mac"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 7,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/release-dist.yml",
+          "source_job": "mac",
+          "target_workflow": ".github/workflows/build-mac.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "bundle": 0.0,
+          "generic": 0.0,
+          "mac": 0.0,
+          "source": 0.0,
+          "windows": 0.0
+        },
+        "pagerank": {
+          "bundle": 0.481372,
+          "generic": 0.135598,
+          "mac": 0.135598,
+          "source": 0.111834,
+          "windows": 0.135598
+        },
+        "downstream_impact": {
+          "bundle": [],
+          "generic": [
+            "bundle"
+          ],
+          "mac": [
+            "bundle"
+          ],
+          "source": [
+            "bundle",
+            "generic",
+            "mac",
+            "windows"
+          ],
+          "windows": [
+            "bundle"
+          ]
+        },
+        "critical_nodes": [
+          "bundle",
+          "generic",
+          "mac",
+          "windows",
+          "source"
+        ],
+        "max_blast_radius": 4
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'source' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-dist.yml",
+          "start_line": 58,
+          "end_line": 143,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'bundle' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-dist.yml",
+          "start_line": 214,
+          "end_line": 250,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-dist.yml",
+          "start_line": 98,
+          "end_line": 114,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'mac' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-dist.yml",
+          "start_line": 204,
+          "end_line": 212,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "verify-deploy-on-push.yml",
+      "path": ".github/workflows/verify-deploy-on-push.yml",
+      "name": "verify and deploy 5.0",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "verify",
+          "name": "JDK ${{ matrix.jdk }}, DB ${{ matrix.db-profile }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "deploy",
+          "name": "deploy",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "verify"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy": 0.0,
+          "verify": 0.0
+        },
+        "pagerank": {
+          "deploy": 0.649123,
+          "verify": 0.350877
+        },
+        "downstream_impact": {
+          "deploy": [],
+          "verify": [
+            "deploy"
+          ]
+        },
+        "critical_nodes": [
+          "deploy",
+          "verify"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-deploy-on-push.yml",
+          "start_line": 52,
+          "end_line": 77,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-006",
+          "type": "UNFILTERED_MAIN_PUSH",
+          "severity": "HIGH",
+          "message": "Deployment workflow triggers on unfiltered 'push' event.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-deploy-on-push.yml",
+          "start_line": 18,
+          "end_line": 18,
+          "remediation": "Restrict push triggers using explicit 'branches:' or 'tags:' allowlists (for example, branches: [main])."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-deploy-on-push.yml",
+          "start_line": 18,
+          "end_line": 18,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-deploy-on-push.yml",
+          "start_line": 24,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-deploy-on-push.yml",
+          "start_line": 52,
+          "end_line": 77,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "verify-on-pr.yml",
+      "path": ".github/workflows/verify-on-pr.yml",
+      "name": "verify PR 5.0",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test",
+          "name": "JDK ${{ matrix.jdk }}, DB ${{ matrix.db-profile }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-on-pr.yml",
+          "start_line": 18,
+          "end_line": 18,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-on-pr.yml",
+          "start_line": 24,
+          "end_line": 50,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}
