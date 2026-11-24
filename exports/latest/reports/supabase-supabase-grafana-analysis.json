@@ -1,0 +1,134 @@
+{
+  "repository": "supabase/supabase-grafana",
+  "sha": "04469b485b758e3a28bdea5239f540a4c3604603",
+  "ecosystem": "Container / Helm / IaC",
+  "metrics": {
+    "files_analyzed": 5,
+    "loc": 84,
+    "sloc": 70,
+    "component_count": 5,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Docker Compose",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [],
+  "architecture_components": [
+    {
+      "name": "docker-compose",
+      "type": "module",
+      "file": "docker-compose.yml",
+      "line": 1
+    },
+    {
+      "name": "dependabot",
+      "type": "module",
+      "file": ".github/dependabot.yml",
+      "line": 1
+    },
+    {
+      "name": "dashboard",
+      "type": "module",
+      "file": "grafana/dashboard.yml",
+      "line": 1
+    },
+    {
+      "name": "datasource",
+      "type": "module",
+      "file": "grafana/datasource.yml",
+      "line": 1
+    },
+    {
+      "name": "prometheus",
+      "type": "module",
+      "file": "prometheus/prometheus.yml",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 80.5,
+    "overall_grade": "B",
+    "technical_debt_score": 19.5,
+    "remediation_hours": 4.88,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "workflows=0"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "4e43a12c-56f9-4f58-8d59-77a473b0ecce",
+      "source_type": "code_module",
+      "target": "Dockerfile",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    },
+    {
+      "source": "4e43a12c-56f9-4f58-8d59-77a473b0ecce",
+      "source_type": "code_module",
+      "target": "docker-compose.yml",
+      "target_type": "container",
+      "relationship": "PACKAGED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

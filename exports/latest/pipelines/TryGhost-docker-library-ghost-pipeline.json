@@ -1,0 +1,195 @@
+{
+  "org": "TryGhost",
+  "repository": "docker-library-ghost",
+  "sha": "a235302a801ceac861ca6944ebce03995f27d0dd",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "GitHub CI",
+      "triggers": [
+        "pull_request",
+        "push",
+        "schedule"
+      ],
+      "jobs": [
+        {
+          "id": "generate-jobs",
+          "name": "Generate Jobs",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.name }}",
+          "runner": "${{ matrix.os }}",
+          "steps_count": 7,
+          "needs": [
+            "generate-jobs"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "generate-jobs": 0.0,
+          "test": 0.0
+        },
+        "pagerank": {
+          "generate-jobs": 0.350877,
+          "test": 0.649123
+        },
+        "downstream_impact": {
+          "generate-jobs": [
+            "test"
+          ],
+          "test": []
+        },
+        "critical_nodes": [
+          "test",
+          "generate-jobs"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'generate-jobs' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 19,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 35,
+          "end_line": 53,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "update.yml",
+      "path": ".github/workflows/update.yml",
+      "name": "Update Dockerfiles",
+      "triggers": [
+        "repository_dispatch",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update",
+          "name": "Update Dockerfiles",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update": 0.0
+        },
+        "pagerank": {
+          "update": 1.0
+        },
+        "downstream_impact": {
+          "update": []
+        },
+        "critical_nodes": [
+          "update"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update.yml",
+          "start_line": 33,
+          "end_line": 292,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "verify-templating.yml",
+      "path": ".github/workflows/verify-templating.yml",
+      "name": "Verify Templating",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "apply-templates",
+          "name": "Check For Uncomitted Changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "apply-templates": 0.0
+        },
+        "pagerank": {
+          "apply-templates": 1.0
+        },
+        "downstream_impact": {
+          "apply-templates": []
+        },
+        "critical_nodes": [
+          "apply-templates"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'apply-templates' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify-templating.yml",
+          "start_line": 18,
+          "end_line": 24,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    }
+  ]
+}

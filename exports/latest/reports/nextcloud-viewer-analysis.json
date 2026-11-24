@@ -1,0 +1,872 @@
+{
+  "repository": "nextcloud/viewer",
+  "sha": "441c3edf740c277603d3403143ecc1febe11ffc0",
+  "ecosystem": "Unknown",
+  "metrics": {
+    "files_analyzed": 0,
+    "loc": 0,
+    "sloc": 0,
+    "component_count": 0,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "tree-sitter",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Unknown",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "command-compile.yml",
+      "path": ".github/workflows/command-compile.yml",
+      "name": "Compile Command",
+      "triggers": [
+        "issue_comment"
+      ],
+      "jobs": {
+        "init": {
+          "runs-on": "ubuntu-latest-low",
+          "if": "github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')",
+          "outputs": {
+            "git_path": "${{ steps.git-path.outputs.path }}",
+            "arg1": "${{ steps.command.outputs.arg1 }}",
+            "arg2": "${{ steps.command.outputs.arg2 }}",
+            "head_ref": "${{ steps.comment-branch.outputs.head_ref }}",
+            "base_ref": "${{ steps.comment-branch.outputs.base_ref }}"
+          },
+          "steps": [
+            {
+              "name": "Get repository from pull request comment",
+              "uses": "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3",
+              "id": "get-repository",
+              "with": {
+                "github-token": "${{secrets.GITHUB_TOKEN}}",
+                "script": "const pull = await github.rest.pulls.get({\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  pull_number: context.issue.number\n});\n\nconst repositoryName = pull.data.head?.repo?.full_name\nconsole.log(repositoryName)\nreturn repositoryName\n"
+              }
+            },
+            {
+              "name": "Disabled on forks",
+              "if": "${{ fromJSON(steps.get-repository.outputs.result) != github.repository }}",
+              "run": "echo 'Can not execute /compile on forks'\nexit 1\n"
+            },
+            {
+              "name": "Check actor permission",
+              "uses": "skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7",
+              "with": {
+                "require": "write"
+              }
+            },
+            {
+              "name": "Add reaction on start",
+              "uses": "peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "repository": "${{ github.event.repository.full_name }}",
+                "comment-id": "${{ github.event.comment.id }}",
+                "reactions": "+1"
+              }
+            },
+            {
+              "name": "Parse command",
+              "uses": "skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1",
+              "id": "command"
+            },
+            {
+              "name": "Init path",
+              "id": "git-path",
+              "run": "if ${{ startsWith(steps.command.outputs.arg1, '/') }}; then\n  echo \"path=${{steps.command.outputs.arg1}}\" >> $GITHUB_OUTPUT\nelse\n  echo \"path=${{steps.command.outputs.arg2}}\" >> $GITHUB_OUTPUT\nfi\n"
+            },
+            {
+              "name": "Init branch",
+              "uses": "xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1",
+              "id": "comment-branch"
+            },
+            {
+              "name": "Add reaction on failure",
+              "uses": "peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9",
+              "if": "failure()",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "repository": "${{ github.event.repository.full_name }}",
+                "comment-id": "${{ github.event.comment.id }}",
+                "reactions": "-1"
+              }
+            }
+          ]
+        },
+        "process": {
+          "runs-on": "ubuntu-latest",
+          "needs": "init",
+          "steps": [
+            {
+              "name": "Restore cached git repository",
+              "uses": "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "with": {
+                "path": ".git",
+                "key": "git-repo"
+              }
+            },
+            {
+              "name": "Checkout ${{ needs.init.outputs.head_ref }}",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "fetch-depth": 0,
+                "ref": "${{ needs.init.outputs.head_ref }}"
+              }
+            },
+            {
+              "name": "Setup git",
+              "run": "git config --local user.email 'nextcloud-command@users.noreply.github.com'\ngit config --local user.name 'nextcloud-command'\n"
+            },
+            {
+              "name": "Read package.json node and npm engines version",
+              "uses": "skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4",
+              "id": "package-engines-versions",
+              "with": {
+                "fallbackNode": "^24",
+                "fallbackNpm": "^11.3"
+              }
+            },
+            {
+              "name": "Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}",
+              "uses": "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+              "with": {
+                "node-version": "${{ steps.package-engines-versions.outputs.nodeVersion }}",
+                "cache": "npm"
+              }
+            },
+            {
+              "name": "Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}",
+              "run": "npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'"
+            },
+            {
+              "name": "Rebase to ${{ needs.init.outputs.base_ref }}",
+              "if": "${{ contains(needs.init.outputs.arg1, 'rebase') }}",
+              "env": {
+                "BASE_REF": "${{ needs.init.outputs.base_ref }}"
+              },
+              "run": "git fetch origin \"${BASE_REF}:${BASE_REF}\"\n\n# Start the rebase\ngit rebase \"origin/${BASE_REF}\" || {\n  # Handle rebase conflicts in a loop\n  while [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; do\n    echo \"Handling rebase conflict...\"\n\n    # Remove and checkout /dist and /js folders from the base branch\n    if [ -d \"dist\" ]; then\n      rm -rf dist\n      git checkout \"origin/${BASE_REF}\" -- dist/ 2>/dev/null || echo \"No dist folder in base branch\"\n    fi\n    if [ -d \"js\" ]; then\n      rm -rf js\n      git checkout \"origin/${BASE_REF}\" -- js/ 2>/dev/null || echo \"No js folder in base branch\"\n    fi\n\n    # Stage all changes\n    git add .\n\n    # Check if there are any changes after resolving conflicts\n    if git diff --cached --quiet; then\n      echo \"No changes after conflict resolution, skipping commit\"\n      git rebase --skip\n    else\n      echo \"Changes found, continuing rebase without editing commit message\"\n      git -c core.editor=true rebase --continue\n    fi\n\n    # Break if rebase is complete\n    if [ ! -d .git/rebase-merge ] && [ ! -d .git/rebase-apply ]; then\n      break\n    fi\n  done\n}\n"
+            },
+            {
+              "name": "Install dependencies & build",
+              "env": {
+                "CYPRESS_INSTALL_BINARY": 0,
+                "PUPPETEER_SKIP_DOWNLOAD": true
+              },
+              "run": "npm ci\nnpm run build --if-present\n"
+            },
+            {
+              "name": "Commit default",
+              "if": "${{ !contains(needs.init.outputs.arg1, 'fixup') && !contains(needs.init.outputs.arg1, 'amend') }}",
+              "env": {
+                "GIT_PATH": "${{ needs.init.outputs.git_path }}"
+              },
+              "run": "git add \"${GITHUB_WORKSPACE}${GIT_PATH}\"\ngit commit --signoff -m 'chore(assets): Recompile assets'\n"
+            },
+            {
+              "name": "Commit fixup",
+              "if": "${{ contains(needs.init.outputs.arg1, 'fixup') }}",
+              "env": {
+                "GIT_PATH": "${{ needs.init.outputs.git_path }}"
+              },
+              "run": "git add \"${GITHUB_WORKSPACE}${GIT_PATH}\"\ngit commit --fixup=HEAD --signoff\n"
+            },
+            {
+              "name": "Commit amend",
+              "if": "${{ contains(needs.init.outputs.arg1, 'amend') }}",
+              "env": {
+                "GIT_PATH": "${{ needs.init.outputs.git_path }}"
+              },
+              "run": "git add \"${GITHUB_WORKSPACE}${GIT_PATH}\"\ngit commit --amend --no-edit --signoff\n# Remove any [skip ci] from the amended commit\ngit commit --amend -m \"$(git log -1 --format='%B' | sed '/\\[skip ci\\]/d')\"\n"
+            },
+            {
+              "name": "Push normally",
+              "if": "${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}",
+              "env": {
+                "HEAD_REF": "${{ needs.init.outputs.head_ref }}",
+                "BOT_TOKEN": "${{ secrets.COMMAND_BOT_PAT }}"
+              },
+              "run": "git remote set-url origin \"https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git\"\ngit push origin \"$HEAD_REF\"\n"
+            },
+            {
+              "name": "Force push",
+              "if": "${{ contains(needs.init.outputs.arg1, 'rebase') || contains(needs.init.outputs.arg1, 'amend') }}",
+              "env": {
+                "HEAD_REF": "${{ needs.init.outputs.head_ref }}",
+                "BOT_TOKEN": "${{ secrets.COMMAND_BOT_PAT }}"
+              },
+              "run": "git remote set-url origin \"https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git\"\ngit push --force-with-lease origin \"$HEAD_REF\"\n"
+            },
+            {
+              "name": "Add reaction on failure",
+              "uses": "peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9",
+              "if": "failure()",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "repository": "${{ github.event.repository.full_name }}",
+                "comment-id": "${{ github.event.comment.id }}",
+                "reactions": "-1"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "init",
+          "name": "init",
+          "runner": "ubuntu-latest-low",
+          "steps_count": 8,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "process",
+          "name": "process",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "init"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'process' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'init' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/command-compile.yml",
+          "start_line": 18,
+          "end_line": 92,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'process' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/command-compile.yml",
+          "start_line": 94,
+          "end_line": 235,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "init": 0.0,
+          "process": 0.0
+        },
+        "pagerank": {
+          "init": 0.350877,
+          "process": 0.649123
+        },
+        "downstream_impact": {
+          "init": [
+            "process"
+          ],
+          "process": []
+        },
+        "critical_nodes": [
+          "process",
+          "init"
+        ],
+        "max_blast_radius": 1
+      }
+    },
+    {
+      "id": "npm-audit-fix.yml",
+      "path": ".github/workflows/npm-audit-fix.yml",
+      "name": "Npm audit fix and compile",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "build": {
+          "runs-on": "ubuntu-latest",
+          "env": {
+            "AUTOMERGE": true
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "branches": [
+                "stable35",
+                "stable34",
+                "stable33"
+              ]
+            }
+          },
+          "name": "npm-audit-fix-${{ matrix.branches }}",
+          "steps": [
+            {
+              "name": "Checkout",
+              "id": "checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "ref": "${{ matrix.branches }}"
+              },
+              "continue-on-error": true
+            },
+            {
+              "name": "Check for active merge freeze",
+              "id": "freeze",
+              "if": "steps.checkout.outcome == 'success'",
+              "env": {
+                "BRANCH_NAME": "${{ matrix.branches }}"
+              },
+              "run": "if [[ ! -f .github/workflows/block-merge-freeze.yml ]]; then\n  echo 'No block-merge-freeze workflow, continuing'\n  exit 0\nfi\nif [[ \"$BRANCH_NAME\" == 'main' || \"$BRANCH_NAME\" == 'master' ]]; then\n  SERVER_REF='master'\nelif [[ \"$BRANCH_NAME\" =~ ^stable[0-9]+$ ]]; then\n  SERVER_REF=\"$BRANCH_NAME\"\nelse\n  echo 'Not based on master/main/stable*, so skipping freeze check'\n  exit 0\nfi\ncurl -sf \"https://raw.githubusercontent.com/nextcloud/server/$SERVER_REF/version.php\" --output version.php\nif grep 'OC_VersionString' version.php | grep -q -i -E '(\\.0\\.0 RC[3-9]|\\.[1-9][0-9]* RC)'; then\n  echo \"Merge freeze is active for $SERVER_REF, skipping\"\n  echo 'active=true' >> $GITHUB_OUTPUT\nfi\nrm version.php\n"
+            },
+            {
+              "name": "Read package.json node and npm engines version",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "uses": "nextcloud-libraries/parse-package-engines-action@39fcc545a815c353dd0a3fd8fd2ef6e59fd02b92",
+              "id": "versions"
+            },
+            {
+              "name": "Set up node ${{ steps.versions.outputs.node-version }}",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "uses": "actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "with": {
+                "node-version": "${{ steps.versions.outputs.node-version }}"
+              }
+            },
+            {
+              "name": "Set up npm ${{ steps.versions.outputs.package-manager-version }}",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "run": "npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'"
+            },
+            {
+              "name": "Fix npm audit",
+              "id": "npm-audit",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "uses": "nextcloud-libraries/npm-audit-action@1b1728b2b4a7a78d69de65608efcf4db0e3e42d0"
+            },
+            {
+              "name": "Run npm ci and npm run build",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "env": {
+                "CYPRESS_INSTALL_BINARY": 0
+              },
+              "run": "npm ci\nnpm run build --if-present\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "id": "create-pull-request",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "commit-message": "fix(deps): Fix npm audit",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "automated/noid/${{ matrix.branches }}-fix-npm-audit",
+                "title": "[${{ matrix.branches }}] Fix npm audit",
+                "body": "${{ steps.npm-audit.outputs.markdown }}",
+                "labels": "dependencies\n3. to review\n"
+              }
+            },
+            {
+              "name": "GitHub actions bot approve",
+              "if": "steps.freeze.outputs.active != 'true' && steps.create-pull-request.outputs.pull-request-operation != 'none'",
+              "run": "gh pr review --approve \"$PR_URL\"",
+              "env": {
+                "PR_URL": "${{ steps.create-pull-request.outputs.pull-request-url }}",
+                "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Enable auto merge",
+              "if": "steps.freeze.outputs.active != 'true' && steps.create-pull-request.outputs.pull-request-operation != 'none' && fromJSON(env.AUTOMERGE)",
+              "uses": "peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d",
+              "with": {
+                "token": "${{ secrets.GITHUB_TOKEN }}",
+                "pull-request-number": "${{ steps.create-pull-request.outputs.pull-request-number }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "npm-audit-fix-${{ matrix.branches }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 10,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-002",
+          "type": "NO_CACHE",
+          "severity": "MEDIUM",
+          "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/npm-audit-fix.yml",
+          "start_line": 97,
+          "end_line": 100,
+          "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/npm-audit-fix.yml",
+          "start_line": 22,
+          "end_line": 132,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "sync-workflow-templates.yml",
+      "path": ".github/workflows/sync-workflow-templates.yml",
+      "name": "Update workflows",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "dispatch": {
+          "runs-on": "ubuntu-latest",
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "branches": [
+                "stable35",
+                "stable34",
+                "stable33"
+              ]
+            }
+          },
+          "name": "Update workflows in ${{ matrix.branches }}",
+          "permissions": {
+            "contents": "write",
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "name": "Check actor permission",
+              "uses": "skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7",
+              "with": {
+                "require": "admin"
+              }
+            },
+            {
+              "name": "Checkout workflow repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "path": "source",
+                "repository": "nextcloud/.github"
+              }
+            },
+            {
+              "name": "Checkout app",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "path": "target",
+                "ref": "${{ matrix.branches }}"
+              }
+            },
+            {
+              "name": "Copy all workflow templates",
+              "run": "echo 'SUMMARY<<EOF' >> $GITHUB_ENV\ndraft_only=0\nfor workflow in ./source/workflow-templates/*.yml; do\n  echo \"❓ Looking for $workflow\"\n  if [ -f \"$workflow\" ]; then\n    filename=$(basename \"$workflow\")\n    target_file=\"./target/.github/workflows/$filename\"\n\n    # Only copy if the file exists in the target repository\n    if [ -f \"$target_file\" ]; then\n      if [ -f \"./target/.github/actions-lock.txt\" ]; then\n        locked_version=$(grep \" $filename\" ./target/.github/actions-lock.txt | cat)\n      else\n        echo \"# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors\" >> ./target/.github/actions-lock.txt\n        echo \"# SPDX-License\"\"-Identifier: MIT\" >> ./target/.github/actions-lock.txt\n        locked_version=\"\"\n      fi\n      locked_version=$(echo $locked_version | cut -f 1 -d \" \")\n      new_version=$(md5sum $workflow | cut -f 1 -d \" \")\n\n      # Only update if the action changes\n      if [[ \"$locked_version\" != \"$new_version\" ]]; then\n        echo \"ℹ️ Locked version: $locked_version\"\n        echo \"ℹ️ Current version: $new_version\"\n        echo \"🆙 Updating existing workflow: $filename\"\n        echo \"- 🆙 Updated [$filename](https://github.com/nextcloud/.github/commits/master/workflow-templates/$filename)\" >> $GITHUB_ENV\n\n        cp \"$workflow\" \"$target_file\"\n\n        # Apply patch if one exists\n        if [ -f \"$target_file.patch\" ]; then\n          echo \"🩹 Applying patch\"\n          cd ./target\n          set +e\n          patch -p1 < \".github/workflows/$filename.patch\"\n          patch_worked=$?\n          set -e\n          cd -\n          if [[ \"$patch_worked\" == \"0\" ]]; then\n            echo \"  - Patch applied\" >> $GITHUB_ENV\n          else\n            echo \"  - [ ] ❌ Patch failed\" >> $GITHUB_ENV\n            draft_only=1\n          fi\n        fi\n\n        if [[ \"$locked_version\" != \"\" ]]; then\n          sed -i \"s/$locked_version $filename/$new_version $filename/\" ./target/.github/actions-lock.txt\n        else\n          echo \"$new_version $filename\" >> ./target/.github/actions-lock.txt\n        fi\n      else\n        echo \"✅ Skipping $filename: already up to date\"\n      fi\n    else\n      echo \"⏭️ Skipping $filename: does not exist in target repository\"\n    fi\n  fi\ndone\necho 'EOF' >> $GITHUB_ENV\necho \"DRAFT_ONLY=${draft_only}\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_WORKFLOWS }}",
+                "commit-message": "ci(actions): Update workflow templates from organization template repository",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "path": "target",
+                "signoff": true,
+                "branch": "automated/noid/${{ matrix.branches }}-update-workflows",
+                "title": "[${{ matrix.branches }}] ci(actions): Update workflow templates from organization template repository",
+                "draft": "${{ env.DRAFT_ONLY == 1 }}",
+                "add-paths": ".github/workflows/*.yml,.github/actions-lock.txt",
+                "body": "Automated update of all workflow templates from [nextcloud/.github](https://github.com/nextcloud/.github)\n${{ env.SUMMARY }}\n",
+                "labels": "dependencies\n3. to review\n"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "dispatch",
+          "name": "Update workflows in ${{ matrix.branches }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] TEMPLATE_INJECTION: Job 'dispatch' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+        "[LOW] NO_TIMEOUT: Job 'dispatch' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'dispatch' step 4 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sync-workflow-templates.yml",
+          "start_line": 59,
+          "end_line": 121,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'dispatch' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/sync-workflow-templates.yml",
+          "start_line": 21,
+          "end_line": 140,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "dispatch": 0.0
+        },
+        "pagerank": {
+          "dispatch": 1.0
+        },
+        "downstream_impact": {
+          "dispatch": []
+        },
+        "critical_nodes": [
+          "dispatch"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "update-nextcloud-ocp.yml",
+      "path": ".github/workflows/update-nextcloud-ocp.yml",
+      "name": "Update nextcloud/ocp",
+      "triggers": [
+        "workflow_dispatch",
+        "schedule"
+      ],
+      "jobs": {
+        "update-nextcloud-ocp": {
+          "runs-on": "ubuntu-latest",
+          "if": "${{ github.repository_owner == 'nextcloud' }}",
+          "env": {
+            "AUTOMERGE": true
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "branches": [
+                "stable35",
+                "stable34",
+                "stable33"
+              ]
+            }
+          },
+          "name": "update-nextcloud-ocp-${{ matrix.branches }}",
+          "steps": [
+            {
+              "id": "checkout",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "persist-credentials": false,
+                "ref": "${{ matrix.branches }}",
+                "submodules": true
+              },
+              "continue-on-error": true
+            },
+            {
+              "name": "Check for active merge freeze",
+              "id": "freeze",
+              "if": "steps.checkout.outcome == 'success'",
+              "env": {
+                "BRANCH_NAME": "${{ matrix.branches }}"
+              },
+              "run": "if [[ ! -f .github/workflows/block-merge-freeze.yml ]]; then\n  echo 'No block-merge-freeze workflow, continuing'\n  exit 0\nfi\nif [[ \"$BRANCH_NAME\" == 'main' || \"$BRANCH_NAME\" == 'master' ]]; then\n  SERVER_REF='master'\nelif [[ \"$BRANCH_NAME\" =~ ^stable[0-9]+$ ]]; then\n  SERVER_REF=\"$BRANCH_NAME\"\nelse\n  echo 'Not based on master/main/stable*, so skipping freeze check'\n  exit 0\nfi\ncurl -sf \"https://raw.githubusercontent.com/nextcloud/server/$SERVER_REF/version.php\" --output version.php\nif grep 'OC_VersionString' version.php | grep -q -i -E '(\\.0\\.0 RC[3-9]|\\.[1-9][0-9]* RC)'; then\n  echo \"Merge freeze is active for $SERVER_REF, skipping\"\n  echo 'active=true' >> $GITHUB_OUTPUT\nfi\nrm version.php\n"
+            },
+            {
+              "name": "Get php version",
+              "id": "versions",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "uses": "nextcloud-libraries/nextcloud-version-matrix@cd0211ffcef1065e2020cd579e4843b8746e7a58"
+            },
+            {
+              "name": "Set up php${{ steps.versions.outputs.php-min }}",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "uses": "shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962",
+              "with": {
+                "php-version": "${{ steps.versions.outputs.php-min }}",
+                "extensions": "bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite",
+                "coverage": "none"
+              },
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Read codeowners",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "id": "codeowners",
+              "run": "grep '/appinfo/info.xml' .github/CODEOWNERS | cut -f 2- -d ' ' | xargs | awk '{ print \"codeowners=\"$0 }' >> $GITHUB_OUTPUT\n",
+              "continue-on-error": true
+            },
+            {
+              "name": "Install composer dependencies",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "uses": "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda"
+            },
+            {
+              "name": "Check composer bin for nextcloud/ocp exists",
+              "id": "check_composer_bin",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "uses": "andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029",
+              "with": {
+                "files": "vendor-bin/nextcloud-ocp/composer.json"
+              }
+            },
+            {
+              "name": "Composer update nextcloud/ocp",
+              "id": "update_branch",
+              "if": "steps.freeze.outputs.active != 'true'",
+              "env": {
+                "USE_COMPOSER_BIN": "${{ steps.check_composer_bin.outputs.files_exists }}",
+                "BRANCH_NAME": "${{ matrix.branches }}"
+              },
+              "run": "COMPOSER_CMD='composer'\nif [[ \"$USE_COMPOSER_BIN\" == 'true' ]]; then\n  COMPOSER_CMD='composer bin nextcloud-ocp'\nfi\n\nPACKAGE_VERSION=\"nextcloud/ocp:dev-$BRANCH_NAME\"\nif [[ \"$BRANCH_NAME\" == 'main' ]]; then\n  PACKAGE_VERSION='nextcloud/ocp:dev-master'\nfi\n\necho $COMPOSER_CMD require --dev $PACKAGE_VERSION\n$COMPOSER_CMD require --dev $PACKAGE_VERSION\n"
+            },
+            {
+              "name": "Raise on issue on failure",
+              "uses": "dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success' && failure() && steps.update_branch.conclusion == 'failure'",
+              "with": {
+                "token": "${{ secrets.GITHUB_TOKEN }}",
+                "title": "Failed to update nextcloud/ocp package on branch ${{ matrix.branches }}",
+                "body": "Please check the output of the GitHub action and manually resolve the issues<br>${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}<br>${{ steps.codeowners.outputs.codeowners }}"
+              }
+            },
+            {
+              "name": "Create Pull Request",
+              "id": "create-pull-request",
+              "if": "steps.freeze.outputs.active != 'true' && steps.checkout.outcome == 'success'",
+              "uses": "peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+              "with": {
+                "token": "${{ secrets.COMMAND_BOT_PAT }}",
+                "commit-message": "chore(dev-deps): Bump nextcloud/ocp package",
+                "committer": "GitHub <noreply@github.com>",
+                "author": "nextcloud-command <nextcloud-command@users.noreply.github.com>",
+                "signoff": true,
+                "branch": "automated/noid/${{ matrix.branches }}-update-nextcloud-ocp",
+                "title": "[${{ matrix.branches }}] Update nextcloud/ocp dependency",
+                "add-paths": "${{ steps.check_composer_bin.outputs.files_exists == 'true' && 'vendor-bin/nextcloud-ocp/composer.json,vendor-bin/nextcloud-ocp/composer.lock' || 'composer.json,composer.lock' }}",
+                "body": "Auto-generated update of [nextcloud/ocp](https://github.com/nextcloud-deps/ocp/) dependency\n",
+                "labels": "dependencies\n3. to review\n"
+              }
+            },
+            {
+              "name": "GitHub actions bot approve",
+              "if": "steps.freeze.outputs.active != 'true' && steps.create-pull-request.outputs.pull-request-operation != 'none'",
+              "run": "gh pr review --approve \"$PR_URL\"",
+              "env": {
+                "PR_URL": "${{ steps.create-pull-request.outputs.pull-request-url }}",
+                "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Enable auto merge",
+              "if": "steps.freeze.outputs.active != 'true' && steps.create-pull-request.outputs.pull-request-operation != 'none' && fromJSON(env.AUTOMERGE)",
+              "uses": "peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d",
+              "with": {
+                "token": "${{ secrets.GITHUB_TOKEN }}",
+                "pull-request-number": "${{ steps.create-pull-request.outputs.pull-request-number }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "update-nextcloud-ocp",
+          "name": "update-nextcloud-ocp-${{ matrix.branches }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'update-nextcloud-ocp' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-nextcloud-ocp' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/update-nextcloud-ocp.yml",
+          "start_line": 22,
+          "end_line": 171,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-nextcloud-ocp": 0.0
+        },
+        "pagerank": {
+          "update-nextcloud-ocp": 1.0
+        },
+        "downstream_impact": {
+          "update-nextcloud-ocp": []
+        },
+        "critical_nodes": [
+          "update-nextcloud-ocp"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [],
+  "scorecard": {
+    "overall_score": 82.35,
+    "overall_grade": "B",
+    "technical_debt_score": 17.65,
+    "remediation_hours": 9.91,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 80.0,
+        "grade": "B",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=1"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 90.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=0 (no manifests parsed)"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 79.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=4, operational_antipatterns=6, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

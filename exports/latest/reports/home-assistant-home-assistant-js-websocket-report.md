@@ -1,0 +1,185 @@
+---
+title: Architecture — home-assistant/home-assistant-js-websocket
+description: Arc42 and Pipeline report for home-assistant/home-assistant-js-websocket
+---
+
+# Repository Architecture Analysis: home-assistant/home-assistant-js-websocket
+
+## Metadata
+- **SHA**: `ddc91ec9b8ba02e802b4a7fb0d2cb46ee8933db2`
+- **Primary Ecosystem**: JavaScript/TypeScript
+
+## Quality Metrics
+- **ast_engine**: tree-sitter
+- **avg_cognitive_complexity**: 2.87
+- **avg_cyclomatic_complexity**: 2.51
+- **component_count**: 1
+- **dead_code_count**: 0
+- **dead_code_symbols**: 0 entry(ies)
+- **duplication_pct**: 50.45
+- **file_complexities**: 24 entry(ies)
+- **files_analyzed**: 24
+- **fitness_passed**: False
+- **fitness_violation_count**: 3
+- **framework**: TypeScript
+- **import_edges**: 100 entry(ies)
+- **loc**: 3705
+- **max_cognitive_complexity**: 59
+- **max_cyclomatic_complexity**: 23
+- **sloc**: 2971
+- **test_file_count**: 8
+
+# Architecture: home-assistant/home-assistant-js-websocket
+
+## Context
+- **Repository**: `home-assistant/home-assistant-js-websocket`
+- **SHA**: `ddc91ec9b8ba02e802b4a7fb0d2cb46ee8933db2`
+- **Ecosystem**: JavaScript/TypeScript
+- **Framework**: TypeScript
+
+## Building Block View
+
+```mermaid
+graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+    home_assistant_js_websocket["home-assistant-js-websocket : MODULE"]:::atlasJob
+```
+
+## Component Details
+- **home-assistant-js-websocket** (`package.json`): MODULE
+
+## 6-Dimension Repository Scorecard
+
+- **Overall Grade**: `F` (57.80/100)
+- **Technical Debt Score**: 42.20
+- **Estimated Remediation Effort**: 44.64h
+
+| Dimension | Grade | Score | Weight | Details |
+| :--- | :---: | :---: | :---: | :--- |
+| Code Quality | `D` | 63.00 | 0.20 | avg_cc=2.51, max_cc=23, duplication=50.45%, dead_code=0 |
+| Dependency Health | `B` | 85.00 | 0.15 | dependencies=9, outdated=0, vulnerable=0, has_lockfile=False |
+| Maintainability | `F` | 47.00 | 0.15 | avg_cognitive=2.87, max_cognitive=59, fitness_violations=3, oversized_files=2 |
+| Pipeline Health | `F` | 14.00 | 0.15 | workflows=4, operational_antipatterns=13, parallel_branches=False |
+| Security | `D` | 64.00 | 0.20 | vulnerabilities=0, secrets=0, pipeline_security_findings=3 |
+| Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
+
+## Architecture Fitness & Workspace Boundaries
+
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (50.45) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (59.0) exceeds policy threshold (25.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (23.0) exceeds policy threshold (20.0).
+
+## Supply Chain Dependencies, Vulnerabilities & Secrets
+
+- **Dependencies Parsed**: 9 | **Vulnerabilities**: 0 | **Secrets**: 0
+
+### Inventory Sample
+- `@types/assert` `1.4.7` (npm, `package.json`)
+- `@types/mocha` `10.0.9` (npm, `package.json`)
+- `assert` `2.0.0` (npm, `package.json`)
+- `husky` `9.0.0` (npm, `package.json`)
+- `lint-staged` `17.0.7` (npm, `package.json`)
+- `mocha` `12.0.0` (npm, `package.json`)
+- `prettier` `3.0.0` (npm, `package.json`)
+- `rollup` `4.3.0` (npm, `package.json`)
+- `typescript` `7.0.0` (npm, `package.json`)
+
+## Section 7: Code-to-Cloud Deployment Traceability
+
+```mermaid
+flowchart LR
+    classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+    classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+    classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+    subgraph code_modules["Code Modules"]
+        mod_22efe112_66e2_429d_b701_92ab3e89a715["22efe112-66e2-429d-b701-92ab3e89a715"]:::atlasCategory
+    end
+    subgraph ci_jobs["CI/CD Jobs"]
+        job_ci_yml_build["ci.yml#build"]:::atlasJob
+        job_npmpublish_yml_build["npmpublish.yml#build"]:::atlasJob
+        job_npmpublish_yml_publish_npm["npmpublish.yml#publish-npm"]:::atlasJob
+        job_publish_pages_yml_build["publish-pages.yml#build"]:::atlasJob
+        job_publish_pages_yml_deploy["publish-pages.yml#deploy"]:::atlasJob
+        job_release_drafter_yaml_update_release_draft["release-drafter.yaml#update_release_draft"]:::atlasJob
+    end
+    subgraph runtime_envs["Runtime Environments"]
+        env_github_pages["github-pages"]:::atlasTarget
+    end
+    job_publish_pages_yml_build -->|DEPLOYS_TO| env_github_pages
+    job_publish_pages_yml_deploy -->|DEPLOYS_TO| env_github_pages
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|BUILT_BY| job_ci_yml_build
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|BUILT_BY| job_npmpublish_yml_build
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|BUILT_BY| job_publish_pages_yml_build
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|DEPLOYED_BY| job_npmpublish_yml_publish_npm
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|DEPLOYED_BY| job_publish_pages_yml_deploy
+    mod_22efe112_66e2_429d_b701_92ab3e89a715 -->|DEPLOYED_BY| job_release_drafter_yaml_update_release_draft
+```
+
+- `publish-pages.yml#build` (ci_job) --[DEPLOYS_TO]--> `github-pages` (environment)
+- `publish-pages.yml#deploy` (ci_job) --[DEPLOYS_TO]--> `github-pages` (environment)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[BUILT_BY]--> `ci.yml#build` (ci_job)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[BUILT_BY]--> `npmpublish.yml#build` (ci_job)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[BUILT_BY]--> `publish-pages.yml#build` (ci_job)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[DEPLOYED_BY]--> `npmpublish.yml#publish-npm` (ci_job)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[DEPLOYED_BY]--> `publish-pages.yml#deploy` (ci_job)
+- `22efe112-66e2-429d-b701-92ab3e89a715` (code_module) --[DEPLOYED_BY]--> `release-drafter.yaml#update_release_draft` (ci_job)
+
+
+## CI/CD Pipeline Topology
+
+```mermaid
+graph TD;
+  classDef atlasRoot fill:#004882,stroke:#a3c9ff,stroke-width:2px,color:#d3e4ff
+  classDef atlasCategory fill:#212428,stroke:#E87A48,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasWorkflow fill:#1b2026,stroke:#a3c9ff,stroke-width:1.5px,color:#dfe3eb
+  classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
+  classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
+  classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
+  classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
+  pipeline_root(["home-assistant/home-assistant-js-websocket (4 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_Release___Deploy["Release & Deploy (3 workflows · 5 jobs)"]
+    direction TB
+    subgraph sg_wf_1_Node_js_Package["Node.js Package (2 jobs)"]
+      direction TB
+      wf_1_Node_js_Package(["Trigger: Node.js Package"]):::atlasWorkflow
+      job_1_build["build"]:::atlasJob
+      job_1_publish_npm["publish-npm"]:::atlasJob
+      wf_1_Node_js_Package --> job_1_build
+      job_1_build --> job_1_publish_npm
+    end
+    pipeline_root --> wf_1_Node_js_Package
+    subgraph sg_wf_2_Deploy_to_GitHub_Pages["Deploy to GitHub Pages (2 jobs)"]
+      direction TB
+      wf_2_Deploy_to_GitHub_Pages(["Trigger: Deploy to GitHub Pages"]):::atlasWorkflow
+      job_2_build["build"]:::atlasJob
+      job_2_deploy["deploy"]:::atlasJob
+      wf_2_Deploy_to_GitHub_Pages --> job_2_build
+      job_2_build --> job_2_deploy
+    end
+    pipeline_root --> wf_2_Deploy_to_GitHub_Pages
+    subgraph sg_wf_3_Release_Drafter["Release Drafter (1 jobs)"]
+      direction TB
+      wf_3_Release_Drafter(["Trigger: Release Drafter"]):::atlasWorkflow
+      job_3_update_release_draft["update_release_draft"]:::atlasJob
+      wf_3_Release_Drafter --> job_3_update_release_draft
+    end
+    pipeline_root --> wf_3_Release_Drafter
+  end
+  subgraph sg_grp_1_CI___Verification["CI & Verification (1 workflows · 1 jobs)"]
+    direction TB
+    subgraph sg_wf_0_CI["CI (1 jobs)"]
+      direction TB
+      wf_0_CI(["Trigger: CI"]):::atlasWorkflow
+      job_0_build["build"]:::atlasJob
+      wf_0_CI --> job_0_build
+    end
+    pipeline_root --> wf_0_CI
+  end
+```

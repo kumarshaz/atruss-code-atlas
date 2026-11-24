@@ -1,0 +1,159 @@
+{
+  "org": "TryGhost",
+  "repository": "nodecmsguide",
+  "sha": "da7da21f787c33451735486b99b19bc63b49a424",
+  "analyzed_at": "2026-11-15T05:22:58Z",
+  "workflows": [
+    {
+      "id": "ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "name": "CI",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "lint-and-typecheck",
+          "name": "Lint & typecheck (Node 24)",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "unit-tests",
+          "name": "Unit tests (Node 24)",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "Build (Node 24)",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        },
+        {
+          "id": "e2e",
+          "name": "E2E (Node 24)",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": []
+        },
+        {
+          "id": "required-checks-pass",
+          "name": "Required checks pass",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "lint-and-typecheck",
+            "unit-tests",
+            "build",
+            "e2e"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "e2e": 0.0,
+          "lint-and-typecheck": 0.0,
+          "required-checks-pass": 0.0,
+          "unit-tests": 0.0
+        },
+        "pagerank": {
+          "build": 0.119047,
+          "e2e": 0.119047,
+          "lint-and-typecheck": 0.119047,
+          "required-checks-pass": 0.52381,
+          "unit-tests": 0.119047
+        },
+        "downstream_impact": {
+          "build": [
+            "required-checks-pass"
+          ],
+          "e2e": [
+            "required-checks-pass"
+          ],
+          "lint-and-typecheck": [
+            "required-checks-pass"
+          ],
+          "required-checks-pass": [],
+          "unit-tests": [
+            "required-checks-pass"
+          ]
+        },
+        "critical_nodes": [
+          "required-checks-pass",
+          "build",
+          "e2e",
+          "lint-and-typecheck",
+          "unit-tests"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'required-checks-pass' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/ci.yml",
+          "start_line": 169,
+          "end_line": 177,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "smoke.yml",
+      "path": ".github/workflows/smoke.yml",
+      "name": "Smoke (real GitHub)",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "smoke",
+          "name": "Build against real GitHub",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "smoke": 0.0
+        },
+        "pagerank": {
+          "smoke": 1.0
+        },
+        "downstream_impact": {
+          "smoke": []
+        },
+        "critical_nodes": [
+          "smoke"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": []
+    }
+  ]
+}

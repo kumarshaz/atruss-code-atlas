@@ -1,0 +1,2611 @@
+{
+  "org": "grafana",
+  "repository": "beyla",
+  "sha": "bc5c79d0c59d2b51489fd46f37b308da6b9d6993",
+  "analyzed_at": "2026-11-15T05:22:52Z",
+  "workflows": [
+    {
+      "id": "agent_fix-obi.yml",
+      "path": ".github/workflows/agent_fix-obi.yml",
+      "name": "Fix OBI submodule CI",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "wait-for-ci",
+          "name": "Wait for CI completion",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "triage",
+          "name": "Triage CI failures",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": [
+            "wait-for-ci"
+          ]
+        },
+        {
+          "id": "plan",
+          "name": "Plan fixes",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "triage"
+          ]
+        },
+        {
+          "id": "implement",
+          "name": "Implement and push",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "plan"
+          ]
+        },
+        {
+          "id": "cleanup",
+          "name": "Remove agent label",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "implement"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 4,
+        "is_valid_dag": true,
+        "max_depth": 4
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "cleanup": 0.0,
+          "implement": 0.25,
+          "plan": 0.333333,
+          "triage": 0.25,
+          "wait-for-ci": 0.0
+        },
+        "pagerank": {
+          "cleanup": 0.301082,
+          "implement": 0.258702,
+          "plan": 0.208844,
+          "triage": 0.150189,
+          "wait-for-ci": 0.081184
+        },
+        "downstream_impact": {
+          "cleanup": [],
+          "implement": [
+            "cleanup"
+          ],
+          "plan": [
+            "cleanup",
+            "implement"
+          ],
+          "triage": [
+            "cleanup",
+            "implement",
+            "plan"
+          ],
+          "wait-for-ci": [
+            "cleanup",
+            "implement",
+            "plan",
+            "triage"
+          ]
+        },
+        "critical_nodes": [
+          "plan",
+          "implement",
+          "triage",
+          "cleanup",
+          "wait-for-ci"
+        ],
+        "max_blast_radius": 4
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-005",
+          "type": "SEQUENTIAL_ONLY",
+          "severity": "LOW",
+          "message": "Workflow executes 5 jobs strictly sequentially with zero parallel branches.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/agent_fix-obi.yml",
+          "start_line": 13,
+          "end_line": 409,
+          "remediation": "Parallelize independent jobs such as linting, unit testing, and security scanning to reduce pipeline cycle time."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'triage' step 6 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/agent_fix-obi.yml",
+          "start_line": 173,
+          "end_line": 182,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'plan' step 7 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/agent_fix-obi.yml",
+          "start_line": 258,
+          "end_line": 267,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-009",
+          "type": "TEMPLATE_INJECTION",
+          "severity": "CRITICAL",
+          "message": "Job 'implement' step 8 interpolates untrusted event context or writes untrusted data to $GITHUB_ENV/$GITHUB_PATH.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/agent_fix-obi.yml",
+          "start_line": 348,
+          "end_line": 357,
+          "remediation": "Pass untrusted GitHub context values through intermediate step 'env:' variables, quote shell expansions, and avoid writing untrusted data to $GITHUB_ENV or $GITHUB_PATH."
+        }
+      ]
+    },
+    {
+      "id": "bot_sync-obi-fork.yml",
+      "path": ".github/workflows/bot_sync-obi-fork.yml",
+      "name": "Sync OBI fork",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "sync-fork",
+          "name": "Sync grafana/opentelemetry-ebpf-instrumentation with upstream",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "sync-fork": 0.0
+        },
+        "pagerank": {
+          "sync-fork": 1.0
+        },
+        "downstream_impact": {
+          "sync-fork": []
+        },
+        "critical_nodes": [
+          "sync-fork"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'sync-fork' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/bot_sync-obi-fork.yml",
+          "start_line": 16,
+          "end_line": 45,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "bot_sync-obi-submodule.yml",
+      "path": ".github/workflows/bot_sync-obi-submodule.yml",
+      "name": "Update OBI submodule",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-obi",
+          "name": "Update OBI submodule and open PR",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-obi": 0.0
+        },
+        "pagerank": {
+          "update-obi": 1.0
+        },
+        "downstream_impact": {
+          "update-obi": []
+        },
+        "critical_nodes": [
+          "update-obi"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-obi' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/bot_sync-obi-submodule.yml",
+          "start_line": 16,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "build-alloy-beyla-image.yml",
+      "path": ".github/workflows/build-alloy-beyla-image.yml",
+      "name": "Build alloy-beyla image",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 9,
+          "needs": []
+        },
+        {
+          "id": "create-manifest",
+          "name": "create-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "create-manifest": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "create-manifest": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "create-manifest"
+          ],
+          "create-manifest": []
+        },
+        "critical_nodes": [
+          "create-manifest",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-alloy-beyla-image.yml",
+          "start_line": 30,
+          "end_line": 150,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-alloy-beyla-image.yml",
+          "start_line": 30,
+          "end_line": 150,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/build-alloy-beyla-image.yml",
+          "start_line": 152,
+          "end_line": 222,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "deploy-alloy-beyla-dev.yml",
+      "path": ".github/workflows/deploy-alloy-beyla-dev.yml",
+      "name": "Deploy alloy-beyla to dev wave",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "update-deployment-tools",
+          "name": "update-deployment-tools",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "update-deployment-tools": 0.0
+        },
+        "pagerank": {
+          "update-deployment-tools": 1.0
+        },
+        "downstream_impact": {
+          "update-deployment-tools": []
+        },
+        "critical_nodes": [
+          "update-deployment-tools"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'update-deployment-tools' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-alloy-beyla-dev.yml",
+          "start_line": 30,
+          "end_line": 123,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'update-deployment-tools' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-alloy-beyla-dev.yml",
+          "start_line": 30,
+          "end_line": 123,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "deploy-pr-preview.yml",
+      "path": ".github/workflows/deploy-pr-preview.yml",
+      "name": "Deploy docs preview",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "deploy-pr-preview",
+          "name": "deploy-pr-preview",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/deploy-pr-preview.yml",
+          "source_job": "deploy-pr-preview",
+          "target_workflow": "grafana/writers-toolkit/.github/workflows/deploy-preview.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "deploy-pr-preview": 0.0
+        },
+        "pagerank": {
+          "deploy-pr-preview": 1.0
+        },
+        "downstream_impact": {
+          "deploy-pr-preview": []
+        },
+        "critical_nodes": [
+          "deploy-pr-preview"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'deploy-pr-preview' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-pr-preview.yml",
+          "start_line": 15,
+          "end_line": 39,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy-pr-preview' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/deploy-pr-preview.yml",
+          "start_line": 15,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-chart-bump.yml",
+      "path": ".github/workflows/helm-chart-bump.yml",
+      "name": "Bump Helm chart version",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "bump-chart",
+          "name": "Bump Helm chart appVersion and version",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "bump-chart": 0.0
+        },
+        "pagerank": {
+          "bump-chart": 1.0
+        },
+        "downstream_impact": {
+          "bump-chart": []
+        },
+        "critical_nodes": [
+          "bump-chart"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'bump-chart' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-chart-bump.yml",
+          "start_line": 25,
+          "end_line": 206,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-release.yml",
+      "path": ".github/workflows/helm-release.yml",
+      "name": "Release Helm chart",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "release-beyla-helm-chart",
+          "name": "release-beyla-helm-chart",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/helm-release.yml",
+          "source_job": "release-beyla-helm-chart",
+          "target_workflow": "grafana/helm-charts/.github/workflows/update-helm-repo.yaml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-beyla-helm-chart": 0.0
+        },
+        "pagerank": {
+          "release-beyla-helm-chart": 1.0
+        },
+        "downstream_impact": {
+          "release-beyla-helm-chart": []
+        },
+        "critical_nodes": [
+          "release-beyla-helm-chart"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-beyla-helm-chart' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-release.yml",
+          "start_line": 9,
+          "end_line": 19,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-beyla-helm-chart' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-release.yml",
+          "start_line": 9,
+          "end_line": 19,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "helm-test.yml",
+      "path": ".github/workflows/helm-test.yml",
+      "name": "Helm Test",
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "run-unit-tests",
+          "name": "Unit Tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "lint-helm-chart",
+          "name": "lint-helm-chart",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": []
+        },
+        {
+          "id": "list-integration-tests",
+          "name": "List integration tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "run-integration-tests",
+          "name": "Integration Test",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "list-integration-tests"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "lint-helm-chart": 0.0,
+          "list-integration-tests": 0.0,
+          "run-integration-tests": 0.0,
+          "run-unit-tests": 0.0
+        },
+        "pagerank": {
+          "lint-helm-chart": 0.206186,
+          "list-integration-tests": 0.206186,
+          "run-integration-tests": 0.381443,
+          "run-unit-tests": 0.206186
+        },
+        "downstream_impact": {
+          "lint-helm-chart": [],
+          "list-integration-tests": [
+            "run-integration-tests"
+          ],
+          "run-integration-tests": [],
+          "run-unit-tests": []
+        },
+        "critical_nodes": [
+          "run-integration-tests",
+          "list-integration-tests",
+          "lint-helm-chart",
+          "run-unit-tests"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-test.yml",
+          "start_line": 102,
+          "end_line": 145,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-unit-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-test.yml",
+          "start_line": 28,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'lint-helm-chart' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-test.yml",
+          "start_line": 45,
+          "end_line": 79,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'list-integration-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-test.yml",
+          "start_line": 81,
+          "end_line": 101,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'run-integration-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/helm-test.yml",
+          "start_line": 102,
+          "end_line": 145,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "promote-patch-to-stable.yml",
+      "path": ".github/workflows/promote-patch-to-stable.yml",
+      "name": "Promote patch to stable release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "validate",
+          "name": "validate",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "promote",
+          "name": "promote",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "validate"
+          ]
+        },
+        {
+          "id": "bump-helm-chart",
+          "name": "bump-helm-chart",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "validate",
+            "promote"
+          ]
+        },
+        {
+          "id": "trigger-alloy-bump",
+          "name": "trigger-alloy-bump",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "validate",
+            "promote"
+          ]
+        },
+        {
+          "id": "promote-obi",
+          "name": "promote-obi",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [
+            "validate",
+            "promote"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 7,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/promote-patch-to-stable.yml",
+          "source_job": "bump-helm-chart",
+          "target_workflow": ".github/workflows/helm-chart-bump.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "bump-helm-chart": 0.0,
+          "promote": 0.0,
+          "promote-obi": 0.0,
+          "trigger-alloy-bump": 0.0,
+          "validate": 0.0
+        },
+        "pagerank": {
+          "bump-helm-chart": 0.226148,
+          "promote": 0.176219,
+          "promote-obi": 0.226148,
+          "trigger-alloy-bump": 0.226148,
+          "validate": 0.145336
+        },
+        "downstream_impact": {
+          "bump-helm-chart": [],
+          "promote": [
+            "bump-helm-chart",
+            "promote-obi",
+            "trigger-alloy-bump"
+          ],
+          "promote-obi": [],
+          "trigger-alloy-bump": [],
+          "validate": [
+            "bump-helm-chart",
+            "promote",
+            "promote-obi",
+            "trigger-alloy-bump"
+          ]
+        },
+        "critical_nodes": [
+          "bump-helm-chart",
+          "promote-obi",
+          "trigger-alloy-bump",
+          "promote",
+          "validate"
+        ],
+        "max_blast_radius": 4
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'promote' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 170,
+          "end_line": 263,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'promote-obi' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 303,
+          "end_line": 339,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 170,
+          "end_line": 263,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 24,
+          "end_line": 169,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'promote' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 170,
+          "end_line": 263,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'bump-helm-chart' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 264,
+          "end_line": 273,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'trigger-alloy-bump' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 275,
+          "end_line": 302,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'promote-obi' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/promote-patch-to-stable.yml",
+          "start_line": 303,
+          "end_line": 339,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish_gar_main.yml",
+      "path": ".github/workflows/publish_gar_main.yml",
+      "name": "Push to GAR (main)",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "create-manifest",
+          "name": "create-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "create-manifest": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "create-manifest": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "create-manifest"
+          ],
+          "create-manifest": []
+        },
+        "critical_nodes": [
+          "create-manifest",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_main.yml",
+          "start_line": 11,
+          "end_line": 82,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_main.yml",
+          "start_line": 11,
+          "end_line": 82,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_main.yml",
+          "start_line": 84,
+          "end_line": 132,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish_gar_pre_release.yml",
+      "path": ".github/workflows/publish_gar_pre_release.yml",
+      "name": "Push to GAR (pre-release)",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "create-manifest",
+          "name": "create-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "create-manifest": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "create-manifest": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "create-manifest"
+          ],
+          "create-manifest": []
+        },
+        "critical_nodes": [
+          "create-manifest",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_pre_release.yml",
+          "start_line": 20,
+          "end_line": 89,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_pre_release.yml",
+          "start_line": 20,
+          "end_line": 89,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_pre_release.yml",
+          "start_line": 91,
+          "end_line": 153,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish_gar_release.yml",
+      "path": ".github/workflows/publish_gar_release.yml",
+      "name": "Push to GAR (release)",
+      "triggers": [
+        "push"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 7,
+          "needs": []
+        },
+        {
+          "id": "create-manifest",
+          "name": "create-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 7,
+          "needs": [
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "create-manifest": 0.0
+        },
+        "pagerank": {
+          "build": 0.350877,
+          "create-manifest": 0.649123
+        },
+        "downstream_impact": {
+          "build": [
+            "create-manifest"
+          ],
+          "create-manifest": []
+        },
+        "critical_nodes": [
+          "create-manifest",
+          "build"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_release.yml",
+          "start_line": 11,
+          "end_line": 80,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_release.yml",
+          "start_line": 11,
+          "end_line": 80,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_gar_release.yml",
+          "start_line": 82,
+          "end_line": 146,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "publish_inject_sdk_image.yml",
+      "path": ".github/workflows/publish_inject_sdk_image.yml",
+      "name": "Publish inject-sdk-image",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "resolve-version",
+          "name": "resolve-version",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 6,
+          "needs": [
+            "resolve-version"
+          ]
+        },
+        {
+          "id": "create-manifest",
+          "name": "create-manifest",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "resolve-version",
+            "build"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0,
+          "create-manifest": 0.0,
+          "resolve-version": 0.0
+        },
+        "pagerank": {
+          "build": 0.281551,
+          "create-manifest": 0.520869,
+          "resolve-version": 0.19758
+        },
+        "downstream_impact": {
+          "build": [
+            "create-manifest"
+          ],
+          "create-manifest": [],
+          "resolve-version": [
+            "build",
+            "create-manifest"
+          ]
+        },
+        "critical_nodes": [
+          "create-manifest",
+          "build",
+          "resolve-version"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'build' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_inject_sdk_image.yml",
+          "start_line": 87,
+          "end_line": 141,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'resolve-version' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_inject_sdk_image.yml",
+          "start_line": 30,
+          "end_line": 86,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_inject_sdk_image.yml",
+          "start_line": 87,
+          "end_line": 141,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'create-manifest' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/publish_inject_sdk_image.yml",
+          "start_line": 143,
+          "end_line": 196,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pull_request.yml",
+      "path": ".github/workflows/pull_request.yml",
+      "name": "Pull request checks",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "generate",
+          "name": "Generate",
+          "runner": "ubuntu-latest",
+          "steps_count": 11,
+          "needs": []
+        },
+        {
+          "id": "lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "lint-dashboard",
+          "name": "Lint dashboards",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        },
+        {
+          "id": "unit-test",
+          "name": "Unit test ${{ matrix.description }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 6,
+          "needs": [
+            "generate"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 4,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "generate": 0.0,
+          "lint": 0.0,
+          "lint-dashboard": 0.0,
+          "unit-test": 0.0
+        },
+        "pagerank": {
+          "generate": 0.206186,
+          "lint": 0.293814,
+          "lint-dashboard": 0.206186,
+          "unit-test": 0.293814
+        },
+        "downstream_impact": {
+          "generate": [
+            "lint",
+            "unit-test"
+          ],
+          "lint": [],
+          "lint-dashboard": [],
+          "unit-test": []
+        },
+        "critical_nodes": [
+          "lint",
+          "unit-test",
+          "generate",
+          "lint-dashboard"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pull_request_beyla_integration_tests.yml",
+      "path": ".github/workflows/pull_request_beyla_integration_tests.yml",
+      "name": "Pull request Beyla integration tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-matrix",
+          "name": "Build Beyla integration matrix",
+          "runner": "ubuntu-x64",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.description }}",
+          "runner": "ubuntu-x64",
+          "steps_count": 10,
+          "needs": [
+            "test-matrix"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "test-matrix": 0.0
+        },
+        "pagerank": {
+          "test": 0.649123,
+          "test-matrix": 0.350877
+        },
+        "downstream_impact": {
+          "test": [],
+          "test-matrix": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-matrix"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'test-matrix' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull_request_beyla_integration_tests.yml",
+          "start_line": 32,
+          "end_line": 55,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pull_request_check_license.yml",
+      "path": ".github/workflows/pull_request_check_license.yml",
+      "name": "Check third-party licenses",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "check-licenses",
+          "name": "check-licenses",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "check-licenses": 0.0
+        },
+        "pagerank": {
+          "check-licenses": 1.0
+        },
+        "downstream_impact": {
+          "check-licenses": []
+        },
+        "critical_nodes": [
+          "check-licenses"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'check-licenses' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull_request_check_license.yml",
+          "start_line": 14,
+          "end_line": 27,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pull_request_deb_package.yml",
+      "path": ".github/workflows/pull_request_deb_package.yml",
+      "name": "Debian package tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "package-tests",
+          "name": "Debian package tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "package-tests": 0.0
+        },
+        "pagerank": {
+          "package-tests": 1.0
+        },
+        "downstream_impact": {
+          "package-tests": []
+        },
+        "critical_nodes": [
+          "package-tests"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'package-tests' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull_request_deb_package.yml",
+          "start_line": 25,
+          "end_line": 34,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "pull_request_integration_tests.yml",
+      "path": ".github/workflows/pull_request_integration_tests.yml",
+      "name": "Pull request integration tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-matrix",
+          "name": "Build integration matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.description }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 14,
+          "needs": [
+            "test-matrix"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "test-matrix": 0.0
+        },
+        "pagerank": {
+          "test": 0.649123,
+          "test-matrix": 0.350877
+        },
+        "downstream_impact": {
+          "test": [],
+          "test-matrix": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-matrix"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pull_request_integration_tests_arm.yml",
+      "path": ".github/workflows/pull_request_integration_tests_arm.yml",
+      "name": "Pull request integration tests ARM",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-matrix",
+          "name": "Build ARM integration matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.description }}",
+          "runner": "ubuntu-24.04-arm",
+          "steps_count": 12,
+          "needs": [
+            "test-matrix"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "test-matrix": 0.0
+        },
+        "pagerank": {
+          "test": 0.649123,
+          "test-matrix": 0.350877
+        },
+        "downstream_impact": {
+          "test": [],
+          "test-matrix": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-matrix"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pull_request_k8s_integration_tests.yml",
+      "path": ".github/workflows/pull_request_k8s_integration_tests.yml",
+      "name": "Pull request K8s integration tests",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-matrix",
+          "name": "Build integration k8s matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.basename }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 12,
+          "needs": [
+            "test-matrix"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 2,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0,
+          "test-matrix": 0.0
+        },
+        "pagerank": {
+          "test": 0.649123,
+          "test-matrix": 0.350877
+        },
+        "downstream_impact": {
+          "test": [],
+          "test-matrix": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-matrix"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pull_request_oats_test.yml",
+      "path": ".github/workflows/pull_request_oats_test.yml",
+      "name": "PR OATS test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "test-matrix",
+          "name": "Build oats matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        },
+        {
+          "id": "finalizer-unit-tests",
+          "name": "OATS Weaver finalizer unit tests",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "test",
+          "name": "${{ matrix.basename }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 9,
+          "needs": [
+            "test-matrix"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 1,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "finalizer-unit-tests": 0.0,
+          "test": 0.0,
+          "test-matrix": 0.0
+        },
+        "pagerank": {
+          "finalizer-unit-tests": 0.25974,
+          "test": 0.48052,
+          "test-matrix": 0.25974
+        },
+        "downstream_impact": {
+          "finalizer-unit-tests": [],
+          "test": [],
+          "test-matrix": [
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "test-matrix",
+          "finalizer-unit-tests"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "pull_request_test_docker_build.yml",
+      "path": ".github/workflows/pull_request_test_docker_build.yml",
+      "name": "Test Docker build",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "build",
+          "name": "build",
+          "runner": "${{ matrix.runner }}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull_request_test_docker_build.yml",
+          "start_line": 14,
+          "end_line": 56,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/pull_request_test_docker_build.yml",
+          "start_line": 14,
+          "end_line": 56,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-binaries-base.yml",
+      "path": ".github/workflows/release-binaries-base.yml",
+      "name": "Release binaries",
+      "triggers": [
+        "workflow_call"
+      ],
+      "jobs": [
+        {
+          "id": "release-binaries",
+          "name": "Release compiled binaries for Linux/${{inputs.arch}}",
+          "runner": "${{inputs.runner}}",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-binaries": 0.0
+        },
+        "pagerank": {
+          "release-binaries": 1.0
+        },
+        "downstream_impact": {
+          "release-binaries": []
+        },
+        "critical_nodes": [
+          "release-binaries"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-binaries' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries-base.yml",
+          "start_line": 16,
+          "end_line": 43,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-binaries' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries-base.yml",
+          "start_line": 16,
+          "end_line": 43,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-binaries.yml",
+      "path": ".github/workflows/release-binaries.yml",
+      "name": "Release binaries",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "release-amd64",
+          "name": "release-amd64",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-arm64",
+          "name": "release-arm64",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": []
+        },
+        {
+          "id": "release-deb-amd64",
+          "name": "release-deb-amd64",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        },
+        {
+          "id": "build-alloy-beyla",
+          "name": "build-alloy-beyla",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "release-amd64",
+            "release-arm64"
+          ]
+        },
+        {
+          "id": "deploy-alloy-beyla-dev",
+          "name": "deploy-alloy-beyla-dev",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "build-alloy-beyla"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 5,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/release-binaries.yml",
+          "source_job": "build-alloy-beyla",
+          "target_workflow": ".github/workflows/build-alloy-beyla-image.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release-binaries.yml",
+          "source_job": "deploy-alloy-beyla-dev",
+          "target_workflow": ".github/workflows/deploy-alloy-beyla-dev.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release-binaries.yml",
+          "source_job": "release-amd64",
+          "target_workflow": ".github/workflows/release-binaries-base.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/release-binaries.yml",
+          "source_job": "release-arm64",
+          "target_workflow": ".github/workflows/release-binaries-base.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-alloy-beyla": 0.166667,
+          "deploy-alloy-beyla-dev": 0.0,
+          "release-amd64": 0.0,
+          "release-arm64": 0.0,
+          "release-deb-amd64": 0.0
+        },
+        "pagerank": {
+          "build-alloy-beyla": 0.300166,
+          "deploy-alloy-beyla-dev": 0.366315,
+          "release-amd64": 0.111173,
+          "release-arm64": 0.111173,
+          "release-deb-amd64": 0.111173
+        },
+        "downstream_impact": {
+          "build-alloy-beyla": [
+            "deploy-alloy-beyla-dev"
+          ],
+          "deploy-alloy-beyla-dev": [],
+          "release-amd64": [
+            "build-alloy-beyla",
+            "deploy-alloy-beyla-dev"
+          ],
+          "release-arm64": [
+            "build-alloy-beyla",
+            "deploy-alloy-beyla-dev"
+          ],
+          "release-deb-amd64": []
+        },
+        "critical_nodes": [
+          "build-alloy-beyla",
+          "deploy-alloy-beyla-dev",
+          "release-amd64",
+          "release-arm64",
+          "release-deb-amd64"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-amd64' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 11,
+          "end_line": 17,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-arm64' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 19,
+          "end_line": 25,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-deb-amd64' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 27,
+          "end_line": 48,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "HIGH",
+          "message": "HIGH: Job 'deploy-alloy-beyla-dev' performs deployment without an upstream test job in its 'needs:' chain.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 59,
+          "end_line": 66,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-003",
+          "type": "NO_ARTIFACT_HANDOFF",
+          "severity": "MEDIUM",
+          "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 11,
+          "end_line": 17,
+          "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-amd64' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 11,
+          "end_line": 17,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-arm64' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 19,
+          "end_line": 25,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-deb-amd64' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 27,
+          "end_line": 48,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build-alloy-beyla' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 50,
+          "end_line": 57,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'deploy-alloy-beyla-dev' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-binaries.yml",
+          "start_line": 59,
+          "end_line": 66,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-notes.yml",
+      "path": ".github/workflows/release-notes.yml",
+      "name": "Generate Release Notes",
+      "triggers": [
+        "release"
+      ],
+      "jobs": [
+        {
+          "id": "release-notes",
+          "name": "release-notes",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release-notes": 0.0
+        },
+        "pagerank": {
+          "release-notes": 1.0
+        },
+        "downstream_impact": {
+          "release-notes": []
+        },
+        "critical_nodes": [
+          "release-notes"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release-notes' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-notes.yml",
+          "start_line": 8,
+          "end_line": 42,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release-notes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-notes.yml",
+          "start_line": 8,
+          "end_line": 42,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-train-prepare.yml",
+      "path": ".github/workflows/release-train-prepare.yml",
+      "name": "Create release branches with binaries",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "prepare",
+          "name": "prepare",
+          "runner": "ubuntu-latest",
+          "steps_count": 8,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "prepare": 0.0
+        },
+        "pagerank": {
+          "prepare": 1.0
+        },
+        "downstream_impact": {
+          "prepare": []
+        },
+        "critical_nodes": [
+          "prepare"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'prepare' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-train-prepare.yml",
+          "start_line": 46,
+          "end_line": 144,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "release-train-tag.yml",
+      "path": ".github/workflows/release-train-tag.yml",
+      "name": "Create GitHub prereleases and tags",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "tag",
+          "name": "tag",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "tag": 0.0
+        },
+        "pagerank": {
+          "tag": 1.0
+        },
+        "downstream_impact": {
+          "tag": []
+        },
+        "critical_nodes": [
+          "tag"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'tag' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release-train-tag.yml",
+          "start_line": 32,
+          "end_line": 102,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "supervisor_rerun-flaky.yml",
+      "path": ".github/workflows/supervisor_rerun-flaky.yml",
+      "name": "CI Supervisor: Rerun flaky failures",
+      "triggers": [
+        "workflow_run"
+      ],
+      "jobs": [
+        {
+          "id": "evaluate-and-rerun",
+          "name": "Evaluate failed checks",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": []
+        },
+        {
+          "id": "add-agent-label",
+          "name": "Add agent/fix-obi-pending label",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [
+            "evaluate-and-rerun",
+            "handle-ci-completion"
+          ]
+        },
+        {
+          "id": "handle-ci-completion",
+          "name": "Handle CI completion",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 2,
+        "is_valid_dag": true,
+        "max_depth": 1
+      },
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/helm-test.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_beyla_integration_tests.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_check_license.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_integration_tests.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_integration_tests_arm.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_k8s_integration_tests.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_oats_test.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/pull_request_test_docker_build.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/vale.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        },
+        {
+          "source_workflow": ".github/workflows/workflow_integration_tests_vm.yml",
+          "source_job": "",
+          "target_workflow": ".github/workflows/supervisor_rerun-flaky.yml",
+          "edge_type": "workflow_run"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "add-agent-label": 0.0,
+          "evaluate-and-rerun": 0.0,
+          "handle-ci-completion": 0.0
+        },
+        "pagerank": {
+          "add-agent-label": 0.574469,
+          "evaluate-and-rerun": 0.212766,
+          "handle-ci-completion": 0.212766
+        },
+        "downstream_impact": {
+          "add-agent-label": [],
+          "evaluate-and-rerun": [
+            "add-agent-label"
+          ],
+          "handle-ci-completion": [
+            "add-agent-label"
+          ]
+        },
+        "critical_nodes": [
+          "add-agent-label",
+          "evaluate-and-rerun",
+          "handle-ci-completion"
+        ],
+        "max_blast_radius": 1
+      },
+      "anti_patterns": []
+    },
+    {
+      "id": "vale.yml",
+      "path": ".github/workflows/vale.yml",
+      "name": "Documentation CI",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "jobs": [
+        {
+          "id": "vale",
+          "name": "vale",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": []
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "vale": 0.0
+        },
+        "pagerank": {
+          "vale": 1.0
+        },
+        "downstream_impact": {
+          "vale": []
+        },
+        "critical_nodes": [
+          "vale"
+        ],
+        "max_blast_radius": 0
+      },
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'vale' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/vale.yml",
+          "start_line": 12,
+          "end_line": 22,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ]
+    },
+    {
+      "id": "workflow_integration_tests_vm.yml",
+      "path": ".github/workflows/workflow_integration_tests_vm.yml",
+      "name": "Pull request integration tests on VM",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": [
+        {
+          "id": "vm-test-matrix",
+          "name": "Build VM integration matrix",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": []
+        },
+        {
+          "id": "prep",
+          "name": "Prep VM test artifacts",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": [
+            "vm-test-matrix"
+          ]
+        },
+        {
+          "id": "test",
+          "name": "kernel ${{ matrix.kernel.id }} ${{ matrix.test.description }}",
+          "runner": "ubuntu-latest",
+          "steps_count": 13,
+          "needs": [
+            "vm-test-matrix",
+            "prep"
+          ]
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 3,
+        "edge_count": 3,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "prep": 0.0,
+          "test": 0.0,
+          "vm-test-matrix": 0.0
+        },
+        "pagerank": {
+          "prep": 0.281551,
+          "test": 0.520869,
+          "vm-test-matrix": 0.19758
+        },
+        "downstream_impact": {
+          "prep": [
+            "test"
+          ],
+          "test": [],
+          "vm-test-matrix": [
+            "prep",
+            "test"
+          ]
+        },
+        "critical_nodes": [
+          "test",
+          "prep",
+          "vm-test-matrix"
+        ],
+        "max_blast_radius": 2
+      },
+      "anti_patterns": []
+    }
+  ]
+}

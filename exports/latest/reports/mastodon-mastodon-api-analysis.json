@@ -1,0 +1,786 @@
+{
+  "repository": "mastodon/mastodon-api",
+  "sha": "60b0ed09c3b979cbeb833db0a320b30e1b022a1e",
+  "ecosystem": "Ruby",
+  "metrics": {
+    "files_analyzed": 74,
+    "loc": 2909,
+    "sloc": 1841,
+    "component_count": 74,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "framework": "Ruby",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "gempush.yml",
+      "path": ".github/workflows/gempush.yml",
+      "name": "Ruby Gem",
+      "triggers": [
+        "push"
+      ],
+      "jobs": {
+        "build": {
+          "name": "Build + Publish",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@master"
+            },
+            {
+              "name": "Set up Ruby 2.6",
+              "uses": "actions/setup-ruby@v1",
+              "with": {
+                "version": "2.6.x"
+              }
+            },
+            {
+              "name": "Publish to GPR",
+              "run": "mkdir -p $HOME/.gem\ntouch $HOME/.gem/credentials\nchmod 0600 $HOME/.gem/credentials\nprintf -- \"---\\n:github: Bearer ${GEM_HOST_API_KEY}\\n\" > $HOME/.gem/credentials\ngem build *.gemspec\ngem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem\n",
+              "env": {
+                "GEM_HOST_API_KEY": "${{secrets.GPR_AUTH_TOKEN}}",
+                "OWNER": "tootsuite"
+              }
+            },
+            {
+              "name": "Publish to RubyGems",
+              "run": "mkdir -p $HOME/.gem\ntouch $HOME/.gem/credentials\nchmod 0600 $HOME/.gem/credentials\nprintf -- \"---\\n:rubygems_api_key: ${GEM_HOST_API_KEY}\\n\" > $HOME/.gem/credentials\ngem build *.gemspec\ngem push *.gem\n",
+              "env": {
+                "GEM_HOST_API_KEY": "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "build",
+          "name": "Build + Publish",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+        "[LOW] NO_TIMEOUT: Job 'build' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'build' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gempush.yml",
+          "start_line": 9,
+          "end_line": 41,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-011",
+          "type": "EXCESSIVE_PERMISSIONS",
+          "severity": "HIGH",
+          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gempush.yml",
+          "start_line": 3,
+          "end_line": 6,
+          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'build' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/gempush.yml",
+          "start_line": 9,
+          "end_line": 41,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build": 0.0
+        },
+        "pagerank": {
+          "build": 1.0
+        },
+        "downstream_impact": {
+          "build": []
+        },
+        "critical_nodes": [
+          "build"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "mastodon",
+      "type": "module",
+      "file": "lib/mastodon.rb",
+      "line": 1
+    },
+    {
+      "name": "access_token",
+      "type": "module",
+      "file": "lib/mastodon/access_token.rb",
+      "line": 1
+    },
+    {
+      "name": "account",
+      "type": "module",
+      "file": "lib/mastodon/account.rb",
+      "line": 1
+    },
+    {
+      "name": "app",
+      "type": "module",
+      "file": "lib/mastodon/app.rb",
+      "line": 1
+    },
+    {
+      "name": "base",
+      "type": "module",
+      "file": "lib/mastodon/base.rb",
+      "line": 1
+    },
+    {
+      "name": "card",
+      "type": "module",
+      "file": "lib/mastodon/card.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/mastodon/client.rb",
+      "line": 1
+    },
+    {
+      "name": "collection",
+      "type": "module",
+      "file": "lib/mastodon/collection.rb",
+      "line": 1
+    },
+    {
+      "name": "conversation",
+      "type": "module",
+      "file": "lib/mastodon/conversation.rb",
+      "line": 1
+    },
+    {
+      "name": "emoji",
+      "type": "module",
+      "file": "lib/mastodon/emoji.rb",
+      "line": 1
+    },
+    {
+      "name": "error",
+      "type": "module",
+      "file": "lib/mastodon/error.rb",
+      "line": 1
+    },
+    {
+      "name": "field",
+      "type": "module",
+      "file": "lib/mastodon/field.rb",
+      "line": 1
+    },
+    {
+      "name": "filter",
+      "type": "module",
+      "file": "lib/mastodon/filter.rb",
+      "line": 1
+    },
+    {
+      "name": "hashtag",
+      "type": "module",
+      "file": "lib/mastodon/hashtag.rb",
+      "line": 1
+    },
+    {
+      "name": "headers",
+      "type": "module",
+      "file": "lib/mastodon/headers.rb",
+      "line": 1
+    },
+    {
+      "name": "instance",
+      "type": "module",
+      "file": "lib/mastodon/instance.rb",
+      "line": 1
+    },
+    {
+      "name": "list",
+      "type": "module",
+      "file": "lib/mastodon/list.rb",
+      "line": 1
+    },
+    {
+      "name": "media",
+      "type": "module",
+      "file": "lib/mastodon/media.rb",
+      "line": 1
+    },
+    {
+      "name": "notification",
+      "type": "module",
+      "file": "lib/mastodon/notification.rb",
+      "line": 1
+    },
+    {
+      "name": "relationship",
+      "type": "module",
+      "file": "lib/mastodon/relationship.rb",
+      "line": 1
+    },
+    {
+      "name": "results",
+      "type": "module",
+      "file": "lib/mastodon/results.rb",
+      "line": 1
+    },
+    {
+      "name": "scheduled_status",
+      "type": "module",
+      "file": "lib/mastodon/scheduled_status.rb",
+      "line": 1
+    },
+    {
+      "name": "status",
+      "type": "module",
+      "file": "lib/mastodon/status.rb",
+      "line": 1
+    },
+    {
+      "name": "version",
+      "type": "module",
+      "file": "lib/mastodon/version.rb",
+      "line": 1
+    },
+    {
+      "name": "app",
+      "type": "module",
+      "file": "lib/mastodon/entities/app.rb",
+      "line": 1
+    },
+    {
+      "name": "hashtag",
+      "type": "module",
+      "file": "lib/mastodon/entities/hashtag.rb",
+      "line": 1
+    },
+    {
+      "name": "media",
+      "type": "module",
+      "file": "lib/mastodon/entities/media.rb",
+      "line": 1
+    },
+    {
+      "name": "mention",
+      "type": "module",
+      "file": "lib/mastodon/entities/mention.rb",
+      "line": 1
+    },
+    {
+      "name": "accounts",
+      "type": "module",
+      "file": "lib/mastodon/rest/accounts.rb",
+      "line": 1
+    },
+    {
+      "name": "api",
+      "type": "module",
+      "file": "lib/mastodon/rest/api.rb",
+      "line": 1
+    },
+    {
+      "name": "apps",
+      "type": "module",
+      "file": "lib/mastodon/rest/apps.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/mastodon/rest/client.rb",
+      "line": 1
+    },
+    {
+      "name": "conversations",
+      "type": "module",
+      "file": "lib/mastodon/rest/conversations.rb",
+      "line": 1
+    },
+    {
+      "name": "custom_emojis",
+      "type": "module",
+      "file": "lib/mastodon/rest/custom_emojis.rb",
+      "line": 1
+    },
+    {
+      "name": "domain_blocks",
+      "type": "module",
+      "file": "lib/mastodon/rest/domain_blocks.rb",
+      "line": 1
+    },
+    {
+      "name": "endorsements",
+      "type": "module",
+      "file": "lib/mastodon/rest/endorsements.rb",
+      "line": 1
+    },
+    {
+      "name": "filters",
+      "type": "module",
+      "file": "lib/mastodon/rest/filters.rb",
+      "line": 1
+    },
+    {
+      "name": "instances",
+      "type": "module",
+      "file": "lib/mastodon/rest/instances.rb",
+      "line": 1
+    },
+    {
+      "name": "lists",
+      "type": "module",
+      "file": "lib/mastodon/rest/lists.rb",
+      "line": 1
+    },
+    {
+      "name": "media",
+      "type": "module",
+      "file": "lib/mastodon/rest/media.rb",
+      "line": 1
+    },
+    {
+      "name": "notifications",
+      "type": "module",
+      "file": "lib/mastodon/rest/notifications.rb",
+      "line": 1
+    },
+    {
+      "name": "relationships",
+      "type": "module",
+      "file": "lib/mastodon/rest/relationships.rb",
+      "line": 1
+    },
+    {
+      "name": "reports",
+      "type": "module",
+      "file": "lib/mastodon/rest/reports.rb",
+      "line": 1
+    },
+    {
+      "name": "request",
+      "type": "module",
+      "file": "lib/mastodon/rest/request.rb",
+      "line": 1
+    },
+    {
+      "name": "scheduled_statuses",
+      "type": "module",
+      "file": "lib/mastodon/rest/scheduled_statuses.rb",
+      "line": 1
+    },
+    {
+      "name": "search",
+      "type": "module",
+      "file": "lib/mastodon/rest/search.rb",
+      "line": 1
+    },
+    {
+      "name": "statuses",
+      "type": "module",
+      "file": "lib/mastodon/rest/statuses.rb",
+      "line": 1
+    },
+    {
+      "name": "suggestions",
+      "type": "module",
+      "file": "lib/mastodon/rest/suggestions.rb",
+      "line": 1
+    },
+    {
+      "name": "timelines",
+      "type": "module",
+      "file": "lib/mastodon/rest/timelines.rb",
+      "line": 1
+    },
+    {
+      "name": "utils",
+      "type": "module",
+      "file": "lib/mastodon/rest/utils.rb",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "lib/mastodon/streaming/client.rb",
+      "line": 1
+    },
+    {
+      "name": "connection",
+      "type": "module",
+      "file": "lib/mastodon/streaming/connection.rb",
+      "line": 1
+    },
+    {
+      "name": "message_parser",
+      "type": "module",
+      "file": "lib/mastodon/streaming/message_parser.rb",
+      "line": 1
+    },
+    {
+      "name": "response",
+      "type": "module",
+      "file": "lib/mastodon/streaming/response.rb",
+      "line": 1
+    },
+    {
+      "name": "filters_change",
+      "type": "module",
+      "file": "lib/mastodon/streaming/events/filters_change.rb",
+      "line": 1
+    },
+    {
+      "name": "status_delete",
+      "type": "module",
+      "file": "lib/mastodon/streaming/events/status_delete.rb",
+      "line": 1
+    },
+    {
+      "name": "spec_helper",
+      "type": "module",
+      "file": "spec/spec_helper.rb",
+      "line": 1
+    },
+    {
+      "name": "client_spec",
+      "type": "module",
+      "file": "spec/mastodon/client_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "media_spec",
+      "type": "module",
+      "file": "spec/mastodon/media_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "accounts_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/accounts_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "apps_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/apps_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "instances_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/instances_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "media_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/media_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "notifications_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/notifications_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "relationships_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/relationships_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "search_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/search_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "statuses_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/statuses_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "suggestions_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/suggestions_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "timelines_spec",
+      "type": "module",
+      "file": "spec/mastodon/rest/timelines_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "client_spec",
+      "type": "module",
+      "file": "spec/mastodon/streaming/client_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "connection_spec",
+      "type": "module",
+      "file": "spec/mastodon/streaming/connection_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "message_parser_spec",
+      "type": "module",
+      "file": "spec/mastodon/streaming/message_parser_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "response_spec",
+      "type": "module",
+      "file": "spec/mastodon/streaming/response_spec.rb",
+      "line": 1
+    },
+    {
+      "name": "status_delete_spec",
+      "type": "module",
+      "file": "spec/mastodon/streaming/events/status_delete_spec.rb",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 85.15,
+    "overall_grade": "B",
+    "technical_debt_score": 14.85,
+    "remediation_hours": 7.71,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 88.0,
+        "grade": "B",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=1"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 40.0,
+        "grade": "F",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=False, test_files_detected=False"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "dependencies=10, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 77.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "workflows=1, operational_antipatterns=2, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "rake",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rake",
+      "manifest_file": "Gemfile",
+      "line": 4,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "yard",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/yard",
+      "manifest_file": "Gemfile",
+      "line": 5,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "pry",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/pry",
+      "manifest_file": "Gemfile",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rspec",
+      "version": "3.0",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rspec@3.0",
+      "manifest_file": "Gemfile",
+      "line": 12,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "fuubar",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/fuubar",
+      "manifest_file": "Gemfile",
+      "line": 13,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "rubocop",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/rubocop",
+      "manifest_file": "Gemfile",
+      "line": 14,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "simplecov",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/simplecov",
+      "manifest_file": "Gemfile",
+      "line": 15,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "timecop",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/timecop",
+      "manifest_file": "Gemfile",
+      "line": 16,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "webmock",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/webmock",
+      "manifest_file": "Gemfile",
+      "line": 17,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "yardstick",
+      "version": "",
+      "ecosystem": "gem",
+      "purl": "pkg:gem/yardstick",
+      "manifest_file": "Gemfile",
+      "line": 18,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "c502c201-747f-4532-ad03-5e1675050549",
+      "source_type": "code_module",
+      "target": "gempush.yml#build",
+      "target_type": "ci_job",
+      "relationship": "DEPLOYED_BY"
+    }
+  ],
+  "workspace_packages": [],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}

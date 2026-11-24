@@ -1,0 +1,115 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:30e723ec-d883-415a-a64a-4cf0cf04d359",
+  "version": 1,
+  "metadata": {
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "atruss-code-atlas",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "pkg:github/home-assistant/operating-system@945ba38d88e7e7d7321d42294b222b8deb2208d2",
+      "name": "home-assistant/operating-system",
+      "version": "945ba38d88e7e7d7321d42294b222b8deb2208d2"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/labgrid@26.0.1",
+      "name": "labgrid",
+      "version": "26.0.1",
+      "purl": "pkg:pypi/labgrid@26.0.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "atruss:ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "atruss:is_direct",
+          "value": "true"
+        },
+        {
+          "name": "atruss:manifest_files",
+          "value": "tests/requirements.txt"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/pytest-dependency@0.6.1",
+      "name": "pytest-dependency",
+      "version": "0.6.1",
+      "purl": "pkg:pypi/pytest-dependency@0.6.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "atruss:ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "atruss:is_direct",
+          "value": "true"
+        },
+        {
+          "name": "atruss:manifest_files",
+          "value": "tests/requirements.txt"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/pytest-timeout@2.4.0",
+      "name": "pytest-timeout",
+      "version": "2.4.0",
+      "purl": "pkg:pypi/pytest-timeout@2.4.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "atruss:ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "atruss:is_direct",
+          "value": "true"
+        },
+        {
+          "name": "atruss:manifest_files",
+          "value": "tests/requirements.txt"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:github/home-assistant/operating-system@945ba38d88e7e7d7321d42294b222b8deb2208d2",
+      "dependsOn": [
+        "pkg:pypi/labgrid@26.0.1",
+        "pkg:pypi/pytest-dependency@0.6.1",
+        "pkg:pypi/pytest-timeout@2.4.0"
+      ]
+    },
+    {
+      "ref": "pkg:pypi/labgrid@26.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/pytest-dependency@0.6.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/pytest-timeout@2.4.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}

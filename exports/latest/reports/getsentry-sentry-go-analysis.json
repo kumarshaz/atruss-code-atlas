@@ -1,0 +1,6813 @@
+{
+  "repository": "getsentry/sentry-go",
+  "sha": "bd76d5242520430b83311fba3175f9e4e133e981",
+  "ecosystem": "Go",
+  "metrics": {
+    "files_analyzed": 235,
+    "loc": 49270,
+    "sloc": 40590,
+    "component_count": 235,
+    "avg_cyclomatic_complexity": 0.0,
+    "max_cyclomatic_complexity": 0,
+    "ast_engine": "fallback",
+    "avg_cognitive_complexity": 0.0,
+    "max_cognitive_complexity": 0,
+    "duplication_pct": 0.0,
+    "dead_code_count": 0,
+    "dead_code_symbols": [],
+    "file_complexities": [],
+    "import_edges": [],
+    "test_file_count": 92,
+    "framework": "Go Gin / Echo / Fiber",
+    "fitness_passed": true,
+    "fitness_violation_count": 0
+  },
+  "pipelines": [
+    {
+      "id": "codeql.yml",
+      "path": ".github/workflows/codeql.yml",
+      "name": "CodeQL",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ],
+      "jobs": {
+        "analyze": {
+          "name": "Analyze",
+          "runs-on": "ubuntu-latest",
+          "permissions": {
+            "actions": "read",
+            "contents": "read",
+            "security-events": "write"
+          },
+          "strategy": {
+            "fail-fast": false,
+            "matrix": {
+              "language": [
+                "go"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout repository",
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "name": "Initialize CodeQL",
+              "uses": "github/codeql-action/init@256d634097be96e792d6764f9edaefc4320557b1",
+              "with": {
+                "languages": "${{ matrix.language }}",
+                "queries": "security-extended"
+              }
+            },
+            {
+              "name": "Autobuild",
+              "uses": "github/codeql-action/autobuild@256d634097be96e792d6764f9edaefc4320557b1"
+            },
+            {
+              "name": "Perform CodeQL Analysis",
+              "uses": "github/codeql-action/analyze@256d634097be96e792d6764f9edaefc4320557b1",
+              "with": {
+                "category": "/language:${{matrix.language}}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "analyze",
+          "name": "Analyze",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/codeql.yml",
+          "start_line": 24,
+          "end_line": 76,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "analyze": 0.0
+        },
+        "pagerank": {
+          "analyze": 1.0
+        },
+        "downstream_impact": {
+          "analyze": []
+        },
+        "critical_nodes": [
+          "analyze"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "govulncheck.yml",
+      "path": ".github/workflows/govulncheck.yml",
+      "name": "Go vulnerability audit",
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "govulncheck": {
+          "name": "Go vulnerability audit",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "uses": "actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+              "with": {
+                "go-version": "stable",
+                "check-latest": true,
+                "cache-dependency-path": "**/go.sum"
+              }
+            },
+            {
+              "name": "Install govulncheck",
+              "run": "go install golang.org/x/vuln/cmd/govulncheck@latest"
+            },
+            {
+              "name": "Show versions",
+              "run": "go version\ngovulncheck -version\n"
+            },
+            {
+              "name": "Run govulncheck",
+              "run": "govulncheck -show verbose work"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "govulncheck",
+          "name": "Go vulnerability audit",
+          "runner": "ubuntu-latest",
+          "steps_count": 5,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'govulncheck' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'govulncheck' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/govulncheck.yml",
+          "start_line": 20,
+          "end_line": 39,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "govulncheck": 0.0
+        },
+        "pagerank": {
+          "govulncheck": 1.0
+        },
+        "downstream_impact": {
+          "govulncheck": []
+        },
+        "critical_nodes": [
+          "govulncheck"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "lint.yml",
+      "path": ".github/workflows/lint.yml",
+      "name": "Lint",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "golangci-lint": {
+          "name": "Lint",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "uses": "actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+              "with": {
+                "go-version": "1.27",
+                "cache-dependency-path": "**/go.sum"
+              }
+            },
+            {
+              "name": "Compute lint targets",
+              "id": "lint-targets",
+              "run": "echo \"targets=$(go work edit -json | jq -r '[.Use[].DiskPath | . + \"/...\"] | join(\" \")')\" >> $GITHUB_OUTPUT"
+            },
+            {
+              "name": "golangci-lint",
+              "uses": "golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a",
+              "with": {
+                "version": "v2.14",
+                "args": "--timeout=10m ${{ steps.lint-targets.outputs.targets }}"
+              }
+            }
+          ],
+          "timeout-minutes": 10
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "golangci-lint",
+          "name": "Lint",
+          "runner": "ubuntu-latest",
+          "steps_count": 4,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [],
+      "anti_patterns": [],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "golangci-lint": 0.0
+        },
+        "pagerank": {
+          "golangci-lint": 1.0
+        },
+        "downstream_impact": {
+          "golangci-lint": []
+        },
+        "critical_nodes": [
+          "golangci-lint"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "release.yml",
+      "path": ".github/workflows/release.yml",
+      "name": "Prepare Release",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "jobs": {
+        "release": {
+          "runs-on": "ubuntu-latest",
+          "name": "Release a new version",
+          "steps": [
+            {
+              "name": "Get auth token",
+              "id": "token",
+              "uses": "actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510",
+              "with": {
+                "app-id": "${{ vars.SENTRY_RELEASE_BOT_CLIENT_ID }}",
+                "private-key": "${{ secrets.SENTRY_RELEASE_BOT_PRIVATE_KEY }}"
+              }
+            },
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "with": {
+                "token": "${{ steps.token.outputs.token }}",
+                "fetch-depth": 0
+              }
+            },
+            {
+              "name": "Prepare release",
+              "uses": "getsentry/craft@2e29b0819113d334c15da3d8cac2138cb9dc111a",
+              "env": {
+                "GITHUB_TOKEN": "${{ steps.token.outputs.token }}"
+              },
+              "with": {
+                "version": "${{ github.event.inputs.version }}",
+                "force": "${{ github.event.inputs.force }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "release",
+          "name": "Release a new version",
+          "runner": "ubuntu-latest",
+          "steps_count": 3,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[CRITICAL] NO_TEST_GATE: CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+        "[LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-001",
+          "type": "NO_TEST_GATE",
+          "severity": "CRITICAL",
+          "message": "CRITICAL: Job 'release' performs deployment without upstream test gates ('needs:' block is empty).",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 16,
+          "end_line": 36,
+          "remediation": "Add a 'needs:' dependency on a test or verification job before executing deployment steps."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/release.yml",
+          "start_line": 16,
+          "end_line": 36,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "release": 0.0
+        },
+        "pagerank": {
+          "release": 1.0
+        },
+        "downstream_impact": {
+          "release": []
+        },
+        "critical_nodes": [
+          "release"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "test.yml",
+      "path": ".github/workflows/test.yml",
+      "name": "Test",
+      "triggers": [
+        "push",
+        "pull_request"
+      ],
+      "jobs": {
+        "test": {
+          "name": "Module Mode",
+          "runs-on": "${{ matrix.os }}-latest",
+          "env": {
+            "GO111MODULE": "on",
+            "GOFLAGS": "-mod=readonly",
+            "RUN_RACE_TESTS": "${{ github.event_name != 'pull_request' || (matrix.go == '1.27' && matrix.os == 'ubuntu') }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+            },
+            {
+              "uses": "actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+              "with": {
+                "go-version": "${{ matrix.go }}",
+                "cache-dependency-path": "**/go.sum"
+              }
+            },
+            {
+              "name": "Tidy",
+              "run": "make mod-tidy",
+              "if": "${{ matrix.go == '1.27' }}"
+            },
+            {
+              "name": "Build",
+              "run": "make build"
+            },
+            {
+              "name": "Vet",
+              "run": "make vet"
+            },
+            {
+              "name": "Test${{ env.RUN_RACE_TESTS == 'true' && ' (with race detection)' || '' }}",
+              "run": "${{ env.RUN_RACE_TESTS == 'true' && 'make test-race' || 'make test' }}"
+            }
+          ],
+          "timeout-minutes": 15,
+          "strategy": {
+            "matrix": {
+              "go": [
+                "1.27",
+                "1.26"
+              ],
+              "os": [
+                "ubuntu",
+                "windows",
+                "macos"
+              ]
+            },
+            "fail-fast": false
+          }
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "test",
+          "name": "Module Mode",
+          "runner": "${{ matrix.os }}-latest",
+          "steps_count": 6,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [],
+      "anti_patterns": [],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "test": 0.0
+        },
+        "pagerank": {
+          "test": 1.0
+        },
+        "downstream_impact": {
+          "test": []
+        },
+        "critical_nodes": [
+          "test"
+        ],
+        "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "validate-pr.yml",
+      "path": ".github/workflows/validate-pr.yml",
+      "name": "Validate PR",
+      "triggers": [
+        "pull_request_target"
+      ],
+      "jobs": {
+        "validate-pr": {
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "steps": [
+            {
+              "uses": "getsentry/github-workflows/validate-pr@01bcb7fe69bb48bacd83e675840e3dc95b33c730",
+              "with": {
+                "app-id": "${{ vars.SDK_MAINTAINER_BOT_APP_ID }}",
+                "private-key": "${{ secrets.SDK_MAINTAINER_BOT_PRIVATE_KEY }}"
+              }
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "validate-pr",
+          "name": "validate-pr",
+          "runner": "ubuntu-24.04",
+          "steps_count": 1,
+          "needs": [],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 1,
+        "edge_count": 0,
+        "is_valid_dag": true,
+        "max_depth": 0
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'validate-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/validate-pr.yml",
+          "start_line": 8,
+          "end_line": 16,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "validate-pr": 0.0
+        },
+        "pagerank": {
+          "validate-pr": 1.0
+        },
+        "downstream_impact": {
+          "validate-pr": []
+        },
+        "critical_nodes": [
+          "validate-pr"
+        ],
+        "max_blast_radius": 0
+      }
+    }
+  ],
+  "architecture_components": [
+    {
+      "name": "baggage",
+      "type": "module",
+      "file": "baggage.go",
+      "line": 1
+    },
+    {
+      "name": "baggage_test",
+      "type": "module",
+      "file": "baggage_test.go",
+      "line": 1
+    },
+    {
+      "name": "capture_options",
+      "type": "module",
+      "file": "capture_options.go",
+      "line": 1
+    },
+    {
+      "name": "capture_options_test",
+      "type": "module",
+      "file": "capture_options_test.go",
+      "line": 1
+    },
+    {
+      "name": "check_in",
+      "type": "module",
+      "file": "check_in.go",
+      "line": 1
+    },
+    {
+      "name": "check_in_external_test",
+      "type": "module",
+      "file": "check_in_external_test.go",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "client.go",
+      "line": 1
+    },
+    {
+      "name": "client_reports",
+      "type": "module",
+      "file": "client_reports.go",
+      "line": 1
+    },
+    {
+      "name": "client_reports_test",
+      "type": "module",
+      "file": "client_reports_test.go",
+      "line": 1
+    },
+    {
+      "name": "client_test",
+      "type": "module",
+      "file": "client_test.go",
+      "line": 1
+    },
+    {
+      "name": "data_collection",
+      "type": "module",
+      "file": "data_collection.go",
+      "line": 1
+    },
+    {
+      "name": "data_collection_filter",
+      "type": "module",
+      "file": "data_collection_filter.go",
+      "line": 1
+    },
+    {
+      "name": "data_collection_filter_test",
+      "type": "module",
+      "file": "data_collection_filter_test.go",
+      "line": 1
+    },
+    {
+      "name": "data_collection_test",
+      "type": "module",
+      "file": "data_collection_test.go",
+      "line": 1
+    },
+    {
+      "name": "doc",
+      "type": "module",
+      "file": "doc.go",
+      "line": 1
+    },
+    {
+      "name": "dsn",
+      "type": "module",
+      "file": "dsn.go",
+      "line": 1
+    },
+    {
+      "name": "dsn_test",
+      "type": "module",
+      "file": "dsn_test.go",
+      "line": 1
+    },
+    {
+      "name": "dynamic_sampling_context",
+      "type": "module",
+      "file": "dynamic_sampling_context.go",
+      "line": 1
+    },
+    {
+      "name": "dynamic_sampling_context_test",
+      "type": "module",
+      "file": "dynamic_sampling_context_test.go",
+      "line": 1
+    },
+    {
+      "name": "errors_test",
+      "type": "module",
+      "file": "errors_test.go",
+      "line": 1
+    },
+    {
+      "name": "example_transportwithhooks_test",
+      "type": "module",
+      "file": "example_transportwithhooks_test.go",
+      "line": 1
+    },
+    {
+      "name": "exception",
+      "type": "module",
+      "file": "exception.go",
+      "line": 1
+    },
+    {
+      "name": "exception_test",
+      "type": "module",
+      "file": "exception_test.go",
+      "line": 1
+    },
+    {
+      "name": "helpers_test",
+      "type": "module",
+      "file": "helpers_test.go",
+      "line": 1
+    },
+    {
+      "name": "integrations",
+      "type": "module",
+      "file": "integrations.go",
+      "line": 1
+    },
+    {
+      "name": "integrations_test",
+      "type": "module",
+      "file": "integrations_test.go",
+      "line": 1
+    },
+    {
+      "name": "interfaces",
+      "type": "module",
+      "file": "interfaces.go",
+      "line": 1
+    },
+    {
+      "name": "interfaces_test",
+      "type": "module",
+      "file": "interfaces_test.go",
+      "line": 1
+    },
+    {
+      "name": "log",
+      "type": "module",
+      "file": "log.go",
+      "line": 1
+    },
+    {
+      "name": "log_context_test",
+      "type": "module",
+      "file": "log_context_test.go",
+      "line": 1
+    },
+    {
+      "name": "log_race_test",
+      "type": "module",
+      "file": "log_race_test.go",
+      "line": 1
+    },
+    {
+      "name": "log_test",
+      "type": "module",
+      "file": "log_test.go",
+      "line": 1
+    },
+    {
+      "name": "marshal_test",
+      "type": "module",
+      "file": "marshal_test.go",
+      "line": 1
+    },
+    {
+      "name": "metrics",
+      "type": "module",
+      "file": "metrics.go",
+      "line": 1
+    },
+    {
+      "name": "metrics_test",
+      "type": "module",
+      "file": "metrics_test.go",
+      "line": 1
+    },
+    {
+      "name": "mock_transport",
+      "type": "module",
+      "file": "mock_transport.go",
+      "line": 1
+    },
+    {
+      "name": "mocks",
+      "type": "module",
+      "file": "mocks.go",
+      "line": 1
+    },
+    {
+      "name": "option",
+      "type": "module",
+      "file": "option.go",
+      "line": 1
+    },
+    {
+      "name": "option_test",
+      "type": "module",
+      "file": "option_test.go",
+      "line": 1
+    },
+    {
+      "name": "propagation_context",
+      "type": "module",
+      "file": "propagation_context.go",
+      "line": 1
+    },
+    {
+      "name": "propagation_context_test",
+      "type": "module",
+      "file": "propagation_context_test.go",
+      "line": 1
+    },
+    {
+      "name": "recover_external_test",
+      "type": "module",
+      "file": "recover_external_test.go",
+      "line": 1
+    },
+    {
+      "name": "scope",
+      "type": "module",
+      "file": "scope.go",
+      "line": 1
+    },
+    {
+      "name": "scope_concurrency_test",
+      "type": "module",
+      "file": "scope_concurrency_test.go",
+      "line": 1
+    },
+    {
+      "name": "scope_context",
+      "type": "module",
+      "file": "scope_context.go",
+      "line": 1
+    },
+    {
+      "name": "scope_merge_test",
+      "type": "module",
+      "file": "scope_merge_test.go",
+      "line": 1
+    },
+    {
+      "name": "scope_propagation_external_test",
+      "type": "module",
+      "file": "scope_propagation_external_test.go",
+      "line": 1
+    },
+    {
+      "name": "scope_test",
+      "type": "module",
+      "file": "scope_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentry",
+      "type": "module",
+      "file": "sentry.go",
+      "line": 1
+    },
+    {
+      "name": "span_recorder",
+      "type": "module",
+      "file": "span_recorder.go",
+      "line": 1
+    },
+    {
+      "name": "span_recorder_test",
+      "type": "module",
+      "file": "span_recorder_test.go",
+      "line": 1
+    },
+    {
+      "name": "stacktrace",
+      "type": "module",
+      "file": "stacktrace.go",
+      "line": 1
+    },
+    {
+      "name": "stacktrace_external_test",
+      "type": "module",
+      "file": "stacktrace_external_test.go",
+      "line": 1
+    },
+    {
+      "name": "stacktrace_test",
+      "type": "module",
+      "file": "stacktrace_test.go",
+      "line": 1
+    },
+    {
+      "name": "telemetry_processor_race_test",
+      "type": "module",
+      "file": "telemetry_processor_race_test.go",
+      "line": 1
+    },
+    {
+      "name": "traces_sampler",
+      "type": "module",
+      "file": "traces_sampler.go",
+      "line": 1
+    },
+    {
+      "name": "traces_sampler_test",
+      "type": "module",
+      "file": "traces_sampler_test.go",
+      "line": 1
+    },
+    {
+      "name": "tracing",
+      "type": "module",
+      "file": "tracing.go",
+      "line": 1
+    },
+    {
+      "name": "tracing_test",
+      "type": "module",
+      "file": "tracing_test.go",
+      "line": 1
+    },
+    {
+      "name": "transport",
+      "type": "module",
+      "file": "transport.go",
+      "line": 1
+    },
+    {
+      "name": "transport_test",
+      "type": "module",
+      "file": "transport_test.go",
+      "line": 1
+    },
+    {
+      "name": "util",
+      "type": "module",
+      "file": "util.go",
+      "line": 1
+    },
+    {
+      "name": "util_test",
+      "type": "module",
+      "file": "util_test.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/basic/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/crons/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/echo/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/fasthttp/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/feature-showcase/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/fiber/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/flush/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/flush-with-context/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/gin/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/grpc/client/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/grpc/server/main.go",
+      "line": 1
+    },
+    {
+      "name": "example.pb",
+      "type": "module",
+      "file": "_examples/grpc/server/examplepb/example.pb.go",
+      "line": 1
+    },
+    {
+      "name": "example_grpc.pb",
+      "type": "module",
+      "file": "_examples/grpc/server/examplepb/example_grpc.pb.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/http/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/httpclient/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/iris/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/logrus/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/logs/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/metrics/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/multiclient/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/negroni/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/otlp/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/recover/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/recover-repanic/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/slog/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/synctransport/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/trace-ignore-status-codes/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/with_extra/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/zap/main.go",
+      "line": 1
+    },
+    {
+      "name": "main",
+      "type": "module",
+      "file": "_examples/zerolog/main.go",
+      "line": 1
+    },
+    {
+      "name": "builder",
+      "type": "module",
+      "file": "attribute/builder.go",
+      "line": 1
+    },
+    {
+      "name": "builder_test",
+      "type": "module",
+      "file": "attribute/builder_test.go",
+      "line": 1
+    },
+    {
+      "name": "rawhelpers",
+      "type": "module",
+      "file": "attribute/rawhelpers.go",
+      "line": 1
+    },
+    {
+      "name": "slicehelpers",
+      "type": "module",
+      "file": "attribute/slicehelpers.go",
+      "line": 1
+    },
+    {
+      "name": "value",
+      "type": "module",
+      "file": "attribute/value.go",
+      "line": 1
+    },
+    {
+      "name": "value_test",
+      "type": "module",
+      "file": "attribute/value_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentrycron",
+      "type": "module",
+      "file": "cron/sentrycron.go",
+      "line": 1
+    },
+    {
+      "name": "sentrycron_test",
+      "type": "module",
+      "file": "cron/sentrycron_test.go",
+      "line": 1
+    },
+    {
+      "name": "grpc_link_test",
+      "type": "module",
+      "file": "crosstest/grpc_link_test.go",
+      "line": 1
+    },
+    {
+      "name": "helpers_test",
+      "type": "module",
+      "file": "crosstest/helpers_test.go",
+      "line": 1
+    },
+    {
+      "name": "http_link_test",
+      "type": "module",
+      "file": "crosstest/http_link_test.go",
+      "line": 1
+    },
+    {
+      "name": "logging_link_test",
+      "type": "module",
+      "file": "crosstest/logging_link_test.go",
+      "line": 1
+    },
+    {
+      "name": "example_test",
+      "type": "module",
+      "file": "echo/example_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryecho",
+      "type": "module",
+      "file": "echo/sentryecho.go",
+      "line": 1
+    },
+    {
+      "name": "sentryecho_test",
+      "type": "module",
+      "file": "echo/sentryecho_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfasthttp",
+      "type": "module",
+      "file": "fasthttp/sentryfasthttp.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfasthttp_test",
+      "type": "module",
+      "file": "fasthttp/sentryfasthttp_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfiber",
+      "type": "module",
+      "file": "fiber/sentryfiber.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfiber_test",
+      "type": "module",
+      "file": "fiber/sentryfiber_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfiber",
+      "type": "module",
+      "file": "fiberv3/sentryfiber.go",
+      "line": 1
+    },
+    {
+      "name": "sentryfiber_test",
+      "type": "module",
+      "file": "fiberv3/sentryfiber_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentrygin",
+      "type": "module",
+      "file": "gin/sentrygin.go",
+      "line": 1
+    },
+    {
+      "name": "sentrygin_test",
+      "type": "module",
+      "file": "gin/sentrygin_test.go",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "grpc/client.go",
+      "line": 1
+    },
+    {
+      "name": "client_test",
+      "type": "module",
+      "file": "grpc/client_test.go",
+      "line": 1
+    },
+    {
+      "name": "server",
+      "type": "module",
+      "file": "grpc/server.go",
+      "line": 1
+    },
+    {
+      "name": "server_internal_test",
+      "type": "module",
+      "file": "grpc/server_internal_test.go",
+      "line": 1
+    },
+    {
+      "name": "server_test",
+      "type": "module",
+      "file": "grpc/server_test.go",
+      "line": 1
+    },
+    {
+      "name": "example_test",
+      "type": "module",
+      "file": "http/example_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryhttp",
+      "type": "module",
+      "file": "http/sentryhttp.go",
+      "line": 1
+    },
+    {
+      "name": "sentryhttp_test",
+      "type": "module",
+      "file": "http/sentryhttp_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryhttpclient",
+      "type": "module",
+      "file": "httpclient/sentryhttpclient.go",
+      "line": 1
+    },
+    {
+      "name": "sentryhttpclient_test",
+      "type": "module",
+      "file": "httpclient/sentryhttpclient_test.go",
+      "line": 1
+    },
+    {
+      "name": "client",
+      "type": "module",
+      "file": "internal/contextkey/client.go",
+      "line": 1
+    },
+    {
+      "name": "transport",
+      "type": "module",
+      "file": "internal/debug/transport.go",
+      "line": 1
+    },
+    {
+      "name": "log",
+      "type": "module",
+      "file": "internal/debuglog/log.go",
+      "line": 1
+    },
+    {
+      "name": "log_test",
+      "type": "module",
+      "file": "internal/debuglog/log_test.go",
+      "line": 1
+    },
+    {
+      "name": "body",
+      "type": "module",
+      "file": "internal/httputils/body.go",
+      "line": 1
+    },
+    {
+      "name": "body_test",
+      "type": "module",
+      "file": "internal/httputils/body_test.go",
+      "line": 1
+    },
+    {
+      "name": "wrap_writer",
+      "type": "module",
+      "file": "internal/httputils/wrap_writer.go",
+      "line": 1
+    },
+    {
+      "name": "wrap_writer_test",
+      "type": "module",
+      "file": "internal/httputils/wrap_writer_test.go",
+      "line": 1
+    },
+    {
+      "name": "baggage",
+      "type": "module",
+      "file": "internal/otel/baggage/baggage.go",
+      "line": 1
+    },
+    {
+      "name": "baggage_test",
+      "type": "module",
+      "file": "internal/otel/baggage/baggage_test.go",
+      "line": 1
+    },
+    {
+      "name": "baggage",
+      "type": "module",
+      "file": "internal/otel/baggage/internal/baggage/baggage.go",
+      "line": 1
+    },
+    {
+      "name": "category",
+      "type": "module",
+      "file": "internal/ratelimit/category.go",
+      "line": 1
+    },
+    {
+      "name": "category_test",
+      "type": "module",
+      "file": "internal/ratelimit/category_test.go",
+      "line": 1
+    },
+    {
+      "name": "deadline",
+      "type": "module",
+      "file": "internal/ratelimit/deadline.go",
+      "line": 1
+    },
+    {
+      "name": "doc",
+      "type": "module",
+      "file": "internal/ratelimit/doc.go",
+      "line": 1
+    },
+    {
+      "name": "map",
+      "type": "module",
+      "file": "internal/ratelimit/map.go",
+      "line": 1
+    },
+    {
+      "name": "map_test",
+      "type": "module",
+      "file": "internal/ratelimit/map_test.go",
+      "line": 1
+    },
+    {
+      "name": "rate_limits",
+      "type": "module",
+      "file": "internal/ratelimit/rate_limits.go",
+      "line": 1
+    },
+    {
+      "name": "rate_limits_test",
+      "type": "module",
+      "file": "internal/ratelimit/rate_limits_test.go",
+      "line": 1
+    },
+    {
+      "name": "retry_after",
+      "type": "module",
+      "file": "internal/ratelimit/retry_after.go",
+      "line": 1
+    },
+    {
+      "name": "retry_after_test",
+      "type": "module",
+      "file": "internal/ratelimit/retry_after_test.go",
+      "line": 1
+    },
+    {
+      "name": "fixture",
+      "type": "module",
+      "file": "internal/sentrytest/fixture.go",
+      "line": 1
+    },
+    {
+      "name": "fixture_test",
+      "type": "module",
+      "file": "internal/sentrytest/fixture_test.go",
+      "line": 1
+    },
+    {
+      "name": "request",
+      "type": "module",
+      "file": "internal/sentrytest/request.go",
+      "line": 1
+    },
+    {
+      "name": "attachments_regression_test",
+      "type": "module",
+      "file": "internal/telemetry/attachments_regression_test.go",
+      "line": 1
+    },
+    {
+      "name": "bucketed_buffer",
+      "type": "module",
+      "file": "internal/telemetry/bucketed_buffer.go",
+      "line": 1
+    },
+    {
+      "name": "bucketed_buffer_test",
+      "type": "module",
+      "file": "internal/telemetry/bucketed_buffer_test.go",
+      "line": 1
+    },
+    {
+      "name": "buffer",
+      "type": "module",
+      "file": "internal/telemetry/buffer.go",
+      "line": 1
+    },
+    {
+      "name": "discard",
+      "type": "module",
+      "file": "internal/telemetry/discard.go",
+      "line": 1
+    },
+    {
+      "name": "interfaces",
+      "type": "module",
+      "file": "internal/telemetry/interfaces.go",
+      "line": 1
+    },
+    {
+      "name": "item_container",
+      "type": "module",
+      "file": "internal/telemetry/item_container.go",
+      "line": 1
+    },
+    {
+      "name": "item_container_test",
+      "type": "module",
+      "file": "internal/telemetry/item_container_test.go",
+      "line": 1
+    },
+    {
+      "name": "priority",
+      "type": "module",
+      "file": "internal/telemetry/priority.go",
+      "line": 1
+    },
+    {
+      "name": "priority_test",
+      "type": "module",
+      "file": "internal/telemetry/priority_test.go",
+      "line": 1
+    },
+    {
+      "name": "processor",
+      "type": "module",
+      "file": "internal/telemetry/processor.go",
+      "line": 1
+    },
+    {
+      "name": "processor_test",
+      "type": "module",
+      "file": "internal/telemetry/processor_test.go",
+      "line": 1
+    },
+    {
+      "name": "ring_buffer",
+      "type": "module",
+      "file": "internal/telemetry/ring_buffer.go",
+      "line": 1
+    },
+    {
+      "name": "ring_buffer_test",
+      "type": "module",
+      "file": "internal/telemetry/ring_buffer_test.go",
+      "line": 1
+    },
+    {
+      "name": "scheduler",
+      "type": "module",
+      "file": "internal/telemetry/scheduler.go",
+      "line": 1
+    },
+    {
+      "name": "scheduler_test",
+      "type": "module",
+      "file": "internal/telemetry/scheduler_test.go",
+      "line": 1
+    },
+    {
+      "name": "trace_aware",
+      "type": "module",
+      "file": "internal/telemetry/trace_aware.go",
+      "line": 1
+    },
+    {
+      "name": "asserts",
+      "type": "module",
+      "file": "internal/testutils/asserts.go",
+      "line": 1
+    },
+    {
+      "name": "cmp",
+      "type": "module",
+      "file": "internal/testutils/cmp.go",
+      "line": 1
+    },
+    {
+      "name": "consts",
+      "type": "module",
+      "file": "internal/testutils/consts.go",
+      "line": 1
+    },
+    {
+      "name": "maps",
+      "type": "module",
+      "file": "internal/testutils/maps.go",
+      "line": 1
+    },
+    {
+      "name": "maps_test",
+      "type": "module",
+      "file": "internal/testutils/maps_test.go",
+      "line": 1
+    },
+    {
+      "name": "mocks",
+      "type": "module",
+      "file": "internal/testutils/mocks.go",
+      "line": 1
+    },
+    {
+      "name": "notrace",
+      "type": "module",
+      "file": "internal/testutils/notrace.go",
+      "line": 1
+    },
+    {
+      "name": "race",
+      "type": "module",
+      "file": "internal/testutils/race.go",
+      "line": 1
+    },
+    {
+      "name": "outgoing",
+      "type": "module",
+      "file": "internal/traceutils/outgoing.go",
+      "line": 1
+    },
+    {
+      "name": "route_name",
+      "type": "module",
+      "file": "internal/traceutils/route_name.go",
+      "line": 1
+    },
+    {
+      "name": "route_name_test",
+      "type": "module",
+      "file": "internal/traceutils/route_name_test.go",
+      "line": 1
+    },
+    {
+      "name": "util",
+      "type": "module",
+      "file": "internal/util/util.go",
+      "line": 1
+    },
+    {
+      "name": "uuid",
+      "type": "module",
+      "file": "internal/util/uuid.go",
+      "line": 1
+    },
+    {
+      "name": "uuid_test",
+      "type": "module",
+      "file": "internal/util/uuid_test.go",
+      "line": 1
+    },
+    {
+      "name": "example_test",
+      "type": "module",
+      "file": "iris/example_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryiris",
+      "type": "module",
+      "file": "iris/sentryiris.go",
+      "line": 1
+    },
+    {
+      "name": "sentryiris_test",
+      "type": "module",
+      "file": "iris/sentryiris_test.go",
+      "line": 1
+    },
+    {
+      "name": "logrusentry",
+      "type": "module",
+      "file": "logrus/logrusentry.go",
+      "line": 1
+    },
+    {
+      "name": "logrusentry_test",
+      "type": "module",
+      "file": "logrus/logrusentry_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentrynegroni",
+      "type": "module",
+      "file": "negroni/sentrynegroni.go",
+      "line": 1
+    },
+    {
+      "name": "sentrynegroni_test",
+      "type": "module",
+      "file": "negroni/sentrynegroni_test.go",
+      "line": 1
+    },
+    {
+      "name": "linking_integration",
+      "type": "module",
+      "file": "otel/linking_integration.go",
+      "line": 1
+    },
+    {
+      "name": "linking_integration_test",
+      "type": "module",
+      "file": "otel/linking_integration_test.go",
+      "line": 1
+    },
+    {
+      "name": "event_processor",
+      "type": "module",
+      "file": "otel/internal/common/event_processor.go",
+      "line": 1
+    },
+    {
+      "name": "event_processor_test",
+      "type": "module",
+      "file": "otel/internal/common/event_processor_test.go",
+      "line": 1
+    },
+    {
+      "name": "span_exporter",
+      "type": "module",
+      "file": "otel/otlp/span_exporter.go",
+      "line": 1
+    },
+    {
+      "name": "span_exporter_test",
+      "type": "module",
+      "file": "otel/otlp/span_exporter_test.go",
+      "line": 1
+    },
+    {
+      "name": "category",
+      "type": "module",
+      "file": "protocol/category.go",
+      "line": 1
+    },
+    {
+      "name": "doc",
+      "type": "module",
+      "file": "protocol/doc.go",
+      "line": 1
+    },
+    {
+      "name": "dsn",
+      "type": "module",
+      "file": "protocol/dsn.go",
+      "line": 1
+    },
+    {
+      "name": "dsn_test",
+      "type": "module",
+      "file": "protocol/dsn_test.go",
+      "line": 1
+    },
+    {
+      "name": "envelope",
+      "type": "module",
+      "file": "protocol/envelope.go",
+      "line": 1
+    },
+    {
+      "name": "envelope_test",
+      "type": "module",
+      "file": "protocol/envelope_test.go",
+      "line": 1
+    },
+    {
+      "name": "types",
+      "type": "module",
+      "file": "protocol/types.go",
+      "line": 1
+    },
+    {
+      "name": "aggregator",
+      "type": "module",
+      "file": "report/aggregator.go",
+      "line": 1
+    },
+    {
+      "name": "aggregator_test",
+      "type": "module",
+      "file": "report/aggregator_test.go",
+      "line": 1
+    },
+    {
+      "name": "outcome",
+      "type": "module",
+      "file": "report/outcome.go",
+      "line": 1
+    },
+    {
+      "name": "reason",
+      "type": "module",
+      "file": "report/reason.go",
+      "line": 1
+    },
+    {
+      "name": "report",
+      "type": "module",
+      "file": "report/report.go",
+      "line": 1
+    },
+    {
+      "name": "common",
+      "type": "module",
+      "file": "slog/common.go",
+      "line": 1
+    },
+    {
+      "name": "common_test",
+      "type": "module",
+      "file": "slog/common_test.go",
+      "line": 1
+    },
+    {
+      "name": "converter",
+      "type": "module",
+      "file": "slog/converter.go",
+      "line": 1
+    },
+    {
+      "name": "sentryslog",
+      "type": "module",
+      "file": "slog/sentryslog.go",
+      "line": 1
+    },
+    {
+      "name": "sentryslog_test",
+      "type": "module",
+      "file": "slog/sentryslog_test.go",
+      "line": 1
+    },
+    {
+      "name": "conn",
+      "type": "module",
+      "file": "sql/conn.go",
+      "line": 1
+    },
+    {
+      "name": "connector",
+      "type": "module",
+      "file": "sql/connector.go",
+      "line": 1
+    },
+    {
+      "name": "doc",
+      "type": "module",
+      "file": "sql/doc.go",
+      "line": 1
+    },
+    {
+      "name": "driver",
+      "type": "module",
+      "file": "sql/driver.go",
+      "line": 1
+    },
+    {
+      "name": "integration_test",
+      "type": "module",
+      "file": "sql/integration_test.go",
+      "line": 1
+    },
+    {
+      "name": "obfuscation_integration_test",
+      "type": "module",
+      "file": "sql/obfuscation_integration_test.go",
+      "line": 1
+    },
+    {
+      "name": "options",
+      "type": "module",
+      "file": "sql/options.go",
+      "line": 1
+    },
+    {
+      "name": "sentrysql",
+      "type": "module",
+      "file": "sql/sentrysql.go",
+      "line": 1
+    },
+    {
+      "name": "sentrysql_test",
+      "type": "module",
+      "file": "sql/sentrysql_test.go",
+      "line": 1
+    },
+    {
+      "name": "span",
+      "type": "module",
+      "file": "sql/span.go",
+      "line": 1
+    },
+    {
+      "name": "span_origin",
+      "type": "module",
+      "file": "sql/span_origin.go",
+      "line": 1
+    },
+    {
+      "name": "span_test",
+      "type": "module",
+      "file": "sql/span_test.go",
+      "line": 1
+    },
+    {
+      "name": "stmt",
+      "type": "module",
+      "file": "sql/stmt.go",
+      "line": 1
+    },
+    {
+      "name": "tx",
+      "type": "module",
+      "file": "sql/tx.go",
+      "line": 1
+    },
+    {
+      "name": "dbsystem",
+      "type": "module",
+      "file": "sql/internal/dbsystem/dbsystem.go",
+      "line": 1
+    },
+    {
+      "name": "conn",
+      "type": "module",
+      "file": "sql/internal/fakedriver/conn.go",
+      "line": 1
+    },
+    {
+      "name": "driver",
+      "type": "module",
+      "file": "sql/internal/fakedriver/driver.go",
+      "line": 1
+    },
+    {
+      "name": "stmt",
+      "type": "module",
+      "file": "sql/internal/fakedriver/stmt.go",
+      "line": 1
+    },
+    {
+      "name": "converter",
+      "type": "module",
+      "file": "zap/converter.go",
+      "line": 1
+    },
+    {
+      "name": "converter_test",
+      "type": "module",
+      "file": "zap/converter_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryzap",
+      "type": "module",
+      "file": "zap/sentryzap.go",
+      "line": 1
+    },
+    {
+      "name": "sentryzap_test",
+      "type": "module",
+      "file": "zap/sentryzap_test.go",
+      "line": 1
+    },
+    {
+      "name": "sentryzerolog",
+      "type": "module",
+      "file": "zerolog/sentryzerolog.go",
+      "line": 1
+    },
+    {
+      "name": "sentryzerolog_test",
+      "type": "module",
+      "file": "zerolog/sentryzerolog_test.go",
+      "line": 1
+    }
+  ],
+  "scorecard": {
+    "overall_score": 88.45,
+    "overall_grade": "B",
+    "technical_debt_score": 11.55,
+    "remediation_hours": 6.89,
+    "dimensions": {
+      "code_quality": {
+        "name": "Code Quality",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0"
+      },
+      "security": {
+        "name": "Security",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.2,
+        "details": "vulnerabilities=0, secrets=0, pipeline_security_findings=0"
+      },
+      "maintainability": {
+        "name": "Maintainability",
+        "score": 100.0,
+        "grade": "A",
+        "weight": 0.15,
+        "details": "avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0"
+      },
+      "test_coverage": {
+        "name": "Test Coverage",
+        "score": 70.0,
+        "grade": "C",
+        "weight": 0.15,
+        "details": "coverage=unavailable, ci_test_job=True, test_files_detected=True"
+      },
+      "dependency_health": {
+        "name": "Dependency Health",
+        "score": 85.0,
+        "grade": "B",
+        "weight": 0.15,
+        "details": "dependencies=353, outdated=0, vulnerable=0, has_lockfile=False"
+      },
+      "pipeline_health": {
+        "name": "Pipeline Health",
+        "score": 68.0,
+        "grade": "D",
+        "weight": 0.15,
+        "details": "workflows=6, operational_antipatterns=5, parallel_branches=False"
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "cron/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/robfig/cron/v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/robfig/cron/v3@3.0.1",
+      "manifest_file": "cron/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "cron/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "cron/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "cron/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "cron/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "cron/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "cron/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 22,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/echo",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/echo@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 23,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fasthttp",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/fasthttp@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 24,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fiber",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/fiber@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 25,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fiberv3",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/fiberv3@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 26,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/gin",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/gin@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 27,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/grpc",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/grpc@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 28,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/iris",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/iris@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 29,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/logrus",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/logrus@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 30,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/negroni",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/negroni@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 31,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/otel",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/otel@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 32,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/slog",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/slog@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 33,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/zap",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go/zap@1.0.0-alpha.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 34,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gin-gonic/gin",
+      "version": "1.9.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gin-gonic/gin@1.9.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 35,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/fiber/v2",
+      "version": "2.52.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/fiber/v2@2.52.14",
+      "manifest_file": "crosstest/go.mod",
+      "line": 36,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/fiber/v3",
+      "version": "3.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/fiber/v3@3.3.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 37,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 38,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/iris/v12",
+      "version": "12.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/iris/v12@12.2.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 39,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/labstack/echo/v5",
+      "version": "5.4.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/labstack/echo/v5@5.4.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 40,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/sirupsen/logrus",
+      "version": "1.9.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/sirupsen/logrus@1.9.3",
+      "manifest_file": "crosstest/go.mod",
+      "line": 41,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/urfave/negroni/v3",
+      "version": "3.1.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/urfave/negroni/v3@3.1.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 42,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/fasthttp",
+      "version": "1.71.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/fasthttp@1.71.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 43,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/trace",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/trace@1.45.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 44,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.uber.org/zap",
+      "version": "1.27.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.uber.org/zap@1.27.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 45,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "version": "1.83.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/grpc@1.83.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 46,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/BurntSushi/toml",
+      "version": "1.3.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/BurntSushi/toml@1.3.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 50,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/CloudyKit/fastprinter",
+      "version": "0.0.0-20200109182630-33d98a066a53",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/CloudyKit/fastprinter@0.0.0-20200109182630-33d98a066a53",
+      "manifest_file": "crosstest/go.mod",
+      "line": 51,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/CloudyKit/jet/v6",
+      "version": "6.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/CloudyKit/jet/v6@6.2.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 52,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/Joker/jade",
+      "version": "1.1.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/Joker/jade@1.1.3",
+      "manifest_file": "crosstest/go.mod",
+      "line": 53,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/Shopify/goreferrer",
+      "version": "0.0.0-20220729165902-8cddb4f5de06",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/Shopify/goreferrer@0.0.0-20220729165902-8cddb4f5de06",
+      "manifest_file": "crosstest/go.mod",
+      "line": 54,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "version": "1.2.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/andybalholm/brotli@1.2.7",
+      "manifest_file": "crosstest/go.mod",
+      "line": 55,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/aymerick/douceur",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/aymerick/douceur@0.2.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 56,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/bytedance/sonic",
+      "version": "1.9.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/bytedance/sonic@1.9.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 57,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "version": "2.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/cespare/xxhash/v2@2.3.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 58,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/chenzhuoyu/base64x",
+      "version": "0.0.0-20221115062448-fe3a3abad311",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/chenzhuoyu/base64x@0.0.0-20221115062448-fe3a3abad311",
+      "manifest_file": "crosstest/go.mod",
+      "line": 59,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/eknkc/amber",
+      "version": "0.0.0-20171010120322-cdade1c07385",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/eknkc/amber@0.0.0-20171010120322-cdade1c07385",
+      "manifest_file": "crosstest/go.mod",
+      "line": 60,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/fatih/structs",
+      "version": "1.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/fatih/structs@1.1.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 61,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/flosch/pongo2/v4",
+      "version": "4.0.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/flosch/pongo2/v4@4.0.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 62,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gabriel-vasile/mimetype",
+      "version": "1.4.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gabriel-vasile/mimetype@1.4.3",
+      "manifest_file": "crosstest/go.mod",
+      "line": 63,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gin-contrib/sse",
+      "version": "0.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gin-contrib/sse@0.1.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 64,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/locales",
+      "version": "0.14.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/locales@0.14.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 65,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/universal-translator",
+      "version": "0.18.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/universal-translator@0.18.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 66,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/validator/v10",
+      "version": "10.20.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/validator/v10@10.20.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 67,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/goccy/go-json",
+      "version": "0.10.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/goccy/go-json@0.10.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 68,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/schema",
+      "version": "1.7.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/schema@1.7.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 69,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/utils/v2",
+      "version": "2.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/utils/v2@2.0.6",
+      "manifest_file": "crosstest/go.mod",
+      "line": 70,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/golang/snappy",
+      "version": "0.0.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/golang/snappy@0.0.4",
+      "manifest_file": "crosstest/go.mod",
+      "line": 71,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/uuid",
+      "version": "1.6.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/uuid@1.6.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 72,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gorilla/css",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gorilla/css@1.0.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 73,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/iris-contrib/schema",
+      "version": "0.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/iris-contrib/schema@0.0.6",
+      "manifest_file": "crosstest/go.mod",
+      "line": 74,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/josharian/intern",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/josharian/intern@1.0.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 75,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "version": "1.1.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/json-iterator/go@1.1.12",
+      "manifest_file": "crosstest/go.mod",
+      "line": 76,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/blocks",
+      "version": "0.0.8",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/blocks@0.0.8",
+      "manifest_file": "crosstest/go.mod",
+      "line": 77,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/golog",
+      "version": "0.1.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/golog@0.1.11",
+      "manifest_file": "crosstest/go.mod",
+      "line": 78,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/pio",
+      "version": "0.0.13",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/pio@0.0.13",
+      "manifest_file": "crosstest/go.mod",
+      "line": 79,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/sitemap",
+      "version": "0.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/sitemap@0.0.6",
+      "manifest_file": "crosstest/go.mod",
+      "line": 80,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/tunnel",
+      "version": "0.0.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/tunnel@0.0.4",
+      "manifest_file": "crosstest/go.mod",
+      "line": 81,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "version": "1.20.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/compress@1.20.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 82,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/cpuid/v2",
+      "version": "2.2.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/cpuid/v2@2.2.4",
+      "manifest_file": "crosstest/go.mod",
+      "line": 83,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/leodido/go-urn",
+      "version": "1.4.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/leodido/go-urn@1.4.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 84,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mailgun/raymond/v2",
+      "version": "2.0.48",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mailgun/raymond/v2@2.0.48",
+      "manifest_file": "crosstest/go.mod",
+      "line": 85,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mailru/easyjson",
+      "version": "0.7.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mailru/easyjson@0.7.7",
+      "manifest_file": "crosstest/go.mod",
+      "line": 86,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "version": "0.1.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-colorable@0.1.14",
+      "manifest_file": "crosstest/go.mod",
+      "line": 87,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "crosstest/go.mod",
+      "line": 88,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-runewidth",
+      "version": "0.0.16",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-runewidth@0.0.16",
+      "manifest_file": "crosstest/go.mod",
+      "line": 89,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/microcosm-cc/bluemonday",
+      "version": "1.0.26",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/microcosm-cc/bluemonday@1.0.26",
+      "manifest_file": "crosstest/go.mod",
+      "line": 90,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "version": "0.0.0-20180306012644-bacd9c7ef1dd",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/modern-go/concurrent@0.0.0-20180306012644-bacd9c7ef1dd",
+      "manifest_file": "crosstest/go.mod",
+      "line": 91,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "version": "1.0.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/modern-go/reflect2@1.0.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 92,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pelletier/go-toml/v2",
+      "version": "2.2.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pelletier/go-toml/v2@2.2.2",
+      "manifest_file": "crosstest/go.mod",
+      "line": 93,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/philhofer/fwd",
+      "version": "1.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/philhofer/fwd@1.2.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 94,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/rivo/uniseg",
+      "version": "0.4.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/rivo/uniseg@0.4.7",
+      "manifest_file": "crosstest/go.mod",
+      "line": 95,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/russross/blackfriday/v2",
+      "version": "2.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/russross/blackfriday/v2@2.1.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 96,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/schollz/closestmatch",
+      "version": "2.1.0+incompatible",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/schollz/closestmatch@2.1.0+incompatible",
+      "manifest_file": "crosstest/go.mod",
+      "line": 97,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tdewolff/minify/v2",
+      "version": "2.20.19",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tdewolff/minify/v2@2.20.19",
+      "manifest_file": "crosstest/go.mod",
+      "line": 98,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tdewolff/parse/v2",
+      "version": "2.7.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tdewolff/parse/v2@2.7.12",
+      "manifest_file": "crosstest/go.mod",
+      "line": 99,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tinylib/msgp",
+      "version": "1.6.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tinylib/msgp@1.6.4",
+      "manifest_file": "crosstest/go.mod",
+      "line": 100,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/twitchyliquid64/golang-asm",
+      "version": "0.15.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/twitchyliquid64/golang-asm@0.15.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 101,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/ugorji/go/codec",
+      "version": "1.2.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/ugorji/go/codec@1.2.12",
+      "manifest_file": "crosstest/go.mod",
+      "line": 102,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/bytebufferpool@1.0.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 103,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/vmihailenco/msgpack/v5",
+      "version": "5.4.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/vmihailenco/msgpack/v5@5.4.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 104,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/vmihailenco/tagparser/v2",
+      "version": "2.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/vmihailenco/tagparser/v2@2.0.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 105,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/yosssi/ace",
+      "version": "0.0.5",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/yosssi/ace@0.0.5",
+      "manifest_file": "crosstest/go.mod",
+      "line": 106,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@1.45.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 107,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/sdk",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk@1.45.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 108,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.uber.org/multierr",
+      "version": "1.10.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.uber.org/multierr@1.10.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 109,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/arch",
+      "version": "0.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/arch@0.3.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 110,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "version": "0.57.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/crypto@0.57.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 111,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/exp",
+      "version": "0.0.0-20240404231335-c0f41cb1a7a0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/exp@0.0.0-20240404231335-c0f41cb1a7a0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 112,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 113,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 114,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 115,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/time",
+      "version": "0.15.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/time@0.15.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 116,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "version": "0.0.0-20260803160001-6ac0973c030d",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/genproto/googleapis/rpc@0.0.0-20260803160001-6ac0973c030d",
+      "manifest_file": "crosstest/go.mod",
+      "line": 117,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "version": "1.36.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/protobuf@1.36.11",
+      "manifest_file": "crosstest/go.mod",
+      "line": 118,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/ini.v1",
+      "version": "1.67.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/ini.v1@1.67.0",
+      "manifest_file": "crosstest/go.mod",
+      "line": 119,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "crosstest/go.mod",
+      "line": 120,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "echo/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "echo/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/labstack/echo/v5",
+      "version": "5.4.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/labstack/echo/v5@5.4.1",
+      "manifest_file": "echo/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "echo/go.mod",
+      "line": 13,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/fasthttp",
+      "version": "1.71.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/fasthttp@1.71.0",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "version": "1.2.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/andybalholm/brotli@1.2.7",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "version": "1.20.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/compress@1.20.2",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/bytebufferpool@1.0.0",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "fasthttp/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "fiber/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/fiber/v2",
+      "version": "2.52.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/fiber/v2@2.52.14",
+      "manifest_file": "fiber/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "version": "1.2.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/andybalholm/brotli@1.2.7",
+      "manifest_file": "fiber/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/uuid",
+      "version": "1.6.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/uuid@1.6.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "version": "1.20.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/compress@1.20.2",
+      "manifest_file": "fiber/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "version": "0.1.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-colorable@0.1.14",
+      "manifest_file": "fiber/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "fiber/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-runewidth",
+      "version": "0.0.16",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-runewidth@0.0.16",
+      "manifest_file": "fiber/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/philhofer/fwd",
+      "version": "1.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/philhofer/fwd@1.2.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/rivo/uniseg",
+      "version": "0.4.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/rivo/uniseg@0.4.7",
+      "manifest_file": "fiber/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tinylib/msgp",
+      "version": "1.6.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tinylib/msgp@1.6.4",
+      "manifest_file": "fiber/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/bytebufferpool@1.0.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/fasthttp",
+      "version": "1.71.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/fasthttp@1.71.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "fiber/go.mod",
+      "line": 25,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/fiber/v3",
+      "version": "3.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/fiber/v3@3.3.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/utils/v2",
+      "version": "2.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/utils/v2@2.0.6",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "version": "1.2.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/andybalholm/brotli@1.2.7",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gofiber/schema",
+      "version": "1.7.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gofiber/schema@1.7.1",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/uuid",
+      "version": "1.6.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/uuid@1.6.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "version": "1.20.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/compress@1.20.2",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "version": "0.1.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-colorable@0.1.14",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/philhofer/fwd",
+      "version": "1.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/philhofer/fwd@1.2.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tinylib/msgp",
+      "version": "1.6.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tinylib/msgp@1.6.4",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/bytebufferpool@1.0.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/fasthttp",
+      "version": "1.71.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/fasthttp@1.71.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "version": "0.57.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/crypto@0.57.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 25,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 26,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 27,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "fiberv3/go.mod",
+      "line": 28,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "gin/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gin-gonic/gin",
+      "version": "1.9.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gin-gonic/gin@1.9.1",
+      "manifest_file": "gin/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "gin/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/bytedance/sonic",
+      "version": "1.9.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/bytedance/sonic@1.9.1",
+      "manifest_file": "gin/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/chenzhuoyu/base64x",
+      "version": "0.0.0-20221115062448-fe3a3abad311",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/chenzhuoyu/base64x@0.0.0-20221115062448-fe3a3abad311",
+      "manifest_file": "gin/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gabriel-vasile/mimetype",
+      "version": "1.4.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gabriel-vasile/mimetype@1.4.3",
+      "manifest_file": "gin/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gin-contrib/sse",
+      "version": "0.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gin-contrib/sse@0.1.0",
+      "manifest_file": "gin/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/locales",
+      "version": "0.14.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/locales@0.14.1",
+      "manifest_file": "gin/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/universal-translator",
+      "version": "0.18.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/universal-translator@0.18.1",
+      "manifest_file": "gin/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-playground/validator/v10",
+      "version": "10.20.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-playground/validator/v10@10.20.0",
+      "manifest_file": "gin/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/goccy/go-json",
+      "version": "0.10.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/goccy/go-json@0.10.2",
+      "manifest_file": "gin/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "version": "1.1.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/json-iterator/go@1.1.12",
+      "manifest_file": "gin/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/cpuid/v2",
+      "version": "2.2.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/cpuid/v2@2.2.4",
+      "manifest_file": "gin/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "gin/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/leodido/go-urn",
+      "version": "1.4.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/leodido/go-urn@1.4.0",
+      "manifest_file": "gin/go.mod",
+      "line": 25,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "gin/go.mod",
+      "line": 26,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "version": "0.0.0-20180306012644-bacd9c7ef1dd",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/modern-go/concurrent@0.0.0-20180306012644-bacd9c7ef1dd",
+      "manifest_file": "gin/go.mod",
+      "line": 27,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "version": "1.0.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/modern-go/reflect2@1.0.2",
+      "manifest_file": "gin/go.mod",
+      "line": 28,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pelletier/go-toml/v2",
+      "version": "2.2.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pelletier/go-toml/v2@2.2.2",
+      "manifest_file": "gin/go.mod",
+      "line": 29,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/twitchyliquid64/golang-asm",
+      "version": "0.15.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/twitchyliquid64/golang-asm@0.15.1",
+      "manifest_file": "gin/go.mod",
+      "line": 30,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/ugorji/go/codec",
+      "version": "1.2.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/ugorji/go/codec@1.2.12",
+      "manifest_file": "gin/go.mod",
+      "line": 31,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/arch",
+      "version": "0.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/arch@0.3.0",
+      "manifest_file": "gin/go.mod",
+      "line": 32,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "version": "0.57.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/crypto@0.57.0",
+      "manifest_file": "gin/go.mod",
+      "line": 33,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "gin/go.mod",
+      "line": 34,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "gin/go.mod",
+      "line": 35,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "gin/go.mod",
+      "line": 36,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "version": "1.36.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/protobuf@1.36.11",
+      "manifest_file": "gin/go.mod",
+      "line": 37,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "gin/go.mod",
+      "line": 38,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-errors/errors",
+      "version": "1.4.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-errors/errors@1.4.2",
+      "manifest_file": "go.mod",
+      "line": 6,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "go.mod",
+      "line": 7,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pingcap/errors",
+      "version": "0.11.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pingcap/errors@0.11.4",
+      "manifest_file": "go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "version": "0.9.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pkg/errors@0.9.1",
+      "manifest_file": "go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.uber.org/goleak",
+      "version": "1.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.uber.org/goleak@1.3.0",
+      "manifest_file": "go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/pretty",
+      "version": "0.3.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/pretty@0.3.1",
+      "manifest_file": "go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/rogpeppe/go-internal",
+      "version": "1.14.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/rogpeppe/go-internal@1.14.1",
+      "manifest_file": "go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/check.v1",
+      "version": "1.0.0-20201130134442-10cb98267c6c",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/check.v1@1.0.0-20201130134442-10cb98267c6c",
+      "manifest_file": "go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "grpc/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "grpc/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "version": "1.83.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/grpc@1.83.2",
+      "manifest_file": "grpc/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "grpc/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "grpc/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@1.45.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/sdk/metric",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk/metric@1.45.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "grpc/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "version": "0.0.0-20260803160001-6ac0973c030d",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/genproto/googleapis/rpc@0.0.0-20260803160001-6ac0973c030d",
+      "manifest_file": "grpc/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "version": "1.36.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/protobuf@1.36.11",
+      "manifest_file": "grpc/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "grpc/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "iris/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "iris/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/iris/v12",
+      "version": "12.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/iris/v12@12.2.0",
+      "manifest_file": "iris/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/BurntSushi/toml",
+      "version": "1.3.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/BurntSushi/toml@1.3.2",
+      "manifest_file": "iris/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/CloudyKit/fastprinter",
+      "version": "0.0.0-20200109182630-33d98a066a53",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/CloudyKit/fastprinter@0.0.0-20200109182630-33d98a066a53",
+      "manifest_file": "iris/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/CloudyKit/jet/v6",
+      "version": "6.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/CloudyKit/jet/v6@6.2.0",
+      "manifest_file": "iris/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/Joker/jade",
+      "version": "1.1.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/Joker/jade@1.1.3",
+      "manifest_file": "iris/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/Shopify/goreferrer",
+      "version": "0.0.0-20220729165902-8cddb4f5de06",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/Shopify/goreferrer@0.0.0-20220729165902-8cddb4f5de06",
+      "manifest_file": "iris/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/ajg/form",
+      "version": "1.5.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/ajg/form@1.5.1",
+      "manifest_file": "iris/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "version": "1.2.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/andybalholm/brotli@1.2.7",
+      "manifest_file": "iris/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/aymerick/douceur",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/aymerick/douceur@0.2.0",
+      "manifest_file": "iris/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "iris/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/eknkc/amber",
+      "version": "0.0.0-20171010120322-cdade1c07385",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/eknkc/amber@0.0.0-20171010120322-cdade1c07385",
+      "manifest_file": "iris/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/fatih/color",
+      "version": "1.15.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/fatih/color@1.15.0",
+      "manifest_file": "iris/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/fatih/structs",
+      "version": "1.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/fatih/structs@1.1.0",
+      "manifest_file": "iris/go.mod",
+      "line": 25,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/flosch/pongo2/v4",
+      "version": "4.0.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/flosch/pongo2/v4@4.0.2",
+      "manifest_file": "iris/go.mod",
+      "line": 26,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gobwas/glob",
+      "version": "0.2.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gobwas/glob@0.2.3",
+      "manifest_file": "iris/go.mod",
+      "line": 27,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/golang/snappy",
+      "version": "0.0.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/golang/snappy@0.0.4",
+      "manifest_file": "iris/go.mod",
+      "line": 28,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-querystring",
+      "version": "1.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-querystring@1.1.0",
+      "manifest_file": "iris/go.mod",
+      "line": 29,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/uuid",
+      "version": "1.6.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/uuid@1.6.0",
+      "manifest_file": "iris/go.mod",
+      "line": 30,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gorilla/css",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gorilla/css@1.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 31,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/gorilla/websocket",
+      "version": "1.5.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/gorilla/websocket@1.5.3",
+      "manifest_file": "iris/go.mod",
+      "line": 32,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/imkira/go-interpol",
+      "version": "1.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/imkira/go-interpol@1.1.0",
+      "manifest_file": "iris/go.mod",
+      "line": 33,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/iris-contrib/httpexpect/v2",
+      "version": "2.15.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/iris-contrib/httpexpect/v2@2.15.2",
+      "manifest_file": "iris/go.mod",
+      "line": 34,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/iris-contrib/schema",
+      "version": "0.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/iris-contrib/schema@0.0.6",
+      "manifest_file": "iris/go.mod",
+      "line": 35,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/josharian/intern",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/josharian/intern@1.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 36,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/blocks",
+      "version": "0.0.8",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/blocks@0.0.8",
+      "manifest_file": "iris/go.mod",
+      "line": 37,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/golog",
+      "version": "0.1.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/golog@0.1.11",
+      "manifest_file": "iris/go.mod",
+      "line": 38,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/pio",
+      "version": "0.0.13",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/pio@0.0.13",
+      "manifest_file": "iris/go.mod",
+      "line": 39,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/sitemap",
+      "version": "0.0.6",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/sitemap@0.0.6",
+      "manifest_file": "iris/go.mod",
+      "line": 40,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kataras/tunnel",
+      "version": "0.0.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kataras/tunnel@0.0.4",
+      "manifest_file": "iris/go.mod",
+      "line": 41,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "version": "1.20.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/klauspost/compress@1.20.2",
+      "manifest_file": "iris/go.mod",
+      "line": 42,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "iris/go.mod",
+      "line": 43,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mailgun/raymond/v2",
+      "version": "2.0.48",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mailgun/raymond/v2@2.0.48",
+      "manifest_file": "iris/go.mod",
+      "line": 44,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mailru/easyjson",
+      "version": "0.7.7",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mailru/easyjson@0.7.7",
+      "manifest_file": "iris/go.mod",
+      "line": 45,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "version": "0.1.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-colorable@0.1.14",
+      "manifest_file": "iris/go.mod",
+      "line": 46,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "iris/go.mod",
+      "line": 47,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/microcosm-cc/bluemonday",
+      "version": "1.0.26",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/microcosm-cc/bluemonday@1.0.26",
+      "manifest_file": "iris/go.mod",
+      "line": 48,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mitchellh/go-wordwrap",
+      "version": "1.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mitchellh/go-wordwrap@1.0.1",
+      "manifest_file": "iris/go.mod",
+      "line": 49,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/nxadm/tail",
+      "version": "1.4.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/nxadm/tail@1.4.11",
+      "manifest_file": "iris/go.mod",
+      "line": 50,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "iris/go.mod",
+      "line": 51,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/russross/blackfriday/v2",
+      "version": "2.1.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/russross/blackfriday/v2@2.1.0",
+      "manifest_file": "iris/go.mod",
+      "line": 52,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/sanity-io/litter",
+      "version": "1.5.5",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/sanity-io/litter@1.5.5",
+      "manifest_file": "iris/go.mod",
+      "line": 53,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/schollz/closestmatch",
+      "version": "2.1.0+incompatible",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/schollz/closestmatch@2.1.0+incompatible",
+      "manifest_file": "iris/go.mod",
+      "line": 54,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/sergi/go-diff",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/sergi/go-diff@1.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 55,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/sirupsen/logrus",
+      "version": "1.9.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/sirupsen/logrus@1.9.3",
+      "manifest_file": "iris/go.mod",
+      "line": 56,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "iris/go.mod",
+      "line": 57,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tdewolff/minify/v2",
+      "version": "2.20.19",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tdewolff/minify/v2@2.20.19",
+      "manifest_file": "iris/go.mod",
+      "line": 58,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/tdewolff/parse/v2",
+      "version": "2.7.12",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/tdewolff/parse/v2@2.7.12",
+      "manifest_file": "iris/go.mod",
+      "line": 59,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/valyala/bytebufferpool@1.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 60,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/vmihailenco/msgpack/v5",
+      "version": "5.4.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/vmihailenco/msgpack/v5@5.4.1",
+      "manifest_file": "iris/go.mod",
+      "line": 61,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/vmihailenco/tagparser/v2",
+      "version": "2.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/vmihailenco/tagparser/v2@2.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 62,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/xeipuuv/gojsonpointer",
+      "version": "0.0.0-20180127040702-4e3ac2762d5f",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/xeipuuv/gojsonpointer@0.0.0-20180127040702-4e3ac2762d5f",
+      "manifest_file": "iris/go.mod",
+      "line": 63,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/xeipuuv/gojsonreference",
+      "version": "0.0.0-20180127040603-bd5ef7bd5415",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/xeipuuv/gojsonreference@0.0.0-20180127040603-bd5ef7bd5415",
+      "manifest_file": "iris/go.mod",
+      "line": 64,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/xeipuuv/gojsonschema",
+      "version": "1.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/xeipuuv/gojsonschema@1.2.0",
+      "manifest_file": "iris/go.mod",
+      "line": 65,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/yalp/jsonpath",
+      "version": "0.0.0-20180802001716-5cc68e5049a0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/yalp/jsonpath@0.0.0-20180802001716-5cc68e5049a0",
+      "manifest_file": "iris/go.mod",
+      "line": 66,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/yosssi/ace",
+      "version": "0.0.5",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/yosssi/ace@0.0.5",
+      "manifest_file": "iris/go.mod",
+      "line": 67,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/yudai/gojsondiff",
+      "version": "1.0.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/yudai/gojsondiff@1.0.0",
+      "manifest_file": "iris/go.mod",
+      "line": 68,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/yudai/golcs",
+      "version": "0.0.0-20170316035057-ecda9a501e82",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/yudai/golcs@0.0.0-20170316035057-ecda9a501e82",
+      "manifest_file": "iris/go.mod",
+      "line": 69,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "version": "0.57.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/crypto@0.57.0",
+      "manifest_file": "iris/go.mod",
+      "line": 70,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/exp",
+      "version": "0.0.0-20240404231335-c0f41cb1a7a0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/exp@0.0.0-20240404231335-c0f41cb1a7a0",
+      "manifest_file": "iris/go.mod",
+      "line": 71,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "iris/go.mod",
+      "line": 72,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "iris/go.mod",
+      "line": 73,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "iris/go.mod",
+      "line": 74,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/time",
+      "version": "0.15.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/time@0.15.0",
+      "manifest_file": "iris/go.mod",
+      "line": 75,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "version": "1.36.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/protobuf@1.36.11",
+      "manifest_file": "iris/go.mod",
+      "line": 76,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/ini.v1",
+      "version": "1.67.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/ini.v1@1.67.0",
+      "manifest_file": "iris/go.mod",
+      "line": 77,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "iris/go.mod",
+      "line": 78,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "moul.io/http2curl/v2",
+      "version": "2.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/moul.io/http2curl/v2@2.3.0",
+      "manifest_file": "iris/go.mod",
+      "line": 79,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "logrus/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "logrus/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/sirupsen/logrus",
+      "version": "1.9.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/sirupsen/logrus@1.9.3",
+      "manifest_file": "logrus/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "logrus/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "logrus/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "logrus/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "logrus/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "logrus/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "logrus/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "negroni/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "negroni/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/urfave/negroni/v3",
+      "version": "3.1.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/urfave/negroni/v3@3.1.1",
+      "manifest_file": "negroni/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "otel/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "otel/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/trace",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/trace@1.45.0",
+      "manifest_file": "otel/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "version": "2.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/cespare/xxhash/v2@2.3.0",
+      "manifest_file": "otel/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "otel/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "otel/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "otel/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@1.45.0",
+      "manifest_file": "otel/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "otel/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/sdk",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/cenkalti/backoff/v5",
+      "version": "5.0.3",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/cenkalti/backoff/v5@5.0.3",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "version": "2.3.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/cespare/xxhash/v2@2.3.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-logr/logr",
+      "version": "1.4.4",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-logr/logr@1.4.4",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/go-logr/stdr",
+      "version": "1.2.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/go-logr/stdr@1.2.2",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/uuid",
+      "version": "1.6.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/uuid@1.6.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/grpc-ecosystem/grpc-gateway/v2",
+      "version": "2.29.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/grpc-ecosystem/grpc-gateway/v2@2.29.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/auto/sdk",
+      "version": "1.2.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/auto/sdk@1.2.1",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/otlp/otlptrace@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/metric",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/metric@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 23,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/otel/trace",
+      "version": "1.45.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/trace@1.45.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 24,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.opentelemetry.io/proto/otlp",
+      "version": "1.11.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.opentelemetry.io/proto/otlp@1.11.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 25,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/net",
+      "version": "0.60.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/net@0.60.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 26,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 27,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/text",
+      "version": "0.42.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/text@0.42.0",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 28,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "version": "0.0.0-20260803160001-6ac0973c030d",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/genproto/googleapis/api@0.0.0-20260803160001-6ac0973c030d",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 29,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "version": "0.0.0-20260803160001-6ac0973c030d",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/genproto/googleapis/rpc@0.0.0-20260803160001-6ac0973c030d",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 30,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "version": "1.83.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/grpc@1.83.2",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 31,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "version": "1.36.11",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/google.golang.org/protobuf@1.36.11",
+      "manifest_file": "otel/otlp/go.mod",
+      "line": 32,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "slog/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "slog/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "slog/go.mod",
+      "line": 13,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "slog/go.mod",
+      "line": 14,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "slog/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "slog/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "slog/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/DataDog/go-sqllexer",
+      "version": "0.2.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/DataDog/go-sqllexer@0.2.1",
+      "manifest_file": "sql/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "sql/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "sql/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "sql/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "sql/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "sql/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "sql/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "sql/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "zap/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "zap/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "zap/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.uber.org/zap",
+      "version": "1.27.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.uber.org/zap@1.27.1",
+      "manifest_file": "zap/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "zap/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "zap/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "go.uber.org/multierr",
+      "version": "1.10.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/go.uber.org/multierr@1.10.0",
+      "manifest_file": "zap/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "zap/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/buger/jsonparser",
+      "version": "1.1.2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/buger/jsonparser@1.1.2",
+      "manifest_file": "zerolog/go.mod",
+      "line": 8,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "version": "1.0.0-alpha.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/getsentry/sentry-go@1.0.0-alpha.1",
+      "manifest_file": "zerolog/go.mod",
+      "line": 9,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/rs/zerolog",
+      "version": "1.33.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/rs/zerolog@1.33.0",
+      "manifest_file": "zerolog/go.mod",
+      "line": 10,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "version": "1.11.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/stretchr/testify@1.11.1",
+      "manifest_file": "zerolog/go.mod",
+      "line": 11,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "version": "1.1.2-0.20180830191138-d8f796af33cc",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/davecgh/go-spew@1.1.2-0.20180830191138-d8f796af33cc",
+      "manifest_file": "zerolog/go.mod",
+      "line": 15,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "version": "0.7.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/google/go-cmp@0.7.0",
+      "manifest_file": "zerolog/go.mod",
+      "line": 16,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/kr/text",
+      "version": "0.2.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/kr/text@0.2.0",
+      "manifest_file": "zerolog/go.mod",
+      "line": 17,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "version": "0.1.14",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-colorable@0.1.14",
+      "manifest_file": "zerolog/go.mod",
+      "line": 18,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "version": "0.0.22",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/mattn/go-isatty@0.0.22",
+      "manifest_file": "zerolog/go.mod",
+      "line": 19,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "version": "1.0.1-0.20181226105442-5d4384ee4fb2",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/github.com/pmezard/go-difflib@1.0.1-0.20181226105442-5d4384ee4fb2",
+      "manifest_file": "zerolog/go.mod",
+      "line": 20,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "golang.org/x/sys",
+      "version": "0.48.0",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/golang.org/x/sys@0.48.0",
+      "manifest_file": "zerolog/go.mod",
+      "line": 21,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "version": "3.0.1",
+      "ecosystem": "golang",
+      "purl": "pkg:golang/gopkg.in/yaml.v3@3.0.1",
+      "manifest_file": "zerolog/go.mod",
+      "line": 22,
+      "is_direct": false,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    }
+  ],
+  "vulnerabilities": [],
+  "secrets": [],
+  "fitness_violations": [],
+  "code_to_cloud_edges": [
+    {
+      "source": "echo",
+      "source_type": "code_module",
+      "target": "lint.yml#golangci-lint",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    }
+  ],
+  "workspace_packages": [
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "path": ".",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": []
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/cron",
+      "path": "cron",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/crosstest",
+      "path": "crosstest",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go",
+        "github.com/getsentry/sentry-go/echo",
+        "github.com/getsentry/sentry-go/fasthttp",
+        "github.com/getsentry/sentry-go/fiber",
+        "github.com/getsentry/sentry-go/fiberv3",
+        "github.com/getsentry/sentry-go/gin",
+        "github.com/getsentry/sentry-go/grpc",
+        "github.com/getsentry/sentry-go/iris",
+        "github.com/getsentry/sentry-go/logrus",
+        "github.com/getsentry/sentry-go/negroni",
+        "github.com/getsentry/sentry-go/otel",
+        "github.com/getsentry/sentry-go/slog",
+        "github.com/getsentry/sentry-go/zap"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/echo",
+      "path": "echo",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fasthttp",
+      "path": "fasthttp",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fiber",
+      "path": "fiber",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/fiberv3",
+      "path": "fiberv3",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/gin",
+      "path": "gin",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/grpc",
+      "path": "grpc",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/iris",
+      "path": "iris",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/logrus",
+      "path": "logrus",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/negroni",
+      "path": "negroni",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/otel",
+      "path": "otel",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/otel/otlp",
+      "path": "otel/otlp",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/slog",
+      "path": "slog",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/sql",
+      "path": "sql",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/zap",
+      "path": "zap",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    },
+    {
+      "name": "github.com/getsentry/sentry-go/zerolog",
+      "path": "zerolog",
+      "ecosystem": "go",
+      "manager": "go",
+      "internal_dependencies": [
+        "github.com/getsentry/sentry-go"
+      ]
+    }
+  ],
+  "observability": {
+    "enabled": false,
+    "hot_paths": 0,
+    "covered_static": 0,
+    "dead_unobserved": 0
+  }
+}
