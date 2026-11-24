@@ -8,10 +8,10 @@ Static **Material Design 3 (Astro 6 + Starlight + Mermaid v12 + `@mermaid-js/lay
 
 ```text
 web/
-├── public/                     # Static favicons (favicon.png, favicon.ico) and copied llms.txt / llms-full.txt
+├── public/                     # Static favicons (favicon.png, favicon.ico), social card (og-default.png), and copied llms.txt / llms-full.txt
 ├── src/
 │   ├── assets/                 # Portal brand logo (atruss-logo.png)
-│   ├── components/             # Material Design 3 Astro components (AtlasSummary, LeaderboardView, ScorecardHeatmap, CrossRepoTopology, RepoTabs, RepoGrid, PipelineView, ArchitectureView, etc.)
+│   ├── components/             # Material Design 3 Astro components (BaseHead, AtlasSummary, LeaderboardView, ScorecardHeatmap, CrossRepoTopology, RepoTabs, RepoGrid, PipelineView, ArchitectureView, etc.)
 │   ├── content/docs/           # Starlight MDX entrypoints (index.mdx, orgs/index.mdx, generated reports/<org>/<repo>.mdx)
 │   ├── content.config.ts       # Astro 6 Content Layer collection & frontmatter schema
 │   ├── lib/                    # Client-side Mermaid v12 ELK hydration (mermaid-client.ts) & architecture tree builder (architecture-tree.ts)

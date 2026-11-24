@@ -48,6 +48,35 @@ function testExportsLatestContracts() {
     !astroCfg.includes("'/atruss-code-atlas'") && !astroCfg.includes('"/atruss-code-atlas"'),
     'astro.config.mjs must not hardcode /atruss-code-atlas base path'
   );
+  assert.ok(
+    astroCfg.includes("Head: './src/components/BaseHead.astro'"),
+    'astro.config.mjs must wire Starlight Head component to ./src/components/BaseHead.astro'
+  );
+}
+
+function testSocialCardMetadataContracts() {
+  const ogPngPath = path.resolve(process.cwd(), 'public/og-default.png');
+  assert.ok(fs.existsSync(ogPngPath), 'public/og-default.png must exist');
+  const ogBytes = fs.readFileSync(ogPngPath);
+  assert.ok(
+    ogBytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+    'public/og-default.png must have a valid PNG signature'
+  );
+  const width = ogBytes.readUInt32BE(16);
+  const height = ogBytes.readUInt32BE(20);
+  assert.equal(width, 1024, 'public/og-default.png width must be 1024');
+  assert.equal(height, 571, 'public/og-default.png height must be 571');
+
+  const baseHeadPath = path.resolve(process.cwd(), 'src/components/BaseHead.astro');
+  assert.ok(fs.existsSync(baseHeadPath), 'src/components/BaseHead.astro must exist');
+  const headSrc = fs.readFileSync(baseHeadPath, 'utf8');
+  assert.ok(
+    headSrc.includes('@astrojs/starlight/components/Head.astro'),
+    'BaseHead.astro must delegate to Starlight Head.astro'
+  );
+  assert.ok(headSrc.includes('og-default.png'), 'BaseHead.astro must reference og-default.png');
+  assert.ok(headSrc.includes('property="og:image"'), 'BaseHead.astro must emit og:image meta tag');
+  assert.ok(headSrc.includes('name="twitter:image"'), 'BaseHead.astro must emit twitter:image meta tag');
 }
 
 function testHorizon2OptionalExportSchemas() {
@@ -94,4 +123,5 @@ function testHorizon2OptionalExportSchemas() {
 
 testExportsLatestContracts();
 testHorizon2OptionalExportSchemas();
+testSocialCardMetadataContracts();
 console.log('Astro data contract & Horizon 2 schema checks passed.');
