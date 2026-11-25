@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for kumarshaz/atruss-code-atlas
 # Repository Architecture Analysis: kumarshaz/atruss-code-atlas
 
 ## Metadata
-- **SHA**: `bf7f47c2443632410bea3d1278b95ce102157618`
+- **SHA**: `a30927cf1916fdd3deb45e95f7c5cc8a315902c1`
 - **Primary Ecosystem**: Python
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
-- **avg_cognitive_complexity**: 10.72
-- **avg_cyclomatic_complexity**: 6.89
+- **avg_cognitive_complexity**: 10.65
+- **avg_cyclomatic_complexity**: 6.86
 - **component_count**: 44
 - **dead_code_count**: 4
 - **dead_code_symbols**: 4 entry(ies)
-- **duplication_pct**: 77.15
+- **duplication_pct**: 77.37
 - **file_complexities**: 25 entry(ies)
-- **files_analyzed**: 109
+- **files_analyzed**: 110
 - **fitness_passed**: False
 - **fitness_violation_count**: 3
 - **framework**: Unknown
 - **import_edges**: 100 entry(ies)
-- **loc**: 29957
+- **loc**: 30868
 - **max_cognitive_complexity**: 304
-- **max_cyclomatic_complexity**: 122
-- **sloc**: 26506
+- **max_cyclomatic_complexity**: 124
+- **sloc**: 27314
 - **test_file_count**: 41
 
 # Architecture: kumarshaz/atruss-code-atlas
 
 ## Context
 - **Repository**: `kumarshaz/atruss-code-atlas`
-- **SHA**: `bf7f47c2443632410bea3d1278b95ce102157618`
+- **SHA**: `a30927cf1916fdd3deb45e95f7c5cc8a315902c1`
 - **Ecosystem**: Python
 - **Framework**: Unknown
 
@@ -118,28 +118,28 @@ graph TD;
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `F` (47.90/100)
-- **Technical Debt Score**: 52.10
-- **Estimated Remediation Effort**: 208.46h
+- **Overall Grade**: `F` (48.39/100)
+- **Technical Debt Score**: 51.61
+- **Estimated Remediation Effort**: 208.88h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `F` | 26.44 | 0.20 | avg_cc=6.89, max_cc=122, duplication=77.15%, dead_code=4 |
-| Dependency Health | `A` | 98.24 | 0.15 | dependencies=595, outdated=0, vulnerable=21, has_lockfile=True |
-| Maintainability | `F` | 19.84 | 0.15 | avg_cognitive=10.72, max_cognitive=304, fitness_violations=3, oversized_files=14 |
-| Pipeline Health | `A` | 96.00 | 0.15 | workflows=4, operational_antipatterns=2, parallel_branches=True |
-| Security | `F` | 0.00 | 0.20 | vulnerabilities=90, secrets=31, pipeline_security_findings=0 |
+| Code Quality | `F` | 26.56 | 0.20 | avg_cc=6.86, max_cc=124, duplication=77.37%, dead_code=4 |
+| Dependency Health | `A` | 98.15 | 0.15 | dependencies=595, outdated=0, vulnerable=22, has_lockfile=True |
+| Maintainability | `F` | 20.05 | 0.15 | avg_cognitive=10.65, max_cognitive=304, fitness_violations=3, oversized_files=14 |
+| Pipeline Health | `A` | 99.00 | 0.15 | workflows=4, operational_antipatterns=1, parallel_branches=True |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=91, secrets=31, pipeline_security_findings=0 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
 
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (77.15) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (77.37) exceeds policy threshold (15.0).
 - **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (304.0) exceeds policy threshold (25.0).
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (124.0) exceeds policy threshold (20.0).
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 595 | **Vulnerabilities**: 90 | **Secrets**: 31
+- **Dependencies Parsed**: 595 | **Vulnerabilities**: 91 | **Secrets**: 31
 
 ### Known Vulnerabilities (OSV)
 - **[MEDIUM] `GHSA-26w7-cxv4-gfx2`** `astro` `6.1.1` (fixed: `none`, REACHABLE_FROM_RUNTIME)
@@ -163,6 +163,7 @@ graph TD;
 - **[MEDIUM] `GHSA-68fv-2mgg-jv7q`** `source-map-js` `1.2.1` (fixed: `none`, UNREACHABLE_DORMANT)
 - **[MEDIUM] `GHSA-698v-4r3x-3vcv`** `vite` `7.3.1` (fixed: `none`, UNREACHABLE_DORMANT)
 - **[MEDIUM] `GHSA-6g55-p6wh-862q`** `postcss` `8.5.8` (fixed: `none`, UNREACHABLE_DORMANT)
+- **[MEDIUM] `GHSA-6jcc-5g8w-32mx`** `i18next` `23.16.8` (fixed: `none`, UNREACHABLE_DORMANT)
 - **[MEDIUM] `GHSA-6w46-j5rx-g56g`** `pytest` `8.1.1` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 - **[MEDIUM] `GHSA-6w46-j5rx-g56g`** `pytest` `8.1.1` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 - **[MEDIUM] `GHSA-737v-mqg7-c878`** `defu` `6.1.4` (fixed: `none`, UNREACHABLE_DORMANT)
@@ -181,7 +182,6 @@ graph TD;
 - **[MEDIUM] `GHSA-9wx4-h78v-vm56`** `requests` `2.31.0` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 - **[MEDIUM] `GHSA-9wx4-h78v-vm56`** `requests` `2.31.0` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 - **[MEDIUM] `GHSA-f23m-r3pf-42rh`** `lodash-es` `4.17.23` (fixed: `none`, UNREACHABLE_DORMANT)
-- **[MEDIUM] `GHSA-f48w-9m4c-m7f5`** `astro` `6.1.1` (fixed: `none`, REACHABLE_FROM_RUNTIME)
 
 ### Secret Findings (Redacted)
 - **[HIGH] `ATRUSS-SEC-005`** at `exports/latest/reports/bitwarden-directory-connector-analysis.json:1743` (`"APP_STORE_CONNECT_AUTH_KEY_PATH": "~/pr***REDACTED***",`)
@@ -299,13 +299,13 @@ graph TD;
   pipeline_root(["kumarshaz/atruss-code-atlas (4 workflows)"]):::atlasRoot
   subgraph sg_grp_0_Scheduled___Manual["Scheduled & Manual (2 workflows · 3 jobs)"]
     direction TB
-    subgraph sg_wf_0_Scheduled_Public_GitHub_Benchmark["Scheduled Public GitHub Benchmark (1 jobs)"]
+    subgraph sg_wf_0_Manual_Full_Corpus_Benchmark["Manual Full Corpus Benchmark (1 jobs)"]
       direction TB
-      wf_0_Scheduled_Public_GitHub_Benchmark(["Trigger: Scheduled Public GitHub Benchmark"]):::atlasWorkflow
+      wf_0_Manual_Full_Corpus_Benchmark(["Trigger: Manual Full Corpus Benchmark"]):::atlasWorkflow
       job_0_benchmark["benchmark"]:::atlasJob
-      wf_0_Scheduled_Public_GitHub_Benchmark --> job_0_benchmark
+      wf_0_Manual_Full_Corpus_Benchmark --> job_0_benchmark
     end
-    pipeline_root --> wf_0_Scheduled_Public_GitHub_Benchmark
+    pipeline_root --> wf_0_Manual_Full_Corpus_Benchmark
     subgraph sg_wf_1_Daily_Target_Repo_Exports___Portal_Refresh["Daily Target Repo Exports & Portal Refresh (2 jobs)"]
       direction TB
       wf_1_Daily_Target_Repo_Exports___Portal_Refresh(["Trigger: Daily Target Repo Exports & Portal Refresh"]):::atlasWorkflow

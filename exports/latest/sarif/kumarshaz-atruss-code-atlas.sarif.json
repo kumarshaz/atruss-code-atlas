@@ -45,25 +45,6 @@
               }
             },
             {
-              "id": "ATRUSS-PIPE-012",
-              "name": "NO_TIMEOUT",
-              "shortDescription": {
-                "text": "Job omits timeout-minutes configuration."
-              },
-              "defaultConfiguration": {
-                "level": "note"
-              },
-              "properties": {
-                "tags": [
-                  "atruss",
-                  "pipeline"
-                ]
-              },
-              "help": {
-                "text": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-              }
-            },
-            {
               "id": "ATRUSS-SEC-004",
               "name": "PRIVATE_KEY",
               "shortDescription": {
@@ -362,6 +343,22 @@
               "name": "VULNERABILITY_GHSA-6g55-p6wh-862q",
               "shortDescription": {
                 "text": "Known vulnerability GHSA-6g55-p6wh-862q affecting postcss."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "atruss",
+                  "vulnerability"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-6jcc-5g8w-32mx",
+              "name": "VULNERABILITY_GHSA-6jcc-5g8w-32mx",
+              "shortDescription": {
+                "text": "Known vulnerability GHSA-6jcc-5g8w-32mx affecting i18next."
               },
               "defaultConfiguration": {
                 "level": "warning"
@@ -1175,8 +1172,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 145,
-                  "endLine": 155
+                  "startLine": 160,
+                  "endLine": 170
                 }
               }
             }
@@ -1186,33 +1183,6 @@
             "category": "pipeline",
             "repository": "kumarshaz/atruss-code-atlas",
             "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
-          }
-        },
-        {
-          "ruleId": "ATRUSS-PIPE-012",
-          "level": "note",
-          "message": {
-            "text": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/daily-export.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 145,
-                  "endLine": 155
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "LOW",
-            "category": "pipeline",
-            "repository": "kumarshaz/atruss-code-atlas",
-            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
           }
         },
         {
@@ -2472,7 +2442,7 @@
           "ruleId": "ATRUSS-ARCH-005",
           "level": "warning",
           "message": {
-            "text": "Repository duplication_pct (77.15) exceeds policy threshold (15.0)."
+            "text": "Repository duplication_pct (77.37) exceeds policy threshold (15.0)."
           },
           "locations": [
             {
@@ -2524,7 +2494,7 @@
           "ruleId": "ATRUSS-ARCH-005",
           "level": "warning",
           "message": {
-            "text": "Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0)."
+            "text": "Repository max_cyclomatic_complexity (124.0) exceeds policy threshold (20.0)."
           },
           "locations": [
             {
@@ -3134,6 +3104,32 @@
                 "region": {
                   "startLine": 3700,
                   "endLine": 3700
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "vulnerability",
+            "repository": "kumarshaz/atruss-code-atlas"
+          }
+        },
+        {
+          "ruleId": "GHSA-6jcc-5g8w-32mx",
+          "level": "warning",
+          "message": {
+            "text": "[GHSA-6jcc-5g8w-32mx] i18next 23.16.8: Vulnerable package i18next"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "web/package-lock.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4355,
+                  "endLine": 4355
                 }
               }
             }

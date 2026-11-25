@@ -1,15 +1,14 @@
 {
   "org": "kumarshaz",
   "repository": "atruss-code-atlas",
-  "sha": "bf7f47c2443632410bea3d1278b95ce102157618",
-  "analyzed_at": "2026-11-23T17:35:15Z",
+  "sha": "a30927cf1916fdd3deb45e95f7c5cc8a315902c1",
+  "analyzed_at": "2026-11-25T15:49:12Z",
   "workflows": [
     {
       "id": "benchmark.yml",
       "path": ".github/workflows/benchmark.yml",
-      "name": "Scheduled Public GitHub Benchmark",
+      "name": "Manual Full Corpus Benchmark",
       "triggers": [
-        "schedule",
         "workflow_dispatch"
       ],
       "jobs": [
@@ -114,20 +113,9 @@
           "message": "Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/daily-export.yml",
-          "start_line": 145,
-          "end_line": 155,
+          "start_line": 160,
+          "end_line": 170,
           "remediation": "Publish immutable build outputs with actions/upload-artifact or push signed container images before deploying."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/daily-export.yml",
-          "start_line": 145,
-          "end_line": 155,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },

@@ -1,8 +1,8 @@
 {
   "org": "PostHog",
   "repository": "posthog-elixir",
-  "sha": "5d37478809de22150006168be1d74c9b70a1dc8f",
-  "analyzed_at": "2026-11-23T17:35:15Z",
+  "sha": "38cee4de9a7ac97f47f3820b24519a6d45b95264",
+  "analyzed_at": "2026-11-25T15:49:12Z",
   "workflows": [
     {
       "id": "call-flags-project-board.yml",
@@ -60,17 +60,6 @@
           "start_line": 6,
           "end_line": 8,
           "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'call-flags-project' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/call-flags-project-board.yml",
-          "start_line": 11,
-          "end_line": 19,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
     },
@@ -87,7 +76,7 @@
           "id": "test",
           "name": "Build and test",
           "runner": "ubuntu-24.04",
-          "steps_count": 5,
+          "steps_count": 6,
           "needs": []
         },
         {
@@ -166,7 +155,7 @@
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/ci.yml",
           "start_line": 20,
-          "end_line": 77,
+          "end_line": 83,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         },
         {
@@ -176,8 +165,8 @@
           "message": "Job 'format' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/ci.yml",
-          "start_line": 79,
-          "end_line": 106,
+          "start_line": 85,
+          "end_line": 112,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         },
         {
@@ -187,8 +176,8 @@
           "message": "Job 'credo' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/ci.yml",
-          "start_line": 108,
-          "end_line": 135,
+          "start_line": 114,
+          "end_line": 141,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         },
         {
@@ -198,8 +187,8 @@
           "message": "Job 'compile' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/ci.yml",
-          "start_line": 137,
-          "end_line": 167,
+          "start_line": 143,
+          "end_line": 173,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         },
         {
@@ -209,8 +198,8 @@
           "message": "Job 'package' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/ci.yml",
-          "start_line": 169,
-          "end_line": 182,
+          "start_line": 175,
+          "end_line": 188,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]
@@ -313,19 +302,7 @@
         ],
         "max_blast_radius": 0
       },
-      "anti_patterns": [
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'lint-pr' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/lint-pr.yml",
-          "start_line": 16,
-          "end_line": 21,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        }
-      ]
+      "anti_patterns": []
     },
     {
       "id": "release-failure-notification.yml",
@@ -502,17 +479,6 @@
           "rule_id": "ATRUSS-PIPE-012",
           "type": "NO_TIMEOUT",
           "severity": "LOW",
-          "message": "Job 'notify-approval-needed' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/release.yml",
-          "start_line": 44,
-          "end_line": 54,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
           "message": "Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/release.yml",
@@ -600,17 +566,6 @@
           "file_source": ".github/workflows/sdk-compliance.yml",
           "start_line": 15,
           "end_line": 28,
-          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-012",
-          "type": "NO_TIMEOUT",
-          "severity": "LOW",
-          "message": "Job 'compliance' omits 'timeout-minutes', risking 360-minute hung runners.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/sdk-compliance.yml",
-          "start_line": 30,
-          "end_line": 37,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ]

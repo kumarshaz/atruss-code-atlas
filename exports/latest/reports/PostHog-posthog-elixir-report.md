@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for PostHog/posthog-elixir
 # Repository Architecture Analysis: PostHog/posthog-elixir
 
 ## Metadata
-- **SHA**: `5d37478809de22150006168be1d74c9b70a1dc8f`
+- **SHA**: `38cee4de9a7ac97f47f3820b24519a6d45b95264`
 - **Primary Ecosystem**: Elixir
 
 ## Quality Metrics
 - **ast_engine**: fallback
 - **avg_cognitive_complexity**: 0.0
 - **avg_cyclomatic_complexity**: 0.0
-- **component_count**: 94
+- **component_count**: 95
 - **dead_code_count**: 0
 - **dead_code_symbols**: 0 entry(ies)
 - **duplication_pct**: 0.0
 - **file_complexities**: 0 entry(ies)
-- **files_analyzed**: 94
+- **files_analyzed**: 95
 - **fitness_passed**: True
 - **fitness_violation_count**: 0
 - **framework**: Elixir Mix
 - **import_edges**: 0 entry(ies)
-- **loc**: 30276
+- **loc**: 30687
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 0
-- **sloc**: 24663
-- **test_file_count**: 48
+- **sloc**: 25002
+- **test_file_count**: 49
 
 # Architecture: PostHog/posthog-elixir
 
 ## Context
 - **Repository**: `PostHog/posthog-elixir`
-- **SHA**: `5d37478809de22150006168be1d74c9b70a1dc8f`
+- **SHA**: `38cee4de9a7ac97f47f3820b24519a6d45b95264`
 - **Ecosystem**: Elixir
 - **Framework**: Elixir Mix
 
@@ -49,13 +49,13 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-    repo_root(["PostHog/posthog-elixir (94 components)"]):::atlasRoot
-    subgraph sg_dir_0_test["test (43)"]
+    repo_root(["PostHog/posthog-elixir (95 components)"]):::atlasRoot
+    subgraph sg_dir_0_test["test (44)"]
       direction TB
-      dir_0_test["test (43)"]:::atlasCategory
+      dir_0_test["test (44)"]:::atlasCategory
       sub_0_0_posthog["posthog (34)"]:::atlasWorkflow
       dir_0_test --> sub_0_0_posthog
-      sub_0_1_support["support (4)"]:::atlasWorkflow
+      sub_0_1_support["support (5)"]:::atlasWorkflow
       dir_0_test --> sub_0_1_support
       sub_0_2__module_root_["(module root) (3)"]:::atlasWorkflow
       dir_0_test --> sub_0_2__module_root_
@@ -95,9 +95,9 @@ graph TD;
 
 ## Component Details
 
-Showing top 60 representative components out of 94 across 5 module group(s):
+Showing top 60 representative components out of 95 across 5 module group(s):
 
-- **Module `test`** (43 components — module: 43)
+- **Module `test`** (44 components — module: 44)
 - **Module `lib`** (35 components — module: 35)
 - **Module `sdk_compliance_adapter`** (9 components — module: 9)
 - **Module `config`** (4 components — module: 4)
@@ -140,6 +140,7 @@ Showing top 60 representative components out of 94 across 5 module group(s):
 - **feature_flags_test** (`test/posthog/feature_flags_test.exs`): module
 - **flag_definition_cache_provider** (`lib/posthog/feature_flags/flag_definition_cache_provider.ex`): module
 - **flag_definition_cache_provider_test** (`test/posthog/feature_flags/flag_definition_cache_provider_test.exs`): module
+- **fun_adapter** (`test/support/api/fun_adapter.ex`): module
 - **handler** (`lib/posthog/handler.ex`): module
 - **handler_test** (`test/posthog/handler_test.exs`): module
 - **handler_trace_context_isolation_test** (`test/posthog/handler_trace_context_isolation_test.exs`): module
@@ -162,20 +163,19 @@ Showing top 60 representative components out of 94 across 5 module group(s):
 - **open_feature_test** (`test/posthog/open_feature_test.exs`): module
 - **plug** (`lib/posthog/integrations/plug.ex`): module
 - **plug_test** (`test/posthog/integrations/plug_test.exs`): module
-- **posthog** (`lib/posthog.ex`): module
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `D` (68.96/100)
-- **Technical Debt Score**: 31.04
-- **Estimated Remediation Effort**: 43.76h
+- **Overall Grade**: `C` (70.76/100)
+- **Technical Debt Score**: 29.24
+- **Estimated Remediation Effort**: 41.31h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
 | Dependency Health | `A` | 96.43 | 0.15 | dependencies=14, outdated=0, vulnerable=1, has_lockfile=False |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
-| Pipeline Health | `D` | 60.00 | 0.15 | workflows=8, operational_antipatterns=15, parallel_branches=True |
+| Pipeline Health | `C` | 72.00 | 0.15 | workflows=8, operational_antipatterns=11, parallel_branches=True |
 | Security | `F` | 0.00 | 0.20 | vulnerabilities=27, secrets=0, pipeline_security_findings=1 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 

@@ -1473,14 +1473,14 @@ Total Indexed Repositories: 320
 ## Repository: PostHog/posthog-elixir
 - Ecosystem: Elixir
 - Framework: Elixir Mix
-- SHA: `5d37478809de22150006168be1d74c9b70a1dc8f`
+- SHA: `38cee4de9a7ac97f47f3820b24519a6d45b95264`
 
 ### 6-Dimension Scorecard
-- Overall: D (68.96/100), Technical Debt: 31.04, Remediation Hours: 43.76h
+- Overall: C (70.76/100), Technical Debt: 29.24, Remediation Hours: 41.31h
 - Code Quality: A (100.0) — avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0
 - Dependency Health: A (96.43) — dependencies=14, outdated=0, vulnerable=1, has_lockfile=False
 - Maintainability: A (100.0) — avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0
-- Pipeline Health: D (60.0) — workflows=8, operational_antipatterns=15, parallel_branches=True
+- Pipeline Health: C (72.0) — workflows=8, operational_antipatterns=11, parallel_branches=True
 - Security: F (0.0) — vulnerabilities=27, secrets=0, pipeline_security_findings=1
 - Test Coverage: C (70.0) — coverage=unavailable, ci_test_job=True, test_files_detected=True
 
@@ -1522,6 +1522,7 @@ Total Indexed Repositories: 320
 - [module] feature_flags_test (`test/posthog/feature_flags_test.exs`)
 - [module] flag_definition_cache_provider (`lib/posthog/feature_flags/flag_definition_cache_provider.ex`)
 - [module] flag_definition_cache_provider_test (`test/posthog/feature_flags/flag_definition_cache_provider_test.exs`)
+- [module] fun_adapter (`test/support/api/fun_adapter.ex`)
 - [module] handler (`lib/posthog/handler.ex`)
 - [module] handler_test (`test/posthog/handler_test.exs`)
 - [module] handler_trace_context_isolation_test (`test/posthog/handler_trace_context_isolation_test.exs`)
@@ -1564,8 +1565,7 @@ Total Indexed Repositories: 320
 - [module] sdk_compliance_adapter (`sdk_compliance_adapter/lib/sdk_compliance_adapter.ex`)
 - [module] sender (`lib/posthog/sender.ex`)
 - [module] sender_test (`test/posthog/sender_test.exs`)
-- [module] shared_mode_test (`test/posthog/test/shared_mode_test.exs`)
-- ... (14 more components)
+- ... (15 more components)
 
 ### Code-to-Cloud Traceability
 - release.yml#release (ci_job) --[DEPLOYS_TO]--> Release (environment)
@@ -1574,10 +1574,9 @@ Total Indexed Repositories: 320
 - sdk_compliance_adapter (code_module) --[PACKAGED_BY]--> sdk_compliance_adapter/docker-compose.yml (container)
 
 ### CI/CD Workflows
-- Workflow `Call Feature Flags Project Workflow` (triggers: pull_request, anti-patterns: 2)
+- Workflow `Call Feature Flags Project Workflow` (triggers: pull_request, anti-patterns: 1)
   - Job `call-flags-project` on `unspecified`
   - Finding [HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.
-  - Finding [LOW] NO_TIMEOUT: Job 'call-flags-project' omits 'timeout-minutes', risking 360-minute hung runners.
 - Workflow `CI` (triggers: push, pull_request, anti-patterns: 5)
   - Job `test` on `ubuntu-24.04`
   - Job `format` on `ubuntu-latest`
@@ -1592,26 +1591,23 @@ Total Indexed Repositories: 320
 - Workflow `CodeQL Advanced` (triggers: push, pull_request, anti-patterns: 1)
   - Job `analyze` on `ubuntu-latest`
   - Finding [LOW] NO_TIMEOUT: Job 'analyze' omits 'timeout-minutes', risking 360-minute hung runners.
-- Workflow `Lint PR` (triggers: pull_request, anti-patterns: 1)
+- Workflow `Lint PR` (triggers: pull_request, anti-patterns: 0)
   - Job `lint-pr` on `unspecified`
-  - Finding [LOW] NO_TIMEOUT: Job 'lint-pr' omits 'timeout-minutes', risking 360-minute hung runners.
 - Workflow `Release failure notification` (triggers: workflow_run, anti-patterns: 0)
   - Job `notify-failed` on `ubuntu-latest`
-- Workflow `Release` (triggers: push, workflow_dispatch, anti-patterns: 4)
+- Workflow `Release` (triggers: push, workflow_dispatch, anti-patterns: 3)
   - Job `check-changesets` on `ubuntu-latest`
   - Job `notify-approval-needed` on `unspecified` (needs: check-changesets)
   - Job `preserve-slack-thread` on `ubuntu-latest` (needs: notify-approval-needed)
   - Job `release` on `ubuntu-latest` (needs: check-changesets, notify-approval-needed)
   - Job `notify-released` on `ubuntu-latest` (needs: check-changesets, notify-approval-needed, release)
   - Finding [LOW] NO_TIMEOUT: Job 'check-changesets' omits 'timeout-minutes', risking 360-minute hung runners.
-  - Finding [LOW] NO_TIMEOUT: Job 'notify-approval-needed' omits 'timeout-minutes', risking 360-minute hung runners.
   - Finding [LOW] NO_TIMEOUT: Job 'release' omits 'timeout-minutes', risking 360-minute hung runners.
   - Finding [LOW] NO_TIMEOUT: Job 'notify-released' omits 'timeout-minutes', risking 360-minute hung runners.
-- Workflow `SDK Compliance Tests` (triggers: pull_request, push, anti-patterns: 2)
+- Workflow `SDK Compliance Tests` (triggers: pull_request, push, anti-patterns: 1)
   - Job `adapter-tests` on `ubuntu-latest`
   - Job `compliance` on `unspecified`
   - Finding [LOW] NO_TIMEOUT: Job 'adapter-tests' omits 'timeout-minutes', risking 360-minute hung runners.
-  - Finding [LOW] NO_TIMEOUT: Job 'compliance' omits 'timeout-minutes', risking 360-minute hung runners.
 - Workflow `Handle stale issues and PRs` (triggers: schedule, anti-patterns: 1)
   - Job `stale` on `ubuntu-24.04`
   - Finding [LOW] NO_TIMEOUT: Job 'stale' omits 'timeout-minutes', risking 360-minute hung runners.
@@ -8080,12 +8076,12 @@ Total Indexed Repositories: 320
 - SHA: `adb8572f32ba5a8f411afb87bfeb6c5fb4d1258b`
 
 ### 6-Dimension Scorecard
-- Overall: C (72.52/100), Technical Debt: 27.48, Remediation Hours: 122.87h
+- Overall: C (72.47/100), Technical Debt: 27.53, Remediation Hours: 129.88h
 - Code Quality: A (100.0) — avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0
-- Dependency Health: B (81.15) — dependencies=130, outdated=0, vulnerable=10, has_lockfile=False
+- Dependency Health: B (80.77) — dependencies=130, outdated=0, vulnerable=11, has_lockfile=False
 - Maintainability: A (100.0) — avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0
 - Pipeline Health: A (99.0) — workflows=1, operational_antipatterns=2, parallel_branches=True
-- Security: F (0.0) — vulnerabilities=108, secrets=2, pipeline_security_findings=2
+- Security: F (0.0) — vulnerabilities=115, secrets=2, pipeline_security_findings=2
 - Test Coverage: C (70.0) — coverage=unavailable, ci_test_job=True, test_files_detected=True
 
 ### Architecture Components
@@ -8172,9 +8168,9 @@ Total Indexed Repositories: 320
 - ... (2 more components)
 
 ### Code-to-Cloud Traceability
-- 2203e10d-222b-4cc9-ab1f-54f92f162f50 (code_module) --[BUILT_BY]--> ci.yaml#lint-go (ci_job)
-- 2203e10d-222b-4cc9-ab1f-54f92f162f50 (code_module) --[BUILT_BY]--> ci.yaml#test (ci_job)
-- 2203e10d-222b-4cc9-ab1f-54f92f162f50 (code_module) --[PACKAGED_BY]--> coverage.out (container)
+- 0e4990ad-1eaa-4f80-9624-40a6100b1963 (code_module) --[BUILT_BY]--> ci.yaml#lint-go (ci_job)
+- 0e4990ad-1eaa-4f80-9624-40a6100b1963 (code_module) --[BUILT_BY]--> ci.yaml#test (ci_job)
+- 0e4990ad-1eaa-4f80-9624-40a6100b1963 (code_module) --[PACKAGED_BY]--> coverage.out (container)
 
 ### CI/CD Workflows
 - Workflow `CI` (triggers: push, pull_request, anti-patterns: 4)
@@ -8186,7 +8182,7 @@ Total Indexed Repositories: 320
   - Finding [LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.
 
 ### Dependencies & Security
-- Dependencies: 130, Vulnerabilities: 108, Secrets: 2
+- Dependencies: 130, Vulnerabilities: 115, Secrets: 2
   - [MEDIUM] GHSA-259r-337f-4rfw in github.com/klauspost/compress 1.18.0 (fixed: none)
   - [MEDIUM] GHSA-2v4p-qf9q-27wj in google.golang.org/grpc 1.71.0 (fixed: none)
   - [MEDIUM] GHSA-3f24-pcvm-5jqc in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
@@ -8265,7 +8261,6 @@ Total Indexed Repositories: 320
   - [MEDIUM] GO-2026-5019 in golang.org/x/crypto 0.38.0 (fixed: none)
   - [MEDIUM] GO-2026-5020 in golang.org/x/crypto 0.38.0 (fixed: none)
   - [MEDIUM] GO-2026-5021 in golang.org/x/crypto 0.38.0 (fixed: none)
-  - [MEDIUM] GO-2026-5023 in golang.org/x/crypto 0.38.0 (fixed: none)
   - [MEDIUM] GO-2026-5024 in golang.org/x/sys 0.33.0 (fixed: none)
   - [MEDIUM] GO-2026-5025 in golang.org/x/net 0.38.0 (fixed: none)
   - [MEDIUM] GO-2026-5026 in golang.org/x/net 0.38.0 (fixed: none)
@@ -8295,6 +8290,14 @@ Total Indexed Repositories: 320
   - [MEDIUM] GO-2026-6860 in golang.org/x/net 0.38.0 (fixed: none)
   - [MEDIUM] GO-2026-6865 in github.com/klauspost/compress 1.18.0 (fixed: none)
   - [MEDIUM] GO-2026-6866 in golang.org/x/net 0.38.0 (fixed: none)
+  - [MEDIUM] GO-2026-6974 in go.opentelemetry.io/otel/trace 1.35.0 (fixed: none)
+  - [MEDIUM] GO-2026-6975 in go.opentelemetry.io/otel 1.35.0 (fixed: none)
+  - [MEDIUM] GO-2026-6999 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
+  - [MEDIUM] GO-2026-7000 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
+  - [MEDIUM] GO-2026-7010 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
+  - [MEDIUM] GO-2026-7013 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
+  - [MEDIUM] GO-2026-7014 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
+  - [MEDIUM] GO-2026-7025 in github.com/nats-io/nats-server/v2 2.11.4 (fixed: none)
   - Secret [CRITICAL] ATRUSS-SEC-004 at `docs/services/github.md:48`
   - Secret [CRITICAL] ATRUSS-SEC-004 at `pkg/services/github_test.go:203`
 
@@ -12427,15 +12430,15 @@ Total Indexed Repositories: 320
 ## Repository: dani-garcia/vaultwarden
 - Ecosystem: Rust
 - Framework: Axum / Actix / Rocket
-- SHA: `384fe6b4423e34cd62028fa1ebd1c54f69f3507e`
+- SHA: `dbd7829ed140ae3458abc97dedec9a4421ddff42`
 
 ### 6-Dimension Scorecard
-- Overall: D (65.21/100), Technical Debt: 34.79, Remediation Hours: 175.1h
-- Code Quality: A (93.22) — avg_cc=1.96, max_cc=10, duplication=4.52%, dead_code=0
-- Dependency Health: A (98.41) — dependencies=941, outdated=0, vulnerable=30, has_lockfile=True
-- Maintainability: A (100.0) — avg_cognitive=1.13, max_cognitive=11, fitness_violations=0, oversized_files=0
+- Overall: D (65.35/100), Technical Debt: 34.65, Remediation Hours: 60.08h
+- Code Quality: A (93.13) — avg_cc=1.98, max_cc=10, duplication=4.58%, dead_code=0
+- Dependency Health: A (99.52) — dependencies=929, outdated=0, vulnerable=9, has_lockfile=True
+- Maintainability: A (100.0) — avg_cognitive=1.20, max_cognitive=11, fitness_violations=0, oversized_files=0
 - Pipeline Health: F (42.0) — workflows=9, operational_antipatterns=5, parallel_branches=False
-- Security: F (0.0) — vulnerabilities=129, secrets=2, pipeline_security_findings=13
+- Security: F (0.0) — vulnerabilities=14, secrets=2, pipeline_security_findings=13
 - Test Coverage: C (70.0) — coverage=unavailable, ci_test_job=True, test_files_detected=True
 
 ### Architecture Components
@@ -12511,9 +12514,9 @@ Total Indexed Repositories: 320
 ### Code-to-Cloud Traceability
 - release.yml#docker-build (ci_job) --[DEPLOYS_TO]--> release (environment)
 - release.yml#merge-manifests (ci_job) --[DEPLOYS_TO]--> release (environment)
-- ba84f955-1918-431e-bad6-3ad42e5ff421 (code_module) --[BUILT_BY]--> hadolint.yml#hadolint (ci_job)
-- ba84f955-1918-431e-bad6-3ad42e5ff421 (code_module) --[PACKAGED_BY]--> Dockerfile (container)
-- ba84f955-1918-431e-bad6-3ad42e5ff421 (code_module) --[PACKAGED_BY]--> playwright/docker-compose.yml (container)
+- bc552a75-fe35-4802-82cf-e3eb1795ed96 (code_module) --[BUILT_BY]--> hadolint.yml#hadolint (ci_job)
+- bc552a75-fe35-4802-82cf-e3eb1795ed96 (code_module) --[PACKAGED_BY]--> Dockerfile (container)
+- bc552a75-fe35-4802-82cf-e3eb1795ed96 (code_module) --[PACKAGED_BY]--> playwright/docker-compose.yml (container)
 - docker (code_module) --[BUILT_BY]--> check-templates.yml#docker-templates (ci_job)
 - docker (code_module) --[BUILT_BY]--> hadolint.yml#hadolint (ci_job)
 - docker (code_module) --[DEPLOYED_BY]--> release.yml#merge-manifests (ci_job)
@@ -12591,125 +12594,14 @@ Total Indexed Repositories: 320
   - Finding [LOW] NO_TIMEOUT: Job 'zizmor' omits 'timeout-minutes', risking 360-minute hung runners.
 
 ### Dependencies & Security
-- Dependencies: 941, Vulnerabilities: 129, Secrets: 2
-  - [MEDIUM] GHSA-22p9-wv53-3rq4 in linkify-it 5.0.0 (fixed: none)
-  - [MEDIUM] GHSA-268h-hp4c-crq3 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-268h-hp4c-crq3 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-268h-hp4c-crq3 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-27r3-jxmh-p828 in body-parser 2.2.2 (fixed: none)
-  - [MEDIUM] GHSA-2gc4-cqfq-p2gv in engine.io 6.6.8 (fixed: none)
-  - [MEDIUM] GHSA-2gqq-gqf2-x968 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-2jfj-6hjv-fm6j in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-2m5v-pch6-74hx in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-2m8v-j782-fhvr in socket.io-parser 4.2.6 (fixed: none)
-  - [MEDIUM] GHSA-2x7j-588g-ccc2 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-2x7j-588g-ccc2 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-2x7j-588g-ccc2 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-35p6-xmwp-9g52 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-39m8-27wv-hr27 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-39m8-27wv-hr27 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-39m8-27wv-hr27 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-3xpg-4rpp-hhhm in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-4cwx-7wf7-3272 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-4ffr-jq9g-5ffx in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-4ffr-jq9g-5ffx in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-4ffr-jq9g-5ffx in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-4g23-2xm8-66gc in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-4g23-2xm8-66gc in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-4g23-2xm8-66gc in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-4mjr-xmp4-gh2g in qs 6.15.2 (fixed: none)
-  - [MEDIUM] GHSA-4qv8-2p9j-2685 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-4w7w-5xrc-9h26 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-55q2-fjhq-7xh7 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-55wc-3pg8-jfw6 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-6688-9rhm-gjv2 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-68fv-2mgg-jv7q in source-map-js 1.2.1 (fixed: none)
-  - [MEDIUM] GHSA-6pq8-jhm2-2vcw in qs 6.15.2 (fixed: none)
-  - [MEDIUM] GHSA-6vj9-mwq6-2f5v in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-6vj9-mwq6-2f5v in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-6vj9-mwq6-2f5v in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-76mc-f452-cxcm in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-8436-99hf-9mmv in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-85x2-q946-cp5h in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-85x2-q946-cp5h in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-85x2-q946-cp5h in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8c8m-p3m8-cjg8 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8c8m-p3m8-cjg8 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-8c8m-p3m8-cjg8 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8m3c-c648-2xjj in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8m3c-c648-2xjj in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-8m3c-c648-2xjj in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8vvx-rff5-p5rq in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8vvx-rff5-p5rq in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-8vvx-rff5-p5rq in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-8xcm-r25x-g524 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-96hv-2xvq-fx4p in ws 8.20.1 (fixed: none)
-  - [MEDIUM] GHSA-9fm3-97px-rjf6 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-c2j3-45gr-mqc4 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-c6gr-qvv4-5v3f in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-cc9r-2j5m-2m83 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-cc9r-2j5m-2m83 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-cc9r-2j5m-2m83 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-cmwh-pvxp-8882 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-f72v-6w45-q472 in undici 7.25.0 (fixed: none)
+- Dependencies: 929, Vulnerabilities: 14, Secrets: 2
   - [MEDIUM] GHSA-g5x8-v2ch-gj2g in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-g73g-hqqh-jr95 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-g73g-hqqh-jr95 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-g73g-hqqh-jr95 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-g8m3-5g58-fq7m in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-gvmj-g25r-r7wr in dompurify 3.4.1 (fixed: none)
   - [MEDIUM] GHSA-h4hq-rgvh-wh27 in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-hm92-r4w5-c3mj in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-hpcv-96wg-7vj8 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-jqcg-44mw-7w3h in proxy-addr 2.0.7 (fixed: none)
-  - [MEDIUM] GHSA-jr45-8vmc-qm54 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-m8rv-5g2x-5cg5 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-m943-m63m-w62w in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-m943-m63m-w62w in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-m943-m63m-w62w in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-mrv2-3pqr-j5jr in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-p6gq-j5cr-w38f in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-p6gq-j5cr-w38f in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-p6gq-j5cr-w38f in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-p88m-4jfj-68fv in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-pmjh-fq2x-6v4x in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-pr7r-676h-xcf6 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-qrxm-fqhp-jwvm in undici 7.25.0 (fixed: none)
   - [MEDIUM] GHSA-r32r-j5jq-3w4m in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-r47g-fvhr-h676 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-r53p-7pc4-xj5r in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-r7g4-qg5f-qqm2 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-r7g4-qg5f-qqm2 in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-r7g4-qg5f-qqm2 in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-rfgv-xxqx-mfg5 in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-rgwj-5xj2-c3m3 in mysql2 3.22.3 (fixed: none)
-  - [MEDIUM] GHSA-rgwj-5xj2-c3m3 in mysql2 3.22.3 (fixed: none)
-  - [MEDIUM] GHSA-rp9w-3fw7-7cwq in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-rx4f-c7p8-82vq in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-v245-v573-v5vm in linkify-it 5.0.0 (fixed: none)
-  - [MEDIUM] GHSA-v3r7-h72x-cjcm in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-v422-hmwv-36x6 in body-parser 2.2.2 (fixed: none)
-  - [MEDIUM] GHSA-v53p-9fqp-m79j in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-v53p-9fqp-m79j in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-v53p-9fqp-m79j in nodemailer 8.0.5 (fixed: none)
   - [MEDIUM] GHSA-v6pg-v89r-w8wr in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-vc2v-76pw-4v95 in compression 1.8.1 (fixed: none)
-  - [MEDIUM] GHSA-vmh5-mc38-953g in undici 7.25.0 (fixed: none)
   - [MEDIUM] GHSA-vprm-27pv-jp3w in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-vxpw-j846-p89q in undici 7.25.0 (fixed: none)
-  - [MEDIUM] GHSA-vxr8-fq34-vvx9 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-w293-vg96-wgc3 in undici 7.25.0 (fixed: none)
   - [MEDIUM] GHSA-w9f8-m526-h7fh in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-wmmp-3585-3rmp in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-wmmp-3585-3rmp in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-wmmp-3585-3rmp in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-wqvq-jvpq-h66f in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-wqvq-jvpq-h66f in nodemailer 8.0.7 (fixed: none)
-  - [MEDIUM] GHSA-wqvq-jvpq-h66f in nodemailer 8.0.5 (fixed: none)
-  - [MEDIUM] GHSA-x4vx-rjvf-j5p4 in dompurify 3.4.1 (fixed: none)
-  - [MEDIUM] GHSA-x5fp-wj9c-mxmx in qs 6.15.2 (fixed: none)
   - [MEDIUM] GHSA-x7m9-mv49-fv73 in vaultwarden 1.0.0 (fixed: none)
-  - [MEDIUM] GHSA-xjj6-f33q-929c in undici 7.25.0 (fixed: none)
   - [MEDIUM] RUSTSEC-2023-0071 in rsa 0.9.10 (fixed: none)
   - [MEDIUM] RUSTSEC-2025-0052 in async-std 1.13.2 (fixed: none)
   - [MEDIUM] RUSTSEC-2026-0441 in pin-utils 0.1.1 (fixed: none)
@@ -12717,11 +12609,7 @@ Total Indexed Repositories: 320
   - [MEDIUM] RUSTSEC-2026-0543 in chrono 0.4.45 (fixed: none)
   - [MEDIUM] RUSTSEC-2026-0555 in chrono-tz 0.10.4 (fixed: none)
   - [MEDIUM] RUSTSEC-2026-0555 in chrono-tz 0.10.4 (fixed: none)
-  - [MEDIUM] RUSTSEC-2026-0592 in url 2.5.8 (fixed: none)
-  - [MEDIUM] RUSTSEC-2026-0592 in url 2.5.8 (fixed: none)
-  - [MEDIUM] RUSTSEC-2026-0594 in cookie 0.18.2 (fixed: none)
-  - [MEDIUM] RUSTSEC-2026-0594 in cookie 0.18.2 (fixed: none)
-  - Secret [HIGH] ATRUSS-SEC-005 at `.env.template:456`
+  - Secret [HIGH] ATRUSS-SEC-005 at `.env.template:460`
   - Secret [HIGH] ATRUSS-SEC-005 at `src/static/scripts/datatables.js:11338`
 
 ## Repository: directus/directus
@@ -13812,8 +13700,8 @@ Total Indexed Repositories: 320
 - [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (85.03) exceeds policy threshold (15.0).
 
 ### Code-to-Cloud Traceability
-- 30f46da6-9d9c-4c57-91d5-38df77790727 (code_module) --[PACKAGED_BY]--> docker-compose.override.yml (container)
-- 30f46da6-9d9c-4c57-91d5-38df77790727 (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
+- 11ac21ce-b7cd-4993-a5f2-822e2652d7a5 (code_module) --[PACKAGED_BY]--> docker-compose.override.yml (container)
+- 11ac21ce-b7cd-4993-a5f2-822e2652d7a5 (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
 - src/PublicApi (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
 - src/PublicApi (code_module) --[PACKAGED_BY]--> src/PublicApi/Dockerfile (container)
 - src/Web (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
@@ -13858,15 +13746,15 @@ Total Indexed Repositories: 320
 ## Repository: dotnet/eShop
 - Ecosystem: .NET
 - Framework: ASP.NET Core
-- SHA: `ab10e4c68fd26369578ebfb3fd1ccf3b867d0444`
+- SHA: `3c6e531a6063676ece317644f72172fb42a935b3`
 
 ### 6-Dimension Scorecard
-- Overall: F (43.67/100), Technical Debt: 56.33, Remediation Hours: 104.3h
-- Code Quality: F (40.0) — avg_cc=1.65, max_cc=25, duplication=83.61%, dead_code=82
-- Dependency Health: A (94.8) — dependencies=125, outdated=0, vulnerable=13, has_lockfile=True
-- Maintainability: F (0.0) — avg_cognitive=0.76, max_cognitive=28, fitness_violations=11, oversized_files=1
-- Pipeline Health: C (73.0) — workflows=4, operational_antipatterns=6, parallel_branches=False
-- Security: F (0.0) — vulnerabilities=15, secrets=0, pipeline_security_findings=5
+- Overall: F (45.93/100), Technical Debt: 54.07, Remediation Hours: 99.51h
+- Code Quality: F (52.0) — avg_cc=1.64, max_cc=17, duplication=83.72%, dead_code=85
+- Dependency Health: A (94.88) — dependencies=127, outdated=0, vulnerable=13, has_lockfile=True
+- Maintainability: F (0.0) — avg_cognitive=0.74, max_cognitive=28, fitness_violations=10, oversized_files=1
+- Pipeline Health: C (72.0) — workflows=5, operational_antipatterns=8, parallel_branches=True
+- Security: F (0.0) — vulnerabilities=15, secrets=0, pipeline_security_findings=2
 - Test Coverage: C (70.0) — coverage=unavailable, ci_test_job=True, test_files_detected=True
 
 ### Architecture Components
@@ -13961,37 +13849,43 @@ Total Indexed Repositories: 320
 - [HIGH] ATRUSS-ARCH-004: Circular dependency detected between architectural components. (SetStockConfirmedOrderStatusCommandHandler -> SetStockConfirmedOrderStatusIdentifiedCommandHandler -> SetStockConfirmedOrderStatusCommandHandler)
 - [HIGH] ATRUSS-ARCH-004: Circular dependency detected between architectural components. (SetStockRejectedOrderStatusCommandHandler -> SetStockRejectedOrderStatusIdentifiedCommandHandler -> SetStockRejectedOrderStatusCommandHandler)
 - [HIGH] ATRUSS-ARCH-004: Circular dependency detected between architectural components. (ShipOrderCommandHandler -> ShipOrderIdentifiedCommandHandler -> ShipOrderCommandHandler)
-- [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (83.61) exceeds policy threshold (15.0).
+- [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (83.72) exceeds policy threshold (15.0).
 - [MEDIUM] ATRUSS-ARCH-005: Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0).
-- [MEDIUM] ATRUSS-ARCH-005: Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0).
 
 ### Code-to-Cloud Traceability
-- src/ClientApp (code_module) --[BUILT_BY]--> pr-validation-maui.yml#test (ci_job)
-- tests/ClientApp.UnitTests (code_module) --[BUILT_BY]--> pr-validation-maui.yml#test (ci_job)
+- src/ClientApp (code_module) --[BUILT_BY]--> pr-validation-maui.yml#maui (ci_job)
+- src/ClientApp (code_module) --[BUILT_BY]--> verify.yml#changes (ci_job)
+- tests/ClientApp.UnitTests (code_module) --[BUILT_BY]--> pr-validation-maui.yml#maui (ci_job)
 
 ### CI/CD Workflows
-- Workflow `Markdownlint` (triggers: pull_request, anti-patterns: 1)
+- Workflow `Markdownlint` (triggers: workflow_call, anti-patterns: 1)
   - Job `lint` on `ubuntu-latest`
   - Finding [LOW] NO_TIMEOUT: Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.
-- Workflow `Playwright Tests for eShop` (triggers: push, pull_request, anti-patterns: 4)
-  - Job `test` on `ubuntu-latest`
+- Workflow `Playwright Tests for eShop` (triggers: workflow_call, push, anti-patterns: 3)
+  - Job `playwright` on `ubuntu-latest`
   - Finding [MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.
-  - Finding [CRITICAL] HARDCODED_SECRET: Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead.
-  - Finding [HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.
-  - Finding [MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.
-- Workflow `eShop Pull Request Validation - .NET MAUI` (triggers: pull_request, push, anti-patterns: 3)
-  - Job `test` on `windows-latest`
+  - Finding [CRITICAL] HARDCODED_SECRET: Potential hardcoded credential in job 'playwright' step env 'PASSWORD'. Use GitHub Secrets instead.
+  - Finding [MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'playwright' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.
+- Workflow `eShop Pull Request Validation - .NET MAUI` (triggers: workflow_call, push, anti-patterns: 2)
+  - Job `maui` on `windows-latest`
   - Finding [MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.
-  - Finding [HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.
-  - Finding [LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.
-- Workflow `eShop Pull Request Validation` (triggers: pull_request, push, anti-patterns: 3)
-  - Job `test` on `ubuntu-latest`
+  - Finding [LOW] NO_TIMEOUT: Job 'maui' omits 'timeout-minutes', risking 360-minute hung runners.
+- Workflow `eShop Pull Request Validation` (triggers: workflow_call, push, anti-patterns: 2)
+  - Job `build-and-test` on `ubuntu-latest`
   - Finding [MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.
-  - Finding [HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.
-  - Finding [LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.
+  - Finding [LOW] NO_TIMEOUT: Job 'build-and-test' omits 'timeout-minutes', risking 360-minute hung runners.
+- Workflow `Verify` (triggers: pull_request, anti-patterns: 2)
+  - Job `changes` on `ubuntu-latest`
+  - Job `markdownlint` on `unspecified`
+  - Job `build-and-test` on `unspecified` (needs: changes)
+  - Job `playwright` on `unspecified` (needs: changes)
+  - Job `maui` on `unspecified` (needs: changes)
+  - Job `verify` on `ubuntu-latest` (needs: changes, markdownlint, build-and-test, playwright, maui)
+  - Finding [LOW] NO_TIMEOUT: Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.
+  - Finding [LOW] NO_TIMEOUT: Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners.
 
 ### Dependencies & Security
-- Dependencies: 125, Vulnerabilities: 15, Secrets: 0
+- Dependencies: 127, Vulnerabilities: 15, Secrets: 0
   - [MEDIUM] GHSA-4625-4j76-fww9 in OpenTelemetry.Exporter.OpenTelemetryProtocol  (fixed: none)
   - [MEDIUM] GHSA-f7vh-h5g3-7jrh in Aspire.Hosting.AppHost  (fixed: none)
   - [MEDIUM] GHSA-f7vh-h5g3-7jrh in Aspire.Hosting.AppHost  (fixed: none)
@@ -17470,7 +17364,7 @@ Total Indexed Repositories: 320
 ## Repository: getsentry/sentry-php
 - Ecosystem: PHP
 - Framework: Symfony
-- SHA: `cc1fb598f6c358a8b0b22115dddcad094bdcce2d`
+- SHA: `2c260c9a1579f4eb8eee9aab87cdb92c4198b131`
 
 ### 6-Dimension Scorecard
 - Overall: D (66.9/100), Technical Debt: 33.1, Remediation Hours: 48.3h
@@ -29414,7 +29308,7 @@ Total Indexed Repositories: 320
 - [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (64.11) exceeds policy threshold (15.0).
 
 ### Code-to-Cloud Traceability
-- 8325e7d2-06d0-4ff1-ac19-ac02bd7d70e4 (code_module) --[PACKAGED_BY]--> Dockerfile (container)
+- 6c60fb7d-619a-4045-bd18-412c12c5d08b (code_module) --[PACKAGED_BY]--> Dockerfile (container)
 
 ### Dependencies & Security
 - Dependencies: 11, Vulnerabilities: 16, Secrets: 0
@@ -32613,15 +32507,15 @@ Total Indexed Repositories: 320
 ## Repository: kumarshaz/atruss-code-atlas
 - Ecosystem: Python
 - Framework: Unknown
-- SHA: `bf7f47c2443632410bea3d1278b95ce102157618`
+- SHA: `a30927cf1916fdd3deb45e95f7c5cc8a315902c1`
 
 ### 6-Dimension Scorecard
-- Overall: F (47.9/100), Technical Debt: 52.1, Remediation Hours: 208.46h
-- Code Quality: F (26.44) — avg_cc=6.89, max_cc=122, duplication=77.15%, dead_code=4
-- Dependency Health: A (98.24) — dependencies=595, outdated=0, vulnerable=21, has_lockfile=True
-- Maintainability: F (19.84) — avg_cognitive=10.72, max_cognitive=304, fitness_violations=3, oversized_files=14
-- Pipeline Health: A (96.0) — workflows=4, operational_antipatterns=2, parallel_branches=True
-- Security: F (0.0) — vulnerabilities=90, secrets=31, pipeline_security_findings=0
+- Overall: F (48.39/100), Technical Debt: 51.61, Remediation Hours: 208.88h
+- Code Quality: F (26.56) — avg_cc=6.86, max_cc=124, duplication=77.37%, dead_code=4
+- Dependency Health: A (98.15) — dependencies=595, outdated=0, vulnerable=22, has_lockfile=True
+- Maintainability: F (20.05) — avg_cognitive=10.65, max_cognitive=304, fitness_violations=3, oversized_files=14
+- Pipeline Health: A (99.0) — workflows=4, operational_antipatterns=1, parallel_branches=True
+- Security: F (0.0) — vulnerabilities=91, secrets=31, pipeline_security_findings=0
 - Test Coverage: C (70.0) — coverage=unavailable, ci_test_job=True, test_files_detected=True
 
 ### Architecture Components
@@ -32671,9 +32565,9 @@ Total Indexed Repositories: 320
 - [SERVICE] YAMLExporter (`src/core/exporters/yaml_exporter.py`) -> [BaseExporter]
 
 ### Architectural Fitness Violations
-- [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (77.15) exceeds policy threshold (15.0).
+- [MEDIUM] ATRUSS-ARCH-005: Repository duplication_pct (77.37) exceeds policy threshold (15.0).
 - [MEDIUM] ATRUSS-ARCH-005: Repository max_cognitive_complexity (304.0) exceeds policy threshold (25.0).
-- [MEDIUM] ATRUSS-ARCH-005: Repository max_cyclomatic_complexity (122.0) exceeds policy threshold (20.0).
+- [MEDIUM] ATRUSS-ARCH-005: Repository max_cyclomatic_complexity (124.0) exceeds policy threshold (20.0).
 
 ### Code-to-Cloud Traceability
 - deploy-pages.yml#build (ci_job) --[DEPLOYS_TO]--> github-pages (environment)
@@ -32683,13 +32577,12 @@ Total Indexed Repositories: 320
 - web (code_module) --[BUILT_BY]--> tests.yml#web-check (ci_job)
 
 ### CI/CD Workflows
-- Workflow `Scheduled Public GitHub Benchmark` (triggers: schedule, workflow_dispatch, anti-patterns: 0)
+- Workflow `Manual Full Corpus Benchmark` (triggers: workflow_dispatch, anti-patterns: 0)
   - Job `benchmark` on `ubuntu-latest`
-- Workflow `Daily Target Repo Exports & Portal Refresh` (triggers: schedule, workflow_dispatch, anti-patterns: 2)
+- Workflow `Daily Target Repo Exports & Portal Refresh` (triggers: schedule, workflow_dispatch, anti-patterns: 1)
   - Job `export` on `ubuntu-latest`
   - Job `deploy` on `unspecified` (needs: export)
   - Finding [MEDIUM] NO_ARTIFACT_HANDOFF: Workflow has build and deploy stages without artifact handoff (upload-artifact / container push).
-  - Finding [LOW] NO_TIMEOUT: Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners.
 - Workflow `Deploy Material UI to GitHub Pages` (triggers: push, workflow_dispatch, workflow_call, anti-patterns: 0)
   - Job `build` on `ubuntu-latest`
   - Job `deploy` on `ubuntu-latest` (needs: build)
@@ -32700,7 +32593,7 @@ Total Indexed Repositories: 320
   - Job `agent-workflow-eval` on `ubuntu-latest` (needs: integration-and-e2e)
 
 ### Dependencies & Security
-- Dependencies: 595, Vulnerabilities: 90, Secrets: 31
+- Dependencies: 595, Vulnerabilities: 91, Secrets: 31
   - [MEDIUM] GHSA-26w7-cxv4-gfx2 in astro 6.1.1 (fixed: none)
   - [MEDIUM] GHSA-26w7-cxv4-gfx2 in astro 6.0.1 (fixed: none)
   - [MEDIUM] GHSA-2883-xcg3-v3hh in js-yaml 4.1.1 (fixed: none)
@@ -32722,6 +32615,7 @@ Total Indexed Repositories: 320
   - [MEDIUM] GHSA-68fv-2mgg-jv7q in source-map-js 1.2.1 (fixed: none)
   - [MEDIUM] GHSA-698v-4r3x-3vcv in vite 7.3.1 (fixed: none)
   - [MEDIUM] GHSA-6g55-p6wh-862q in postcss 8.5.8 (fixed: none)
+  - [MEDIUM] GHSA-6jcc-5g8w-32mx in i18next 23.16.8 (fixed: none)
   - [MEDIUM] GHSA-6w46-j5rx-g56g in pytest 8.1.1 (fixed: none)
   - [MEDIUM] GHSA-6w46-j5rx-g56g in pytest 8.1.1 (fixed: none)
   - [MEDIUM] GHSA-737v-mqg7-c878 in defu 6.1.4 (fixed: none)
@@ -45204,7 +45098,7 @@ Total Indexed Repositories: 320
 ### Code-to-Cloud Traceability
 - deploy-and-test-cluster.yml#deploy-and-test-cluster (ci_job) --[DEPLOYS_TO]--> kubernetes (environment)
 - .devcontainer (code_module) --[PACKAGED_BY]--> .devcontainer/Dockerfile (container)
-- 6f9e5f9a-096d-4217-8bc7-efc03bd45e46 (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
+- 2c8a254e-d192-455c-9029-5b6980e3a471 (code_module) --[PACKAGED_BY]--> docker-compose.yml (container)
 - k8s/db.yml (iac) --[DEPLOYED_BY]--> deploy-and-test-cluster.yml#deploy-and-test-cluster (ci_job)
 - k8s/petclinic.yml (iac) --[DEPLOYED_BY]--> deploy-and-test-cluster.yml#deploy-and-test-cluster (ci_job)
 

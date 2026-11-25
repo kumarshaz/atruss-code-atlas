@@ -216,7 +216,7 @@ flowchart LR
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
         mod__devcontainer[".devcontainer"]:::atlasCategory
-        mod_6f9e5f9a_096d_4217_8bc7_efc03bd45e46["6f9e5f9a-096d-4217-8bc7-efc03bd45e46"]:::atlasCategory
+        mod_2c8a254e_d192_455c_9029_5b6980e3a471["2c8a254e-d192-455c-9029-5b6980e3a471"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
@@ -232,14 +232,14 @@ flowchart LR
     end
     job_deploy_and_test_cluster_yml_deploy_and_test_cluster -->|DEPLOYS_TO| env_kubernetes
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
-    mod_6f9e5f9a_096d_4217_8bc7_efc03bd45e46 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_2c8a254e_d192_455c_9029_5b6980e3a471 -->|PACKAGED_BY| art_docker_compose_yml
     art_k8s_db_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
     art_k8s_petclinic_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
 ```
 
 - `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job) --[DEPLOYS_TO]--> `kubernetes` (environment)
 - `.devcontainer` (code_module) --[PACKAGED_BY]--> `.devcontainer/Dockerfile` (container)
-- `6f9e5f9a-096d-4217-8bc7-efc03bd45e46` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `2c8a254e-d192-455c-9029-5b6980e3a471` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `k8s/db.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 - `k8s/petclinic.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 

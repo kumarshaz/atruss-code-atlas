@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for dotnet/eShop
 # Repository Architecture Analysis: dotnet/eShop
 
 ## Metadata
-- **SHA**: `ab10e4c68fd26369578ebfb3fd1ccf3b867d0444`
+- **SHA**: `3c6e531a6063676ece317644f72172fb42a935b3`
 - **Primary Ecosystem**: .NET
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
-- **avg_cognitive_complexity**: 0.76
-- **avg_cyclomatic_complexity**: 1.65
+- **avg_cognitive_complexity**: 0.74
+- **avg_cyclomatic_complexity**: 1.64
 - **component_count**: 124
-- **dead_code_count**: 82
+- **dead_code_count**: 85
 - **dead_code_symbols**: 50 entry(ies)
-- **duplication_pct**: 83.61
+- **duplication_pct**: 83.72
 - **file_complexities**: 25 entry(ies)
 - **files_analyzed**: 547
 - **fitness_passed**: False
-- **fitness_violation_count**: 11
+- **fitness_violation_count**: 10
 - **framework**: ASP.NET Core
 - **import_edges**: 100 entry(ies)
-- **loc**: 26398
+- **loc**: 26786
 - **max_cognitive_complexity**: 28
-- **max_cyclomatic_complexity**: 25
-- **sloc**: 20752
+- **max_cyclomatic_complexity**: 17
+- **sloc**: 21003
 - **test_file_count**: 65
 
 # Architecture: dotnet/eShop
 
 ## Context
 - **Repository**: `dotnet/eShop`
-- **SHA**: `ab10e4c68fd26369578ebfb3fd1ccf3b867d0444`
+- **SHA**: `3c6e531a6063676ece317644f72172fb42a935b3`
 - **Ecosystem**: .NET
 - **Framework**: ASP.NET Core
 
@@ -158,17 +158,17 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `F` (43.67/100)
-- **Technical Debt Score**: 56.33
-- **Estimated Remediation Effort**: 104.30h
+- **Overall Grade**: `F` (45.93/100)
+- **Technical Debt Score**: 54.07
+- **Estimated Remediation Effort**: 99.51h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `F` | 40.00 | 0.20 | avg_cc=1.65, max_cc=25, duplication=83.61%, dead_code=82 |
-| Dependency Health | `A` | 94.80 | 0.15 | dependencies=125, outdated=0, vulnerable=13, has_lockfile=True |
-| Maintainability | `F` | 0.00 | 0.15 | avg_cognitive=0.76, max_cognitive=28, fitness_violations=11, oversized_files=1 |
-| Pipeline Health | `C` | 73.00 | 0.15 | workflows=4, operational_antipatterns=6, parallel_branches=False |
-| Security | `F` | 0.00 | 0.20 | vulnerabilities=15, secrets=0, pipeline_security_findings=5 |
+| Code Quality | `F` | 52.00 | 0.20 | avg_cc=1.64, max_cc=17, duplication=83.72%, dead_code=85 |
+| Dependency Health | `A` | 94.88 | 0.15 | dependencies=127, outdated=0, vulnerable=13, has_lockfile=True |
+| Maintainability | `F` | 0.00 | 0.15 | avg_cognitive=0.74, max_cognitive=28, fitness_violations=10, oversized_files=1 |
+| Pipeline Health | `C` | 72.00 | 0.15 | workflows=5, operational_antipatterns=8, parallel_branches=True |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=15, secrets=0, pipeline_security_findings=2 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Architecture Fitness & Workspace Boundaries
@@ -181,13 +181,12 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockConfirmedOrderStatusCommandHandler -> SetStockConfirmedOrderStatusIdentifiedCommandHandler -> SetStockConfirmedOrderStatusCommandHandler)
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (SetStockRejectedOrderStatusCommandHandler -> SetStockRejectedOrderStatusIdentifiedCommandHandler -> SetStockRejectedOrderStatusCommandHandler)
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (ShipOrderCommandHandler -> ShipOrderIdentifiedCommandHandler -> ShipOrderCommandHandler)
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (83.61) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (83.72) exceeds policy threshold (15.0).
 - **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0).
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0).
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 125 | **Vulnerabilities**: 15 | **Secrets**: 0
+- **Dependencies Parsed**: 127 | **Vulnerabilities**: 15 | **Secrets**: 0
 
 ### Known Vulnerabilities (OSV)
 - **[MEDIUM] `GHSA-4625-4j76-fww9`** `OpenTelemetry.Exporter.OpenTelemetryProtocol` `` (fixed: `none`, UNREACHABLE_DORMANT)
@@ -237,7 +236,7 @@ Showing top 60 representative components out of 124 across 2 module group(s):
 - `Aspire.Hosting.Redis` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
 - `Aspire.Hosting.Redis` `*` (NuGet, `tests/Basket.FunctionalTests/Basket.FunctionalTests.csproj`)
 - `Aspire.Hosting.Yarp` `*` (NuGet, `src/eShop.AppHost/eShop.AppHost.csproj`)
-- ... (+95 more dependencies)
+- ... (+97 more dependencies)
 
 ## Section 7: Code-to-Cloud Deployment Traceability
 
@@ -253,14 +252,17 @@ flowchart LR
         mod_tests_ClientApp_UnitTests["tests/ClientApp.UnitTests"]:::atlasCategory
     end
     subgraph ci_jobs["CI/CD Jobs"]
-        job_pr_validation_maui_yml_test["pr-validation-maui.yml#test"]:::atlasJob
+        job_pr_validation_maui_yml_maui["pr-validation-maui.yml#maui"]:::atlasJob
+        job_verify_yml_changes["verify.yml#changes"]:::atlasJob
     end
-    mod_src_ClientApp -->|BUILT_BY| job_pr_validation_maui_yml_test
-    mod_tests_ClientApp_UnitTests -->|BUILT_BY| job_pr_validation_maui_yml_test
+    mod_src_ClientApp -->|BUILT_BY| job_pr_validation_maui_yml_maui
+    mod_src_ClientApp -->|BUILT_BY| job_verify_yml_changes
+    mod_tests_ClientApp_UnitTests -->|BUILT_BY| job_pr_validation_maui_yml_maui
 ```
 
-- `src/ClientApp` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#test` (ci_job)
-- `tests/ClientApp.UnitTests` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#test` (ci_job)
+- `src/ClientApp` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#maui` (ci_job)
+- `src/ClientApp` (code_module) --[BUILT_BY]--> `verify.yml#changes` (ci_job)
+- `tests/ClientApp.UnitTests` (code_module) --[BUILT_BY]--> `pr-validation-maui.yml#maui` (ci_job)
 
 
 ## CI/CD Pipeline Topology
@@ -275,8 +277,8 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-  pipeline_root(["dotnet/eShop (4 workflows)"]):::atlasRoot
-  subgraph sg_grp_0_CI___Verification["CI & Verification (4 workflows · 4 jobs)"]
+  pipeline_root(["dotnet/eShop (5 workflows)"]):::atlasRoot
+  subgraph sg_grp_0_CI___Verification["CI & Verification (5 workflows · 10 jobs)"]
     direction TB
     subgraph sg_wf_0_Markdownlint["Markdownlint (1 jobs)"]
       direction TB
@@ -288,23 +290,34 @@ graph TD;
     subgraph sg_wf_1_Playwright_Tests_for_eShop["Playwright Tests for eShop (1 jobs)"]
       direction TB
       wf_1_Playwright_Tests_for_eShop(["Trigger: Playwright Tests for eShop"]):::atlasWorkflow
-      job_1_test["test"]:::atlasJob
-      wf_1_Playwright_Tests_for_eShop --> job_1_test
+      job_1_playwright["playwright"]:::atlasJob
+      wf_1_Playwright_Tests_for_eShop --> job_1_playwright
     end
     pipeline_root --> wf_1_Playwright_Tests_for_eShop
     subgraph sg_wf_2_eShop_Pull_Request_Validation____NET_MAUI["eShop Pull Request Validation - .NET MAUI (1 jobs)"]
       direction TB
       wf_2_eShop_Pull_Request_Validation____NET_MAUI(["Trigger: eShop Pull Request Validation - .NET MAUI"]):::atlasWorkflow
-      job_2_test["test"]:::atlasJob
-      wf_2_eShop_Pull_Request_Validation____NET_MAUI --> job_2_test
+      job_2_maui["maui"]:::atlasJob
+      wf_2_eShop_Pull_Request_Validation____NET_MAUI --> job_2_maui
     end
     pipeline_root --> wf_2_eShop_Pull_Request_Validation____NET_MAUI
     subgraph sg_wf_3_eShop_Pull_Request_Validation["eShop Pull Request Validation (1 jobs)"]
       direction TB
       wf_3_eShop_Pull_Request_Validation(["Trigger: eShop Pull Request Validation"]):::atlasWorkflow
-      job_3_test["test"]:::atlasJob
-      wf_3_eShop_Pull_Request_Validation --> job_3_test
+      job_3_build_and_test["build-and-test"]:::atlasJob
+      wf_3_eShop_Pull_Request_Validation --> job_3_build_and_test
     end
     pipeline_root --> wf_3_eShop_Pull_Request_Validation
+    subgraph sg_wf_4_Verify["Verify (6 jobs)"]
+      direction TB
+      wf_4_Verify(["Trigger: Verify"]):::atlasWorkflow
+      job_4_changes["changes"]:::atlasJob
+      job_4_markdownlint["markdownlint"]:::atlasJob
+      job_4_build_and_test["build-and-test"]:::atlasJob
+      wf_4_Verify --> job_4_changes
+      wf_4_Verify --> job_4_markdownlint
+      job_4_changes --> job_4_build_and_test
+    end
+    pipeline_root --> wf_4_Verify
   end
 ```

@@ -96,25 +96,6 @@
               }
             },
             {
-              "id": "ATRUSS-PIPE-011",
-              "name": "EXCESSIVE_PERMISSIONS",
-              "shortDescription": {
-                "text": "Workflow grants write-all or omits least-privilege permissions."
-              },
-              "defaultConfiguration": {
-                "level": "error"
-              },
-              "properties": {
-                "tags": [
-                  "atruss",
-                  "pipeline"
-                ]
-              },
-              "help": {
-                "text": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-              }
-            },
-            {
               "id": "ATRUSS-PIPE-012",
               "name": "NO_TIMEOUT",
               "shortDescription": {
@@ -330,8 +311,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 12,
-                  "endLine": 26
+                  "startLine": 11,
+                  "endLine": 25
                 }
               }
             }
@@ -344,37 +325,10 @@
           }
         },
         {
-          "ruleId": "ATRUSS-PIPE-011",
-          "level": "error",
-          "message": {
-            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/playwright.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 2,
-                  "endLine": 16
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "HIGH",
-            "category": "pipeline",
-            "repository": "dotnet/eShop",
-            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-          }
-        },
-        {
           "ruleId": "ATRUSS-PIPE-013",
           "level": "warning",
           "message": {
-            "text": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+            "text": "Job 'playwright' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
           },
           "locations": [
             {
@@ -428,7 +382,7 @@
           "ruleId": "ATRUSS-PIPE-004",
           "level": "error",
           "message": {
-            "text": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead."
+            "text": "Potential hardcoded credential in job 'playwright' step env 'PASSWORD'. Use GitHub Secrets instead."
           },
           "locations": [
             {
@@ -452,37 +406,10 @@
           }
         },
         {
-          "ruleId": "ATRUSS-PIPE-011",
-          "level": "error",
-          "message": {
-            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/pr-validation-maui.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 3,
-                  "endLine": 17
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "HIGH",
-            "category": "pipeline",
-            "repository": "dotnet/eShop",
-            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-          }
-        },
-        {
           "ruleId": "ATRUSS-PIPE-012",
           "level": "note",
           "message": {
-            "text": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+            "text": "Job 'maui' omits 'timeout-minutes', risking 360-minute hung runners."
           },
           "locations": [
             {
@@ -492,8 +419,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 20,
-                  "endLine": 42
+                  "startLine": 18,
+                  "endLine": 40
                 }
               }
             }
@@ -519,8 +446,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 39,
-                  "endLine": 39
+                  "startLine": 37,
+                  "endLine": 37
                 }
               }
             }
@@ -533,37 +460,10 @@
           }
         },
         {
-          "ruleId": "ATRUSS-PIPE-011",
-          "level": "error",
-          "message": {
-            "text": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": ".github/workflows/pr-validation.yml",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 3,
-                  "endLine": 17
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "HIGH",
-            "category": "pipeline",
-            "repository": "dotnet/eShop",
-            "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-          }
-        },
-        {
           "ruleId": "ATRUSS-PIPE-012",
           "level": "note",
           "message": {
-            "text": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+            "text": "Job 'build-and-test' omits 'timeout-minutes', risking 360-minute hung runners."
           },
           "locations": [
             {
@@ -573,8 +473,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 20,
-                  "endLine": 29
+                  "startLine": 19,
+                  "endLine": 28
                 }
               }
             }
@@ -600,8 +500,8 @@
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 27,
-                  "endLine": 27
+                  "startLine": 26,
+                  "endLine": 26
                 }
               }
             }
@@ -611,13 +511,67 @@
             "category": "pipeline",
             "repository": "dotnet/eShop",
             "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/verify.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 16,
+                  "endLine": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+          }
+        },
+        {
+          "ruleId": "ATRUSS-PIPE-012",
+          "level": "note",
+          "message": {
+            "text": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/verify.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 70,
+                  "endLine": 100
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "LOW",
+            "category": "pipeline",
+            "repository": "dotnet/eShop",
+            "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
           }
         },
         {
           "ruleId": "ATRUSS-ARCH-005",
           "level": "warning",
           "message": {
-            "text": "Repository duplication_pct (83.61) exceeds policy threshold (15.0)."
+            "text": "Repository duplication_pct (83.72) exceeds policy threshold (15.0)."
           },
           "locations": [
             {
@@ -644,32 +598,6 @@
           "level": "warning",
           "message": {
             "text": "Repository max_cognitive_complexity (28.0) exceeds policy threshold (25.0)."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "src/ClientApp/Services/Basket/Protos/Basket.cs",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 1,
-                  "endLine": 1
-                }
-              }
-            }
-          ],
-          "properties": {
-            "severity": "MEDIUM",
-            "category": "architecture",
-            "repository": "dotnet/eShop"
-          }
-        },
-        {
-          "ruleId": "ATRUSS-ARCH-005",
-          "level": "warning",
-          "message": {
-            "text": "Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0)."
           },
           "locations": [
             {

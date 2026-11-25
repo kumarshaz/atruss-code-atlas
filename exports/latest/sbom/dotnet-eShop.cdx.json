@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:35987e97-7552-4486-9485-0a939707651d",
+  "serialNumber": "urn:uuid:2fbb6a51-b33e-416c-8e28-6bde46038c5e",
   "version": 1,
   "metadata": {
     "tools": {
@@ -16,9 +16,9 @@
     },
     "component": {
       "type": "application",
-      "bom-ref": "pkg:github/dotnet/eShop@ab10e4c68fd26369578ebfb3fd1ccf3b867d0444",
+      "bom-ref": "pkg:github/dotnet/eShop@3c6e531a6063676ece317644f72172fb42a935b3",
       "name": "dotnet/eShop",
-      "version": "ab10e4c68fd26369578ebfb3fd1ccf3b867d0444"
+      "version": "3c6e531a6063676ece317644f72172fb42a935b3"
     }
   },
   "components": [
@@ -1222,6 +1222,27 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
+      "name": "Microsoft.EntityFrameworkCore.Design",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "atruss:ecosystem",
+          "value": "NuGet"
+        },
+        {
+          "name": "atruss:is_direct",
+          "value": "true"
+        },
+        {
+          "name": "atruss:manifest_files",
+          "value": "src/Identity.API/Identity.API.csproj,src/Ordering.API/Ordering.API.csproj"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Tools",
       "name": "Microsoft.EntityFrameworkCore.Tools",
       "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Tools",
@@ -1752,7 +1773,7 @@
   ],
   "dependencies": [
     {
-      "ref": "pkg:github/dotnet/eShop@ab10e4c68fd26369578ebfb3fd1ccf3b867d0444",
+      "ref": "pkg:github/dotnet/eShop@3c6e531a6063676ece317644f72172fb42a935b3",
       "dependsOn": [
         "pkg:npm/%40playwright/test@1.62.1",
         "pkg:npm/%40types/node@26.1.2",
@@ -1804,6 +1825,7 @@
         "pkg:nuget/Microsoft.AspNetCore.Mvc.Testing",
         "pkg:nuget/Microsoft.AspNetCore.OpenApi",
         "pkg:nuget/Microsoft.AspNetCore.TestHost",
+        "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
         "pkg:nuget/Microsoft.EntityFrameworkCore.Tools",
         "pkg:nuget/Microsoft.Extensions.ApiDescription.Server",
         "pkg:nuget/Microsoft.Extensions.Http.Resilience",
@@ -2045,6 +2067,10 @@
     },
     {
       "ref": "pkg:nuget/Microsoft.AspNetCore.TestHost",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
       "dependsOn": []
     },
     {

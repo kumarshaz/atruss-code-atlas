@@ -1,19 +1,19 @@
 {
   "repository": "dotnet/eShop",
-  "sha": "ab10e4c68fd26369578ebfb3fd1ccf3b867d0444",
+  "sha": "3c6e531a6063676ece317644f72172fb42a935b3",
   "ecosystem": ".NET",
   "metrics": {
     "files_analyzed": 547,
-    "loc": 26398,
-    "sloc": 20752,
+    "loc": 26786,
+    "sloc": 21003,
     "component_count": 124,
-    "avg_cyclomatic_complexity": 1.65,
-    "max_cyclomatic_complexity": 25,
+    "avg_cyclomatic_complexity": 1.64,
+    "max_cyclomatic_complexity": 17,
     "ast_engine": "tree-sitter",
-    "avg_cognitive_complexity": 0.76,
+    "avg_cognitive_complexity": 0.74,
     "max_cognitive_complexity": 28,
-    "duplication_pct": 83.61,
-    "dead_code_count": 82,
+    "duplication_pct": 83.72,
+    "dead_code_count": 85,
     "dead_code_symbols": [
       {
         "name": "ServerCallContextIdentityExtensions",
@@ -203,7 +203,7 @@
       {
         "name": "CheckoutAsync",
         "file": "src/ClientApp/ViewModels/CheckoutViewModel.cs",
-        "line": 104
+        "line": 91
       },
       {
         "name": "MockSignInAsync",
@@ -292,12 +292,6 @@
         "cognitive": 32
       },
       {
-        "file": "src/Identity.API/Services/ProfileService.cs",
-        "loc": 118,
-        "cyclomatic": 26,
-        "cognitive": 30
-      },
-      {
         "file": "src/Identity.API/Quickstart/Device/DeviceController.cs",
         "loc": 214,
         "cyclomatic": 28,
@@ -310,6 +304,12 @@
         "cognitive": 27
       },
       {
+        "file": "src/Identity.API/Services/ProfileService.cs",
+        "loc": 106,
+        "cyclomatic": 22,
+        "cognitive": 26
+      },
+      {
         "file": "src/ClientApp/Services/FixUri/FixUriService.cs",
         "loc": 108,
         "cyclomatic": 20,
@@ -319,18 +319,6 @@
         "file": "src/Identity.API/Quickstart/Account/ExternalController.cs",
         "loc": 238,
         "cyclomatic": 29,
-        "cognitive": 24
-      },
-      {
-        "file": "tests/Ordering.UnitTests/Application/NewOrderCommandHandlerTest.cs",
-        "loc": 83,
-        "cyclomatic": 25,
-        "cognitive": 24
-      },
-      {
-        "file": "tests/Ordering.UnitTests/Application/IdentifiedCommandHandlerTest.cs",
-        "loc": 77,
-        "cyclomatic": 25,
         "cognitive": 24
       },
       {
@@ -358,8 +346,20 @@
         "cognitive": 18
       },
       {
+        "file": "tests/Ordering.UnitTests/Application/NewOrderCommandHandlerTest.cs",
+        "loc": 78,
+        "cyclomatic": 17,
+        "cognitive": 16
+      },
+      {
+        "file": "tests/Ordering.UnitTests/Application/IdentifiedCommandHandlerTest.cs",
+        "loc": 73,
+        "cyclomatic": 17,
+        "cognitive": 16
+      },
+      {
         "file": "src/Identity.API/UsersSeed.cs",
-        "loc": 98,
+        "loc": 88,
         "cyclomatic": 9,
         "cognitive": 16
       },
@@ -377,7 +377,7 @@
       },
       {
         "file": "src/WebApp/Services/BasketState.cs",
-        "loc": 175,
+        "loc": 167,
         "cyclomatic": 13,
         "cognitive": 14
       },
@@ -407,7 +407,7 @@
       },
       {
         "file": "src/Ordering.Domain/AggregatesModel/OrderAggregate/Order.cs",
-        "loc": 186,
+        "loc": 181,
         "cyclomatic": 10,
         "cognitive": 11
       },
@@ -923,7 +923,7 @@
     "test_file_count": 65,
     "framework": "ASP.NET Core",
     "fitness_passed": false,
-    "fitness_violation_count": 11
+    "fitness_violation_count": 10
   },
   "pipelines": [
     {
@@ -931,7 +931,7 @@
       "path": ".github/workflows/markdownlint.yml",
       "name": "Markdownlint",
       "triggers": [
-        "pull_request"
+        "workflow_call"
       ],
       "jobs": {
         "lint": {
@@ -949,7 +949,7 @@
             },
             {
               "name": "Run Markdownlint",
-              "run": "echo \"::add-matcher::.github/workflows/markdownlint-problem-matcher.json\"\nnpm i -g markdownlint-cli\nmarkdownlint --ignore '.dotnet/' '**/*.md'\n"
+              "run": "echo \"::add-matcher::.github/workflows/markdownlint-problem-matcher.json\"\nnpm i -g markdownlint-cli\nmarkdownlint --ignore '.dotnet/' '**/*.md'"
             }
           ]
         }
@@ -981,8 +981,8 @@
           "message": "Job 'lint' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/markdownlint.yml",
-          "start_line": 12,
-          "end_line": 26,
+          "start_line": 11,
+          "end_line": 25,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ],
@@ -1008,11 +1008,11 @@
       "path": ".github/workflows/playwright.yml",
       "name": "Playwright Tests for eShop",
       "triggers": [
-        "push",
-        "pull_request"
+        "workflow_call",
+        "push"
       ],
       "jobs": {
-        "test": {
+        "playwright": {
           "timeout-minutes": 60,
           "runs-on": "ubuntu-latest",
           "steps": [
@@ -1062,8 +1062,8 @@
       },
       "job_nodes": [
         {
-          "id": "test",
-          "name": "test",
+          "id": "playwright",
+          "name": "playwright",
           "runner": "ubuntu-latest",
           "steps_count": 7,
           "needs": [],
@@ -1078,9 +1078,8 @@
       },
       "findings": [
         "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
-        "[CRITICAL] HARDCODED_SECRET: Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead.",
-        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
+        "[CRITICAL] HARDCODED_SECRET: Potential hardcoded credential in job 'playwright' step env 'PASSWORD'. Use GitHub Secrets instead.",
+        "[MEDIUM] ARTIFACT_CREDENTIAL_PERSISTENCE: Job 'playwright' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
       ],
       "anti_patterns": [
         {
@@ -1098,7 +1097,7 @@
           "rule_id": "ATRUSS-PIPE-004",
           "type": "HARDCODED_SECRET",
           "severity": "CRITICAL",
-          "message": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead.",
+          "message": "Potential hardcoded credential in job 'playwright' step env 'PASSWORD'. Use GitHub Secrets instead.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/playwright.yml",
           "start_line": 38,
@@ -1106,21 +1105,10 @@
           "remediation": "Remove literal secret values and reference encrypted GitHub Secrets via ${{ secrets.SECRET_NAME }} or OIDC federation."
         },
         {
-          "rule_id": "ATRUSS-PIPE-011",
-          "type": "EXCESSIVE_PERMISSIONS",
-          "severity": "HIGH",
-          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/playwright.yml",
-          "start_line": 2,
-          "end_line": 16,
-          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
-        },
-        {
           "rule_id": "ATRUSS-PIPE-013",
           "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
           "severity": "MEDIUM",
-          "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
+          "message": "Job 'playwright' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/playwright.yml",
           "start_line": 22,
@@ -1131,16 +1119,16 @@
       "cross_workflow_edges": [],
       "blast_radius": {
         "betweenness_centrality": {
-          "test": 0.0
+          "playwright": 0.0
         },
         "pagerank": {
-          "test": 1.0
+          "playwright": 1.0
         },
         "downstream_impact": {
-          "test": []
+          "playwright": []
         },
         "critical_nodes": [
-          "test"
+          "playwright"
         ],
         "max_blast_radius": 0
       }
@@ -1150,11 +1138,11 @@
       "path": ".github/workflows/pr-validation-maui.yml",
       "name": "eShop Pull Request Validation - .NET MAUI",
       "triggers": [
-        "pull_request",
+        "workflow_call",
         "push"
       ],
       "jobs": {
-        "test": {
+        "maui": {
           "runs-on": "windows-latest",
           "steps": [
             {
@@ -1186,8 +1174,8 @@
       },
       "job_nodes": [
         {
-          "id": "test",
-          "name": "test",
+          "id": "maui",
+          "name": "maui",
           "runner": "windows-latest",
           "steps_count": 6,
           "needs": [],
@@ -1202,8 +1190,7 @@
       },
       "findings": [
         "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
-        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+        "[LOW] NO_TIMEOUT: Job 'maui' omits 'timeout-minutes', risking 360-minute hung runners."
       ],
       "anti_patterns": [
         {
@@ -1213,46 +1200,35 @@
           "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/pr-validation-maui.yml",
-          "start_line": 39,
-          "end_line": 39,
+          "start_line": 37,
+          "end_line": 37,
           "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-011",
-          "type": "EXCESSIVE_PERMISSIONS",
-          "severity": "HIGH",
-          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/pr-validation-maui.yml",
-          "start_line": 3,
-          "end_line": 17,
-          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
         },
         {
           "rule_id": "ATRUSS-PIPE-012",
           "type": "NO_TIMEOUT",
           "severity": "LOW",
-          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "message": "Job 'maui' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/pr-validation-maui.yml",
-          "start_line": 20,
-          "end_line": 42,
+          "start_line": 18,
+          "end_line": 40,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ],
       "cross_workflow_edges": [],
       "blast_radius": {
         "betweenness_centrality": {
-          "test": 0.0
+          "maui": 0.0
         },
         "pagerank": {
-          "test": 1.0
+          "maui": 1.0
         },
         "downstream_impact": {
-          "test": []
+          "maui": []
         },
         "critical_nodes": [
-          "test"
+          "maui"
         ],
         "max_blast_radius": 0
       }
@@ -1262,11 +1238,11 @@
       "path": ".github/workflows/pr-validation.yml",
       "name": "eShop Pull Request Validation",
       "triggers": [
-        "pull_request",
+        "workflow_call",
         "push"
       ],
       "jobs": {
-        "test": {
+        "build-and-test": {
           "runs-on": "ubuntu-latest",
           "steps": [
             {
@@ -1289,8 +1265,8 @@
       },
       "job_nodes": [
         {
-          "id": "test",
-          "name": "test",
+          "id": "build-and-test",
+          "name": "build-and-test",
           "runner": "ubuntu-latest",
           "steps_count": 4,
           "needs": [],
@@ -1305,8 +1281,7 @@
       },
       "findings": [
         "[MEDIUM] NO_CACHE: MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
-        "[HIGH] EXCESSIVE_PERMISSIONS: Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-        "[LOW] NO_TIMEOUT: Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
+        "[LOW] NO_TIMEOUT: Job 'build-and-test' omits 'timeout-minutes', risking 360-minute hung runners."
       ],
       "anti_patterns": [
         {
@@ -1316,48 +1291,286 @@
           "message": "MEDIUM: Workflow installs dependencies without 'actions/cache' or setup action caching.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/pr-validation.yml",
-          "start_line": 27,
-          "end_line": 27,
+          "start_line": 26,
+          "end_line": 26,
           "remediation": "Enable built-in caching on setup-* actions (e.g., cache: 'pip' or 'npm') or add an explicit actions/cache step."
-        },
-        {
-          "rule_id": "ATRUSS-PIPE-011",
-          "type": "EXCESSIVE_PERMISSIONS",
-          "severity": "HIGH",
-          "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions.",
-          "entity_type": "PIPELINE",
-          "file_source": ".github/workflows/pr-validation.yml",
-          "start_line": 3,
-          "end_line": 17,
-          "remediation": "Declare explicit least-privilege 'permissions:' (for example, contents: read) at the workflow or job level."
         },
         {
           "rule_id": "ATRUSS-PIPE-012",
           "type": "NO_TIMEOUT",
           "severity": "LOW",
-          "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "message": "Job 'build-and-test' omits 'timeout-minutes', risking 360-minute hung runners.",
           "entity_type": "PIPELINE",
           "file_source": ".github/workflows/pr-validation.yml",
-          "start_line": 20,
-          "end_line": 29,
+          "start_line": 19,
+          "end_line": 28,
           "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
         }
       ],
       "cross_workflow_edges": [],
       "blast_radius": {
         "betweenness_centrality": {
-          "test": 0.0
+          "build-and-test": 0.0
         },
         "pagerank": {
-          "test": 1.0
+          "build-and-test": 1.0
         },
         "downstream_impact": {
-          "test": []
+          "build-and-test": []
         },
         "critical_nodes": [
-          "test"
+          "build-and-test"
         ],
         "max_blast_radius": 0
+      }
+    },
+    {
+      "id": "verify.yml",
+      "path": ".github/workflows/verify.yml",
+      "name": "Verify",
+      "triggers": [
+        "pull_request"
+      ],
+      "jobs": {
+        "changes": {
+          "runs-on": "ubuntu-latest",
+          "outputs": {
+            "web": "${{ steps.filter.outputs.web }}",
+            "maui": "${{ steps.filter.outputs.maui }}"
+          },
+          "steps": [
+            {
+              "uses": "actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+              "with": {
+                "fetch-depth": 2,
+                "persist-credentials": false
+              }
+            },
+            {
+              "name": "Detect changed files",
+              "id": "filter",
+              "run": "# The PR checkout is a merge commit whose first parent is the base branch.\n# Disable rename detection so both removed and added paths are routed.\ngit diff --no-renames --name-only -z HEAD^1 HEAD > \"$RUNNER_TEMP/changed.txt\"\ntr '\\0' '\\n' < \"$RUNNER_TEMP/changed.txt\"\n\n# Keep in sync with paths-ignore in pr-validation.yml and playwright.yml.\nif grep -zqvE '(\\.md$|^src/ClientApp/|^tests/ClientApp\\.UnitTests/|^\\.github/workflows/pr-validation-maui\\.yml$)' \"$RUNNER_TEMP/changed.txt\"; then\n  echo \"web=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"web=false\" >> \"$GITHUB_OUTPUT\"\nfi\n\n# Keep in sync with paths in pr-validation-maui.yml.\nif grep -zqE '^(src/ClientApp/|tests/ClientApp\\.UnitTests/|\\.github/workflows/(pr-validation-maui|verify)\\.yml$)' \"$RUNNER_TEMP/changed.txt\"; then\n  echo \"maui=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"maui=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+            }
+          ]
+        },
+        "markdownlint": {
+          "name": "Markdownlint",
+          "uses": "./.github/workflows/markdownlint.yml"
+        },
+        "build-and-test": {
+          "name": "Build and test",
+          "needs": "changes",
+          "if": "needs.changes.outputs.web == 'true'",
+          "uses": "./.github/workflows/pr-validation.yml"
+        },
+        "playwright": {
+          "name": "Playwright",
+          "needs": "changes",
+          "if": "needs.changes.outputs.web == 'true'",
+          "uses": "./.github/workflows/playwright.yml"
+        },
+        "maui": {
+          "name": ".NET MAUI",
+          "needs": "changes",
+          "if": "needs.changes.outputs.maui == 'true'",
+          "uses": "./.github/workflows/pr-validation-maui.yml"
+        },
+        "verify": {
+          "if": "always()",
+          "needs": [
+            "changes",
+            "markdownlint",
+            "build-and-test",
+            "playwright",
+            "maui"
+          ],
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Check results",
+              "env": {
+                "CHANGES": "${{ needs.changes.result }}",
+                "WEB": "${{ needs.changes.outputs.web }}",
+                "MAUI": "${{ needs.changes.outputs.maui }}",
+                "MARKDOWNLINT": "${{ needs.markdownlint.result }}",
+                "BUILD_AND_TEST": "${{ needs.build-and-test.result }}",
+                "PLAYWRIGHT": "${{ needs.playwright.result }}",
+                "MAUI_RESULT": "${{ needs.maui.result }}"
+              },
+              "run": "failed=0\n# Usage: check <name> <selected:true|false> <result>\ncheck() {\n  if [ \"$2\" = \"true\" ]; then expected=success; else expected=skipped; fi\n  echo \"$1: $3 (expected $expected)\"\n  if [ \"$3\" != \"$expected\" ]; then\n    echo \"::error::$1 was $3, expected $expected\"\n    failed=1\n  fi\n}\ncheck changes true \"$CHANGES\"\ncheck markdownlint true \"$MARKDOWNLINT\"\ncheck build-and-test \"$WEB\" \"$BUILD_AND_TEST\"\ncheck playwright \"$WEB\" \"$PLAYWRIGHT\"\ncheck maui \"$MAUI\" \"$MAUI_RESULT\"\nexit $failed\n"
+            }
+          ]
+        }
+      },
+      "job_nodes": [
+        {
+          "id": "changes",
+          "name": "changes",
+          "runner": "ubuntu-latest",
+          "steps_count": 2,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "markdownlint",
+          "name": "Markdownlint",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [],
+          "environment": null
+        },
+        {
+          "id": "build-and-test",
+          "name": "Build and test",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "changes"
+          ],
+          "environment": null
+        },
+        {
+          "id": "playwright",
+          "name": "Playwright",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "changes"
+          ],
+          "environment": null
+        },
+        {
+          "id": "maui",
+          "name": ".NET MAUI",
+          "runner": "unspecified",
+          "steps_count": 0,
+          "needs": [
+            "changes"
+          ],
+          "environment": null
+        },
+        {
+          "id": "verify",
+          "name": "verify",
+          "runner": "ubuntu-latest",
+          "steps_count": 1,
+          "needs": [
+            "changes",
+            "markdownlint",
+            "build-and-test",
+            "playwright",
+            "maui"
+          ],
+          "environment": null
+        }
+      ],
+      "dag_metrics": {
+        "node_count": 6,
+        "edge_count": 8,
+        "is_valid_dag": true,
+        "max_depth": 2
+      },
+      "findings": [
+        "[LOW] NO_TIMEOUT: Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+        "[LOW] NO_TIMEOUT: Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners."
+      ],
+      "anti_patterns": [
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify.yml",
+          "start_line": 16,
+          "end_line": 47,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        },
+        {
+          "rule_id": "ATRUSS-PIPE-012",
+          "type": "NO_TIMEOUT",
+          "severity": "LOW",
+          "message": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners.",
+          "entity_type": "PIPELINE",
+          "file_source": ".github/workflows/verify.yml",
+          "start_line": 70,
+          "end_line": 100,
+          "remediation": "Set an explicit 'timeout-minutes:' value on every job (for example, timeout-minutes: 15)."
+        }
+      ],
+      "cross_workflow_edges": [
+        {
+          "source_workflow": ".github/workflows/verify.yml",
+          "source_job": "build-and-test",
+          "target_workflow": ".github/workflows/pr-validation.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/verify.yml",
+          "source_job": "markdownlint",
+          "target_workflow": ".github/workflows/markdownlint.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/verify.yml",
+          "source_job": "maui",
+          "target_workflow": ".github/workflows/pr-validation-maui.yml",
+          "edge_type": "workflow_call"
+        },
+        {
+          "source_workflow": ".github/workflows/verify.yml",
+          "source_job": "playwright",
+          "target_workflow": ".github/workflows/playwright.yml",
+          "edge_type": "workflow_call"
+        }
+      ],
+      "blast_radius": {
+        "betweenness_centrality": {
+          "build-and-test": 0.0,
+          "changes": 0.0,
+          "markdownlint": 0.0,
+          "maui": 0.0,
+          "playwright": 0.0,
+          "verify": 0.0
+        },
+        "pagerank": {
+          "build-and-test": 0.112353,
+          "changes": 0.092662,
+          "markdownlint": 0.092662,
+          "maui": 0.112353,
+          "playwright": 0.112353,
+          "verify": 0.477617
+        },
+        "downstream_impact": {
+          "build-and-test": [
+            "verify"
+          ],
+          "changes": [
+            "build-and-test",
+            "maui",
+            "playwright",
+            "verify"
+          ],
+          "markdownlint": [
+            "verify"
+          ],
+          "maui": [
+            "verify"
+          ],
+          "playwright": [
+            "verify"
+          ],
+          "verify": []
+        },
+        "critical_nodes": [
+          "verify",
+          "build-and-test",
+          "maui",
+          "playwright",
+          "changes",
+          "markdownlint"
+        ],
+        "max_blast_radius": 4
       }
     }
   ],
@@ -2453,31 +2666,31 @@
     }
   ],
   "scorecard": {
-    "overall_score": 43.67,
+    "overall_score": 45.93,
     "overall_grade": "F",
-    "technical_debt_score": 56.33,
-    "remediation_hours": 104.3,
+    "technical_debt_score": 54.07,
+    "remediation_hours": 99.51,
     "dimensions": {
       "code_quality": {
         "name": "Code Quality",
-        "score": 40.0,
+        "score": 52.0,
         "grade": "F",
         "weight": 0.2,
-        "details": "avg_cc=1.65, max_cc=25, duplication=83.61%, dead_code=82"
+        "details": "avg_cc=1.64, max_cc=17, duplication=83.72%, dead_code=85"
       },
       "security": {
         "name": "Security",
         "score": 0.0,
         "grade": "F",
         "weight": 0.2,
-        "details": "vulnerabilities=15, secrets=0, pipeline_security_findings=5"
+        "details": "vulnerabilities=15, secrets=0, pipeline_security_findings=2"
       },
       "maintainability": {
         "name": "Maintainability",
         "score": 0.0,
         "grade": "F",
         "weight": 0.15,
-        "details": "avg_cognitive=0.76, max_cognitive=28, fitness_violations=11, oversized_files=1"
+        "details": "avg_cognitive=0.74, max_cognitive=28, fitness_violations=10, oversized_files=1"
       },
       "test_coverage": {
         "name": "Test Coverage",
@@ -2488,17 +2701,17 @@
       },
       "dependency_health": {
         "name": "Dependency Health",
-        "score": 94.8,
+        "score": 94.88,
         "grade": "A",
         "weight": 0.15,
-        "details": "dependencies=125, outdated=0, vulnerable=13, has_lockfile=True"
+        "details": "dependencies=127, outdated=0, vulnerable=13, has_lockfile=True"
       },
       "pipeline_health": {
         "name": "Pipeline Health",
-        "score": 73.0,
+        "score": 72.0,
         "grade": "C",
         "weight": 0.15,
-        "details": "workflows=4, operational_antipatterns=6, parallel_branches=False"
+        "details": "workflows=5, operational_antipatterns=8, parallel_branches=True"
       }
     }
   },
@@ -3053,12 +3266,25 @@
       "vulnerability_ids": []
     },
     {
+      "name": "Microsoft.EntityFrameworkCore.Design",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
+      "manifest_file": "src/Identity.API/Identity.API.csproj",
+      "line": 19,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
       "name": "Aspire.Npgsql.EntityFrameworkCore.PostgreSQL",
       "version": "",
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Aspire.Npgsql.EntityFrameworkCore.PostgreSQL",
       "manifest_file": "src/Identity.API/Identity.API.csproj",
-      "line": 19,
+      "line": 23,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3071,7 +3297,7 @@
       "ecosystem": "NuGet",
       "purl": "pkg:nuget/Microsoft.Web.LibraryManager.Build",
       "manifest_file": "src/Identity.API/Identity.API.csproj",
-      "line": 20,
+      "line": 24,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -3163,6 +3389,19 @@
       "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Tools",
       "manifest_file": "src/Ordering.API/Ordering.API.csproj",
       "line": 31,
+      "is_direct": true,
+      "license": null,
+      "is_outdated": false,
+      "latest_version": null,
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Microsoft.EntityFrameworkCore.Design",
+      "version": "",
+      "ecosystem": "NuGet",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Design",
+      "manifest_file": "src/Ordering.API/Ordering.API.csproj",
+      "line": 35,
       "is_direct": true,
       "license": null,
       "is_outdated": false,
@@ -4463,7 +4702,7 @@
       "rule_id": "ATRUSS-ARCH-005",
       "type": "COMPLEXITY_THRESHOLD",
       "severity": "MEDIUM",
-      "message": "Repository duplication_pct (83.61) exceeds policy threshold (15.0).",
+      "message": "Repository duplication_pct (83.72) exceeds policy threshold (15.0).",
       "source_component": "src/ClientApp/Services/Basket/Protos/Basket.cs",
       "target_component": "duplication_pct",
       "source_layer": "REPOSITORY",
@@ -4484,33 +4723,27 @@
       "file_source": "src/ClientApp/Services/Basket/Protos/Basket.cs",
       "start_line": 1,
       "end_line": 1
-    },
-    {
-      "rule_id": "ATRUSS-ARCH-005",
-      "type": "COMPLEXITY_THRESHOLD",
-      "severity": "MEDIUM",
-      "message": "Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0).",
-      "source_component": "src/ClientApp/Services/Basket/Protos/Basket.cs",
-      "target_component": "max_cyclomatic_complexity",
-      "source_layer": "REPOSITORY",
-      "target_layer": "THRESHOLD",
-      "file_source": "src/ClientApp/Services/Basket/Protos/Basket.cs",
-      "start_line": 1,
-      "end_line": 1
     }
   ],
   "code_to_cloud_edges": [
     {
       "source": "src/ClientApp",
       "source_type": "code_module",
-      "target": "pr-validation-maui.yml#test",
+      "target": "pr-validation-maui.yml#maui",
+      "target_type": "ci_job",
+      "relationship": "BUILT_BY"
+    },
+    {
+      "source": "src/ClientApp",
+      "source_type": "code_module",
+      "target": "verify.yml#changes",
       "target_type": "ci_job",
       "relationship": "BUILT_BY"
     },
     {
       "source": "tests/ClientApp.UnitTests",
       "source_type": "code_module",
-      "target": "pr-validation-maui.yml#test",
+      "target": "pr-validation-maui.yml#maui",
       "target_type": "ci_job",
       "relationship": "BUILT_BY"
     }

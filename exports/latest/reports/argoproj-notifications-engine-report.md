@@ -140,22 +140,22 @@ Showing top 60 representative components out of 82 across 3 module group(s):
 
 ## 6-Dimension Repository Scorecard
 
-- **Overall Grade**: `C` (72.52/100)
-- **Technical Debt Score**: 27.48
-- **Estimated Remediation Effort**: 122.87h
+- **Overall Grade**: `C` (72.47/100)
+- **Technical Debt Score**: 27.53
+- **Estimated Remediation Effort**: 129.88h
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
 | Code Quality | `A` | 100.00 | 0.20 | avg_cc=0.00, max_cc=0, duplication=0.00%, dead_code=0 |
-| Dependency Health | `B` | 81.15 | 0.15 | dependencies=130, outdated=0, vulnerable=10, has_lockfile=False |
+| Dependency Health | `B` | 80.77 | 0.15 | dependencies=130, outdated=0, vulnerable=11, has_lockfile=False |
 | Maintainability | `A` | 100.00 | 0.15 | avg_cognitive=0.00, max_cognitive=0, fitness_violations=0, oversized_files=0 |
 | Pipeline Health | `A` | 99.00 | 0.15 | workflows=1, operational_antipatterns=2, parallel_branches=True |
-| Security | `F` | 0.00 | 0.20 | vulnerabilities=108, secrets=2, pipeline_security_findings=2 |
+| Security | `F` | 0.00 | 0.20 | vulnerabilities=115, secrets=2, pipeline_security_findings=2 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
-- **Dependencies Parsed**: 130 | **Vulnerabilities**: 108 | **Secrets**: 2
+- **Dependencies Parsed**: 130 | **Vulnerabilities**: 115 | **Secrets**: 2
 
 ### Known Vulnerabilities (OSV)
 - **[MEDIUM] `GHSA-259r-337f-4rfw`** `github.com/klauspost/compress` `1.18.0` (fixed: `none`, UNREACHABLE_DORMANT)
@@ -246,7 +246,7 @@ flowchart LR
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_2203e10d_222b_4cc9_ab1f_54f92f162f50["2203e10d-222b-4cc9-ab1f-54f92f162f50"]:::atlasCategory
+        mod_0e4990ad_1eaa_4f80_9624_40a6100b1963["0e4990ad-1eaa-4f80-9624-40a6100b1963"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art_coverage_out["coverage.out"]:::atlasWorkflow
@@ -255,14 +255,14 @@ flowchart LR
         job_ci_yaml_lint_go["ci.yaml#lint-go"]:::atlasJob
         job_ci_yaml_test["ci.yaml#test"]:::atlasJob
     end
-    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|BUILT_BY| job_ci_yaml_lint_go
-    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|BUILT_BY| job_ci_yaml_test
-    mod_2203e10d_222b_4cc9_ab1f_54f92f162f50 -->|PACKAGED_BY| art_coverage_out
+    mod_0e4990ad_1eaa_4f80_9624_40a6100b1963 -->|BUILT_BY| job_ci_yaml_lint_go
+    mod_0e4990ad_1eaa_4f80_9624_40a6100b1963 -->|BUILT_BY| job_ci_yaml_test
+    mod_0e4990ad_1eaa_4f80_9624_40a6100b1963 -->|PACKAGED_BY| art_coverage_out
 ```
 
-- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
-- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
-- `2203e10d-222b-4cc9-ab1f-54f92f162f50` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
+- `0e4990ad-1eaa-4f80-9624-40a6100b1963` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
+- `0e4990ad-1eaa-4f80-9624-40a6100b1963` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
+- `0e4990ad-1eaa-4f80-9624-40a6100b1963` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
 
 
 ## CI/CD Pipeline Topology
