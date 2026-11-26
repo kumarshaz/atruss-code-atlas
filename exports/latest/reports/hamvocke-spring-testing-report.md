@@ -123,15 +123,15 @@ flowchart LR
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_6c60fb7d_619a_4045_bd18_412c12c5d08b["6c60fb7d-619a-4045-bd18-412c12c5d08b"]:::atlasCategory
+        mod_a10a4882_1f61_4329_9797_02169bb2ab42["a10a4882-1f61-4329-9797-02169bb2ab42"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art_Dockerfile["Dockerfile"]:::atlasWorkflow
     end
-    mod_6c60fb7d_619a_4045_bd18_412c12c5d08b -->|PACKAGED_BY| art_Dockerfile
+    mod_a10a4882_1f61_4329_9797_02169bb2ab42 -->|PACKAGED_BY| art_Dockerfile
 ```
 
-- `6c60fb7d-619a-4045-bd18-412c12c5d08b` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `a10a4882-1f61-4329-9797-02169bb2ab42` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
 
 
 ## CI/CD Pipeline Topology

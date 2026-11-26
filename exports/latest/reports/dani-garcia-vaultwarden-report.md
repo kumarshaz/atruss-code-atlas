@@ -231,7 +231,7 @@ flowchart LR
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_bc552a75_fe35_4802_82cf_e3eb1795ed96["bc552a75-fe35-4802-82cf-e3eb1795ed96"]:::atlasCategory
+        mod_2225ecc5_9571_4c51_bc02_e854de32188f["2225ecc5-9571-4c51-bc02-e854de32188f"]:::atlasCategory
         mod_docker["docker"]:::atlasCategory
         mod_macros["macros"]:::atlasCategory
         mod_playwright["playwright"]:::atlasCategory
@@ -260,9 +260,9 @@ flowchart LR
     end
     job_release_yml_docker_build -->|DEPLOYS_TO| env_release
     job_release_yml_merge_manifests -->|DEPLOYS_TO| env_release
-    mod_bc552a75_fe35_4802_82cf_e3eb1795ed96 -->|BUILT_BY| job_hadolint_yml_hadolint
-    mod_bc552a75_fe35_4802_82cf_e3eb1795ed96 -->|PACKAGED_BY| art_Dockerfile
-    mod_bc552a75_fe35_4802_82cf_e3eb1795ed96 -->|PACKAGED_BY| art_playwright_docker_compose_yml
+    mod_2225ecc5_9571_4c51_bc02_e854de32188f -->|BUILT_BY| job_hadolint_yml_hadolint
+    mod_2225ecc5_9571_4c51_bc02_e854de32188f -->|PACKAGED_BY| art_Dockerfile
+    mod_2225ecc5_9571_4c51_bc02_e854de32188f -->|PACKAGED_BY| art_playwright_docker_compose_yml
     mod_docker -->|BUILT_BY| job_check_templates_yml_docker_templates
     mod_docker -->|BUILT_BY| job_hadolint_yml_hadolint
     mod_docker -->|DEPLOYED_BY| job_release_yml_merge_manifests
@@ -303,9 +303,9 @@ flowchart LR
 
 - `release.yml#docker-build` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
 - `release.yml#merge-manifests` (ci_job) --[DEPLOYS_TO]--> `release` (environment)
-- `bc552a75-fe35-4802-82cf-e3eb1795ed96` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
-- `bc552a75-fe35-4802-82cf-e3eb1795ed96` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
-- `bc552a75-fe35-4802-82cf-e3eb1795ed96` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
+- `2225ecc5-9571-4c51-bc02-e854de32188f` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
+- `2225ecc5-9571-4c51-bc02-e854de32188f` (code_module) --[PACKAGED_BY]--> `Dockerfile` (container)
+- `2225ecc5-9571-4c51-bc02-e854de32188f` (code_module) --[PACKAGED_BY]--> `playwright/docker-compose.yml` (container)
 - `docker` (code_module) --[BUILT_BY]--> `check-templates.yml#docker-templates` (ci_job)
 - `docker` (code_module) --[BUILT_BY]--> `hadolint.yml#hadolint` (ci_job)
 - `docker` (code_module) --[DEPLOYED_BY]--> `release.yml#merge-manifests` (ci_job)

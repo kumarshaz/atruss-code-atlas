@@ -1,9 +1,9 @@
 # Architectural & Pipeline Drift Report
 
-- **Gate Status**: `REGRESSION DETECTED`
+- **Gate Status**: `NO REGRESSIONS`
 - **Baseline**: `exports/latest (previous)`
 - **Target**: `exports/latest`
-- **Regressions Count**: 2
+- **Regressions Count**: 0
 
 ## Summary Counts
 
@@ -11,16 +11,15 @@
 | :--- | :---: | :---: |
 | Repositories | 0 | 0 |
 | Architecture Components | 1 | 0 |
-| Pipeline Jobs | 9 | 3 |
-| Pipeline Anti-Patterns | 6 | 12 |
-| Fitness Violations | 0 | 1 |
-| Vulnerabilities | 9 | 95 |
-| Secrets | 1 | 1 |
+| Pipeline Jobs | 0 | 0 |
+| Pipeline Anti-Patterns | 0 | 0 |
+| Fitness Violations | 0 | 0 |
+| Vulnerabilities | 0 | 0 |
+| Secrets | 0 | 0 |
 
 ## Regressions
 
-- **[HIGH]** `dani-garcia/vaultwarden` (secret): New HIGH secret ATRUSS-SEC-005 in .env.template.
-- **[CRITICAL]** `dotnet/eShop` (pipeline_antipattern): New CRITICAL pipeline anti-pattern HARDCODED_SECRET in playwright.yml.
+- None detected.
 
 ## Scorecard Transitions
 
@@ -31,8 +30,7 @@
 - **PostHog/duckgres**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **PostHog/hoglake**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **PostHog/posthog-android**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
-- **PostHog/posthog-elixir**: Overall `D` -> `C` (score delta `+1.80`, debt delta `-1.80`)
-  - `pipeline_health`: `D` -> `C` (`+12.00`)
+- **PostHog/posthog-elixir**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
 - **PostHog/posthog-go**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **PostHog/posthog-python**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **PostHog/posthog-rs**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
@@ -85,8 +83,7 @@
 - **argoproj/argocd-example-apps**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
 - **argoproj/argoproj**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **argoproj/argoproj-deployments**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
-- **argoproj/notifications-engine**: Overall `C` -> `C` (score delta `-0.05`, debt delta `+0.05`)
-  - `dependency_health`: `B` -> `B` (`-0.38`)
+- **argoproj/notifications-engine**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
 - **argoproj/rollouts-demo**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
 - **backstage/charts**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **backstage/community**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
@@ -118,9 +115,7 @@
 - **chatwoot/charts**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
 - **chatwoot/chatwoot**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **chatwoot/chatwoot-react-native-widget**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
-- **dani-garcia/vaultwarden**: Overall `D` -> `D` (score delta `+0.14`, debt delta `-0.14`)
-  - `code_quality`: `A` -> `A` (`-0.09`)
-  - `dependency_health`: `A` -> `A` (`+1.11`)
+- **dani-garcia/vaultwarden**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **directus/directus**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **directus/mcp**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **directus/rstore**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
@@ -132,10 +127,7 @@
 - **discourse/rails_failover**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **discourse/wp-discourse**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **dotnet-architecture/eShopOnWeb**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
-- **dotnet/eShop**: Overall `F` -> `F` (score delta `+2.26`, debt delta `-2.26`)
-  - `code_quality`: `F` -> `F` (`+12.00`)
-  - `dependency_health`: `A` -> `A` (`+0.08`)
-  - `pipeline_health`: `C` -> `C` (`-1.00`)
+- **dotnet/eShop**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **drone-runners/drone-runner-docker**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
 - **drone-runners/drone-runner-kube**: Overall `B` -> `B` (score delta `+0.00`, debt delta `+0.00`)
 - **getsentry/self-hosted**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
@@ -214,11 +206,7 @@
 - **keycloak/keycloak-oauth-sig**: Overall `C` -> `C` (score delta `+0.00`, debt delta `+0.00`)
 - **keycloak/keycloak-quickstarts**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **keycloak/terraform-provider-keycloak**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
-- **kumarshaz/atruss-code-atlas**: Overall `F` -> `F` (score delta `+0.49`, debt delta `-0.49`)
-  - `code_quality`: `F` -> `F` (`+0.12`)
-  - `dependency_health`: `A` -> `A` (`-0.09`)
-  - `maintainability`: `F` -> `F` (`+0.21`)
-  - `pipeline_health`: `A` -> `A` (`+3.00`)
+- **kumarshaz/atruss-code-atlas**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **langfuse/langfuse-cli**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)
 - **langfuse/langfuse-java**: Overall `D` -> `D` (score delta `+0.00`, debt delta `+0.00`)
 - **langfuse/langfuse-js**: Overall `F` -> `F` (score delta `+0.00`, debt delta `+0.00`)

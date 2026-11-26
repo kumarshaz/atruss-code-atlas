@@ -1,5 +1,5 @@
 {
-  "has_regression": true,
+  "has_regression": false,
   "summary": {
     "baseline_dir": "exports/latest (previous)",
     "target_dir": "exports/latest",
@@ -8,1265 +8,79 @@
     "changed_repos_count": 0,
     "added_components_count": 1,
     "removed_components_count": 0,
-    "added_jobs_count": 9,
-    "removed_jobs_count": 3,
-    "new_antipatterns_count": 6,
-    "resolved_antipatterns_count": 12,
+    "added_jobs_count": 0,
+    "removed_jobs_count": 0,
+    "new_antipatterns_count": 0,
+    "resolved_antipatterns_count": 0,
     "new_fitness_violations_count": 0,
-    "resolved_fitness_violations_count": 1,
-    "new_vulnerabilities_count": 9,
-    "resolved_vulnerabilities_count": 95,
-    "new_secrets_count": 1,
-    "resolved_secrets_count": 1,
-    "regressions_count": 2
+    "resolved_fitness_violations_count": 0,
+    "new_vulnerabilities_count": 0,
+    "resolved_vulnerabilities_count": 0,
+    "new_secrets_count": 0,
+    "resolved_secrets_count": 0,
+    "regressions_count": 0
   },
-  "regressions": [
-    {
-      "repository": "dani-garcia/vaultwarden",
-      "category": "secret",
-      "severity": "HIGH",
-      "message": "New HIGH secret ATRUSS-SEC-005 in .env.template."
-    },
-    {
-      "repository": "dotnet/eShop",
-      "category": "pipeline_antipattern",
-      "severity": "CRITICAL",
-      "message": "New CRITICAL pipeline anti-pattern HARDCODED_SECRET in playwright.yml."
-    }
-  ],
+  "regressions": [],
   "inventory": {
     "added": [],
     "removed": [],
     "changed": []
   },
   "pipelines": {
-    "added_jobs": [
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "job": "playwright"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation-maui.yml",
-        "job": "maui"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation.yml",
-        "job": "build-and-test"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "build-and-test"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "changes"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "markdownlint"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "maui"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "playwright"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "job": "verify"
-      }
-    ],
-    "removed_jobs": [
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "job": "test"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation-maui.yml",
-        "job": "test"
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation.yml",
-        "job": "test"
-      }
-    ],
-    "new_antipatterns": [
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "rule_id": "ATRUSS-PIPE-013",
-        "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
-        "severity": "MEDIUM",
-        "message": "Job 'playwright' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "rule_id": "ATRUSS-PIPE-004",
-        "type": "HARDCODED_SECRET",
-        "severity": "CRITICAL",
-        "message": "Potential hardcoded credential in job 'playwright' step env 'PASSWORD'. Use GitHub Secrets instead."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation-maui.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'maui' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'build-and-test' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'changes' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "verify.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'verify' omits 'timeout-minutes', risking 360-minute hung runners."
-      }
-    ],
-    "resolved_antipatterns": [
-      {
-        "repository": "PostHog/posthog-elixir",
-        "workflow": "call-flags-project-board.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'call-flags-project' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "PostHog/posthog-elixir",
-        "workflow": "lint-pr.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'lint-pr' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "PostHog/posthog-elixir",
-        "workflow": "release.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'notify-approval-needed' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "PostHog/posthog-elixir",
-        "workflow": "sdk-compliance.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'compliance' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "rule_id": "ATRUSS-PIPE-013",
-        "type": "ARTIFACT_CREDENTIAL_PERSISTENCE",
-        "severity": "MEDIUM",
-        "message": "Job 'test' runs actions/checkout without 'persist-credentials: false' and uploads build artifacts."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "rule_id": "ATRUSS-PIPE-011",
-        "type": "EXCESSIVE_PERMISSIONS",
-        "severity": "HIGH",
-        "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "playwright.yml",
-        "rule_id": "ATRUSS-PIPE-004",
-        "type": "HARDCODED_SECRET",
-        "severity": "CRITICAL",
-        "message": "Potential hardcoded credential in job 'test' step env 'PASSWORD'. Use GitHub Secrets instead."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation-maui.yml",
-        "rule_id": "ATRUSS-PIPE-011",
-        "type": "EXCESSIVE_PERMISSIONS",
-        "severity": "HIGH",
-        "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation-maui.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation.yml",
-        "rule_id": "ATRUSS-PIPE-011",
-        "type": "EXCESSIVE_PERMISSIONS",
-        "severity": "HIGH",
-        "message": "Workflow omits explicit 'permissions:' block, inheriting default GITHUB_TOKEN permissions."
-      },
-      {
-        "repository": "dotnet/eShop",
-        "workflow": "pr-validation.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'test' omits 'timeout-minutes', risking 360-minute hung runners."
-      },
-      {
-        "repository": "kumarshaz/atruss-code-atlas",
-        "workflow": "daily-export.yml",
-        "rule_id": "ATRUSS-PIPE-012",
-        "type": "NO_TIMEOUT",
-        "severity": "LOW",
-        "message": "Job 'deploy' omits 'timeout-minutes', risking 360-minute hung runners."
-      }
-    ]
+    "added_jobs": [],
+    "removed_jobs": [],
+    "new_antipatterns": [],
+    "resolved_antipatterns": []
   },
   "architecture": {
     "added_components": [
       {
         "repository": "PostHog/posthog-elixir",
-        "name": "fun_adapter",
+        "name": "known_absent_property_keys_test",
         "type": "module",
-        "file": "test/support/api/fun_adapter.ex"
+        "file": "test/posthog/feature_flags/known_absent_property_keys_test.exs"
       }
     ],
     "removed_components": [],
     "new_fitness_violations": [],
-    "resolved_fitness_violations": [
-      {
-        "repository": "dotnet/eShop",
-        "rule_id": "ATRUSS-ARCH-005",
-        "type": "COMPLEXITY_THRESHOLD",
-        "severity": "MEDIUM",
-        "source_component": "src/ClientApp/Services/Basket/Protos/Basket.cs",
-        "target_component": "max_cyclomatic_complexity",
-        "message": "Repository max_cyclomatic_complexity (25.0) exceeds policy threshold (20.0)."
-      }
-    ],
-    "new_vulnerabilities": [
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-6974",
-        "package": "go.opentelemetry.io/otel/trace",
-        "purl": "pkg:golang/go.opentelemetry.io/otel/trace@1.35.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-6975",
-        "package": "go.opentelemetry.io/otel",
-        "purl": "pkg:golang/go.opentelemetry.io/otel@1.35.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-6999",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-7000",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-7010",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-7013",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-7014",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-7025",
-        "package": "github.com/nats-io/nats-server/v2",
-        "purl": "pkg:golang/github.com/nats-io/nats-server/v2@2.11.4",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "kumarshaz/atruss-code-atlas",
-        "id": "GHSA-6jcc-5g8w-32mx",
-        "package": "i18next",
-        "purl": "pkg:npm/i18next@23.16.8",
-        "severity": "MEDIUM",
-        "summary": ""
-      }
-    ],
-    "resolved_vulnerabilities": [
-      {
-        "repository": "argoproj/notifications-engine",
-        "id": "GO-2026-5023",
-        "package": "golang.org/x/crypto",
-        "purl": "pkg:golang/golang.org/x/crypto@0.38.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-22p9-wv53-3rq4",
-        "package": "linkify-it",
-        "purl": "pkg:npm/linkify-it@5.0.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-268h-hp4c-crq3",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-268h-hp4c-crq3",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-27r3-jxmh-p828",
-        "package": "body-parser",
-        "purl": "pkg:npm/body-parser@2.2.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2gc4-cqfq-p2gv",
-        "package": "engine.io",
-        "purl": "pkg:npm/engine.io@6.6.8",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2gqq-gqf2-x968",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2jfj-6hjv-fm6j",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2m5v-pch6-74hx",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2m8v-j782-fhvr",
-        "package": "socket.io-parser",
-        "purl": "pkg:npm/socket.io-parser@4.2.6",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2x7j-588g-ccc2",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-2x7j-588g-ccc2",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-35p6-xmwp-9g52",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-39m8-27wv-hr27",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-39m8-27wv-hr27",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-3xpg-4rpp-hhhm",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4cwx-7wf7-3272",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4ffr-jq9g-5ffx",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4ffr-jq9g-5ffx",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4g23-2xm8-66gc",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4g23-2xm8-66gc",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4mjr-xmp4-gh2g",
-        "package": "qs",
-        "purl": "pkg:npm/qs@6.15.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4qv8-2p9j-2685",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-4w7w-5xrc-9h26",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-55q2-fjhq-7xh7",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-55wc-3pg8-jfw6",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-6688-9rhm-gjv2",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-68fv-2mgg-jv7q",
-        "package": "source-map-js",
-        "purl": "pkg:npm/source-map-js@1.2.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-6pq8-jhm2-2vcw",
-        "package": "qs",
-        "purl": "pkg:npm/qs@6.15.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-6vj9-mwq6-2f5v",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-6vj9-mwq6-2f5v",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-76mc-f452-cxcm",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8436-99hf-9mmv",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-85x2-q946-cp5h",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-85x2-q946-cp5h",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8c8m-p3m8-cjg8",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8c8m-p3m8-cjg8",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8m3c-c648-2xjj",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8m3c-c648-2xjj",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8vvx-rff5-p5rq",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8vvx-rff5-p5rq",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-8xcm-r25x-g524",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-96hv-2xvq-fx4p",
-        "package": "ws",
-        "purl": "pkg:npm/ws@8.20.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-9fm3-97px-rjf6",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-c2j3-45gr-mqc4",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-c6gr-qvv4-5v3f",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-cc9r-2j5m-2m83",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-cc9r-2j5m-2m83",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-cmwh-pvxp-8882",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-f72v-6w45-q472",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-g73g-hqqh-jr95",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-g73g-hqqh-jr95",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-g8m3-5g58-fq7m",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-gvmj-g25r-r7wr",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-hm92-r4w5-c3mj",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-hpcv-96wg-7vj8",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-jqcg-44mw-7w3h",
-        "package": "proxy-addr",
-        "purl": "pkg:npm/proxy-addr@2.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-jr45-8vmc-qm54",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-m8rv-5g2x-5cg5",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-m943-m63m-w62w",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-m943-m63m-w62w",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-mrv2-3pqr-j5jr",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-p6gq-j5cr-w38f",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-p6gq-j5cr-w38f",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-p88m-4jfj-68fv",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-pmjh-fq2x-6v4x",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-pr7r-676h-xcf6",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-qrxm-fqhp-jwvm",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-r47g-fvhr-h676",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-r53p-7pc4-xj5r",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-r7g4-qg5f-qqm2",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-r7g4-qg5f-qqm2",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-rfgv-xxqx-mfg5",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-rgwj-5xj2-c3m3",
-        "package": "mysql2",
-        "purl": "pkg:npm/mysql2@3.22.3",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-rp9w-3fw7-7cwq",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-rx4f-c7p8-82vq",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-v245-v573-v5vm",
-        "package": "linkify-it",
-        "purl": "pkg:npm/linkify-it@5.0.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-v3r7-h72x-cjcm",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-v422-hmwv-36x6",
-        "package": "body-parser",
-        "purl": "pkg:npm/body-parser@2.2.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-v53p-9fqp-m79j",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-v53p-9fqp-m79j",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-vc2v-76pw-4v95",
-        "package": "compression",
-        "purl": "pkg:npm/compression@1.8.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-vmh5-mc38-953g",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-vxpw-j846-p89q",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-vxr8-fq34-vvx9",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-w293-vg96-wgc3",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-wmmp-3585-3rmp",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-wmmp-3585-3rmp",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-wqvq-jvpq-h66f",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.5",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-wqvq-jvpq-h66f",
-        "package": "nodemailer",
-        "purl": "pkg:npm/nodemailer@8.0.7",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-x4vx-rjvf-j5p4",
-        "package": "dompurify",
-        "purl": "pkg:npm/dompurify@3.4.1",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-x5fp-wj9c-mxmx",
-        "package": "qs",
-        "purl": "pkg:npm/qs@6.15.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "GHSA-xjj6-f33q-929c",
-        "package": "undici",
-        "purl": "pkg:npm/undici@7.25.0",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "RUSTSEC-2026-0592",
-        "package": "url",
-        "purl": "pkg:cargo/url@2.5.8",
-        "severity": "MEDIUM",
-        "summary": ""
-      },
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "id": "RUSTSEC-2026-0594",
-        "package": "cookie",
-        "purl": "pkg:cargo/cookie@0.18.2",
-        "severity": "MEDIUM",
-        "summary": ""
-      }
-    ],
-    "new_secrets": [
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "rule_id": "ATRUSS-SEC-005",
-        "type": "HIGH_ENTROPY_SECRET",
-        "severity": "HIGH",
-        "file_source": ".env.template",
-        "start_line": 460,
-        "message": "High-entropy credential candidate (H=5.63 > 4.5) detected."
-      }
-    ],
-    "resolved_secrets": [
-      {
-        "repository": "dani-garcia/vaultwarden",
-        "rule_id": "ATRUSS-SEC-005",
-        "type": "HIGH_ENTROPY_SECRET",
-        "severity": "HIGH",
-        "file_source": ".env.template",
-        "start_line": 456,
-        "message": "High-entropy credential candidate (H=5.63 > 4.5) detected."
-      }
-    ],
+    "resolved_fitness_violations": [],
+    "new_vulnerabilities": [],
+    "resolved_vulnerabilities": [],
+    "new_secrets": [],
+    "resolved_secrets": [],
     "metric_deltas": {
       "PostHog/posthog-elixir": {
         "files_analyzed": {
-          "from": 94.0,
-          "to": 95.0,
+          "from": 95.0,
+          "to": 96.0,
           "delta": 1.0
         },
         "loc": {
-          "from": 30276.0,
-          "to": 30687.0,
-          "delta": 411.0
+          "from": 30687.0,
+          "to": 32526.0,
+          "delta": 1839.0
         },
         "sloc": {
-          "from": 24663.0,
-          "to": 25002.0,
-          "delta": 339.0
+          "from": 25002.0,
+          "to": 26481.0,
+          "delta": 1479.0
         },
         "component_count": {
-          "from": 94.0,
-          "to": 95.0,
+          "from": 95.0,
+          "to": 96.0,
           "delta": 1.0
-        }
-      },
-      "dani-garcia/vaultwarden": {
-        "loc": {
-          "from": 42831.0,
-          "to": 42870.0,
-          "delta": 39.0
-        },
-        "sloc": {
-          "from": 33456.0,
-          "to": 33466.0,
-          "delta": 10.0
-        },
-        "avg_cyclomatic_complexity": {
-          "from": 1.96,
-          "to": 1.98,
-          "delta": 0.02
-        },
-        "avg_cognitive_complexity": {
-          "from": 1.13,
-          "to": 1.2,
-          "delta": 0.07
-        },
-        "duplication_pct": {
-          "from": 4.52,
-          "to": 4.58,
-          "delta": 0.06
-        }
-      },
-      "dotnet/eShop": {
-        "loc": {
-          "from": 26398.0,
-          "to": 26786.0,
-          "delta": 388.0
-        },
-        "sloc": {
-          "from": 20752.0,
-          "to": 21003.0,
-          "delta": 251.0
-        },
-        "avg_cyclomatic_complexity": {
-          "from": 1.65,
-          "to": 1.64,
-          "delta": -0.01
-        },
-        "max_cyclomatic_complexity": {
-          "from": 25.0,
-          "to": 17.0,
-          "delta": -8.0
-        },
-        "avg_cognitive_complexity": {
-          "from": 0.76,
-          "to": 0.74,
-          "delta": -0.02
-        },
-        "duplication_pct": {
-          "from": 83.61,
-          "to": 83.72,
-          "delta": 0.11
-        },
-        "dead_code_count": {
-          "from": 82.0,
-          "to": 85.0,
-          "delta": 3.0
         }
       },
       "getsentry/sentry-php": {
         "loc": {
-          "from": 57896.0,
-          "to": 57898.0,
-          "delta": 2.0
+          "from": 57898.0,
+          "to": 57901.0,
+          "delta": 3.0
         },
         "sloc": {
-          "from": 38931.0,
-          "to": 38932.0,
-          "delta": 1.0
-        }
-      },
-      "kumarshaz/atruss-code-atlas": {
-        "files_analyzed": {
-          "from": 109.0,
-          "to": 110.0,
-          "delta": 1.0
-        },
-        "loc": {
-          "from": 29957.0,
-          "to": 30868.0,
-          "delta": 911.0
-        },
-        "sloc": {
-          "from": 26506.0,
-          "to": 27314.0,
-          "delta": 808.0
-        },
-        "avg_cyclomatic_complexity": {
-          "from": 6.89,
-          "to": 6.86,
-          "delta": -0.03
-        },
-        "max_cyclomatic_complexity": {
-          "from": 122.0,
-          "to": 124.0,
-          "delta": 2.0
-        },
-        "avg_cognitive_complexity": {
-          "from": 10.72,
-          "to": 10.65,
-          "delta": -0.07
-        },
-        "duplication_pct": {
-          "from": 77.15,
-          "to": 77.37,
-          "delta": 0.22
+          "from": 38932.0,
+          "to": 38935.0,
+          "delta": 3.0
         }
       }
     }
@@ -1379,26 +193,18 @@
     },
     "PostHog/posthog-elixir": {
       "overall": {
-        "from": "D",
+        "from": "C",
         "to": "C",
-        "from_score": 68.96,
+        "from_score": 70.76,
         "to_score": 70.76,
-        "delta": 1.8
+        "delta": 0.0
       },
       "technical_debt": {
-        "from": 31.04,
+        "from": 29.24,
         "to": 29.24,
-        "delta": -1.8
+        "delta": 0.0
       },
-      "dimensions": {
-        "pipeline_health": {
-          "from": "D",
-          "to": "C",
-          "from_score": 60.0,
-          "to_score": 72.0,
-          "delta": 12.0
-        }
-      }
+      "dimensions": {}
     },
     "PostHog/posthog-go": {
       "overall": {
@@ -2184,24 +990,16 @@
       "overall": {
         "from": "C",
         "to": "C",
-        "from_score": 72.52,
+        "from_score": 72.47,
         "to_score": 72.47,
-        "delta": -0.05
+        "delta": 0.0
       },
       "technical_debt": {
-        "from": 27.48,
+        "from": 27.53,
         "to": 27.53,
-        "delta": 0.05
+        "delta": 0.0
       },
-      "dimensions": {
-        "dependency_health": {
-          "from": "B",
-          "to": "B",
-          "from_score": 81.15,
-          "to_score": 80.77,
-          "delta": -0.38
-        }
-      }
+      "dimensions": {}
     },
     "argoproj/rollouts-demo": {
       "overall": {
@@ -2672,31 +1470,16 @@
       "overall": {
         "from": "D",
         "to": "D",
-        "from_score": 65.21,
+        "from_score": 65.35,
         "to_score": 65.35,
-        "delta": 0.14
+        "delta": 0.0
       },
       "technical_debt": {
-        "from": 34.79,
+        "from": 34.65,
         "to": 34.65,
-        "delta": -0.14
+        "delta": 0.0
       },
-      "dimensions": {
-        "code_quality": {
-          "from": "A",
-          "to": "A",
-          "from_score": 93.22,
-          "to_score": 93.13,
-          "delta": -0.09
-        },
-        "dependency_health": {
-          "from": "A",
-          "to": "A",
-          "from_score": 98.41,
-          "to_score": 99.52,
-          "delta": 1.11
-        }
-      }
+      "dimensions": {}
     },
     "directus/directus": {
       "overall": {
@@ -2867,38 +1650,16 @@
       "overall": {
         "from": "F",
         "to": "F",
-        "from_score": 43.67,
+        "from_score": 45.93,
         "to_score": 45.93,
-        "delta": 2.26
+        "delta": 0.0
       },
       "technical_debt": {
-        "from": 56.33,
+        "from": 54.07,
         "to": 54.07,
-        "delta": -2.26
+        "delta": 0.0
       },
-      "dimensions": {
-        "code_quality": {
-          "from": "F",
-          "to": "F",
-          "from_score": 40.0,
-          "to_score": 52.0,
-          "delta": 12.0
-        },
-        "dependency_health": {
-          "from": "A",
-          "to": "A",
-          "from_score": 94.8,
-          "to_score": 94.88,
-          "delta": 0.08
-        },
-        "pipeline_health": {
-          "from": "C",
-          "to": "C",
-          "from_score": 73.0,
-          "to_score": 72.0,
-          "delta": -1.0
-        }
-      }
+      "dimensions": {}
     },
     "drone-runners/drone-runner-docker": {
       "overall": {
@@ -4074,45 +2835,16 @@
       "overall": {
         "from": "F",
         "to": "F",
-        "from_score": 47.9,
+        "from_score": 48.39,
         "to_score": 48.39,
-        "delta": 0.49
+        "delta": 0.0
       },
       "technical_debt": {
-        "from": 52.1,
+        "from": 51.61,
         "to": 51.61,
-        "delta": -0.49
+        "delta": 0.0
       },
-      "dimensions": {
-        "code_quality": {
-          "from": "F",
-          "to": "F",
-          "from_score": 26.44,
-          "to_score": 26.56,
-          "delta": 0.12
-        },
-        "dependency_health": {
-          "from": "A",
-          "to": "A",
-          "from_score": 98.24,
-          "to_score": 98.15,
-          "delta": -0.09
-        },
-        "maintainability": {
-          "from": "F",
-          "to": "F",
-          "from_score": 19.84,
-          "to_score": 20.05,
-          "delta": 0.21
-        },
-        "pipeline_health": {
-          "from": "A",
-          "to": "A",
-          "from_score": 96.0,
-          "to_score": 99.0,
-          "delta": 3.0
-        }
-      }
+      "dimensions": {}
     },
     "langfuse/langfuse-cli": {
       "overall": {

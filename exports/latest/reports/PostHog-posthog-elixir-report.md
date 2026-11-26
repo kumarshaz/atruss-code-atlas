@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for PostHog/posthog-elixir
 # Repository Architecture Analysis: PostHog/posthog-elixir
 
 ## Metadata
-- **SHA**: `38cee4de9a7ac97f47f3820b24519a6d45b95264`
+- **SHA**: `6222f005ce4941fc447d4136a52eda073b5b2995`
 - **Primary Ecosystem**: Elixir
 
 ## Quality Metrics
 - **ast_engine**: fallback
 - **avg_cognitive_complexity**: 0.0
 - **avg_cyclomatic_complexity**: 0.0
-- **component_count**: 95
+- **component_count**: 96
 - **dead_code_count**: 0
 - **dead_code_symbols**: 0 entry(ies)
 - **duplication_pct**: 0.0
 - **file_complexities**: 0 entry(ies)
-- **files_analyzed**: 95
+- **files_analyzed**: 96
 - **fitness_passed**: True
 - **fitness_violation_count**: 0
 - **framework**: Elixir Mix
 - **import_edges**: 0 entry(ies)
-- **loc**: 30687
+- **loc**: 32526
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 0
-- **sloc**: 25002
-- **test_file_count**: 49
+- **sloc**: 26481
+- **test_file_count**: 50
 
 # Architecture: PostHog/posthog-elixir
 
 ## Context
 - **Repository**: `PostHog/posthog-elixir`
-- **SHA**: `38cee4de9a7ac97f47f3820b24519a6d45b95264`
+- **SHA**: `6222f005ce4941fc447d4136a52eda073b5b2995`
 - **Ecosystem**: Elixir
 - **Framework**: Elixir Mix
 
@@ -49,11 +49,11 @@ graph TD;
   classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
   classDef atlasAlert fill:#93000a,stroke:#ffb4ab,stroke-width:1.5px,color:#ffdad6
   classDef atlasMore fill:#252a31,stroke:#8d9199,stroke-dasharray:4 4,color:#c3c6cf
-    repo_root(["PostHog/posthog-elixir (95 components)"]):::atlasRoot
-    subgraph sg_dir_0_test["test (44)"]
+    repo_root(["PostHog/posthog-elixir (96 components)"]):::atlasRoot
+    subgraph sg_dir_0_test["test (45)"]
       direction TB
-      dir_0_test["test (44)"]:::atlasCategory
-      sub_0_0_posthog["posthog (34)"]:::atlasWorkflow
+      dir_0_test["test (45)"]:::atlasCategory
+      sub_0_0_posthog["posthog (35)"]:::atlasWorkflow
       dir_0_test --> sub_0_0_posthog
       sub_0_1_support["support (5)"]:::atlasWorkflow
       dir_0_test --> sub_0_1_support
@@ -95,9 +95,9 @@ graph TD;
 
 ## Component Details
 
-Showing top 60 representative components out of 95 across 5 module group(s):
+Showing top 60 representative components out of 96 across 5 module group(s):
 
-- **Module `test`** (44 components — module: 44)
+- **Module `test`** (45 components — module: 45)
 - **Module `lib`** (35 components — module: 35)
 - **Module `sdk_compliance_adapter`** (9 components — module: 9)
 - **Module `config`** (4 components — module: 4)
@@ -146,6 +146,7 @@ Showing top 60 representative components out of 95 across 5 module group(s):
 - **handler_trace_context_isolation_test** (`test/posthog/handler_trace_context_isolation_test.exs`): module
 - **integration.example** (`config/integration.example.exs`): module
 - **integration_test** (`test/integration_test.exs`): module
+- **known_absent_property_keys_test** (`test/posthog/feature_flags/known_absent_property_keys_test.exs`): module
 - **lib** (`lib/posthog/lib.ex`): module
 - **llm_analytics** (`lib/posthog/llm_analytics.ex`): module
 - **llm_analytics_test** (`test/posthog/llm_analytics_test.exs`): module
@@ -162,7 +163,6 @@ Showing top 60 representative components out of 95 across 5 module group(s):
 - **open_feature** (`lib/posthog/open_feature.ex`): module
 - **open_feature_test** (`test/posthog/open_feature_test.exs`): module
 - **plug** (`lib/posthog/integrations/plug.ex`): module
-- **plug_test** (`test/posthog/integrations/plug_test.exs`): module
 
 ## 6-Dimension Repository Scorecard
 
