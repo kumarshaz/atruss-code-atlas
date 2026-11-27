@@ -6,34 +6,34 @@ description: Arc42 and Pipeline report for spring-projects/spring-petclinic
 # Repository Architecture Analysis: spring-projects/spring-petclinic
 
 ## Metadata
-- **SHA**: `500158f732419217507c7656904b8e6aa1bcc0d6`
+- **SHA**: `3aae6ccdd35535054dc972439a461243d41655e2`
 - **Primary Ecosystem**: Java
 
 ## Quality Metrics
 - **ast_engine**: tree-sitter
-- **avg_cognitive_complexity**: 0.62
+- **avg_cognitive_complexity**: 0.63
 - **avg_cyclomatic_complexity**: 1.49
 - **component_count**: 17
 - **dead_code_count**: 10
 - **dead_code_symbols**: 10 entry(ies)
-- **duplication_pct**: 78.46
+- **duplication_pct**: 78.44
 - **file_complexities**: 25 entry(ies)
 - **files_analyzed**: 50
 - **fitness_passed**: False
 - **fitness_violation_count**: 2
 - **framework**: Spring Boot
 - **import_edges**: 100 entry(ies)
-- **loc**: 4297
+- **loc**: 4281
 - **max_cognitive_complexity**: 17
 - **max_cyclomatic_complexity**: 14
-- **sloc**: 2542
+- **sloc**: 2532
 - **test_file_count**: 21
 
 # Architecture: spring-projects/spring-petclinic
 
 ## Context
 - **Repository**: `spring-projects/spring-petclinic`
-- **SHA**: `500158f732419217507c7656904b8e6aa1bcc0d6`
+- **SHA**: `3aae6ccdd35535054dc972439a461243d41655e2`
 - **Ecosystem**: Java
 - **Framework**: Spring Boot
 
@@ -117,9 +117,9 @@ graph TD;
 
 | Dimension | Grade | Score | Weight | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| Code Quality | `F` | 55.00 | 0.20 | avg_cc=1.49, max_cc=14, duplication=78.46%, dead_code=10 |
+| Code Quality | `F` | 55.00 | 0.20 | avg_cc=1.49, max_cc=14, duplication=78.44%, dead_code=10 |
 | Dependency Health | `C` | 76.00 | 0.15 | dependencies=50, outdated=0, vulnerable=9, has_lockfile=False |
-| Maintainability | `B` | 82.00 | 0.15 | avg_cognitive=0.62, max_cognitive=17, fitness_violations=2, oversized_files=0 |
+| Maintainability | `B` | 82.00 | 0.15 | avg_cognitive=0.63, max_cognitive=17, fitness_violations=2, oversized_files=0 |
 | Pipeline Health | `C` | 71.00 | 0.15 | workflows=3, operational_antipatterns=4, parallel_branches=False |
 | Security | `F` | 0.00 | 0.20 | vulnerabilities=37, secrets=0, pipeline_security_findings=5 |
 | Test Coverage | `C` | 70.00 | 0.15 | coverage=unavailable, ci_test_job=True, test_files_detected=True |
@@ -127,7 +127,7 @@ graph TD;
 ## Architecture Fitness & Workspace Boundaries
 
 - **[HIGH] `ATRUSS-ARCH-004` (CIRCULAR_DEPENDENCY)**: Circular dependency detected between architectural components. (Specialty -> Vet -> Specialty)
-- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (78.46) exceeds policy threshold (15.0).
+- **[MEDIUM] `ATRUSS-ARCH-005` (COMPLEXITY_THRESHOLD)**: Repository duplication_pct (78.44) exceeds policy threshold (15.0).
 
 ## Supply Chain Dependencies, Vulnerabilities & Secrets
 
@@ -216,7 +216,7 @@ flowchart LR
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
         mod__devcontainer[".devcontainer"]:::atlasCategory
-        mod_56bd126d_b9c0_44ce_9aae_56b5feab424a["56bd126d-b9c0-44ce-9aae-56b5feab424a"]:::atlasCategory
+        mod_24e4dffd_f525_4617_a793_791ccfce3a81["24e4dffd-f525-4617-a793-791ccfce3a81"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art__devcontainer_Dockerfile[".devcontainer/Dockerfile"]:::atlasWorkflow
@@ -232,14 +232,14 @@ flowchart LR
     end
     job_deploy_and_test_cluster_yml_deploy_and_test_cluster -->|DEPLOYS_TO| env_kubernetes
     mod__devcontainer -->|PACKAGED_BY| art__devcontainer_Dockerfile
-    mod_56bd126d_b9c0_44ce_9aae_56b5feab424a -->|PACKAGED_BY| art_docker_compose_yml
+    mod_24e4dffd_f525_4617_a793_791ccfce3a81 -->|PACKAGED_BY| art_docker_compose_yml
     art_k8s_db_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
     art_k8s_petclinic_yml -->|DEPLOYED_BY| job_deploy_and_test_cluster_yml_deploy_and_test_cluster
 ```
 
 - `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job) --[DEPLOYS_TO]--> `kubernetes` (environment)
 - `.devcontainer` (code_module) --[PACKAGED_BY]--> `.devcontainer/Dockerfile` (container)
-- `56bd126d-b9c0-44ce-9aae-56b5feab424a` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `24e4dffd-f525-4617-a793-791ccfce3a81` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `k8s/db.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 - `k8s/petclinic.yml` (iac) --[DEPLOYED_BY]--> `deploy-and-test-cluster.yml#deploy-and-test-cluster` (ci_job)
 

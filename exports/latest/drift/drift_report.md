@@ -10,7 +10,7 @@
 | Dimension | Added / New | Removed / Resolved |
 | :--- | :---: | :---: |
 | Repositories | 0 | 0 |
-| Architecture Components | 1 | 0 |
+| Architecture Components | 0 | 0 |
 | Pipeline Jobs | 0 | 0 |
 | Pipeline Anti-Patterns | 0 | 0 |
 | Fitness Violations | 0 | 0 |

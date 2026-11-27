@@ -246,7 +246,7 @@ flowchart LR
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_d8ffd970_1093_4f47_b164_f52d9ef0c33f["d8ffd970-1093-4f47-b164-f52d9ef0c33f"]:::atlasCategory
+        mod_087f85dc_0f96_4cac_9b9d_62f748584e76["087f85dc-0f96-4cac-9b9d-62f748584e76"]:::atlasCategory
     end
     subgraph build_artifacts["Build Artifacts / Containers"]
         art_coverage_out["coverage.out"]:::atlasWorkflow
@@ -255,14 +255,14 @@ flowchart LR
         job_ci_yaml_lint_go["ci.yaml#lint-go"]:::atlasJob
         job_ci_yaml_test["ci.yaml#test"]:::atlasJob
     end
-    mod_d8ffd970_1093_4f47_b164_f52d9ef0c33f -->|BUILT_BY| job_ci_yaml_lint_go
-    mod_d8ffd970_1093_4f47_b164_f52d9ef0c33f -->|BUILT_BY| job_ci_yaml_test
-    mod_d8ffd970_1093_4f47_b164_f52d9ef0c33f -->|PACKAGED_BY| art_coverage_out
+    mod_087f85dc_0f96_4cac_9b9d_62f748584e76 -->|BUILT_BY| job_ci_yaml_lint_go
+    mod_087f85dc_0f96_4cac_9b9d_62f748584e76 -->|BUILT_BY| job_ci_yaml_test
+    mod_087f85dc_0f96_4cac_9b9d_62f748584e76 -->|PACKAGED_BY| art_coverage_out
 ```
 
-- `d8ffd970-1093-4f47-b164-f52d9ef0c33f` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
-- `d8ffd970-1093-4f47-b164-f52d9ef0c33f` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
-- `d8ffd970-1093-4f47-b164-f52d9ef0c33f` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
+- `087f85dc-0f96-4cac-9b9d-62f748584e76` (code_module) --[BUILT_BY]--> `ci.yaml#lint-go` (ci_job)
+- `087f85dc-0f96-4cac-9b9d-62f748584e76` (code_module) --[BUILT_BY]--> `ci.yaml#test` (ci_job)
+- `087f85dc-0f96-4cac-9b9d-62f748584e76` (code_module) --[PACKAGED_BY]--> `coverage.out` (container)
 
 
 ## CI/CD Pipeline Topology
