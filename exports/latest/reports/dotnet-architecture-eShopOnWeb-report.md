@@ -198,7 +198,7 @@ flowchart LR
     classDef atlasJob fill:#171c22,stroke:#8d9199,stroke-width:1px,color:#dfe3eb
     classDef atlasTarget fill:#005227,stroke:#8bd99b,stroke-width:1.5px,color:#a7f6b6
     subgraph code_modules["Code Modules"]
-        mod_9dd0e204_f12c_492b_8e8c_3bb62fff0166["9dd0e204-f12c-492b-8e8c-3bb62fff0166"]:::atlasCategory
+        mod_c5dc5796_93fc_4854_92a4_1a123a39aa76["c5dc5796-93fc-4854-92a4-1a123a39aa76"]:::atlasCategory
         mod_src_PublicApi["src/PublicApi"]:::atlasCategory
         mod_src_Web["src/Web"]:::atlasCategory
     end
@@ -211,8 +211,8 @@ flowchart LR
         art_src_PublicApi_Dockerfile["src/PublicApi/Dockerfile"]:::atlasWorkflow
         art_src_Web_Dockerfile["src/Web/Dockerfile"]:::atlasWorkflow
     end
-    mod_9dd0e204_f12c_492b_8e8c_3bb62fff0166 -->|PACKAGED_BY| art_docker_compose_override_yml
-    mod_9dd0e204_f12c_492b_8e8c_3bb62fff0166 -->|PACKAGED_BY| art_docker_compose_yml
+    mod_c5dc5796_93fc_4854_92a4_1a123a39aa76 -->|PACKAGED_BY| art_docker_compose_override_yml
+    mod_c5dc5796_93fc_4854_92a4_1a123a39aa76 -->|PACKAGED_BY| art_docker_compose_yml
     mod_src_PublicApi -->|PACKAGED_BY| art_docker_compose_yml
     mod_src_PublicApi -->|PACKAGED_BY| art_src_PublicApi_Dockerfile
     mod_src_Web -->|PACKAGED_BY| art_docker_compose_yml
@@ -225,8 +225,8 @@ flowchart LR
     art_src_Web_Dockerfile -->|PACKAGED_BY| art_infra_main_bicep
 ```
 
-- `9dd0e204-f12c-492b-8e8c-3bb62fff0166` (code_module) --[PACKAGED_BY]--> `docker-compose.override.yml` (container)
-- `9dd0e204-f12c-492b-8e8c-3bb62fff0166` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
+- `c5dc5796-93fc-4854-92a4-1a123a39aa76` (code_module) --[PACKAGED_BY]--> `docker-compose.override.yml` (container)
+- `c5dc5796-93fc-4854-92a4-1a123a39aa76` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `src/PublicApi` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)
 - `src/PublicApi` (code_module) --[PACKAGED_BY]--> `src/PublicApi/Dockerfile` (container)
 - `src/Web` (code_module) --[PACKAGED_BY]--> `docker-compose.yml` (container)

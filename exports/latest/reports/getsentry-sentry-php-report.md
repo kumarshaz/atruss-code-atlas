@@ -6,7 +6,7 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 # Repository Architecture Analysis: getsentry/sentry-php
 
 ## Metadata
-- **SHA**: `33cff3eeac22e2d607d19a85974a2a5b9bd6ed8b`
+- **SHA**: `0dd0e46ab120270e6f7ce035069bf624fdd1a100`
 - **Primary Ecosystem**: PHP
 
 ## Quality Metrics
@@ -23,17 +23,17 @@ description: Arc42 and Pipeline report for getsentry/sentry-php
 - **fitness_violation_count**: 0
 - **framework**: Symfony
 - **import_edges**: 3 entry(ies)
-- **loc**: 57901
+- **loc**: 57898
 - **max_cognitive_complexity**: 0
 - **max_cyclomatic_complexity**: 1
-- **sloc**: 38935
+- **sloc**: 38932
 - **test_file_count**: 180
 
 # Architecture: getsentry/sentry-php
 
 ## Context
 - **Repository**: `getsentry/sentry-php`
-- **SHA**: `33cff3eeac22e2d607d19a85974a2a5b9bd6ed8b`
+- **SHA**: `0dd0e46ab120270e6f7ce035069bf624fdd1a100`
 - **Ecosystem**: PHP
 - **Framework**: Symfony
 
